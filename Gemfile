@@ -25,10 +25,8 @@ gem 'draper'
 # gem 'bcrypt', '~> 3.1.7'
 
 # Use Unicorn as the app server
-# gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
+gem 'unicorn'
+gem 'whenever', require: false
 
 # image uploader
 gem 'carrierwave'
@@ -40,6 +38,13 @@ gem 'rmagick'
 gem 'lazy_high_charts'
 
 gem 'responders', '~> 2.0'
+
+group :development do
+  gem 'capistrano', '~> 2', require: false
+  gem 'rvm-capistrano', require: false
+  gem 'capistrano-nginx-unicorn', require: false
+  gem 'capistrano_rsync_with_remote_cache', require: false
+end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

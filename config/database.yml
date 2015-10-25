@@ -1,13 +1,4 @@
-
 default: &default
-  # adapter: mysql2
-  # encoding: utf8
-  # database: fws-statistik
-  # username: fws-statistik
-  # password: fws-statistik
-  # host: 127.0.0.1
-  # port: 3306
-  # secure_auth: false
   adapter: postgresql
   encoding: utf8
   host: localhost

@@ -1,0 +1,25 @@
+<%= shared_path %>/log/*.log {
+  daily
+  missingok
+  rotate 180
+  compress
+  dateext
+  delaycompress
+  su <%= user %> <%= user %>
+
+  lastaction
+    pid=<%= unicorn_pid %>
+    test -s $pid && kill -USR1 "$(cat $pid)"
+  endscript
+
+  prerotate
+    if [ -d /etc/logrotate.d/httpd-prerotate ]; then \
+      run-parts /etc/logrotate.d/httpd-prerotate; \
+    fi \
+  endscript
+
+  postrotate
+    nginx_pid=<%= nginx_pid %>
+    [ ! -f $nginx_pid ] || kill -USR1 `cat $nginx_pid`
+  endscript
+}
