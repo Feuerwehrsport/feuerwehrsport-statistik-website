@@ -99,7 +99,7 @@ namespace :deploy_setup do
   task :create_deploy_to do
     run_without_rvm "#{sudo} mkdir -p #{deploy_to}"
     run_without_rvm "#{sudo} chown #{user}:#{user} #{deploy_to}"
-    run_without_rvm "touch $HOME/#{fetch :application}_env_vars"
+    run_without_rvm "touch /home/#{fetch :user}/#{fetch :application}_env_vars"
   end
 
   task :install_packages do

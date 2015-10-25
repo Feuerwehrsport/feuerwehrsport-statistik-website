@@ -5,7 +5,7 @@ if !fetch(:http_proxy).nil? && !fetch(:http_proxy).empty?
   extra_env.push "http_proxy=#{fetch(:http_proxy)}"
   extra_env.push "https_proxy=#{fetch(:http_proxy)}"
 end
-cmd = "cd #{current_path}; source $HOME/#{fetch :application}_env_vars; #{extra_env.join(" ")} bundle exec rake $*"
+cmd = "cd #{current_path}; source /home/#{fetch :user}/#{fetch :application}_env_vars; #{extra_env.join(" ")} bundle exec rake $*"
 %>
 
 if [ "$(id -un)" = "<%= unicorn_user %>" ]; then
