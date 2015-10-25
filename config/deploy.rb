@@ -22,7 +22,7 @@ set :user, "fws-statistik"
 set :use_sudo, false
 
 # required system packages
-set :required_packages, "git curl rsync postgresql imagemagick libpq-dev nodejs libyaml-dev libmagickwand-dev libgmp3-dev"
+set :required_packages, "git curl rsync postgresql imagemagick libpq-dev nodejs libyaml-dev libmagickwand-dev libgmp3-dev libmysqlclient-dev"
 
 # libgmp3-dev -> json
 
@@ -80,8 +80,8 @@ after "deploy:update_code", "deploy:remove_generated_stylesheets"
 
 before "deploy", "deploy:full_restart_of_unicorn"
 
-set :delayed_job_command, "bin/delayed_job"
-after "deploy:stop",    "delayed_job:stop"
-after "deploy:start",   "delayed_job:start"
-after "deploy:restart", "delayed_job:restart"
+# set :delayed_job_command, "bin/delayed_job"
+# after "deploy:stop",    "delayed_job:stop"
+# after "deploy:start",   "delayed_job:start"
+# after "deploy:restart", "delayed_job:restart"
 
