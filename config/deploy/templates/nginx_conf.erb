@@ -16,7 +16,7 @@ server {
   ssl_certificate /etc/ssl/certs/<%= nginx_ssl_certificate %>;
   ssl_certificate_key /etc/ssl/private/<%= nginx_ssl_certificate_key %>;
 <% else %>
-  listen 80;
+  listen 8099;
 <% end %>
 
   client_max_body_size 4G;
