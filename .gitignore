@@ -16,3 +16,4 @@
 !/log/.keep
 /tmp
 /.rsync_cache/
+/public/generated/

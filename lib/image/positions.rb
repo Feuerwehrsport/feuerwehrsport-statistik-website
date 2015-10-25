@@ -58,7 +58,7 @@ class Image::Positions < Struct.new(:person)
   end
 
   def store_path
-    path = "#{Rails.root}/public/la_positions/"
+    path = "#{Rails.root}/public/generated/la_positions/"
     FileUtils.mkdir_p(path)
     path
   end
