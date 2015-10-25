@@ -1,6 +1,6 @@
 normalize = (a, b) ->
-  x = (a == "D") ? 999999 : a.replace( /,/, "." )
-  y = (b == "D") ? 999999 : b.replace( /,/, "." )
+  x = if a == "D" then 999999 else a.replace( /,/, "." )
+  y = if b == "D" then 999999 else b.replace( /,/, "." )
   x = parseFloat( x )
   y = parseFloat( y )
   ((x < y) ? -1 : ((x > y) ?  1 : 0))
@@ -17,16 +17,5 @@ $.fn.dataTableExt.aTypes.unshift(
     sValidChars = "0123456789,"
     bDecimal = false
 
-    return 'score-time' if sData is 'D'
-
-    for i in [0..sData.length]
-      char = sData.charAt(i)
-      return null if sValidChars.indexOf(char) is -1
-
-      if char is ","
-        return null if bDecimal
-        bDecimal = true
-    return 'score-time' if bDecimal 
-    return null
-
+    if sData is 'D' or sData.match(/^\d+(,\d+)?$/) then 'score-time' else null
 )

@@ -27,7 +27,7 @@
             = discipline_invalid_chart(options[:discipline], options[:scores])
         .col-md-9= discipline_chart(options[:discipline], options[:chart_scores])
 
-      = count_table(options[:scores], classes: "datatable-person-scores") do |t|
+      = count_table(options[:scores], class: "datatable-person-scores") do |t|
         - t.col("Datum", class: "col70") { |row| link_to(l(row.competition.date), row.competition) }
         - t.col("Typ", class: "col70") { |row| link_to(row.competition.event, row.competition.event) }
         - t.col("Ort", class: "col70") { |row| link_to(row.competition.place, row.competition.place) }
@@ -42,7 +42,7 @@
 
       - if options[:discipline].in?([:gs, :fs, :la])
         %h3= "#{discipline_name(options[:discipline])} - Mannschaftsmitglieder"
-        = count_table(options[:team_mates], classes: "datatable-team-mates") do |t|
+        = count_table(options[:team_mates], class: "datatable-team-mates") do |t|
           - t.col("Person", class: "col-md-2") { |row| link_to(row.person.full_name, row.person) }
           - t.col("Läufe", class: "col-md-1") { |row| row.scores.count }
           - t.col("Wettkämpfe", class: "col-md-9 small") { |row| row.scores.map(&:group_score_category).map(&:competition).uniq.sort_by(&:date).map { |c| link_to(c.short_name, c) }.join(", ").html_safe }
