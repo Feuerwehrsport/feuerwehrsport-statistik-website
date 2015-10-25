@@ -1,0 +1,10 @@
+language: ruby
+rvm:
+  - 2.2.3
+bundler_args: --without production
+cache: bundler
+script: xvfb-run bundle exec rspec
+notifications:
+  email:
+    recipients:
+      - georf@georf.de
