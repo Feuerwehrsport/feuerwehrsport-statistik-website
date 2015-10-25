@@ -1,0 +1,3 @@
+@Charting =
+  formatter: () ->
+    "foobar"

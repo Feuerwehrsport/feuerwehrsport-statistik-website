@@ -1,0 +1,63 @@
+de:
+  gender:
+    male: männlich
+    male_color: blue
+    female: weiblich
+    female_color: red
+
+  discipline:
+    hb: Hindernisbahn
+    hb_color: '#7cb5ec'
+    hl: Hakenleitersteigen
+    hl_color: '#e4d354'
+    zk: Zweikampf
+    zk_color: '#90ed7d'
+    gs: Gruppenstafette
+    gs_color: '#f7a35c'
+    fs: Feuerwehrstafette
+    fs_color: '#8085e9'
+    la: Löschangriff nass
+    la_color: '#f15c80'
+
+  activerecord: &activerecord
+    models:
+      person: Wettkämpfer
+      place:
+        one: Wettkampfort
+        other: Wettkampforte
+      team:
+        one: Mannschaft
+        other: Mannschaften
+
+  errors:
+    messages:
+      accepted: muss akzeptiert werden
+      blank: muss ausgefüllt werden
+      present: darf nicht ausgefüllt werden
+      confirmation: stimmt nicht mit %{attribute} überein
+      empty: muss ausgefüllt werden
+      equal_to: muss genau %{count} sein
+      even: muss gerade sein
+      exclusion: ist nicht verfügbar
+      greater_than: muss größer als %{count} sein
+      greater_than_or_equal_to: muss größer oder gleich %{count} sein
+      inclusion: ist kein gültiger Wert
+      invalid: ist nicht gültig
+      less_than: muss kleiner als %{count} sein
+      less_than_or_equal_to: muss kleiner oder gleich %{count} sein
+      not_a_number: ist keine Zahl
+      not_an_integer: muss ganzzahlig sein
+      odd: muss ungerade sein
+      has_other_gender: hat ein anderes Geschlecht
+      record_invalid: 'Gültigkeitsprüfung ist fehlgeschlagen: %{errors}'
+      restrict_dependent_destroy:
+        one: 'Datensatz kann nicht gelöscht werden, da ein abhängiger %{record}-Datensatz existiert.'
+        many: 'Datensatz kann nicht gelöscht werden, da abhängige %{record} existieren.'
+      taken: ist bereits vergeben
+      too_long: ist zu lang (mehr als %{count} Zeichen)
+      too_short: ist zu kurz (weniger als %{count} Zeichen)
+      wrong_length: hat die falsche Länge (muss genau %{count} Zeichen haben)
+      other_than: 'darf nicht gleich %{count} sein'
+  date:
+    formats:
+      default: '%Y-%m-%d'

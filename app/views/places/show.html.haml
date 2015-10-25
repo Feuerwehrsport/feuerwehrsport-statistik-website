@@ -1,0 +1,5 @@
+%h1 Wettkampforte
+
+= count_table(@rows) do |t|
+  - t.col("Wettkampf", class: "col70") { |row| link_to(row.name, row) }
+  - t.col("Wettkämpfe", :count, class: "col30")

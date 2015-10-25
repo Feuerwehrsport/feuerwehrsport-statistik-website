@@ -1,0 +1,32 @@
+%h1= page_title
+
+= count_table(@rows) do |t|
+  - t.col("Name", class: "col70") { |row| link_to(row.name, row) }
+  - t.col("Abk.", :shortcut, class: "col30")
+  / - t.col("Typ", :status, class: "col30")
+  - t.col("Land", :state, class: "col30")
+  - t.col("Typ", :status, class: "col30")
+  - t.col("Mitglieder", :members_count, class: "col30")
+  - t.col("Wettkämpfe", :competitions_count, class: "col30")
+  - t.col("", :image, class: "")
+
+= pie_chart states_hash
+
+%h2 Neue Mannschaft anlegen
+.row
+  .col-md-4
+    %p Ist deine Mannschaft oder Feuerwehr noch nicht eingetragen? Dann lege sie doch einfach schnell an. Mit nur ein paar Klicks und ohne Anmeldung ist es in einer Minute geschafft.
+    %button.btn.btn-default#add-team Anlegen
+
+  .col-md-4
+    = image_tag asset_path("actions/user-group-new.png")
+  .col-md-4
+    %h4 Konventionen - Freiwillige Feuerwehren
+    %p Bei der Eingabe einer Feuerwehr einigen wir uns der Übersichts geschuldet auf folgende Abkürzung:
+    %table
+      %tr
+        %th Name: 
+        %td FF XXX
+      %tr
+        %th Abk.: 
+        %td XXX

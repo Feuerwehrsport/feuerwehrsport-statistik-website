@@ -1,0 +1,34 @@
+%h1 Wettkämpfer
+- [:female, :male].each do |gender|
+  %h2= g(gender)
+
+  = count_table(@people[gender], class: "datatable-people") do |t|
+    - t.col("Name", class: "col70") { |row| link_to(row.last_name, row) }
+    - t.col("Vorname", class: "col70") { |row| link_to(row.first_name, row) }
+    - t.col "Nation", :nation, class: "col70"
+    - t.col "HB", :hb_count, class: "col30"
+    - t.col "HL", :hl_count, class: "col30"
+    - t.col "LA", :la_count, class: "col30"
+    - t.col "FS", :fs_count, class: "col30"
+    - if gender == :female
+      - t.col "GS", :gs_count, class: "col30"
+.row
+  .col-md-4
+    %h4 Geschlechter
+    = genders_pie_chart
+
+  .col-md-4
+    %h4 Disziplinen bei Frauen
+    = disciplines_pie_chart(:female)
+
+  .col-md-4
+    %h4 Disziplinen bei Männern
+    = disciplines_pie_chart(:male)
+
+
+/ echo Title::h2('Neue Person hinzufügen', 'personhinzufuegen');
+/ echo Bootstrap::row()->col(
+/   '<p class="six columns">Ist eine Person die du kennst noch nicht eingetragen? Dann trage sie doch schnell ins System ein!</p>'.
+/   '<p><button id="add-person">Person hinzufügen</button></p>'
+/   , 5)
+/   ->col('<img src="/styling/images/system-users.png" alt=""/>', 3);

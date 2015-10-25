@@ -1,0 +1,7 @@
+%h1 Wettkampforte
+
+= count_table(@rows) do |t|
+  - t.col("Ort", class: "col70") { |row| link_to(row.name, row) }
+  - t.col "Wettkämpfe", :count, class: "col30"
+
+= pie_chart places_overview_hash

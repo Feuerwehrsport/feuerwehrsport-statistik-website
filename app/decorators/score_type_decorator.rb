@@ -1,0 +1,2 @@
+class ScoreTypeDecorator < ApplicationDecorator
+end

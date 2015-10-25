@@ -1,0 +1,10 @@
+%table.datatable.table.table-striped.table-bordered.table-condensed{ class: ct.options[:class] }
+  %thead
+    %tr
+      - ct.columns.each do |column|
+        %th= column.name
+  %tbody
+    - ct.rows.each do |row|
+      %tr
+        - ct.columns.each do |column|
+          %td{ class: column.options[:class] }= column.content(row)

@@ -1,0 +1,17 @@
+!!!
+%html
+  %head
+    %title= page_title
+    %meta{:content => "text/html;charset=utf-8", "http-equiv" => "content-type"}/
+    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_include_tag 'application'
+    = javascript_include_tag "controllers/#{controller_path}" if Rails.application.assets.find_asset("controllers/#{controller_path}.js")
+    = csrf_meta_tags
+    /[if lt IE 9]
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  %body
+    = render 'navigation'
+    .container
+      = yield
+    = render 'footer'
