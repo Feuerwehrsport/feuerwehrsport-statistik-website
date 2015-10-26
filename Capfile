@@ -43,7 +43,8 @@ end
 
 namespace :rvm do
   task :install_pgp_keys do
-    run_without_rvm "gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3"
+    key = "409B6B1796C275462A1703113804BB82D39DC0E3"
+    run_without_rvm "gpg --list-keys #{key} || gpg --keyserver hkp://keys.gnupg.net --recv-keys #{key}"
   end
 end
 
