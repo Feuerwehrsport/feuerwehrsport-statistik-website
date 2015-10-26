@@ -45,6 +45,7 @@ default_run_options[:pty] = true
 set :rvm_ruby_string, "2.2.3"
 set :rvm_autolibs_flag, "read-only"
 set :http_proxy, nil
+set :rails_cache, nil
 
 
 before 'deploy:setup', 'deploy_setup:create_deploy_to'
