@@ -91,7 +91,7 @@ client.query("SELECT * FROM group_scores").each do |row|
     team_number: row["team_number"],
     time: (row["time"] || 99999999),
     group_score_category_id: row["group_score_category_id"],
-    gender: row["gender"] == "female" ? 0 : 1,
+    gender: row["sex"] == "female" ? 0 : 1,
     run: row["run"].to_s,
   )
 end
