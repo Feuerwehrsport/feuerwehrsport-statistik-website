@@ -17,3 +17,4 @@
 /tmp
 /.rsync_cache/
 /public/generated/
+/public/cache/
