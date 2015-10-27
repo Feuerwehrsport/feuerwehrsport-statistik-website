@@ -21,6 +21,9 @@ de:
 
   activerecord: &activerecord
     models:
+      event:
+        one: Wettkampftyp
+        other: Wettkampftypen
       person: Wettkämpfer
       place:
         one: Wettkampfort

@@ -1,0 +1,5 @@
+%h1 Wettkampftypen
+
+= count_table(@rows, class: "datatable-events") do |t|
+  - t.col("Typ", class: "col-md-4") { |row| link_to(row.name, row) }
+  - t.col("Wettkämpfe", :count, class: "col-md-1")
