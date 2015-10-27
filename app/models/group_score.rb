@@ -6,6 +6,7 @@ class GroupScore < ActiveRecord::Base
 
   enum gender: { female: 0, male: 1 }
 
+  scope :gender, -> (gender) { where(gender: GroupScore.genders[gender]) }
   scope :discipline, -> (discipline) do 
     joins(group_score_category: :group_score_type).
     where(group_score_types: { discipline: discipline })

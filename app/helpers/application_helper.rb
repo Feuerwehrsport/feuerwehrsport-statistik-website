@@ -70,4 +70,8 @@ module ApplicationHelper
     gender = gender == 1 ? :male : :female if gender.in? [0, 1]
     gender
   end
+
+  def count_or_zero(count)
+    count > 0 ? count : ""
+  end
 end

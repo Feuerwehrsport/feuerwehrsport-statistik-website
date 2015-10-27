@@ -7,6 +7,7 @@ class Score < ActiveRecord::Base
 
   validates :person, :competition, :discipline, :time, :team_number, presence: true
 
+  scope :gender, -> (gender) { joins(:person).merge(Person.gender(gender)) }
   scope :valid, -> { where.not(time: INVALID) }
   scope :hl, -> { where(discipline: "hl") }
   scope :hb, -> { where(discipline: "hb") }
