@@ -13,7 +13,7 @@ module PeopleHelper
       GroupScoreParticipation.joins(:person).merge(Person.gender(gender)).group(:discipline).count).map{|i, a| {name: i.upcase, y: a, color: discipline_color(i)}}
 
     chart = LazyHighCharts::HighChart.new do |f|
-      f.series(name: "Geschlechter", data: scores)
+      f.series(name: "Anzahl", data: scores)
       f.plotOptions(pie: { size: 70, dataLabels: { distance: 5, format: "{percentage:.1f} % {point.name}" } })
       f.chart(type: "pie", height: 140)
     end
