@@ -64,3 +64,45 @@ de:
   date:
     formats:
       default: '%Y-%m-%d'
+    day_names:
+      - Montag
+      - Dienstag
+      - Mittwoch
+      - Donnerstag
+      - Freitag
+      - Samstag
+      - Sonntag
+    day_names_short:
+      - Mo
+      - Di
+      - Mi
+      - Do
+      - Fr
+      - Sa
+      - So
+    month_names:
+      - Januar
+      - Februar
+      - März
+      - April
+      - Mai
+      - Juni
+      - Juli
+      - August
+      - September
+      - Oktober
+      - November
+      - Dezember
+    month_names_short:
+      - Jan
+      - Feb
+      - Mär
+      - Apr
+      - Mai
+      - Jun
+      - Jul
+      - Aug
+      - Sep
+      - Okt
+      - Nov
+      - Dez

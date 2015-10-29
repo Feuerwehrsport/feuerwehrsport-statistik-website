@@ -5,5 +5,6 @@ class PlacesController < ResourceController
 
   def show
     @competitions = Place.find(params[:id]).competitions.with_disciplines_count.includes(:event).decorate
+    @chart = Chart::Place.new(competitions: @competitions)
   end
 end

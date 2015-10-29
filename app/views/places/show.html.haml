@@ -23,15 +23,19 @@
   .row
     .col-md-4
       %h4 Verteilung der Wettkämpfe über das Jahr
-      = week_overview_chart
+      = @chart.year_overview
     .col-md-4
       %h4 Verteilung der Wettkämpfe über die Woche
-      = year_overview_chart
+      = @chart.week_overview
     .col-md-4
       %h4 Angebotene Disziplinen pro Wettkampf
+      = @chart.disciplines_overview
     .col-md-4
       %h4 Mannschaftswertungen der Einzeldisziplinen
+      = @chart.team_scores_overview
     .col-md-4
       %h4 Anzahl der Mannschaften pro Wettkampf
+      = @chart.teams_count_overview
     .col-md-4
       %h4 Anzahl der Einzelstarter pro Wettkampf
+      = @chart.people_count_overview

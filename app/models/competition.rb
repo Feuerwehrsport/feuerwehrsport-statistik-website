@@ -4,6 +4,7 @@ class Competition < ActiveRecord::Base
   belongs_to :score_type
   has_many :group_score_categories
   has_many :scores
+  has_many :group_scores, through: :group_score_categories
 
   validates :place, :event, :date, presence: true
 
@@ -28,5 +29,20 @@ class Competition < ActiveRecord::Base
     select("(#{fs_male}) AS fs_male").
     select("(#{la_female}) AS la_female").
     select("(#{la_male}) AS la_male")
+  end
+
+  def team_count
+    @team_count ||= self.class.count_by_sql("
+      SELECT COUNT(*)
+      FROM (
+        #{group_scores.select("CONCAT(team_id,'-',gender,'-',team_number) AS team").to_sql}
+        UNION
+        #{scores.no_finals.with_team.joins(:person).select("CONCAT(team_id,'-',gender,'-',team_number) AS team").to_sql}
+      ) i
+    ")
+  end
+
+  def people_count
+    @people_count ||= self.class.count_by_sql("SELECT COUNT(*) FROM (#{scores.group(:person_id).select(:person_id).to_sql}) i")
   end
 end
