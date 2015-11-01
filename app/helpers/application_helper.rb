@@ -36,8 +36,17 @@ module ApplicationHelper
     toc.handle(capture_haml toc, &block).html_safe
   end
 
+  def nav_tab &block
+    nt = UI::NavTab.new &block
+    render 'ui/nav_tab', nt: nt
+  end
+
   def g(gender)
     t("gender.#{normalize_gender(gender)}")
+  end
+
+  def g_symbol(gender)
+    t("gender.#{normalize_gender(gender)}_symbol")
   end
 
   def g_color(gender)
@@ -46,6 +55,16 @@ module ApplicationHelper
 
   def discipline_name(discipline)
     t("discipline.#{discipline}")
+  end
+
+  def discipline_image_name_short(discipline, gender=nil)
+    text = "#{discipline_image(discipline)} #{discipline_name_short(discipline)}"
+    text += " #{g_symbol(gender)}" if gender.present?
+    text.html_safe
+  end
+
+  def discipline_name_short(discipline)
+    discipline.to_s.upcase
   end
 
   def discipline_image(discipline)

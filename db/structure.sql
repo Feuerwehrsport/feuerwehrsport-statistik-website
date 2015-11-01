@@ -593,6 +593,17 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 
 
 --
+-- Name: years; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW years AS
+ SELECT date_part('year'::text, competitions.date) AS year
+   FROM competitions
+  GROUP BY date_part('year'::text, competitions.date)
+  ORDER BY date_part('year'::text, competitions.date);
+
+
+--
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1035,4 +1046,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150928060950');
 INSERT INTO schema_migrations (version) VALUES ('20151019081006');
 
 INSERT INTO schema_migrations (version) VALUES ('20151019133228');
+
+INSERT INTO schema_migrations (version) VALUES ('20151029081006');
 

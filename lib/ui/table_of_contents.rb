@@ -1,7 +1,9 @@
 module UI
   class TableOfContents
     include ActionView::Helpers::TagHelper
+    include UniqIDFinder
     attr_reader :ankers
+    alias_method :elements, :ankers
 
     def index
       "|||TOC_PLACEHOLDER_TOC|||"
@@ -22,18 +24,6 @@ module UI
     def generated_index
       ac = ActionController::Base.new
       ac.render_to_string(partial: 'ui/table_of_contents', locals: { ankers: ankers })
-    end
-
-    def available_id(name)
-      regular = name.parameterize
-      return regular if id_available?(regular)
-      i = 1
-      i += 1 while !id_available?("#{regular}-#{i}")
-      "#{regular}-#{i}"
-    end
-
-    def id_available?(id)
-      !ankers.any? { |a| a.id == id }
     end
   end
 end

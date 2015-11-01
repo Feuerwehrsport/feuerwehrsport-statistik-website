@@ -29,7 +29,8 @@ set :required_packages, "git curl rsync postgresql imagemagick libpq-dev nodejs 
 set :deploy_via, :rsync_with_remote_cache
 
 # for low bandwidth connection uncomment following line
-set :rsync_options, '-azc --delete --exclude .git*'
+rsync_excludes = %w{ .git* spec rspec test Capfile config/deploy config/deploy.rb }
+set :rsync_options, "-azc --delete --delete-excluded --exclude #{rsync_excludes.join(" --exclude ")}"
 
 # normally, you do not need to change anything beyond this line
 

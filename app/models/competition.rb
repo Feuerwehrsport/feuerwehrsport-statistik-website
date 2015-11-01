@@ -8,6 +8,10 @@ class Competition < ActiveRecord::Base
 
   validates :place, :event, :date, presence: true
 
+  scope :year, -> (year) do
+    year_value = year.is_a?(Year) ? year.year.to_i : year.to_i
+    where("EXTRACT(YEAR FROM date) = #{year_value}")
+  end
   scope :with_disciplines_count, -> do
     hl_female = Score.hl.gender(:female).select("COUNT(*)").where("competition_id = #{table_name}.id").to_sql
     hl_male = Score.hl.gender(:male).select("COUNT(*)").where("competition_id = #{table_name}.id").to_sql

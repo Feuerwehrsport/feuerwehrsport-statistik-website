@@ -21,6 +21,7 @@ class Person < ActiveRecord::Base
       (#{GroupScoreParticipation.gs.select("COUNT(*)").where("person_id = people.id").to_sql}) AS gs_count
     ")
   end
+  scope :german, -> { where(nation_id: 1) }
 
   validates :last_name, :gender, :nation, presence: true
 end

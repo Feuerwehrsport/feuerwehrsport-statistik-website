@@ -2,8 +2,9 @@ de:
   gender:
     male: männlich
     male_color: blue
+    male_symbol: ♂
     female: weiblich
-    female_color: red
+    female_symbol: ♀
 
   discipline:
     hb: Hindernisbahn

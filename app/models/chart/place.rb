@@ -34,7 +34,7 @@ module Chart
         if discipline_count(competition, :hb_male, :hb_female) > 0 &&
           discipline_count(competition, :hl_male, :hl_female) > 0 &&
           discipline_count(competition, :fs_male, :fs_female) > 0 &&
-          discipline_count(competition, :gs_male, :gs_female) > 0 &&
+          discipline_count(competition, :gs) > 0 &&
           competition.gs > 0
           counts[0] += 1
         elsif discipline_count(competition, :hl_male, :hl_female) > 0 && discipline_count(competition, :hb_male, :hb_female, :fs_male, :fs_female, :la_male, :la_female, :gs) == 0
