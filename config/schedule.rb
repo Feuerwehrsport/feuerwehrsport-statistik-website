@@ -26,5 +26,5 @@ end
 
 
 every :day, at: '2:42 am' do
-  command 'import_online'
+  command "#{base_command}rake import_online"
 end

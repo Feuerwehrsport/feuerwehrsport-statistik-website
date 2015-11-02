@@ -2,8 +2,12 @@ desc ""
 task :import_online, [] => :environment do |task, args|
 client = Mysql2::Client.new(host: "127.0.0.1", username: ENV["MYSQL_USERNAME"], password: ENV["MYSQL_PASSWORD"], port: 3306, database: "projects_feuerwehrsport")
 
-# Rake::Task["db:drop"].invoke
-# Rake::Task["db:create"].invoke
+[:table, :view].each do |type|
+  drop_tables_sql = "select 'drop #{type} if exists \"' || #{type}name || '\" cascade;'  from pg_#{type}s where schemaname = 'public';"
+  ActiveRecord::Base.connection.execute(drop_tables_sql).values.each do |sql|
+    ActiveRecord::Base.connection.execute(sql.first)
+  end
+end
 Rake::Task["db:migrate"].invoke
 
 puts "events"
