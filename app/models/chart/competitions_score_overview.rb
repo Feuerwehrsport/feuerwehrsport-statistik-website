@@ -1,5 +1,5 @@
 module Chart
-  class Place < Base
+  class CompetitionsScoreOverview < Base
     attr_accessor :competitions
 
     def year_overview

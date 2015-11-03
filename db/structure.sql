@@ -25,48 +25,6 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 SET search_path = public, pg_catalog;
 
---
--- Name: first_agg(anyelement, anyelement); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION first_agg(anyelement, anyelement) RETURNS anyelement
-    LANGUAGE sql IMMUTABLE STRICT
-    AS $_$
-        SELECT $1;
-$_$;
-
-
---
--- Name: last_agg(anyelement, anyelement); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION last_agg(anyelement, anyelement) RETURNS anyelement
-    LANGUAGE sql IMMUTABLE STRICT
-    AS $_$
-        SELECT $2;
-$_$;
-
-
---
--- Name: first(anyelement); Type: AGGREGATE; Schema: public; Owner: -
---
-
-CREATE AGGREGATE first(anyelement) (
-    SFUNC = first_agg,
-    STYPE = anyelement
-);
-
-
---
--- Name: last(anyelement); Type: AGGREGATE; Schema: public; Owner: -
---
-
-CREATE AGGREGATE last(anyelement) (
-    SFUNC = last_agg,
-    STYPE = anyelement
-);
-
-
 SET default_tablespace = '';
 
 SET default_with_oids = false;

@@ -1,6 +1,6 @@
 class CreateYears < ActiveRecord::Migration
   def up
-    create_sql = Competition.select("EXTRACT(YEAR FROM DATE(competitions.date)) AS year").group("year").order("year").to_sql
+    create_sql = Competition.select("EXTRACT(YEAR FROM DATE(competitions.date)) AS year").group("year").order("year desc").to_sql
     self.connection.execute "CREATE OR REPLACE VIEW years AS #{create_sql}"
   end
 
