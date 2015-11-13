@@ -27,7 +27,7 @@ module ApplicationHelper
 
 
   def count_table rows, options={}, &block
-    ct = UI::CountTable.new rows, options, &block
+    ct = UI::CountTable.new(self, rows, options, &block)
     render 'ui/count_table', ct: ct
   end
 
