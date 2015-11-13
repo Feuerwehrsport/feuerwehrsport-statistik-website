@@ -38,6 +38,10 @@ module UI
           block.call(row)
         end
       end
+
+      def th_options
+        options.slice(:title)
+      end
     end
   end
 end

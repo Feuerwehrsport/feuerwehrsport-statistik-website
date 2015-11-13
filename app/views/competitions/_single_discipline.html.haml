@@ -8,7 +8,7 @@
 .row
   .col-md-3= discipline.chart.invalid_pie
   .col-md-9= discipline.chart.single_scores_overview
-= count_table(discipline.scores, class: "datatable-scores") do |t|
+= count_table(discipline.scores, class: "datatable scores-single") do |t|
   - t.col("Nachname", [:person, :last_name], class: "col-20", link_to: :person)
   - t.col("Vorname", [:person, :first_name], class: "col-20", link_to: :person)
   - t.col("Mannschaft", helper_method: :numbered_team_link, class: "small col-20")

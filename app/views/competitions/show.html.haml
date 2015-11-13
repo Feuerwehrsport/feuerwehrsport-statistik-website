@@ -47,7 +47,6 @@
               %th= discipline_image_name_short(discipline)
               %td= count_or_zero(@calc.discipline(discipline, :female, type).try(:count))
               %td= count_or_zero(@calc.discipline(discipline, :male, type).try(:count))
-    = toc.anker "ds"
   - @calc.disciplines.each do |discipline|
     - if Discipline.group?(discipline.discipline)
       = render "group_discipline", toc: toc, discipline: discipline

@@ -2,7 +2,7 @@
   %thead
     %tr
       - ct.columns.each do |column|
-        %th= column.name
+        %th{ column.th_options }= column.name
   %tbody
     - ct.rows.each do |row|
       %tr
