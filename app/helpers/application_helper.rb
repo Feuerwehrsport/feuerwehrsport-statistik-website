@@ -25,6 +25,35 @@ module ApplicationHelper
     ]
   }
 
+  FINAL_NAMES = {
+    -2 => "Finale",
+    -3 => "Halbfinale",
+    -4 => "Viertelfinale",
+    -5 => "Achtelfinale",
+  }
+
+
+  def numbered_team_name(score)
+    number_name = begin
+      if score.team_number == -1
+        " E"   
+      elsif score.team_number <= -2 && score.team_number >= -5
+        ' F'
+      elsif score.team_number == -6
+        ' A'
+      else
+        gender = score.try(:gender) || score.person.gender
+        c = CompetitionTeamNumber.gender(gender).where(competition_id: score.competition.id, team_id: score.team_id).count
+        c > 1 ? " #{score.team_number + 1}" : ""
+      end
+    end
+    run = score.try(:run).present? ? " #{score.run}" : ""
+    score.team.shortcut + number_name + run
+  end
+
+  def numbered_team_link(score)
+    link_to(numbered_team_name(score), score.team)
+  end
 
   def count_table rows, options={}, &block
     ct = UI::CountTable.new(self, rows, options, &block)
@@ -68,7 +97,7 @@ module ApplicationHelper
   end
 
   def discipline_image(discipline)
-    image_tag(asset_path("disciplines/#{discipline}.png"), width: 20)
+    image_tag(asset_path("disciplines/#{discipline}.png"), width: 20, title: discipline_name(discipline))
   end
 
   def discipline_color(discipline)
@@ -77,6 +106,10 @@ module ApplicationHelper
 
   def group_discipline?(discipline)
     discipline.to_sym.in? [:gs, :fs, :la]
+  end
+
+  def final_name(final_count)
+    FINAL_NAMES[final_count]
   end
 
   def competitor_position(discipline, position, gender)
@@ -91,6 +124,6 @@ module ApplicationHelper
   end
 
   def count_or_zero(count)
-    count > 0 ? count : ""
+    count.to_i > 0 ? count : ""
   end
 end

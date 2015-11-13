@@ -9,5 +9,9 @@ module Chart
     def lazy_high_chart
       LazyHighCharts::HighChart.new
     end
+
+    def render hc
+      high_chart("high-chart-#{SecureRandom.hex(6)}", hc)
+    end
   end
 end

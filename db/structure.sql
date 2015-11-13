@@ -30,6 +30,91 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: group_score_categories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE group_score_categories (
+    id integer NOT NULL,
+    group_score_type_id integer NOT NULL,
+    competition_id integer NOT NULL,
+    name character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: group_scores; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE group_scores (
+    id integer NOT NULL,
+    team_id integer NOT NULL,
+    team_number integer DEFAULT 0 NOT NULL,
+    gender integer NOT NULL,
+    "time" integer NOT NULL,
+    group_score_category_id integer NOT NULL,
+    run character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: people; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE people (
+    id integer NOT NULL,
+    last_name character varying NOT NULL,
+    first_name character varying NOT NULL,
+    gender integer NOT NULL,
+    nation_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: scores; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE scores (
+    id integer NOT NULL,
+    person_id integer NOT NULL,
+    discipline character varying NOT NULL,
+    competition_id integer NOT NULL,
+    "time" integer NOT NULL,
+    team_id integer,
+    team_number integer DEFAULT 0 NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: competition_team_numbers; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW competition_team_numbers AS
+ SELECT group_scores.team_id,
+    group_scores.team_number,
+    group_scores.gender,
+    group_score_categories.competition_id
+   FROM (group_scores
+     JOIN group_score_categories ON ((group_score_categories.id = group_scores.group_score_category_id)))
+  WHERE (group_scores.team_number >= 0)
+UNION
+ SELECT scores.team_id,
+    scores.team_number,
+    people.gender,
+    scores.competition_id
+   FROM (scores
+     JOIN people ON ((people.id = scores.person_id)))
+  WHERE ((scores.team_number >= 0) AND (scores.team_id IS NOT NULL));
+
+
+--
 -- Name: competitions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -97,20 +182,6 @@ ALTER SEQUENCE events_id_seq OWNED BY events.id;
 
 
 --
--- Name: group_score_categories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE group_score_categories (
-    id integer NOT NULL,
-    group_score_type_id integer NOT NULL,
-    competition_id integer NOT NULL,
-    name character varying NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
 -- Name: group_score_categories_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -138,23 +209,6 @@ CREATE TABLE group_score_types (
     discipline character varying NOT NULL,
     name character varying NOT NULL,
     regular boolean DEFAULT false NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: group_scores; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE group_scores (
-    id integer NOT NULL,
-    team_id integer NOT NULL,
-    team_number integer DEFAULT 0 NOT NULL,
-    gender integer NOT NULL,
-    "time" integer NOT NULL,
-    group_score_category_id integer NOT NULL,
-    run character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -262,21 +316,6 @@ ALTER SEQUENCE nations_id_seq OWNED BY nations.id;
 
 
 --
--- Name: people; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE people (
-    id integer NOT NULL,
-    last_name character varying NOT NULL,
-    first_name character varying NOT NULL,
-    gender integer NOT NULL,
-    nation_id integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
 -- Name: people_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -353,23 +392,6 @@ ALTER SEQUENCE places_id_seq OWNED BY places.id;
 
 CREATE TABLE schema_migrations (
     version character varying NOT NULL
-);
-
-
---
--- Name: scores; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE scores (
-    id integer NOT NULL,
-    person_id integer NOT NULL,
-    discipline character varying NOT NULL,
-    competition_id integer NOT NULL,
-    "time" integer NOT NULL,
-    team_id integer,
-    team_number integer DEFAULT 0 NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -558,7 +580,7 @@ CREATE VIEW years AS
  SELECT date_part('year'::text, competitions.date) AS year
    FROM competitions
   GROUP BY date_part('year'::text, competitions.date)
-  ORDER BY date_part('year'::text, competitions.date);
+  ORDER BY date_part('year'::text, competitions.date) DESC;
 
 
 --
@@ -1006,4 +1028,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151019081006');
 INSERT INTO schema_migrations (version) VALUES ('20151019133228');
 
 INSERT INTO schema_migrations (version) VALUES ('20151029081006');
+
+INSERT INTO schema_migrations (version) VALUES ('20151108070537');
 

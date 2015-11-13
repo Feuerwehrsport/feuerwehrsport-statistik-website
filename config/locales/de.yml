@@ -25,6 +25,9 @@ de:
       event:
         one: Wettkampftyp
         other: Wettkampftypen
+      competition:
+        one: Wettkampf
+        other: Wettkämpfe
       person: Wettkämpfer
       place:
         one: Wettkampfort

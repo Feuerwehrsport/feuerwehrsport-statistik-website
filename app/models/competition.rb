@@ -3,8 +3,10 @@ class Competition < ActiveRecord::Base
   belongs_to :event
   belongs_to :score_type
   has_many :group_score_categories
+  has_many :group_score_types, through: :group_score_categories
   has_many :scores
   has_many :group_scores, through: :group_score_categories
+  has_many :score_double_events
 
   validates :place, :event, :date, presence: true
 

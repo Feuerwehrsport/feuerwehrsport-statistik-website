@@ -1,0 +1,17 @@
+= toc.anker("#{discipline_name_short(discipline.discipline)} #{g(discipline.gender)} #{discipline.category.shortcut(prefix: " - ")}")
+%h2
+  = discipline_image(discipline.discipline)
+  = discipline_name(discipline.discipline)
+  = g(discipline.gender)
+%h3
+  = discipline.category
+  %small= discipline.category.group_score_type
+
+.row
+  .col-md-3= discipline.chart.invalid_pie
+  .col-md-9= discipline.chart.group_scores_overview
+= count_table(discipline.scores, class: "datatable-scores") do |t|
+  - t.col("Mannschaft", class: "small col-10") { |row| numbered_team_link(row) }
+  - t.col("Zeit", :second_time, class: "small col-5")
+  - (1..Discipline.participation_count(discipline.discipline)).each do |position|
+    - t.col("WK#{position}", class: "small col-5") { |row| row.person_participations.where(position: position).first.try(:person).try(:decorate).try(:short_name) }

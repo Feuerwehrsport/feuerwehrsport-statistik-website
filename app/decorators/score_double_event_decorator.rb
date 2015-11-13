@@ -1,5 +1,6 @@
 class ScoreDoubleEventDecorator < ApplicationDecorator
   decorates_association :competition
+  decorates_association :person
 
   def second_time
     calculate_second_time(time)

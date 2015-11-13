@@ -13,6 +13,8 @@ class Score < ActiveRecord::Base
   scope :hl, -> { discipline(:hl) }
   scope :hb, -> { discipline(:hb) }
   scope :no_finals, -> { where("team_number >= 0") }
+  scope :out_of_competition, -> { where(team_number: -1) }
+  scope :finals, -> (final_number) { where(team_number: final_number) }
   scope :with_team, -> { where.not(team_id: nil) }
   scope :best_of_competition, -> do
     distinct_column = "CONCAT(#{table_name}.competition_id, '-', #{table_name}.person_id, #{table_name}.discipline)"

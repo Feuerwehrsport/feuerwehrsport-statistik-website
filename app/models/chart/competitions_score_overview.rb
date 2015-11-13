@@ -12,7 +12,7 @@ module Chart
       hc = column_chart_style
       hc.xAxis(categories: t("date.month_names_short"))
       hc.series(name: "Wettkämpfe", data: month_counts)
-      high_chart("high-chart-month-overview", hc)
+      render(hc)
     end
 
     def week_overview
@@ -25,7 +25,7 @@ module Chart
       hc = column_chart_style
       hc.xAxis(categories: t("date.day_names_short"))
       hc.series(name: "Wettkämpfe", data: week_counts)
-      high_chart("high-chart-week-overview", hc)
+      render(hc)
     end
 
     def disciplines_overview
@@ -63,7 +63,7 @@ module Chart
       hc.plotOptions(pie: { dataLabels: { format: '{point.percentage:.1f}%', distance: 0 }, showInLegend: true })
       hc.legend(align: :right, verticalAlign: :middle, layout: :vertical)
       hc.series(name: "Wettkämpfe", data: data, colorByPoint: true)
-      high_chart("high-chart-discipline-overview", hc)
+      render(hc)
     end
 
     def team_scores_overview
@@ -75,7 +75,7 @@ module Chart
       hc.plotOptions(pie: { dataLabels: { format: '{point.percentage:.1f}%', distance: 0 }, showInLegend: true })
       hc.legend(align: :right, verticalAlign: :middle, layout: :vertical)
       hc.series(name: "Wettkämpfe", data: data, colorByPoint: true)
-      high_chart("high-chart-score-type-overview", hc)
+      render(hc)
     end
 
     def teams_count_overview
@@ -106,7 +106,7 @@ module Chart
       hc.plotOptions(pie: { dataLabels: { format: '{point.percentage:.1f}%', distance: 0 }, showInLegend: true })
       hc.legend(align: :right, verticalAlign: :middle, layout: :vertical)
       hc.series(name: "Wettkämpfe", data: data, colorByPoint: true)
-      high_chart("high-chart-teams-count-overview", hc)
+      render(hc)
     end
 
     def people_count_overview
@@ -140,7 +140,7 @@ module Chart
       hc.plotOptions(pie: { dataLabels: { format: '{point.percentage:.1f}%', distance: 0 }, showInLegend: true })
       hc.legend(align: :right, verticalAlign: :middle, layout: :vertical)
       hc.series(name: "Wettkämpfe", data: data, colorByPoint: true)
-      high_chart("high-chart-people-count-overview", hc)
+      render(hc)
     end
 
     private

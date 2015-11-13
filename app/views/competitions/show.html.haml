@@ -1,0 +1,58 @@
+= table_of_contents do |toc|
+  .page-header
+    %h1= @competition
+  .row
+    .col-md-3= toc.index
+    .col-md-3
+      %table.table.table-condensed
+        - if @competition.name.present?
+          %tr
+            %th{ colspan: 2 } Name:
+            %td= @competition.name
+        %tr
+          %th{ colspan: 2 } Typ:
+          %td= link_to(@competition.event, @competition.event)
+        - if @calc.single_score_count > 0
+          %tr
+            %th{ colspan: 2 } Mannschaftswertung:
+            %td
+              - if @competition.score_type.present?
+                = @competition.score_type
+              - else
+                Keine
+        %tr
+          %th{ colspan: 2 } Datum:
+          %td= l(@competition.date)
+        %tr
+          %th{ colspan: 3 } &nbsp;
+        %tr
+          %td
+          %th Frauen
+          %th Männer
+        - @calc.single_categories.each do |discipline, finals|
+          - finals.each do |final|
+            %tr
+              - if !final
+                %th= discipline_image_name_short(discipline)
+              - else
+                %th
+                  = discipline_image(discipline)
+                  = final_name(final)
+              %td= count_or_zero(@calc.discipline(discipline, :female, final).try(:count))
+              %td= count_or_zero(@calc.discipline(discipline, :male, final).try(:count))
+
+        - @calc.group_categories.each do |discipline, types|
+          - types.each do |type|
+            %tr
+              %th= discipline_image_name_short(discipline)
+              %td= count_or_zero(@calc.discipline(discipline, :female, type).try(:count))
+              %td= count_or_zero(@calc.discipline(discipline, :male, type).try(:count))
+    = toc.anker "ds"
+  - @calc.disciplines.each do |discipline|
+    - if Discipline.group?(discipline.discipline)
+      = render "group_discipline", toc: toc, discipline: discipline
+    - elsif discipline.discipline == :zk
+      = render "double_event_discipline", toc: toc, discipline: discipline
+    - else
+      = render "single_discipline", toc: toc, discipline: discipline
+      

@@ -1,6 +1,7 @@
 class CompetitionDecorator < ApplicationDecorator
   decorates_association :place
   decorates_association :event
+  decorates_association :score_type
 
   def to_s
     full_name

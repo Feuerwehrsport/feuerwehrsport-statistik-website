@@ -8,4 +8,8 @@ class PersonDecorator < ApplicationDecorator
   def full_name
     "#{first_name} #{last_name}"
   end
+
+  def short_name
+    "#{first_name[0]}. #{last_name}"
+  end
 end
