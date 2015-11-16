@@ -32,6 +32,9 @@ de:
       place:
         one: Wettkampfort
         other: Wettkampforte
+      series/round:
+        one: Wettkampfserie
+        other: Wettkampfserien
       team:
         one: Mannschaft
         other: Mannschaften

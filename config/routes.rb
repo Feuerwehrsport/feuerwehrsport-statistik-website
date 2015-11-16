@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   resources :teams, only: [:index, :show]
   resources :years, only: [:index, :show]
   resources :events, only: [:index, :show]
+  namespace :series do
+    resources :rounds, only: [:index, :show]
+    resources :assessments, only: [:show]
+  end
   namespace :api do
     resources :users, only: [:show, :create] do
       collection do

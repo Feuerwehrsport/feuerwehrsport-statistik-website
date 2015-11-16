@@ -471,6 +471,144 @@ ALTER SEQUENCE scores_id_seq OWNED BY scores.id;
 
 
 --
+-- Name: series_assessments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE series_assessments (
+    id integer NOT NULL,
+    round_id integer NOT NULL,
+    discipline character varying NOT NULL,
+    name character varying DEFAULT ''::character varying NOT NULL,
+    type character varying NOT NULL,
+    gender integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: series_assessments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE series_assessments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: series_assessments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE series_assessments_id_seq OWNED BY series_assessments.id;
+
+
+--
+-- Name: series_cups; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE series_cups (
+    id integer NOT NULL,
+    round_id integer NOT NULL,
+    competition_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: series_cups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE series_cups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: series_cups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE series_cups_id_seq OWNED BY series_cups.id;
+
+
+--
+-- Name: series_participations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE series_participations (
+    id integer NOT NULL,
+    assessment_id integer NOT NULL,
+    cup_id integer NOT NULL,
+    type character varying NOT NULL,
+    team_id integer,
+    team_number integer,
+    person_id integer,
+    "time" integer NOT NULL,
+    points integer DEFAULT 0 NOT NULL,
+    rank integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: series_participations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE series_participations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: series_participations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE series_participations_id_seq OWNED BY series_participations.id;
+
+
+--
+-- Name: series_rounds; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE series_rounds (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    year integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: series_rounds_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE series_rounds_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: series_rounds_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE series_rounds_id_seq OWNED BY series_rounds.id;
+
+
+--
 -- Name: team_competitions; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -664,6 +802,34 @@ ALTER TABLE ONLY scores ALTER COLUMN id SET DEFAULT nextval('scores_id_seq'::reg
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY series_assessments ALTER COLUMN id SET DEFAULT nextval('series_assessments_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY series_cups ALTER COLUMN id SET DEFAULT nextval('series_cups_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY series_participations ALTER COLUMN id SET DEFAULT nextval('series_participations_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY series_rounds ALTER COLUMN id SET DEFAULT nextval('series_rounds_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY teams ALTER COLUMN id SET DEFAULT nextval('teams_id_seq'::regclass);
 
 
@@ -760,6 +926,38 @@ ALTER TABLE ONLY score_types
 
 ALTER TABLE ONLY scores
     ADD CONSTRAINT scores_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: series_assessments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY series_assessments
+    ADD CONSTRAINT series_assessments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: series_cups_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY series_cups
+    ADD CONSTRAINT series_cups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: series_participations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY series_participations
+    ADD CONSTRAINT series_participations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: series_rounds_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY series_rounds
+    ADD CONSTRAINT series_rounds_pkey PRIMARY KEY (id);
 
 
 --
@@ -900,6 +1098,22 @@ ALTER TABLE ONLY person_participations
 
 
 --
+-- Name: fk_rails_10e3de7ab6; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY series_participations
+    ADD CONSTRAINT fk_rails_10e3de7ab6 FOREIGN KEY (team_id) REFERENCES teams(id);
+
+
+--
+-- Name: fk_rails_15526a74ba; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY series_participations
+    ADD CONSTRAINT fk_rails_15526a74ba FOREIGN KEY (cup_id) REFERENCES series_cups(id);
+
+
+--
 -- Name: fk_rails_17052afd34; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -916,11 +1130,27 @@ ALTER TABLE ONLY scores
 
 
 --
+-- Name: fk_rails_2fdd48a6eb; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY series_assessments
+    ADD CONSTRAINT fk_rails_2fdd48a6eb FOREIGN KEY (round_id) REFERENCES series_rounds(id);
+
+
+--
 -- Name: fk_rails_339a5440d1; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY competitions
     ADD CONSTRAINT fk_rails_339a5440d1 FOREIGN KEY (event_id) REFERENCES events(id);
+
+
+--
+-- Name: fk_rails_63932e2707; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY series_cups
+    ADD CONSTRAINT fk_rails_63932e2707 FOREIGN KEY (competition_id) REFERENCES competitions(id);
 
 
 --
@@ -980,11 +1210,35 @@ ALTER TABLE ONLY competitions
 
 
 --
+-- Name: fk_rails_e0f7fe67d8; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY series_participations
+    ADD CONSTRAINT fk_rails_e0f7fe67d8 FOREIGN KEY (assessment_id) REFERENCES series_assessments(id);
+
+
+--
 -- Name: fk_rails_e53e7ce3f3; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY group_scores
     ADD CONSTRAINT fk_rails_e53e7ce3f3 FOREIGN KEY (group_score_category_id) REFERENCES group_score_categories(id);
+
+
+--
+-- Name: fk_rails_ecdcb1c04e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY series_cups
+    ADD CONSTRAINT fk_rails_ecdcb1c04e FOREIGN KEY (round_id) REFERENCES series_rounds(id);
+
+
+--
+-- Name: fk_rails_fb34e7583c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY series_participations
+    ADD CONSTRAINT fk_rails_fb34e7583c FOREIGN KEY (person_id) REFERENCES people(id);
 
 
 --
@@ -1030,4 +1284,12 @@ INSERT INTO schema_migrations (version) VALUES ('20151019133228');
 INSERT INTO schema_migrations (version) VALUES ('20151029081006');
 
 INSERT INTO schema_migrations (version) VALUES ('20151108070537');
+
+INSERT INTO schema_migrations (version) VALUES ('20151113161728');
+
+INSERT INTO schema_migrations (version) VALUES ('20151113161743');
+
+INSERT INTO schema_migrations (version) VALUES ('20151113163555');
+
+INSERT INTO schema_migrations (version) VALUES ('20151113163556');
 

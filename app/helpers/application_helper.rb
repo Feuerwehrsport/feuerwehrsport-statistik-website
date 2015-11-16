@@ -96,8 +96,9 @@ module ApplicationHelper
     discipline.to_s.upcase
   end
 
-  def discipline_image(discipline)
-    image_tag(asset_path("disciplines/#{discipline}.png"), width: 20, title: discipline_name(discipline))
+  def discipline_image(discipline, options={})
+    options = { width: 20, title: discipline_name(discipline) }.merge(options)
+    image_tag(asset_path("disciplines/#{discipline}.png"), options)
   end
 
   def discipline_color(discipline)

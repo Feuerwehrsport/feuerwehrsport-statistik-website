@@ -1,0 +1,12 @@
+.page-header.row
+  .col-md-8
+    %h1= @round
+  .col-md-4= render("series/cups_overview", cups: @round.cups.map {|c| [c, c.participations.count] })
+
+- if @person_assessments.present?
+  %h3 Einzelwertungen
+  = count_table(@person_assessments) do |ct|
+    - ct.col("Disziplin") { |row| link_to("#{discipline_image(row.discipline)} #{discipline_name(row.discipline)}".html_safe, row) }
+    - ct.col("Geschlecht") { |row| g(row.gender) }
+    - ct.col("Name", :name)
+    - ct.col("Wettkämpfer") { |row| row.object.participations.pluck(:person_id).uniq.count }

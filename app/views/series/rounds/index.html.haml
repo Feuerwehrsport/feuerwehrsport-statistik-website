@@ -1,0 +1,9 @@
+%h1 Wettkampfserien
+
+= count_table(@rows) do |ct|
+  - ct.col("Name", :name, link_to: true)
+  - ct.col("Jahr", :year)
+  - ct.col("Cup-Anzahl", :cup_count)
+  - ct.col("Disziplinen") { |row| row.disciplines.map { |d| discipline_image(d) }.join.html_safe }
+  - ct.col("Mannschaften", :team_count)
+  - ct.col("Wettkämpfer", :person_count)

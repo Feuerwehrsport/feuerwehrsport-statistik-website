@@ -11,6 +11,10 @@ class CompetitionDecorator < ApplicationDecorator
     "#{place.name} ´#{date.strftime('%y')}"
   end
 
+  def date_with_place
+    "#{date.strftime('%d.%m.')} - #{place.name} "
+  end
+
   def full_name
     text = "#{date.strftime('%d.%m.%Y')} - #{place.name}, #{event.name}"
     text += " (#{name})" if name.present?

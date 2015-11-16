@@ -1,0 +1,10 @@
+%table.table.table-condensed
+  %thead
+    %tr
+      %th Cups
+      %th Teil.
+  %tbody
+    - cups.each do |cup, count|
+      %tr{ title: cup.competition }
+        %td= link_to(cup.competition.date_with_place, cup.competition)
+        %td= count
