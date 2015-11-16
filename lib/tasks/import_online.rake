@@ -142,4 +142,51 @@ client.query("SELECT * FROM person_participations").each do |row|
   )
 end
 
+RoundConfig = Struct.new(:name, :year, :aggregate_type, :genders, :competitions, :discipline)
+configs = [
+  RoundConfig.new("MV-Steigercup", 2015, "PersonMVCup", [:female, :male], [728, 747, 820, 875], :hl),
+  RoundConfig.new("MV-Hinderniscup", 2015, "PersonMVCup", [:female, :male], [728, 750, 820, 875], :hb),
+  RoundConfig.new("MV-Steigercup", 2014, "PersonMVCup", [:female, :male], [460, 498, 555, 575], :hl),
+  RoundConfig.new("MV-Hinderniscup", 2014, "PersonMVCup", [:female, :male], [460, 498, 575], :hb),
+  RoundConfig.new("MV-Steigercup", 2013, "PersonMVCup", [:male], [162, 201, 258, 263], :hl),
+  RoundConfig.new("MV-Hinderniscup", 2013, "PersonMVCup", [:female, :male], [162, 201, 267, 258], :hb),
+  RoundConfig.new("MV-Steigercup", 2012, "PersonMVCup", [:male], [48, 49, 50, 51], :hl),
+  RoundConfig.new("MV-Steigercup", 2011, "PersonMVCup", [:male], [32, 33, 34], :hl),
+  RoundConfig.new("MV-Steigercup", 2010, "PersonMVCup", [:male], [64, 65, 66], :hl),
+  RoundConfig.new("MV-Steigercup", 2009, "PersonMVCup", [:male], [22, 23, 24], :hl),
+]
+
+configs.each do |config|
+  round = Series::Round.create!(name: config.name, year: config.year)
+  assessment = {}
+  config.genders.each do |gender|
+    assessment[gender] = Series::PersonAssessment.create!(
+      round: round, 
+      discipline: config.discipline, 
+      gender: gender, 
+      aggregate_type: config.aggregate_type
+    )
+  end
+  config.competitions.each do |competition_id|
+    competition = Competition.find(competition_id)
+    cup = Series::Cup.create!(round: round, competition_id: competition_id)
+    config.genders.each do |gender|
+      points = 20
+      rank = 1
+      competition.scores.gender(gender).discipline(config.discipline).best_of_competition.sort_by(&:time).each do |score|
+        Series::PersonParticipation.create!(
+          assessment: assessment[gender], 
+          cup: cup, 
+          person: score.person, 
+          time: score.time, 
+          points: points, 
+          rank: rank
+        )
+        points -= 1 if points > 0
+        rank += 1
+      end
+    end
+  end
+end
+
 end

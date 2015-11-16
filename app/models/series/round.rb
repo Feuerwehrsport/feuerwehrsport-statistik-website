@@ -5,6 +5,8 @@ module Series
 
     validates :name, :year, presence: true
 
+    default_scope -> { order(year: :desc, name: :asc) }
+
     scope :cup_count, -> do
       select("#{table_name}.*, COUNT(#{Cup.table_name}.id) AS cup_count").
       joins(:cups).
