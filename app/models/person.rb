@@ -1,4 +1,6 @@
 class Person < ActiveRecord::Base
+  include Genderable
+
   belongs_to :nation
   has_many :person_participations
   has_many :group_scores, through: :person_participations
@@ -8,9 +10,6 @@ class Person < ActiveRecord::Base
   has_many :team_members
   has_many :teams, through: :team_members
 
-  enum gender: { female: 0, male: 1 }
-
-  scope :gender, -> (gender) { where(gender: Person.genders[gender]) }
   scope :with_score_count, -> do
     select("
       people.*,
