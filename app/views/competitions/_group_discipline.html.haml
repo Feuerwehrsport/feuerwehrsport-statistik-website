@@ -14,4 +14,4 @@
   - t.col("Mannschaft", helper_method: :numbered_team_link, class: "small col-10")
   - t.col("Zeit", :second_time, class: "small col-5")
   - (1..Discipline.participation_count(discipline.discipline)).each do |position|
-    - t.col("WK#{position}", class: "small col-5", title: competitor_position(discipline.discipline, position, discipline.gender)) { |row| row.person_participations.where(position: position).first.try(:person).try(:decorate).try(:short_name) }
+    - t.col("WK#{position}", class: "small col-5", th_options: { title: competitor_position(discipline.discipline, position, discipline.gender) } ) { |row| row.person_participations.where(position: position).first.try(:person).try(:decorate).try(:short_name) }

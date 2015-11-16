@@ -28,7 +28,8 @@ module UI
           keys.each { |key| value = value.try(key) }
           
           if options[:link_to].present?
-            count_table.view.link_to(value, row.try(options[:link_to]))
+            to = options[:link_to] == true ? row : row.try(options[:link_to])
+            count_table.view.link_to(value, to)
           else
             value
           end
@@ -40,7 +41,7 @@ module UI
       end
 
       def th_options
-        options.slice(:title)
+        options[:th_options] || {}
       end
     end
   end
