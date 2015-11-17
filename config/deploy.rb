@@ -82,8 +82,8 @@ after "deploy:update_code", "deploy:remove_generated_stylesheets"
 
 before "deploy", "deploy:full_restart_of_unicorn"
 
-# set :delayed_job_command, "bin/delayed_job"
-# after "deploy:stop",    "delayed_job:stop"
-# after "deploy:start",   "delayed_job:start"
-# after "deploy:restart", "delayed_job:restart"
+set :delayed_job_command, "bin/delayed_job"
+after "deploy:stop",    "delayed_job:stop"
+after "deploy:start",   "delayed_job:start"
+after "deploy:restart", "delayed_job:restart"
 

@@ -5,7 +5,7 @@ load 'config/deploy'
 require "rvm/capistrano"
 require 'bundler/capistrano'
 require "capistrano-nginx-unicorn"
-#require "delayed/recipes" # for delayed_job
+require "delayed/recipes" # for delayed_job
 
 set :whenever_command, "bundle exec whenever"
 set :whenever_environment, defer { stage }

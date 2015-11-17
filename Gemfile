@@ -27,14 +27,13 @@ gem 'draper'
 # Use Unicorn as the app server
 gem 'unicorn'
 gem 'whenever', require: false
+gem 'delayed_job_active_record'
 
 # image uploader
 gem 'carrierwave'
 gem 'rmagick'
 
 # charts
-# gem "chartkick"
-# gem "highcharts-rails"
 gem 'lazy_high_charts'
 
 gem 'responders', '~> 2.0'
