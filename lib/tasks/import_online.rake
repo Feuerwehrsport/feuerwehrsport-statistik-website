@@ -189,4 +189,6 @@ configs.each do |config|
   end
 end
 
+Cache::Cleaner.new
+
 end
