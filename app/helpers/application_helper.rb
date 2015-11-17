@@ -33,7 +33,7 @@ module ApplicationHelper
   }
 
 
-  def numbered_team_name(score)
+  def numbered_team_name(score, options={})
     number_name = begin
       if score.team_number == -1
         " E"   
@@ -42,8 +42,15 @@ module ApplicationHelper
       elsif score.team_number == -6
         ' A'
       else
-        gender = score.try(:gender) || score.person.gender
-        c = CompetitionTeamNumber.gender(gender).where(competition_id: score.competition.id, team_id: score.team_id).count
+        options = { 
+          competition_id: score.try(:competition).try(:id), 
+          team_id: score.try(:team_id),
+          gender: score.try(:gender) || score.try(:person).try(:gender),
+        }.merge(options)
+        c = CompetitionTeamNumber.
+          gender(options[:gender]).
+          where(competition_id: options[:competition_id], team_id: options[:team_id]).
+          count
         c > 1 ? " #{score.team_number + 1}" : ""
       end
     end
@@ -51,8 +58,8 @@ module ApplicationHelper
     score.team.shortcut + number_name + run
   end
 
-  def numbered_team_link(score)
-    link_to(numbered_team_name(score), score.team)
+  def numbered_team_link(score, options={})
+    link_to(numbered_team_name(score, options), score.team)
   end
 
   def count_table rows, options={}, &block
