@@ -51,4 +51,14 @@ class Competition < ActiveRecord::Base
   def people_count
     @people_count ||= self.class.count_by_sql("SELECT COUNT(*) FROM (#{scores.group(:person_id).select(:person_id).to_sql}) i")
   end
+
+  def group_assessment(discipline, gender)
+    team_scores = {}
+    scores.no_finals.best_of_competition.gender(gender).discipline(discipline).each do |score|
+      next if score.team_number < 0 || score.team.nil?
+      team_scores[score.uniq_team_id] ||= Calculation::CompetitionGroupAssessment.new(score.team, score.team_number, self, gender)
+      team_scores[score.uniq_team_id].add_score(score)
+    end
+    team_scores.values.sort
+  end
 end

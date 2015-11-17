@@ -26,4 +26,12 @@ class Score < ActiveRecord::Base
   def invalid?
     time == INVALID
   end
+
+  def uniq_team_id
+    "#{team_id}-#{team_number}"
+  end
+
+  def <=>(other)
+    time <=> other.time
+  end
 end

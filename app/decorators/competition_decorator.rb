@@ -20,4 +20,8 @@ class CompetitionDecorator < ApplicationDecorator
     text += " (#{name})" if name.present?
     text
   end
+
+  def group_assessment(discipline, gender)
+    object.group_assessment(discipline, gender).map(&:decorate)
+  end
 end
