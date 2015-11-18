@@ -4,6 +4,6 @@
   - ct.col("Name", :name, link_to: true)
   - ct.col("Jahr", :year)
   - ct.col("Cup-Anzahl", :cup_count)
-  - ct.col("Disziplinen") { |row| row.disciplines.map { |d| discipline_image(d) }.join.html_safe }
+  - ct.col("Disziplinen") { |row| row.disciplines.map { |d| discipline_image_name_short(d) }.join.html_safe }
   - ct.col("Mannschaften", :team_count)
   - ct.col("Wettkämpfer", :person_count)

@@ -5,6 +5,8 @@ module Series
     has_many :assessments, through: :round
     has_many :participations
 
+    default_scope -> { joins(:competition).order("competitions.date")}
+
     validates :round, :competition, presence: true
   end
 end

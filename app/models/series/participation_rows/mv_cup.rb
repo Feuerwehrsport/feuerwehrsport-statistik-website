@@ -1,6 +1,6 @@
 module Series
   module ParticipationRows
-    class PersonMVCup < Base
+    class MVCup < Base
       def sum_time
         @sum_time ||= ordered_participations.map(&:time).sum
       end

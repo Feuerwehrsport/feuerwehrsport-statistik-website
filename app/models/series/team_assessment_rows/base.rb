@@ -4,6 +4,10 @@ module Series
       include Draper::Decoratable
       attr_reader :participations, :rank
 
+      def team_id
+        team.id
+      end
+
       def add_participation(participation)
         @cups ||= {}
         @cups[participation.cup_id] ||= []
@@ -12,7 +16,7 @@ module Series
 
       def participations_for_cup(cup)
         @cups ||= {}
-        @cups[cup.id] || []
+        (@cups[cup.id] || []).sort_by(&:assessment)
       end
 
       def points_for_cup(cup)
@@ -38,6 +42,14 @@ module Series
 
       def <=> other
         other.points <=> points
+      end
+
+      def calculate_rank!(other_rows)
+        other_rows.each_with_index do |rank_row, rank|
+          if 0 == (self <=> rank_row)
+            return @rank = (rank + 1)
+          end
+        end
       end
     end
   end

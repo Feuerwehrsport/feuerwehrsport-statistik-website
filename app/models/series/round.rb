@@ -41,6 +41,7 @@ module Series
       rows = {}
       [:female, :male].each do |gender|
         rows[gender] = teams(gender).values.sort
+        rows[gender].each { |row| row.calculate_rank!(rows[gender]) }
       end
       rows
     end

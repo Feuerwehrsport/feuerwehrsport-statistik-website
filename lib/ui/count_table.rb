@@ -43,6 +43,10 @@ module UI
       def th_options
         options[:th_options] || {}
       end
+
+      def th_value
+        th_options[:link_to] ? count_table.view.link_to(name, th_options[:link_to]) : name
+      end
     end
   end
 end

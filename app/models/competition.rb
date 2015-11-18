@@ -10,6 +10,7 @@ class Competition < ActiveRecord::Base
 
   validates :place, :event, :date, presence: true
 
+  scope :with_group_assessment, -> { joins(:score_type) }
   scope :year, -> (year) do
     year_value = year.is_a?(Year) ? year.year.to_i : year.to_i
     where("EXTRACT(YEAR FROM date) = #{year_value}")

@@ -50,7 +50,7 @@ module ApplicationHelper
         c = CompetitionTeamNumber.
           gender(options[:gender]).
           where(competition_id: options[:competition_id], team_id: options[:team_id]).
-          count
+          distinct.count(:team_number)
         c > 1 ? " #{score.team_number + 1}" : ""
       end
     end

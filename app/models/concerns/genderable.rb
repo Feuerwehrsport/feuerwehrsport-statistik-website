@@ -3,6 +3,6 @@ module Genderable
   extend ActiveSupport::Concern
   included do
     enum gender: GENDERS
-    scope :gender, -> (gender) { where(gender: GENDERS[gender]) }
+    scope :gender, -> (gender) { where(gender: GENDERS[gender.to_sym]) }
   end
 end
