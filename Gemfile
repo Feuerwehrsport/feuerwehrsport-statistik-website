@@ -28,6 +28,7 @@ gem 'draper'
 gem 'unicorn'
 gem 'whenever', require: false
 gem 'delayed_job_active_record'
+gem 'daemons'
 
 # image uploader
 gem 'carrierwave'
