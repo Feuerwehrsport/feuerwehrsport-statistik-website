@@ -1,6 +1,7 @@
 module Series
   class Assessment < ActiveRecord::Base
     include Genderable
+    include Caching::Keys
 
     belongs_to :round
     has_many :cups, through: :round
@@ -19,8 +20,10 @@ module Series
     protected
 
     def calculate_rows
-      @rows = entities.values.sort
-      @rows.each { |row| row.calculate_rank!(@rows) }
+      Caching::Cache.fetch(caching_key(:calculate_rows)) do
+        @rows = entities.values.sort
+        @rows.each { |row| row.calculate_rank!(@rows) }
+      end
     end
 
     def entities

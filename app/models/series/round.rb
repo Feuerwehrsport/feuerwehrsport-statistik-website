@@ -1,5 +1,7 @@
 module Series
   class Round < ActiveRecord::Base
+    include Caching::Keys
+
     has_many :cups 
     has_many :assessments 
 
@@ -38,12 +40,14 @@ module Series
     protected
 
     def calculate_rows
-      rows = {}
-      [:female, :male].each do |gender|
-        rows[gender] = teams(gender).values.sort
-        rows[gender].each { |row| row.calculate_rank!(rows[gender]) }
+      Caching::Cache.fetch(caching_key(:calculate_rows)) do
+        rows = {}
+        [:female, :male].each do |gender|
+          rows[gender] = teams(gender).values.sort
+          rows[gender].each { |row| row.calculate_rank!(rows[gender]) }
+        end
+        rows
       end
-      rows
     end
 
     def teams(gender)

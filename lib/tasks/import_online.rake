@@ -142,7 +142,7 @@ client.query("SELECT * FROM person_participations").each do |row|
   )
 end
 
-Import::AutoSeries.new
-Cache::Cleaner.new
+Import::AutoSeries.new.perform
+Caching::Cleaner.new
 
 end

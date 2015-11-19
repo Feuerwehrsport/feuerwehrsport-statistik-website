@@ -76,4 +76,6 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.base_url = "http://www.feuerwehrsport-statistik.de:8099"
 end
