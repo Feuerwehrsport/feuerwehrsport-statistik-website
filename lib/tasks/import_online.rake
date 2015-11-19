@@ -11,7 +11,7 @@ end
 Rake::Task["db:migrate"].invoke
 
 puts "events"
-client.query("SELECT * FROM events").each do |row|
+client.query("SELECT * FROM events ORDER BY id").each do |row|
   Event.create!(
     id: row["id"],
     name: row["name"],
@@ -19,7 +19,7 @@ client.query("SELECT * FROM events").each do |row|
 end
 
 puts "places"
-client.query("SELECT * FROM places").each do |row|
+client.query("SELECT * FROM places ORDER BY id").each do |row|
   Place.create!(
     id: row["id"],
     name: row["name"],
@@ -29,7 +29,7 @@ client.query("SELECT * FROM places").each do |row|
 end
 
 puts "score_types"
-client.query("SELECT * FROM score_types").each do |row|
+client.query("SELECT * FROM score_types ORDER BY id").each do |row|
   ScoreType.create!(
     id: row["id"],
     people: row["persons"],
@@ -39,7 +39,7 @@ client.query("SELECT * FROM score_types").each do |row|
 end
 
 puts "teams"
-client.query("SELECT * FROM teams").each do |row|
+client.query("SELECT * FROM teams ORDER BY id").each do |row|
   Team.create!(
     id: row["id"],
     name: row["name"],
@@ -53,7 +53,7 @@ client.query("SELECT * FROM teams").each do |row|
 end
 
 puts "competitions"
-client.query("SELECT * FROM competitions").each do |row|
+client.query("SELECT * FROM competitions ORDER BY id").each do |row|
   Competition.create!(
     id: row["id"],
     name: row["name"].to_s,
@@ -62,13 +62,13 @@ client.query("SELECT * FROM competitions").each do |row|
     score_type_id: row["score_type_id"] == 0 ? nil : row["score_type_id"],
     date: row["date"],
     published_at: row["published"],
-    created_at: row["created_at"],
-    updated_at: row["created_at"],
+    created_at: Time.parse(row["created_at"]),
+    updated_at: Time.parse(row["created_at"]),
   )
 end
 
 puts "group_score_types"
-client.query("SELECT * FROM group_score_types").each do |row|
+client.query("SELECT * FROM group_score_types ORDER BY id").each do |row|
   GroupScoreType.create!(
     id: row["id"],
     name: row["name"],
@@ -78,7 +78,7 @@ client.query("SELECT * FROM group_score_types").each do |row|
 end
 
 puts "group_score_categories"
-client.query("SELECT * FROM group_score_categories").each do |row|
+client.query("SELECT * FROM group_score_categories ORDER BY id").each do |row|
   GroupScoreCategory.create!(
     id: row["id"],
     name: row["name"],
@@ -88,7 +88,7 @@ client.query("SELECT * FROM group_score_categories").each do |row|
 end
 
 puts "group_scores"
-client.query("SELECT * FROM group_scores").each do |row|
+client.query("SELECT * FROM group_scores ORDER BY id").each do |row|
   GroupScore.create!(
     id: row["id"],
     team_id: row["team_id"],
@@ -101,7 +101,7 @@ client.query("SELECT * FROM group_scores").each do |row|
 end
 
 puts "nations"
-client.query("SELECT * FROM nations").each do |row|
+client.query("SELECT * FROM nations ORDER BY id").each do |row|
   Nation.create!(
     id: row["id"],
     name: row["name"],
@@ -109,7 +109,7 @@ client.query("SELECT * FROM nations").each do |row|
 end
 
 puts "persons"
-client.query("SELECT * FROM persons").each do |row|
+client.query("SELECT * FROM persons ORDER BY id").each do |row|
   Person.create!(
     id: row["id"],
     last_name: row["name"],
@@ -120,7 +120,7 @@ client.query("SELECT * FROM persons").each do |row|
 end
 
 puts "scores"
-client.query("SELECT * FROM scores").each do |row|
+client.query("SELECT * FROM scores ORDER BY id").each do |row|
   Score.create!(
     id: row["id"],
     person_id: row["person_id"],
@@ -133,7 +133,7 @@ client.query("SELECT * FROM scores").each do |row|
 end
 
 puts "person_participations"
-client.query("SELECT * FROM person_participations").each do |row|
+client.query("SELECT * FROM person_participations ORDER BY id").each do |row|
   PersonParticipation.create!(
     id: row["id"],
     person_id: row["person_id"],
