@@ -135,7 +135,7 @@ module ApplicationHelper
     count.to_i > 0 ? count : ""
   end
 
-  def oxygen(key)
-    image_tag(asset_path("oxygens/#{key}.png"))
+  def design_image(key, options={})
+    image_tag(asset_path("design_images/#{key}.png", options))
   end
 end
