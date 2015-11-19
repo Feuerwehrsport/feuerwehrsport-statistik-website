@@ -7,7 +7,7 @@ module Caching
 
     def perform
       urls.each do |url|
-        open("http://localhost:5060#{url}").read rescue nil
+        open("#{Rails.configuration.base_url}#{url}").read rescue nil
       end
     end
 
