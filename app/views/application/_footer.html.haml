@@ -7,9 +7,6 @@
         %a{:href => "/page/feeds.html"} RSS
       %li
         %a{:href => "/page/logs.html"} Veränderungen
-      %li
-        %a{:href => "http://www.feuerwehrsport-teammv.de"} Feuerwehrsport Team-MV
-      %li
-        %a{:href => "/page-home.html#kontakt"} Kontakt
-      %li
-        %a{:href => "http://www.georf.de/impressum/"} Impressum
+      %li= link_to("Feuerwehrsport Team-MV", "http://www.feuerwehrsport-teammv.de")
+      %li= link_to("Kontakt/Impressum", impressum_path)
+        

@@ -19,4 +19,6 @@ Rails.application.routes.draw do
   scope :images do
     get 'person_la_positions/:person_id', controller: :images, action: :la_positions, as: :images_person_la_positions
   end
+
+  get :impressum, to: 'pages#legal_notice'
 end

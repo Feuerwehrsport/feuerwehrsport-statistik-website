@@ -134,4 +134,8 @@ module ApplicationHelper
   def count_or_zero(count)
     count.to_i > 0 ? count : ""
   end
+
+  def oxygen(key)
+    image_tag(asset_path("oxygens/#{key}.png"))
+  end
 end
