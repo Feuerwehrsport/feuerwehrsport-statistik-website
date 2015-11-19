@@ -13,8 +13,7 @@
             %a{:href => "/page/home.html"} Startseite
           %li
             %a{:href => "/page/dates.html"} Termine
-          %li
-            %a{:href => "/page/feuerwehrsport.html"} Feuerwehrsport
+          %li= link_to("Feuerwehrsport", feuerwehrsport_path)
           %li= link_to("Serien", series_rounds_path)
           %li= link_to("Wettkämpfe", competitions_path)
           %li= link_to("Mannschaften", teams_path)
