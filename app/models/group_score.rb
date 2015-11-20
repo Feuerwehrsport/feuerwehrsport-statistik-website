@@ -7,6 +7,7 @@ class GroupScore < ActiveRecord::Base
   enum gender: { female: 0, male: 1 }
 
   scope :valid, -> { where.not(time: Score::INVALID) }
+  scope :invalid, -> { where(time: Score::INVALID) }
   scope :gender, -> (gender) { where(gender: GroupScore.genders[gender]) }
   scope :discipline, -> (discipline) do 
     joins(group_score_category: :group_score_type).

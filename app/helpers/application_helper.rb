@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include LinksHelper
   COMPETITOR_POSITION = {
     la: [
       'Maschinist',

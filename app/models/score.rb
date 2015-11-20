@@ -9,6 +9,7 @@ class Score < ActiveRecord::Base
 
   scope :gender, -> (gender) { joins(:person).merge(Person.gender(gender)) }
   scope :valid, -> { where.not(time: INVALID) }
+  scope :invalid, -> { where(time: INVALID) }
   scope :discipline, -> (discipline) { where(discipline: discipline) }
   scope :hl, -> { discipline(:hl) }
   scope :hb, -> { discipline(:hb) }

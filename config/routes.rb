@@ -22,4 +22,6 @@ Rails.application.routes.draw do
 
   get :impressum, to: 'pages#legal_notice'
   get :feuerwehrsport, to: 'pages#firesport_overview'
+  get :last_competitions, to: 'pages#last_competitions_overview'
+  root to: 'pages#dashboard'
 end

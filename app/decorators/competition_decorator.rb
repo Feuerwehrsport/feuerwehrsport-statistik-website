@@ -21,6 +21,11 @@ class CompetitionDecorator < ApplicationDecorator
     text
   end
 
+  def overview_name
+    text = name.present? ? " (#{name.truncate(25)})" : "" 
+    "#{event.name} - #{place.name} - #{date.strftime('%d.%m.%Y')}#{text}"
+  end
+
   def group_assessment(discipline, gender)
     object.group_assessment(discipline, gender).map(&:decorate)
   end

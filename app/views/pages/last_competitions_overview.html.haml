@@ -1,0 +1,4 @@
+%h1 Neu eingetragene Wettkämpfe
+%ul
+  - @last_competitions.each do |competition|
+    %li= competition_link(competition, type: :overview_name)

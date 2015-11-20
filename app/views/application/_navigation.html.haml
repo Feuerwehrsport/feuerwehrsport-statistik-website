@@ -9,8 +9,7 @@
           %span.icon-bar
       .collapse.navbar-collapse
         %ul.nav.navbar-nav
-          %li
-            %a{:href => "/page/home.html"} Startseite
+          %li= link_to("Startseite", root_path)
           %li
             %a{:href => "/page/dates.html"} Termine
           %li= link_to("Feuerwehrsport", feuerwehrsport_path)
