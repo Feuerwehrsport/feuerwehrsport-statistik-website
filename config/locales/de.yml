@@ -28,16 +28,38 @@ de:
       competition:
         one: Wettkampf
         other: Wettkämpfe
+      group_score:
+        one: Mannschaftszeit
+        other: Mannschaftszeiten
       person: Wettkämpfer
       place:
         one: Wettkampfort
         other: Wettkampforte
+      score:
+        one: Einzelzeit
+        other: Einzelzeiten
       series/round:
         one: Wettkampfserie
         other: Wettkampfserien
       team:
         one: Mannschaft
         other: Mannschaften
+    attributes:
+      person:
+        last_name: Nachname
+        first_name: Vorname
+        gender: Geschlecht
+        group_scores: Mannschaftszeiten
+        scores: Einzelzeiten
+        teams: Mannschaften
+      score:
+        person: Wettkämpfer
+      team:
+        name: Name
+        shortcup: Abkürzung
+        status: Status
+        latitude: Latitude
+        longitude: Longitude
 
   errors:
     messages:
