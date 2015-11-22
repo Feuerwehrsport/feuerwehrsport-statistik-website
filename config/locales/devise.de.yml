@@ -1,0 +1,87 @@
+# Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+
+de:
+  devise:
+    confirmations:
+      confirmed: "Vielen Dank für Ihre Registrierung. Bitte melden Sie sich jetzt an."
+      confirmed_and_signed_in: "Vielen Dank für Ihre Registrierung. Sie sind jetzt angemeldet."
+      send_instructions: "Sie erhalten in wenigen Minuten eine E-Mail, mit der Sie Ihre Registrierung bestätigen können."
+      send_paranoid_instructions: "Falls Ihre E-Mail-Adresse in unserer Datenbank existiert erhalten Sie in wenigen Minuten eine E-Mail mit der Sie Ihre Registrierung bestätigen können."
+      content_header: Aktivierung
+      new:
+        resend_confirmation_instructions: Aktivierungs-E-Mail erneut senden
+        submit: Abschicken
+    failure:
+      already_authenticated: "Sie sind bereits angemeldet."
+      inactive: "Ihr Benutzerkonto ist nicht aktiv."
+      invalid: "Ungültige Anmeldedaten."
+      invalid_token: "Der Anmelde-Token ist ungültig."
+      locked: "Ihr Benutzerkonto ist gesperrt."
+      not_found_in_database: "E-Mail-Adresse oder Passwort ungültig."
+      timeout: "Ihre Sitzung ist abgelaufen, bitte melden Sie sich erneut an."
+      unauthenticated: "Sie müssen sich anmelden oder registrieren, bevor Sie fortfahren können."
+      unconfirmed: "Sie müssen Ihr Benutzerkonto bestätigen, bevor Sie fortfahren können."
+      user:
+        invalid: "Der Benutzername ist nicht bekannt."
+        locked: "Das Benutzerkonto muss noch von einem Administrator freigegeben werden."
+    mailer:
+      confirmation_instructions:
+        subject: "Bestätigung Ihres Benutzerkontos"
+      reset_password_instructions:
+        subject: "Ihr Passwort zurücksetzen"
+      unlock_instructions:
+        subject: "Ihr Benutzerkonto freischalten"
+    omniauth_callbacks:
+      failure: "Sie konnten nicht mit Ihrem %{kind}-Benutzerkonto angemeldet werden, weil '%{reason}'."
+      success: "Sie haben sich erfolgreich mit Ihrem %{kind}-Benutzerkonto angemeldet."
+    passwords:
+      no_token: "Sie können diese Seite nur von dem Link aus einer E-Mail zum Passwort-Zurücksetzen aufrufen. Wenn Sie einen solchen Link aufgerufen haben, stellen Sie bitte sicher, dass Sie die vollständige Adresse aufrufen."
+      send_instructions: "Sie erhalten in wenigen Minuten eine E-Mail mit der Anleitung, wie Sie Ihr Passwort zurücksetzen können."
+      send_paranoid_instructions: "Falls Ihre E-Mail-Adresse in unserer Datenbank existiert erhalten Sie in wenigen Minuten eine E-Mail mit der Anleitung, wie Sie Ihr Passwort zurücksetzen können."
+      updated: "Ihr Passwort wurde geändert. Sie sind jetzt angemeldet."
+      updated_not_active: "Ihr Passwort wurde geändert."
+      content_header: Passwort zurücksetzen
+      new:
+        reset_password: Passwort zurücksetzen
+        submit: Passwort zurücksetzen
+    registrations:
+      destroyed: "Ihr Benutzerkonto wurde gelöscht."
+      signed_up: "Sie haben sich erfolgreich registriert."
+      signed_up_but_inactive: "Sie haben sich erfolgreich registriert. Wir konnten Sie noch nicht anmelden, da Ihr Benutzerkonto inaktiv ist."
+      signed_up_but_locked: "Sie haben sich erfolgreich registriert. Wir konnten Sie noch nicht anmelden, da Ihr Benutzerkonto gesperrt ist."
+      signed_up_but_unconfirmed: "Sie haben sich erfolgreich registriert. Wir konnten Sie noch nicht anmelden, da Ihr Benutzerkonto noch nicht bestätigt ist. Sie erhalten in Kürze eine E-Mail mit der Anleitung, wie Sie Ihr Benutzerkonto freischalten können."
+      update_needs_confirmation: "Ihre Daten wurden aktualisiert, aber Sie müssen Ihre neue E-Mail-Adresse bestätigen. Sie erhalten in wenigen Minuten eine E-Mail, mit der Sie die Änderung Ihrer E-Mail-Adresse abschließen können."
+      signed_up_but_locked: "Sie haben sich erfolgreich registriert. Ein Administrator wird Ihr Benutzerkonto nun freischalten."
+      updated: "Ihre Daten wurden aktualisiert."
+      content_header: Benutzerkonto
+      new:
+        sign_up: Jetzt registrieren
+        n_characters_minimum: "Mindestens %{count} Zeichen"
+        submit: Registrieren
+    shared:
+      links:
+        log_in_now: Jetzt anmelden
+        sign_up_now: Jetzt registrieren
+        recover_password: Passwort wiederherstellen
+        repeat_confirmation: Erneut aktivieren
+    sessions:
+      signed_in: "Erfolgreich angemeldet"
+      signed_out: "Erfolgreich abgemeldet"
+      content_header: Anmeldung
+      new:
+        log_in: Jetzt anmelden
+        submit: Anmelden
+    unlocks:
+      send_instructions: "Sie erhalten in wenigen Minuten eine E-Mail mit der Anleitung, wie Sie Ihr Benutzerkonto entsperren können."
+      send_paranoid_instructions: "Falls Ihre E-Mail-Adresse in unserer Datenbank existiert erhalten Sie in wenigen Minuten eine E-Mail mit der Anleitung, wie Sie Ihr Benutzerkonto entsperren können."
+      unlocked: "Ihr Benutzerkonto wurde entsperrt. Sie sind jetzt angemeldet."
+  errors:
+    messages:
+      already_confirmed: "wurde bereits bestätigt"
+      confirmation_period_expired: "muss innerhalb %{period} bestätigt werden, bitte fordern Sie einen neuen Link an"
+      expired: "ist abgelaufen, bitte neu anfordern"
+      not_found: "nicht gefunden"
+      not_locked: "ist nicht gesperrt"
+      not_saved:
+        one: "Konnte %{resource} nicht speichern: ein Fehler."
+        other: "Konnte %{resource} nicht speichern: %{count} Fehler."

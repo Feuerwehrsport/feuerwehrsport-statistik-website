@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :admin_users
   resources :competitions, only: [:index, :show]
   resources :people, only: [:index, :show]
   resources :places, only: [:index, :show]

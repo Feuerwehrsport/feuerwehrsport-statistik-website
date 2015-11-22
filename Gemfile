@@ -34,6 +34,8 @@ gem 'daemons'
 gem 'carrierwave'
 gem 'rmagick'
 
+gem 'devise'
+
 # charts
 gem 'lazy_high_charts'
 
