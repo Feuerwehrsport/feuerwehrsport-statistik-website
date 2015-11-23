@@ -3,7 +3,7 @@ module Backend
     protected
 
     def permitted_attributes
-      super.permit(:name)
+      super.permit(:name, :latitude, :longitude)
     end
   end
 end

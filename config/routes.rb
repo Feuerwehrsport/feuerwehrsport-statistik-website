@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :competitions
     resources :people
     resources :places
+    resources :events
   end
   resources :competitions, only: [:index, :show]
   resources :people, only: [:index, :show]
