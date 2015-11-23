@@ -6,4 +6,7 @@
   .col-md-4
     %ul.nav.nav-pills.nav-stacked.backend-nav
       - @models.each do |model|
-        %li= link_to(model.model_name.human(count: 0), [:backend, model])
+        %li
+          %a{ href: url_for([:backend, model]) }
+            = model.model_name.human(count: 0)
+            %span.badge= model.count

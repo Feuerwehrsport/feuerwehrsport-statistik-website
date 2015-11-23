@@ -1,5 +1,5 @@
-
-.pull-right= render "search_widget"
+- if resource_class.respond_to?(:search)
+  .pull-right= render "search_widget"
 
 
 = will_paginate @collection_instance, renderer: BootstrapPagination::Rails
