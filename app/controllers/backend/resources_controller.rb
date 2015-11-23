@@ -10,7 +10,7 @@ module Backend
     def create
       assign_attributes
       if resource_instance.save
-        flash[:notice] = t('scaffold.created')    
+        flash[:success] = t('scaffold.created')    
         redirect_to [:backend, resource_instance]    
       else
         render action: :new
@@ -32,7 +32,7 @@ module Backend
     def update
       assign_attributes
       if resource_instance.save
-        flash[:notice] = t('scaffold.updated')    
+        flash[:success] = t('scaffold.updated')    
         redirect_to [:backend, resource_instance]    
       else
         render action: :edit
@@ -42,7 +42,7 @@ module Backend
     def destroy
       begin
         resource_instance.destroy
-        flash[:notice] = t('scaffold.deleted') 
+        flash[:success] = t('scaffold.deleted') 
         redirect_to action: :index
       rescue ActiveRecord::DeleteRestrictionError => e
         flash[:danger] = e.message

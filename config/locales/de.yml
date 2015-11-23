@@ -5,6 +5,8 @@ de:
     edit: Bearbeiten
     index: Übersicht
     show: Anzeigen
+    updated: Eintrag erfolgreich geändert
+    created: Eintrag erfolgreich erstellt
 
   gender:
     male: männlich
@@ -31,6 +33,14 @@ de:
     next_label: ">"
     previous_label: "<"
     page_gap: "..."
+
+  attributes:
+    created_at: Erstellt am
+    updated_at: Geändert am
+    id: ID
+    latitude: Latitude
+    longitude: Longitude
+    name: Name
 
   activerecord: &activerecord
     models:
@@ -61,7 +71,6 @@ de:
         first_name: Vorname
         gender: Geschlecht
         group_scores: Mannschaftszeiten
-        id: ID
         last_name: Nachname
         scores: Einzelzeiten
         teams: Mannschaften
@@ -69,11 +78,8 @@ de:
       score:
         person: Wettkämpfer
       team:
-        name: Name
         shortcup: Abkürzung
         status: Status
-        latitude: Latitude
-        longitude: Longitude
 
   errors:
     messages:

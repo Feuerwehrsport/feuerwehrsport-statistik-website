@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     root to: 'dashboard#index'
     resources :competitions
     resources :people
+    resources :places
   end
   resources :competitions, only: [:index, :show]
   resources :people, only: [:index, :show]
