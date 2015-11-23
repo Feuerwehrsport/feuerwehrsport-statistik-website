@@ -1,5 +1,7 @@
 module ApplicationHelper
   include LinksHelper
+  include UIHelper
+
   COMPETITOR_POSITION = {
     la: [
       'Maschinist',
@@ -61,21 +63,6 @@ module ApplicationHelper
 
   def numbered_team_link(score, options={})
     link_to(numbered_team_name(score, options), score.team)
-  end
-
-  def count_table rows, options={}, &block
-    ct = UI::CountTable.new(self, rows, options, &block)
-    render 'ui/count_table', ct: ct
-  end
-
-  def table_of_contents &block
-    toc = UI::TableOfContents.new
-    toc.handle(capture_haml toc, &block).html_safe
-  end
-
-  def nav_tab &block
-    nt = UI::NavTab.new &block
-    render 'ui/nav_tab', nt: nt
   end
 
   def g(gender)

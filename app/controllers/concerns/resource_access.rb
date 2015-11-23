@@ -1,25 +1,26 @@
 module ResourceAccess
-  def resource_instance=(instance)
-    instance_variable_set("@#{resource_name}", instance)
+  extend ActiveSupport::Concern
+  included do
+    helper_method def resource_class
+      begin
+        controller_path.classify.constantize
+      rescue NameError
+        begin
+          controller_name.classify.constantize
+        rescue NameError
+          nil
+        end
+      end
+    end
   end
 
-  def resource_instance
-    instance_variable_get("@#{resource_name}")
-  end
-
-  def collection_instance=(instance)
-    instance_variable_set("@#{resource_name.to_s.pluralize}", instance)
-  end
-
-  def collection_instance
-    instance_variable_get("@#{resource_name.to_s.pluralize}")
-  end
+  attr_accessor :resource_instance, :collection_instance
 
   def resource_class
-    controller_path.classify.constantize
+    self.class.resource_class
   end
   
   def resource_name
-    controller_path.singularize.underscore.gsub('/', '_')
+    resource_class.name.singularize.underscore
   end
 end

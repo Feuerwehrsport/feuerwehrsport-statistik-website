@@ -17,7 +17,9 @@ gem 'uglifier', '>= 1.3'
 gem 'coffee-rails', '~> 4'
 # haml support
 gem 'haml-rails'
-
+gem 'simple_form'
+gem 'will_paginate'
+gem 'will_paginate-bootstrap'
 # Draper as model decorator
 gem 'draper'
 
@@ -34,7 +36,9 @@ gem 'daemons'
 gem 'carrierwave'
 gem 'rmagick'
 
+# user rights management
 gem 'devise'
+gem 'cancancan'
 
 # charts
 gem 'lazy_high_charts'

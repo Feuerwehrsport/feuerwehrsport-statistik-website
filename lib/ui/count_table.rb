@@ -5,6 +5,7 @@ module UI
       self.options ||= {}
       self.columns = []
       yield self
+      after_initialize if respond_to? :after_initialize
     end
 
     def col column_head, column_key=nil, options={}, &block

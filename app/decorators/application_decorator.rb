@@ -7,7 +7,7 @@ class ApplicationDecorator < Draper::Decorator
   end
 
   def translated_gender
-    t("gender.#{gender}")
+    t("gender.#{object.gender}")
   end
 
   def gender_symbol

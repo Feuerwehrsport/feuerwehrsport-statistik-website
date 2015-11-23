@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
   devise_for :admin_users
+  namespace :backend do
+    root to: 'dashboard#index'
+    resources :competitions
+    resources :people
+  end
   resources :competitions, only: [:index, :show]
   resources :people, only: [:index, :show]
   resources :places, only: [:index, :show]

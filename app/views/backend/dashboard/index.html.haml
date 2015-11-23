@@ -1,0 +1,8 @@
+%h1 Administration
+.row
+  .col-md-4
+    %ul.nav.nav-pills.nav-stacked
+      %li= link_to("Wettkämpfe", backend_competitions_path)
+      %li= link_to("Wettkämpfer", backend_people_path)
+      %li= link_to("Ausloggen", destroy_admin_user_session_path, method: :delete)
+= current_admin_user

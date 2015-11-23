@@ -1,0 +1,12 @@
+= render 'instance_head'
+
+%table.table
+  - resource_class.column_names.each do |column|
+    %tr
+      %th= resource_class.human_attribute_name(column)
+      %td= @resource_instance.send(column)
+      %td
+        - if column.ends_with?("_id")
+          = @resource_instance.send(column.gsub(/_id$/, ""))
+        - elsif column.ends_with?("_at")
+          = l(@resource_instance.send(column))

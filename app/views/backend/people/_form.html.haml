@@ -1,0 +1,6 @@
+= simple_form_for([:backend, @resource_instance]) do |f|
+  = f.input :first_name
+  = f.input :last_name
+  = f.input :gender, collection: [:male, :female]
+  = f.association :nation
+  = f.button :submit

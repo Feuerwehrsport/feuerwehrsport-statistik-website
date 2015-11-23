@@ -1,0 +1,6 @@
+= form_tag request.path, method: 'get', class: "search-widget form-inline" do
+  = link_to "&times;".html_safe, params.merge({search: ""}), class: "search-widget-reset" if params[:search].present?
+  .input-append
+
+    = text_field_tag :search, params[:search], placeholder: t("#{controller_path.gsub('/', '.')}.index.search_placeholder", default: '')
+    = submit_tag "Suchen", class: "btn"

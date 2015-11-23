@@ -1,4 +1,11 @@
 de:
+  scaffold:
+    confirm_deletion: Diesen Eintrag wirklich löschen?
+    destroy: Löschen
+    edit: Bearbeiten
+    index: Übersicht
+    show: Anzeigen
+
   gender:
     male: männlich
     male_color: blue
@@ -19,6 +26,11 @@ de:
     fs_color: '#8085e9'
     la: Löschangriff nass
     la_color: '#f15c80'
+
+  will_paginate:
+    next_label: ">"
+    previous_label: "<"
+    page_gap: "..."
 
   activerecord: &activerecord
     models:
@@ -46,12 +58,14 @@ de:
         other: Mannschaften
     attributes:
       person:
-        last_name: Nachname
         first_name: Vorname
         gender: Geschlecht
         group_scores: Mannschaftszeiten
+        id: ID
+        last_name: Nachname
         scores: Einzelzeiten
         teams: Mannschaften
+        translated_gender: Geschlecht
       score:
         person: Wettkämpfer
       team:
@@ -135,3 +149,6 @@ de:
       - Okt
       - Nov
       - Dez
+  time:
+    formats:
+      default: '%Y-%m-%d %H:%I Uhr'

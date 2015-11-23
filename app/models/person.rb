@@ -2,9 +2,9 @@ class Person < ActiveRecord::Base
   include Genderable
 
   belongs_to :nation
-  has_many :person_participations
+  has_many :person_participations, dependent: :restrict_with_exception
   has_many :group_scores, through: :person_participations
-  has_many :scores
+  has_many :scores, dependent: :restrict_with_exception
   has_many :score_double_events
   has_many :group_score_participations
   has_many :team_members
@@ -21,6 +21,10 @@ class Person < ActiveRecord::Base
     ")
   end
   scope :german, -> { where(nation_id: 1) }
+  scope :search, -> (value) do
+    search_value = "%#{value}%"
+    where("first_name ILIKE ? OR last_name ILIKE ?", search_value, search_value)
+  end
 
   validates :last_name, :gender, :nation, presence: true
 end

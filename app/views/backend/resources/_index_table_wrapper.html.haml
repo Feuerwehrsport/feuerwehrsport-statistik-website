@@ -1,0 +1,9 @@
+
+.pull-right= render "search_widget"
+
+
+= will_paginate @collection_instance, renderer: BootstrapPagination::Rails
+= crud_table(@collection_instance.decorate) do |ct|
+  - resource_class.new.decorate.index_columns.each do |column|
+    - ct.col(resource_class.human_attribute_name(column), column)
+= will_paginate @collection_instance, renderer: BootstrapPagination::Rails
