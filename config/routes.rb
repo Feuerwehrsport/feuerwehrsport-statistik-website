@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :people
     resources :places
     resources :events
+    resources :score_types
   end
   resources :competitions, only: [:index, :show]
   resources :people, only: [:index, :show]

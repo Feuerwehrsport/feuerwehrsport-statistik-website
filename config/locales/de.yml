@@ -60,6 +60,9 @@ de:
       score:
         one: Einzelzeit
         other: Einzelzeiten
+      score_type:
+        one: Mannschaftwertung
+        other: Mannschaftwertungen
       series/round:
         one: Wettkampfserie
         other: Wettkampfserien
@@ -77,6 +80,11 @@ de:
         translated_gender: Geschlecht
       score:
         person: Wettkämpfer
+      score_type:
+        description: Beschreibung
+        people: Wettkämpfer
+        run: Laufende
+        score: In Wertung
       team:
         shortcup: Abkürzung
         status: Status

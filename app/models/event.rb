@@ -1,5 +1,5 @@
 class Event < ActiveRecord::Base
-  has_many :competitions
+  has_many :competitions, dependent: :restrict_with_exception
 
   validates :name, presence: true
 
