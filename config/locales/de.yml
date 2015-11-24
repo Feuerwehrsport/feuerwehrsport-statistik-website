@@ -44,6 +44,9 @@ de:
 
   activerecord: &activerecord
     models:
+      admin_user:
+        one: Verwalter
+        other: Verwalter
       event:
         one: Wettkampftyp
         other: Wettkampftypen
@@ -70,6 +73,10 @@ de:
         one: Mannschaft
         other: Mannschaften
     attributes:
+      admin_user:
+        email: E-Mail-Adresse
+        password: Passwort
+        password_confirmation: Passwort wiederholen
       person:
         first_name: Vorname
         gender: Geschlecht

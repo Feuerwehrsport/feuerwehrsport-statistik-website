@@ -8,5 +8,5 @@
       %td
         - if column.ends_with?("_id")
           = @resource_instance.send(column.gsub(/_id$/, ""))
-        - elsif column.ends_with?("_at")
+        - elsif column.ends_with?("_at") && @resource_instance.send(column).present?
           = l(@resource_instance.send(column))
