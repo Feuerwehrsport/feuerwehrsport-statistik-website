@@ -1,0 +1,8 @@
+= simple_form_for([:backend, @resource_instance]) do |f|
+  - [:name, :date].each do |attribute|
+    - if @resource_instance.respond_to? attribute
+      = f.input attribute
+  - [:place, :event, :score_type].each do |attribute|
+    - if @resource_instance.respond_to? attribute
+      = f.association attribute
+  = f.button :submit

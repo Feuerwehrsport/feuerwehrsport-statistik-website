@@ -2,9 +2,9 @@ class Competition < ActiveRecord::Base
   belongs_to :place
   belongs_to :event
   belongs_to :score_type
-  has_many :group_score_categories
+  has_many :group_score_categories, dependent: :restrict_with_exception
   has_many :group_score_types, through: :group_score_categories
-  has_many :scores
+  has_many :scores, dependent: :restrict_with_exception
   has_many :group_scores, through: :group_score_categories
   has_many :score_double_events
 

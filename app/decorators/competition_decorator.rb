@@ -1,4 +1,7 @@
 class CompetitionDecorator < ApplicationDecorator
+  include Indexable
+  index_columns :id, :place, :event, :date, :name
+
   decorates_association :place
   decorates_association :event
   decorates_association :score_type
