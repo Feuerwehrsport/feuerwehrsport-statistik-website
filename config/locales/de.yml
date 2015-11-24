@@ -36,6 +36,8 @@ de:
     page_gap: "..."
 
   attributes:
+    competition: Wettkampf
+    competition_id: Wettkampf
     created_at: Erstellt am
     updated_at: Geändert am
     id: ID
@@ -61,6 +63,9 @@ de:
       group_score:
         one: Mannschaftszeit
         other: Mannschaftszeiten
+      group_score_category:
+        one: Zeitenkategorie
+        other: Zeitenkategorien
       person: Wettkämpfer
       place:
         one: Wettkampfort
@@ -91,13 +96,16 @@ de:
         score_type_id: Mannschaftwertung
         date: Datum
       group_score:
-        competition: Wettkampf
         group_score_category: Kategorie
         group_score_category_id: Kategorie
         run: Lauf
         team: Mannschaft
         team_id: Mannschaft
         team_number: Mannschaftsnummer
+      group_score_category:
+        discipline: Disziplin
+        group_score_type: Wertungstyp 
+        group_score_type_id: Wertungstyp 
       person:
         first_name: Vorname
         group_scores: Mannschaftszeiten

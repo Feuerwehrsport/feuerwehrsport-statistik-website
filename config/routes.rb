@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :competitions
     resources :events
     resources :group_scores
+    resources :group_score_categories
     resources :people
     resources :places
     resources :score_types

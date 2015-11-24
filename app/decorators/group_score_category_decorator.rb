@@ -1,4 +1,7 @@
 class GroupScoreCategoryDecorator < ApplicationDecorator
+  include Indexable
+  index_columns :id, :competition, :name, :group_score_type, :discipline
+
   decorates_association :competition
   decorates_association :group_score_type
 
@@ -8,6 +11,10 @@ class GroupScoreCategoryDecorator < ApplicationDecorator
 
   def with_competition
     "#{to_s} - #{competition}"
+  end
+
+  def discipline
+    discipline_name(group_score_type.discipline)
   end
 
   def shortcut(options={})
