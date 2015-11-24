@@ -1,0 +1,5 @@
+= simple_form_for([:backend, @resource_instance]) do |f|
+  = f.input :regular
+  = f.input :name
+  = f.input :discipline, collection: [:la, :gs, :fs]
+  = f.button :submit

@@ -39,6 +39,7 @@ de:
     competition: Wettkampf
     competition_id: Wettkampf
     created_at: Erstellt am
+    discipline: Disziplin
     updated_at: Geändert am
     id: ID
     gender: Geschlecht
@@ -66,6 +67,9 @@ de:
       group_score_category:
         one: Zeitenkategorie
         other: Zeitenkategorien
+      group_score_type:
+        one: Wertungstyp
+        other: Wertungstypen
       person: Wettkämpfer
       place:
         one: Wettkampfort
@@ -103,9 +107,10 @@ de:
         team_id: Mannschaft
         team_number: Mannschaftsnummer
       group_score_category:
-        discipline: Disziplin
         group_score_type: Wertungstyp 
         group_score_type_id: Wertungstyp 
+      group_score_type:
+        regular: nach WKO
       person:
         first_name: Vorname
         group_scores: Mannschaftszeiten
