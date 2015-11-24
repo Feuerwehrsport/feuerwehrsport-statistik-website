@@ -10,7 +10,9 @@ Rails.application.routes.draw do
     resources :group_score_types
     resources :nations
     resources :people
+    resources :person_participations
     resources :places
+    resources :scores
     resources :score_types
   end
   resources :competitions, only: [:index, :show]

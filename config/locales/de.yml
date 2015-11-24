@@ -74,6 +74,9 @@ de:
         one: Nation
         other: Nationen
       person: Wettkämpfer
+      person_participation:
+        one: Wettkämpferteilnahme
+        other: Wettkämpferteilnahmen
       place:
         one: Wettkampfort
         other: Wettkampforte
@@ -120,6 +123,9 @@ de:
         last_name: Nachname
         scores: Einzelzeiten
         teams: Mannschaften
+      person_participation:
+        group_score: Mannschaftszeit
+        group_score_id: Mannschaftszeit
       score:
         person: Wettkämpfer
       score_type:

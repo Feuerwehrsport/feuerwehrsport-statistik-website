@@ -1,0 +1,8 @@
+= simple_form_for([:backend, @resource_instance]) do |f|
+  = f.association :person, label_method: :full_name
+  = f.association :team
+  = f.input :team_number
+  = f.input :time
+  = f.input :discipline, collection: [:hb, :hl]
+  = f.association :competition
+  = f.button :submit
