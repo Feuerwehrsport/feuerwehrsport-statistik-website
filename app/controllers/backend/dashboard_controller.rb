@@ -8,6 +8,7 @@ module Backend
         GroupScore, 
         GroupScoreCategory, 
         GroupScoreType, 
+        Nation,
         Person, 
         Place, 
         ScoreType

@@ -70,6 +70,9 @@ de:
       group_score_type:
         one: Wertungstyp
         other: Wertungstypen
+      nation:
+        one: Nation
+        other: Nationen
       person: Wettkämpfer
       place:
         one: Wettkampfort
