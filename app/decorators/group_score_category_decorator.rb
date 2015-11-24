@@ -6,6 +6,10 @@ class GroupScoreCategoryDecorator < ApplicationDecorator
     name == "default" ? "Standardwertung" : name
   end
 
+  def with_competition
+    "#{to_s} - #{competition}"
+  end
+
   def shortcut(options={})
     name == "default" ? "" : "#{options[:prefix]}#{name}"
   end

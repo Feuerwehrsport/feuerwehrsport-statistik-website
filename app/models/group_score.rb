@@ -1,7 +1,7 @@
 class GroupScore < ActiveRecord::Base
   belongs_to :team
   belongs_to :group_score_category
-  has_many :person_participations
+  has_many :person_participations, dependent: :restrict_with_exception
   has_many :persons, through: :person_participations
 
   enum gender: { female: 0, male: 1 }

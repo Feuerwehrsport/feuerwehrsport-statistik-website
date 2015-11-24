@@ -7,6 +7,7 @@ de:
     show: Anzeigen
     updated: Eintrag erfolgreich geändert
     created: Eintrag erfolgreich erstellt
+    deleted: Eintrag erfolgreich gelöscht
 
   gender:
     male: männlich
@@ -38,9 +39,13 @@ de:
     created_at: Erstellt am
     updated_at: Geändert am
     id: ID
+    gender: Geschlecht
     latitude: Latitude
     longitude: Longitude
     name: Name
+    second_time: Zeit
+    time: Zeit
+    translated_gender: Geschlecht
 
   activerecord: &activerecord
     models:
@@ -77,14 +82,28 @@ de:
         email: E-Mail-Adresse
         password: Passwort
         password_confirmation: Passwort wiederholen
+      competition:
+        place: Ort
+        place_id: Ort
+        event: Typ
+        event_id: Typ
+        score_type: Mannschaftwertung
+        score_type_id: Mannschaftwertung
+        date: Datum
+      group_score:
+        competition: Wettkampf
+        group_score_category: Kategorie
+        group_score_category_id: Kategorie
+        run: Lauf
+        team: Mannschaft
+        team_id: Mannschaft
+        team_number: Mannschaftsnummer
       person:
         first_name: Vorname
-        gender: Geschlecht
         group_scores: Mannschaftszeiten
         last_name: Nachname
         scores: Einzelzeiten
         teams: Mannschaften
-        translated_gender: Geschlecht
       score:
         person: Wettkämpfer
       score_type:
@@ -170,6 +189,10 @@ de:
       - Okt
       - Nov
       - Dez
+    order:
+      - :day
+      - :month
+      - :year
   time:
     formats:
       default: '%Y-%m-%d %H:%I Uhr'

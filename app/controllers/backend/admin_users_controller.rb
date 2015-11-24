@@ -3,7 +3,7 @@ module Backend
     protected
 
     def permitted_attributes
-      super.permit()
+      super.permit(:email, :password, :password_confirmation)
     end
   end
 end
