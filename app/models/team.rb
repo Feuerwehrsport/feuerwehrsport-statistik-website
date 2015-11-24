@@ -1,6 +1,6 @@
 class Team < ActiveRecord::Base
-  has_many :group_scores
-  has_many :scores
+  has_many :group_scores, dependent: :restrict_with_exception
+  has_many :scores, dependent: :restrict_with_exception
   has_many :person_participations, through: :group_scores
   has_many :group_people, through: :person_participations, class_name: 'Person', 
     foreign_key: 'person_id', source: :person

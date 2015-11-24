@@ -134,8 +134,9 @@ de:
         run: Laufende
         score: In Wertung
       team:
-        shortcup: Abkürzung
+        shortcut: Abkürzung
         status: Status
+        state: Land
 
   errors:
     messages:

@@ -14,6 +14,7 @@ module Backend
         Place,
         Score,
         ScoreType,
+        Team,
       ]
     end
   end
