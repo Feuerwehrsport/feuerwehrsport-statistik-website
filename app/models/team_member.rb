@@ -1,10 +1,4 @@
-class TeamMember < ActiveRecord::Base
+class TeamMember < ActiveRecord::View
   belongs_to :team
   belongs_to :person
-  
-  protected
-
-  def readonly?
-    true
-  end
 end

@@ -1,10 +1,4 @@
-class TeamCompetition < ActiveRecord::Base
+class TeamCompetition < ActiveRecord::View
   belongs_to :team
   belongs_to :competition
-
-  protected
-
-  def readonly?
-    true
-  end
 end
