@@ -10,3 +10,10 @@
           = @resource_instance.send(column.gsub(/_id$/, ""))
         - elsif column.ends_with?("_at") && @resource_instance.send(column).present?
           = l(@resource_instance.send(column))
+
+= nav_tab do |nv|
+  - @associations.each do |association|
+    - nv.tab(association.new.class.model_name.human) do
+      = crud_table(association.decorate, controller: association.new.class.to_s.tableize) do |ct|
+        - association.new.decorate.index_columns.each do |column|
+          - ct.col(association.new.class.human_attribute_name(column), column)

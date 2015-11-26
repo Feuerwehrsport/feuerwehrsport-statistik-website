@@ -14,7 +14,7 @@ class GroupScoreCategoryDecorator < ApplicationDecorator
   end
 
   def discipline
-    discipline_name(group_score_type.discipline)
+    group_score_type.discipline
   end
 
   def shortcut(options={})

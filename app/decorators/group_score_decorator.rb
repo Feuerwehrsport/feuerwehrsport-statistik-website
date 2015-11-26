@@ -1,6 +1,6 @@
 class GroupScoreDecorator < ApplicationDecorator
   include Indexable
-  index_columns :id, :team, :team_number, :translated_gender, :competition, :second_time
+  index_columns :id, :team, :team_number, :translated_gender, :competition, :discipline, :second_time
 
   decorates_association :competition
   decorates_association :team
@@ -8,6 +8,10 @@ class GroupScoreDecorator < ApplicationDecorator
 
   def entity
     team
+  end
+
+  def discipline
+    group_score_category.discipline
   end
 
   def to_s

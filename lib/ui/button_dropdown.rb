@@ -16,21 +16,24 @@ module UI
     end
 
     def action_items(type, action)
+      url_options = options.slice(:controller).merge(action: action)
       if can?(action, resource)
         if action == :destroy
-          action_item(type, action, t("scaffold.#{action}"), url_for(id: resource.to_param, action: action), method: 'delete', data: { confirm: t("scaffold.confirm_deletion") })
+          action_item(type, action, t("scaffold.#{action}"), url_for(url_options.merge(id: resource.to_param)), method: 'delete', data: { confirm: t("scaffold.confirm_deletion") })
         elsif action == :index
-          action_item(type, action, t("scaffold.#{action}"), url_for(action: action))
+          action_item(type, action, t("scaffold.#{action}"), url_for(url_options))
         else
-          action_item(type, action, t("scaffold.#{action}"), url_for(id: resource.to_param, action: action))
+          action_item(type, action, t("scaffold.#{action}"), url_for(url_options.merge(id: resource.to_param)))
         end
       end
     end
 
-    def action_item(type, action, label, content, options={})
+    def action_item(type, action, label, content, opts={})
       classes = type == :button ? "btn btn-default" : ""
-      classes += " btn-info" if action == view.action_name.to_sym
-      @items[type].push(link_to(label, content, options.merge(class: classes)))
+      if action == view.action_name.to_sym && (options[:controller].nil? || view.controller_name == options[:controller])
+        classes += " btn-info" 
+      end
+      @items[type].push(link_to(label, content, opts.merge(class: classes)))
     end
   end
 end
