@@ -25,7 +25,10 @@ module Backend
 
     def show
       @associations = resource_class.reflect_on_all_associations.select { |a| a.macro == :has_many }.map do |association|
-        resource_instance.send(association.name)
+        association = resource_instance.send(association.name)
+        if association.is_a?(ApplicationCollectionDecorator)
+          association = association.object
+        end
       end.reject do |association|
         association.new.is_a?(ActiveRecord::View)
       end
