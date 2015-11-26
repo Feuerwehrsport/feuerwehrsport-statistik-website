@@ -49,4 +49,18 @@ RSpec.configure do |config|
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
+
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+    sql_file = File.join(Rails.root, "spec", "fixtures", "db", "dump.sql.gz")
+    `gunzip -c #{sql_file} | psql -U fws-statistik -h localhost fws-statistik-test`
+    DatabaseCleaner.strategy = :transaction
+    # pg_dump -a -U fws-statistik -h localhost fws-statistik-devel -T schema_migrations | gzip | > spec/fixtures/db/dump.sql.gz
+  end
+
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
+  end
 end
