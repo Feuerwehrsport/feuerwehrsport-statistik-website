@@ -35,6 +35,9 @@ module ApplicationHelper
     -5 => "Achtelfinale",
   }
 
+  def backend?
+    controller.class.name.split("::").first=="Backend"
+  end
 
   def numbered_team_name(score, options={})
     number_name = begin

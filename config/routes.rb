@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :group_score_categories
     resources :group_score_types
     resources :nations
+    resources :news
     resources :people
     resources :person_participations
     resources :places

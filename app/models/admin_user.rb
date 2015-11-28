@@ -4,6 +4,8 @@ class AdminUser < ActiveRecord::Base
   devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  has_many :news, dependent: :restrict_with_exception
+
   def self.guest
     new
   end

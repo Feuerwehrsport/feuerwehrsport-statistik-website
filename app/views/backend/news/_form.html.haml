@@ -1,0 +1,6 @@
+= simple_form_for([:backend, @resource_instance]) do |f|
+  = f.input :title
+  = f.input :content, as: :wysihtml5
+  = f.association :admin_user
+  = f.input :published_at
+  = f.button :submit

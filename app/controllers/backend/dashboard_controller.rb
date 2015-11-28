@@ -9,6 +9,7 @@ module Backend
         GroupScoreCategory,
         GroupScoreType,
         Nation,
+        News,
         Person,
         PersonParticipation,
         Place,
