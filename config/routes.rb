@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   resources :people, only: [:index, :show]
   resources :places, only: [:index, :show]
   resources :teams, only: [:index, :show]
+  resources :news, only: [:index, :show]
   resources :years, only: [:index, :show]
   resources :events, only: [:index, :show]
   namespace :series do

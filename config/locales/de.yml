@@ -227,4 +227,5 @@ de:
       - :year
   time:
     formats:
-      default: '%Y-%m-%d %H:%I Uhr'
+      default: '%Y-%m-%d %H:%M Uhr'
+      only_date: '%d.%m.%Y'

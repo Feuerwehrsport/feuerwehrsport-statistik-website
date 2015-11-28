@@ -18,6 +18,7 @@ class PagesController < ResourceController
     @competitions_count = Competition.count
     @teams_count = Team.count
     @years_count = Year.with_competitions.group(:year).count.to_a.map { |y| [y[0].to_i, y[1]] }.sort_by(&:first).reverse
+    @news = News.index_order.first(2)
   end
 
   def last_competitions_overview

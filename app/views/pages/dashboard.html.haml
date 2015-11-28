@@ -21,20 +21,12 @@
   .row
     .col-md-6
       = toc.anker("Neuigkeiten", :h3)
-      %h4
-        %a{:href => "http://www.feuerwehrsport-statistik.de/page/news-27.html", :title => "18.11.2015"} Neue Seite im Aufbau
-        %small 18.11.2015
-      %p
-        Im Oktober wurde mit der Arbeit an einer neuen Programmierung der Webseite feuerwehrsport-statistik.de begonnen. Die bisherigen Berechnungen werden mit PHP und MySQL durchgeführt. Bei der ne
-        %a{:href => "http://www.feuerwehrsport-statistik.de/page/news-27.html", :title => "Neue Seite im Aufbau"} [...]
-      %h4
-        %a{:href => "http://www.feuerwehrsport-statistik.de/page/news-26.html", :title => "28.07.2015"} Einführungsvideos
-        %small 28.07.2015
-      %p
-        Die Feuerwehrsport-Statistik stellt nun für jede Disziplin ein eigenes Einführungsvideo zur Verfügung. Bitte verteilt diese Videos und nutzt die gegeben Hinweise, um eure Techniken zu verbes
-        %a{:href => "http://www.feuerwehrsport-statistik.de/page/news-26.html", :title => "Einführungsvideos"} [...]
-      %p.pull-right
-        %a{:href => "/page/news.html"} Alle anzeigen
+      - @news.each do |news|
+        %h4
+          = link_to(news.title, news, title: l(news.published_at, format: :only_date))
+          %small= l(news.published_at, format: :only_date)
+        %p= truncate(strip_tags(news.content), length: 200, escape: false) { "&nbsp;#{link_to("[weiterlesen]", news, title: news.title)}" }
+      %p.pull-right= link_to("Alle anzeigen", news_index_path)
     .col-md-6
       %h3 Neu eingetragene Wettkämpfe
       %ul
