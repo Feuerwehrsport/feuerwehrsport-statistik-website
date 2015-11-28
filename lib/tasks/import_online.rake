@@ -54,6 +54,7 @@ end
 
 puts "competitions"
 client.query("SELECT * FROM competitions ORDER BY id").each do |row|
+  created_at = row["created_at"] || Time.parse("2014-01-01")
   Competition.create!(
     id: row["id"],
     name: row["name"].to_s,
@@ -62,8 +63,8 @@ client.query("SELECT * FROM competitions ORDER BY id").each do |row|
     score_type_id: row["score_type_id"] == 0 ? nil : row["score_type_id"],
     date: row["date"],
     published_at: row["published"],
-    created_at: Time.parse(row["created_at"]),
-    updated_at: Time.parse(row["created_at"]),
+    created_at: created_at,
+    updated_at: created_at,
   )
 end
 
