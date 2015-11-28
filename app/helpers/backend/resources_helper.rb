@@ -7,7 +7,7 @@ module Backend::ResourcesHelper
     if action_name == "index"
       items.push(t("scaffold.index"))
     else
-      items.push(link_to("##{params[:id]}", action: :show))
+      items.push(link_to("##{params[:id]}", action: :show)) if params[:id].present?
       items.push(t("scaffold.#{action_name}"))
     end
     render 'breadcrum', items: items

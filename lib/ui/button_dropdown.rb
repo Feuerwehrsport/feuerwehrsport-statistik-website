@@ -4,7 +4,7 @@ module UI
 
     def to_s
       @items = { button: [], link: [] }
-      [:index, :show, :edit, :destroy].each do |action|
+      [:index, :show, :edit, :destroy, :new].each do |action|
         if options[:only].nil? || options[:only].include?(action)
           action_items(:button, action)
         elsif options[:links].present? && options[:links].include?(action)
@@ -18,11 +18,11 @@ module UI
     def action_items(type, action)
       url_options = options.slice(:controller).merge(action: action)
       if can?(action, resource)
-        if action == :destroy
+        if action == :destroy && resource.to_param.present?
           action_item(type, action, t("scaffold.#{action}"), url_for(url_options.merge(id: resource.to_param)), method: 'delete', data: { confirm: t("scaffold.confirm_deletion") })
-        elsif action == :index
+        elsif action.in? [:index, :new]
           action_item(type, action, t("scaffold.#{action}"), url_for(url_options))
-        else
+        elsif resource.to_param.present?
           action_item(type, action, t("scaffold.#{action}"), url_for(url_options.merge(id: resource.to_param)))
         end
       end

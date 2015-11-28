@@ -29,7 +29,7 @@ module Backend
         if association.is_a?(ApplicationCollectionDecorator)
           association = association.object
         end
-      end.reject do |association|
+      end.reject(&:blank?).reject do |association|
         association.new.is_a?(ActiveRecord::View)
       end
     end
@@ -83,7 +83,7 @@ module Backend
     end
 
     def new_instance
-      self.resource_instance = resource_class.new
+      self.resource_instance = resource_class.new.decorate
     end
 
     def permitted_attributes
