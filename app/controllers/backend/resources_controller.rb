@@ -1,5 +1,24 @@
 module Backend
   class ResourcesController < BackendController
+    def self.models
+      [
+        AdminUser,
+        Competition,
+        Event,
+        GroupScore,
+        GroupScoreCategory,
+        GroupScoreType,
+        Nation,
+        News,
+        Person,
+        PersonParticipation,
+        Place,
+        Score,
+        ScoreType,
+        Team,
+      ]
+    end
+
     include ResourceAccess
     before_action :assign_instance, only: [:show, :edit, :update, :destroy]
     before_action :new_instance, only: [:new, :create]

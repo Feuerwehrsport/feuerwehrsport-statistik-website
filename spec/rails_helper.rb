@@ -55,7 +55,7 @@ RSpec.configure do |config|
     sql_file = File.join(Rails.root, "spec", "fixtures", "db", "dump.sql.gz")
     `gunzip -c #{sql_file} | psql -U fws-statistik -h localhost fws-statistik-test`
     DatabaseCleaner.strategy = :transaction
-    # pg_dump -a -U fws-statistik -h localhost fws-statistik-devel -T schema_migrations | gzip | > spec/fixtures/db/dump.sql.gz
+    # pg_dump -a -U fws-statistik -h localhost fws-statistik -T schema_migrations | gzip > spec/fixtures/db/dump.sql.gz
   end
 
   config.around(:each) do |example|
