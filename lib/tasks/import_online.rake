@@ -142,6 +142,23 @@ client.query("SELECT * FROM person_participations ORDER BY id").each do |row|
   )
 end
 
+puts "admin_users"
+AdminUser.create!(
+  email: "a@a.de",
+  password: "asdf1234",
+)
+
+puts "news"
+client.query("SELECT * FROM news ORDER BY id").each do |row|
+  News.create!(
+    id: row["id"],
+    title: row["title"],
+    content: row["content"],
+    published_at: Time.parse(row["date"]),
+    admin_user: AdminUser.first,
+  )
+end
+
 Import::AutoSeries.new.perform
 Caching::Cleaner.new
 

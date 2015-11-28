@@ -395,6 +395,40 @@ ALTER SEQUENCE nations_id_seq OWNED BY nations.id;
 
 
 --
+-- Name: news; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE news (
+    id integer NOT NULL,
+    title character varying,
+    admin_user_id integer,
+    content character varying,
+    published_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: news_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE news_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: news_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE news_id_seq OWNED BY news.id;
+
+
+--
 -- Name: people_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -556,13 +590,13 @@ ALTER SEQUENCE scores_id_seq OWNED BY scores.id;
 CREATE TABLE series_assessments (
     id integer NOT NULL,
     round_id integer NOT NULL,
+    aggregate_type character varying NOT NULL,
     discipline character varying NOT NULL,
     name character varying DEFAULT ''::character varying NOT NULL,
     type character varying NOT NULL,
     gender integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    aggregate_type character varying
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -861,6 +895,13 @@ ALTER TABLE ONLY nations ALTER COLUMN id SET DEFAULT nextval('nations_id_seq'::r
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY news ALTER COLUMN id SET DEFAULT nextval('news_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY people ALTER COLUMN id SET DEFAULT nextval('people_id_seq'::regclass);
 
 
@@ -996,6 +1037,14 @@ ALTER TABLE ONLY group_scores
 
 ALTER TABLE ONLY nations
     ADD CONSTRAINT nations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: news_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY news
+    ADD CONSTRAINT news_pkey PRIMARY KEY (id);
 
 
 --
@@ -1157,6 +1206,13 @@ CREATE INDEX index_group_scores_on_team_id ON group_scores USING btree (team_id)
 
 
 --
+-- Name: index_news_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_news_on_admin_user_id ON news USING btree (admin_user_id);
+
+
+--
 -- Name: index_people_on_gender; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1282,6 +1338,14 @@ ALTER TABLE ONLY competitions
 
 ALTER TABLE ONLY series_cups
     ADD CONSTRAINT fk_rails_63932e2707 FOREIGN KEY (competition_id) REFERENCES competitions(id);
+
+
+--
+-- Name: fk_rails_6c5935622b; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY news
+    ADD CONSTRAINT fk_rails_6c5935622b FOREIGN KEY (admin_user_id) REFERENCES admin_users(id);
 
 
 --
@@ -1427,4 +1491,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151113163556');
 INSERT INTO schema_migrations (version) VALUES ('20151117103227');
 
 INSERT INTO schema_migrations (version) VALUES ('20151121000132');
+
+INSERT INTO schema_migrations (version) VALUES ('20151127185700');
 

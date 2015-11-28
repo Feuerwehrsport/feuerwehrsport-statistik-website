@@ -4,6 +4,7 @@ de:
     destroy: Löschen
     edit: Bearbeiten
     index: Übersicht
+    new: Hinzufügen
     show: Anzeigen
     updated: Eintrag erfolgreich geändert
     created: Eintrag erfolgreich erstellt
@@ -73,6 +74,9 @@ de:
       nation:
         one: Nation
         other: Nationen
+      news:
+        one: Neuigkeit
+        other: Neuigkeiten
       person: Wettkämpfer
       person_participation:
         one: Wettkämpferteilnahme
@@ -117,6 +121,11 @@ de:
         group_score_type_id: Wertungstyp 
       group_score_type:
         regular: nach WKO
+      news:
+        admin_user: Bearbeiter
+        content: Inhalt
+        published_at: Veröffentlicht am
+        title: Titel
       person:
         first_name: Vorname
         group_scores: Mannschaftszeiten
