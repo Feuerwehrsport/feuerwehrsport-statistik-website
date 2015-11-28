@@ -155,7 +155,7 @@ client.query("SELECT * FROM news ORDER BY id").each do |row|
     id: row["id"],
     title: row["title"],
     content: row["content"],
-    published_at: Time.parse(row["date"]),
+    published_at: row["date"],
     admin_user: AdminUser.first,
   )
 end
