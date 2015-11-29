@@ -53,8 +53,13 @@ RSpec.configure do |config|
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
     sql_file = File.join(Rails.root, "spec", "fixtures", "db", "dump.sql.gz")
-    `gunzip -c #{sql_file} | psql -U fws-statistik -h localhost fws-statistik-test`
+    config   = Rails.configuration.database_configuration
+    host     = config[Rails.env]["host"]
+    database = config[Rails.env]["database"]
+    username = config[Rails.env]["username"]
+    `gunzip -c #{sql_file} | psql -U #{username} -h #{host} #{database}`
     DatabaseCleaner.strategy = :transaction
+
     # pg_dump -a -U fws-statistik -h localhost fws-statistik -T schema_migrations | gzip > spec/fixtures/db/dump.sql.gz
   end
 
