@@ -29,5 +29,6 @@ module FeuerwehrsportStatistik
     config.active_record.schema_format = :sql
     config.active_job.queue_adapter = :delayed_job
     config.base_url = "http://localhost:5060"
+    config.caching = true
   end
 end

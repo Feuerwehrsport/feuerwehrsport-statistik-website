@@ -10,6 +10,14 @@ module Caching
       super(cache_path)
     end
 
+    def fetch(*args, &block)
+      if Rails.configuration.caching
+        super(*args, &block)
+      else
+        yield
+      end
+    end
+
     def cache_path
       File.join(Rails.root, 'tmp', 'file-cache')
     end

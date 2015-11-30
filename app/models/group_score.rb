@@ -19,12 +19,21 @@ class GroupScore < ActiveRecord::Base
     distinct_column = "CONCAT(#{table_name}.group_score_category_id, '-', #{table_name}.team_id, '-', #{table_name}.team_number, #{table_name}.gender#{run})"
     select("DISTINCT ON (#{distinct_column}) #{table_name}.*").order("#{distinct_column}, #{table_name}.time")
   end
+  scope :regular, -> { joins(group_score_category: :group_score_type).where(group_score_types: { regular: true }) }
 
   validates :team, :group_score_category, :team_number, :gender, :time, presence: true
-  
+
   delegate :competition, to: :group_score_category
 
   def invalid?
     time == Score::INVALID
   end
+
+  def entity_id
+    team_id
+  end
+
+  def entity
+    team  
+  end 
 end

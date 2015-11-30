@@ -35,4 +35,12 @@ class Score < ActiveRecord::Base
   def <=>(other)
     time <=> other.time
   end
+
+  def entity_id
+    person_id
+  end
+
+  def entity
+    person  
+  end 
 end
