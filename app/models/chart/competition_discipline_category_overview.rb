@@ -3,7 +3,7 @@ module Chart
     attr_accessor :discipline
 
     def discipline_scores
-      discipline.scores.reject(&:invalid?)
+      discipline.scores.reject(&:time_invalid?)
     end
 
     def group_scores_overview

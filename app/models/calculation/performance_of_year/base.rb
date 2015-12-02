@@ -10,7 +10,7 @@ module Calculation
       end
 
       def valid_times
-        @valid_times ||= scores.reject(&:invalid?)
+        @valid_times ||= scores.reject(&:time_invalid?)
       end
 
       def valid_time_sum
@@ -26,7 +26,7 @@ module Calculation
       end
 
       def valid_time_average
-        @valid_time_average ||= valid_time_count > 0 ? valid_time_sum/valid_time_count : Score::INVALID
+        @valid_time_average ||= valid_time_count > 0 ? valid_time_sum/valid_time_count : TimeInvalid::INVALID
       end
 
       def points

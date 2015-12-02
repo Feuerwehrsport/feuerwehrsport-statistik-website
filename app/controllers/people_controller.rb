@@ -66,7 +66,7 @@ class PeopleController < ResourceController
       if scores.count > 0
         chart_scores = scores.valid.best_of_competition.includes(:competition).decorate.sort_by {|s| s.competition.date}
         scores = scores.includes(competition: [:place, :event]).decorate
-        valid_scores = scores.reject(&:invalid?)
+        valid_scores = scores.reject(&:time_invalid?)
 
         disciplines.push(
           discipline: discipline, 
@@ -84,7 +84,7 @@ class PeopleController < ResourceController
     if scores.count > 0
       chart_scores = scores.includes(:competition).decorate.sort_by {|s| s.competition.date}
       scores = scores.includes(competition: [:place, :event]).decorate
-      valid_scores = scores.reject(&:invalid?)
+      valid_scores = scores.reject(&:time_invalid?)
 
       disciplines.push(
         discipline: :zk, 
@@ -102,7 +102,7 @@ class PeopleController < ResourceController
       if scores.count > 0
         chart_scores = scores.valid.best_of_competition.includes(:competition).decorate.sort_by {|s| s.competition.date}
         scores = scores.includes(competition: [:place, :event]).includes(:group_score_type).decorate
-        valid_scores = scores.reject(&:invalid?)
+        valid_scores = scores.reject(&:time_invalid?)
 
         disciplines.push(
           discipline: discipline, 

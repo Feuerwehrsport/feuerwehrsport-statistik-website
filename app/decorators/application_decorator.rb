@@ -15,7 +15,7 @@ class ApplicationDecorator < Draper::Decorator
   end
 
   def self.calculate_second_time(time)
-    return "D" if time == Score::INVALID
+    return "D" if time == TimeInvalid::INVALID
     sprintf("%.2f", (time.to_f/100)).sub(".", ",")
   end
 

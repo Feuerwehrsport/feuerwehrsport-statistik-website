@@ -4,7 +4,7 @@ class ScoreDoubleEvent < ActiveRecord::View
 
   scope :gender, -> (gender) { joins(:person).merge(Person.gender(gender)) }
 
-  def invalid?
+  def time_invalid?
     false
   end
 end

@@ -1,4 +1,6 @@
 class GroupScore < ActiveRecord::Base
+  include TimeInvalid
+
   belongs_to :team
   belongs_to :group_score_category
   has_many :person_participations, dependent: :restrict_with_exception
@@ -6,8 +8,6 @@ class GroupScore < ActiveRecord::Base
 
   enum gender: { female: 0, male: 1 }
 
-  scope :valid, -> { where.not(time: Score::INVALID) }
-  scope :invalid, -> { where(time: Score::INVALID) }
   scope :gender, -> (gender) { where(gender: GroupScore.genders[gender]) }
   scope :discipline, -> (discipline) do 
     joins(group_score_category: :group_score_type).
@@ -24,10 +24,6 @@ class GroupScore < ActiveRecord::Base
   validates :team, :group_score_category, :team_number, :gender, :time, presence: true
 
   delegate :competition, to: :group_score_category
-
-  def invalid?
-    time == Score::INVALID
-  end
 
   def entity_id
     team_id

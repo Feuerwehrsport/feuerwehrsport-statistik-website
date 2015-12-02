@@ -1,5 +1,5 @@
 class Score < ActiveRecord::Base
-  INVALID = 99999999
+  include TimeInvalid
 
   belongs_to :person
   belongs_to :competition
@@ -8,8 +8,6 @@ class Score < ActiveRecord::Base
   validates :person, :competition, :discipline, :time, :team_number, presence: true
 
   scope :gender, -> (gender) { joins(:person).merge(Person.gender(gender)) }
-  scope :valid, -> { where.not(time: INVALID) }
-  scope :invalid, -> { where(time: INVALID) }
   scope :discipline, -> (discipline) { where(discipline: discipline) }
   scope :hl, -> { discipline(:hl) }
   scope :hb, -> { discipline(:hb) }
@@ -23,10 +21,6 @@ class Score < ActiveRecord::Base
   end
   scope :german, -> { joins(:person).merge(Person.german) }
   scope :year, -> (year) { joins(:competition).merge(Competition.year(year)) }
-
-  def invalid?
-    time == INVALID
-  end
 
   def uniq_team_id
     "#{team_id}-#{team_number}"

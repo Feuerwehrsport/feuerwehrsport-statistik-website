@@ -21,7 +21,7 @@ module PeopleHelper
   end
 
   def discipline_invalid_chart(discipline, scores)
-    invalid = scores.select(&:invalid?).size
+    invalid = scores.select(&:time_invalid?).size
     valid = scores.size - invalid
 
     chart = LazyHighCharts::HighChart.new do |f|

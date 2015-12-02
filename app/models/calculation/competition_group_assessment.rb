@@ -23,8 +23,8 @@ class Calculation::CompetitionGroupAssessment < Struct.new(:team, :team_number, 
 
   def time
     @time ||= begin
-      if score_in_assessment.reject(&:invalid?).count < competition.score_type.score
-        Score::INVALID
+      if score_in_assessment.reject(&:time_invalid?).count < competition.score_type.score
+        TimeInvalid::INVALID
       else
         score_in_assessment.map(&:time).sum
       end
