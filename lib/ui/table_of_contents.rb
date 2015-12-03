@@ -9,11 +9,13 @@ module UI
       "|||TOC_PLACEHOLDER_TOC|||"
     end
 
-    def anker(name, element=nil)
+    def anker(name, element=nil, options={})
       @ankers ||= []
+      tag_value = options[:tag_value] || name
+      label_value = options[:label_value] || name
       id = available_id(name)
-      @ankers.push(OpenStruct.new(name: name, id: id))
-      element_tag = element.present? ? content_tag(element, name) : ""
+      @ankers.push(OpenStruct.new(name: label_value, id: id))
+      element_tag = element.present? ? content_tag(element, tag_value) : ""
       content_tag(:a, "", id: "toc-#{id}") + element_tag
     end
 

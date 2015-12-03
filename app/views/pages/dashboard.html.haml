@@ -75,9 +75,9 @@
           %th Mannschaften:
           %td= @teams_count
     .col-md-3
-      %h4 Verteilung der Zeiten
       %h4 Ø Beste 5 pro Wettkampf
-  = toc.anker("Super Leistungen vom Jahr 2015", :h2)
+      = @charts.year_overview
+  = toc.anker("Super Leistungen vom Jahr 2015", :h2, label_value: "Leistungen Jahr 2015")
   
   = nav_tab do |nv|
     - @performance_overview_disciplines.each do |discipline|
