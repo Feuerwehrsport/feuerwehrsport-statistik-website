@@ -18,4 +18,12 @@ RSpec.describe PagesController, type: :controller do
       expect(assigns(:charts)).to be_instance_of Chart::Dashboard
     end
   end
+
+  describe 'GET last_competitions' do
+    it "assigns the 100 last competitions" do
+      get :last_competitions_overview
+      expect(assigns(:last_competitions).count).to eq 100
+      expect(assigns(:last_competitions).first).to eq Competition.find(920)
+    end
+  end
 end

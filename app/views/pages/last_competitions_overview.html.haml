@@ -1,4 +1,4 @@
 %h1 Neu eingetragene Wettkämpfe
-%ul
-  - @last_competitions.each do |competition|
-    %li= competition_link(competition, type: :overview_name)
+= count_table(@last_competitions) do |ct|
+  - ct.col("Wettkampf") { |c| competition_link(c, type: :overview_name) }
+  - ct.col("Eingetragen am") { |c| l(c.created_at, format: :only_date) }
