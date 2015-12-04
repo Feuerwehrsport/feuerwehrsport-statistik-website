@@ -1,0 +1,21 @@
+require 'rails_helper'
+
+RSpec.describe PagesController, type: :controller do
+  describe 'GET dashboard' do
+    it "assigns a lot information" do
+      get :dashboard
+      expect(assigns(:last_competitions).count).to eq 8
+      expect(assigns(:people_count)).to eq 2167
+      expect(assigns(:score_valid_count)).to eq 48669
+      expect(assigns(:score_invalid_count)).to eq 4516
+      expect(assigns(:places_count)).to eq 311
+      expect(assigns(:events_count)).to eq 20
+      expect(assigns(:competitions_count)).to eq 916
+      expect(assigns(:teams_count)).to eq 2155
+      expect(assigns(:years_count).count).to eq 28
+      expect(assigns(:news).count).to eq 2
+      expect(assigns(:performance_overview_disciplines).count).to eq 7
+      expect(assigns(:charts)).to be_instance_of Chart::Dashboard
+    end
+  end
+end
