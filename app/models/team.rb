@@ -1,4 +1,6 @@
 class Team < ActiveRecord::Base
+  include GeoPosition
+  
   has_many :group_scores, dependent: :restrict_with_exception
   has_many :scores, dependent: :restrict_with_exception
   has_many :person_participations, through: :group_scores
