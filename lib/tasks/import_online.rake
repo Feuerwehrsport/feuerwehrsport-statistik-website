@@ -23,8 +23,8 @@ client.query("SELECT * FROM places ORDER BY id").each do |row|
   Place.create!(
     id: row["id"],
     name: row["name"],
-    latitude: row["latitude"],
-    longitude: row["longitude"],
+    latitude: row["lat"],
+    longitude: row["lon"],
   )
 end
 
@@ -44,8 +44,8 @@ client.query("SELECT * FROM teams ORDER BY id").each do |row|
     id: row["id"],
     name: row["name"],
     shortcut: row["short"],
-    latitude: row["latitude"],
-    longitude: row["longitude"],
+    latitude: row["lat"],
+    longitude: row["lon"],
     image: row["logo"],
     state: row["state"].to_s,
     status: row["type"] == 'Team' ? 0 : 1,
