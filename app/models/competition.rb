@@ -62,4 +62,12 @@ class Competition < ActiveRecord::Base
     end
     team_scores.values.sort
   end
+
+  def teams
+    @teams ||= Team.where("id IN (
+      #{group_scores.select(:team_id).to_sql}
+      UNION
+      #{scores.no_finals.with_team.joins(:person).select(:team_id).to_sql}
+    )")
+  end
 end

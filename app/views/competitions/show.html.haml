@@ -55,3 +55,6 @@
     - else
       = render "single_discipline", toc: toc, discipline: discipline
       
+  - if @competition.place.positioned?
+    = toc.anker("Karte", :h2)
+    = map(id: 'competition-map', red: @competition.place, markers: @competition.teams.select(&:positioned?))
