@@ -10,18 +10,13 @@ class @FssMap
   @loadStyle: (callback) ->
     return callback() if FssMap.styleLoaded
 
-    $.getScript '/js/leaflet.js', () ->
+    $.getScript '<%= asset_path('leaflet.js') %>', () ->
       L.Icon.Default.imagePath = '/styling/images/'
-      $.get '/css/leaflet.css', (css) ->
+      $.get '<%= asset_path('leaflet.css') %>', (css) ->
         $('<style type="text/css"></style>').html(css).appendTo("head")
-        if $.browser.msie && parseInt($.browser.version, 10) < 8
-          $.get '/css/leaflet.ie.css', (css) ->
-            $('<style type="text/css"></style>').html(css).appendTo("head")
-            FssMap.loaded(callback)
-        else
-          FssMap.loaded(callback)
+        FssMap.loaded(callback)
 
-  @getMap: (id, zoom=8, lat=FssMap.lat, lon=FssMap.lon) ->
+  @getMap: (id, latLon=[FssMap.lat,FssMap.lon], zoom=8) ->
     osmUrl = "http://b.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png"
     osmAttrib = 'Map data © <a href="http://openstreetmap.org">openstreetmap</a>'
     osm = L.tileLayer(osmUrl, {attribution: osmAttrib})
@@ -30,12 +25,23 @@ class @FssMap
     fireAttrib = '<a href="http://openfiremap.org">openfiremap</a>'
     fire = L.tileLayer(fireUrl, {attribution: fireAttrib, minZoom: 11})
     return L.map id, 
-      center: L.latLng(lat, lon)
+      center: latLon
       zoom: zoom
       scrollWheelZoom: false
       layers: [osm, fire]
 
+  @defaultIcon: () -> 
+    unless FssMap.DefaultIcon?
+      FssMap.DefaultIcon = L.Icon.Default.extend(options: 
+        iconUrl: '<%= asset_path('map/marker-icon.png') %>'
+        shadowUrl: '<%= asset_path('map/marker-shadow.png') %>'
+      )
+    new FssMap.DefaultIcon()
+
   @redIcon: () -> 
     unless FssMap.RedIcon?
-      FssMap.RedIcon = L.Icon.Default.extend(options: { iconUrl: '/styling/images/marker-icon-red.png' })
+      FssMap.RedIcon = L.Icon.Default.extend(options: 
+        iconUrl: '<%= asset_path('map/marker-icon-red.png') %>'
+        shadowUrl: '<%= asset_path('map/marker-shadow.png') %>'
+      )
     new FssMap.RedIcon()

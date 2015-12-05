@@ -1,6 +1,7 @@
 module ApplicationHelper
   include LinksHelper
   include UIHelper
+  include MapHelper
 
   COMPETITOR_POSITION = {
     la: [
