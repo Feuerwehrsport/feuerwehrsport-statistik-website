@@ -13,6 +13,7 @@ class Team < ActiveRecord::Base
   has_many :team_competitions
   has_many :competitions, through: :team_competitions
   has_many :group_score_participations
+  has_many :links, as: :linkable, dependent: :restrict_with_exception
 
 #  mount_uploader :image, TeamLogo
 

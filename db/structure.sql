@@ -364,6 +364,40 @@ ALTER SEQUENCE group_scores_id_seq OWNED BY group_scores.id;
 
 
 --
+-- Name: links; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE links (
+    id integer NOT NULL,
+    label character varying,
+    linkable_id integer,
+    linkable_type character varying,
+    url character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: links_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE links_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: links_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE links_id_seq OWNED BY links.id;
+
+
+--
 -- Name: nations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -888,6 +922,13 @@ ALTER TABLE ONLY group_scores ALTER COLUMN id SET DEFAULT nextval('group_scores_
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY links ALTER COLUMN id SET DEFAULT nextval('links_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY nations ALTER COLUMN id SET DEFAULT nextval('nations_id_seq'::regclass);
 
 
@@ -1029,6 +1070,14 @@ ALTER TABLE ONLY group_score_types
 
 ALTER TABLE ONLY group_scores
     ADD CONSTRAINT group_scores_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: links_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY links
+    ADD CONSTRAINT links_pkey PRIMARY KEY (id);
 
 
 --
@@ -1493,4 +1542,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151117103227');
 INSERT INTO schema_migrations (version) VALUES ('20151121000132');
 
 INSERT INTO schema_migrations (version) VALUES ('20151127185700');
+
+INSERT INTO schema_migrations (version) VALUES ('20151205201552');
 

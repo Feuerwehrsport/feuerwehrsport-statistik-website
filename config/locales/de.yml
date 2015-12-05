@@ -71,6 +71,9 @@ de:
       group_score_type:
         one: Wertungstyp
         other: Wertungstypen
+      link:
+        one: Link
+        other: Links
       nation:
         one: Nation
         other: Nationen

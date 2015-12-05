@@ -160,6 +160,17 @@ client.query("SELECT * FROM news ORDER BY id").each do |row|
   )
 end
 
+puts "links"
+client.query("SELECT * FROM links WHERE for != 'date' ORDER BY id").each do |row|
+  Link.create!(
+    id: row["id"],
+    label: row["name"],
+    url: row["url"],
+    linkable_id: row["for_id"],
+    linkable_type: row["for"].camelize,
+  )
+end
+
 ActiveRecord::Base.connection.tables.each do |table|
   begin
     result = ActiveRecord::Base.connection.execute("SELECT id FROM #{table} ORDER BY id DESC LIMIT 1")
