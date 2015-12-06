@@ -8,6 +8,7 @@ class Competition < ActiveRecord::Base
   has_many :group_scores, through: :group_score_categories
   has_many :score_double_events
   has_many :links, as: :linkable, dependent: :restrict_with_exception
+  has_many :competition_files, dependent: :restrict_with_exception
 
   validates :place, :event, :date, presence: true
 

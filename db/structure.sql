@@ -70,6 +70,39 @@ ALTER SEQUENCE admin_users_id_seq OWNED BY admin_users.id;
 
 
 --
+-- Name: competition_files; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE competition_files (
+    id integer NOT NULL,
+    competition_id integer,
+    file character varying,
+    keys_string character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: competition_files_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE competition_files_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: competition_files_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE competition_files_id_seq OWNED BY competition_files.id;
+
+
+--
 -- Name: group_score_categories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -372,7 +405,7 @@ CREATE TABLE links (
     label character varying,
     linkable_id integer,
     linkable_type character varying,
-    url character varying,
+    url text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -880,6 +913,13 @@ ALTER TABLE ONLY admin_users ALTER COLUMN id SET DEFAULT nextval('admin_users_id
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY competition_files ALTER COLUMN id SET DEFAULT nextval('competition_files_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY competitions ALTER COLUMN id SET DEFAULT nextval('competitions_id_seq'::regclass);
 
 
@@ -1022,6 +1062,14 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 
 ALTER TABLE ONLY admin_users
     ADD CONSTRAINT admin_users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: competition_files_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY competition_files
+    ADD CONSTRAINT competition_files_pkey PRIMARY KEY (id);
 
 
 --
@@ -1203,6 +1251,13 @@ CREATE UNIQUE INDEX index_admin_users_on_email ON admin_users USING btree (email
 --
 
 CREATE UNIQUE INDEX index_admin_users_on_reset_password_token ON admin_users USING btree (reset_password_token);
+
+
+--
+-- Name: index_competition_files_on_competition_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_competition_files_on_competition_id ON competition_files USING btree (competition_id);
 
 
 --
@@ -1438,6 +1493,14 @@ ALTER TABLE ONLY group_scores
 
 
 --
+-- Name: fk_rails_c1790da592; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY competition_files
+    ADD CONSTRAINT fk_rails_c1790da592 FOREIGN KEY (competition_id) REFERENCES competitions(id);
+
+
+--
 -- Name: fk_rails_c201f283e7; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1544,4 +1607,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151121000132');
 INSERT INTO schema_migrations (version) VALUES ('20151127185700');
 
 INSERT INTO schema_migrations (version) VALUES ('20151205201552');
+
+INSERT INTO schema_migrations (version) VALUES ('20151205205409');
 

@@ -18,3 +18,4 @@
 /.rsync_cache/
 /public/generated/
 /public/cache/
+/public/uploads/

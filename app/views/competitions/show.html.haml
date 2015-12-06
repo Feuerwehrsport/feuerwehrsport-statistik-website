@@ -58,3 +58,20 @@
   - if @competition.place.positioned?
     = toc.anker("Karte", :h2)
     = map(id: 'competition-map', red: @competition.place, markers: @competition.teams.select(&:positioned?))
+
+  = toc.anker("Weblinks", :h2)
+  - if @competition.links.present?
+    %ul
+      - @competition.links.each do |link|
+        %li= link_to(link.label, link.url)
+
+  = toc.anker("Dateien", :h2)
+  - if @competition.competition_files.present?
+    %table.table
+      %tr
+        %th Dateien
+        %th Enthaltene Ergebnisse
+      - @competition.competition_files.each do |file|
+        %tr
+          %td= link_to(file.file_identifier, file.file.url)
+          %td= file.human_keys.join(", ")

@@ -161,13 +161,22 @@ client.query("SELECT * FROM news ORDER BY id").each do |row|
 end
 
 puts "links"
-client.query("SELECT * FROM links WHERE for != 'date' ORDER BY id").each do |row|
+client.query("SELECT * FROM links WHERE `for` != 'date' ORDER BY id").each do |row|
   Link.create!(
     id: row["id"],
     label: row["name"],
     url: row["url"],
     linkable_id: row["for_id"],
     linkable_type: row["for"].camelize,
+  )
+end
+
+puts "competition_files"
+client.query("SELECT * FROM result_files ORDER BY id").each do |row|
+  CompetitionFile.create!(
+    file: File.open("/var/www/sites/de/feuerwehrsport-statistik/www/files/#{row["competition_id"]}/#{row["name"]}"),
+    keys_string: row["keys"],
+    competition_id: row["competition_id"],
   )
 end
 
