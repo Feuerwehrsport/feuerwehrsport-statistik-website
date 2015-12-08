@@ -69,7 +69,7 @@ class @Fss
 
     defaultValues =
       name: ""
-      email: ""
+      email_address: ""
       save: false
     values = $.extend(defaultValues, values)
 
@@ -82,7 +82,7 @@ class @Fss
       .add(new FssFormRowDescription("Bitte lösen Sie die Gleichung."))
       .add(new FssFormRowText("name", "Name", values.name))
       .add(new FssFormRowDescription("Dieser Name ist nur für Rückfragen bei Problemen gedacht."))
-      .add(new FssFormRowText("email", "E-Mail-Adresse", values.email))
+      .add(new FssFormRowText("email_address", "E-Mail-Adresse", values.email_address))
       .add(new FssFormRowDescription("Diese Angabe ist freiwillig."))
       .add(new FssFormRowCheckbox("save", "Angaben in Cookie speichern", values.save))
       .on("submit", (data) ->
@@ -90,37 +90,38 @@ class @Fss
           data.message = "Die Antwort ist nicht korrekt."
           return Fss.login(callback, data)
 
-        Fss.post 'login', data, (retData) ->
+        handler = (retData) ->
           if retData.login
             if data.save
-              $.cookie('name', data.name, { expires: 365, path: '/' })
-              $.cookie('email', data.email, { expires: 365, path: '/' })
+              Cookies.set('name', data.name, expires: 365, path: '')
+              Cookies.set('email_address', data.email_address, expires: 365, path: '')
             else
-              $.removeCookie('name', { path: '/' })
-              $.removeCookie('email', { path: '/' })
+              Cookies.remove('name', path: '')
+              Cookies.remove('email_address', path: '')
             callback()
           else
             data.message = retData.message
             Fss.login(callback, data)
+        Fss.post 'users/', user: data, handler, handler 
 
       )
       .open()
 
   @checkLogin: (callback) ->
-    Fss.post "", {}, (data) ->
+    Fss.post "users/status", {}, (data) ->
       if data.login
         callback()
       else
         input = {}
-        if $.cookie('name')
-          input.name = $.cookie('name')
+        if Cookies.get('name')
+          input.name = Cookies.get('name')
           input.save = true;
-          if $.cookie('email')
-            input.email = $.cookie('email')
+          if Cookies.get('email_address')
+            input.email_address = Cookies.get('email_address')
         Fss.login(callback, input)
 
   @post: (type, data, callbackSuccess, callbackFailed=false) ->
-    url = "/json.php?type=#{type}"
+    url = "/api/#{type}"
     wait = new WaitFssWindow()
 
     params =

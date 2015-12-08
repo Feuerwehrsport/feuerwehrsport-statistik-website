@@ -14,3 +14,11 @@
 # ActiveSupport::Inflector.inflections(:en) do |inflect|
 #   inflect.acronym 'RESTful'
 # end
+
+multilingual_inflections = -> (inflect) do
+  inflect.acronym 'API'
+end
+
+for language in [:en, :de] do
+  ActiveSupport::Inflector.inflections(language, &multilingual_inflections)
+end

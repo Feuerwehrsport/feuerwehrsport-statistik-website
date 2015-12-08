@@ -45,7 +45,13 @@ gem 'cancancan'
 # charts
 gem 'lazy_high_charts'
 
+# browser detection
+gem 'browser'
+
 gem 'responders', '~> 2.0'
+
+# extra validations
+gem 'validates_email_format_of'
 
 group :development do
   gem 'capistrano', '~> 2', require: false

@@ -1,11 +1,20 @@
 module API
   class UsersController < BaseController
+    include CRUD::CreateAction
+
     def status
-      if session[:user_id].present? && User.find(session[:user_id])
-        render json: { success: true, login: true }
-      else
-        render json: { success: true, login: false }
-      end
+      respond_with
+    end
+
+    protected
+
+    def before_create_success
+      session[:user_id] = resource_instance.id
+      super
+    end
+
+    def permitted_attributes
+      super.permit(:name, :email_address).merge(request_headers: request.headers)
     end
   end
 end

@@ -57,7 +57,7 @@ class @FssFormRowCheckbox extends FssFormRow
 
 class @FssFormRowDescription extends FssFormRow
   constructor: (description) ->
-    super($('<p/>').html(description))
+    super($('<p/>').html(description.replace(/\n/, "<br/>")))
     @addClass('description')
 
 class FssFormRowLabelField extends FssFormRow

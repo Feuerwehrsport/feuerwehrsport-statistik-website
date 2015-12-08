@@ -99,6 +99,7 @@ de:
       team:
         one: Mannschaft
         other: Mannschaften
+      user: Benuter
     attributes:
       admin_user:
         email: E-Mail-Adresse
@@ -149,6 +150,9 @@ de:
         shortcut: Abkürzung
         status: Status
         state: Land
+      user:
+        email_address: E-Mail-Adresse
+        name: Name
 
   errors:
     messages:

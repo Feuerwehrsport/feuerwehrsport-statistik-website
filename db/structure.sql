@@ -866,7 +866,9 @@ CREATE TABLE users (
     id integer NOT NULL,
     name character varying,
     email_address character varying,
-    ip_address character varying,
+    ip_address_hash character varying,
+    user_agent_hash character varying,
+    user_agent_meta character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );

@@ -29,9 +29,9 @@ Rails.application.routes.draw do
     resources :assessments, only: [:show]
   end
   namespace :api do
-    resources :users, only: [:show, :create] do
+    resources :users, only: [:create] do
       collection do
-        get :status
+        post :status
       end
     end
   end
