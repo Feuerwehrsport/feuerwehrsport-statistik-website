@@ -5,6 +5,18 @@ module LinksHelper
     link_to(competition.send(type), competition, options)
   end
 
+  def event_link(event, options={})
+    type = options.delete(:type) || :to_s
+    options = options.merge(title: "Details zu diesem Wettkampftyp anzeigen")
+    link_to(event.send(type), event, options)
+  end
+
+  def place_link(place, options={})
+    type = options.delete(:type) || :to_s
+    options = options.merge(title: "Details zu diesem Ort anzeigen")
+    link_to(place.send(type), place, options)
+  end
+
   def person_link(person, options={})
     type = options.delete(:type) || :to_s
     options = options.merge(title: "Details zu #{person.full_name} anzeigen")

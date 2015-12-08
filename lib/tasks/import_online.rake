@@ -160,14 +160,30 @@ client.query("SELECT * FROM news ORDER BY id").each do |row|
   )
 end
 
+puts "appointments"
+client.query("SELECT * FROM dates ORDER BY id").each do |row|
+  event_id = Event.find_by_id(row["event_id"]).try(:id)
+  Appointment.create!(
+    id: row["id"],
+    dated_at: row["date"],
+    name: row["name"],
+    description: row["description"],
+    place_id: row["place_id"],
+    event_id: event_id,
+    disciplines: row["disciplines"].downcase,
+    published_at: row["published"] ? Time.now : nil,
+  )
+end
+
 puts "links"
-client.query("SELECT * FROM links WHERE `for` != 'date' ORDER BY id").each do |row|
+client.query("SELECT * FROM links ORDER BY id").each do |row|
+  for_type = row["for"] == "date" ? "Appointment" : row["for"].camelize
   Link.create!(
     id: row["id"],
     label: row["name"],
     url: row["url"],
     linkable_id: row["for_id"],
-    linkable_type: row["for"].camelize,
+    linkable_type: for_type,
   )
 end
 

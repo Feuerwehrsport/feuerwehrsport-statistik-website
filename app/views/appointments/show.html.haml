@@ -1,0 +1,31 @@
+%h1
+  = @appointment
+  %small
+    Wettkampftermin -
+    = l(@appointment.dated_at, format: :german)
+
+.row
+  .col-md-8= simple_format(@appointment.description)
+  .col-md-4
+    %table.table
+      %tr
+        %th Datum
+        %td= l(@appointment.dated_at, format: :german)
+      %tr
+        %th Disziplinen
+        %td= @appointment.discipline_images
+      - if @appointment.place.present?
+        %tr
+          %th Ort
+          %td= place_link(@appointment.place)
+      - if @appointment.event.present?
+        %tr
+          %th Typ
+          %td= place_link(@appointment.event)
+      - if @appointment.links.present?
+        %tr
+          %th Links
+          %td
+            %ul
+              - @appointment.links.each do |link|
+                %li= link_to(link.label, link.url)

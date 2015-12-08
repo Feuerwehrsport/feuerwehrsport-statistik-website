@@ -56,6 +56,9 @@ de:
       admin_user:
         one: Verwalter
         other: Verwalter
+      appointment:
+        one: Wettkampftermin
+        other: Wettkampftermine
       event:
         one: Wettkampftyp
         other: Wettkampftypen
@@ -186,6 +189,7 @@ de:
   date:
     formats:
       default: '%Y-%m-%d'
+      german: '%d.%m.%Y'
     day_names:
       - Montag
       - Dienstag

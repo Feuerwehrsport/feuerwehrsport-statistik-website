@@ -70,6 +70,43 @@ ALTER SEQUENCE admin_users_id_seq OWNED BY admin_users.id;
 
 
 --
+-- Name: appointments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE appointments (
+    id integer NOT NULL,
+    dated_at date NOT NULL,
+    name character varying NOT NULL,
+    description text NOT NULL,
+    place_id integer,
+    event_id integer,
+    disciplines character varying NOT NULL,
+    published_at character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: appointments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE appointments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: appointments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE appointments_id_seq OWNED BY appointments.id;
+
+
+--
 -- Name: competition_files; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -915,6 +952,13 @@ ALTER TABLE ONLY admin_users ALTER COLUMN id SET DEFAULT nextval('admin_users_id
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY appointments ALTER COLUMN id SET DEFAULT nextval('appointments_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY competition_files ALTER COLUMN id SET DEFAULT nextval('competition_files_id_seq'::regclass);
 
 
@@ -1064,6 +1108,14 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 
 ALTER TABLE ONLY admin_users
     ADD CONSTRAINT admin_users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: appointments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY appointments
+    ADD CONSTRAINT appointments_pkey PRIMARY KEY (id);
 
 
 --
@@ -1256,6 +1308,20 @@ CREATE UNIQUE INDEX index_admin_users_on_reset_password_token ON admin_users USI
 
 
 --
+-- Name: index_appointments_on_event_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_appointments_on_event_id ON appointments USING btree (event_id);
+
+
+--
+-- Name: index_appointments_on_place_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_appointments_on_place_id ON appointments USING btree (place_id);
+
+
+--
 -- Name: index_competition_files_on_competition_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1439,6 +1505,22 @@ ALTER TABLE ONLY competitions
 
 
 --
+-- Name: fk_rails_3f47875492; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY appointments
+    ADD CONSTRAINT fk_rails_3f47875492 FOREIGN KEY (event_id) REFERENCES events(id);
+
+
+--
+-- Name: fk_rails_63595c110c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY appointments
+    ADD CONSTRAINT fk_rails_63595c110c FOREIGN KEY (place_id) REFERENCES places(id);
+
+
+--
 -- Name: fk_rails_63932e2707; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1611,4 +1693,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151127185700');
 INSERT INTO schema_migrations (version) VALUES ('20151205201552');
 
 INSERT INTO schema_migrations (version) VALUES ('20151205205409');
+
+INSERT INTO schema_migrations (version) VALUES ('20151208202722');
 

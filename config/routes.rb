@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     resources :score_types
     resources :teams
   end
+  resources :appointments, only: [:index, :show]
   resources :competitions, only: [:index, :show]
   resources :people, only: [:index, :show]
   resources :places, only: [:index, :show]

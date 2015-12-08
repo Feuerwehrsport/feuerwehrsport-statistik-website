@@ -2,6 +2,7 @@ class Place < ActiveRecord::Base
   include GeoPosition
 
   has_many :competitions, dependent: :restrict_with_exception
+  has_many :appointments, dependent: :restrict_with_exception
 
   validates :name, presence: true
 
