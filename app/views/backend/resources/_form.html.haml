@@ -1,10 +1,10 @@
-= simple_form_for([:backend, @resource_instance]) do |f|
+= simple_form_for([:backend, resource_instance]) do |f|
   - [:name, :latitude, :longitude, :first_name, :last_name, :people, :run, :score, :email, :password, :password_confirmation].each do |attribute|
-    - if @resource_instance.object.respond_to? attribute
+    - if resource_instance.respond_to? attribute
       = f.input attribute
-  - if @resource_instance.object.respond_to? :gender
+  - if resource_instance.respond_to? :gender
     = f.input :gender, collection: [:male, :female]
   - [:nation].each do |attribute|
-    - if @resource_instance.object.respond_to? attribute
+    - if resource_instance.respond_to? attribute
       = f.association attribute
   = f.button :submit

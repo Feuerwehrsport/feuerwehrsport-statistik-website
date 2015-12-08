@@ -4,10 +4,12 @@ Rails.application.routes.draw do
     root to: 'dashboard#index'
     resources :admin_users
     resources :competitions
+    resources :competition_files
     resources :events
     resources :group_scores
     resources :group_score_categories
     resources :group_score_types
+    resources :links
     resources :nations
     resources :news
     resources :people

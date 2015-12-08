@@ -1,5 +1,5 @@
 class ResourceController < CacheController
-  include ResourceAccess
+  include ResourceAccessor
 
   protected
   

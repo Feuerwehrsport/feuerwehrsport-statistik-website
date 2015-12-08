@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe "signin process", type: :feature do
-  it "signs in" do
+describe "backend resources", type: :feature do
+  it "works" do
     sign_in
     Backend::ResourcesController.models.each do |model_class|
       # index

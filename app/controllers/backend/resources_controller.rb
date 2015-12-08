@@ -1,5 +1,7 @@
 module Backend
   class ResourcesController < BackendController
+    include ResourceAccessor
+
     def self.models
       [
         AdminUser,
@@ -19,7 +21,6 @@ module Backend
       ]
     end
 
-    include ResourceAccess
     before_action :assign_instance, only: [:show, :edit, :update, :destroy]
     before_action :new_instance, only: [:new, :create]
 
@@ -40,6 +41,7 @@ module Backend
       authorize!(:index, resource_class)
       self.collection_instance = collection_for_index
       @page_title = "Übersicht #{resource_class.model_name.human(count: 0)}"
+      @index_columns = index_columns(resource_class)
     end
 
     def show
@@ -77,6 +79,10 @@ module Backend
 
     protected
 
+    helper_method def index_columns(resource_class)
+      resource_class.new.try(:decorate).try(:index_columns) || [:id, :to_s]
+    end
+
     def accessible_collection
       resource_class.accessible_by(current_ability, :index)
     end
@@ -95,12 +101,15 @@ module Backend
     end
 
     def assign_instance
-      self.resource_instance = accessible_collection.find(params[:id]).decorate
-      @page_title = "#{resource_class.model_name.human} - #{resource_instance}"
+      self.resource_instance = accessible_collection.find(params[:id])
+      @resource_instance_decorated = resource_instance.decorate
+      @page_title = "#{resource_class.model_name.human} - #{@resource_instance_decorated}"
     end
 
     def new_instance
-      self.resource_instance = resource_class.new.decorate
+      self.resource_instance = resource_class.new
+      @resource_instance_decorated = resource_instance.decorate
+      @page_title = "#{resource_class.model_name.human}"
     end
 
     def permitted_attributes

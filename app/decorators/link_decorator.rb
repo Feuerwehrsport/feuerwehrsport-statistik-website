@@ -4,6 +4,10 @@ class LinkDecorator < ApplicationDecorator
 
   decorates_association :linkable
 
+  def label
+    object.label
+  end
+
   def to_s
     object.label
   end
