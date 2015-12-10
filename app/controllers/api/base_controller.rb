@@ -4,6 +4,10 @@ module API
 
     protected
 
+    def current_user
+      super(login_status ? :api_user : nil)
+    end
+
     def respond_defaults
       {
         success: true,
