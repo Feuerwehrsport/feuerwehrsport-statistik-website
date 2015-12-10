@@ -78,4 +78,5 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.base_url = "http://www.feuerwehrsport-statistik.de:8099"
+  config.action_controller.default_url_options = { host: "www.feuerwehrsport-statistik.de", port: "8099"}
 end

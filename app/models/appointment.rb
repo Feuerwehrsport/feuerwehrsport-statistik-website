@@ -1,3 +1,5 @@
+require 'icalendar'
+
 class Appointment < ActiveRecord::Base
   belongs_to :place
   belongs_to :event
@@ -10,5 +12,18 @@ class Appointment < ActiveRecord::Base
 
   def discipline_array
     disciplines.split(",").map(&:downcase)
+  end
+
+  def to_icalendar_event
+    e = Icalendar::Event.new
+    e.dtstart = dated_at
+    e.summary = name
+    e.summary += " - #{event.name}" if event.present?
+    e.description = description
+    e.location = place.name if place.present?
+    e.created = created_at
+    e.last_modified = updated_at
+    e.uid = e.url = Rails.application.routes.url_helpers.appointment_url(self, Rails.configuration.action_controller.default_url_options)
+    e
   end
 end

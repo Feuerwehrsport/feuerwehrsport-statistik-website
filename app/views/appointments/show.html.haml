@@ -9,6 +9,11 @@
   .col-md-4
     %table.table
       %tr
+        %td{ colspan: 2 }
+          %a{ href: url_for(format: :ics) }
+            = design_image("calendar", width: "20px")
+            iCalendar-Datei zu diesem Termin
+      %tr
         %th Datum
         %td= l(@appointment.dated_at, format: :german)
       %tr

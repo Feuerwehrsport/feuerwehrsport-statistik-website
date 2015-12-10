@@ -25,16 +25,13 @@ gem 'bootstrap-wysihtml5-rails'
 # Draper as model decorator
 gem 'draper'
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
 # Use Unicorn as the app server
 gem 'unicorn'
 gem 'whenever', require: false
 gem 'delayed_job_active_record'
 gem 'daemons'
 
-# image uploader
+# image and pdf uploader
 gem 'carrierwave'
 gem 'rmagick'
 
@@ -48,10 +45,11 @@ gem 'lazy_high_charts'
 # browser detection
 gem 'browser'
 
-gem 'responders', '~> 2.0'
-
 # extra validations
 gem 'validates_email_format_of'
+
+# ics export
+gem 'icalendar'
 
 group :development do
   gem 'capistrano', '~> 2', require: false
