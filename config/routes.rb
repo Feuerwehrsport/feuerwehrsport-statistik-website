@@ -39,6 +39,7 @@ Rails.application.routes.draw do
     end
     resources :appointments, only: [:create]
     resources :events, only: [:index]
+    resources :links, only: [:create]
     resources :places, only: [:index]
   end
   scope :images do

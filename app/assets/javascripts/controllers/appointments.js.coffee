@@ -51,8 +51,7 @@ $ () ->
   
       appointmentData.place_id = data.placeId if data.placeId isnt "NULL"
       appointmentData.event_id = data.eventId if data.eventId isnt "NULL"
-      Fss.post 'appointments', appointment: appointmentData, (result) ->
-        location.reload()
+      Fss.postReload 'appointments', appointment: appointmentData
     )
     .open()
 

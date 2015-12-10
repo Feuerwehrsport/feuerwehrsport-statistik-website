@@ -27,10 +27,6 @@
         %tr
           %th Typ
           %td= place_link(@appointment.event)
-      - if @appointment.links.present?
-        %tr
-          %th Links
-          %td
-            %ul
-              - @appointment.links.each do |link|
-                %li= link_to(link.label, link.url)
+      %tr
+        %th Links
+        %td= render('links', links: @appointment.links, linkable_type: resource_class, linkable_id: @appointment.id)
