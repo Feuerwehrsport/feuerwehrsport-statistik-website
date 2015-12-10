@@ -8,7 +8,7 @@ class Appointment < ActiveRecord::Base
   default_scope -> { order(:dated_at) }
   scope :upcoming, -> { where("dated_at >= ?", 1.weeks.ago) }
 
-  validates :dated_at, :name, :description, :disciplines, presence: true
+  validates :dated_at, :name, :description, presence: true
 
   def discipline_array
     disciplines.split(",").map(&:downcase)

@@ -6,7 +6,7 @@ class CreateAppointments < ActiveRecord::Migration
       t.text :description, null: false
       t.references :place, index: true, foreign_key: true
       t.references :event, index: true, foreign_key: true
-      t.string :disciplines, null: false
+      t.string :disciplines, null: false, default: ""
       t.string :published_at
 
       t.timestamps null: false
