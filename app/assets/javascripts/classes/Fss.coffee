@@ -120,12 +120,18 @@ class @Fss
             input.email_address = Cookies.get('email_address')
         Fss.login(callback, input)
 
-  @post: (type, data, callbackSuccess, callbackFailed=false) ->
-    url = "/api/#{type}"
+  @get: (url, data, callbackSuccess, callbackFailed=false) ->
+    Fss.ajaxRequest("GET", url, data, callbackSuccess, callbackFailed=false)
+  
+  @post: (url, data, callbackSuccess, callbackFailed=false) ->
+    Fss.ajaxRequest("POST", url, data, callbackSuccess, callbackFailed=false)
+
+  @ajaxRequest: (type, url, data, callbackSuccess, callbackFailed=false) ->
+    url = "/api/#{url}"
     wait = new WaitFssWindow()
 
     params =
-      type: "POST"
+      type: type
       url: url
       data: data
       dataType: 'json'
@@ -158,12 +164,12 @@ class @Fss
   
   @getEvents: (callback) ->
     Fss.checkLogin () ->
-      Fss.post 'get-events', {}, (data) ->
+      Fss.get 'events', {}, (data) ->
         callback(data.events)
   
   @getPlaces: (callback) ->
     Fss.checkLogin () ->
-      Fss.post 'get-places', {}, (data) ->
+      Fss.get 'places', {}, (data) ->
         callback(data.places)
   
   @getPerson: (personId, callback) ->

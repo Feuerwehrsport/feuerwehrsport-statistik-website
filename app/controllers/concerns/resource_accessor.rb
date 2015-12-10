@@ -1,10 +1,10 @@
 module ResourceAccessor
   extend ActiveSupport::Concern
-  attr_accessor :resource_instance, :collection_instance
+  attr_accessor :resource_instance, :resource_collection
 
   included do
     helper_method :resource_instance
-    helper_method :collection_instance
+    helper_method :resource_collection
     helper_method :resource_class
   end
 

@@ -37,6 +37,9 @@ Rails.application.routes.draw do
         post :status
       end
     end
+    resources :appointments, only: [:create]
+    resources :events, only: [:index]
+    resources :places, only: [:index]
   end
   scope :images do
     get 'person_la_positions/:person_id', controller: :images, action: :la_positions, as: :images_person_la_positions

@@ -39,7 +39,7 @@ module Backend
 
     def index
       authorize!(:index, resource_class)
-      self.collection_instance = collection_for_index
+      self.resource_collection = collection_for_index
       @page_title = "Übersicht #{resource_class.model_name.human(count: 0)}"
       @index_columns = index_columns(resource_class)
     end

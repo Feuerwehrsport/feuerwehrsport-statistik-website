@@ -13,9 +13,9 @@ module AutoDecorate
       rescue Draper::UninferrableDecoratorError => e
       end
     end
-    if collection_instance
+    if resource_collection
       begin
-        self.collection_instance = collection_instance.decorate
+        self.resource_collection = resource_collection.decorate
       rescue Draper::UninferrableDecoratorError => e
       end
     end
