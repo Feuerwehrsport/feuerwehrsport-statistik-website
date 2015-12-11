@@ -5,7 +5,7 @@ class AppointmentsController < ResourceController
     @rows = Appointment.upcoming.decorate
 
     if request.format.ics?
-      calendar_response("feuerwehrsport-statistik-termine", @rows)
+      calendar_response("feuerwehrsport-statistik-termine", @rows, "PUBLISH")
     end
   end
 
@@ -13,19 +13,19 @@ class AppointmentsController < ResourceController
     @appointment = Appointment.find(params[:id]).decorate
     
     if request.format.ics?
-      calendar_response(@appointment.to_s.parameterize, [@appointment])
+      calendar_response(@appointment.to_s.parameterize, [@appointment], "REQUEST")
     end
   end
 
   protected
 
-  def calendar_response(filename, rows)
+  def calendar_response(filename, rows, method)
     response.headers['Content-Disposition'] = "attachment; filename=\"#{filename}.ics\""
     calendar = Icalendar::Calendar.new
     rows.each do |row|
       calendar.add_event(row.to_icalendar_event)
     end
-    calendar.publish
+    calendar.ip_method = method
     render text: calendar.to_ical
   end
 end
