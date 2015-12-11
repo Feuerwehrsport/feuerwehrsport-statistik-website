@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   namespace :backend do
     root to: 'dashboard#index'
     resources :admin_users
+    resources :appointments
     resources :competitions
     resources :competition_files
     resources :events
