@@ -11,7 +11,11 @@ class Appointment < ActiveRecord::Base
   validates :dated_at, :name, :description, presence: true
 
   def discipline_array
-    disciplines.split(",").map(&:downcase)
+    disciplines.split(",")
+  end
+
+  def disciplines
+    super.downcase
   end
 
   def to_icalendar_event

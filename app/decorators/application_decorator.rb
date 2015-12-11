@@ -1,6 +1,7 @@
 class ApplicationDecorator < Draper::Decorator
   delegate_all
   include Draper::LazyHelpers
+  include ActiveModel::Serialization
 
   def self.collection_decorator_class
     ApplicationCollectionDecorator

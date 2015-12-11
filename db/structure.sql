@@ -80,7 +80,7 @@ CREATE TABLE appointments (
     description text NOT NULL,
     place_id integer,
     event_id integer,
-    disciplines character varying NOT NULL,
+    disciplines character varying DEFAULT ''::character varying NOT NULL,
     published_at character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -104,6 +104,40 @@ CREATE SEQUENCE appointments_id_seq
 --
 
 ALTER SEQUENCE appointments_id_seq OWNED BY appointments.id;
+
+
+--
+-- Name: change_requests; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE change_requests (
+    id integer NOT NULL,
+    user_id integer,
+    admin_user_id integer,
+    content json NOT NULL,
+    done_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: change_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE change_requests_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: change_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE change_requests_id_seq OWNED BY change_requests.id;
 
 
 --
@@ -959,6 +993,13 @@ ALTER TABLE ONLY appointments ALTER COLUMN id SET DEFAULT nextval('appointments_
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY change_requests ALTER COLUMN id SET DEFAULT nextval('change_requests_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY competition_files ALTER COLUMN id SET DEFAULT nextval('competition_files_id_seq'::regclass);
 
 
@@ -1116,6 +1157,14 @@ ALTER TABLE ONLY admin_users
 
 ALTER TABLE ONLY appointments
     ADD CONSTRAINT appointments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: change_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY change_requests
+    ADD CONSTRAINT change_requests_pkey PRIMARY KEY (id);
 
 
 --
@@ -1322,6 +1371,20 @@ CREATE INDEX index_appointments_on_place_id ON appointments USING btree (place_i
 
 
 --
+-- Name: index_change_requests_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_change_requests_on_admin_user_id ON change_requests USING btree (admin_user_id);
+
+
+--
+-- Name: index_change_requests_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_change_requests_on_user_id ON change_requests USING btree (user_id);
+
+
+--
 -- Name: index_competition_files_on_competition_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1513,6 +1576,14 @@ ALTER TABLE ONLY appointments
 
 
 --
+-- Name: fk_rails_47ad4ed047; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY change_requests
+    ADD CONSTRAINT fk_rails_47ad4ed047 FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
 -- Name: fk_rails_63595c110c; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1590,6 +1661,14 @@ ALTER TABLE ONLY competition_files
 
 ALTER TABLE ONLY people
     ADD CONSTRAINT fk_rails_c201f283e7 FOREIGN KEY (nation_id) REFERENCES nations(id);
+
+
+--
+-- Name: fk_rails_d283e0df68; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY change_requests
+    ADD CONSTRAINT fk_rails_d283e0df68 FOREIGN KEY (admin_user_id) REFERENCES admin_users(id);
 
 
 --
@@ -1695,4 +1774,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151205201552');
 INSERT INTO schema_migrations (version) VALUES ('20151205205409');
 
 INSERT INTO schema_migrations (version) VALUES ('20151208202722');
+
+INSERT INTO schema_migrations (version) VALUES ('20151211064637');
 

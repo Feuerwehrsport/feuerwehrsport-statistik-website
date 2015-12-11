@@ -1,6 +1,7 @@
 module API
   class AppointmentsController < BaseController
     include CRUD::CreateAction
+    include CRUD::ShowAction
 
     protected
 

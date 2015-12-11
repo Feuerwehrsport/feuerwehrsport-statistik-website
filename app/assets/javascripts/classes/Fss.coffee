@@ -120,6 +120,14 @@ class @Fss
             input.email_address = Cookies.get('email_address')
         Fss.login(callback, input)
 
+  @getResource: (type, id, callbackSuccess) ->
+    Fss.get "#{type}/#{id}", {}, (data) ->
+      callbackSuccess(data[data.resource_name])
+
+  @getResources: (type, callbackSuccess) ->
+    Fss.get "#{type}", {}, (data) ->
+      callbackSuccess(data[type])
+
   @get: (url, data, callbackSuccess, callbackFailed=false) ->
     Fss.ajaxRequest("GET", url, data, callbackSuccess, callbackFailed=false)
   
@@ -156,41 +164,6 @@ class @Fss
         location.reload()
       else
         new WarningFssWindow(data.message)
-  
-  @getCompetitions: (callback) ->
-    Fss.checkLogin () ->
-      Fss.post 'get-competitions', {}, (data) ->
-        callback(data.competitions)
-  
-  @getEvents: (callback) ->
-    Fss.checkLogin () ->
-      Fss.get 'events', {}, (data) ->
-        callback(data.events)
-  
-  @getPlaces: (callback) ->
-    Fss.checkLogin () ->
-      Fss.get 'places', {}, (data) ->
-        callback(data.places)
-  
-  @getPerson: (personId, callback) ->
-    Fss.checkLogin () ->
-      Fss.post 'get-person', {personId: personId}, (result) ->
-        callback(result.person)
-  
-  @getCompetition: (competitionId, callback) ->
-    Fss.checkLogin () ->
-      Fss.post 'get-competition', {competitionId: competitionId}, (result) ->
-        callback(result.competition)
-  
-  @getTeams: (personId, callback) ->
-    Fss.checkLogin () ->
-      Fss.post 'get-teams', {personId: personId}, (result) ->
-        callback(result.teams)
-  
-  @getTeam: (teamId, callback) ->
-    Fss.checkLogin () ->
-      Fss.post 'get-team', {teamId: teamId}, (result) ->
-        callback(result.team)
 
   @teamMates: (discipline, scoreId) ->
     Fss.checkLogin () ->
@@ -261,8 +234,12 @@ class @Fss
       Fss.post(apiKey, dataCallback(element), elementReady)
     elementReady()
 
-  @addError = (data) ->
-    Fss.post 'add-error', data, (result) ->
+  @changeRequest = (key, data) ->
+    postData = change_request:
+      content:
+        key: key
+        data: data
+    Fss.post 'change_requests', postData, (result) ->
       new AlertFssWindow(
         'Gespeichert',
         'Der Fehlerbericht wurde gespeichert und ein Administrator informiert. In ein paar Tagen wird das Problem behoben sein.'

@@ -42,4 +42,9 @@ $ ->
       .open()
 
   $('.report-link').click () ->
-    debugger
+    element = $(this).closest('h4')
+
+    Fss.checkLogin () ->
+      new ConfirmFssWindow('Link melden', "Soll der Link »#{element.find('a').text()}« als defekt gemeldet werden?", (data) ->
+        Fss.changeRequest('report-link', link_id: element.data('link-id'))
+      )

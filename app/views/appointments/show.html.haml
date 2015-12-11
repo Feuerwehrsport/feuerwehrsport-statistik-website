@@ -5,8 +5,8 @@
     = l(@appointment.dated_at, format: :german)
 
 .row
-  .col-md-8= simple_format(@appointment.description)
-  .col-md-4
+  .col-md-7= simple_format(@appointment.description)
+  .col-md-5
     %table.table
       %tr
         %td{ colspan: 2 }
@@ -30,3 +30,7 @@
       %tr
         %th Links
         %td= render('links', links: @appointment.links, linkable_type: resource_class, linkable_id: @appointment.id)
+      %tr
+        %th{ colspan: 2 }
+          .pull-right
+            #edit-appointment.btn.btn-default{ data: { appointment_id: @appointment.id } } Termin bearbeiten

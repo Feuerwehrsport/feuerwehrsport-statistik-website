@@ -24,6 +24,7 @@ gem 'bootstrap-wysihtml5-rails'
 
 # Draper as model decorator
 gem 'draper'
+gem 'active_model_serializers'
 
 # Use Unicorn as the app server
 gem 'unicorn'

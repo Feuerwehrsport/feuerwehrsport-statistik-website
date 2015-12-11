@@ -37,7 +37,8 @@ Rails.application.routes.draw do
         post :status
       end
     end
-    resources :appointments, only: [:create]
+    resources :appointments, only: [:create, :show]
+    resources :change_requests, only: [:create]
     resources :events, only: [:index]
     resources :links, only: [:create]
     resources :places, only: [:index]
