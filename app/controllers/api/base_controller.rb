@@ -16,7 +16,7 @@ module API
     end
 
     def respond_with(hash={})
-      render json: respond_defaults.merge(hash)
+      render json: handle_serializer(respond_defaults.merge(hash))
     end
 
     def login_status
@@ -33,6 +33,26 @@ module API
 
     def failed_message
       "Something went wrong"
+    end
+
+    def handle_serializer(hash)
+      hash.each do |key, value|
+        if value.is_a?(Draper::Decorator)
+          begin
+            serializer = "#{value.object.class.name}Serializer".constantize
+            hash[key] = serializer.new(value)
+          rescue NameError
+          end
+        elsif value.is_a?(ActiveRecord::Base)
+          begin
+            serializer = "#{value.class.name}Serializer".constantize
+            hash[key] = serializer.new(value)
+          rescue NameError
+          end
+        elsif value.is_a?(Hash)
+          hash[key] = handle_serializer(value)
+        end
+      end
     end
   end
 end

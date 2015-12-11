@@ -9,4 +9,20 @@ RSpec.describe API::AppointmentsController, type: :controller do
       }.to change(Appointment, :count).by(1)
     end
   end
+
+  describe 'GET show' do
+    it "returns appointment" do
+      get :show, id: 1
+      expect_api_response login: false, resource_name: "appointment", appointment: {
+        id: 1, 
+        name: "Finale D-Cup in Charlottenthal", 
+        place_id: 1, 
+        event_id: 1, 
+        place: "Charlottenthal", 
+        event: "D-Cup", 
+        disciplines: "gs,hb,hl,la", 
+        dated_at: "2013-09-21"
+      }
+    end
+  end
 end
