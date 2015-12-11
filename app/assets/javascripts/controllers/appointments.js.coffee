@@ -14,6 +14,7 @@ $ () ->
       name: ""
       place_id: 'NULL'
       event_id: 'NULL'
+      disciplines: ""
       description: ""
     values = $.extend(defaultValues, values)
     for key of Fss.disciplines
@@ -35,7 +36,7 @@ $ () ->
     w.on('submit', (data) ->
       if data.name is '' or data.description is ''
         data.message = "Name und Beschreibung müssen gesetzt sein."
-        return addAppointment(places, events, data)
+        return editAppointment(places, events, data, submitCallback)
 
       disciplines = []
       for key of Fss.disciplines

@@ -77,5 +77,7 @@ group :development, :test do
   gem 'guard-rspec', require: false
   gem 'database_cleaner'
   gem 'capybara'
+  gem 'capybara-webkit'
+  gem 'capybara-screenshot'
 end
 

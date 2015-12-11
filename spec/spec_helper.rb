@@ -17,8 +17,13 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require 'capybara/rspec'
+require 'capybara-screenshot/rspec'
 
 RSpec.configure do |config|
+  Capybara.javascript_driver = :webkit
+  Capybara::Screenshot.webkit_options = { width: 1024, height: 768 }
+  Capybara::Screenshot.prune_strategy = { keep: 20 }
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.

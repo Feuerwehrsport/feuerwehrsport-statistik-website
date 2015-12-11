@@ -6,3 +6,9 @@ def sign_in
   click_button 'Log in'
   expect(page).to have_content 'Erfolgreich angemeldet'
 end
+
+def api_sign_in
+  visit root_path
+  page.execute_script("Fss.post('users', { user: { name: 'test' } }, function () { $('h1').text('logged_in') });")
+  expect(page).to have_content("logged_in")
+end
