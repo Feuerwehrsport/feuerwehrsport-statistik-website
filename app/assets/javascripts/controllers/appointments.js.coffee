@@ -1,6 +1,6 @@
 $ () ->
 
-  editAppointment = (places, events, values, submitCallback) ->
+  editAppointment = (headline, places, events, values, submitCallback) ->
     placeOptions = [ value: 'NULL', display: '----' ]
     for place in places
       placeOptions.push value: place.id, display: place.name
@@ -20,7 +20,7 @@ $ () ->
     for key of Fss.disciplines
       values[key] = key in values.disciplines.split(",")
 
-    w = FssWindow.build('Termin hinzufügen')
+    w = FssWindow.build(headline)
 
     w.add((new FssFormRowDescription(values.message)).addClass("text-warning")) if values.message?
 
@@ -36,7 +36,7 @@ $ () ->
     w.on('submit', (data) ->
       if data.name is '' or data.description is ''
         data.message = "Name und Beschreibung müssen gesetzt sein."
-        return editAppointment(places, events, data, submitCallback)
+        return editAppointment(headline, places, events, data, submitCallback)
 
       disciplines = []
       for key of Fss.disciplines
@@ -57,7 +57,7 @@ $ () ->
     Fss.checkLogin () ->
       Fss.getResources "places", (places) ->
         Fss.getResources "events", (events) ->
-          editAppointment places, events, {}, (appointmentData) ->
+          editAppointment "Termin hinzufügen",  places, events, {}, (appointmentData) ->
             Fss.postReload 'appointments', appointment: appointmentData
 
   $('#edit-appointment').click () ->
@@ -66,5 +66,5 @@ $ () ->
       Fss.getResources "places", (places) ->
         Fss.getResources "events", (events) ->
           Fss.getResource "appointments", appointmentId, (date) ->
-            editAppointment places, events, date, (appointmentData) ->
+            editAppointment "Termin bearbeiten", places, events, date, (appointmentData) ->
               Fss.changeRequest 'edit-appointment', appointment: appointmentData
