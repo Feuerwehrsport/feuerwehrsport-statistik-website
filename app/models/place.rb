@@ -15,4 +15,5 @@ class Place < ActiveRecord::Base
     search_value = "%#{value}%"
     where("name ILIKE ?", search_value)
   end
+  scope :index_order, -> { order(:name) }
 end

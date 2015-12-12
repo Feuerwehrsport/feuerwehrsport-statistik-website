@@ -5,7 +5,7 @@ RSpec.describe API::PlacesController, type: :controller do
     it "returns places" do
       get :index
       expect_json_response
-      expect(json_body[:places].first).to include id: 1, name: "Charlottenthal"
+      expect(json_body[:places].first).to eq(id: 268, name: "Almaty (KZ)")
     end
   end
 end

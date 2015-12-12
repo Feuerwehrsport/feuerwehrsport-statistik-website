@@ -9,4 +9,5 @@ class Event < ActiveRecord::Base
     joins(:competitions).
     group("#{table_name}.id")
   end
+  scope :index_order, -> { order(:name) }
 end

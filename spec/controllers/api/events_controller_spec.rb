@@ -5,7 +5,7 @@ RSpec.describe API::EventsController, type: :controller do
     it "returns events" do
       get :index
       expect_json_response
-      expect(json_body[:events].first).to include id: 1, name: "D-Cup"
+      expect(json_body[:events].first).to eq(id: 15, name: "Amtsausscheid")
     end
   end
 end

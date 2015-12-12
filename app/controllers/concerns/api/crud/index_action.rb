@@ -12,7 +12,7 @@ module API
         if resource_collection.respond_to?(:index_order)
           self.resource_collection = resource_collection.index_order
         end
-        success(resource_variable_name.pluralize.to_sym => resource_collection)
+        success(resource_variable_name.pluralize.to_sym => resource_collection.decorate)
       end
 
       protected
