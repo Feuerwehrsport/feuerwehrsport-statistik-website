@@ -40,5 +40,6 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
   config.caching = false
-  config.action_controller.default_url_options = { host: "127.0.0.1" }
+  # config.action_controller.default_url_options = { host: "127.0.0.1" }
+  # Rails.application.routes.default_url_options[:host]= '127.0.0.1' 
 end
