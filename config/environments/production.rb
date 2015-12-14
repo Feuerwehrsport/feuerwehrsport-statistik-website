@@ -79,4 +79,6 @@ Rails.application.configure do
 
   config.base_url = "http://www.feuerwehrsport-statistik.de:8099"
   config.action_controller.default_url_options = { host: "www.feuerwehrsport-statistik.de", port: "8099"}
+
+  config.wettkampf_manager_path = "/var/www/sites/de/feuerwehrsport-statistik/www/wettkampf-manager"
 end

@@ -52,6 +52,9 @@ gem 'validates_email_format_of'
 # ics export
 gem 'icalendar'
 
+# markdown
+gem 'redcarpet'
+
 group :development do
   gem 'capistrano', '~> 2', require: false
   gem 'rvm-capistrano', require: false

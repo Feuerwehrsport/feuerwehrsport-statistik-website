@@ -28,8 +28,15 @@ RSpec.describe PagesController, type: :controller do
   end
 
   describe 'GET firesport_overview' do
-    it "assigns the 100 last competitions" do
+    it "assigns nothing" do
       get :firesport_overview
+    end
+  end
+
+  describe 'GET wettkampf_manager' do
+    it "assigns wettkampf_manager_versions" do
+      get :wettkampf_manager
+      expect(assigns(:wettkampf_manager_versions).count).to eq 3
     end
   end
 end

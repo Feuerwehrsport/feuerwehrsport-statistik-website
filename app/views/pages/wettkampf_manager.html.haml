@@ -1,0 +1,109 @@
+= table_of_contents do |toc|
+  .row
+    .col-md-3= design_image("wettkampf-manager-logo")
+    .col-md-9
+      .page-header
+        %h1 Wettkampf-Manager
+  .row
+    .col-md-8
+      %p.lead Der Wettkampf-Manager ist ein Programm zum Auswerten von Wettkämpfen. Unabhängig von Excel können Startlisten, Ergebnislisten und Gesamtwertungen erstellt werden. Die Eingabe der Daten ist über mehrere PCs gleichzeitig möglich. Eine Live-Tabelle kann über WLAN bereitgestellt werden.
+    .col-md-4= toc.index
+  .row
+    .col-md-6
+      = toc.anker("Überblick", :h2)
+      %p Eine Auflistung der bisherigen Funktionen:
+      %ul
+        %li Namensvorschläge bei Eingabe
+        %li
+          Unterstützte Disziplinen:
+          %ul
+            %li Löschangriff Nass
+            %li Gruppenstafette
+            %li 4x100-Meter-Feuerwehrstafette
+            %li 100-Meter-Hindernisbahn
+            %li Hakenleitersteigen
+        %li
+          Gesamtwertungen:
+          %ul
+            %li Plätze zu Punkte (Negativpunkte pro Disziplin)
+            %li D-Cup-Wertung
+        %li automatische Zweikampfwertung
+        %li automatische U20-Wertung
+        %li D-Cup-Jahreswertung integriert
+        %li
+          Startlistenerstellung:
+          %ul
+            %li Aus gewünschten Mannschaften
+            %li Aus gewünschten Personen auch nach Reihenfolge
+            %li Einzelstarter werden berücksichtigt
+            %li Nur Beste X aus Vorlauf (Finale)
+            %li Bahnwechsel
+            %li Anzahl der Bahnen kann angegeben werden
+        %li
+          Bedienung über Webbrowser:
+          %ul
+            %li Nutzer mit Passwort können Zeiten bearbeiten
+            %li Nutzer ohne Passwort können Lesen
+            %li Für mobile Endgeräte optimiert
+    .col-md-6
+      = toc.anker("Download", :h2)
+      .row
+        .col-md-12
+          .list-group
+            - @wettkampf_manager_versions.each_with_index do |version, index|
+              %a.version-select.list-group-item{ data: { version: version.version_number }, href: "#", class: (index == 0 ? "active" : "") }
+                %span.badge= version.date
+                = version.version_number
+
+              .list-group-item{ data: { version: version.version_number }, class: (index == 0 ? "" : "hide") }
+                %ul
+                  - version.targets.each do |target|
+                    %li
+                      %a{ href: "/public/wettkampf_manager/#{version.version_number}/#{target.basename}" }= target.basename
+                      %span.label.label-info= number_to_human_size(target.size)
+                %a.btn.btn-default.btn-xs.pull-right{href: "https://github.com/Feuerwehrsport/wettkampf-manager/tree/#{version.commit_id}", title: "Commit-ID" }
+                  %span.glyphicon.glyphicon-paperclip{"aria-hidden" => "true" }
+                  = version.commit_id.first(7)
+                %h4 Veränderungen
+                = version.change_log
+    .col-md-6
+      = toc.anker("Hinweise zur Installation", :h2)
+      %ol
+        %li Datei herunterladen und entpacken
+        %li
+          %em install.bat
+          ausführen
+        %li
+          Warten bis im Terminal-Fenster
+          %em Weiter mit beliebiger Taste
+          steht. Dieser Vorgang benötigt eine Internetverbindung und dauert circa 15 Minuten.
+        %li
+          %em start_server.bat
+          ausführen (hier fragt die Firewall ob
+          %em Ruby
+          Zugriff haben darf)
+        %li
+          %a{ href: "http://localhost/" } http://localhost/
+          im Webbrowser eingeben und angezeigten Schritten folgen
+      %p
+        Die Installation kann erneut durchgeführt werden. Dafür einfach erneut die
+        %em install.bat
+        ausführen. Dabei wird gefragt, ob die vorhandenen Daten gelöscht werden sollen.
+    .col-md-6
+      = toc.anker("Fehler, Probleme, Wünsche", :h2)
+      %p Es kann immer mal wieder vorkommen, dass Fehler auftreten. Diese bitte per E-Mail oder als Ticket melden. Vorher könnt ihr einmal nachgucken, ob es für das Problem schon ein Ticket gibt.
+      %ul
+        %li
+          %a{ href: "mailto:georf@georf.de" } E-Mail schreiben
+        %li
+          %a{ href: "https://github.com/Feuerwehrsport/wettkampf-manager/issues" } Offene Tickets
+      %p Es können natürlich auch Wünsche geäußert werden. Gerade wenn ihr einen besonderen Wettkampfmodus habt, der als Startkonfiguration verfügbar sein soll, ist das kein Problem.
+    .col-md-6
+      = toc.anker("Geplante Funktionen", :h2)
+      %ul
+        %li Automatisches Veröffentlichen auf der Statistikseite
+        %li Automatisches Veröffentlichen auf gesonderter Seite
+        %li Online-Anmeldung im Vorfeld
+        %li Viele Verbesserungen bei der Bedienung
+        %li Startnummern
+        %li Losreihenfolge

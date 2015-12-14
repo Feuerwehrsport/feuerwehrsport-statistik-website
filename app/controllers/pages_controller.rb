@@ -28,6 +28,11 @@ class PagesController < ResourceController
     @last_competitions = last_competitions(100)
   end
 
+  def wettkampf_manager
+    @page_title = "Wettkampf-Manager"
+    @wettkampf_manager_versions = WettkampfManager::Version.all
+  end
+
   protected
 
   def last_competitions(limit)

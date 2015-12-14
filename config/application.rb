@@ -30,5 +30,7 @@ module FeuerwehrsportStatistik
     config.active_job.queue_adapter = :delayed_job
     config.base_url = "http://localhost:5060"
     config.caching = true
+
+    config.wettkampf_manager_path = "#{Rails.root}/spec/fixtures/wettkampf_manager"
   end
 end

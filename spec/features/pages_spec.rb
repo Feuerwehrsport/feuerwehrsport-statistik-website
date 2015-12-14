@@ -35,10 +35,10 @@ describe "pages features", type: :feature do
     end
   end
 
-  context "firesport_overview" do
-    it "shows list of the last inserted competitions" do
-      visit feuerwehrsport_path
-      expect(page).to have_content 'verschiedene Angebote'
+  context "wettkampf_manager" do
+    it "shows other information" do
+      visit wettkampf_manager_path
+      expect(page).to have_content 'Hinweise zur Installation'
     end
   end
 end
