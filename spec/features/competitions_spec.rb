@@ -47,6 +47,10 @@ describe "competitions features", type: :feature, js: true, driver: :webkit do
       expect(page).to have_content("Standardwertung WKO DIN-Pumpe")
 
       expect(page).to have_link("Bericht beim Team MV")
+
+      within('.missed-4') do
+        expect(page).to have_content("Folgende Informationen fehlen:")
+      end
     end
 
     it "adds change requests" do

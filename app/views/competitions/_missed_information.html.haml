@@ -1,0 +1,7 @@
+- if missed.values.reject(&:blank?).count != 0
+  .col-md-4{ class: "missed-#{missed.values.reject(&:blank?).count}"}
+    %h4 Folgende Informationen fehlen:
+    %ul
+      - missed.each do |key, value|
+        - if value
+          %li= t(".#{key}")

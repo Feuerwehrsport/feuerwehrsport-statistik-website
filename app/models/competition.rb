@@ -72,4 +72,16 @@ class Competition < ActiveRecord::Base
       #{scores.no_finals.with_team.joins(:person).select(:team_id).to_sql}
     )")
   end
+
+  def missed_information
+    @missed_information ||=
+      {
+        links: !links.present?,
+        la_members: group_scores.without_members(:la).present?,
+        fs_members: group_scores.without_members(:fs).present?,
+        gs_members: group_scores.without_members(:gs).present?,
+        single_team: scores.where(team_id: nil).present?,
+        competition_files: !competition_files.present?,
+      }
+  end
 end

@@ -159,6 +159,18 @@ de:
         email_address: E-Mail-Adresse
         name: Name
 
+  # views
+  competitions:
+    missed_information:
+      competition_files: Wettkampfergebnisse als Datei-Upload
+      links: Verlinkungen
+      la_members: Wettkämpfer beim Löschangriff
+      fs_members: Wettkämpfer bei der Feuerwehrstafette
+      gs_members: Wettkämpfer bei der Gruppenstafette
+      single_team: Team-Zuordnungen bei Einzeldisziplinen
+
+  # basic stuff
+
   errors:
     messages:
       accepted: muss akzeptiert werden

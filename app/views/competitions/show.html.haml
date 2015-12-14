@@ -91,10 +91,4 @@
       %p
         #add-change-request.btn.btn-default{ data: { competition_name: @competition.name, competition_id: @competition.id } } Fehler oder Hinweis melden
 
-    .missed-4.col-md-4
-      %h4 Folgende Informationen fehlen:
-      %ul
-        %li Wettkämpfer beim Löschangriff
-        %li Wettkämpfer bei der Feuerwehrstafette
-        %li Wettkämpfer bei der Gruppenstafette
-        %li Wettkampfergebnisse als Datei-Upload
+    = render('missed_information', missed: @competition.missed_information)
