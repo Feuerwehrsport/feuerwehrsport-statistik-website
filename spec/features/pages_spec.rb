@@ -34,4 +34,11 @@ describe "pages features", type: :feature do
       expect(first("td")).to have_link 'Pokallauf - Tüttleben - 19.09.2015 (1. Nachtsteigen)', href: competition_path(920)
     end
   end
+
+  context "firesport_overview" do
+    it "shows list of the last inserted competitions" do
+      visit firesport_overview_path
+      expect(page).to have_content 'verschiedene Angebote'
+    end
+  end
 end

@@ -26,4 +26,10 @@ RSpec.describe PagesController, type: :controller do
       expect(assigns(:last_competitions).first).to eq Competition.find(920)
     end
   end
+
+  describe 'GET firesport_overview' do
+    it "assigns the 100 last competitions" do
+      get :firesport_overview
+    end
+  end
 end
