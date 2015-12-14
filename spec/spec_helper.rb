@@ -20,6 +20,9 @@ require 'capybara/rspec'
 require 'capybara-screenshot/rspec'
 
 RSpec.configure do |config|
+  Capybara::Webkit.configure do |config|
+    config.block_url("*.tile.openstreetmap.de")
+  end
   Capybara::Screenshot.webkit_options = { width: 1024, height: 768 }
   Capybara::Screenshot.prune_strategy = { keep: 20 }
 

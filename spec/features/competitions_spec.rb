@@ -1,0 +1,98 @@
+require 'rails_helper'
+
+describe "competitions features", type: :feature, js: true, driver: :webkit do
+  context "index" do
+    it "shows an overview" do
+      visit competitions_path
+      expect(page).to have_content '1 bis 10 von 916 Einträgen'
+      click_on("Nächste")
+      expect(page).to have_content '11 bis 20 von 916 Einträgen'
+
+      expect(page).to have_content 'Isabel Siegel'
+      find('a[href="#tav-tab-img-width-20-title-loschangriff-nass-src-assets-di-1"]').click
+      expect(page).to have_content 'FF Klein Radden'
+    end
+  end
+
+  context "show" do
+    it "shows the competition" do
+      visit competition_path(id: 754)
+      expect(page).to have_content("Hindernisbahn weiblich")
+      expect(page).to have_content("1 bis 10 von 39 Einträgen")
+      expect(page).to have_content("Hindernisbahn weiblich Mannschaftswertung")
+
+      expect(page).to have_content("Hindernisbahn männlich")
+      expect(page).to have_content("1 bis 10 von 61 Einträgen")
+      expect(page).to have_content("Hindernisbahn männlich Mannschaftswertung")
+
+      expect(page).to have_content("Hakenleitersteigen weiblich")
+      expect(page).to have_content("Hakenleitersteigen weiblich Mannschaftswertung")
+
+      expect(page).to have_content("Hakenleitersteigen männlich")
+      expect(page).to have_content("1 bis 10 von 58 Einträgen")
+      expect(page).to have_content("Hakenleitersteigen männlich Mannschaftswertung")
+
+      expect(page).to have_content("Zweikampf weiblich")
+      expect(page).to have_content("Zweikampf männlich")
+
+      expect(page).to have_content("Gruppenstafette weiblich")
+      expect(page).to have_content("Standardwertung WKO")
+
+      expect(page).to have_content("Feuerwehrstafette weiblich")
+      expect(page).to have_content("Feuerwehrstafette männlich")
+      expect(page).to have_content("Standardwertung WKO - Löscher abstellen")
+
+      expect(page).to have_content("Löschangriff nass weiblich")
+      expect(page).to have_content("Löschangriff nass männlich")
+      expect(page).to have_content("Standardwertung WKO DIN-Pumpe")
+
+      expect(page).to have_link("Bericht beim Team MV")
+    end
+
+    it "adds change requests" do
+      api_sign_in
+      
+      visit competition_path(id: 300)
+      find('#add-change-request').click
+
+      within('.fss-window') do
+        expect(page).to have_content("Auswahl des Fehlers")
+        choose('Name des Wettkampfs vorschlagen')
+        click_on("OK")
+      end
+
+      within('.fss-window') do
+        expect(page).to have_content("Namen vorschlagen")
+        fill_in "Name", with: "Superduperwettkampf"
+        click_on("OK")
+      end
+      expect(page).to have_content("Der Fehlerbericht wurde gespeichert")
+      click_on("OK")
+
+      change_request_content = ChangeRequest.last.content
+      expect(change_request_content).to include key: "competition-change-name"
+      expect(change_request_content[:data]).to eq(competition_id: "300", name: "Superduperwettkampf")
+
+
+      find('#add-change-request').click
+
+      within('.fss-window') do
+        expect(page).to have_content("Auswahl des Fehlers")
+        choose('Hinweis geben')
+        click_on("OK")
+      end
+
+      within('.fss-window') do
+        expect(page).to have_content("Hinweis beschreiben")
+        fill_in "Beschreibung", with: "Wetterbericht"
+        click_on("OK")
+      end
+      expect(page).to have_content("Der Fehlerbericht wurde gespeichert")
+      click_on("OK")
+
+      change_request_content = ChangeRequest.last.content
+      expect(change_request_content).to include key: "competition-add-hint"
+      expect(change_request_content[:data]).to eq(competition_id: "300", hint: "Wetterbericht")
+    end
+  end
+end

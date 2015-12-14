@@ -75,3 +75,26 @@
         %tr
           %td= link_to(file.file_identifier, file.file.url)
           %td= file.human_keys.join(", ")
+  = toc.anker("Fehler oder Hinweis melden", :h2)
+
+  %p Beim Importieren der Ergebnisse kann es immer wieder mal zu Fehlern kommen. Geraden wenn die Namen in den Ergebnislisten verkehrt geschrieben wurden, kann keine eindeutige Zuordnung stattfinden. Außerdem treten auch Probleme mit Umlauten oder anderen besonderen Buchstaben im Namen auf.
+  %p Ihr könnt jetzt beim Korrigieren der Daten helfen. Dafür klickt ihr auf folgenden Link und generiert eine Meldung für den Administrator. Dieser überprüft dann die Eingaben und leitet weitere Schritte ein.
+
+  .row
+    .col-md-8
+      %p Auch Hinweise können zu einem Wettkampf gegeben werden. Dazu zählen zum Beispiel:
+      %ul
+        %li Name des Wettkampfs
+        %li Besondere Bedindungen
+        %li Wetter
+        %li Aufteilung auf mehrere Orte oder Tage
+      %p
+        #add-change-request.btn.btn-default{ data: { competition_name: @competition.name, competition_id: @competition.id } } Fehler oder Hinweis melden
+
+    .missed-4.col-md-4
+      %h4 Folgende Informationen fehlen:
+      %ul
+        %li Wettkämpfer beim Löschangriff
+        %li Wettkämpfer bei der Feuerwehrstafette
+        %li Wettkämpfer bei der Gruppenstafette
+        %li Wettkampfergebnisse als Datei-Upload
