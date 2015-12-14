@@ -37,7 +37,7 @@ describe "pages features", type: :feature do
 
   context "firesport_overview" do
     it "shows list of the last inserted competitions" do
-      visit firesport_overview_path
+      visit feuerwehrsport_path
       expect(page).to have_content 'verschiedene Angebote'
     end
   end
