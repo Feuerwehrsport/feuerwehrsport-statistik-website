@@ -18,6 +18,7 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require 'capybara/rspec'
 require 'capybara-screenshot/rspec'
+require 'capybara-webkit'
 
 RSpec.configure do |config|
   Capybara::Webkit.configure do |config|
