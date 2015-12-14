@@ -11,6 +11,6 @@ module MapHelper
         { latlon: marker.latlon, popup: "#{link_to(marker, marker)}" }
       end
     end
-    content_tag(:div, tag(:div, class: html_classes, id: id, data: { map: data.to_json }))
+    content_tag(:div, "", class: html_classes, id: id, data: { map: data.to_json })
   end
 end
