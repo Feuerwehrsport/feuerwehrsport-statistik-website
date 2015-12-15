@@ -40,13 +40,18 @@ end
 
 puts "teams"
 client.query("SELECT * FROM teams ORDER BY id").each do |row|
+  if row["logo"].present?
+    logo = File.open("/var/www/sites/de/feuerwehrsport-statistik/www/styling/logos/#{row["logo"]}")
+  else
+    logo = nil
+  end
   Team.create!(
     id: row["id"],
     name: row["name"],
     shortcut: row["short"],
     latitude: row["lat"],
     longitude: row["lon"],
-    image: File.open("/var/www/sites/de/feuerwehrsport-statistik/www/styling/logos/#{row["logo"]}"),
+    image: logo,
     state: row["state"].to_s,
     status: row["type"] == 'Team' ? 0 : 1,
   )
