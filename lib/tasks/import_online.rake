@@ -46,7 +46,7 @@ client.query("SELECT * FROM teams ORDER BY id").each do |row|
     shortcut: row["short"],
     latitude: row["lat"],
     longitude: row["lon"],
-    image: row["logo"],
+    image: File.open("/var/www/sites/de/feuerwehrsport-statistik/www/styling/logos/#{row["logo"]}"),
     state: row["state"].to_s,
     status: row["type"] == 'Team' ? 0 : 1,
   )

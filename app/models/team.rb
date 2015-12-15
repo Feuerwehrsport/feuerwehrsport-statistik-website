@@ -15,7 +15,7 @@ class Team < ActiveRecord::Base
   has_many :group_score_participations
   has_many :links, as: :linkable, dependent: :restrict_with_exception
 
-#  mount_uploader :image, TeamLogo
+  mount_uploader :image, TeamLogoUploader
 
   validates :name, :shortcut, presence: true
 
