@@ -1,6 +1,6 @@
 %h1= page_title
 
-= count_table(@rows) do |t|
+= count_table(@teams) do |t|
   - t.col("Name", class: "col70") { |row| link_to(row.name, row) }
   - t.col("Abk.", :shortcut, class: "col30")
   / - t.col("Typ", :status, class: "col30")
@@ -10,7 +10,13 @@
   - t.col("Wettkämpfe", :competitions_count, class: "col30")
   - t.col("", :image, class: "")
 
-= pie_chart states_hash
+.row
+  .col-md-6
+    %h4 Verteilung der Bundesländer
+    = @charts.federal_states_pie
+  .col-md-6
+    %h4 Verteilung der Staaten
+    = @charts.international_states_pie
 
 %h2 Neue Mannschaft anlegen
 .row

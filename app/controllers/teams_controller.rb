@@ -1,6 +1,7 @@
 class TeamsController < ResourceController
   def index
-    @rows = Team.with_members_and_competitions_count
+    @teams = Team.with_members_and_competitions_count.decorate
+    @charts = Chart::TeamOverview.new
   end
 
   def show
