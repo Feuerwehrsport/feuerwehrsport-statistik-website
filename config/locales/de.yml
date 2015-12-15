@@ -156,10 +156,13 @@ de:
       team:
         shortcut: Abkürzung
         status: Status
+        status0: Team
+        status1: Feuerwehr
         state: Land
       user:
         email_address: E-Mail-Adresse
         name: Name
+
 
   # views
   competitions:

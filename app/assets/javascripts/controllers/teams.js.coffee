@@ -1,5 +1,5 @@
 $ () ->
-  new SortTable(noSorting: 6)
+  new SortTable(noSorting: 0, sortCol: 1, direction: 'asc')
 
   $('#add-team').click (ev) ->
     ev.preventDefault()

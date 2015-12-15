@@ -1,14 +1,13 @@
 %h1= page_title
 
 = count_table(@teams) do |t|
-  - t.col("Name", class: "col70") { |row| link_to(row.name, row) }
-  - t.col("Abk.", :shortcut, class: "col30")
-  / - t.col("Typ", :status, class: "col30")
-  - t.col("Land", :state, class: "col30")
-  - t.col("Typ", :status, class: "col30")
-  - t.col("Mitglieder", :members_count, class: "col30")
-  - t.col("Wettkämpfe", :competitions_count, class: "col30")
-  - t.col("", :image, class: "")
+  - t.col("", class: "col-5") { |row| image_tag(row.image.thumb) }
+  - t.col("Name", class: "col-40") { |row| team_link(row) }
+  - t.col("Abk.", :shortcut, class: "col-30")
+  - t.col("Typ", :human_status, class: "col-10 small")
+  - t.col("Land", :state, class: "col-10 small")
+  - t.col("Mitglieder", :members_count, class: "col-15", th_options: { class: "small" })
+  - t.col("Wettkämpfe", :competitions_count, class: "col-15", th_options: { class: "small" })
 
 .row
   .col-md-6
