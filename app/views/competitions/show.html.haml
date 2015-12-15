@@ -60,10 +60,7 @@
     = map(id: 'competition-map', red: @competition.place, markers: @competition.teams.select(&:positioned?))
 
   = toc.anker("Weblinks", :h2)
-  - if @competition.links.present?
-    %ul
-      - @competition.links.each do |link|
-        %li= link_to(link.label, link.url)
+  = render('links', links: @competition.links, linkable_type: resource_class, linkable_id: @competition.id)
 
   = toc.anker("Dateien", :h2)
   - if @competition.competition_files.present?
