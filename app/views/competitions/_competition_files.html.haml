@@ -1,0 +1,8 @@
+%table.table
+  %tr
+    %th Dateien
+    %th Enthaltene Ergebnisse
+  - files.each do |file|
+    %tr
+      %td= link_to(file.file_identifier, file.file.url)
+      %td= file.human_keys.join(", ").html_safe

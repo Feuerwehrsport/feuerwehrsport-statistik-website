@@ -9,4 +9,18 @@ class CompetitionsController < ResourceController
     @competition = Competition.find(params[:id]).decorate
     @calc = Calculation::Competition.new(@competition)
   end
+
+  def files
+    @competition = Competition.find(params[:id])
+
+    @competition_files = params.require(:competition_file).values.map do |competition_file_params|
+      CompetitionFile.new(competition: @competition, file: competition_file_params[:file], keys_params: competition_file_params)
+    end
+
+    if @competition_files.all?(&:valid?)
+      @saved = @competition_files.all?(&:save)
+    else
+      @saved = false
+    end
+  end
 end

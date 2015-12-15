@@ -67,14 +67,9 @@
 
   = toc.anker("Dateien", :h2)
   - if @competition.competition_files.present?
-    %table.table
-      %tr
-        %th Dateien
-        %th Enthaltene Ergebnisse
-      - @competition.competition_files.each do |file|
-        %tr
-          %td= link_to(file.file_identifier, file.file.url)
-          %td= file.human_keys.join(", ")
+    = render('competition_files', files: @competition.competition_files)
+  = render('competition_file_form')
+
   = toc.anker("Fehler oder Hinweis melden", :h2)
 
   %p Beim Importieren der Ergebnisse kann es immer wieder mal zu Fehlern kommen. Geraden wenn die Namen in den Ergebnislisten verkehrt geschrieben wurden, kann keine eindeutige Zuordnung stattfinden. Außerdem treten auch Probleme mit Umlauten oder anderen besonderen Buchstaben im Namen auf.

@@ -17,22 +17,22 @@ $ () ->
         map.fitBounds(L.featureGroup(markers).getBounds(), padding: [20, 20])
       , 300)
 
-  # $('#add-file').click () ->
-  #   Fss.checkLogin () ->
-  #     $('#add-file-form').show()
-  #     $('#add-file').hide()
+  $('#add-file').click () ->
+    Fss.checkLogin () ->
+      $('#add-file-form').removeClass('hide')
+      $('#add-file').hide()
 
-  # fileCounter = 0
-  # $('#more-files').click (ev) ->
-  #   ev.preventDefault()
-  #   fileCounter++
-  #   tr = $('.input-file-row').closest('tr').clone().removeClass('input-file-row')
-  #   file = tr.find('input[type=file]').val('')
-  #   file.attr('name', file.attr('name').replace(/[0-9]+/,'') + fileCounter)
-  #   tr.find(':checkbox').each () ->
-  #     checkbox = $(this).removeAttr('checked')
-  #     checkbox.attr('name', checkbox.attr('name').replace(/[0-9]+/,'') + fileCounter)
-  #   $('.input-file-row').closest('table').append(tr)
+  fileCounter = 0
+  $('#more-files').click (ev) ->
+    ev.preventDefault()
+    fileCounter++
+    tr = $('.input-file-row').closest('tr').clone().removeClass('input-file-row')
+    file = tr.find('input[type=file]').val('')
+    file.attr('name', file.attr('name').replace(/competition_file\[[0-9]+\]/, "competition_file[#{fileCounter}]"))
+    tr.find(':checkbox').each () ->
+      checkbox = $(this).removeAttr('checked')
+      checkbox.attr('name', checkbox.attr('name').replace(/competition_file\[[0-9]+\]/, "competition_file[#{fileCounter}]"))
+    $('.input-file-row').closest('table').append(tr)
 
   $('#add-change-request').click () ->
     competitionId = $(this).data('competition-id')

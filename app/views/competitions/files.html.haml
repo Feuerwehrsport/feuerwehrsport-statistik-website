@@ -1,0 +1,12 @@
+- if @saved
+  .alert.alert-success
+    %h4 Dateien erfolgreich gespeichert
+    = render("competition_files", files: @competition_files.map(&:decorate))
+- else
+  - @competition_files.each do |competition_file|
+    .alert.alert-danger
+      %ul
+        - competition_file.errors.full_messages.each do |message|
+          %li= message
+
+= link_to("Zurück zum Wettkampf", @competition)

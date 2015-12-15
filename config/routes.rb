@@ -21,7 +21,9 @@ Rails.application.routes.draw do
     resources :teams
   end
   resources :appointments, only: [:index, :show]
-  resources :competitions, only: [:index, :show]
+  resources :competitions, only: [:index, :show] do
+    member { post :files }
+  end
   resources :people, only: [:index, :show]
   resources :places, only: [:index, :show]
   resources :teams, only: [:index, :show]
