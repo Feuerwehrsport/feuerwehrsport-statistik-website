@@ -99,4 +99,18 @@ describe "competitions features", type: :feature, js: true, driver: :webkit do
       expect(change_request_content[:data]).to eq(competition_id: "300", hint: "Wetterbericht")
     end
   end
+
+  context "file upload" do
+    it "adds change requests" do
+      api_sign_in
+      
+      visit competition_path(id: 300)
+      find('#add-file').click
+      expect(page).to have_content("Es dürfen nur PDFs hochgeladen werden.")
+      attach_file('competition_file[0][file]', "#{Rails.root}/spec/fixtures/testfile.pdf")
+      check("competition_file[0][fs_female]")
+      click_on("Hochladen")
+      expect(page).to have_content("Dateien erfolgreich gespeichert")
+    end
+  end
 end
