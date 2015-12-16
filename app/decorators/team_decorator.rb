@@ -13,6 +13,6 @@ class TeamDecorator < ApplicationDecorator
   end
 
   def human_status
-    t("activerecord.attributes.team.status#{status}")
+    t("activerecord.attributes.team.status_#{status}")
   end
 end

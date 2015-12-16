@@ -1,5 +1,7 @@
 class Team < ActiveRecord::Base
   include GeoPosition
+  STATUS = { team: 0, fire_station: 1 }
+  enum status: STATUS
   
   has_many :group_scores, dependent: :restrict_with_exception
   has_many :scores, dependent: :restrict_with_exception
@@ -26,6 +28,7 @@ class Team < ActiveRecord::Base
       (#{TeamCompetition.select("COUNT(*)").where("team_id = teams.id").to_sql}) AS competitions_count
     ")
   end
+  scope :status, -> (status) { where(status: STATUS[status.to_sym]) }
 
   def person_scores_count(person)
     scores.where(person: person).count + person_participations.where(person: person).count

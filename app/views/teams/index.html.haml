@@ -1,7 +1,7 @@
 %h1= page_title
 
 = count_table(@teams) do |t|
-  - t.col("", class: "col-5") { |row| image_tag(row.image.thumb) }
+  - t.col("", class: "col-5") { |row| row.image.present? ? image_tag(row.image.thumb) : "" }
   - t.col("Name", class: "col-40") { |row| team_link(row) }
   - t.col("Abk.", :shortcut, class: "col-30")
   - t.col("Typ", :human_status, class: "col-10 small")
@@ -21,7 +21,7 @@
 .row
   .col-md-4
     %p Ist deine Mannschaft oder Feuerwehr noch nicht eingetragen? Dann lege sie doch einfach schnell an. Mit nur ein paar Klicks und ohne Anmeldung ist es in einer Minute geschafft.
-    %button.btn.btn-default#add-team Anlegen
+    .btn.btn-default#add-team Anlegen
 
   .col-md-4
     = image_tag asset_path("actions/user-group-new.png")

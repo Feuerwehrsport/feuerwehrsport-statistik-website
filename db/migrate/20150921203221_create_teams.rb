@@ -7,7 +7,7 @@ class CreateTeams < ActiveRecord::Migration
       t.decimal :latitude, precision: 15, scale: 10
       t.decimal :longitude, precision: 15, scale: 10
       t.string :image
-      t.string :state, null: false
+      t.string :state, null: false, default: ""
 
       t.timestamps null: false
     end

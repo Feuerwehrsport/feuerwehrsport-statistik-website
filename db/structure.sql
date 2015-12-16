@@ -904,7 +904,7 @@ CREATE TABLE teams (
     latitude numeric(15,10),
     longitude numeric(15,10),
     image character varying,
-    state character varying NOT NULL,
+    state character varying DEFAULT ''::character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );

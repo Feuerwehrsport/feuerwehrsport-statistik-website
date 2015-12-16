@@ -156,8 +156,10 @@ de:
       team:
         shortcut: Abkürzung
         status: Status
-        status0: Team
-        status1: Feuerwehr
+        status_0: Team
+        status_team: Team
+        status_1: Feuerwehr
+        status_fire_station: Feuerwehr
         state: Land
       user:
         email_address: E-Mail-Adresse
