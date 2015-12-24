@@ -28,7 +28,7 @@ module API
     end
 
     def failed(hash={})
-      respond_with(hash.merge(success: false, message: failed_message))
+      respond_with({message: failed_message}.merge(hash).merge(success: false))
     end
 
     def failed_message
