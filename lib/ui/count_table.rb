@@ -1,9 +1,10 @@
 module UI
-  class CountTable < Struct.new(:view, :rows, :options, :columns)
+  class CountTable < Struct.new(:view, :rows, :options, :columns, :data_fields)
     def initialize(*args)
       super
       self.options ||= {}
       self.columns = []
+      self.data_fields = []
       yield self
       after_initialize if respond_to? :after_initialize
     end
@@ -18,8 +19,23 @@ module UI
       columns.push Column.new(self, column_head, column_key, options, block)
     end
 
+    def data(data_name, &block)
+      data_fields.push(DataField.new(data_name, block))
+    end
+
+    def row_data(row)
+      data = {}
+      data_fields.each do |field|
+        data[field.name] = field.block.call(row)
+      end
+      data
+    end
+
     def headlines
       columns.map(&:name)
+    end
+
+    class DataField < Struct.new(:name, :block)
     end
 
     class Column < Struct.new(:count_table, :name, :keys, :options, :block)
