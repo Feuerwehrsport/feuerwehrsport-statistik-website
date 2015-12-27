@@ -1,21 +1,9 @@
 $ () ->
-  new SortTable(noSorting: 0, sortCol: 1, direction: 'asc')
-  $('table.change-position').each () ->
-    table = $(this)
-    wrapper = table.closest('.dataTables_wrapper')
-    buttonWrapper = wrapper.find('.change-position-wrapper')
-    button = $('<div/>').addClass('btn btn-info').text("Positionen bearbeiten").appendTo(buttonWrapper).click () -> 
-      button.hide()
-      table.dataTable().$('tr').each () ->
-        tr = $(this)
-        text = tr.find('.time-col').text()
-        button = $('<div/>').addClass('glyphicon glyphicon-pencil btn btn-default btn-xs').text(" #{text}")
-        tr.find('.time-col').text("").append(button)
-        button
-          .attr('title', 'Positionen bearbeiten')
-          .click () ->
-            Fss.teamMates(tr.data('score-id'))
-
+  new SortTable(selector: ".datatable-teams", noSorting: 0, sortCol: 1, direction: 'asc')
+  new SortTable(selector: ".datatable-team-members", direction: 'asc')
+  new SortTable(selector: ".datatable-team-competitions")
+  new SortTable(selector: ".datatable-group-assessments", noSorting: [5, 6])
+  new SortTable(selector: ".datatable-group-disciplines")
 
 
   if $('#team-map').length > 0

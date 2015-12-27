@@ -6,11 +6,7 @@
     = g(group_discipline.gender)
   - group_discipline.types.each do |group_type|
     %h3= group_type.type
-    = count_table(group_type.scores, class: "change-position") do |ct|
-      - ct.data(:score_id)  { |row| row.id }
+    = position_count_table(group_discipline.discipline, group_discipline.gender, group_type.scores, class: "datatable-group-disciplines") do |ct|
       - ct.col("Datum", class: "small col-8") { |row| competition_link(row.competition, type: :date) }
       - ct.col("Typ", class: "small col-10") { |row| competition_link(row.competition, type: :event) }
-      - ct.col("N", class: "small col-5") { |row| row.team_number + 1 }
-      - ct.col("Zeit", :second_time, class: "small col-5 time-col")
-      - (1..Discipline.participation_count(group_discipline.discipline)).each do |position|
-        - ct.col("WK#{position}", class: "small col-10", th_options: { title: competitor_position(group_discipline.discipline, position, group_discipline.gender) } ) { |row| row.person_participations.where(position: position).first.try(:person).try(:decorate).try(:short_name) }
+      - ct.col("N", class: "small col-5") { |row| [row.team_number + 1, row.run].reject(&:blank?).join(" ") }

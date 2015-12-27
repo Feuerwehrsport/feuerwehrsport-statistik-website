@@ -48,3 +48,22 @@ $ ->
       new ConfirmFssWindow('Link melden', "Soll der Link »#{element.find('a').text()}« als defekt gemeldet werden?", (data) ->
         Fss.changeRequest('report-link', link_id: element.data('link-id'))
       )
+
+  setTimeout( () ->
+    $('table.change-position').each () ->
+      table = $(this)
+      wrapper = table.closest('.dataTables_wrapper')
+      buttonWrapper = wrapper.find('.change-position-wrapper')
+      button = $('<div/>').addClass('btn btn-info').text("Positionen bearbeiten").hide().appendTo(buttonWrapper).click () -> 
+        button.hide()
+        table.dataTable().$('tr').each () ->
+          tr = $(this)
+          text = tr.find('.time-col').text()
+          button = $('<div/>').addClass('glyphicon glyphicon-pencil btn btn-default btn-xs').text(" #{text}")
+          tr.find('.time-col').text("").append(button)
+          button
+            .attr('title', 'Positionen bearbeiten')
+            .click () ->
+              Fss.teamMates(tr.data('score-id'))
+      button.fadeIn()
+  , 1500)

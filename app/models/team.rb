@@ -85,7 +85,7 @@ class Team < ActiveRecord::Base
       [:female, :male].each do |gender|
         current_discipline = OpenStruct.new(discipline: discipline, gender: gender, types: [])
         group_score_types(discipline).each do |group_type|
-          scores = group_scores.gender(gender).group_score_type(group_type).to_a
+          scores = group_scores.gender(gender).group_score_type(group_type).includes(:person_participations).to_a
           current_discipline.types.push(OpenStruct.new(scores: scores.map(&:decorate), type: group_type)) if scores.count > 0
         end
         group_disciplines.push(current_discipline) if current_discipline.types.count > 0

@@ -1,6 +1,6 @@
 = toc.anker("Wettkämpfe", :h2)
-= count_table(@team_competitions) do |ct|
-  - ct.col("Datum", helper_method: :competition_link, helper_method_options: { type: :date })
+= count_table(@team_competitions, class: "datatable-team-competitions") do |ct|
+  - ct.col("Datum") { |row| competition_link(row, type: :date) }
   - ct.col("Typ") { |row| event_link(row.event) }
   - ct.col("Ort") { |row| place_link(row.place) }
   - ct.col("Name") { |row| competition_link(row, type: :name) }

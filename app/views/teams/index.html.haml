@@ -1,6 +1,6 @@
 %h1= page_title
 
-= count_table(@teams) do |t|
+= count_table(@teams, class: "datatable-teams") do |t|
   - t.col("", class: "col-5") { |row| row.image.present? ? image_tag(row.image.thumb) : "" }
   - t.col("Name", class: "col-40") { |row| team_link(row) }
   - t.col("Abk.", :shortcut, class: "col-30")

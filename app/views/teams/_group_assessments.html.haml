@@ -5,7 +5,7 @@
     = discipline_name(group_assessment.discipline)
     = g(group_assessment.gender)
     = "- Mannschaftswertung"
-  = count_table(group_assessment.scores) do |ct|
+  = count_table(group_assessment.scores, class: "datatable-group-assessments") do |ct|
     - ct.col("Datum", class: "small col-8") { |row| competition_link(row.competition, type: :date) }
     - ct.col("Typ", class: "small col-10") { |row| competition_link(row.competition, type: :event) }
     - ct.col("Zeit", :second_time, class: "small col-8")

@@ -1,5 +1,5 @@
 class @SortTable
-  options: 
+  @options: 
     selector: '.datatable'
     sortCol: 0
     direction: 'desc'
@@ -7,7 +7,7 @@ class @SortTable
     count: 10
 
   constructor: (options) ->
-    options = $.extend(@options, options)
+    options = $.extend({}, SortTable.options, options)
 
     dataTableOptions =
       aaSorting: [[ options.sortCol, options.direction ]]
