@@ -29,6 +29,7 @@ class Team < ActiveRecord::Base
     ")
   end
   scope :status, -> (status) { where(status: STATUS[status.to_sym]) }
+  scope :index_order, -> { order(:name) }
 
   def person_scores_count(person)
     scores.where(person: person).count + person_participations.where(person: person).count

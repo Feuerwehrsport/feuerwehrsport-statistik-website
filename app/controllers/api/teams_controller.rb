@@ -1,6 +1,8 @@
 module API
   class TeamsController < BaseController
     include CRUD::CreateAction
+    include CRUD::ShowAction
+    include CRUD::IndexAction
 
     protected
 
