@@ -134,6 +134,9 @@ class @Fss
   @post: (url, data, callbackSuccess, callbackFailed=false) ->
     Fss.ajaxRequest("POST", url, data, callbackSuccess, callbackFailed=false)
 
+  @put: (url, data, callbackSuccess, callbackFailed=false) ->
+    Fss.ajaxRequest("PUT", url, data, callbackSuccess, callbackFailed=false)
+
   @ajaxRequest: (type, url, data, callbackSuccess, callbackFailed=false) ->
     url = "/api/#{url}"
     wait = new WaitFssWindow()
@@ -165,35 +168,26 @@ class @Fss
       else
         new WarningFssWindow(data.message)
 
-  @teamMates: (discipline, scoreId) ->
+  @teamMates: (scoreId) ->
     Fss.checkLogin () ->
-      Fss.post 'get-score-information', {scoreId: scoreId, discipline: discipline}, (data) ->
-        scores = data.scores
-        sex = 'female'
-        description = "Gruppenstafetten"
-        wks = Fss.wks[discipline]
-        if discipline is 'fs'
-          sex = scores[0].sex
-          description = "4x100m"
-          wks = wks[sex]
-        if discipline is 'la'
-          sex = scores[0].sex
-          description = "Löschangriff"
+      Fss.getResource 'group_scores', scoreId, (score) ->
+        wks = Fss.wks[score.discipline]
+        wks = wks[score.gender] if score.discipline is 'fs'
 
-        buildWindow = (withSex) ->
+        buildWindow = (withGender) ->
           options = {}
-          options = { sex: sex } if withSex
-          Fss.post 'get-persons', options, (data) ->
-            persons = data.persons
+          options = { gender: score.gender } if withGender
+          Fss.get 'people', options, (data) ->
+            people = data.people
             fssWindow = FssWindow.build("Wettkämpfer zuordnen")
-            .add(new FssFormRowDescription("Sie ordnen Personen diesen #{description}-Läufen zu."))
+            .add(new FssFormRowDescription("Sie ordnen Personen diesen #{score.translated_discipline_name}-Läufen zu."))
             try
-              fssWindow.add(new FssFormRowScores('scores', persons, scores, wks))
+              fssWindow.add(new FssFormRowScores('scores', people, score.similar_scores, wks))
             catch
               buildWindow(false)
               return
 
-            if sex == 'male' && withSex
+            if score.gender == 'male' && withGender
               div = $('<div/>').css(marginTop: '12px', marginBottom: '10px')
               .append($('<span/>').text('Auch Frauen zur Auswahl stellen (für gemischte Mannschaften): '))
               .append($('<button/>').text('Auswahl erweitern').on('click', (e) =>
@@ -203,9 +197,8 @@ class @Fss
               ))
               fssWindow.add(new FssFormRow(div))
             fssWindow.on("submit", (data) ->
-              Fss.reloadOnArrayReady data.scores, 'set-score-wk', (score) ->
-                score.discipline = discipline
-                score
+              Fss.reloadOnArrayReady data.scores, (score, success) ->
+                Fss.put("group_scores/#{score.id}/person_participation", group_score: score, success)
             )
             .open()
         buildWindow(true)
@@ -224,14 +217,14 @@ class @Fss
         button.remove()
         button = null
 
-  @reloadOnArrayReady = (array, apiKey, dataCallback) ->
+  @reloadOnArrayReady = (array, dataCallback) ->
     ready = 0
     elementReady = () ->
       ready++
       location.reload() if ready > array.length
     
     for element in array
-      Fss.post(apiKey, dataCallback(element), elementReady)
+      dataCallback(element, elementReady)
     elementReady()
 
   @changeRequest = (key, data) ->

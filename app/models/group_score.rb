@@ -42,6 +42,10 @@ class GroupScore < ActiveRecord::Base
   end
 
   def entity
-    team  
-  end 
+    team
+  end
+
+  def similar_scores
+    GroupScore.where(team_id: team_id, group_score_category_id: group_score_category_id).gender(gender)
+  end
 end

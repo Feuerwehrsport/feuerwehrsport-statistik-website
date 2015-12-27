@@ -167,7 +167,7 @@ class @FssFormRowDate extends FssFormRowLabelField
     data
 
 class @FssFormRowScores extends FssFormRow
-  constructor: (@name, persons, @scores, @wks) ->
+  constructor: (@name, people, @scores, @wks) ->
     table = $('<table/>').addClass('score-table')
 
     tr = $('<tr/>').append($('<td/>'))
@@ -185,8 +185,8 @@ class @FssFormRowScores extends FssFormRow
         option.attr('selected', 'selected') if score["person_#{c + 1}"] is null
         found = false
 
-        for person in persons
-          option = $('<option/>').val(person.id).text(person.name + ', ' + person.firstname).appendTo(select)
+        for person in people
+          option = $('<option/>').val(person.id).text(person.last_name + ', ' + person.first_name).appendTo(select)
           if person.id is score["person_#{c + 1}"]
             option.attr('selected', 'selected')
             found = true
@@ -217,8 +217,8 @@ class @FssFormRowScores extends FssFormRow
   appendData: (data) =>
     returnScores = []
     for score, i in @scores
-      returnScores[i] = scoreId: score.id
+      returnScores[i] = id: score.id
       for wk, c in @wks
-        returnScores[i]["person#{c+1}"] = score.selects[c].val()
+        returnScores[i]["person_#{c+1}"] = score.selects[c].val()
     data.scores = returnScores
     data
