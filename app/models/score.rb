@@ -23,7 +23,7 @@ class Score < ActiveRecord::Base
   scope :year, -> (year) { joins(:competition).merge(Competition.year(year)) }
 
   def uniq_team_id
-    "#{team_id}-#{team_number}"
+    "#{competition_id}-#{team_id}-#{team_number}"
   end
 
   def <=>(other)

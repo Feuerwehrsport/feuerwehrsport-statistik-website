@@ -1,0 +1,7 @@
+= toc.anker("Wettkämpfer", :h2)
+= count_table(@team_members) do |ct|
+  - ct.col("Name", class: "col-20", helper_method: :person_link)
+  - ct.col("Vorname", class: "col-20", helper_method: :person_link, helper_method_options: { type: :first_name })
+  - ct.col("Geschlecht", :translated_gender, class: "col-20")
+  - [:hl, :hb, :gs, :fs, :la].each do |discipline|
+    - ct.col(discipline_name_short(discipline), discipline, class: "col-5", th_options: { title: discipline_name(discipline) })

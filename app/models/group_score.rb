@@ -29,6 +29,9 @@ class GroupScore < ActiveRecord::Base
       to_sql
     from("(#{inner_sql}) group_scores").where("members_count < #{Discipline.participation_count(d)}")
   end
+  scope :group_score_type, -> (group_type) do
+    joins(:group_score_category).where(group_score_categories: { group_score_type_id: group_type.id })
+  end
 
   validates :team, :group_score_category, :team_number, :gender, :time, presence: true
 

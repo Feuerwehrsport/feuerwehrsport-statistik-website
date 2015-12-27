@@ -13,21 +13,35 @@ class Calculation::CompetitionGroupAssessment < Struct.new(:team, :team_number, 
     @sorted_scores ||= @scores.sort
   end
 
-  def score_in_assessment
-    @score_in_assessment ||= scores.first(competition.score_type.score)
+  def score_in_assessment(score_count=nil)
+    score_count ||= competition_score_count
+    @score_in_assessment ||= {}
+    @score_in_assessment[score_count] = scores.first(score_count)
   end
 
-  def score_out_assessment
-    @score_out_assessment ||= scores.drop(competition.score_type.score)
+  def score_out_assessment(score_count=nil)
+    score_count ||= competition_score_count
+    @score_out_assessment ||= {}
+    @score_out_assessment[score_count] = scores.drop(score_count)
   end
 
-  def time
-    @time ||= begin
-      if score_in_assessment.reject(&:time_invalid?).count < competition.score_type.score
-        TimeInvalid::INVALID
-      else
-        score_in_assessment.map(&:time).sum
-      end
+  def time(score_count=nil)
+    score_count ||= competition_score_count
+    @time ||= {}
+    @time[score_count] ||= calculate_time(score_count)
+  end
+
+  protected
+
+  def competition_score_count
+    @competition_score_count ||= competition.score_type.score
+  end
+
+  def calculate_time(score_count)
+    if score_in_assessment(score_count).reject(&:time_invalid?).count < score_count
+      TimeInvalid::INVALID
+    else
+      score_in_assessment(score_count).map(&:time).sum
     end
   end
 

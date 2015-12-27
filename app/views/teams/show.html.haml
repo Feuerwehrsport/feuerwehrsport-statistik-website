@@ -1,0 +1,40 @@
+= table_of_contents do |toc|
+  .row
+    .col-md-2
+      - if @team.image.present?
+        = image_tag(@team.image)
+        %hr
+      = @chart.gender_pie
+    .col-md-7
+      .page-header
+        %h1= @team.name
+      %table.table
+        %tr
+          %th Wettkämpfer
+          %td= @team_members.count
+        %tr
+          %th Land/Bundesland
+          %td= @team.full_state
+        %tr
+          %th Webseite
+          %td= render('links', links: @team.links, linkable_type: "Team", linkable_id: @team.id)
+
+    .col-md-3= toc.index
+
+  = render 'team_members', toc: toc
+  = render 'team_competitions', toc: toc
+  = render 'group_assessments', toc: toc
+  = render 'group_disciplines', toc: toc
+  = render 'group_series', toc: toc
+
+  - if @team.positioned?
+    = toc.anker("Karte", :h2)
+    = map(id: 'team-map', red: @team)
+
+
+  = toc.anker("Fehler melden", :h2)
+  %p Beim Importieren der Ergebnisse kann es immer wieder mal zu Fehlern kommen. Geraden wenn die Namen in den Ergebnislisten verkehrt geschrieben wurden, kann keine eindeutige Zuordnung stattfinden. Außerdem treten auch Probleme mit Umlauten oder anderen besonderen Buchstaben im Namen auf.
+
+  %p Ihr könnt jetzt beim Korrigieren der Daten helfen. Dafür klickt ihr auf folgenden Link und generiert eine Meldung für den Administrator. Dieser überprüft dann die Eingaben und leitet weitere Schritte ein.
+
+  .btn.btn-default#add-change-request Fehler mit diesem Team melden

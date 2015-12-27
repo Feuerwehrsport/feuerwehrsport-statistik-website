@@ -1,0 +1,15 @@
+- @group_assessments.each do |group_assessment|
+  = toc.anker("#{discipline_name(group_assessment.discipline)} #{g_symbol(group_assessment.gender)}")
+  %h2
+    = discipline_image(group_assessment.discipline)
+    = discipline_name(group_assessment.discipline)
+    = g(group_assessment.gender)
+    = "- Mannschaftswertung"
+  = count_table(group_assessment.scores) do |ct|
+    - ct.col("Datum", class: "small col-8") { |row| competition_link(row.competition, type: :date) }
+    - ct.col("Typ", class: "small col-10") { |row| competition_link(row.competition, type: :event) }
+    - ct.col("Zeit", :second_time, class: "small col-8")
+    - ct.col("bei 6", :second_time_by_6, class: "small col-8")
+    - ct.col("r", class: "small col-5") { |row| row.competition.score_type.score }
+    - ct.col("Wertung", class: "small") { |row| row.score_in_assessment.map {|s| link_to(s.person.short_name, s.person) }.join(", ").html_safe }
+    - ct.col("Außerhalb", class: "small") { |row| row.score_out_assessment.map {|s| link_to(s.person.short_name, s.person) }.join(", ").html_safe }

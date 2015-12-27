@@ -51,7 +51,11 @@ module UI
             value
           end
         elsif options[:helper_method].present?
-          count_table.view.send(options[:helper_method], row)
+          if options[:helper_method_options].present? 
+            count_table.view.send(options[:helper_method], row, options[:helper_method_options])
+          else
+            count_table.view.send(options[:helper_method], row)
+          end
         else
           block.call(row)
         end

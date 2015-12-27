@@ -1,0 +1,16 @@
+- @group_disciplines.each do |group_discipline|
+  = toc.anker("#{discipline_name(group_discipline.discipline)} #{g_symbol(group_discipline.gender)}")
+  %h2
+    = discipline_image(group_discipline.discipline)
+    = discipline_name(group_discipline.discipline)
+    = g(group_discipline.gender)
+  - group_discipline.types.each do |group_type|
+    %h3= group_type.type
+    = count_table(group_type.scores, class: "change-position") do |ct|
+      - ct.data(:score_id)  { |row| row.id }
+      - ct.col("Datum", class: "small col-8") { |row| competition_link(row.competition, type: :date) }
+      - ct.col("Typ", class: "small col-10") { |row| competition_link(row.competition, type: :event) }
+      - ct.col("N", class: "small col-5") { |row| row.team_number + 1 }
+      - ct.col("Zeit", :second_time, class: "small col-5 time-col")
+      - (1..Discipline.participation_count(group_discipline.discipline)).each do |position|
+        - ct.col("WK#{position}", class: "small col-10", th_options: { title: competitor_position(group_discipline.discipline, position, group_discipline.gender) } ) { |row| row.person_participations.where(position: position).first.try(:person).try(:decorate).try(:short_name) }
