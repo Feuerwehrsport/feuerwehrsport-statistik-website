@@ -13,9 +13,9 @@ RSpec.describe API::GroupScoresController, type: :controller do
         run: "",
         second_time: "22,39",
         similar_scores: [
-          { id: 2, time: 2704, second_time: "27,04", person_1: 235, person_2: 153, person_3: 146, person_4: 1529, 
-            person_5: 156, person_6: 148, person_7: 444 },
           { id: 1, time: 2239, second_time: "22,39", person_1: 235, person_2: 153, person_3: 146, person_4: 1529, 
+            person_5: 156, person_6: 148, person_7: 444 },
+          { id: 2, time: 2704, second_time: "27,04", person_1: 235, person_2: 153, person_3: 146, person_4: 1529, 
             person_5: 156, person_6: 148, person_7: 444 }
         ],
         team_id: 13,
@@ -35,9 +35,9 @@ RSpec.describe API::GroupScoresController, type: :controller do
       expect_json_response
       expect(json_body[:group_score]).to include(
         similar_scores: [
+          persons_out.merge(id: 1, time: 2239, second_time: "22,39"),
           { id: 2, time: 2704, second_time: "27,04", person_1: 235, person_2: 153, person_3: 146, person_4: 1529, 
-            person_5: 156, person_6: 148, person_7: 444 },
-          persons_out.merge(id: 1, time: 2239, second_time: "22,39")
+            person_5: 156, person_6: 148, person_7: 444 }
         ],
       )
     end
