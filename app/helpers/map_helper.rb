@@ -2,15 +2,17 @@ module MapHelper
   def map(options)
     id = options.delete(:id) || 'map'
     html_classes = options.delete(:class) || 'map'
-    data = {}
+    map_data = {}
     red = options.delete(:red)
-    data[:red] = { latlon: red.latlon, popup: "#{link_to(red, red)}" } if red.present?
+    map_data[:red] = { latlon: red.latlon, popup: "#{link_to(red, red)}" } if red.present? && red.positioned?
     markers = options.delete(:markers)
     if markers.present?
-      data[:markers] = markers.map do |marker| 
+      map_data[:markers] = markers.map do |marker| 
         { latlon: marker.latlon, popup: "#{link_to(marker, marker)}" }
       end
     end
-    content_tag(:div, "", class: html_classes, id: id, data: { map: data.to_json })
+    data = options.delete(:data) || {}
+    data[:map] = map_data.to_json
+    content_tag(:div, "", class: html_classes, id: id, data: data)
   end
 end

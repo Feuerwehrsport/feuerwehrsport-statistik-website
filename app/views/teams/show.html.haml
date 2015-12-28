@@ -3,7 +3,9 @@
     .col-md-2
       - if @team.image.present?
         = image_tag(@team.image)
-        %hr
+      - else
+        = design_image(:upload_logo, class: "upload-logo", data: { team_id: @team.id })
+      %hr
       = @chart.gender_pie
     .col-md-7
       .page-header
@@ -27,9 +29,15 @@
   = render 'group_disciplines', toc: toc
   = render 'group_series', toc: toc
 
-  - if @team.positioned?
-    = toc.anker("Karte", :h2)
-    = map(id: 'team-map', red: @team)
+  = toc.anker("Karte", :h2)
+  .row
+    .col-md-9
+      = map(id: 'team-map', red: @team, data: { team_id: @team.id })
+    .col-md-3.team-map-actions
+      - unless @team.positioned?
+        %p Bisher wurden keine Geoposition für dieses Team hinterlegt.
+        .btn.btn-default#add-geo-position Geoposition hinzufügen
+
 
 
   = toc.anker("Fehler melden", :h2)
@@ -37,4 +45,4 @@
 
   %p Ihr könnt jetzt beim Korrigieren der Daten helfen. Dafür klickt ihr auf folgenden Link und generiert eine Meldung für den Administrator. Dieser überprüft dann die Eingaben und leitet weitere Schritte ein.
 
-  .btn.btn-default#add-change-request Fehler mit diesem Team melden
+  .btn.btn-default#add-change-request{ data: { team_id: @team.id } } Fehler mit diesem Team melden
