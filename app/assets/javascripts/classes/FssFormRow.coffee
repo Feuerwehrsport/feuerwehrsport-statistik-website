@@ -27,6 +27,7 @@ class @FssFormRowFile extends FssFormRow
     @files = null
     @field = $('<input/>')
       .attr('type', 'file')
+      .attr('name', @name)
       .on('change', (event) =>
          @files = event.target.files
       )

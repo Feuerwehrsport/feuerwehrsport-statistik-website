@@ -105,7 +105,7 @@ $ () ->
             for team in teams
               teamOptions.push(value: team.id, display: team.name) if team.id isnt teamId
 
-            FssWindow.build('Namen korrigieren')
+            FssWindow.build('Mannschaft zusammenführen')
             .add(new FssFormRowDescription('Bitte wählen Sie das korrekte Team aus:'))
             .add(new FssFormRowSelect('correct_team_id', 'Richtiges Team:', null, teamOptions))
             .on('submit', (data) ->
