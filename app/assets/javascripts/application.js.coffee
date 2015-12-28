@@ -37,7 +37,7 @@ $ ->
         data.url = "http://#{data.url}" unless data.url.match(/^https?:\/\//)
         data.linkable_id = element.data('linkable-id')
         data.linkable_type = element.data('linkable-type')
-        Fss.postReload 'links', link: data
+        Fss.ajaxReload 'POST', 'links', link: data
       )
       .open()
 

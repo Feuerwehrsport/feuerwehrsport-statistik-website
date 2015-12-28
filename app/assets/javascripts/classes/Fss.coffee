@@ -161,9 +161,10 @@ class @Fss
       params.contentType = false
     $.ajax(params)
 
-  @postReload: (type, data) ->
-    Fss.post type, data, (result) ->
+  @ajaxReload: (ajaxType, url, data) ->
+    Fss.ajaxRequest ajaxType, url, data, (result) ->
       if result.success
+        new WaitFssWindow()
         location.reload()
       else
         new WarningFssWindow(data.message)
