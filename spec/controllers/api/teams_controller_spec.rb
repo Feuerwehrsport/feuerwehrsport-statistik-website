@@ -32,4 +32,19 @@ RSpec.describe API::TeamsController, type: :controller do
       expect(json_body[:teams].first).to include(id: 2255, name: "Amt Dorf Meckl/Bd. Kl.")
     end
   end
+
+  describe 'PUT update' do
+    it "updates team" do
+      put :update, id: 1, team: { latitude: "12", longitude: "34" }
+      expect(json_body[:team]).to eq(
+        id: 1,
+        latitude: "12.0",
+        longitude: "34.0",
+        name: "FF Buckow",
+        shortcut: "Buckow",
+        state: "BB",
+        status: "fire_station",
+      )
+    end
+  end
 end

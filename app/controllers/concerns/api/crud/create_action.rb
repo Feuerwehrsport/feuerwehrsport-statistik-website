@@ -23,9 +23,13 @@ module API
       end
 
       def create_instance
-        resource_instance.assign_attributes(permitted_attributes)
+        resource_instance.assign_attributes(create_permitted_attributes)
         authorize!(action_name, resource_instance)
         resource_instance.save
+      end
+
+      def create_permitted_attributes
+        permitted_attributes
       end
     end
   end

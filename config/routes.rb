@@ -49,7 +49,7 @@ Rails.application.routes.draw do
     resources :links, only: [:create]
     resources :people, only: [:index]
     resources :places, only: [:index]
-    resources :teams, only: [:create, :show, :index]
+    resources :teams, only: [:create, :show, :index, :update]
   end
   scope :images do
     get 'person_la_positions/:person_id', controller: :images, action: :la_positions, as: :images_person_la_positions
