@@ -6,7 +6,7 @@ module API
 
     def permitted_attributes
       super_attributes = super
-      super_attributes.permit(content: permit_scalar_attributes(super_attributes[:content]))
+      super_attributes.permit(content: permit_scalar_attributes(super_attributes[:content]), files: [])
     end
 
     def permit_scalar_attributes(attributes)

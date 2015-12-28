@@ -227,11 +227,21 @@ class @Fss
       dataCallback(element, elementReady)
     elementReady()
 
-  @changeRequest = (key, data) ->
-    postData = change_request:
+  @changeRequest = (key, data, files=[]) ->
+    postData = new FormData()
+    postData.append("change_request[files][]", file) for file, i in files
+
+    appendData = (keyName, obj) ->
+      if typeof obj is "object"
+        appendData("#{keyName}[#{subKeyName}]", value) for subKeyName, value of obj
+      else
+        postData.append("#{keyName}", obj)
+    appendData("change_request", 
       content:
         key: key
         data: data
+    )
+    
     Fss.post 'change_requests', postData, (result) ->
       new AlertFssWindow(
         'Gespeichert',

@@ -33,9 +33,10 @@ class @FssFormRowFile extends FssFormRow
     super(@field)
 
   appendData: (data) =>
-    return data if !@files or @files.length is 0
-    data = new FormData()
-    data.append(i, file) for file, i in @files
+    if !@files or @files.length is 0
+      data[@name] = []
+    else
+      data[@name] = @files
     data
 
 class @FssFormRowCheckbox extends FssFormRow

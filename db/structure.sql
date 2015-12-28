@@ -117,7 +117,8 @@ CREATE TABLE change_requests (
     content json NOT NULL,
     done_at timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    files_data json DEFAULT '{}'::json NOT NULL
 );
 
 
@@ -1776,4 +1777,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151205205409');
 INSERT INTO schema_migrations (version) VALUES ('20151208202722');
 
 INSERT INTO schema_migrations (version) VALUES ('20151211064637');
+
+INSERT INTO schema_migrations (version) VALUES ('20151228083526');
 
