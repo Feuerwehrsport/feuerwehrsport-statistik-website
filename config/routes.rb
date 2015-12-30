@@ -47,7 +47,8 @@ Rails.application.routes.draw do
       member { put :person_participation }
     end
     resources :links, only: [:create]
-    resources :people, only: [:index]
+    resources :nations, only: [:index]
+    resources :people, only: [:create, :index]
     resources :places, only: [:index]
     resources :teams, only: [:create, :show, :index, :update]
   end
