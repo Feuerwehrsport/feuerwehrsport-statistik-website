@@ -509,6 +509,7 @@ ALTER SEQUENCE links_id_seq OWNED BY links.id;
 CREATE TABLE nations (
     id integer NOT NULL,
     name character varying NOT NULL,
+    iso character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
