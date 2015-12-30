@@ -111,6 +111,7 @@ client.query("SELECT * FROM nations ORDER BY id").each do |row|
   Nation.create!(
     id: row["id"],
     name: row["name"],
+    iso: row["iso"],
   )
 end
 
