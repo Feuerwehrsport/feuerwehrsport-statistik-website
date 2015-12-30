@@ -1,78 +1,33 @@
 = table_of_contents do |toc|
   .page-header
-    %span.pull-right= @person.nation
-    %h1= @person.full_name
+    %span.pull-right
+      = @person.nation
+      = nation_flag(@person.nation, width: 24)
+    %h1
+      = @person.full_name
+      %small= g_symbol(@person.gender)
+
 
   .row
-    .col-md-3= year_overview_chart
+    .col-md-3= @chart.year_overview
     .col-md-6
       - @teams.each do |team|
-        .team-logo
-          = team
-    .col-md-3= toc.index
-
-  - @disciplines.each do |options|
-    = toc.anker(discipline_name(options[:discipline]), :h2)
-    .person-discipline-area
-      .row
-        .col-md-3
-          %table.table.table-condensed
-            %tr
-              %th Bestzeit
-              %td= "#{options[:best_time]} s"
-            %tr
-              %th Durchschnitt
-              %td= "#{options[:average_time]} s"
-          - if options[:discipline] != :zk && options[:valid_scores].size > 0
-            = discipline_invalid_chart(options[:discipline], options[:scores])
-        .col-md-9= discipline_chart(options[:discipline], options[:chart_scores])
-
-      = count_table(options[:scores], class: "datatable-person-scores") do |t|
-        - t.col("Datum", class: "col70") { |row| link_to(l(row.competition.date), row.competition) }
-        - t.col("Typ", class: "col70") { |row| link_to(row.competition.event, row.competition.event) }
-        - t.col("Ort", class: "col70") { |row| link_to(row.competition.place, row.competition.place) }
-        - if options[:discipline] == :zk
-          - t.col("HB", :second_hb, class: "col70")
-          - t.col("HL", :second_hl, class: "col70")
+        - if team.image.present?
+          = image_tag(team.image.tile, width: 100, title: team)
         - else
-          - t.col("Team", class: "col70") { |row| link_to(row.team, row.team) }
-        - if group_discipline?(options[:discipline])
-          - t.col("Ausschreibung", :group_score_type, {})
-        - t.col("Zeit", :second_time, class: "col70")
+          .team-logo-replacement= team
+    .col-md-3= toc.index
+  %hr
 
-      - if options[:discipline].in?([:gs, :fs, :la])
-        %h3= "#{discipline_name(options[:discipline])} - Mannschaftsmitglieder"
-        = count_table(options[:team_mates], class: "datatable-team-mates") do |t|
-          - t.col("Person", class: "col-md-2") { |row| link_to(row.person.full_name, row.person) }
-          - t.col("Läufe", class: "col-md-1") { |row| row.scores.count }
-          - t.col("Wettkämpfe", class: "col-md-9 small") { |row| row.scores.map(&:group_score_category).map(&:competition).uniq.sort_by(&:date).map { |c| link_to(c.short_name, c) }.join(", ").html_safe }
-        %h3= "#{discipline_name(options[:discipline])} - Gelaufene Positionen"
-        .row
-          .col-md-4= discipline_positions_chart(options[:discipline])
-          - if options[:discipline] == :la
-            .col-md-8
-              = image_tag(images_person_la_positions_path(@person))
+
+  - @discipline_structs.each do |discipline_struct|
+    = render('person_discipline_overview', toc: toc, ds: discipline_struct)
+
 
   - if @teams.present?
     = toc.anker("Mannschaft", :h2)
     .person-teams-area
-      - @team_information.each do |team_information|
-        .row.well
-          .col-md-3
-            %h5= team_information.team
-          .col-md-6
-            = team_information_chart(team_information)
-          .col-md-3
-            %table.table.table-condensed.table-bordered
-              %tr
-                %th.col-md-7 Gelaufene Zeiten:
-                %td.col-md-2= team_information.score_count
-              - [:hb, :hl, :gs, :fs, :la].each do |discipline|
-                - if team_information[discipline] > 0
-                  %tr
-                    %th
-                      = discipline_image(discipline)
-                      = discipline_name(discipline)
-                    %td= team_information[discipline]
+      - @team_structs.each do |team_struct|
+        = render('person_team_overview', team_struct: team_struct)
           
 

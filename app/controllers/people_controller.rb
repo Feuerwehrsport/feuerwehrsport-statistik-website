@@ -9,10 +9,9 @@ class PeopleController < ResourceController
 
   def show
     @person = Person.find(params[:id]).decorate
-    @disciplines = person_disciplines
+    @discipline_structs = person_discipline_structs
     @teams = @person.teams.decorate
-    @year_overview = year_overview if @person.scores.valid.present?
-    @team_information = @teams.map do |team|
+    @team_structs = @teams.map do |team|
       OpenStruct.new(
         team: team,
         score_count: team.person_scores_count(@person),
@@ -23,21 +22,10 @@ class PeopleController < ResourceController
         la:  team.group_score_participations.la.where(person: @person).count,
       )
     end
+    @chart = Chart::PersonShow.new(person: @person, team_structs: @team_structs)
   end
 
   private
-
-  def year_overview
-    years = @person.scores.joins(:competition).
-      select("EXTRACT(YEAR FROM DATE(competitions.date)) as year").group("year").map(&:year).map(&:to_i)
-    (years.min..years.max).map do |year|
-      [:hb, :hl].map do |discipline|
-        times = @person.scores.where(discipline: discipline).valid.best_of_competition.
-          joins(:competition).where("EXTRACT(YEAR FROM DATE(competitions.date)) = ?", year).map(&:time)
-        times.present? ? (times.instance_eval { reduce(:+) / size.to_f }/100).round(2) : nil
-      end.push(year)
-    end
-  end
 
   def team_mates(discipline)
     team_mates = {}
@@ -59,7 +47,7 @@ class PeopleController < ResourceController
     end
   end
 
-  def person_disciplines
+  def person_discipline_structs
     disciplines = []
     
     [:hb, :hl].each do |discipline|
@@ -69,7 +57,7 @@ class PeopleController < ResourceController
         scores = scores.includes(competition: [:place, :event]).decorate
         valid_scores = scores.reject(&:time_invalid?)
 
-        disciplines.push(
+        disciplines.push(OpenStruct.new(
           discipline: discipline, 
           scores: scores,
           chart_scores: chart_scores,
@@ -77,7 +65,7 @@ class PeopleController < ResourceController
           average_time: average_time(valid_scores),
           count: scores.size,
           valid_scores: valid_scores
-        ) 
+        ))
       end
     end
 
@@ -87,7 +75,7 @@ class PeopleController < ResourceController
       scores = scores.includes(competition: [:place, :event]).decorate
       valid_scores = scores.reject(&:time_invalid?)
 
-      disciplines.push(
+      disciplines.push(OpenStruct.new(
         discipline: :zk, 
         scores: scores,
         chart_scores: chart_scores,
@@ -95,7 +83,7 @@ class PeopleController < ResourceController
         average_time: average_time(valid_scores),
         count: scores.size,
         valid_scores: valid_scores
-      ) 
+      ))
     end
 
     [:gs, :fs, :la].each do |discipline|
@@ -105,7 +93,7 @@ class PeopleController < ResourceController
         scores = scores.includes(competition: [:place, :event]).includes(:group_score_type).decorate
         valid_scores = scores.reject(&:time_invalid?)
 
-        disciplines.push(
+        disciplines.push(OpenStruct.new(
           discipline: discipline, 
           scores: scores,
           chart_scores: chart_scores,
@@ -114,7 +102,7 @@ class PeopleController < ResourceController
           count: scores.size,
           valid_scores: valid_scores,
           team_mates: team_mates(discipline)
-        ) 
+        ))
       end
     end
     disciplines

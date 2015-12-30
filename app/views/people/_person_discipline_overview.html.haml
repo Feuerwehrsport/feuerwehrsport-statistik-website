@@ -1,0 +1,45 @@
+= toc.anker(discipline_name(ds.discipline))
+%h2
+  = discipline_image(ds.discipline)
+  = discipline_name(ds.discipline)
+
+.person-discipline-area
+  .row
+    .col-md-3
+      %table.table.table-condensed
+        %tr
+          %th Bestzeit
+          %td= "#{ds.best_time} s"
+        %tr
+          %th Durchschnitt
+          %td= "#{ds.average_time} s"
+      - if ds.discipline != :zk && ds.valid_scores.size > 0
+        = @chart.discipline_invalid(ds.discipline, ds.scores)
+    .col-md-9= @chart.discipline_scores(ds.discipline, ds.chart_scores)
+
+  = count_table(ds.scores, class: "datatable-person-scores") do |t|
+    - t.col("Datum", class: "col70") { |row| link_to(l(row.competition.date), row.competition) }
+    - t.col("Typ", class: "col70") { |row| link_to(row.competition.event, row.competition.event) }
+    - t.col("Ort", class: "col70") { |row| link_to(row.competition.place, row.competition.place) }
+    - if ds.discipline == :zk
+      - t.col("HB", :second_hb, class: "col70")
+      - t.col("HL", :second_hl, class: "col70")
+    - else
+      - t.col("Team", class: "col70") { |row| link_to(row.team, row.team) }
+    - if group_discipline?(ds.discipline)
+      - t.col("Ausschreibung", :group_score_type, {})
+    - t.col("Zeit", :second_time, class: "col70")
+
+  - if ds.discipline.in?([:gs, :fs, :la])
+    %h3= "#{discipline_name(ds.discipline)} - Mannschaftsmitglieder"
+    = count_table(ds.team_mates, class: "datatable-team-mates") do |t|
+      - t.col("Person", class: "col-md-2") { |row| link_to(row.person.full_name, row.person) }
+      - t.col("Läufe", class: "col-md-1") { |row| row.scores.count }
+      - t.col("Wettkämpfe", class: "col-md-9 small") { |row| row.scores.map(&:group_score_category).map(&:competition).uniq.sort_by(&:date).map { |c| link_to(c.short_name, c) }.join(", ").html_safe }
+    %h3= "#{discipline_name(ds.discipline)} - Gelaufene Positionen"
+    .row
+      .col-md-4= @chart.discipline_positions(ds.discipline)
+      - if ds.discipline == :la
+        .col-md-8
+          = image_tag(images_person_la_positions_path(@person))
+%hr
