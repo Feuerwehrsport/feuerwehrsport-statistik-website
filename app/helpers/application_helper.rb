@@ -3,6 +3,7 @@ module ApplicationHelper
   include UIHelper
   include MapHelper
   include Helper::PositionSelectorHelper
+  include Helper::NationHelper
 
   COMPETITOR_POSITION = {
     la: [

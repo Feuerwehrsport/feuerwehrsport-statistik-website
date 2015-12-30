@@ -1,34 +1,42 @@
-%h1 Wettkämpfer
-- [:female, :male].each do |gender|
-  %h2= g(gender)
+= table_of_contents do |toc|
+  .row
+    .col-md-9
+      %h1 Wettkämpfer
+    .col-md-3= toc.index
 
-  = count_table(@people[gender], class: "datatable-people") do |t|
-    - t.col("Name", class: "col70") { |row| link_to(row.last_name, row) }
-    - t.col("Vorname", class: "col70") { |row| link_to(row.first_name, row) }
-    - t.col "Nation", :nation, class: "col70"
-    - t.col "HB", :hb_count, class: "col30"
-    - t.col "HL", :hl_count, class: "col30"
-    - t.col "LA", :la_count, class: "col30"
-    - t.col "FS", :fs_count, class: "col30"
-    - if gender == :female
-      - t.col "GS", :gs_count, class: "col30"
-.row
-  .col-md-4
-    %h4 Geschlechter
-    = genders_pie_chart
+  - [:female, :male].each do |gender|
+    = toc.anker(g(gender), :h2)
 
-  .col-md-4
-    %h4 Disziplinen bei Frauen
-    = disciplines_pie_chart(:female)
+    = count_table(@people[gender], class: "datatable-people") do |t|
+      - t.col("Name", class: "col-20") { |row| link_to(row.last_name, row) }
+      - t.col("Vorname", class: "col-20") { |row| link_to(row.first_name, row) }
+      - t.col("Nation", class: "col-10") { |row| nation_flag_with_iso(row.nation) }
+      - t.col "HB", :hb_count, class: "col-10"
+      - t.col "HL", :hl_count, class: "col-10"
+      - t.col "LA", :la_count, class: "col-10"
+      - t.col "FS", :fs_count, class: "col-10"
+      - if gender == :female
+        - t.col "GS", :gs_count, class: "col-10"
 
-  .col-md-4
-    %h4 Disziplinen bei Männern
-    = disciplines_pie_chart(:male)
+  = toc.anker("Auswertung")
+  .row
+    .col-md-4
+      %h4 Geschlechter
+      = @chart.gender_pie
+
+    .col-md-4
+      %h4 Disziplinen bei Frauen
+      = @chart.disciplines_pie(:female)
+
+    .col-md-4
+      %h4 Disziplinen bei Männern
+      = @chart.disciplines_pie(:male)
 
 
-/ echo Title::h2('Neue Person hinzufügen', 'personhinzufuegen');
-/ echo Bootstrap::row()->col(
-/   '<p class="six columns">Ist eine Person die du kennst noch nicht eingetragen? Dann trage sie doch schnell ins System ein!</p>'.
-/   '<p><button id="add-person">Person hinzufügen</button></p>'
-/   , 5)
-/   ->col('<img src="/styling/images/system-users.png" alt=""/>', 3);
+  = toc.anker("Neue Person hinzufügen", :h2)
+  .row
+    .col-md-5
+      %p Ist eine Person die du kennst noch nicht eingetragen? Dann trage sie doch schnell ins System ein!
+    .col-md-4
+      #add-person.btn.btn-default Person hinzufügen
+    .col-md-3= design_image("system-users")

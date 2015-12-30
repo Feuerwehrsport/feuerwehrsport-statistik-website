@@ -2,8 +2,9 @@ class PeopleController < ResourceController
   def index
     @people = {}
     [:female, :male].each do |gender|
-      @people[gender] = Person.gender(gender).includes(:nation).with_score_count.decorate
+      @people[gender] = Person.gender(gender).includes(:nation).with_score_count.decorate.to_a
     end
+    @chart = Chart::PersonIndex.new(people: @people)
   end
 
   def show

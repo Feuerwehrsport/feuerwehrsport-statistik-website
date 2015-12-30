@@ -1,25 +1,4 @@
 module PeopleHelper
-  def genders_pie_chart
-    chart = LazyHighCharts::HighChart.new do |f|
-      f.series(name: "Anzahl", data: Person.group(:gender).count.map { |i, c| { name: g(i), y: c, color: g_color(i) } })
-      f.plotOptions(pie: { size: 70, dataLabels: { distance: 5, format: "{percentage:.1f} % {point.name}" } })
-      f.chart(type: "pie", height: 140)
-    end
-    high_chart("high-chart-gender-pie", chart)
-  end
-
-  def disciplines_pie_chart(gender)
-    scores = Score.joins(:person).merge(Person.gender(gender)).group(:discipline).count.merge(
-      GroupScoreParticipation.joins(:person).merge(Person.gender(gender)).group(:discipline).count).map{|i, a| {name: i.upcase, y: a, color: discipline_color(i)}}
-
-    chart = LazyHighCharts::HighChart.new do |f|
-      f.series(name: "Anzahl", data: scores)
-      f.plotOptions(pie: { size: 70, dataLabels: { distance: 5, format: "{percentage:.1f} % {point.name}" } })
-      f.chart(type: "pie", height: 140)
-    end
-    high_chart("high-chart-disciplines-pie-#{gender}", chart)
-  end
-
   def discipline_invalid_chart(discipline, scores)
     invalid = scores.select(&:time_invalid?).size
     valid = scores.size - invalid
