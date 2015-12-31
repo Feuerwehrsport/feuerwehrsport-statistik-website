@@ -30,4 +30,7 @@
       - @team_structs.each do |team_struct|
         = render('person_team_overview', team_struct: team_struct)
           
-
+  = toc.anker('Fehler melden', :h2)
+  %p Beim Importieren der Ergebnisse kann es immer wieder mal zu Fehlern kommen. Geraden wenn die Namen in den Ergebnislisten verkehrt geschrieben wurden, kann keine eindeutige Zuordnung stattfinden. Außerdem treten auch Probleme mit Umlauten oder anderen besonderen Buchstaben im Namen auf.
+  %p Ihr könnt jetzt beim Korrigieren der Daten helfen. Dafür klickt ihr auf folgenden Link und generiert eine Meldung für den Administrator. Dieser überprüft dann die Eingaben und leitet weitere Schritte ein.
+  #add-change-request.btn.btn-default{ data: { person_id: @person.id } } Fehler mit dieser Person melden
