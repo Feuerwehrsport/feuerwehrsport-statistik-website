@@ -10,6 +10,21 @@ RSpec.describe API::PeopleController, type: :controller do
     end
   end
 
+  describe 'GET show' do
+    it "returns person" do
+      get :show, id: 1757
+      expect_json_response
+      expect(json_body[:person]).to eq(
+        first_name: "Edmund",
+        gender: "male",
+        id: 1757,
+        last_name: "Abel",
+        nation_id: 1,
+        translated_gender: "männlich",        
+      )
+    end
+  end
+
   describe 'GET index' do
     it "returns people" do
       get :index
@@ -20,7 +35,8 @@ RSpec.describe API::PeopleController, type: :controller do
         gender: "male",
         id: 1757,
         last_name: "Abel",
-        nation_id: 1
+        nation_id: 1,
+        translated_gender: "männlich",
       )
     end
 
@@ -33,7 +49,8 @@ RSpec.describe API::PeopleController, type: :controller do
         gender: "female",
         id: 1858,
         last_name: "Adamczak",
-        nation_id: 1
+        nation_id: 1,
+        translated_gender: "weiblich",
       )
     end
   end

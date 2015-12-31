@@ -48,7 +48,7 @@ Rails.application.routes.draw do
     end
     resources :links, only: [:create]
     resources :nations, only: [:index]
-    resources :people, only: [:create, :index]
+    resources :people, only: [:create, :show, :index]
     resources :places, only: [:index]
     resources :teams, only: [:create, :show, :index, :update]
   end

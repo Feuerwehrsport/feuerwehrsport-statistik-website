@@ -1,6 +1,7 @@
 module API
   class PeopleController < BaseController
     include CRUD::CreateAction
+    include CRUD::ShowAction
     include CRUD::IndexAction
 
     protected
