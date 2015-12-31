@@ -1,5 +1,7 @@
 %h1 Wettkampforte
 
-= count_table(@rows, class: "datatable-places") do |t|
-  - t.col("Ort", class: "col-md-4") { |row| link_to(row.name, row) }
+= count_table(@places, class: "datatable-places") do |t|
+  - t.col("Ort", class: "col-md-4") { |row| place_link(row) }
   - t.col("Wettkämpfe", :count, class: "col-md-1")
+
+= map(id: "places-map", markers: @places) { |m| { count: m.count } }

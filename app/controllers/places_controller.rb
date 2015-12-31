@@ -1,6 +1,6 @@
 class PlacesController < ResourceController
   def index
-    @rows = Place.competition_count
+    @places = Place.competition_count.decorate
   end
 
   def show
