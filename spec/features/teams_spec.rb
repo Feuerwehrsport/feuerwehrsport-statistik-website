@@ -76,7 +76,7 @@ describe "teams", type: :feature, js: true, driver: :webkit do
 
     change_request_content = ChangeRequest.last.content
     expect(change_request_content).to include key: "team-together"
-    expect(change_request_content[:data]).to eq(team_id: "2", correct_team_id: "2542")
+    expect(change_request_content[:data]).to eq(team_id: "2", correct_team_id: "2543")
   end
 
   it "can add change request with team-correction" do
@@ -95,6 +95,6 @@ describe "teams", type: :feature, js: true, driver: :webkit do
 
     change_request_content = ChangeRequest.last.content
     expect(change_request_content).to include key: "team-correction"
-    expect(change_request_content[:data][:team]).to eq(name: "Team Mecklenburg-Vorpommern", shortcut: "Team MV", status: "team")
+    expect(change_request_content[:data][:team]).to eq(name: "Team Mecklenburg-Vorpommern", shortcut: "Team MV", status: "team", id: "2")
   end
 end

@@ -98,6 +98,7 @@ $ () ->
         if selected is 'correction'
           Fss.getResource 'teams', teamId, (team) ->
             teamEditWindow 'Mannschaft korrigieren', team, (data) ->
+              data.id = teamId
               Fss.changeRequest('team-correction', team: data)
         else if selected is 'together'
           Fss.getResources 'teams', (teams) ->
