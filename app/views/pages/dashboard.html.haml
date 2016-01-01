@@ -83,14 +83,14 @@
     - @performance_overview_disciplines.each do |discipline|
       - nv.tab(discipline_image_name_short(discipline.discipline, discipline.gender)) do
         %table.table
-          - discipline.entries.each_with_index do |entry, i|
+          - discipline.entries.each do |entry|
             %tr
-              %td.col-5= i + 1
+              %td.col-5= entry.rank
               %td.col-25= person_link(entry.entity, type: :full_name)
               %td.col-70= score_links(entry.scores)
             %tr.hint-line
               %td{ colspan: 2 }
-                %em= "#{entry.points.round} Punkte"
+                %em= "#{entry.rounded_points} Punkte"
               %td
                 Durchschnitt:
                 %strong= entry.second_valid_time_average

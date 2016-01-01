@@ -3,6 +3,7 @@ module Calculation
     class Base
       include Draper::Decoratable
       attr_reader :scores, :entity
+      attr_accessor :rank
 
       def initialize(entity)
         @entity = entity
@@ -51,7 +52,7 @@ module Calculation
             entries[score.entity_id].scores.push(score)
           end
 
-          entries.values.sort_by(&:points)
+          entries.values.sort_by(&:points).each_with_index { |e, i| e.rank = i + 1 }
         end
       end
     end
