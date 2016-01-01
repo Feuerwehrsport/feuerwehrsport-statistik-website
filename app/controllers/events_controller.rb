@@ -1,6 +1,7 @@
 class EventsController < ResourceController
   def index
-    @rows = Event.competition_count
+    @events = Event.competition_count.decorate
+    @chart = Chart::EventIndex.new(events: @events)
   end
 
   def show
