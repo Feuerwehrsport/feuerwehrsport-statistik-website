@@ -132,4 +132,10 @@ module ApplicationHelper
   def design_image(key, options={})
     image_tag(asset_path("design_images/#{key}.png"), options)
   end
+
+  def score_links(scores)
+    scores.map do |score|
+      link_to(score.second_time, score.competition, title: score.competition.event)
+    end.join(", ").html_safe
+  end
 end

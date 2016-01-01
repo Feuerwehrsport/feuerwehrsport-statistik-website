@@ -28,7 +28,12 @@ Rails.application.routes.draw do
   resources :places, only: [:index, :show]
   resources :teams, only: [:index, :show]
   resources :news, only: [:index, :show]
-  resources :years, only: [:index, :show]
+  resources :years, only: [:index, :show] do
+    member do
+      get :best_performance
+      get :best_scores
+    end
+  end
   resources :events, only: [:index, :show]
   namespace :series do
     resources :rounds, only: [:index, :show]

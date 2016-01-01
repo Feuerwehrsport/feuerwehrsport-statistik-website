@@ -1,0 +1,7 @@
+%h1 Jahre
+
+= count_table(@years, class: "datatable-years") do |t|
+  - t.col("Jahr", class: "col-md-4") { |row| year_link(row) }
+  - t.col("Wettkämpfe", :count, class: "col-md-1")
+
+= @chart.years_count

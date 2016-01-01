@@ -1,0 +1,33 @@
+.page-header
+  %h1
+    Bestleistungen des Jahres
+    = @year
+.row
+  .col-md-3
+    %ul
+      %li= link_to("Überblick über das Jahr #{@year}", action: :show)
+      %li= link_to("Bestzeiten des Jahres", action: :best_scores)
+  .col-md-4
+    %p
+      Die Tabellen zeigen die Leistungen der besten Sportler und Mannschaften im Jahr
+      = "#{@year}."
+    %p Für die Rangordnung ist nicht nur die Durchschnittszeit entscheidend. Zusätzlich werden die Strafpunkte erhöht, wenn man mehr ungültige Versuche hat und verringert, wenn man mehr Läufe absolviert hat. Somit ergibt sich ein Vergleich der konstanten Leistungen.
+  .col-md-5
+    = design_image(:best_performance)
+    %p Die abgebildete Formel zeigt die Berechnung für die Strafpunkte. Dabei sind
+    %pre
+      = preserve do
+        g = Anzahl gültiger Läufe
+        u = Anzahl ungültiger Läufe
+        a = g + u
+        t = Zeiten der gültigen Läufe
+
+= nav_tab do |nv|
+  - @performance_overview_disciplines.each do |discipline|
+    - nv.tab(discipline_image_name_short(discipline.discipline, discipline.gender)) do
+      = count_table(discipline.entries, class: "datatable-best-performance") do |t|
+        - t.col("Rang", :rank, class: "col-10")
+        - t.col("Name", class: "col-20") { |row| person_link(row.entity, type: :full_name) }
+        - t.col("Punkte", :rounded_points, class: "col-10")
+        - t.col("Durchschnitt", :second_valid_time_average, class: "col-10")
+        - t.col("Zeiten", class: "col-50") { |row| score_links(row.scores) }

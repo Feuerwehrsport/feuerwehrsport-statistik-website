@@ -1,0 +1,36 @@
+= table_of_contents do |toc|
+  .page-header.row
+    .col-md-9
+      %h1
+        Überblick für Jahr
+        = @year
+      .row
+        .col-md-6
+          %ul
+            %li= link_to("Bestzeiten des Jahres", action: :best_scores)
+            %li= link_to("Bestleistungen des Jahres", action: :best_performance)
+        .col-md-6
+          %p 
+            Diese Seite zeigt Statistiken über das Jahr 2015. Für die einzelnen Disziplinen sind die Unterseiten
+            = link_to("Bestzeiten des Jahres", action: :best_scores)
+            und
+            = link_to("Bestleistungen des Jahres", action: :best_performance)
+            interessant.
+    .col-md-3= toc.index
+
+  = toc.anker("Wettkämpfe")
+  = count_table(@competitions, class: "datatable-year-competitons") do |t|
+    - t.col("Datum", class: "col-10") { |row| link_to(l(row.date), row) }
+    - t.col("Ort", class: "col-10") { |row| link_to(row.place, row.place) }
+    - t.col("Name", class: "col-20") { |row| link_to(row.name, row) }
+    - t.col("HBw", class: "col-5") { |row| count_or_zero(row.hb_female) }
+    - t.col("HBm", class: "col-5") { |row| count_or_zero(row.hb_male) }
+    - t.col("HLw", class: "col-5") { |row| count_or_zero(row.hl_female) }
+    - t.col("HLm", class: "col-5") { |row| count_or_zero(row.hl_male) }
+    - t.col("GS", class: "col-5") { |row| count_or_zero(row.gs) }
+    - t.col("FSw", class: "col-5") { |row| count_or_zero(row.fs_female) }
+    - t.col("FSm", class: "col-5") { |row| count_or_zero(row.fs_male) }
+    - t.col("LAw", class: "col-5") { |row| count_or_zero(row.la_female) }
+    - t.col("LAm", class: "col-5") { |row| count_or_zero(row.la_male) }
+
+  = render 'calculation/competitions_discipline_overview', toc: toc

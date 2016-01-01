@@ -28,4 +28,10 @@ module LinksHelper
     options = options.merge(title: "Details zu #{team.name} anzeigen")
     link_to(team.send(type), team, options)
   end
+
+  def year_link(year, options={})
+    type = options.delete(:type) || :to_s
+    options = options.merge(title: "Details zu dem Jahr #{year.to_s} anzeigen")
+    link_to(year.send(type), year, options)
+  end
 end

@@ -32,11 +32,8 @@
                 %a{:href => "/page/records.html"} Rekorde
               %li
                 %a{:href => "/page/best-of.html"} 100 Bestzeiten
-              %li
-                %a{:href => "/page/year-2015.html"} Statistiken 2015
-              %li
-                %a{:href => "/page/year-2014.html"} Statistiken 2014
-              %li
-                %a{:href => "/page/year-2013.html"} Statistiken 2013
+              %li= link_to("Statistiken 2015", year_path(id: 2015))
+              %li= link_to("Statistiken 2014", year_path(id: 2014))
+              %li= link_to("Statistiken 2013", year_path(id: 2013))
               %li
                 %a{:href => "/page/logs.html"} Letzte Änderungen
