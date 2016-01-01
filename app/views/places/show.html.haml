@@ -23,3 +23,14 @@
     - t.col("LAm", class: "col-5") { |row| count_or_zero(row.la_male) }
 
   = render 'calculation/competitions_discipline_overview', toc: toc
+
+  = toc.anker("Karte", :h2)
+  .row
+    .col-md-9
+      = map(id: 'place-map', red: @place, data: { place_id: @place.id })
+    .col-md-3.place-map-actions
+      - if @place.positioned?
+        .btn.btn-default#change-geo-position Geoposition bearbeiten
+      - else
+        %p Bisher wurden keine Geoposition für diesen Ort hinterlegt.
+        .btn.btn-default#change-geo-position Geoposition hinzufügen

@@ -49,7 +49,7 @@ Rails.application.routes.draw do
     resources :links, only: [:create]
     resources :nations, only: [:index]
     resources :people, only: [:create, :show, :index]
-    resources :places, only: [:index]
+    resources :places, only: [:index, :update]
     resources :teams, only: [:create, :show, :index, :update]
   end
   scope :images do

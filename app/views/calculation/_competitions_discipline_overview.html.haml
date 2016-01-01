@@ -19,6 +19,10 @@
     .col-md-4
       %h4 Anzahl der Einzelstarter pro Wettkampf
       = @chart.people_count_overview
+
+
+= toc.anker("Bestenliste", :h2)
+.calculation-area
   = nav_tab do |t|
     - @competitions_discipline_overview.each do |discipline|
       - t.tab(discipline_image_name_short(discipline.discipline, discipline.gender)) do
