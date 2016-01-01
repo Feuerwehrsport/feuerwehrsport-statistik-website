@@ -3,7 +3,7 @@ normalize = (a, b) ->
   y = if b == "D" then 999999 else b.replace( /,/, "." )
   x = parseFloat( x )
   y = parseFloat( y )
-  ((x < y) ? -1 : ((x > y) ?  1 : 0))
+  if x < y then -1 else (if x > y then 1 else 0)
 
 $.extend $.fn.dataTableExt.oSort, 
   "score-time-asc": (a, b) ->
