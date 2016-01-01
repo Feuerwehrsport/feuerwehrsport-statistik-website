@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "competitions features", type: :feature, js: true, driver: :webkit do
+describe "places features", type: :feature, js: true, driver: :webkit do
   context "index" do
     it "shows an overview" do
       visit places_path
@@ -11,6 +11,15 @@ describe "competitions features", type: :feature, js: true, driver: :webkit do
   end
 
   context "show" do
+    it "shows an competitions overview" do
+      api_sign_in
+
+      visit place_path(id: 1)
+      expect(page).to have_content '1 bis 10 von 15 Einträgen'
+      click_on("Nächste")
+      expect(page).to have_content '11 bis 15 von 15 Einträgen'
+    end
+
     it "can add geo position" do
       api_sign_in
 
