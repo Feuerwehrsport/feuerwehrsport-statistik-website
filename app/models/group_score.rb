@@ -32,6 +32,12 @@ class GroupScore < ActiveRecord::Base
   scope :group_score_type, -> (group_type) do
     joins(:group_score_category).where(group_score_categories: { group_score_type_id: group_type.id })
   end
+  scope :best_of_year, -> (year, discipline, gender) do
+    sql = GroupScore.year(year).discipline(discipline).gender(gender).
+      select("#{table_name}.*, ROW_NUMBER() OVER (PARTITION BY team_id ORDER BY time ) AS r").
+      to_sql
+    from("(#{sql}) AS #{table_name}").where("r=1")
+  end
 
   validates :team, :group_score_category, :team_number, :gender, :time, presence: true
 

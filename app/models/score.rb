@@ -21,6 +21,12 @@ class Score < ActiveRecord::Base
   end
   scope :german, -> { joins(:person).merge(Person.german) }
   scope :year, -> (year) { joins(:competition).merge(Competition.year(year)) }
+  scope :best_of_year, -> (year, discipline, gender) do
+    sql = Score.year(year).discipline(discipline).gender(gender).
+      select("#{table_name}.*, ROW_NUMBER() OVER (PARTITION BY person_id ORDER BY time ) AS r").
+      to_sql
+    from("(#{sql}) AS #{table_name}").where("r=1")
+  end
 
   def uniq_team_id
     "#{competition_id}-#{team_id}-#{team_number}"

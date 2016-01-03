@@ -16,4 +16,25 @@ class YearsController < ResourceController
     @year = Year.find_by_year!(params[:id]).decorate
     @performance_overview_disciplines = Calculation::PerformanceOfYear::Discipline.get(@year.year).map(&:decorate)
   end
+
+  def best_scores
+    @year = Year.find_by_year!(params[:id]).decorate
+    @discipline_structs = []
+    [
+      [:hb, :female],
+      [:hb, :male],
+      [:hl, :female],
+      [:hl, :male],
+      [:gs, :female],
+      [:la, :female],
+      [:la, :male],
+    ].each do |discipline, gender|
+      klass = Discipline.group?(discipline) ? GroupScore.regular : Score
+      @discipline_structs.push OpenStruct.new(
+        discipline: discipline,
+        gender: gender,
+        scores: klass.best_of_year(@year.object, discipline, gender).order(:time).decorate
+      )
+    end
+  end
 end

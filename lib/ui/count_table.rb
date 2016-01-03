@@ -5,6 +5,7 @@ module UI
       self.options ||= {}
       self.columns = []
       self.data_fields = []
+      before_initialize if respond_to? :before_initialize
       yield self
       after_initialize if respond_to? :after_initialize
     end
