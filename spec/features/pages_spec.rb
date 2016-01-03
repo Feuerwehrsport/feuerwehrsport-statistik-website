@@ -41,4 +41,13 @@ describe "pages features", type: :feature do
       expect(page).to have_content 'Hinweise zur Installation'
     end
   end
+
+  context "records" do
+    it "shows records" do
+      visit records_path
+      expect(page).to have_content 'Weltrekorde - Männer'
+      expect(page).to have_content 'Deutsche Rekorde - Männer'
+      expect(page).to have_content 'Deutsche Rekorde - Frauen'
+    end
+  end
 end

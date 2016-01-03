@@ -18,6 +18,7 @@ module LinksHelper
   end
 
   def person_link(person, options={})
+    options = options.dup
     type = options.delete(:type) || :to_s
     options = options.merge(title: "Details zu #{person.full_name} anzeigen")
     link_to(person.send(type), person, options)

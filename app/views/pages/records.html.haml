@@ -1,0 +1,200 @@
+= table_of_contents do |toc|
+  .row
+    .col-md-9
+      %h1= @page_title
+    .col-md-3
+      = toc.index
+  %table.table
+    %tr
+      %td{colspan: "7"}
+        = toc.anker("Weltrekorde - Männer", :h3)
+    %tr
+      %th{colspan: "2"} Wettkampf
+      %th Name
+      %th{colspan: "2"} Nationalität
+      %th Zeit
+      %th Aufgestellt
+    %tr
+      %td= discipline_image(:hl)
+      %td= discipline_name(:hl)
+      %td Albert Loginov
+      %td= nation_flag([:ru, "Russland"])
+      %td Russland
+      %td 12,56 s
+      %td= competition_find_link(54)
+    %tr
+      %td= discipline_image(:hb)
+      %td= discipline_name(:hb)
+      %td Vladimir Sidorenko
+      %td= nation_flag([:ru, "Russland"])
+      %td Russland
+      %td 14,77 s
+      %td 9. WM 2013 - Jinju (Südkorea)
+    %tr
+      %td= discipline_image(:zk)
+      %td= discipline_name(:zk)
+      %td Vladimir Sidorenko
+      %td= nation_flag([:ru, "Russland"])
+      %td Russland
+      %td
+        27,75 s
+        %br/
+        %small 12,63 s/15,12 s
+      %td 9. WM 2013 - Jinju (Südkorea)
+    %tr
+      %td= discipline_image(:fs)
+      %td= discipline_name(:fs)
+      %td
+      %td= nation_flag([:by, "Weißrussland"])
+      %td Weißrussland
+      %td 53,52 s
+      %td 4. WM 2008 - Sofia (Bulgarien)
+    %tr
+      %td= discipline_image(:la)
+      %td
+        = discipline_name(:la)
+        %br/
+        %small (ISFFR - 20 m C)
+      %td
+      %td= nation_flag([:cz, "Tschechien"])
+      %td Tschechien
+      %td 25,14 s
+      %td= competition_find_link(54)
+    %tr
+      %td{colspan: "7"}
+        = toc.anker("Deutsche Rekorde - Männer", :h3)
+    %tr
+      %th{colspan: "2"} Wettkampf
+      %th Name
+      %th{colspan: "2"} Mannschaft
+      %th Zeit
+      %th Aufgestellt
+    %tr
+      %td= discipline_image(:hl)
+      %td= discipline_name(:hl)
+      %td= persons(184, type: :full_name)
+      %td= image_tag(@team3.image.thumb)
+      %td= team_link(@team3)
+      %td 14,26 s
+      %td= competition_find_link(876)
+    %tr
+      %td= discipline_image(:hb)
+      %td= discipline_name(:hb)
+      %td= persons(239, type: :full_name)
+      %td= image_tag(@team15.image.thumb)
+      %td= team_link(@team15)
+      %td 16,46 s
+      %td= competition_find_link(12)
+    %tr
+      %td= discipline_image(:zk)
+      %td= discipline_name(:zk)
+      %td= persons(184, type: :full_name)
+      %td= image_tag(@team3.image.thumb)
+      %td= team_link(@team3)
+      %td
+        31,41 s
+        %br/
+        %small 14,48 s/16,93 s
+      %td= competition_find_link(487)
+    %tr
+      %td= discipline_image(:fs)
+      %td= discipline_name(:fs)
+      %td
+        %small= persons([227, 92, 68, 179], type: :short_name)
+      %td= image_tag(@team2.image.thumb)
+      %td= team_link(@team2)
+      %td 59,60 s
+      %td= competition_find_link(232)
+    %tr
+      %td= discipline_image(:la)
+      %td
+        = discipline_name(:la)
+        %br/
+        %small (ISFFR - 20 m C)
+      %td
+        %small= persons([246, 237, 184, 42, 100, 79, 68], type: :short_name)
+      %td= image_tag(@team61.image.thumb)
+      %td= team_link(@team61)
+      %td 26,56 s
+      %td= competition_find_link(56)
+    %tr
+      %td{colspan: "7"}
+        %em.small
+          Nach der deutschen Wettkampfordnung werden in der Disziplin Löschangriff nass keine Rekorde geführt.
+    %tr
+      %td{colspan: "7"}
+        = toc.anker("Deutsche Rekorde - Frauen", :h3)
+    %tr
+      %th{colspan: "2"} Wettkampf
+      %th Name
+      %th{colspan: "2"} Mannschaft
+      %th Zeit
+      %th Aufgestellt
+    %tr
+      %td= discipline_image(:hb)
+      %td= discipline_name(:hb)
+      %td= persons(8, type: :full_name)
+      %td= image_tag(@team2.image.thumb)
+      %td= team_link(@team2)
+      %td 18,20 s
+      %td= competition_find_link(12)
+    %tr
+      %td= discipline_image(:hl)
+      %td
+        = discipline_name(:hl)
+        %br/
+        %small (inoffiziell)
+      %td= persons(17, type: :full_name)
+      %td= image_tag(@team15.image.thumb)
+      %td= team_link(@team15)
+      %td 8,48 s
+      %td= competition_find_link(530)
+    %tr
+      %td= discipline_image(:zk)
+      %td
+        = discipline_name(:zk)
+        %br/
+        %small (inoffiziell)
+      %td= persons(17, type: :full_name)
+      %td= image_tag(@team15.image.thumb)
+      %td= team_link(@team15)
+      %td 
+        27,44 s
+        %br/
+        %small 8,66 s/18,78 s
+      %td= competition_find_link(530)
+    %tr
+      %td= discipline_image(:fs)
+      %td= discipline_name(:fs)
+      %td
+        %small= persons([8, 251, 282, 116], type: :short_name)
+      %td= image_tag(@team2.image.thumb)
+      %td= team_link(@team2)
+      %td 66,89 s
+      %td= competition_find_link(53)
+    %tr
+      %td= discipline_image(:gs)
+      %td= discipline_name(:gs)
+      %td
+        %small= persons([116, 284, 282, 8, 35, 251], type: :short_name)
+      %td= image_tag(@team2.image.thumb)
+      %td= team_link(@team2)
+      %td 82,42 s
+      %td= competition_find_link(53)
+    %tr
+      %td= discipline_image(:la)
+      %td
+        = discipline_name(:la)
+        %br/
+        %small (ISFFR - 1xB)
+      %td
+        %small= persons([8, 116, 11, 284, 12, 143, 435], type: :short_name)
+      %td= image_tag(@team61.image.thumb)
+      %td= team_link(@team61)
+      %td 30,35 s
+      %td= competition_find_link(651)
+    %tr
+      %td{colspan: "7"}
+        %em.small
+          Nach der deutschen Wettkampfordnung werden in der Disziplin Löschangriff nass keine Rekorde geführt.
+  %p Stand: 27.09.2015

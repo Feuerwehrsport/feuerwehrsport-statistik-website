@@ -33,6 +33,15 @@ class PagesController < ResourceController
     @wettkampf_manager_versions = WettkampfManager::Version.all
   end
 
+  def records
+    @page_title = "Deutsche Rekorde im Feuerwehrsport"
+
+    @team2  = Team.find(2).decorate
+    @team3  = Team.find(3).decorate
+    @team15 = Team.find(15).decorate
+    @team61 = Team.find(61).decorate
+  end
+
   protected
 
   def last_competitions(limit)

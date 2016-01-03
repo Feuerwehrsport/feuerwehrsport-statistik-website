@@ -65,5 +65,6 @@ Rails.application.routes.draw do
   get :feuerwehrsport, to: 'pages#firesport_overview'
   get :wettkampf_manager, to: 'pages#wettkampf_manager'
   get :last_competitions, to: 'pages#last_competitions_overview'
+  get :records, to: 'pages#records'
   root to: 'pages#dashboard'
 end

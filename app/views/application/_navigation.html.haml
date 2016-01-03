@@ -26,10 +26,8 @@
               %li= link_to("Jahre", years_path)
               %li.divider
               %li.dropdown-header Interessantes
-              %li
-                %a{:href => "/page/news.html"} Neuigkeiten
-              %li
-                %a{:href => "/page/records.html"} Rekorde
+              %li= link_to("Neuigkeiten", news_index_path)
+              %li= link_to("Rekorde", records_path)
               %li
                 %a{:href => "/page/best-of.html"} 100 Bestzeiten
               %li= link_to("Statistiken 2015", year_path(id: 2015))
