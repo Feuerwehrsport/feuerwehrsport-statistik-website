@@ -42,6 +42,27 @@ class PagesController < ResourceController
     @team61 = Team.find(61).decorate
   end
 
+  def best_of
+    @page_title = "Die 100 schnellsten Zeiten"
+    @discipline_structs = []
+    [
+      [:hb, :female],
+      [:hb, :male],
+      [:hl, :female],
+      [:hl, :male],
+      [:gs, :female],
+      [:la, :female],
+      [:la, :male],
+    ].each do |discipline, gender|
+      klass = Discipline.group?(discipline) ? GroupScore.regular : Score
+      @discipline_structs.push OpenStruct.new(
+        discipline: discipline,
+        gender: gender,
+        scores: klass.best_of(discipline, gender).order(:time).first(100).map(&:decorate)
+      )
+    end
+  end
+
   protected
 
   def last_competitions(limit)

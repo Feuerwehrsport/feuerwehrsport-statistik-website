@@ -50,4 +50,13 @@ describe "pages features", type: :feature do
       expect(page).to have_content 'Deutsche Rekorde - Frauen'
     end
   end
+
+  context "best_of" do
+    it "shows best_of" do
+      visit best_of_path
+      expect(page).to have_content 'Die 100 schnellsten Zeiten'
+      expect(page).to have_content 'Annekathrin Daßler'
+      expect(page).to have_content '18.08.2012 - Taura, Pokallauf'
+    end
+  end
 end

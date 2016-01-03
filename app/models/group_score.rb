@@ -38,6 +38,12 @@ class GroupScore < ActiveRecord::Base
       to_sql
     from("(#{sql}) AS #{table_name}").where("r=1")
   end
+  scope :best_of, -> (discipline, gender) do
+    sql = GroupScore.discipline(discipline).gender(gender).
+      select("#{table_name}.*, ROW_NUMBER() OVER (PARTITION BY team_id ORDER BY time ) AS r").
+      to_sql
+    from("(#{sql}) AS #{table_name}").where("r=1")
+  end
 
   validates :team, :group_score_category, :team_number, :gender, :time, presence: true
 

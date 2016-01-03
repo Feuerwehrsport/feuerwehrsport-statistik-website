@@ -28,8 +28,7 @@
               %li.dropdown-header Interessantes
               %li= link_to("Neuigkeiten", news_index_path)
               %li= link_to("Rekorde", records_path)
-              %li
-                %a{:href => "/page/best-of.html"} 100 Bestzeiten
+              %li= link_to("100 Bestzeiten", best_of_path)
               %li= link_to("Statistiken 2015", year_path(id: 2015))
               %li= link_to("Statistiken 2014", year_path(id: 2014))
               %li= link_to("Statistiken 2013", year_path(id: 2013))

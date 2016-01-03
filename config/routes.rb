@@ -66,5 +66,6 @@ Rails.application.routes.draw do
   get :wettkampf_manager, to: 'pages#wettkampf_manager'
   get :last_competitions, to: 'pages#last_competitions_overview'
   get :records, to: 'pages#records'
+  get :best_of, to: 'pages#best_of'
   root to: 'pages#dashboard'
 end

@@ -27,6 +27,12 @@ class Score < ActiveRecord::Base
       to_sql
     from("(#{sql}) AS #{table_name}").where("r=1")
   end
+  scope :best_of, -> (discipline, gender) do
+    sql = Score.discipline(discipline).gender(gender).
+      select("#{table_name}.*, ROW_NUMBER() OVER (PARTITION BY person_id ORDER BY time ) AS r").
+      to_sql
+    from("(#{sql}) AS #{table_name}").where("r=1")
+  end
 
   def uniq_team_id
     "#{competition_id}-#{team_id}-#{team_number}"
