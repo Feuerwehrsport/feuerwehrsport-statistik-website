@@ -1,0 +1,5 @@
+- news.each do |n|
+  %h4
+    = link_to(n.title, n, title: l(n.published_at, format: :only_date))
+    %small= l(n.published_at, format: :only_date)
+  %p= truncate(strip_tags(n.content), length: 200, escape: false) { "&nbsp;#{link_to("[weiterlesen]", n, title: n.title)}" }
