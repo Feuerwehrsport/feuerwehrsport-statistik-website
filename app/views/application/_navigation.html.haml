@@ -32,5 +32,4 @@
               %li= link_to("Statistiken 2015", year_path(id: 2015))
               %li= link_to("Statistiken 2014", year_path(id: 2014))
               %li= link_to("Statistiken 2013", year_path(id: 2013))
-              %li
-                %a{:href => "/page/logs.html"} Letzte Änderungen
+              %li= link_to("Letzte Änderungen", change_logs_path)

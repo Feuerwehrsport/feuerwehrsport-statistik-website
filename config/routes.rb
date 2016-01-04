@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     resources :score_types
     resources :teams
   end
+  resources :change_logs, only: [:index]
   resources :appointments, only: [:index, :show]
   resources :competitions, only: [:index, :show] do
     member { post :files }
