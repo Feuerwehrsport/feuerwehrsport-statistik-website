@@ -7,7 +7,7 @@ module Series
     has_many :cups, through: :round
     has_many :participations
 
-    validates :round, :discipline, :gender, presence: true
+    validates :round, :discipline, :gender, :aggregate_type, presence: true
 
     def rows
       @rows ||= calculate_rows

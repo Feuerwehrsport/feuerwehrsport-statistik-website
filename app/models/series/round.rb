@@ -3,28 +3,37 @@ module Series
     include Caching::Keys
 
     has_many :cups 
-    has_many :assessments 
+    has_many :assessments
+    has_many :participations, through: :assessments
 
-    validates :name, :year, presence: true
+    validates :name, :year, :aggregate_type, presence: true
 
     default_scope -> { order(year: :desc, name: :asc) }
-
     scope :cup_count, -> do
       select("#{table_name}.*, COUNT(#{Cup.table_name}.id) AS cup_count").
       joins(:cups).
       group("#{table_name}.id")
     end
+    scope :with_team, -> (team_id) { joins(:participations).where(series_participations:  { team_id: team_id }).uniq }
 
     def disciplines
       assessments.pluck(:discipline).uniq.sort
     end
 
     def team_count
-      TeamParticipation.where(assessment: assessments).pluck(:team_id).uniq.count
+      team_participations.pluck(:team_id).uniq.count
+    end
+
+    def team_participations
+      participations.where(type: TeamParticipation)
     end
 
     def person_count
-      PersonParticipation.where(assessment: assessments).pluck(:person_id).uniq.count
+      person_participations.pluck(:person_id).uniq.count
+    end
+
+    def person_participations
+      participations.where(type: PersonParticipation)
     end
 
     def team_assessment_rows(gender)
@@ -33,7 +42,6 @@ module Series
     end
 
     def aggregate_class
-      aggregate_type = "MVCup"
       @aggregate_class ||= "Series::TeamAssessmentRows::#{aggregate_type}".constantize
     end
 

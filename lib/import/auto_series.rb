@@ -67,7 +67,7 @@ class Import::AutoSeries
 
 
     configs.each do |config|
-      round = Series::Round.create!(name: config.name, year: config.year)
+      round = Series::Round.create!(name: config.name, year: config.year, aggregate_type: config.aggregate_type)
       cups = config.competition_ids.map do |competition_id|
         Series::Cup.create!(round: round, competition_id: competition_id)
       end

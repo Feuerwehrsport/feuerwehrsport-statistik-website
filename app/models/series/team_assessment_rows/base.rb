@@ -2,7 +2,7 @@ module Series
   module TeamAssessmentRows
     class Base < Struct.new(:team, :team_number)
       include Draper::Decoratable
-      attr_reader :participations, :rank
+      attr_reader :rank
 
       def team_id
         team.id
@@ -31,7 +31,7 @@ module Series
       end
 
       def points
-        @cups.map { |cup| points_for_cup(cup) }.sum
+        @cups.values.map { |cup| cup.map(&:points).sum }.sum
       end
 
       def best_time
