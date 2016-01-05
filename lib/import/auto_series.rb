@@ -5,6 +5,9 @@ class Import::AutoSeries
     cups.each do |cup|
       assessments.each do |assessment|
         scores = send(:"series_#{type}_participations", cup.competition, assessment.gender, assessment.discipline, options)
+        if options[:sorting].present?
+          scores = scores.sort { |a, b| options[:sorting].call(a, b) }
+        end
         create_participations(assessment, cup, scores, points)
       end
     end
@@ -50,6 +53,12 @@ class Import::AutoSeries
   end
 
   def configs
+    sachsen_cup_point_sorting = -> (a, b) do
+      compare = a <=> b
+      return compare if compare != 0
+      a.scores.count <=> b.scores.count
+    end
+
     [
       RoundConfig.new("D-Cup", 2015, "DCup", [876, 754, 731], 10, 30, {}),
 
@@ -87,6 +96,10 @@ class Import::AutoSeries
 
       # mv-cup 2009: okay
       RoundConfig.new("MV-Cup", 2009, "MVCup", [90, 94, 95, 98], 10, 0, { exclude_team_ids: { female: [2, 510, 499, 55, 512], male: [138, 458, 55, 515, 514, 513, 512, 510, 509, 498, 107] }, exclude_group_score_ids: GroupScore.where(team_id: 101, team_number: 1).pluck(:id)  }),
+    ]
+
+    [
+      RoundConfig.new("Sächsischer Steigercup", 2014, "SachsenSteigerCup", [389, 428, 710], 10, 30, { only: [:hl], sorting: sachsen_cup_point_sorting }),
     ]
   end
 

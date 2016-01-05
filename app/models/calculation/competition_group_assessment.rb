@@ -31,6 +31,10 @@ class Calculation::CompetitionGroupAssessment < Struct.new(:team, :team_number, 
     @time[score_count] ||= calculate_time(score_count)
   end
 
+  def <=>(other)
+    time <=> other.time
+  end
+
   protected
 
   def competition_score_count
@@ -43,9 +47,5 @@ class Calculation::CompetitionGroupAssessment < Struct.new(:team, :team_number, 
     else
       score_in_assessment(score_count).map(&:time).sum
     end
-  end
-
-  def <=>(other)
-    time <=> other.time
   end
 end

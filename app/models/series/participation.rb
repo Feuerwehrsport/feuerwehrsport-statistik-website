@@ -1,5 +1,7 @@
 module Series
   class Participation < ActiveRecord::Base
+    include TimeInvalid
+
     belongs_to :cup
     belongs_to :assessment
 
