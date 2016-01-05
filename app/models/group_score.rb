@@ -60,4 +60,18 @@ class GroupScore < ActiveRecord::Base
   def similar_scores
     GroupScore.where(team_id: team_id, group_score_category_id: group_score_category_id).gender(gender).order(:id)
   end
+
+  def competition_scores_from_team
+    @competition_scores_from_team ||= similar_scores.where(team_number: team_number).sort_by(&:time)
+  end
+
+  def <=>(other)
+    both = [competition_scores_from_team, other.competition_scores_from_team].map(&:count)
+    (0..(both.min - 1)).each do |i|
+      compare = competition_scores_from_team[i].time <=> other.competition_scores_from_team[i].time
+      next if compare == 0
+      return compare
+    end
+    both.last <=> both.first
+  end
 end

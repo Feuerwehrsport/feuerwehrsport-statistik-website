@@ -1,6 +1,9 @@
-%table.team_assessments
-  - participations.each do |participation|
-    %tr
-      %th= discipline_name_short(participation.assessment.discipline)
-      %td= participation.second_time_with_points
-  
+- free ||= ''
+- if participations.present?
+  %table.team_assessments
+    - participations.each do |participation|
+      %tr
+        %th= discipline_name_short(participation.assessment.discipline)
+        %td= participation.second_time_with_points
+- else
+  %div= free
