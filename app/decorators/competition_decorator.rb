@@ -19,6 +19,10 @@ class CompetitionDecorator < ApplicationDecorator
     "#{date.strftime('%d.%m.')} - #{place.name} "
   end
 
+  def short_date_with_place
+    "#{date.strftime('%d.%m.')} #{place.name.truncate(15)} "
+  end
+
   def full_name
     text = ""
     text += "#{date.strftime('%d.%m.%Y')} - " if date.present?

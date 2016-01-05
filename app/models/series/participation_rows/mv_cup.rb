@@ -27,7 +27,7 @@ module Series
 
       def ordered_participations
         @ordered_participations ||= @participations.sort do |a, b|
-          compare = a.points <=> b.points
+          compare = b.points <=> a.points
           compare == 0 ? a.time <=> b.time : compare
         end.first(3)
       end

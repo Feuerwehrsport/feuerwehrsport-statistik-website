@@ -1,0 +1,34 @@
+= toc.anker("Wettkampfserien", :h2)
+
+
+%table.table.table-condensed.table-bordered
+  %tr
+    %th Name
+    %th Jahr
+    %th Disziplin
+    %th.small Platz
+    %th.small Punkte
+    %th{ colspan: @max_series_cups } Teilnahmen
+    - series_row do |name_s, year_s, assessment, row, cups|
+      %tr
+        - if name_s.present?
+          %td{ rowspan: name_s.rowspan }= name_s.name
+
+        - if year_s.present?
+          %td{ rowspan: year_s.rowspan }= year_s.year
+
+        %td
+          %a{ href: url_for(assessment) }
+            = discipline_image(assessment.discipline)
+            = discipline_name(assessment.discipline)
+            = assessment.name
+        %td= "#{row.rank}."
+        %td.small= row.points
+
+        - cups.each do |cup|
+          %td.small
+            = competition_link(cup.competition, type: :short_date_with_place)
+            %br
+            = row.participation_for_cup(cup).try(:second_time_with_points) || "-"
+        - (@max_series_cups - cups.count ).times.each do
+          %td

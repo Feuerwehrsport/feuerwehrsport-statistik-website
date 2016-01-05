@@ -7,6 +7,8 @@ module Series
     has_many :cups, through: :round
     has_many :participations
 
+    scope :with_person, -> (person_id) { joins(:participations).where(series_participations: { person_id: person_id }).uniq }
+
     validates :round, :discipline, :gender, :aggregate_type, presence: true
 
     def rows
