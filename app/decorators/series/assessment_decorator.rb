@@ -11,11 +11,5 @@ module Series
     def rows
       object.rows.map(&:decorate)
     end
-
-    def calculation_description
-      ActionController::Base.new.render_to_string(
-        partial: "series/participation_rows/#{aggregate_type.underscore}"
-      )
-    end
   end
 end

@@ -35,4 +35,8 @@ module LinksHelper
     options = options.merge(title: "Details zu dem Jahr #{year.to_s} anzeigen")
     link_to(year.send(type), year, options)
   end
+
+  def contact_link(label)
+    link_to(label, impressum_path, title: "Kontakt und Impressum")
+  end
 end

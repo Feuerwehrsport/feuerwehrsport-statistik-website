@@ -5,7 +5,11 @@
       = @assessment.round
       %br
       %small= @assessment
-  .col-md-4= render("series/cups_overview", cups: @assessment.cups.map {|c| [c, c.participations.where(assessment: @assessment).count] })
+    %ul
+      %li= link_to("Zurück zur Übersicht", @assessment.round)
+      - @person_assessments.each do |assessment|
+        %li= link_to(assessment, assessment)
+  .col-md-4= render("series/cups_overview", cups: @assessment.cups)
 = count_table(@assessment.rows, class: "datatable-scores") do |ct|
   - ct.col("Platz", :rank, class: "col-5", th_options: { class: "small" })
   - ct.col("Name", class: "col-15") { |row| person_link(row.entity, type: :last_name)}
@@ -17,5 +21,4 @@
   - ct.col("Teil.", :count, class: "col-5", th_options: { class: "small" })
   - ct.col("Punkte", :points, class: "col-5", th_options: { class: "small" })
 
-%h4 Berechnung der Punkte
-= @assessment.calculation_description
+= render("aggregate_type_#{@assessment.aggregate_type.underscore}") rescue ""

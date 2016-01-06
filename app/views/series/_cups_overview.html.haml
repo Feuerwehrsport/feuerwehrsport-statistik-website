@@ -2,9 +2,11 @@
   %thead
     %tr
       %th Cups
-      %th Teil.
+      %th{ title: "Mannschaften" } Mann.
+      %th{ title: "Einzelstarter" } Einzel
   %tbody
-    - cups.each do |cup, count|
+    - cups.each do |cup|
       %tr{ title: cup.competition }
         %td= link_to(cup.competition.date_with_place, cup.competition)
-        %td= count
+        %td= cup.team_count
+        %td= cup.person_count

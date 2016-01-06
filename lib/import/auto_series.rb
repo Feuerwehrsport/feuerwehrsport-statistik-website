@@ -63,18 +63,18 @@ class Import::AutoSeries
       RoundConfig.new("D-Cup", 2015, "DCup", [876, 754, 731], 10, 30, {}),
 
       # mv-hinderniscup: okay
-      RoundConfig.new("MV-Hinderniscup", 2015, "MVCup", [728, 750, 820, 875], 0, 20, { only: [:hb] }),
-      RoundConfig.new("MV-Hinderniscup", 2014, "MVCup", [460, 498, 575], 0, 20, { only: [:hb] }),
-      RoundConfig.new("MV-Hinderniscup", 2013, "MVCup", [162, 201, 267, 258], 0, 20, { only: [:hb] }),
+      RoundConfig.new("MV-Hinderniscup", 2015, "MVHindernisCup", [728, 750, 820, 875], 0, 20, { only: [:hb] }),
+      RoundConfig.new("MV-Hinderniscup", 2014, "MVHindernisCup", [460, 498, 575], 0, 20, { only: [:hb] }),
+      RoundConfig.new("MV-Hinderniscup", 2013, "MVHindernisCup", [162, 201, 267, 258], 0, 20, { only: [:hb] }),
 
       # mv-steigercup: okay
-      RoundConfig.new("MV-Steigercup", 2015, "MVCup", [728, 747, 820, 875], 0, 20, { only: [:hl] }),
-      RoundConfig.new("MV-Steigercup", 2014, "MVCup", [460, 498, 555, 575], 0, 20, { only: [:hl] }),
-      RoundConfig.new("MV-Steigercup", 2013, "MVCup", [162, 201, 258, 263], 0, 20, { only: [:hl] }),
-      RoundConfig.new("MV-Steigercup", 2012, "MVCup", [48, 49, 50, 51], 0, 20, { only: [:hl] }),
-      RoundConfig.new("MV-Steigercup", 2011, "MVCup", [32, 33, 34], 0, 20, { only: [:hl] }),
-      RoundConfig.new("MV-Steigercup", 2010, "MVCup", [64, 65, 66], 0, 20, { only: [:hl] }),
-      RoundConfig.new("MV-Steigercup", 2009, "MVCup", [22, 23, 24], 0, 20, { only: [:hl] }),
+      RoundConfig.new("MV-Steigercup", 2015, "MVSteigerCup", [728, 747, 820, 875], 0, 20, { only: [:hl] }),
+      RoundConfig.new("MV-Steigercup", 2014, "MVSteigerCup", [460, 498, 555, 575], 0, 20, { only: [:hl] }),
+      RoundConfig.new("MV-Steigercup", 2013, "MVSteigerCup", [162, 201, 258, 263], 0, 20, { only: [:hl] }),
+      RoundConfig.new("MV-Steigercup", 2012, "MVSteigerCup", [48, 49, 50, 51], 0, 20, { only: [:hl] }),
+      RoundConfig.new("MV-Steigercup", 2011, "MVSteigerCup", [32, 33, 34], 0, 20, { only: [:hl] }),
+      RoundConfig.new("MV-Steigercup", 2010, "MVSteigerCup", [64, 65, 66], 0, 20, { only: [:hl] }),
+      RoundConfig.new("MV-Steigercup", 2009, "MVSteigerCup", [22, 23, 24], 0, 20, { only: [:hl] }),
 
       # mv-cup 2015: okay
       RoundConfig.new("MV-Cup", 2015, "MVCup", [765, 745, 723, 700], 15, 0, {}),
