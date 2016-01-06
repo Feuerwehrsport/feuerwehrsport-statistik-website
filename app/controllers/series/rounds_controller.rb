@@ -1,7 +1,10 @@
 module Series
   class RoundsController < ResourceController
     def index
-      @rows = Round.cup_count
+      @rounds = {}
+      Series::Round.pluck(:name).uniq.sort.each do |name|
+        @rounds[name] = Round.cup_count.where(name: name)
+      end
     end
 
     def show
