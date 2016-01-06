@@ -1,5 +1,7 @@
 module Series
   class Cup < ActiveRecord::Base
+    include Participationable
+
     belongs_to :round
     belongs_to :competition
     has_many :assessments, through: :round
