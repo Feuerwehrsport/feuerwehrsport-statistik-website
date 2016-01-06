@@ -21,7 +21,7 @@ module Series
     end
 
     def team_count
-      team_participations.pluck(:team_id).uniq.count
+      team_participations.pluck(:team_id, :team_number).uniq.count
     end
 
     def team_participations
