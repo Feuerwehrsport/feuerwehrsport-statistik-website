@@ -29,7 +29,7 @@ class Import::AutoSeries
   end
 
   def series_person_participations(competition, gender, discipline, options={})
-    competition.scores.gender(gender).discipline(discipline).best_of_competition.sort_by(&:time)
+    competition.scores.no_finals.gender(gender).discipline(discipline).best_of_competition.sort_by(&:time)
   end
   
   def create_participations(assessment, cup, scores, points)
@@ -96,9 +96,6 @@ class Import::AutoSeries
 
       # mv-cup 2009: okay
       RoundConfig.new("MV-Cup", 2009, "MVCup", [90, 94, 95, 98], 10, 0, { exclude_team_ids: { female: [2, 510, 499, 55, 512], male: [138, 458, 55, 515, 514, 513, 512, 510, 509, 498, 107] }, exclude_group_score_ids: GroupScore.where(team_id: 101, team_number: 1).pluck(:id)  }),
-    ]
-
-    [
       RoundConfig.new("Sächsischer Steigercup", 2014, "SachsenSteigerCup", [389, 428, 710], 10, 30, { only: [:hl], sorting: sachsen_cup_point_sorting }),
     ]
   end

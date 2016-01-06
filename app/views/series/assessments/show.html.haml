@@ -8,8 +8,8 @@
   .col-md-4= render("series/cups_overview", cups: @assessment.cups.map {|c| [c, c.participations.where(assessment: @assessment).count] })
 = count_table(@assessment.rows, class: "datatable-scores") do |ct|
   - ct.col("Platz", :rank, class: "col-5", th_options: { class: "small" })
-  - ct.col("Name", [:entity, :last_name], class: "col-15")
-  - ct.col("Vorname", [:entity, :first_name], class: "col-15")
+  - ct.col("Name", class: "col-15") { |row| person_link(row.entity, type: :last_name)}
+  - ct.col("Vorname", class: "col-15") { |row| person_link(row.entity, type: :first_name)}
   - @assessment.cups.each do |cup|
     - ct.col(cup.competition.place, class: "col-10", th_options: { title: cup.competition, class: "small" }) { |row| row.participation_for_cup(cup).try(:second_time_with_points) }
   - ct.col("Bestzeit", :second_best_time, class: "col-5", th_options: { class: "small" })
