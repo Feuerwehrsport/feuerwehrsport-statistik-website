@@ -215,6 +215,7 @@ ActiveRecord::Base.connection.tables.each do |table|
 end
 
 Import::AutoSeries.new.perform
-Caching::Cleaner.new
+Caching::Cleaner.new.perform
+Caching::Builder.new.perform
 
 end
