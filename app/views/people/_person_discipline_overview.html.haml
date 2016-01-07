@@ -27,7 +27,8 @@
     - else
       - t.col("Team", class: "col70") { |row| link_to(row.team, row.team) }
     - if group_discipline?(ds.discipline)
-      - t.col("Ausschreibung", :group_score_type, {})
+      - t.col("Ausschreibung", :group_score_type, class: "small")
+      - t.col("Position", class: "small") { |row| competitor_position(ds.discipline, row.position, @person.gender)}
     - t.col("Zeit", :second_time, class: "col70")
 
   - if ds.discipline.in?([:gs, :fs, :la])
