@@ -83,7 +83,7 @@ $ () ->
 
     Fss.checkLogin () ->
       options = [
-        { value: 'together', display: 'Team ist doppelt vorhanden'},
+        { value: 'merge', display: 'Team ist doppelt vorhanden'},
         { value: 'correction', display: 'Team ist falsch geschrieben'},
         { value: 'logo', display: 'Neues Logo hochladen'},
         { value: 'map', display: 'Kartenposition ändern'},
@@ -98,9 +98,8 @@ $ () ->
         if selected is 'correction'
           Fss.getResource 'teams', teamId, (team) ->
             teamEditWindow 'Mannschaft korrigieren', team, (data) ->
-              data.id = teamId
-              Fss.changeRequest('team-correction', team: data)
-        else if selected is 'together'
+              Fss.changeRequest('team-correction', team_id: teamId, team: data)
+        else if selected is 'merge'
           Fss.getResources 'teams', (teams) ->
             teamOptions = []
             for team in teams
@@ -110,7 +109,7 @@ $ () ->
             .add(new FssFormRowDescription('Bitte wählen Sie das korrekte Team aus:'))
             .add(new FssFormRowSelect('correct_team_id', 'Richtiges Team:', null, teamOptions))
             .on('submit', (data) ->
-              Fss.changeRequest('team-together', team_id: teamId, correct_team_id: data.correct_team_id)
+              Fss.changeRequest('team-merge', team_id: teamId, correct_team_id: data.correct_team_id)
             )
             .open()
         else if selected is 'other'

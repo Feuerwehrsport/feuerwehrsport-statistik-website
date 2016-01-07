@@ -39,7 +39,7 @@ $ () ->
         selected = data.what
         if selected is 'wrong'
           options = [
-            { value: 'together', display: 'Richtige Schreibweise auswählen (für Administrator <i>VIEL</i> einfacher)'}
+            { value: 'merge', display: 'Richtige Schreibweise auswählen (für Administrator <i>VIEL</i> einfacher)'}
             { value: 'correction', display: 'Selbst korrekte Schreibweise hinzufügen'}
           ]
           FssWindow.build('Korrektur des Fehlers')
@@ -58,7 +58,7 @@ $ () ->
                   Fss.changeRequest("person-correction", person: data)
                 )
                 .open()
-            else if selected is 'together'
+            else if selected is 'merge'
               Fss.getResources 'people', (people) ->
                 options = []
                 for person in people
@@ -71,7 +71,7 @@ $ () ->
                 .add(new FssFormRowDescription('Bitte wählen Sie die korrekte Person aus:'))
                 .add(new FssFormRowSelect('person_id', 'Richtige Person', null, options))
                 .on('submit', (data) ->
-                  Fss.changeRequest("person-together", person_id: personId, correct_person_id: data.person_id)
+                  Fss.changeRequest("person-merge", person_id: personId, correct_person_id: data.person_id)
                 )
                 .open()
             )
