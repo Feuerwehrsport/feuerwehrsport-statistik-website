@@ -155,6 +155,9 @@ class @Fss
         else
           message = if data.message? then data.message else JSON.stringify(data)
           new WarningFssWindow(message)
+      error: (xhr, status) ->
+        wait.close()
+        new WarningFssWindow("Die Hintergrundanfrage zur URL #{url} schlug fehl: #{status}")
     
     if data instanceof FormData
       params.processData = false
