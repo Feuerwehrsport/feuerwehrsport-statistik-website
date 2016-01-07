@@ -59,7 +59,7 @@ describe "teams", type: :feature, js: true, driver: :webkit do
     expect(team.longitude).to eq 13
   end
 
-  it "can add change request with team-together" do
+  it "can add change request with team-merge" do
     api_sign_in
 
     visit team_path(id: 2)
@@ -75,7 +75,7 @@ describe "teams", type: :feature, js: true, driver: :webkit do
     expect(page).to have_content("Der Fehlerbericht wurde gespeichert")
 
     change_request_content = ChangeRequest.last.content
-    expect(change_request_content).to include key: "team-together"
+    expect(change_request_content).to include key: "team-merge"
     expect(change_request_content[:data]).to eq(team_id: "2", correct_team_id: "2543")
   end
 

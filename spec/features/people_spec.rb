@@ -34,7 +34,7 @@ describe "people", type: :feature, js: true, driver: :webkit do
   end
 
   context "add change request" do
-    it "can put people together" do
+    it "can put people merge" do
       api_sign_in
 
       # add one
@@ -56,7 +56,7 @@ describe "people", type: :feature, js: true, driver: :webkit do
       expect(page).to have_content("Der Fehlerbericht wurde gespeichert")
 
       change_request_content = ChangeRequest.last.content
-      expect(change_request_content).to eq(key: "person-together", data: { person_id: "42", correct_person_id: "271" })
+      expect(change_request_content).to eq(key: "person-merge", data: { person_id: "42", correct_person_id: "271" })
     end
 
     it "can correct person" do
