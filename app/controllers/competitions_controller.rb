@@ -8,6 +8,7 @@ class CompetitionsController < ResourceController
   def show
     @competition = Competition.find(params[:id]).decorate
     @calc = Calculation::Competition.new(@competition)
+    @page_title = "#{@competition} - Wettkampf"
   end
 
   def files

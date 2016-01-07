@@ -11,7 +11,7 @@ class AppointmentsController < ResourceController
 
   def show
     @appointment = Appointment.find(params[:id]).decorate
-    
+    @page_title = "#{l(@appointment.dated_at, format: :german)} #{@appointment} - Wettkampftermin"
     if request.format.ics?
       calendar_response(@appointment.to_s.parameterize, [@appointment], "REQUEST")
     end

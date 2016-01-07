@@ -5,5 +5,6 @@ class NewsController < ResourceController
 
   def show
     @news = News.find(params[:id]).decorate
+    @page_title = "#{@news} (#{l(@news.published_at, format: :only_date)}) - Neuigkeit"
   end
 end

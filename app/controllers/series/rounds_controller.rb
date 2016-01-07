@@ -12,7 +12,7 @@ module Series
       @person_assessments = PersonAssessment.where(round: round).decorate
       @team_assessments_exists = TeamAssessment.where(round: round).present?
       @round = round.decorate
-      @page_title = @round
+      @page_title = "#{@round} - Wettkampfserie"
     end
   end
 end

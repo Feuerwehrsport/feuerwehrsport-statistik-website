@@ -14,5 +14,6 @@ class TeamsController < ResourceController
     @group_disciplines = @team_undecorared.group_disciplines
     @series_round_structs = Series::Round.for_team(@team.id)
     @max_cup_count = @series_round_structs.values.flatten.map(&:cups).map(&:count).max
+    @page_title = "#{@team} - Mannschaft"
   end
 end
