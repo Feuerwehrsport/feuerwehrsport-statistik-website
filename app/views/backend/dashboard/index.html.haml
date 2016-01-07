@@ -2,7 +2,25 @@
 .row
   .col-md-4
     %ul.nav.nav-pills.nav-stacked.backend-nav
+      %li
+        %a{ href: backend_change_requests_path }
+          Fehler bearbeiten
+          %span.badge= ChangeRequest.open.count
       %li= link_to("Ausloggen", destroy_admin_user_session_path, method: :delete)
+  .col-md-4
+    %ul
+      %li Import
+      %li Fehler bearbeiten
+      %li Logs anzeigen
+      %li Benutzer anzeigen
+      %li Ungenutze Logos löschen
+      %li Team auseinanderziehen
+      %li Ergebnis-Dateien löschen
+      %li Neuigkeiten bearbeiten
+      %li D-Cup Teamwertung
+      %li D-Cup Einzelwertung
+      %li Personen ohne Zuordnung
+      %li Cache löschen
   .col-md-4
     %ul.nav.nav-pills.nav-stacked.backend-nav
       - @models.each do |model|

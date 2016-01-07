@@ -1,0 +1,327 @@
+reloadErrors = () ->
+  Fss.getResources 'change_requests', (changeRequests) ->
+    table = $('#change-requests')
+    table.children().remove()
+    for changeRequest in changeRequests
+      continue if changeRequest.done_at
+      error = new Error(changeRequest.id, changeRequest.content, changeRequest.created_at)
+      table.append(error.getTr())
+
+parseDateTime = (dateTime) =>
+  result = dateTime.match(/^(\d{4})-(\d{2})-(\d{2})(\s+(\d{2}):(\d{2}):(\d{2}))?/)
+  if result
+    new Date(result[1], result[2], result[3], result[5], result[6], result[7])
+  else
+    new Date()
+
+class Error
+  constructor: (@id, @content,@createdAt) ->
+    @key = @content.key
+    @data = @content.data
+    @headline = @key
+    @openTrs = null
+    @openType = () =>
+    @isOpen = false
+    switch @key
+      when "competition" then @handleCompetition()
+      when "person" then @handlePerson()
+      when "team-other", "team-correction", "team-merge", "team-logo" then @handleTeam()
+      when "date" then @handleDate()
+
+
+  getTr: () =>
+    creatorTd = $('<th/>').text(@creatorName)
+    if @creatorEmail
+      creatorTd.append(" (")
+      creatorTd.append($('<a/>').attr("href", "mailto:#{@creatorEmail}").text(@creatorEmail))
+      creatorTd.append(")")
+    @tr = $('<tr/>')
+      .append($('<th/>').text(parseDateTime(@createdAt).toLocaleString()))
+      .append(creatorTd)
+      .append($('<th/>').text(@headline))
+      .append($('<th/>')
+      .append($('<button/>').append($('<span/>').addClass("glyphicon glyphicon-chevron-down"))
+      .on('click', @click)
+      .css('cursor', 'pointer')
+      ))
+    
+  click: () =>
+    if @isOpen
+      @openTrs.hide()
+      @tr.removeClass('active').find('span').toggleClass('glyphicon-chevron-down glyphicon-chevron-up')
+      @isOpen = false
+    else
+      @isOpen = true
+      @tr.addClass('active').find('span').toggleClass('glyphicon-chevron-down glyphicon-chevron-up')
+      unless @openTrs
+        code = $('<tr/>').append($('<td/>').attr('colspan', 4).append($('<pre/>').text(JSON.stringify(@content))))
+        div = $('<div/>').addClass("row")
+        @openType(div)
+        @openTrs = code.add($('<tr/>').append($('<td/>').attr('colspan', 4).append(div)))
+        @tr.after(@openTrs)
+      else
+        @openTrs.show()
+
+  box: (cols, appendTo = null) =>
+    div = $('<div/>').addClass("col-md-#{cols}")
+    div.appendTo(appendTo) if appendTo
+    div
+
+  getActionBox: (div, callback = null, cols = 3) =>
+    box = @box(cols, div).append($('<div/>').addClass('btn btn-default').text('Erledigt').click( () => @confirmDone("Ohne Aktion - ") ))
+    if callback
+      box.append('<br/>').append($('<div/>').addClass('btn btn-success').text('Beheben').click( () => @confirmAction(callback) ))
+    box
+
+  confirmAction: (callback, text = "") ->
+    new ConfirmFssWindow("Fehler wirklich beheben?", "Diese Aktion verändert die Daten! #{text}", () -> callback())    
+
+  confirmDone: (text = "") =>
+    new ConfirmFssWindow(text + 'Fehler erledigt', text + 'Wirklich als erledigt markieren?', () =>
+      Fss.put "change_requests/#{@id}", change_request: { done: 1 }, () -> reloadErrors()
+    )
+
+  handleCompetition: () =>
+    getCompetitionBox = (appendTo, headline = "Wettkampf", id = @content.competitionId) =>
+      box = @box(3, appendTo).append($('<h4/>').text(headline))
+      Fss.getCompetition id, (competition) ->
+        Fss.post 'get-place', placeId: competition.place_id, (data) ->
+          place = data.place
+          Fss.post 'get-event', eventId: competition.event_id, (data) ->
+            event = data.event
+            box.append(
+              $('<a/>')
+              .attr('href', "/page/competition-#{competition.id}.html")
+              .text("#{competition.date} (#{competition.name})")
+            )
+            .append("<br/>ID: #{id}")
+            .append("<br/>Ort: #{place.name}")
+            .append("<br/>Typ: #{event.name}")
+    @headline = "Wettkampf"
+    switch @content.reason
+      when "name"
+        @headline += " - Name"
+        @openType = (div) =>
+          getCompetitionBox(div)
+          @box(4, div)
+            .append($('<h4/>').text("Korrektur"))
+            .append("Name: #{@content.name}")
+          @getActionBox(div)
+          .append('<br/>')
+          .append $('<button/>').text('Neuen Namen setzen').click () =>
+            FssWindow.build('Namen eintragen')
+            .add(new FssFormRowText('name', 'Name', @content.name))
+            .on('submit', (data) =>
+              @confirmAction () => 
+                data.competitionId = @content.competitionId
+                Fss.post 'set-competition-name', data, (d) => @confirmDone()
+            )
+            .open()
+      when "hint"
+        @headline += " - Hinweis"
+        @openType = (div) =>
+          appendHintToUl = (ul, hint) ->
+            ul.append(
+              $('<li/>')
+              .text(hint.hint)
+              .append($('<span/>').addClass("glyphicon glyphicon-remove")).css('cursor', 'pointer').click () ->
+                new ConfirmFssWindow 'Hinweis löschen', 'Wirklich löschen?', () ->
+                  Fss.post('delete-hint', competitionHintId: hint.id, () -> reloadHints())
+                
+            )
+          reloadHints = () =>
+            Fss.post 'get-hints', competitionId: @content.competitionId, (data) ->
+              hintsBox.children().remove()
+              hintsBox.append($('<h4/>').text("Vorhandene Hinweise"))
+              ul = $('<ul/>').appendTo(hintsBox)
+              console.log(data.hints)
+              for hint in data.hints
+                appendHintToUl(ul, hint)
+                
+
+
+          getCompetitionBox(div)
+          @box(3, div).append($('<h4/>').text("Aktueller Hinweis")).append($('<pre/>').text(@content.description))
+          hintsBox = @box(3, div)
+          reloadHints()
+          @getActionBox(div)
+          .append('<br/>')
+          .append($('<button/>').text("Hinweis hinzufügen").click () =>
+            FssWindow.build('Hinweis hinzufügen')
+              .add(new FssFormRowTextarea('hint', 'Hinweis', @content.description))
+              .on('submit', (data) =>
+                data.competitionId = @content.competitionId
+                Fss.post 'add-hint', data, () -> reloadHints()
+              )
+              .open()
+          )
+      else
+        @openType = (div) =>
+          @getActionBox(div)
+
+  handlePerson: () =>
+    getPersonBox = (appendTo, headline = "Person", id = @content.personId) =>
+      box = @box(3, appendTo).append($('<h4/>').text(headline))
+      Fss.getPerson id, (person) ->
+        box.append(
+          $('<a/>')
+          .attr('href', "/page/person-#{person.id}.html")
+          .text("#{person.firstname} #{person.name} (#{person.sex})")
+        ).append("<br/>ID: #{id}")
+    @headline = "Person"
+    switch @content.reason
+      when "correction"
+        @headline += " - Korrektur"
+        @openType = (div) =>
+          getPersonBox(div)
+          @box(4, div)
+            .append($('<h4/>').text("Korrektur"))
+            .append("Vorname: #{@content.firstname}<br/>Nachname: #{@content.name}")
+          @getActionBox div, () =>
+            Fss.post 'set-person-name', @content, (data) => @confirmDone()
+
+      when "merge"
+        @headline += " - Zusammenführen"
+        @openType = (div) =>
+          action = (params = {}) =>
+            params.newPersonId = @content.newPersonId
+            params.personId = @content.personId
+            Fss.post 'set-person-merge', params, (data) => @confirmDone()
+          getPersonBox(div)
+          getPersonBox(div, "Richtige Person", @content.newPersonId)
+          @getActionBox(div, () => action() )
+          .append($('<button/>').text('Immer beheben').click( () => 
+            @confirmAction(
+              () -> action( always: true ),
+              "Beim Import wird in Zukunft immer automatisch der Name ersetzt."
+            )
+          ))
+
+      when "other"
+        @headline += " - Freitext"
+        @openType = (div) =>
+          getPersonBox(div)
+          @box(5, div).append($('<pre/>').text(@content.description))
+          @getActionBox(div)
+      else
+        @openType = (div) =>
+          @getActionBox(div)
+
+  handleTeam: () =>
+    getTeamBox = (appendTo, headline = "Mannschaft", id = @data.team_id) =>
+      box = @box(3, appendTo).append($('<h4/>').text(headline))
+      Fss.getResource "teams", id, (team) ->
+        box.append(
+          $('<a/>')
+          .attr('href', "/teams/#{team.id}")
+          .text("#{team.name} (#{team.state})")
+          .attr('title', "#{team.shortcut} (#{team.status})")
+        ).append("<br/>ID: #{id}")
+    @headline = "Mannschaft"
+    switch @key
+      when "team-correction"
+        @headline += " - Korrektur"
+        @openType = (div) =>
+          getTeamBox(div)
+          @box(4, div)
+            .append($('<h4/>').text("Korrektur"))
+            .append("Name: #{@data.team.name}<br/>Kurz: #{@data.team.shortcut}<br/>Typ: #{@data.team.status}")
+          @getActionBox div, () =>
+            Fss.put "teams/#{@data.team_id}", team: @data.team, () => @confirmDone()
+
+      when "team-merge"
+        @headline += " - Zusammenführen"
+        @openType = (div) =>
+          action = (params = {}) =>
+            params.correct_team_id = @data.correct_team_id
+            Fss.post "teams/#{@data.team_id}/merge", params, (data) => @confirmDone()
+          getTeamBox(div)
+          getTeamBox(div, "Richtige Mannschaft", @data.correct_team_id)
+          @getActionBox(div, () -> action() )
+          .append($('<div/>').addClass('btn btn-info').text('Immer beheben').click( () => 
+            @confirmAction(
+              () -> action( always: true ),
+              "Beim Import wird in Zukunft immer automatisch der Name ersetzt."
+            )
+          ))
+
+      when "logo"
+        @headline += " - Logo"
+        @openType = (div) =>
+          getTeamBox(div)
+          for image in @content.attached_files
+            @box(3, div)
+            .append($('<img/>').attr('src', "/files/errors/#{image}").css('width', "200px"))
+            .append($('<button/>').text('Auswählen').click () => 
+              @confirmAction () =>
+                Fss.post 'add-team-logo', teamId: @content.teamId, attachedFile: image, (data) => @confirmDone()
+              
+            )
+          @getActionBox(div)
+
+      when "team-other"
+        @headline += " - Freitext"
+        @openType = (div) =>
+          getTeamBox(div)
+          @box(5, div).append($('<pre/>').text(@data.description))
+          @getActionBox(div)
+      else
+        @openType = (div) =>
+          @getActionBox(div)
+
+  handleDate: () =>
+    getDateBox = (appendTo, headline = "Termin", id = @content.dateId) =>
+      box = @box(5, appendTo).append($('<h4/>').text(headline))
+      Fss.post 'get-date', dateId: id, (data) ->
+        date = data.date
+        Fss.post 'get-place', placeId: date.place_id, (data) ->
+          place = data.place
+          Fss.post 'get-event', eventId: date.event_id, (data) ->
+            event = data.event
+            box.append(
+              $('<a/>')
+              .attr('href', "/page/date-#{date.id}.html")
+              .text("#{date.name} (#{parseDateTime(date.date).toLocaleDateString()})")
+            )
+            .append("<br/>ID: #{id}")
+            .append("<br/>Ort: #{place.name}")
+            .append("<br/>Typ: #{event.name}")
+            .append("<br/>")
+            .append($("<pre/>").text(date.description))
+            .append("<br/>Disziplinen: #{date.disciplines}")
+
+    @headline = "Termin"
+    switch @content.reason
+      when "change"
+        @headline += " - Änderung"
+        @openType = (div) =>
+          getDateBox(div)
+          correctBox = @box(5, div)
+          .append($('<h4/>').text("Korrektur"))
+          .append("Name: #{@content.date.name}")
+
+
+          Fss.post 'get-place', placeId: @content.date.placeId, (data) =>
+            place = data.place
+            Fss.post 'get-event', eventId: @content.date.eventId, (data) =>
+              event = data.event
+              correctBox
+              .append("<br/>Ort: #{place.name}")
+              .append("<br/>Typ: #{event.name}")
+              .append("<br/>")
+              .append($("<pre/>").text(@content.date.description))
+              for discipline, name of Fss.disciplines
+                correctBox.append("<br/>#{name}: #{@content.date[discipline]}")
+          @getActionBox(div, () => 
+            data = @content.date
+            data.dateId = @content.dateId
+            Fss.post 'set-date', data, (d) => @confirmDone()
+          , 2)
+      else
+        @openType = (div) =>
+          @getActionBox(div)
+
+
+$ ->
+  reloadErrors()
+

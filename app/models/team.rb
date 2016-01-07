@@ -16,6 +16,7 @@ class Team < ActiveRecord::Base
   has_many :competitions, through: :team_competitions
   has_many :group_score_participations
   has_many :links, as: :linkable, dependent: :restrict_with_exception
+  has_many :team_spellings, dependent: :restrict_with_exception
 
   mount_uploader :image, TeamLogoUploader
 
@@ -93,6 +94,15 @@ class Team < ActiveRecord::Base
       end
     end
     group_disciplines
+  end
+
+  def merge_to(correct_team)
+    raise ActiveRecord::ActiveRecordError.new("same id") if id == correct_team.id
+
+    scores.update_all(team_id: correct_team.id)
+    group_scores.update_all(team_id: correct_team.id)
+    links.update_all(linkable_id: correct_team.id)
+    team_spellings.update_all(team_id: correct_team.id)
   end
 
   private

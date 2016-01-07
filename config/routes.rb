@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     root to: 'dashboard#index'
     resources :admin_users
     resources :appointments
+    resources :change_requests
     resources :competitions
     resources :competition_files
     resources :events
@@ -47,7 +48,7 @@ Rails.application.routes.draw do
       end
     end
     resources :appointments, only: [:create, :show]
-    resources :change_requests, only: [:create]
+    resources :change_requests, only: [:create, :update, :index]
     resources :events, only: [:index]
     resources :group_scores, only: [:show] do
       member { put :person_participation }
@@ -56,7 +57,9 @@ Rails.application.routes.draw do
     resources :nations, only: [:index]
     resources :people, only: [:create, :show, :index]
     resources :places, only: [:index, :update]
-    resources :teams, only: [:create, :show, :index, :update]
+    resources :teams, only: [:create, :show, :index, :update] do
+      member { post :merge }
+    end
   end
   scope :images do
     get 'person_la_positions/:person_id', controller: :images, action: :la_positions, as: :images_person_la_positions

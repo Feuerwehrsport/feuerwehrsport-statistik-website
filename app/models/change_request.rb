@@ -2,6 +2,8 @@ class ChangeRequest < ActiveRecord::Base
   belongs_to :user
   belongs_to :admin_user
 
+  scope :open, -> { where(done_at: nil) }
+
   validates :content, presence: true
 
   def content
@@ -27,5 +29,13 @@ class ChangeRequest < ActiveRecord::Base
       )
     end
     self.files_data = { files: files_array }
+  end
+
+  def done=(done_status)
+    if done_status.to_i == 1 && done_at.nil?
+      self.done_at = Time.now
+    elsif done_status.to_i == 0
+      self.done_at = nil
+    end
   end
 end
