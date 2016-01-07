@@ -2,7 +2,7 @@
   .row
     .col-md-2
       - if @team.image.present?
-        = image_tag(@team.image)
+        = image_tag(@team.image.tile)
       - else
         = design_image(:upload_logo, class: "upload-logo", data: { team_id: @team.id })
       %hr

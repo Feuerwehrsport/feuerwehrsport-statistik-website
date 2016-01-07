@@ -40,7 +40,7 @@ module API
 
     def update_permitted_attributes
       permitted_keys = [:latitude, :longitude]
-      permitted_keys.push(:name, :shortcut, :status) if can?(:correct, resource_instance)
+      permitted_keys.push(:name, :shortcut, :status, :image_change_request) if can?(:correct, resource_instance)
       permitted_attributes.permit(*permitted_keys)
     end
   end

@@ -48,7 +48,9 @@ Rails.application.routes.draw do
       end
     end
     resources :appointments, only: [:create, :show]
-    resources :change_requests, only: [:create, :update, :index]
+    resources :change_requests, only: [:create, :index, :update] do
+      resources :files, only: [:show], to: 'change_requests#files'
+    end
     resources :events, only: [:index]
     resources :group_scores, only: [:show] do
       member { put :person_participation }

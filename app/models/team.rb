@@ -1,5 +1,6 @@
 class Team < ActiveRecord::Base
   include GeoPosition
+  include ChangeRequestUploader
   STATUS = { team: 0, fire_station: 1 }
   enum status: STATUS
   
@@ -19,6 +20,7 @@ class Team < ActiveRecord::Base
   has_many :team_spellings, dependent: :restrict_with_exception
 
   mount_uploader :image, TeamLogoUploader
+  change_request_upload(:image)
 
   validates :name, :shortcut, presence: true
 

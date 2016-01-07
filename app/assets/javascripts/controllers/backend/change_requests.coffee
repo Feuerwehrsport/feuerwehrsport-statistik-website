@@ -4,7 +4,7 @@ reloadErrors = () ->
     table.children().remove()
     for changeRequest in changeRequests
       continue if changeRequest.done_at
-      error = new Error(changeRequest.id, changeRequest.content, changeRequest.created_at)
+      error = new Error(changeRequest.id, changeRequest.content, changeRequest.created_at, changeRequest.files)
       table.append(error.getTr())
 
 parseDateTime = (dateTime) =>
@@ -15,7 +15,7 @@ parseDateTime = (dateTime) =>
     new Date()
 
 class Error
-  constructor: (@id, @content,@createdAt) ->
+  constructor: (@id, @content, @createdAt, @files) ->
     @key = @content.key
     @data = @content.data
     @headline = @key
@@ -208,7 +208,7 @@ class Error
           @getActionBox(div)
 
   handleTeam: () =>
-    getTeamBox = (appendTo, headline = "Mannschaft", id = @data.team_id) =>
+    getTeamBox = (appendTo, callback = null, headline = "Mannschaft", id = @data.team_id) =>
       box = @box(3, appendTo).append($('<h4/>').text(headline))
       Fss.getResource "teams", id, (team) ->
         box.append(
@@ -217,6 +217,7 @@ class Error
           .text("#{team.name} (#{team.state})")
           .attr('title', "#{team.shortcut} (#{team.status})")
         ).append("<br/>ID: #{id}")
+        callback(team, box) if callback
     @headline = "Mannschaft"
     switch @key
       when "team-correction"
@@ -236,7 +237,7 @@ class Error
             params.correct_team_id = @data.correct_team_id
             Fss.post "teams/#{@data.team_id}/merge", params, (data) => @confirmDone()
           getTeamBox(div)
-          getTeamBox(div, "Richtige Mannschaft", @data.correct_team_id)
+          getTeamBox(div, null, "Richtige Mannschaft", @data.correct_team_id)
           @getActionBox(div, () -> action() )
           .append($('<div/>').addClass('btn btn-info').text('Immer beheben').click( () => 
             @confirmAction(
@@ -245,18 +246,29 @@ class Error
             )
           ))
 
-      when "logo"
+      when "team-logo"
         @headline += " - Logo"
         @openType = (div) =>
-          getTeamBox(div)
-          for image in @content.attached_files
-            @box(3, div)
-            .append($('<img/>').attr('src', "/files/errors/#{image}").css('width', "200px"))
-            .append($('<button/>').text('Auswählen').click () => 
+          getTeamBox div, (team, box) ->
+            box.append($('<div/>').append($('<img/>').attr('src', team.tile_path))) if team.tile_path
+          $.each @files, (i, file) =>
+            showButton = $('<div/>').addClass('btn btn-info').text('Anzeigen').click () =>
+              showButton.remove()
+              Fss.getResource "change_requests/#{@id}/files", i, (file) =>
+                $('<img/>').attr('src', "data:#{file.content_type};base64,#{file.binary}").css('width', "200px").appendTo(imageBox)
+                selectButton.show()
+            selectButton = $('<div/>').hide().addClass("btn btn-success").text('Auswählen').click () => 
               @confirmAction () =>
-                Fss.post 'add-team-logo', teamId: @content.teamId, attachedFile: image, (data) => @confirmDone()
-              
-            )
+                Fss.put "teams/#{@data.team_id}", team: { image_change_request: "#{@id}-#{i}" }, () => @confirmDone()
+            imageBox = $("<div/>")
+            .append(file.filename)
+            .append('<br/>')
+            .append(file.content_type)
+            .append('<br/>')
+            .append(showButton)
+            @box(3, div)
+            .append(imageBox)
+            .append(selectButton)
           @getActionBox(div)
 
       when "team-other"
