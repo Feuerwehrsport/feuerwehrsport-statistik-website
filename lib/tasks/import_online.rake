@@ -202,6 +202,16 @@ client.query("SELECT * FROM result_files ORDER BY id").each do |row|
   )
 end
 
+puts "team_spellings"
+client.query("SELECT * FROM team_spellings ORDER BY id").each do |row|
+  TeamSpelling.create!(
+    team_id: row["team_id"],
+    name: row["name"],
+    shortcut: row["short"],
+  )
+end
+
+
 ActiveRecord::Base.connection.tables.each do |table|
   begin
     result = ActiveRecord::Base.connection.execute("SELECT id FROM #{table} ORDER BY id DESC LIMIT 1")

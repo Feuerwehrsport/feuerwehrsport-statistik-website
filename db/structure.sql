@@ -838,6 +838,7 @@ CREATE TABLE series_rounds (
     id integer NOT NULL,
     name character varying NOT NULL,
     year integer NOT NULL,
+    aggregate_type character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -892,6 +893,39 @@ UNION
     scores.person_id
    FROM scores
   WHERE (scores.team_id IS NOT NULL);
+
+
+--
+-- Name: team_spellings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE team_spellings (
+    id integer NOT NULL,
+    team_id integer,
+    name character varying,
+    shortcut character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: team_spellings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE team_spellings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: team_spellings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE team_spellings_id_seq OWNED BY team_spellings.id;
 
 
 --
@@ -1135,6 +1169,13 @@ ALTER TABLE ONLY series_rounds ALTER COLUMN id SET DEFAULT nextval('series_round
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY team_spellings ALTER COLUMN id SET DEFAULT nextval('team_spellings_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY teams ALTER COLUMN id SET DEFAULT nextval('teams_id_seq'::regclass);
 
 
@@ -1322,6 +1363,14 @@ ALTER TABLE ONLY series_rounds
 
 
 --
+-- Name: team_spellings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY team_spellings
+    ADD CONSTRAINT team_spellings_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: teams_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1499,6 +1548,13 @@ CREATE INDEX index_scores_on_team_id ON scores USING btree (team_id);
 
 
 --
+-- Name: index_team_spellings_on_team_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_team_spellings_on_team_id ON team_spellings USING btree (team_id);
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1519,6 +1575,14 @@ ALTER TABLE ONLY group_score_categories
 
 ALTER TABLE ONLY person_participations
     ADD CONSTRAINT fk_rails_0a382359da FOREIGN KEY (person_id) REFERENCES people(id);
+
+
+--
+-- Name: fk_rails_0fda230754; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY team_spellings
+    ADD CONSTRAINT fk_rails_0fda230754 FOREIGN KEY (team_id) REFERENCES teams(id);
 
 
 --
@@ -1780,4 +1844,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151208202722');
 INSERT INTO schema_migrations (version) VALUES ('20151211064637');
 
 INSERT INTO schema_migrations (version) VALUES ('20151228083526');
+
+INSERT INTO schema_migrations (version) VALUES ('20160107114749');
 
