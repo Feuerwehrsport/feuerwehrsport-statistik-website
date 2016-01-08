@@ -51,6 +51,7 @@ Rails.application.routes.draw do
     resources :change_requests, only: [:create, :index, :update] do
       resources :files, only: [:show], to: 'change_requests#files'
     end
+    resources :competitions, only: [:show, :update]
     resources :events, only: [:index]
     resources :group_scores, only: [:show] do
       member { put :person_participation }

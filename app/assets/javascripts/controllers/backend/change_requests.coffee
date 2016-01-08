@@ -7,12 +7,8 @@ reloadErrors = () ->
       error = new Error(changeRequest.id, changeRequest.content, changeRequest.created_at, changeRequest.files)
       table.append(error.getTr())
 
-parseDateTime = (dateTime) =>
-  result = dateTime.match(/^(\d{4})-(\d{2})-(\d{2})(\s+(\d{2}):(\d{2}):(\d{2}))?/)
-  if result
-    new Date(result[1], result[2], result[3], result[5], result[6], result[7])
-  else
-    new Date()
+parseDateTime = (dateTime) ->
+  new Date(dateTime)
 
 class Error
   constructor: (@id, @content, @createdAt, @files) ->
@@ -23,7 +19,7 @@ class Error
     @openType = () =>
     @isOpen = false
     switch @key
-      when "competition" then @handleCompetition()
+      when "competition-change-name", "competition-add-hint" then @handleCompetition()
       when "person" then @handlePerson()
       when "team-other", "team-correction", "team-merge", "team-logo" then @handleTeam()
       when "date" then @handleDate()
@@ -82,42 +78,37 @@ class Error
     )
 
   handleCompetition: () =>
-    getCompetitionBox = (appendTo, headline = "Wettkampf", id = @content.competitionId) =>
+    getCompetitionBox = (appendTo, headline = "Wettkampf", id = @data.competition_id) =>
       box = @box(3, appendTo).append($('<h4/>').text(headline))
-      Fss.getCompetition id, (competition) ->
-        Fss.post 'get-place', placeId: competition.place_id, (data) ->
-          place = data.place
-          Fss.post 'get-event', eventId: competition.event_id, (data) ->
-            event = data.event
-            box.append(
-              $('<a/>')
-              .attr('href', "/page/competition-#{competition.id}.html")
-              .text("#{competition.date} (#{competition.name})")
-            )
-            .append("<br/>ID: #{id}")
-            .append("<br/>Ort: #{place.name}")
-            .append("<br/>Typ: #{event.name}")
+      Fss.getResource "competitions", id, (competition) ->
+        box.append(
+          $('<a/>')
+          .attr('href', "/competitions/#{id}")
+          .text("#{competition.date} (#{competition.name})")
+        )
+        .append("<br/>ID: #{id}")
+        .append("<br/>Ort: #{competition.place}")
+        .append("<br/>Typ: #{competition.event}")
     @headline = "Wettkampf"
-    switch @content.reason
-      when "name"
+    switch @key
+      when "competition-change-name"
         @headline += " - Name"
         @openType = (div) =>
           getCompetitionBox(div)
           @box(4, div)
             .append($('<h4/>').text("Korrektur"))
-            .append("Name: #{@content.name}")
+            .append("Name: #{@data.name}")
           @getActionBox(div)
           .append('<br/>')
-          .append $('<button/>').text('Neuen Namen setzen').click () =>
+          .append $('<div/>').addClass('btn btn-success').text('Neuen Namen setzen').click () =>
             FssWindow.build('Namen eintragen')
-            .add(new FssFormRowText('name', 'Name', @content.name))
+            .add(new FssFormRowText('name', 'Name', @data.name))
             .on('submit', (data) =>
-              @confirmAction () => 
-                data.competitionId = @content.competitionId
-                Fss.post 'set-competition-name', data, (d) => @confirmDone()
+              @confirmAction () =>
+                Fss.put "competitions/#{@data.competition_id}", competition: data, () => @confirmDone()
             )
             .open()
-      when "hint"
+      when "competition-add-hint"
         @headline += " - Hinweis"
         @openType = (div) =>
           appendHintToUl = (ul, hint) ->
