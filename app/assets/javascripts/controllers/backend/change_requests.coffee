@@ -20,7 +20,7 @@ class Error
     @isOpen = false
     switch @key
       when "competition-change-name", "competition-add-hint" then @handleCompetition()
-      when "person" then @handlePerson()
+      when "person-correction", "person-merge", "person-other", "person-change-nation" then @handlePerson()
       when "team-other", "team-correction", "team-merge", "team-logo" then @handleTeam()
       when "date" then @handleDate()
 
@@ -123,37 +123,36 @@ class Error
           @getActionBox(div)
 
   handlePerson: () =>
-    getPersonBox = (appendTo, headline = "Person", id = @content.personId) =>
+    getPersonBox = (appendTo, headline = "Person", id = @data.person_id) =>
       box = @box(3, appendTo).append($('<h4/>').text(headline))
-      Fss.getPerson id, (person) ->
+      Fss.getResource "people", id, (person) ->
         box.append(
           $('<a/>')
           .attr('href', "/page/person-#{person.id}.html")
-          .text("#{person.firstname} #{person.name} (#{person.sex})")
+          .text("#{person.first_name} #{person.last_name} (#{person.translated_gender})")
         ).append("<br/>ID: #{id}")
     @headline = "Person"
-    switch @content.reason
-      when "correction"
+    switch @key
+      when "person-correction"
         @headline += " - Korrektur"
         @openType = (div) =>
           getPersonBox(div)
           @box(4, div)
             .append($('<h4/>').text("Korrektur"))
-            .append("Vorname: #{@content.firstname}<br/>Nachname: #{@content.name}")
+            .append("Vorname: #{@data.person.first_name}<br/>Nachname: #{@data.person.last_name}")
           @getActionBox div, () =>
-            Fss.post 'set-person-name', @content, (data) => @confirmDone()
+            Fss.put "people/#{@data.person_id}", person: @data.person, () => @confirmDone()
 
-      when "merge"
+      when "person-merge"
         @headline += " - Zusammenführen"
         @openType = (div) =>
           action = (params = {}) =>
-            params.newPersonId = @content.newPersonId
-            params.personId = @content.personId
-            Fss.post 'set-person-merge', params, (data) => @confirmDone()
+            params.correct_person_id = @data.correct_person_id
+            Fss.post "people/#{@data.person_id}/merge", params, (data) => @confirmDone()
           getPersonBox(div)
-          getPersonBox(div, "Richtige Person", @content.newPersonId)
+          getPersonBox(div, "Richtige Person", @data.correct_person_id)
           @getActionBox(div, () => action() )
-          .append($('<button/>').text('Immer beheben').click( () => 
+          .append($('<div/>').addClass("btn btn-info").text('Immer beheben').click( () => 
             @confirmAction(
               () -> action( always: true ),
               "Beim Import wird in Zukunft immer automatisch der Name ersetzt."

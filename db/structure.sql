@@ -608,6 +608,41 @@ ALTER SEQUENCE person_participations_id_seq OWNED BY person_participations.id;
 
 
 --
+-- Name: person_spellings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE person_spellings (
+    id integer NOT NULL,
+    person_id integer NOT NULL,
+    last_name character varying NOT NULL,
+    first_name character varying NOT NULL,
+    gender integer NOT NULL,
+    official boolean DEFAULT false NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: person_spellings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE person_spellings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: person_spellings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE person_spellings_id_seq OWNED BY person_spellings.id;
+
+
+--
 -- Name: places; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1121,6 +1156,13 @@ ALTER TABLE ONLY person_participations ALTER COLUMN id SET DEFAULT nextval('pers
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY person_spellings ALTER COLUMN id SET DEFAULT nextval('person_spellings_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY places ALTER COLUMN id SET DEFAULT nextval('places_id_seq'::regclass);
 
 
@@ -1305,6 +1347,14 @@ ALTER TABLE ONLY people
 
 ALTER TABLE ONLY person_participations
     ADD CONSTRAINT person_participations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: person_spellings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY person_spellings
+    ADD CONSTRAINT person_spellings_pkey PRIMARY KEY (id);
 
 
 --
@@ -1528,6 +1578,13 @@ CREATE INDEX index_person_participations_on_person_id ON person_participations U
 
 
 --
+-- Name: index_person_spellings_on_person_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_person_spellings_on_person_id ON person_spellings USING btree (person_id);
+
+
+--
 -- Name: index_scores_on_competition_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1707,6 +1764,14 @@ ALTER TABLE ONLY group_score_categories
 
 
 --
+-- Name: fk_rails_a9dc923e30; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY person_spellings
+    ADD CONSTRAINT fk_rails_a9dc923e30 FOREIGN KEY (person_id) REFERENCES people(id);
+
+
+--
 -- Name: fk_rails_bb2ca8f375; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1849,4 +1914,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151228083526');
 INSERT INTO schema_migrations (version) VALUES ('20160107114749');
 
 INSERT INTO schema_migrations (version) VALUES ('20160108072218');
+
+INSERT INTO schema_migrations (version) VALUES ('20160108114749');
 

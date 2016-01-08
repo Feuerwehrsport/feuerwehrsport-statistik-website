@@ -58,7 +58,9 @@ Rails.application.routes.draw do
     end
     resources :links, only: [:create]
     resources :nations, only: [:index]
-    resources :people, only: [:create, :show, :index]
+    resources :people, only: [:create, :show, :index, :update] do
+      member { post :merge }
+    end
     resources :places, only: [:index, :update]
     resources :teams, only: [:create, :show, :index, :update] do
       member { post :merge }

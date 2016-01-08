@@ -51,11 +51,10 @@ $ () ->
               Fss.getResource 'people', personId, (person) ->
                 FssWindow.build('Namen korrigieren')
                 .add(new FssFormRowDescription('Bitte korrigieren Sie den Namen:'))
-                .add(new FssFormRowText('firstname', 'Vorname', person.first_name))
-                .add(new FssFormRowText('name', 'Nachname', person.last_name))
+                .add(new FssFormRowText('first_name', 'Vorname', person.first_name))
+                .add(new FssFormRowText('last_name', 'Nachname', person.last_name))
                 .on('submit', (data) ->
-                  data.id = personId
-                  Fss.changeRequest("person-correction", person: data)
+                  Fss.changeRequest("person-correction", person_id: personId, person: data)
                 )
                 .open()
             else if selected is 'merge'

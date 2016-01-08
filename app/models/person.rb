@@ -9,6 +9,8 @@ class Person < ActiveRecord::Base
   has_many :group_score_participations
   has_many :team_members
   has_many :teams, through: :team_members
+  has_many :person_spellings, dependent: :restrict_with_exception
+  has_many :series_participations, dependent: :restrict_with_exception, class_name: 'Series::PersonParticipation'
 
   scope :with_score_count, -> do
     select("
@@ -28,4 +30,13 @@ class Person < ActiveRecord::Base
   scope :index_order, -> { order(:last_name, :first_name) }
 
   validates :last_name, :gender, :nation, presence: true
+
+  def merge_to(correct_person)
+    raise ActiveRecord::ActiveRecordError.new("same id") if id == correct_person.id
+
+    scores.update_all(person_id: correct_person.id)
+    person_participations.update_all(person_id: correct_person.id)
+    person_spellings.update_all(person_id: correct_person.id)
+    series_participations.update_all(person_id: correct_person.id)
+  end
 end
