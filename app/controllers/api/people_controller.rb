@@ -14,7 +14,7 @@ module API
 
     def update_permitted_attributes
       permitted_keys = []
-      permitted_keys.push(:first_name, :last_name) if can?(:correct, resource_instance)
+      permitted_keys.push(:first_name, :last_name, :nation_id) if can?(:correct, resource_instance)
       permitted_attributes.permit(*permitted_keys)
     end
 

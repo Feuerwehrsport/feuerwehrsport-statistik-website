@@ -123,7 +123,7 @@ class Error
           @getActionBox(div)
 
   handlePerson: () =>
-    getPersonBox = (appendTo, headline = "Person", id = @data.person_id) =>
+    getPersonBox = (appendTo, callback = null, headline = "Person", id = @data.person_id) =>
       box = @box(3, appendTo).append($('<h4/>').text(headline))
       Fss.getResource "people", id, (person) ->
         box.append(
@@ -131,6 +131,7 @@ class Error
           .attr('href', "/page/person-#{person.id}.html")
           .text("#{person.first_name} #{person.last_name} (#{person.translated_gender})")
         ).append("<br/>ID: #{id}")
+        callback(person, box)
     @headline = "Person"
     switch @key
       when "person-correction"
@@ -150,7 +151,7 @@ class Error
             params.correct_person_id = @data.correct_person_id
             Fss.post "people/#{@data.person_id}/merge", params, (data) => @confirmDone()
           getPersonBox(div)
-          getPersonBox(div, "Richtige Person", @data.correct_person_id)
+          getPersonBox(div, null, "Richtige Person", @data.correct_person_id)
           @getActionBox(div, () => action() )
           .append($('<div/>').addClass("btn btn-info").text('Immer beheben').click( () => 
             @confirmAction(
@@ -159,12 +160,26 @@ class Error
             )
           ))
 
-      when "other"
+      when "person-other"
         @headline += " - Freitext"
         @openType = (div) =>
           getPersonBox(div)
-          @box(5, div).append($('<pre/>').text(@content.description))
+          @box(5, div).append($('<pre/>').text(@data.description))
           @getActionBox(div)
+
+      when "person-change-nation"
+        @headline += " - Nation ändern"
+        @openType = (div) =>
+          getPersonBox div, (person, box) ->
+            Fss.getResource "nations", person.nation_id, (nation) ->
+              box.append($('<div/>').text("Nation: #{nation.name}"))
+          inner = @box(4, div)
+          Fss.getResource "nations", @data.nation_id, (nation) ->
+            inner
+            .append($('<h4/>').text("neue Nation"))
+            .append(nation.name)
+          @getActionBox div, () =>
+            Fss.put "people/#{@data.person_id}", person: { nation_id: @data.nation_id }, () => @confirmDone()
       else
         @openType = (div) =>
           @getActionBox(div)
