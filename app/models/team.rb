@@ -18,6 +18,7 @@ class Team < ActiveRecord::Base
   has_many :group_score_participations
   has_many :links, as: :linkable, dependent: :restrict_with_exception
   has_many :team_spellings, dependent: :restrict_with_exception
+  has_many :series_participations, dependent: :restrict_with_exception, class_name: 'Series::TeamParticipation'
 
   mount_uploader :image, TeamLogoUploader
   change_request_upload(:image)
@@ -105,6 +106,7 @@ class Team < ActiveRecord::Base
     group_scores.update_all(team_id: correct_team.id)
     links.update_all(linkable_id: correct_team.id)
     team_spellings.update_all(team_id: correct_team.id)
+    series_participations.update_all(team_id: correct_team.id)
   end
 
   private

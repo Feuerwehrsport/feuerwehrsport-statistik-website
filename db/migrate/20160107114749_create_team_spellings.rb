@@ -1,9 +1,9 @@
 class CreateTeamSpellings < ActiveRecord::Migration
   def change
     create_table :team_spellings do |t|
-      t.references :team, index: true, foreign_key: true
-      t.string :name
-      t.string :shortcut
+      t.references :team, null: false, index: true, foreign_key: true
+      t.string :name, null: false
+      t.string :shortcut, null: false
 
       t.timestamps null: false
     end
