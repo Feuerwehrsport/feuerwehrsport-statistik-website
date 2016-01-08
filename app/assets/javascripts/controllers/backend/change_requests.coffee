@@ -111,41 +111,13 @@ class Error
       when "competition-add-hint"
         @headline += " - Hinweis"
         @openType = (div) =>
-          appendHintToUl = (ul, hint) ->
-            ul.append(
-              $('<li/>')
-              .text(hint.hint)
-              .append($('<span/>').addClass("glyphicon glyphicon-remove")).css('cursor', 'pointer').click () ->
-                new ConfirmFssWindow 'Hinweis löschen', 'Wirklich löschen?', () ->
-                  Fss.post('delete-hint', competitionHintId: hint.id, () -> reloadHints())
-                
-            )
-          reloadHints = () =>
-            Fss.post 'get-hints', competitionId: @content.competitionId, (data) ->
-              hintsBox.children().remove()
-              hintsBox.append($('<h4/>').text("Vorhandene Hinweise"))
-              ul = $('<ul/>').appendTo(hintsBox)
-              console.log(data.hints)
-              for hint in data.hints
-                appendHintToUl(ul, hint)
-                
-
-
           getCompetitionBox(div)
-          @box(3, div).append($('<h4/>').text("Aktueller Hinweis")).append($('<pre/>').text(@content.description))
+          @box(3, div)
+          .append($('<h4/>').text("Neuer Hinweis"))
+          .append($('<pre/>').text(@data.hint))
+          .append($('<a/>').attr('href', "/backend/competitions/#{@data.competition_id}/edit").text("Wettkampf bearbeiten"))
           hintsBox = @box(3, div)
-          reloadHints()
           @getActionBox(div)
-          .append('<br/>')
-          .append($('<button/>').text("Hinweis hinzufügen").click () =>
-            FssWindow.build('Hinweis hinzufügen')
-              .add(new FssFormRowTextarea('hint', 'Hinweis', @content.description))
-              .on('submit', (data) =>
-                data.competitionId = @content.competitionId
-                Fss.post 'add-hint', data, () -> reloadHints()
-              )
-              .open()
-          )
       else
         @openType = (div) =>
           @getActionBox(div)

@@ -47,6 +47,9 @@
               %th= discipline_image_name_short(discipline)
               %td= count_or_zero(@calc.discipline(discipline, :female, type).try(:count))
               %td= count_or_zero(@calc.discipline(discipline, :male, type).try(:count))
+  - if @competition.hint_content.present?
+    = toc.anker("Hinweise", :h2)
+    = @competition.hint_content.html_safe
   - @calc.disciplines.each do |discipline|
     - if Discipline.group?(discipline.discipline)
       = render "group_discipline", toc: toc, discipline: discipline

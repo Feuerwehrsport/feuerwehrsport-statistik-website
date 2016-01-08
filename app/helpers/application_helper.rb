@@ -68,6 +68,7 @@ module ApplicationHelper
   end
 
   def numbered_team_link(score, options={})
+    return "" if score.team.nil?
     link_to(numbered_team_name(score, options), score.team)
   end
 

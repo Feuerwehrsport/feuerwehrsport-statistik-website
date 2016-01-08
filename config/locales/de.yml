@@ -111,13 +111,14 @@ de:
       appointment:
         dated_at: Datum
       competition:
-        place: Ort
-        place_id: Ort
+        date: Datum
         event: Typ
         event_id: Typ
+        hint_content: Hinweise
+        place: Ort
+        place_id: Ort
         score_type: Mannschaftwertung
         score_type_id: Mannschaftwertung
-        date: Datum
       competition_file:
         file: Datei
       group_score:

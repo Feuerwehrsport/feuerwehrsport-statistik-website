@@ -111,9 +111,5 @@ module Backend
       @resource_instance_decorated = resource_instance.decorate
       @page_title = "#{resource_class.model_name.human}"
     end
-
-    def permitted_attributes
-      params[resource_name]
-    end
   end
 end

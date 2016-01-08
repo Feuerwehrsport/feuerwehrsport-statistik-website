@@ -58,8 +58,20 @@ client.query("SELECT * FROM teams ORDER BY id").each do |row|
 end
 
 puts "competitions"
+puts "competition_hints"
 client.query("SELECT * FROM competitions ORDER BY id").each do |row|
   created_at = row["created_at"] || Time.parse("2014-01-01")
+
+  hints = []
+  client.query("SELECT * FROM competition_hints WHERE competition_id = #{row["id"]} ORDER BY id").each do |row|
+    hints.push(row['hint'])
+  end
+  if hints.present?
+    hint_content = "<ul><li>#{hints.join('</li><li>')}</li></ul>"
+  else
+    hint_content
+  end
+
   Competition.create!(
     id: row["id"],
     name: row["name"].to_s,
@@ -70,6 +82,7 @@ client.query("SELECT * FROM competitions ORDER BY id").each do |row|
     published_at: row["published"],
     created_at: created_at,
     updated_at: created_at,
+    hint_content: hint_content,
   )
 end
 
@@ -210,7 +223,6 @@ client.query("SELECT * FROM team_spellings ORDER BY id").each do |row|
     shortcut: row["short"],
   )
 end
-
 
 ActiveRecord::Base.connection.tables.each do |table|
   begin

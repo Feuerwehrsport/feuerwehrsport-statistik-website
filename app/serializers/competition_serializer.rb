@@ -1,5 +1,5 @@
 class CompetitionSerializer < ActiveModel::Serializer
-  attributes :id, :name, :place, :event, :date
+  attributes :id, :name, :place, :event, :date, :hint_content
 
   def place
     object.place.to_s

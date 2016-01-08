@@ -272,7 +272,8 @@ CREATE TABLE competitions (
     date date NOT NULL,
     published_at timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    hint_content text DEFAULT ''::text NOT NULL
 );
 
 
@@ -1846,4 +1847,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151211064637');
 INSERT INTO schema_migrations (version) VALUES ('20151228083526');
 
 INSERT INTO schema_migrations (version) VALUES ('20160107114749');
+
+INSERT INTO schema_migrations (version) VALUES ('20160108072218');
 
