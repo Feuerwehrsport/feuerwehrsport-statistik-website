@@ -67,4 +67,4 @@ $ () ->
         Fss.getResources "events", (events) ->
           Fss.getResource "appointments", appointmentId, (date) ->
             editAppointment "Termin bearbeiten", places, events, date, (appointmentData) ->
-              Fss.changeRequest 'edit-appointment', appointment: appointmentData
+              Fss.changeRequest 'appointment-edit', appointment_id: appointmentId, appointment: appointmentData

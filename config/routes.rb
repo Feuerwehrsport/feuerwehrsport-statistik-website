@@ -47,12 +47,12 @@ Rails.application.routes.draw do
         post :status
       end
     end
-    resources :appointments, only: [:create, :show]
+    resources :appointments, only: [:create, :show, :update]
     resources :change_requests, only: [:create, :index, :update] do
       resources :files, only: [:show], to: 'change_requests#files'
     end
     resources :competitions, only: [:show, :update]
-    resources :events, only: [:index]
+    resources :events, only: [:show, :index]
     resources :group_scores, only: [:show] do
       member { put :person_participation }
     end
@@ -61,7 +61,7 @@ Rails.application.routes.draw do
     resources :people, only: [:create, :show, :index, :update] do
       member { post :merge }
     end
-    resources :places, only: [:index, :update]
+    resources :places, only: [:show, :index, :update]
     resources :teams, only: [:create, :show, :index, :update] do
       member { post :merge }
     end

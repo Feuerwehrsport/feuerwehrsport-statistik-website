@@ -1,5 +1,6 @@
 module API
   class PlacesController < BaseController
+    include CRUD::ShowAction
     include CRUD::IndexAction
     include CRUD::UpdateAction
 

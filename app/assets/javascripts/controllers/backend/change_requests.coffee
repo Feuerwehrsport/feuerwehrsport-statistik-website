@@ -22,7 +22,7 @@ class Error
       when "competition-change-name", "competition-add-hint" then @handleCompetition()
       when "person-correction", "person-merge", "person-other", "person-change-nation" then @handlePerson()
       when "team-other", "team-correction", "team-merge", "team-logo" then @handleTeam()
-      when "date" then @handleDate()
+      when "appointment-edit" then @handleDate()
 
 
   getTr: () =>
@@ -259,52 +259,42 @@ class Error
           @getActionBox(div)
 
   handleDate: () =>
-    getDateBox = (appendTo, headline = "Termin", id = @content.dateId) =>
+    getAppointmentBox = (appendTo, headline = "Termin", id = @data.appointment_id) =>
       box = @box(5, appendTo).append($('<h4/>').text(headline))
-      Fss.post 'get-date', dateId: id, (data) ->
-        date = data.date
-        Fss.post 'get-place', placeId: date.place_id, (data) ->
-          place = data.place
-          Fss.post 'get-event', eventId: date.event_id, (data) ->
-            event = data.event
-            box.append(
-              $('<a/>')
-              .attr('href', "/page/date-#{date.id}.html")
-              .text("#{date.name} (#{parseDateTime(date.date).toLocaleDateString()})")
-            )
-            .append("<br/>ID: #{id}")
-            .append("<br/>Ort: #{place.name}")
-            .append("<br/>Typ: #{event.name}")
-            .append("<br/>")
-            .append($("<pre/>").text(date.description))
-            .append("<br/>Disziplinen: #{date.disciplines}")
+      Fss.getResource 'appointments', id, (appointment) =>
+        box.append(
+          $('<a/>')
+          .attr('href', "/appointments/#{id}")
+          .text("#{appointment.name} (#{parseDateTime(appointment.dated_at).toLocaleDateString()})")
+        )
+        .append("<br/>ID: #{id}")
+        .append("<br/>Ort: #{appointment.place}")
+        .append("<br/>Typ: #{appointment.event}")
+        .append("<br/>")
+        .append($("<pre/>").text(appointment.description))
+        .append("<br/>Disziplinen: #{appointment.disciplines}")
 
     @headline = "Termin"
-    switch @content.reason
-      when "change"
+    switch @key
+      when "appointment-edit"
         @headline += " - Änderung"
         @openType = (div) =>
-          getDateBox(div)
+          getAppointmentBox(div)
           correctBox = @box(5, div)
           .append($('<h4/>').text("Korrektur"))
-          .append("Name: #{@content.date.name}")
+          .append("Name: #{@data.appointment.name}")
 
 
-          Fss.post 'get-place', placeId: @content.date.placeId, (data) =>
-            place = data.place
-            Fss.post 'get-event', eventId: @content.date.eventId, (data) =>
-              event = data.event
+          Fss.getResource 'places', @data.appointment.place_id, (place) =>
+            Fss.getResource 'events', @data.appointment.event_id, (event) =>
               correctBox
               .append("<br/>Ort: #{place.name}")
               .append("<br/>Typ: #{event.name}")
               .append("<br/>")
-              .append($("<pre/>").text(@content.date.description))
-              for discipline, name of Fss.disciplines
-                correctBox.append("<br/>#{name}: #{@content.date[discipline]}")
-          @getActionBox(div, () => 
-            data = @content.date
-            data.dateId = @content.dateId
-            Fss.post 'set-date', data, (d) => @confirmDone()
+              .append($("<pre/>").text(@data.appointment.description))
+              .append("Disziplinen: #{@data.appointment.disciplines}")
+          @getActionBox(div, () =>
+            Fss.put "appointments/#{@data.appointment_id}", appointment: @data.appointment, () => @confirmDone()
           , 2)
       else
         @openType = (div) =>
