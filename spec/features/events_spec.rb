@@ -15,9 +15,9 @@ describe "events features", type: :feature, js: true, driver: :webkit do
       api_sign_in
 
       visit event_path(id: 15)
-      expect(page).to have_content '1 bis 10 von 51 Einträgen'
+      expect(page).to have_content '1 bis 10 von 12 Einträgen'
       click_on("Nächste")
-      expect(page).to have_content '11 bis 20 von 51 Einträgen'
+      expect(page).to have_content '11 bis 12 von 12 Einträgen'
     end
   end
 end

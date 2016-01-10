@@ -4,9 +4,9 @@ describe "places features", type: :feature, js: true, driver: :webkit do
   context "index" do
     it "shows an overview" do
       visit places_path
-      expect(page).to have_content '1 bis 10 von 311 Einträgen'
+      expect(page).to have_content '1 bis 10 von 99 Einträgen'
       click_on("Nächste")
-      expect(page).to have_content '11 bis 20 von 311 Einträgen'
+      expect(page).to have_content '11 bis 20 von 99 Einträgen'
     end
   end
 
@@ -15,15 +15,15 @@ describe "places features", type: :feature, js: true, driver: :webkit do
       api_sign_in
 
       visit place_path(id: 1)
-      expect(page).to have_content '1 bis 10 von 15 Einträgen'
+      expect(page).to have_content '1 bis 10 von 12 Einträgen'
       click_on("Nächste")
-      expect(page).to have_content '11 bis 15 von 15 Einträgen'
+      expect(page).to have_content '11 bis 12 von 12 Einträgen'
     end
 
     it "can add geo position" do
       api_sign_in
 
-      visit place_path(id: 219)
+      visit place_path(id: 1)
       within('.place-map-actions') do
         find('#change-geo-position').click
         find('.btn.btn-primary').click
@@ -31,7 +31,7 @@ describe "places features", type: :feature, js: true, driver: :webkit do
       expect(page).to_not have_content("Bitte warten")
       expect(page).to_not have_content("Geoposition hinzufügen")
       
-      place = Place.find(219)
+      place = Place.find(1)
       expect(place.latitude).to eq 51
       expect(place.longitude).to eq 13
     end

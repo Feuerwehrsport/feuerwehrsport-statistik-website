@@ -3,8 +3,10 @@ require 'rails_helper'
 RSpec.describe AppointmentsController, type: :controller do
   describe 'GET index' do
     it "assigns rows" do
-      get :index
-      expect(assigns(:rows).count).to eq 10
+      Timecop.freeze(Date.parse("2015-01-01")) do
+        get :index
+        expect(assigns(:rows).count).to eq 4
+      end
     end
 
     context "when ics format requested" do

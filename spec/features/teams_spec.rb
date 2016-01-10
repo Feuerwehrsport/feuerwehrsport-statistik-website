@@ -29,7 +29,7 @@ describe "teams", type: :feature, js: true, driver: :webkit do
   it "can add logo" do
     api_sign_in
 
-    visit team_path(id: 222)
+    visit team_path(id: 1)
     find('.upload-logo').click
 
     within('.fss-window') do
@@ -39,7 +39,7 @@ describe "teams", type: :feature, js: true, driver: :webkit do
     expect(page).to have_content("Der Fehlerbericht wurde gespeichert")
 
     change_request = ChangeRequest.last
-    expect(change_request.content).to eq(key: "team-logo", data: { team_id: "222" })
+    expect(change_request.content).to eq(key: "team-logo", data: { team_id: "1" })
     expect(change_request.files_data).to eq(files: [ { binary: "", filename: "testfile.pdf", content_type: "application/pdf" } ]) 
   end
 
@@ -76,7 +76,7 @@ describe "teams", type: :feature, js: true, driver: :webkit do
 
     change_request_content = ChangeRequest.last.content
     expect(change_request_content).to include key: "team-merge"
-    expect(change_request_content[:data]).to eq(team_id: "2", correct_team_id: "2543")
+    expect(change_request_content[:data]).to eq(team_id: "2", correct_team_id: "101")
   end
 
   it "can add change request with team-correction" do
@@ -95,6 +95,9 @@ describe "teams", type: :feature, js: true, driver: :webkit do
 
     change_request_content = ChangeRequest.last.content
     expect(change_request_content).to include key: "team-correction"
-    expect(change_request_content[:data][:team]).to eq(name: "Team Mecklenburg-Vorpommern", shortcut: "Team MV", status: "team", id: "2")
+    expect(change_request_content[:data]).to eq(
+      team_id: "2",
+      team: { name: "Team Mecklenburg-Vorpommern", shortcut: "Team MV", status: "team" }
+    )
   end
 end

@@ -5,14 +5,14 @@ RSpec.describe PagesController, type: :controller do
     it "assigns a lot information" do
       get :dashboard
       expect(assigns(:last_competitions).count).to eq 8
-      expect(assigns(:people_count)).to eq 2178
-      expect(assigns(:score_valid_count)).to eq 48669
-      expect(assigns(:score_invalid_count)).to eq 4516
-      expect(assigns(:places_count)).to eq 311
+      expect(assigns(:people_count)).to eq 94
+      expect(assigns(:score_valid_count)).to eq 2727
+      expect(assigns(:score_invalid_count)).to eq 252
+      expect(assigns(:places_count)).to eq 99
       expect(assigns(:events_count)).to eq 20
-      expect(assigns(:competitions_count)).to eq 916
-      expect(assigns(:teams_count)).to eq 2155
-      expect(assigns(:years_count).count).to eq 28
+      expect(assigns(:competitions_count)).to eq 304
+      expect(assigns(:teams_count)).to eq 95
+      expect(assigns(:years_count).count).to eq 23
       expect(assigns(:news).count).to eq 2
       expect(assigns(:performance_overview_disciplines).count).to eq 7
       expect(assigns(:charts)).to be_instance_of Chart::Dashboard
@@ -23,7 +23,7 @@ RSpec.describe PagesController, type: :controller do
     it "assigns the 100 last competitions" do
       get :last_competitions_overview
       expect(assigns(:last_competitions).count).to eq 100
-      expect(assigns(:last_competitions).first).to eq Competition.find(920)
+      expect(assigns(:last_competitions).first.id).to eq 2
     end
   end
 

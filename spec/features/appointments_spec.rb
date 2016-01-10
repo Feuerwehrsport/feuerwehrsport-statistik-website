@@ -48,7 +48,7 @@ describe "appointments", type: :feature, js: true, driver: :webkit do
 
 
     change_request_content = ChangeRequest.last.content
-    expect(change_request_content).to include key: "edit-appointment"
+    expect(change_request_content).to include key: "appointment-edit"
     expect(change_request_content[:data][:appointment]).to eq( 
       name: "Wintertraining_opü",
       dated_at: Date.today.to_s,

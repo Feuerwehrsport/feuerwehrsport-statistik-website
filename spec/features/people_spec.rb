@@ -50,13 +50,13 @@ describe "people", type: :feature, js: true, driver: :webkit do
         click_on("OK")
         
         expect(page).to have_content("Namen korrigieren")
-        select("Limbach, Georg (männlich)", from: "Richtige Person")
+        select("Bittner, Toni (männlich)", from: "Richtige Person")
         click_on("OK")
       end
       expect(page).to have_content("Der Fehlerbericht wurde gespeichert")
 
       change_request_content = ChangeRequest.last.content
-      expect(change_request_content).to eq(key: "person-merge", data: { person_id: "42", correct_person_id: "271" })
+      expect(change_request_content).to eq(key: "person-merge", data: { person_id: "42", correct_person_id: "88" })
     end
 
     it "can correct person" do
@@ -83,7 +83,7 @@ describe "people", type: :feature, js: true, driver: :webkit do
       expect(page).to have_content("Der Fehlerbericht wurde gespeichert")
 
       change_request_content = ChangeRequest.last.content
-      expect(change_request_content).to eq(key: "person-correction", data: { person: { firstname: "Vorname", name: "00AABBCC", id: "42" } })
+      expect(change_request_content).to eq(key: "person-correction", data: { person_id: "42", person: { first_name: "Vorname", last_name: "00AABBCC" } })
     end
 
     it "can correct nation" do

@@ -4,7 +4,7 @@ RSpec.describe TeamsController, type: :controller do
   describe 'GET index' do
     it "assigns rows" do
       get :index
-      expect(assigns(:teams).count).to eq 2155
+      expect(assigns(:teams).count).to eq 95
       expect(assigns(:charts)).to be_instance_of(Chart::TeamOverview)
     end
   end

@@ -12,15 +12,15 @@ RSpec.describe API::PeopleController, type: :controller do
 
   describe 'GET show' do
     it "returns person" do
-      get :show, id: 1757
+      get :show, id: 1
       expect_json_response
       expect(json_body[:person]).to eq(
-        first_name: "Edmund",
-        gender: "male",
-        id: 1757,
-        last_name: "Abel",
+        first_name: "Mareen",
+        gender: "female",
+        id: 1,
+        last_name: "Klos",
         nation_id: 1,
-        translated_gender: "männlich",        
+        translated_gender: "weiblich",        
       )
     end
   end
@@ -29,43 +29,43 @@ RSpec.describe API::PeopleController, type: :controller do
     it "returns people" do
       get :index
       expect_json_response
-      expect(json_body[:people].count).to eq 2178
+      expect(json_body[:people].count).to eq 94
       expect(json_body[:people].first).to eq(
-        first_name: "Edmund",
-        gender: "male",
-        id: 1757,
-        last_name: "Abel",
+        first_name: "Diana",
+        gender: "female",
+        id: 37,
+        last_name: "Ahnert",
         nation_id: 1,
-        translated_gender: "männlich",
+        translated_gender: "weiblich",
       )
     end
 
     it "returns only gendered people" do
-      get :index, gender: :female
+      get :index, gender: :male
       expect_json_response
-      expect(json_body[:people].count).to eq 670
+      expect(json_body[:people].count).to eq 59
       expect(json_body[:people].first).to eq(
-        first_name: "Frederike",
-        gender: "female",
-        id: 1858,
-        last_name: "Adamczak",
+        first_name: "Daniel",
+        gender: "male",
+        id: 86,
+        last_name: "Arlt",
         nation_id: 1,
-        translated_gender: "weiblich",
+        translated_gender: "männlich",
       )
     end
   end
 
   describe 'PUT update' do
     it "update person", login: :api do
-      put :update, id: 1757, person: { first_name: "Vorname", last_name: "Nachname", nation_id: 2 }
+      put :update, id: 1, person: { first_name: "Vorname", last_name: "Nachname", nation_id: 2 }
       expect_json_response
       expect(json_body[:person]).to eq(
         first_name: "Vorname",
-        gender: "male",
-        id: 1757,
+        gender: "female",
+        id: 1,
         last_name: "Nachname",
         nation_id: 2,
-        translated_gender: "männlich",  
+        translated_gender: "weiblich",  
       )
     end
   end
@@ -74,17 +74,17 @@ RSpec.describe API::PeopleController, type: :controller do
     it "merge two people", login: :api do
       expect_any_instance_of(Person).to receive(:merge_to).and_call_original
       expect {
-        put :merge, id: 1756, correct_person_id: 1757, always: 1
+        put :merge, id: 86, correct_person_id: 37, always: 1
       }.to change(PersonSpelling, :count).by(1)
       
       expect_json_response
       expect(json_body[:person]).to eq(
-        first_name: "Edmund",
-        gender: "male",
-        id: 1757,
-        last_name: "Abel",
+        first_name: "Diana",
+        gender: "female",
+        id: 37,
+        last_name: "Ahnert",
         nation_id: 1,
-        translated_gender: "männlich",
+        translated_gender: "weiblich",
       )
     end
   end

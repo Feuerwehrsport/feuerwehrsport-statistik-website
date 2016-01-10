@@ -30,7 +30,7 @@ RSpec.describe API::TeamsController, type: :controller do
     it "returns teams" do
       get :index
       expect_json_response
-      expect(json_body[:teams].first).to include(id: 2255, name: "Amt Dorf Meckl/Bd. Kl.")
+      expect(json_body[:teams].first).to include(id: 7, name: "Auswahl Berlin")
     end
   end
 
@@ -66,7 +66,7 @@ RSpec.describe API::TeamsController, type: :controller do
         shortcut: "Team MV",
         state: "MV",
         status: "team",
-        tile_path: "/uploads/teams/2/tile_team-mv.png",
+        tile_path: nil,
       )
     end
   end

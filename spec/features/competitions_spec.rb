@@ -4,51 +4,46 @@ describe "competitions features", type: :feature, js: true, driver: :webkit do
   context "index" do
     it "shows an overview" do
       visit competitions_path
-      expect(page).to have_content '1 bis 10 von 916 Einträgen'
+      expect(page).to have_content '1 bis 10 von 304 Einträgen'
       click_on("Nächste")
-      expect(page).to have_content '11 bis 20 von 916 Einträgen'
+      expect(page).to have_content '11 bis 20 von 304 Einträgen'
 
-      expect(page).to have_content 'Isabel Siegel'
+      expect(page).to have_content 'Grit Thurow'
+      expect(page).to_not have_content 'FF Gamstädt'
       find('a[href="#tav-tab-img-width-20-title-loschangriff-nass-src-assets-di-1"]').click
-      expect(page).to have_content 'FF Klein Radden'
+      expect(page).to have_content 'FF Gamstädt'
+      expect(page).to_not have_content 'Grit Thurow'
     end
   end
 
   context "show" do
     it "shows the competition" do
-      visit competition_path(id: 754)
+      visit competition_path(id: 7)
       expect(page).to have_content("Hindernisbahn weiblich")
-      expect(page).to have_content("1 bis 10 von 39 Einträgen")
+      expect(page).to have_content("1 bis 10 von 22 Einträgen")
       expect(page).to have_content("Hindernisbahn weiblich Mannschaftswertung")
 
       expect(page).to have_content("Hindernisbahn männlich")
-      expect(page).to have_content("1 bis 10 von 61 Einträgen")
+      expect(page).to have_content("1 bis 10 von 36 Einträgen")
       expect(page).to have_content("Hindernisbahn männlich Mannschaftswertung")
 
-      expect(page).to have_content("Hakenleitersteigen weiblich")
-      expect(page).to have_content("Hakenleitersteigen weiblich Mannschaftswertung")
+      expect(page).to_not have_content("Hakenleitersteigen weiblich")
+      expect(page).to_not have_content("Hakenleitersteigen weiblich Mannschaftswertung")
 
       expect(page).to have_content("Hakenleitersteigen männlich")
-      expect(page).to have_content("1 bis 10 von 58 Einträgen")
+      expect(page).to have_content("1 bis 10 von 35 Einträgen")
       expect(page).to have_content("Hakenleitersteigen männlich Mannschaftswertung")
 
-      expect(page).to have_content("Zweikampf weiblich")
+      expect(page).to_not have_content("Zweikampf weiblich")
       expect(page).to have_content("Zweikampf männlich")
-
-      expect(page).to have_content("Gruppenstafette weiblich")
-      expect(page).to have_content("Standardwertung WKO")
-
-      expect(page).to have_content("Feuerwehrstafette weiblich")
-      expect(page).to have_content("Feuerwehrstafette männlich")
-      expect(page).to have_content("Standardwertung WKO - Löscher abstellen")
 
       expect(page).to have_content("Löschangriff nass weiblich")
       expect(page).to have_content("Löschangriff nass männlich")
       expect(page).to have_content("Standardwertung WKO DIN-Pumpe")
 
-      expect(page).to have_link("Bericht beim Team MV")
+      expect(page).to have_link("Bericht beim Team-MV")
 
-      within('.missed-4') do
+      within('.missed-1') do
         expect(page).to have_content("Folgende Informationen fehlen:")
       end
     end

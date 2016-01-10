@@ -4,9 +4,9 @@ RSpec.describe CompetitionsController, type: :controller do
   describe 'GET index' do
     it "assigns rows" do
       get :index
-      expect(assigns(:competitions).count).to eq 916
+      expect(assigns(:competitions).count).to eq 304
       expect(assigns(:chart)).to be_instance_of(Chart::CompetitionsScoreOverview)
-      expect(assigns(:competitions_discipline_overview).count).to eq 9
+      expect(assigns(:competitions_discipline_overview).count).to eq 5
     end
   end
 
