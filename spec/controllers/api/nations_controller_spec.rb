@@ -1,6 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe API::NationsController, type: :controller do
+  describe 'GET show' do
+    it "returns nation" do
+      get :show, id: 1
+      expect_json_response
+      expect(json_body[:nation]).to eq(
+        id: 1, 
+        name: "Deutschland", 
+        iso: "de", 
+      )
+    end
+  end
+
   describe 'GET index' do
     it "returns nations" do
       get :index

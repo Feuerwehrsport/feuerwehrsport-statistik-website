@@ -21,6 +21,7 @@ RSpec.describe API::TeamsController, type: :controller do
         shortcut: "Buckow",
         state: "BB",
         status: "fire_station",
+        tile_path: nil,
       )
     end
   end
@@ -44,6 +45,28 @@ RSpec.describe API::TeamsController, type: :controller do
         shortcut: "Buckow",
         state: "BB",
         status: "fire_station",
+        tile_path: nil,
+      )
+    end
+  end
+
+  describe 'POST merge' do
+    it "merge two teams", login: :api do
+      expect_any_instance_of(Team).to receive(:merge_to).and_call_original
+      expect {
+        put :merge, id: 1, correct_team_id: 2, always: 1
+      }.to change(TeamSpelling, :count).by(1)
+      
+      expect_json_response
+      expect(json_body[:team]).to eq(
+        id: 2,
+        latitude: "53.6851567563",
+        longitude: "12.2669005394",
+        name: "Team Mecklenburg-Vorpommern",
+        shortcut: "Team MV",
+        state: "MV",
+        status: "team",
+        tile_path: "/uploads/teams/2/tile_team-mv.png",
       )
     end
   end

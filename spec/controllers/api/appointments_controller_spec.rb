@@ -26,4 +26,21 @@ RSpec.describe API::AppointmentsController, type: :controller do
       }
     end
   end
+
+  describe 'PUT update' do
+    it "update appointment", login: :api do
+      put :update, id: 1, appointment: { name: "Termin1", description: "Beschreibung", dated_at: "2016-02-29" }
+      expect_api_response login: true, resource_name: "appointment", appointment: {
+        id: 1, 
+        name: "Termin1", 
+        place_id: 1, 
+        event_id: 1, 
+        place: "Charlottenthal", 
+        event: "D-Cup", 
+        disciplines: "gs,hb,hl,la", 
+        dated_at: "2016-02-29",
+        description: "Beschreibung",
+      }
+    end
+  end
 end

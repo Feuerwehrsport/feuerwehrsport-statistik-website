@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe API::EventsController, type: :controller do
+  describe 'GET show' do
+    it "returns event" do
+      get :show, id: 1
+      expect_json_response
+      expect(json_body[:event]).to eq(id: 1, name: "D-Cup")
+    end
+  end
+
   describe 'GET index' do
     it "returns events" do
       get :index
