@@ -1,0 +1,2 @@
+class PersonSpellingDecorator < ApplicationDecorator
+end
