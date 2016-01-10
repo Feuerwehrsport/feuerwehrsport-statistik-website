@@ -937,9 +937,9 @@ UNION
 
 CREATE TABLE team_spellings (
     id integer NOT NULL,
-    team_id integer,
-    name character varying,
-    shortcut character varying,
+    team_id integer NOT NULL,
+    name character varying NOT NULL,
+    shortcut character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );

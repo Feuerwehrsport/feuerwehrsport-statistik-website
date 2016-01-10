@@ -9,6 +9,27 @@ client = Mysql2::Client.new(host: "127.0.0.1", username: ENV["MYSQL_USERNAME"], 
   end
 end
 Rake::Task["db:migrate"].invoke
+[
+  Event,
+  Place,
+  ScoreType,
+  Team,
+  Competition,
+  GroupScoreType,
+  GroupScoreCategory,
+  GroupScore,
+  Nation,
+  Person,
+  Score,
+  PersonParticipation,
+  PersonSpelling,
+  AdminUser,
+  News,
+  Appointment,
+  Link,
+  CompetitionFile,
+  TeamSpelling,
+].each(&:reset_column_information)
 
 puts "events"
 client.query("SELECT * FROM events ORDER BY id").each do |row|
@@ -69,7 +90,7 @@ client.query("SELECT * FROM competitions ORDER BY id").each do |row|
   if hints.present?
     hint_content = "<ul><li>#{hints.join('</li><li>')}</li></ul>"
   else
-    hint_content
+    hint_content = ""
   end
 
   Competition.create!(
@@ -215,12 +236,23 @@ client.query("SELECT * FROM result_files ORDER BY id").each do |row|
   )
 end
 
-puts "team_spellings"
-client.query("SELECT * FROM team_spellings ORDER BY id").each do |row|
+puts "teams_spelling"
+client.query("SELECT * FROM teams_spelling ORDER BY id").each do |row|
   TeamSpelling.create!(
     team_id: row["team_id"],
     name: row["name"],
     shortcut: row["short"],
+  )
+end
+
+puts "persons_spelling"
+client.query("SELECT * FROM persons_spelling ORDER BY id").each do |row|
+  PersonSpelling.create!(
+    person_id: row["person_id"],
+    first_name: row["firstname"],
+    last_name: row["name"],
+    gender: row["sex"] == "female" ? 0 : 1,
+    official: (row["official"] != "0"),
   )
 end
 

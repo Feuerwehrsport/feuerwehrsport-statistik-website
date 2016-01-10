@@ -108,6 +108,7 @@ class Import::AutoSeries
 
 
     configs.each do |config|
+      config.competition_ids = Competition.where(id: config.competition_ids).pluck(:id)
       config.options = config.options.with_indifferent_access
       round = Series::Round.create!(name: config.name, year: config.year, aggregate_type: config.aggregate_type)
       cups = config.competition_ids.map do |competition_id|
