@@ -18,7 +18,7 @@ module API
       permitted_attributes.permit(*permitted_keys)
     end
 
-    def resource_collection
+    def base_collection
       if params[:gender].present?
         super.gender(params[:gender])
       else
