@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   devise_for :admin_users
+
+  # backend: area for admin users
   namespace :backend do
     root to: 'dashboard#index'
     resources :admin_users
@@ -27,26 +29,8 @@ Rails.application.routes.draw do
     resources :score_types
     resources :teams
   end
-  resources :change_logs, only: [:index]
-  resources :appointments, only: [:index, :show]
-  resources :competitions, only: [:index, :show] do
-    member { post :files }
-  end
-  resources :people, only: [:index, :show]
-  resources :places, only: [:index, :show]
-  resources :teams, only: [:index, :show]
-  resources :news, only: [:index, :show]
-  resources :years, only: [:index, :show] do
-    member do
-      get :best_performance
-      get :best_scores
-    end
-  end
-  resources :events, only: [:index, :show]
-  namespace :series do
-    resources :rounds, only: [:index, :show]
-    resources :assessments, only: [:show]
-  end
+
+  # api for interacting with ajax requests
   namespace :api do
     resources :users, only: [:create] do
       collection do
@@ -81,6 +65,28 @@ Rails.application.routes.draw do
     resources :teams, only: [:create, :show, :index, :update] do
       member { post :merge }
     end
+  end
+
+  # following controllers will write html cache
+  resources :change_logs, only: [:index]
+  resources :appointments, only: [:index, :show]
+  resources :competitions, only: [:index, :show] do
+    member { post :files }
+  end
+  resources :people, only: [:index, :show]
+  resources :places, only: [:index, :show]
+  resources :teams, only: [:index, :show]
+  resources :news, only: [:index, :show]
+  resources :years, only: [:index, :show] do
+    member do
+      get :best_performance
+      get :best_scores
+    end
+  end
+  resources :events, only: [:index, :show]
+  namespace :series do
+    resources :rounds, only: [:index, :show]
+    resources :assessments, only: [:show]
   end
   scope :images do
     get 'person_la_positions/:person_id', controller: :images, action: :la_positions, as: :images_person_la_positions
