@@ -9,10 +9,14 @@ module API
       end
 
       def show
-        success(resource_variable_name.to_sym => resource_instance, resource_name: resource_variable_name)
+        success(resource_variable_name.to_sym => resource_instance_show_object, resource_name: resource_variable_name)
       end
 
       protected
+
+      def resource_instance_show_object
+        resource_instance
+      end
 
       def assign_instance_for_show
         assign_existing_instance

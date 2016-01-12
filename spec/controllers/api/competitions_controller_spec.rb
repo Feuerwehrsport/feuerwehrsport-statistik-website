@@ -12,6 +12,28 @@ RSpec.describe API::CompetitionsController, type: :controller do
         event: "D-Cup", 
         date: "2006-06-10",
         hint_content: "",
+        score_count: {
+          hb: {female: 62, male: 88}, 
+          hl: {female: 0, male: 83}, 
+          gs: {female: 0, male: 0}, 
+          fs: {female: 0, male: 0}, 
+          la: {female: 0, male: 0}
+        },
+      )
+    end
+  end
+
+  describe 'GET index' do
+    it "returns competitions" do
+      get :index
+      expect_json_response
+      expect(json_body[:competitions].first).to eq(
+        id: 1, 
+        name: "", 
+        place: "Charlottenthal", 
+        event: "D-Cup", 
+        date: "2006-06-10",
+        hint_content: "",
       )
     end
   end
