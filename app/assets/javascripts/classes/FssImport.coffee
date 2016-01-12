@@ -1,29 +1,28 @@
 #= require classes/Discipline
 #= require classes/PublishStatus
 
-class FssImport
+class @FssImport
   constructor: () ->
     @selectCompetition = $('#competitions').change(@changeCompetition)
     @competitions = []
     @lastValue = null
 
     Fss.checkLogin () =>
-      Fss.post 'get-score-types', {}, (data) =>
-        @scoreTypes = data.types
+      Fss.getResources 'score_types', (@scoreTypes) =>
 
     $('#change-competition-score-type').click (ev) =>
       ev.preventDefault()
 
       options = [{display: "--", value: ""}]
       for type in @scoreTypes
-        options.push({display: "#{type.score}/#{type.run}/#{type.persons}", value: type.id})
+        options.push({display: "#{type.score}/#{type.run}/#{type.people}", value: type.id})
 
       Fss.checkLogin () =>
         FssWindow.build("Mannschaftswertung")
-        .add(new FssFormRowSelect('scoreTypeId', 'Wertung', @competition.score_type_id, options))
+        .add(new FssFormRowSelect('score_type_id', 'Wertung', @competition.score_type_id, options))
         .on('submit', (data) =>
-          data.competitionId = @selectCompetition.find('option:selected').val()
-          Fss.post('set-score-type', data, @addSuccess)
+          competitionId = @selectCompetition.find('option:selected').val()
+          Fss.put("competitions/#{competitionId}", competition: data, () => @addSuccess( () => @changeCompetition() ) )
         )
         .open()
 
@@ -33,14 +32,14 @@ class FssImport
       Fss.checkLogin () =>
         FssWindow.build("Ort hinzufügen")
         .add(new FssFormRowText('name', 'Name'))
-        .on('submit', (data) => Fss.post 'add-place', data, @addSuccess)
+        .on('submit', (data) => Fss.post('places', place: data, () => @addSuccess() ) )
         .open()
 
     $(".add-event").click () =>
       Fss.checkLogin () =>
         FssWindow.build("Typ hinzufügen")
         .add(new FssFormRowText('name', 'Name'))
-        .on('submit', (data) => Fss.post 'add-event', data, @addSuccess)
+        .on('submit', (data) => Fss.post('events', event: data, () => @addSuccess() ) )
         .open()
 
     $(".add-group-score-type").click () =>
@@ -53,27 +52,24 @@ class FssImport
         FssWindow.build("Gruppen-Typ hinzufügen")
         .add(new FssFormRowText('name', 'Name'))
         .add(new FssFormRowRadio('discipline', 'Disziplin', null, options))
-        .on('submit', (data) => Fss.post 'add-group-score-type', data, @addSuccess)
+        .on('submit', (data) => Fss.post('group_score_types', group_score_type: data, () => @addSuccess() ) )
         .open()
 
     $(".add-competition").click () =>
       Fss.checkLogin () =>
-        Fss.getEvents (events) =>
-          Fss.getPlaces (places) =>
+        Fss.getResources 'events', (events) =>
+          Fss.getResources 'places', (places) =>
             eventOptions = []
-            for event in events
-              eventOptions.push({display: event.name, value: event.id})
-            
+            eventOptions.push({display: event.name, value: event.id}) for event in events
             placeOptions = []
-            for place in places
-              placeOptions.push({display: place.name, value: place.id})
+            placeOptions.push({display: place.name, value: place.id}) for place in places
             
             FssWindow.build("Wettkampf hinzufügen")
             .add(new FssFormRowText('name', 'Name'))
-            .add(new FssFormRowSelect('placeId', 'Ort', null, placeOptions))
-            .add(new FssFormRowSelect('eventId', 'Typ', null, eventOptions))
+            .add(new FssFormRowSelect('place_id', 'Ort', null, placeOptions))
+            .add(new FssFormRowSelect('event_id', 'Typ', null, eventOptions))
             .add(new FssFormRowDate('date', 'Datum'))
-            .on('submit', (data) => Fss.post 'add-competition', data, () => 
+            .on('submit', (data) => Fss.post 'competitions', competition: data, () =>
               @addSuccess () ->
                 $("input[name='competition-type'][value='latest']").attr('checked', true).change()
             )
@@ -84,7 +80,7 @@ class FssImport
         res = className.match(/^discipline-([a-z]{2})-((?:fe)?male)$/)
         if res
           discipline = new Discipline(res[1], res[2])
-          discipline.on('refresh-results', () => @loadScores() )
+          discipline.on('refresh-results', () => @changeCompetition() )
           return false
 
     @reloadCompetitions(@selectCompetitionType)
@@ -100,17 +96,18 @@ class FssImport
     option = @selectCompetition.find('option:selected')
     if option.length
       $('#competition-link')
-        .attr('href', "/page/competition-#{option.val()}.html")
+        .attr('href', "/competitions/#{option.val()}")
         .text(option.text())
       $('#competition-link-admin')
-        .attr('href', "/?page=administration&admin=competition&id=#{option.val()}")
+        .attr('href', "/backend/competitions/#{option.val()}")
         .text("#{option.text()} - Admin")
       @loadCompetition(option.val())
-    @loadScores()
-    new PublishStatus($('#competition-published'), option.val())
 
   loadCompetition: (competitionId) =>
-    Fss.getCompetition competitionId, (@competition) =>
+    Fss.getResource 'competitions', competitionId, (@competition) =>
+      $('#change-competition-score-type span').text("(#{@competition.score_type})")
+      @loadScores()
+      new PublishStatus($('#competition-published'), @competition)
 
   selectCompetitionType: () =>
     value = $("input[name='competition-type']:checked").val()
@@ -144,28 +141,25 @@ class FssImport
     @changeCompetition()
 
   loadScores: () =>
-    Fss.post 'get-competition-scores', { competitionId: @selectCompetition.val() }, (data) =>
-      container = $('#competition-scores')
-      container.children().remove()
+    container = $('#competition-scores')
+    container.children().remove()
 
-      table = $('<table/>').appendTo(container)
-      for key, sexes of data.scores
-        for sexName, sex of sexes
-          if sex > 0
-            table.append($('<tr/>')
-              .addClass("discipline-#{key}").addClass('discipline').addClass(sexName)
-              .append($('<th/>').text("#{key}-#{sexName}"))
-              .append($('<td/>').text(sex))
-            )
+    table = $('<table/>').appendTo(container)
+    for discipline, genders of @competition.score_count
+      for gender, gender_count of genders
+        if gender_count > 0
+          table.append($('<tr/>')
+            .addClass("discipline-#{discipline}").addClass('discipline').addClass(gender)
+            .append($('<th/>').text("#{discipline}-#{gender}"))
+            .append($('<td/>').text(gender_count))
+          )
 
   reloadCompetitions: (callback) =>
-    Fss.post 'get-group-score-types', {}, (data) =>
-      @groupScoreTypes = data.types
+    Fss.getResources 'group_score_types', (@groupScoreTypes) =>
       table = $('#show-group-score-types table')
       table.children().remove()
       for scoreType in @groupScoreTypes
         table.append($('<tr/>').append($('<td/>').text(scoreType.discipline)).append($('<td/>').text(scoreType.name)))
 
-    Fss.getCompetitions (newCompetitions) =>
-      @competitions = newCompetitions
+    Fss.getResources 'competitions', (@competitions) =>
       callback()

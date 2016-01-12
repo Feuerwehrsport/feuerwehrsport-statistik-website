@@ -43,7 +43,7 @@ class @Fss
     hl: "Hakenleitersteigen"
     hb: "Hindernisbahn"
 
-  @sexes:
+  @genders:
     male: "männlich"
     female: "weiblich"
   
@@ -124,20 +124,23 @@ class @Fss
     Fss.get "#{type}/#{id}", {}, (data) ->
       callbackSuccess(data[data.resource_name])
 
-  @getResources: (type, callbackSuccess) ->
-    Fss.get "#{type}", {}, (data) ->
+  @getResources: (type, dataOrCallback, callbackSuccess=null) ->
+    if typeof dataOrCallback is 'function'
+      callbackSuccess = dataOrCallback
+      dataOrCallback = {}
+    Fss.get type, dataOrCallback, (data) ->
       callbackSuccess(data[type])
 
   @get: (url, data, callbackSuccess, callbackFailed=false) ->
-    Fss.ajaxRequest("GET", url, data, callbackSuccess, callbackFailed=false)
+    Fss.ajaxRequest("GET", url, data, {}, callbackSuccess, callbackFailed=false)
   
   @post: (url, data, callbackSuccess, callbackFailed=false) ->
-    Fss.ajaxRequest("POST", url, data, callbackSuccess, callbackFailed=false)
+    Fss.ajaxRequest("POST", url, data, {}, callbackSuccess, callbackFailed=false)
 
   @put: (url, data, callbackSuccess, callbackFailed=false) ->
-    Fss.ajaxRequest("PUT", url, data, callbackSuccess, callbackFailed=false)
+    Fss.ajaxRequest("PUT", url, data, {}, callbackSuccess, callbackFailed=false)
 
-  @ajaxRequest: (type, url, data, callbackSuccess, callbackFailed=false) ->
+  @ajaxRequest: (type, url, data, options, callbackSuccess, callbackFailed=false) ->
     url = "/api/#{url}"
     wait = new WaitFssWindow()
 
@@ -162,10 +165,13 @@ class @Fss
     if data instanceof FormData
       params.processData = false
       params.contentType = false
+    if options.contentType == 'json'
+      params.contentType = 'application/json'
+      params.data = JSON.stringify(params.data)
     $.ajax(params)
 
   @ajaxReload: (ajaxType, url, data) ->
-    Fss.ajaxRequest ajaxType, url, data, (result) ->
+    Fss.ajaxRequest ajaxType, url, data, {}, (result) ->
       if result.success
         new WaitFssWindow()
         location.reload()

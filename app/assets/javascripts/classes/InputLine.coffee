@@ -1,11 +1,11 @@
 #= require classes/InputLineField
 
-class InputLine
+class @InputLine
   constructor: (discipline) ->
     @fields = []
     start = []
     if $.inArray(discipline, ['hl', 'hb']) != -1
-      start = ['name', 'firstname', 'team', 'time', 'time']
+      start = ['last_name', 'first_name', 'team', 'time', 'time']
     else if discipline == 'la'
       start = ['team', 'time', 'time']
     else if discipline == 'gs'
@@ -35,8 +35,8 @@ class InputLine
         field.remove()
         return @fields.splice(i, 1)
 
-  val: () =>
+  val: (separator) =>
     outputs = []
     for field in @fields
       outputs.push(field.val())
-    outputs.join(',')
+    outputs.join(separator)

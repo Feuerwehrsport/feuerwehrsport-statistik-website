@@ -2,24 +2,24 @@
 #= require classes/TestScoreResult
 #= require classes/MissingTeam
 
-class Discipline extends EventHandler
-  constructor: (@discipline, @sex) ->
+class @Discipline extends EventHandler
+  constructor: (@discipline, @gender) ->
     super
     @testScoresContainer = $('<div/>')
     
     @fieldset = $('<fieldset/>')
       .addClass('discipline')
       .addClass('discipline-' + @discipline)
-      .addClass(@sex)
+      .addClass(@gender)
 
     content = $('<div/>')
     $('<legend/>')
-      .text(Fss.disciplines[@discipline] + " - " + Fss.sexes[@sex])
+      .text(Fss.disciplines[@discipline] + " - " + Fss.genders[@gender])
       .click( () -> content.toggle() )
       .appendTo(@fieldset)
 
     $('<button/>')
-      .addClass('top-right')
+      .addClass('pull-right')
       .text('Löschen')
       .click(@remove)
       .appendTo(content)
@@ -43,25 +43,26 @@ class Discipline extends EventHandler
     $('#disciplines').append(@fieldset)
 
   testInput: () =>
-    Fss.post 'get-test-scores', 
-      discipline: @discipline,
-      sex: @sex,
-      rawScores: @textarea.val(),
-      seperator: @selectSeparator.val(),
-      headlines: @inputLine.val()
+    Fss.post 'imports/check_lines',
+      import:
+        discipline: @discipline
+        gender: @gender
+        raw_lines: @textarea.val()
+        separator: @selectSeparator.val()
+        raw_headline_columns: @inputLine.val(@selectSeparator.val())
     , (data) =>
       @textarea.animate(height: 90)
       @testScoresContainer.children().remove()
-      @showMissingTeams(data.teams)
-      @showTestScores(data.scores)
+      @showMissingTeams(data.missing_teams)
+      @showTestScores(data.import_lines)
   
-  showTestScores: (scores) =>
+  showTestScores: (checkedLines) =>
     @resultScores = []
     table = $('<table/>').addClass('table table-bordered table-condensed')
     fields = { times: 0 }
 
-    for score in scores
-      testScoreResult = new TestScoreResult(score, fields)
+    for checkedLine in checkedLines
+      testScoreResult = new TestScoreResult(checkedLine, fields)
       fields = testScoreResult.getFields()
       @resultScores.push(testScoreResult)
     
@@ -72,10 +73,9 @@ class Discipline extends EventHandler
 
   getGroupScoreCategories: (callback) =>
     input =
-      competitionId: $('#competitions').val()
+      competition_id: $('#competitions').val()
       discipline: @discipline
-    Fss.post 'get-group-score-categories', input, (data) =>
-      callback(data.categories)
+    Fss.getResources 'group_score_categories', input, callback
 
   selectCategory: () =>
     if !@categoryId and $.inArray(@discipline, ['hl', 'hb']) is -1
@@ -85,7 +85,7 @@ class Discipline extends EventHandler
         options = []
         for category in categories
           options.push
-            display: "#{category.name} - #{category.type_name}"
+            display: "#{category.name} - #{category.group_score_type}"
             value: category.id
 
 
@@ -107,16 +107,16 @@ class Discipline extends EventHandler
       @addResultScores()
 
   addCategory: () =>
-    Fss.post 'get-group-score-types', discipline: @discipline, (data) =>
+    Fss.getResources 'group_score_types', discipline: @discipline, (groupScoreTypes) =>
       types = []
-      types.push(value: type.id, display: type.name) for type in data.types
+      types.push(value: type.id, display: type.name) for type in groupScoreTypes
 
       FssWindow.build("Kategorie hinzufügen")
       .add(new FssFormRowText('name', 'Name', "default"))
-      .add(new FssFormRowRadio('groupScoreTypeId', 'Typ', null, types))
+      .add(new FssFormRowRadio('group_score_type_id', 'Typ', null, types))
       .on('submit', (data) =>
-        data.competitionId = $('#competitions').val()
-        Fss.post 'add-group-score-category', data, () =>
+        data.competition_id = $('#competitions').val()
+        Fss.post 'group_score_categories', group_score_category: data, () =>
           @selectCategory()
       )
       .open()
@@ -124,7 +124,7 @@ class Discipline extends EventHandler
   addResultScores: () =>
     scores = []
     for resultScore in @resultScores
-      scores.push(resultScore.getObject()) if resultScore.isCorrect()
+      scores.push(resultScore.getObject()) if resultScore.isValid()
 
     i = -1
     importRows = =>
@@ -136,19 +136,20 @@ class Discipline extends EventHandler
         return
 
       input =
-        scores: nextScores
-        competitionId: $('#competitions').val()
-        groupScoreCategoryId: @categoryId
-        discipline: @discipline
-        sex: @sex
-      Fss.post 'add-scores', input, (data) ->
+        import:
+          scores: nextScores
+          competition_id: $('#competitions').val()
+          group_score_category_id: @categoryId
+          discipline: @discipline
+          gender: @gender
+      Fss.ajaxRequest "POST", 'imports/scores', input, { contentType: 'json'}, () ->
         importRows()
     importRows()
 
-  showMissingTeams: (teams) =>
-    return unless teams.length 
+  showMissingTeams: (missingTeams) =>
+    return unless missingTeams.length 
     ul = $('<ul/>').addClass('disc').addClass('missing-teams')
-    for team in teams
+    for team in missingTeams
       missingTeam = new MissingTeam(team, @testInput)
       ul.append(missingTeam.get())
     @testScoresContainer.append(ul)

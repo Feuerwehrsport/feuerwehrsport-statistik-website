@@ -1,7 +1,7 @@
-class TestScoreResult
+class @TestScoreResult
   constructor: (@raw, @fields) ->
-    if @raw.name?
-      @needField('name')
+    if @raw.last_name?
+      @needField('last_name')
       @needField('person_link')
     @needField('teams')              if @raw.teams?      
     @needField('team_ids')           if @raw.team_ids?   
@@ -20,35 +20,35 @@ class TestScoreResult
 
   get: (fields) =>
     tr = $('<tr/>').click () =>
-      tr.toggleClass('correct').toggleClass('not-correct')
-      @raw.correct = !@raw.correct
+      tr.toggleClass('valid-row').toggleClass('invalid-row')
+      @raw.valid = !@raw.valid
     
     appendTd = (text) -> $('<td/>').text(text).appendTo(tr)
 
-    if @raw.correct
-      tr.addClass('correct')
+    if @raw.valid
+      tr.addClass('valid-row')
     else
-      tr.addClass('not-correct');
+      tr.addClass('invalid-row');
 
-    if @raw.name?
-      if @raw.persons? and @raw.persons.length > 1
+    if @raw.last_name?
+      if @raw.people? and @raw.people.length > 1
         $('<td/>').append(@personSelect()).appendTo(tr)
-      else if @raw.persons? and @raw.persons.length
-        appendTd("#{@raw.name} #{@raw.firstname}")
-        @raw.person_id = @raw.persons[0].id
+      else if @raw.people? and @raw.people.length
+        appendTd("#{@raw.last_name} #{@raw.first_name}")
+        @raw.person_id = @raw.people[0].id
       else
-        appendTd("#{@raw.name} #{@raw.firstname}").addClass('person-not-found')
+        appendTd("#{@raw.last_name} #{@raw.first_name}").addClass('person-not-found')
       $('<td/>').append(@personLinks()).appendTo(tr)
-    else if fields.name
+    else if fields.last_name
       appendTd('')
       appendTd('')
 
-    if @raw.teams?
-      @raw.team = @raw.teams[0]
-      if @raw.teams.length > 1
+    if @raw.team_names?
+      @raw.team = @raw.team_names[0]
+      if @raw.team_names.length > 1
         $('<td/>').append(@teamSelect()).appendTo(tr)
       else
-        appendTd(@raw.teams[0])
+        appendTd(@raw.team_names[0])
     else if fields.team
       appendTd('')
 
@@ -72,7 +72,7 @@ class TestScoreResult
     if @raw.times?
       for time in @raw.times
         td = appendTd(time)
-        td.addClass('null') if time is 'NULL'
+        td.addClass('null') if time is 99999999
       for i in [@raw.times.length..fields.times]
         appendTd('')
     else
@@ -81,34 +81,37 @@ class TestScoreResult
     appendTd(@raw['line']).addClass('raw-line')
     tr
 
-  isCorrect: () =>
-    @raw.correct
+  isValid: () =>
+    @raw.valid
 
   getObject: () =>
-    @raw
+    obj = {}
+    for key in ['team_number', 'team_id', 'run', 'times', 'person_id', 'last_name', 'first_name']
+      obj[key] = @raw[key] if @raw[key]?
+    obj
 
   teamSelect: () =>
     teamIds = @raw.team_ids
-    teams = @raw.teams
+    team_names = @raw.team_names
     select = $('<select/>')
-    for team, i in teams
+    for team, i in team_names
       $('<option/>').text("#{team} #{teamIds[i]}").val(i).appendTo(select)
     select.change () =>
       @raw.team_id = teamIds[parseInt(select.val())]
-      @raw.team = teams[parseInt(select.val())]
+      @raw.team = team_names[parseInt(select.val())]
 
   personSelect: () =>
     select = $('<select/>')
-    for p in @raw.persons
-      $('<option/>').text("#{p.name} #{p.firstname} #{p.id}").val(p.id).appendTo(select)
+    for p in @raw.people
+      $('<option/>').text("#{p[1]} #{p[2]} #{p[0]}").val(p[0]).appendTo(select)
     select.change () =>
       @raw.person_id = select.val()
 
   personLinks: () =>
     span = $('<span/>')
-    if @raw.persons?
-      for p in @raw.persons
-        $('<a/>').text("#{p.id}").attr('href', "/page/person-#{p.id}.html").appendTo(span)
+    if @raw.people?
+      for p in @raw.people
+        $('<a/>').text("#{p[0]}").attr('href', "/people/#{p[0]}").appendTo(span)
         span.append(' ')
     span
 
@@ -116,6 +119,6 @@ class TestScoreResult
     span = $('<span/>')
     if @raw.team_ids?
       for t in @raw.team_ids
-        $('<a/>').text("#{t}").attr('href', "/page/team-#{t}.html").appendTo(span)
+        $('<a/>').text("#{t}").attr('href', "/teams/#{t}").appendTo(span)
         span.append(' ')
     span

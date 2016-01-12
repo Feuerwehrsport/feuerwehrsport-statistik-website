@@ -1,7 +1,8 @@
-class PublishStatus
+class @PublishStatus
   @status: ['not-ready', 'ready', 'published']
 
-  constructor: (@container, @competitionId) ->
+  constructor: (@container, @competition) ->
+    return
     @load()
 
   load: () =>
