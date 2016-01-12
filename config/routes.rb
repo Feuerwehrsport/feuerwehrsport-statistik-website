@@ -55,12 +55,14 @@ Rails.application.routes.draw do
     resources :competitions, only: [:show, :index, :update]
     resources :events, only: [:show, :index]
     resources :group_score_types, only: [:index]
+    resources :group_score_categories, only: [:create, :index]
     resources :group_scores, only: [:show] do
       member { put :person_participation }
     end
     resources :imports, only: [] do
       collection do 
         post :check_lines
+        post :scores
       end
     end
     resources :links, only: [:create]

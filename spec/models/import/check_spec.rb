@@ -8,7 +8,7 @@ describe Import::Check do
       expect(import).to have(2).errors_on(:headline_columns)
       expect(import).to have(2).errors_on(:discipline)
       expect(import).to have(2).errors_on(:gender)
-      expect(import).to have(1).errors_on(:seperator)
+      expect(import).to have(1).errors_on(:separator)
       expect(import).to have(1).errors_on(:lines)
 
       import = Import::Check.new(discipline: "la", gender: "male", raw_headline_columns: "team")
@@ -16,20 +16,23 @@ describe Import::Check do
       expect(import).to have(2).errors_on(:headline_columns)
       expect(import).to have(1).errors_on(:lines)
 
-      import = Import::Check.new(discipline: "la", gender: "male", raw_headline_columns: "team|col", seperator: "|")
+      import = Import::Check.new(discipline: "la", gender: "male", raw_headline_columns: "team|col", separator: "|")
       expect(import).to_not be_valid
       expect(import).to have(1).errors_on(:headline_columns)
       expect(import).to have(1).errors_on(:lines)
 
-      import = Import::Check.new(discipline: "la", gender: "male", raw_headline_columns: "team|time", seperator: "|", raw_lines: "foo|bar\nteam|foo")
+      import = Import::Check.new(discipline: "la", gender: "male", raw_headline_columns: "team|time", separator: "|", raw_lines: "foo|bar\nteam|foo")
       expect(import).to be_valid
+      import.separator = "\t"
+      expect(import).to_not be_valid
+      expect(import).to have(0).errors_on(:separator)
     end
   end
 
   describe '.import_lines!' do
     let(:raw_lines) { "Rost;Hannes;FF Charlottenthal;19,22;18,99" }
     let(:raw_headline_columns) { "last_name;first_name;team;time;time" }
-    let(:check) { Import::Check.new(discipline: "la", gender: "male", raw_headline_columns: raw_headline_columns, seperator: ";", raw_lines: raw_lines) }
+    let(:check) { Import::Check.new(discipline: "la", gender: "male", raw_headline_columns: raw_headline_columns, separator: ";", raw_lines: raw_lines) }
     it '' do
       expect(check.import_lines!.map(&:to_h)).to eq(
         [

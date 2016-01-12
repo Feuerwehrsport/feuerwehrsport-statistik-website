@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Import::Line do
   let(:raw_lines) { "" }
   let(:raw_headline_columns) { "" }
-  let(:check) { Import::Check.new(discipline: "hb", gender: "male", raw_headline_columns: raw_headline_columns, seperator: ";", raw_lines: raw_lines) }
+  let(:check) { Import::Check.new(discipline: "hb", gender: "male", raw_headline_columns: raw_headline_columns, separator: ";", raw_lines: raw_lines) }
   let(:line) { Import::Line.new(check, []) }
 
   describe '.initialize' do

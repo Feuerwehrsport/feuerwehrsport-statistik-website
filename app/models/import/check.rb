@@ -2,18 +2,19 @@ module Import
   class Check
     include ActiveModel::Model
     include ActiveModel::Validations::Callbacks
-    attr_accessor :discipline, :gender, :raw_lines, :seperator, :raw_headline_columns, :lines, :headline_columns, 
+    attr_accessor :discipline, :gender, :raw_lines, :separator, :raw_headline_columns, :lines, :headline_columns, 
       :import_lines, :missing_teams
 
-    validates :discipline, :gender, :lines, :headline_columns, :seperator, presence: true
+    validates :discipline, :gender, :lines, :headline_columns, presence: true
+    validates :separator, length: { minimum: 1 }
     validates :discipline, inclusion: { in: Discipline::WITHOUT_DOUBLE_EVENT }
     validates :gender, inclusion: { in: ["female", "male"] }
     validate :required_columns_present_validation
 
     before_validation do
-      if seperator.is_a?(String)
-        self.lines = raw_lines.split("\n").map { |line| line.strip.split(seperator) } if raw_lines.is_a?(String)
-        self.headline_columns = raw_headline_columns.split(seperator) if raw_headline_columns.is_a?(String)
+      if separator.is_a?(String)
+        self.lines = raw_lines.split("\n").map { |line| line.strip.split(separator) } if raw_lines.is_a?(String)
+        self.headline_columns = raw_headline_columns.split(separator) if raw_headline_columns.is_a?(String)
       end
     end
 
