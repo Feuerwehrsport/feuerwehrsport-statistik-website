@@ -24,6 +24,22 @@ RSpec.describe API::TeamsController, type: :controller do
         tile_path: nil,
       )
     end
+
+    context "when extended" do
+      it "returns team" do
+        get :show, id: 1, extended: "1"
+        expect(json_body[:team]).to eq(
+          id: 1,
+          latitude: "52.5611297253",
+          longitude: "14.0714263916",
+          name: "FF Buckow",
+          shortcut: "Buckow",
+          state: "BB",
+          status: "fire_station",
+          tile_path: nil,
+        )
+      end
+    end
   end
 
   describe 'GET index' do

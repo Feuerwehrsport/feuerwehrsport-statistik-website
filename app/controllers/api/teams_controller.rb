@@ -8,6 +8,10 @@ module API
 
     protected
 
+    def resource_instance_show_object
+      params[:extended].present? ? ExtendedTeamSerializer.new(resource_instance) : super
+    end
+
     def create_permitted_attributes
       permitted_attributes.permit(:name, :shortcut, :status)
     end
