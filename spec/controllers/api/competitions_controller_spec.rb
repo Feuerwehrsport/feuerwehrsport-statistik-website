@@ -12,6 +12,7 @@ RSpec.describe API::CompetitionsController, type: :controller do
         event: "D-Cup", 
         date: "2006-06-10",
         hint_content: "",
+        published_at: nil,
         score_count: {
           hb: {female: 62, male: 88}, 
           hl: {female: 0, male: 83}, 
