@@ -18,6 +18,11 @@ Rails.application.routes.draw do
     resources :people
     resources :person_participations
     resources :places
+    resources :repairs, only: [] do
+      collection do
+        get :teams
+      end
+    end
     resources :scores
     resources :score_types
     resources :teams

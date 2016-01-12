@@ -6,19 +6,15 @@
         %a{ href: backend_change_requests_path }
           Fehler bearbeiten
           %span.badge= ChangeRequest.open.count
-      %li
-        %a{ href: backend_imports_path }
-          Import
+      %li= link_to("Import", backend_imports_path)
+      %li= link_to("Team auseinanderziehen", teams_backend_repairs_path)
       %li= link_to("Ausloggen", destroy_admin_user_session_path, method: :delete)
   .col-md-4
     %ul
-      %li Import
       %li Logs anzeigen
       %li Benutzer anzeigen
       %li Ungenutze Logos löschen
-      %li Team auseinanderziehen
       %li Ergebnis-Dateien löschen
-      %li Neuigkeiten bearbeiten
       %li D-Cup Teamwertung
       %li D-Cup Einzelwertung
       %li Personen ohne Zuordnung

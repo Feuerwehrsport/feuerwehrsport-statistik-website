@@ -120,8 +120,12 @@ class @Fss
             input.email_address = Cookies.get('email_address')
         Fss.login(callback, input)
 
-  @getResource: (type, id, callbackSuccess) ->
-    Fss.get "#{type}/#{id}", {}, (data) ->
+  @getResource: (type, id, dataOrCallback, callbackSuccess=null) ->
+    if typeof dataOrCallback is 'function'
+      callbackSuccess = dataOrCallback
+      dataOrCallback = {}
+
+    Fss.get "#{type}/#{id}", dataOrCallback, (data) ->
       callbackSuccess(data[data.resource_name])
 
   @getResources: (type, dataOrCallback, callbackSuccess=null) ->
