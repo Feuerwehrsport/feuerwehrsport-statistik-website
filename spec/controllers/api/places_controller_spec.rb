@@ -1,6 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe API::PlacesController, type: :controller do
+  describe 'POST create' do
+    it "creates new place", login: :api do
+      expect {
+        post :create, place: { name: "Wurstort" }
+        expect_api_response
+      }.to change(Place, :count).by(1)
+    end
+  end
+
   describe 'GET show' do
     it "returns place" do
       get :show, id: 1

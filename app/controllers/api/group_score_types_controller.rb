@@ -1,8 +1,13 @@
 module API
   class GroupScoreTypesController < BaseController
+    include CRUD::CreateAction
     include CRUD::IndexAction
 
     protected
+
+    def create_permitted_attributes
+      permitted_attributes.permit(:name, :discipline)
+    end
     
     def base_collection
       super_collection = super

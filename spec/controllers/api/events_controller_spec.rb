@@ -1,6 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe API::EventsController, type: :controller do
+  describe 'POST create' do
+    it "creates new event", login: :api do
+      expect {
+        post :create, event: { name: "Wurstevent" }
+        expect_api_response
+      }.to change(Event, :count).by(1)
+    end
+  end
+
   describe 'GET show' do
     it "returns event" do
       get :show, id: 1

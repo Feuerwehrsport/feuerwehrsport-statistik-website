@@ -1,6 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe API::CompetitionsController, type: :controller do
+  describe 'POST create' do
+    it "creates new competition", login: :api do
+      expect {
+        post :create, competition: { name: "Extrapokal", place_id: "1", event_id: "1", date: "2014-01-29" }
+        expect_api_response
+      }.to change(Competition, :count).by(1)
+    end
+  end
+
   describe 'GET show' do
     it "returns competition" do
       get :show, id: 1
@@ -20,6 +29,8 @@ RSpec.describe API::CompetitionsController, type: :controller do
           fs: {female: 0, male: 0}, 
           la: {female: 0, male: 0}
         },
+        score_type_id: 2, 
+        score_type: "10/8/4",
       )
     end
   end

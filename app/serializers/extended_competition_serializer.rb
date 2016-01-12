@@ -1,5 +1,9 @@
 class ExtendedCompetitionSerializer < CompetitionSerializer
-  attributes :score_count, :published_at
+  attributes :score_count, :published_at, :score_type_id, :score_type
+
+  def score_type
+    object.score_type.to_s
+  end
 
   def score_count
     hash = {}

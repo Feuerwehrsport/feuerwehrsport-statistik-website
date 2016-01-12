@@ -6,6 +6,7 @@ RSpec.describe API::ScoreTypesController, type: :controller do
       get :index
       expect_json_response
       expect(json_body[:score_types].first).to eq(
+        id: 1,
         people: 10,
         run: 8,
         score: 6,
