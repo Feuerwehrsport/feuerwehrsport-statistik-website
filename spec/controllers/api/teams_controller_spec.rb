@@ -28,7 +28,7 @@ RSpec.describe API::TeamsController, type: :controller do
     context "when extended" do
       it "returns team" do
         get :show, id: 1, extended: "1"
-        expect(json_body[:team]).to eq(
+        expect(json_body[:team]).to include(
           id: 1,
           latitude: "52.5611297253",
           longitude: "14.0714263916",
@@ -38,6 +38,10 @@ RSpec.describe API::TeamsController, type: :controller do
           status: "fire_station",
           tile_path: nil,
         )
+        expect(json_body[:team][:single_scores]).to have(59).items
+        expect(json_body[:team][:la_scores]).to have(5).items
+        expect(json_body[:team][:fs_scores]).to have(0).items
+        expect(json_body[:team][:gs_scores]).to have(0).items
       end
     end
   end
