@@ -1,6 +1,7 @@
 module API
   class GroupScoresController < BaseController
     include CRUD::ShowAction
+    include CRUD::UpdateAction
     before_action :assign_instance_for_person_participation, only: :person_participation
     
     def person_participation
@@ -13,6 +14,10 @@ module API
     end
 
     protected
+
+    def update_permitted_attributes
+      permitted_attributes.permit(:team_id)
+    end
 
     def assign_instance_for_person_participation
       assign_existing_instance

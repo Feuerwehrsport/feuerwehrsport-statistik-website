@@ -46,6 +46,15 @@ RSpec.describe API::GroupScoresController, type: :controller do
     end
   end
 
+  describe 'PUT update' do
+    it "update group_score", login: :api do
+      put :update, id: 111, group_score: { team_id: "44" }
+      expect_json_response
+      expect(json_body[:group_score]).to include(team_id: 44)
+      expect(GroupScore.find(111).team_id).to eq 44
+    end
+  end
+
   describe 'PUT person_participation' do
     let(:persons_in) { {  person_1: 1, person_2: 2, person_3: 3, person_4: 4, person_5: "NULL", person_6: 6, person_7: 9999999999 } }
     let(:persons_out) { { person_1: 1, person_2: 2, person_3: 3, person_4: 4, person_5: nil,    person_6: 6, person_7: nil } }

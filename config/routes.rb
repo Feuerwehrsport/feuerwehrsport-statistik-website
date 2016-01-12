@@ -56,7 +56,7 @@ Rails.application.routes.draw do
     resources :events, only: [:create, :show, :index]
     resources :group_score_types, only: [:create, :index]
     resources :group_score_categories, only: [:create, :index]
-    resources :group_scores, only: [:show] do
+    resources :group_scores, only: [:show, :update] do
       member { put :person_participation }
     end
     resources :imports, only: [] do
@@ -72,6 +72,7 @@ Rails.application.routes.draw do
     end
     resources :places, only: [:create, :show, :index, :update]
     resources :score_types, only: [:index]
+    resources :scores, only: [:update]
     resources :teams, only: [:create, :show, :index, :update] do
       member { post :merge }
     end
