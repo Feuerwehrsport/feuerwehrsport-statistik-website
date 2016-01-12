@@ -4,13 +4,14 @@ Rails.application.routes.draw do
     root to: 'dashboard#index'
     resources :admin_users
     resources :appointments
-    resources :change_requests
+    resources :change_requests, only: [:index]
     resources :competitions
     resources :competition_files
     resources :events
     resources :group_scores
     resources :group_score_categories
     resources :group_score_types
+    resources :imports, only: [:index]
     resources :links
     resources :nations
     resources :news
@@ -68,6 +69,7 @@ Rails.application.routes.draw do
       member { post :merge }
     end
     resources :places, only: [:show, :index, :update]
+    resources :score_types, only: [:index]
     resources :teams, only: [:create, :show, :index, :update] do
       member { post :merge }
     end
