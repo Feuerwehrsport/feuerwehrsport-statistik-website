@@ -78,6 +78,7 @@ group :development, :test, :test_dump do
   gem 'spring-commands-rspec'
 
   gem 'rspec-rails'
+  gem 'rspec-collection_matchers'
   gem 'guard-rspec', require: false
   gem 'database_cleaner'
   gem 'capybara'

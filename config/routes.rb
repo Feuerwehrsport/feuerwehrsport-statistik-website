@@ -56,6 +56,11 @@ Rails.application.routes.draw do
     resources :group_scores, only: [:show] do
       member { put :person_participation }
     end
+    resources :imports, only: [] do
+      collection do 
+        post :check_lines
+      end
+    end
     resources :links, only: [:create]
     resources :nations, only: [:show, :index]
     resources :people, only: [:create, :show, :index, :update] do

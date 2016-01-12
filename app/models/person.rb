@@ -27,6 +27,9 @@ class Person < ActiveRecord::Base
     search_value = "%#{value}%"
     where("first_name ILIKE ? OR last_name ILIKE ?", search_value, search_value)
   end
+  scope :search_exactly, -> (last_name, first_name) do
+    where("last_name ILIKE ? AND first_name ILIKE ?", last_name, first_name)
+  end
   scope :index_order, -> { order(:last_name, :first_name) }
 
   validates :last_name, :gender, :nation, presence: true

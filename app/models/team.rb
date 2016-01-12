@@ -34,6 +34,7 @@ class Team < ActiveRecord::Base
   end
   scope :status, -> (status) { where(status: STATUS[status.to_sym]) }
   scope :index_order, -> { order(:name) }
+  scope :search, -> (team_name) { where("name ILIKE ? OR shortcut ILIKE ?", team_name, team_name) }
 
   def person_scores_count(person)
     scores.where(person: person).count + person_participations.where(person: person).count
