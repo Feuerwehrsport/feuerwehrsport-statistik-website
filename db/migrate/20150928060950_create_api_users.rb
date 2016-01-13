@@ -1,6 +1,6 @@
-class CreateUsers < ActiveRecord::Migration
+class CreateAPIUsers < ActiveRecord::Migration
   def change
-    create_table :users do |t|
+    create_table :api_users do |t|
       t.string :name
       t.string :email_address
       t.string :ip_address_hash

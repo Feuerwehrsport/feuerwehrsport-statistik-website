@@ -1,15 +1,20 @@
 module API
-  class UsersController < BaseController
+  class APIUsersController < BaseController
     include CRUD::CreateAction
 
     def status
-      respond_with
+      success
+    end
+
+    def logout
+      reset_session
+      success
     end
 
     protected
 
     def before_create_success
-      session[:user_id] = resource_instance.id
+      session[:api_user_id] = resource_instance.id
       super
     end
 

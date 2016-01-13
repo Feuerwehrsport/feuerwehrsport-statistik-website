@@ -9,15 +9,32 @@ class @FssWindow extends EventHandler
     super
     @rows = []
     @rendered = false
+    @on('after-open', () =>
+      window.fssWindows = [] unless window.fssWindows?
+      window.fssWindows.push(@)
+    )
+    @on('after-close', () =>
+      window.fssWindows.splice( $.inArray(@, window.fssWindows), 1 )
+    )
     @on('pre-submit', () =>
       @close()
       @fire('submit', @data())
     )
 
   render: () =>
-    @container = $('<div/>').addClass('fss-window').append(
-      $('<div/>').addClass('fss-window-title').text(@title)
-    )
+    title = $('<div/>').addClass('fss-window-title').append(@title)
+    if Fss.loginStatus
+      title.append($('<div/>').addClass("fss-window-sign-out login-#{Fss.loginUser.type}")
+        .append($('<div/>').addClass('glyphicon glyphicon-user'))
+        .append(Fss.loginUser.name)
+        .attr('title', "Ausloggen (#{Fss.loginUser.type}: #{Fss.loginUser.name})")
+        .click( () =>
+          fssWindow.close() for fssWindow in window.fssWindows
+          Fss.logoutWindow()
+        )
+      )
+
+    @container = $('<div/>').addClass('fss-window').append(title)
     @darkroom = $('<div/>').addClass('darkroom')
 
     if @handlers['submit']? and @handlers['submit'].length > 0
@@ -68,6 +85,7 @@ class @FssWindow extends EventHandler
   close: () =>
     @container.remove()
     @darkroom.remove()
+    @fire('after-close')
     @
 
   data: () =>

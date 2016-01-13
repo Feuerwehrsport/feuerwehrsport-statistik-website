@@ -46,6 +46,15 @@ class @Fss
   @genders:
     male: "männlich"
     female: "weiblich"
+
+  @loginStatus: false
+  @loginUser: null
+
+  @logoutWindow: () ->
+    new ConfirmFssWindow "Benutzer abmelden?", "Wollen Sie sich abmelden?", () ->
+      Fss.post "api_users/logout", {}, () ->
+        new WaitFssWindow()
+        location.reload()
   
   @captchaQuestion: () ->
     questions = [
@@ -102,13 +111,13 @@ class @Fss
           else
             data.message = retData.message
             Fss.login(callback, data)
-        Fss.post 'users/', user: data, handler, handler 
+        Fss.post 'api_users/', api_user: data, handler, handler 
 
       )
       .open()
 
   @checkLogin: (callback) ->
-    Fss.post "users/status", {}, (data) ->
+    Fss.post "api_users/status", {}, (data) ->
       if data.login
         callback()
       else
@@ -155,6 +164,14 @@ class @Fss
       dataType: 'json'
       success: (data) ->
         wait.close()
+
+        if data.login
+          Fss.loginStatus = true
+          Fss.loginUser = data.current_user
+        else
+          Fss.loginStatus = false
+          Fss.loginUser = null
+
         if data.success
           callbackSuccess(data)
         else if callbackFailed

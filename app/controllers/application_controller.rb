@@ -9,11 +9,6 @@ class ApplicationController < ActionController::Base
   end
 
   protected
-
-  def current_user(default=nil)
-    admin_user = current_admin_user rescue nil
-    admin_user || default || AdminUser.guest
-  end
   
   def page_title_default(default=nil)
     action = params['action']

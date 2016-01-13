@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class APIUser < ActiveRecord::Base
   validates :email_address, email_format: true, allow_blank: true
   validates :name, presence: true
 

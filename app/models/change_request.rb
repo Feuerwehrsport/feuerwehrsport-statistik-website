@@ -1,10 +1,18 @@
 class ChangeRequest < ActiveRecord::Base 
-  belongs_to :user
+  belongs_to :api_user
   belongs_to :admin_user
 
   scope :open, -> { where(done_at: nil) }
 
   validates :content, presence: true
+
+  def user=(user)
+    if user.is_a?(APIUser)
+      self.api_user = user
+    elsif user.is_a?(AdminUser)
+      self.admin_user = user
+    end
+  end
 
   def content
     super.deep_symbolize_keys

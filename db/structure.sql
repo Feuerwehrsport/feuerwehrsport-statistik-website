@@ -35,6 +35,8 @@ SET default_with_oids = false;
 
 CREATE TABLE admin_users (
     id integer NOT NULL,
+    name character varying NOT NULL,
+    role character varying DEFAULT 'user'::character varying NOT NULL,
     email character varying DEFAULT ''::character varying NOT NULL,
     encrypted_password character varying DEFAULT ''::character varying NOT NULL,
     reset_password_token character varying,
@@ -45,6 +47,13 @@ CREATE TABLE admin_users (
     last_sign_in_at timestamp without time zone,
     current_sign_in_ip inet,
     last_sign_in_ip inet,
+    confirmation_token character varying,
+    confirmed_at timestamp without time zone,
+    confirmation_sent_at timestamp without time zone,
+    unconfirmed_email character varying,
+    failed_attempts integer DEFAULT 0 NOT NULL,
+    unlock_token character varying,
+    locked_at timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -67,6 +76,41 @@ CREATE SEQUENCE admin_users_id_seq
 --
 
 ALTER SEQUENCE admin_users_id_seq OWNED BY admin_users.id;
+
+
+--
+-- Name: api_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE api_users (
+    id integer NOT NULL,
+    name character varying,
+    email_address character varying,
+    ip_address_hash character varying,
+    user_agent_hash character varying,
+    user_agent_meta character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: api_users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE api_users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: api_users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE api_users_id_seq OWNED BY api_users.id;
 
 
 --
@@ -112,7 +156,7 @@ ALTER SEQUENCE appointments_id_seq OWNED BY appointments.id;
 
 CREATE TABLE change_requests (
     id integer NOT NULL,
-    user_id integer,
+    api_user_id integer,
     admin_user_id integer,
     content json NOT NULL,
     done_at timestamp without time zone,
@@ -1002,41 +1046,6 @@ ALTER SEQUENCE teams_id_seq OWNED BY teams.id;
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE users (
-    id integer NOT NULL,
-    name character varying,
-    email_address character varying,
-    ip_address_hash character varying,
-    user_agent_hash character varying,
-    user_agent_meta character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE users_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE users_id_seq OWNED BY users.id;
-
-
---
 -- Name: years; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -1052,6 +1061,13 @@ CREATE VIEW years AS
 --
 
 ALTER TABLE ONLY admin_users ALTER COLUMN id SET DEFAULT nextval('admin_users_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY api_users ALTER COLUMN id SET DEFAULT nextval('api_users_id_seq'::regclass);
 
 
 --
@@ -1223,18 +1239,19 @@ ALTER TABLE ONLY teams ALTER COLUMN id SET DEFAULT nextval('teams_id_seq'::regcl
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
-
-
---
 -- Name: admin_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY admin_users
     ADD CONSTRAINT admin_users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: api_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY api_users
+    ADD CONSTRAINT api_users_pkey PRIMARY KEY (id);
 
 
 --
@@ -1430,18 +1447,17 @@ ALTER TABLE ONLY teams
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY users
-    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
-
-
---
 -- Name: delayed_jobs_priority; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX delayed_jobs_priority ON delayed_jobs USING btree (priority, run_at);
+
+
+--
+-- Name: index_admin_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_admin_users_on_confirmation_token ON admin_users USING btree (confirmation_token);
 
 
 --
@@ -1456,6 +1472,13 @@ CREATE UNIQUE INDEX index_admin_users_on_email ON admin_users USING btree (email
 --
 
 CREATE UNIQUE INDEX index_admin_users_on_reset_password_token ON admin_users USING btree (reset_password_token);
+
+
+--
+-- Name: index_admin_users_on_unlock_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_admin_users_on_unlock_token ON admin_users USING btree (unlock_token);
 
 
 --
@@ -1480,10 +1503,10 @@ CREATE INDEX index_change_requests_on_admin_user_id ON change_requests USING btr
 
 
 --
--- Name: index_change_requests_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_change_requests_on_api_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_change_requests_on_user_id ON change_requests USING btree (user_id);
+CREATE INDEX index_change_requests_on_api_user_id ON change_requests USING btree (api_user_id);
 
 
 --
@@ -1700,11 +1723,11 @@ ALTER TABLE ONLY appointments
 
 
 --
--- Name: fk_rails_47ad4ed047; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: fk_rails_4716775f9d; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY change_requests
-    ADD CONSTRAINT fk_rails_47ad4ed047 FOREIGN KEY (user_id) REFERENCES users(id);
+    ADD CONSTRAINT fk_rails_4716775f9d FOREIGN KEY (api_user_id) REFERENCES api_users(id);
 
 
 --

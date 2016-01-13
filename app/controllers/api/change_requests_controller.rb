@@ -12,6 +12,10 @@ module API
 
     protected
 
+    def build_instance
+      resource_class.new(user: current_user)
+    end
+
     def assign_instance_for_show_file
       self.resource_instance = ChangeRequest.find(params[:change_request_id]).decorate
       @change_request_file = resource_instance.files[params[:id].to_i].to_h

@@ -185,6 +185,8 @@ end
 
 puts "admin_users"
 AdminUser.create!(
+  name: "Test-Admin",
+  role: "admin",
   email: "a@a.de",
   password: "asdf1234",
 )

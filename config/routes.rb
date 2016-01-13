@@ -32,9 +32,10 @@ Rails.application.routes.draw do
 
   # api for interacting with ajax requests
   namespace :api do
-    resources :users, only: [:create] do
+    resources :api_users, only: [:create] do
       collection do
         post :status
+        post :logout
       end
     end
     resources :appointments, only: [:create, :show, :update]
