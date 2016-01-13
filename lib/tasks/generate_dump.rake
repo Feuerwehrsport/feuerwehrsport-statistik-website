@@ -196,8 +196,11 @@ end
 
 puts "admin_users"
 AdminUser.create!(
+  name: "Test-Admin",
+  role: "admin",
   email: "a@a.de",
   password: "asdf1234",
+  confirmed_at: DateTime.parse("2015-01-01 14:11"),
 )
 
 puts "news"

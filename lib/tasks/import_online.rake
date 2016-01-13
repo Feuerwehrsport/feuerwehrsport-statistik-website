@@ -189,6 +189,7 @@ AdminUser.create!(
   role: "admin",
   email: "a@a.de",
   password: "asdf1234",
+  confirmed_at: Time.now,
 )
 
 puts "news"
