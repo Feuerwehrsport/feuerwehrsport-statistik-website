@@ -5,7 +5,7 @@ RSpec.describe API::AppointmentsController, type: :controller do
     it "creates new appointment", login: :api do
       expect {
         post :create, appointment: { name: "Termin1", description: "Beschreibung", dated_at: "2016-02-29" }
-        expect_api_response
+        expect_api_login_response
       }.to change(Appointment, :count).by(1)
     end
   end
@@ -13,7 +13,7 @@ RSpec.describe API::AppointmentsController, type: :controller do
   describe 'GET show' do
     it "returns appointment" do
       get :show, id: 1
-      expect_api_response login: false, resource_name: "appointment", appointment: {
+      expect_api_not_login_response login: false, resource_name: "appointment", appointment: {
         id: 1, 
         name: "Finale D-Cup in Charlottenthal", 
         place_id: 1, 
@@ -30,7 +30,7 @@ RSpec.describe API::AppointmentsController, type: :controller do
   describe 'PUT update' do
     it "update appointment", login: :api do
       put :update, id: 1, appointment: { name: "Termin1", description: "Beschreibung", dated_at: "2016-02-29" }
-      expect_api_response login: true, resource_name: "appointment", appointment: {
+      expect_api_login_response login: true, resource_name: "appointment", appointment: {
         id: 1, 
         name: "Termin1", 
         place_id: 1, 

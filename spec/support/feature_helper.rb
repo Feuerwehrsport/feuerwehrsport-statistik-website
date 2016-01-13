@@ -9,6 +9,6 @@ end
 
 def api_sign_in
   visit root_path
-  page.execute_script("Fss.post('users', { user: { name: 'test' } }, function () { $('h1').text('logged_in') });")
+  page.execute_script("Fss.post('api_users', { api_user: { name: 'test' } }, function () { $('h1').text('logged_in') });")
   expect(page).to have_content("logged_in")
 end

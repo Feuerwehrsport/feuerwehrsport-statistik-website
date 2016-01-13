@@ -5,7 +5,7 @@ RSpec.describe API::EventsController, type: :controller do
     it "creates new event", login: :api do
       expect {
         post :create, event: { name: "Wurstevent" }
-        expect_api_response
+        expect_api_login_response
       }.to change(Event, :count).by(1)
     end
   end

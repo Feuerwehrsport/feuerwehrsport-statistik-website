@@ -5,7 +5,7 @@ RSpec.describe API::LinksController, type: :controller do
     it "creates new link", login: :api do
       expect {
         post :create, link: { label: "Linkname", url: "http://foobar", linkable_id: "1", linkable_type: "Team"}
-        expect_api_response
+        expect_api_login_response
       }.to change(Link, :count).by(1)
     end
   end

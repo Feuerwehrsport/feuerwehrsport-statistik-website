@@ -5,7 +5,7 @@ RSpec.describe API::ImportsController, type: :controller do
     let(:raw_lines) { "Warin;foo;22\nFF Wurststadt;bla;44\nFC Hansa Rostock;blub;D" }
     it "returns group_score" do
       post :check_lines, import: { discipline: "la", gender: "male", separator: ";", raw_headline_columns: "team;col;time", raw_lines: raw_lines }
-      expect_api_response(
+      expect_api_login_response(
         missing_teams: ["FF Wurststadt", "FC Hansa Rostock"],
         import_lines: [
           {

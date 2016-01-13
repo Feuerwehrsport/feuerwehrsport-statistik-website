@@ -5,7 +5,7 @@ RSpec.describe API::CompetitionsController, type: :controller do
     it "creates new competition", login: :api do
       expect {
         post :create, competition: { name: "Extrapokal", place_id: "1", event_id: "1", date: "2014-01-29" }
-        expect_api_response
+        expect_api_login_response
       }.to change(Competition, :count).by(1)
     end
   end

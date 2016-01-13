@@ -5,7 +5,7 @@ RSpec.describe API::TeamsController, type: :controller do
     it "creates new team", login: :api do
       expect {
         post :create, team: { name: "Mannschaft1", shortcut: "Mann1", status: "fire_station" }
-        expect_api_response
+        expect_api_login_response
       }.to change(Team, :count).by(1)
     end
   end

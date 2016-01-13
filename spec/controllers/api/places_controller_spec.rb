@@ -5,7 +5,7 @@ RSpec.describe API::PlacesController, type: :controller do
     it "creates new place", login: :api do
       expect {
         post :create, place: { name: "Wurstort" }
-        expect_api_response
+        expect_api_login_response
       }.to change(Place, :count).by(1)
     end
   end

@@ -7,7 +7,12 @@ def expect_json_response(hash=nil)
   expect(json_body).to eq hash if hash
 end
 
-def expect_api_response(hash={})
-  default_hash = { success: true, login: true }
+def expect_api_login_response(hash={})
+  default_hash = { success: true, login: true, current_user: { name: "hans", type: "api-user" } }
+  expect_json_response(default_hash.merge(hash))
+end
+
+def expect_api_not_login_response(hash={})
+  default_hash = { success: true, login: false }
   expect_json_response(default_hash.merge(hash))
 end

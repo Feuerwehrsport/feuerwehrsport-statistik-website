@@ -3,6 +3,12 @@ module Backend
     before_action :authenticate_admin_user!
     before_action :ensure_user_signed_in
 
+    protected
+
+    def current_user
+      current_admin_user
+    end
+
     private
 
     def ensure_user_signed_in

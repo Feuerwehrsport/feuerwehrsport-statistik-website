@@ -5,7 +5,7 @@ RSpec.describe API::GroupScoreTypesController, type: :controller do
     it "creates new group_score_type", login: :api do
       expect {
         post :create, group_score_type: { name: "Extrapokal", discipline: "la" }
-        expect_api_response
+        expect_api_login_response
       }.to change(GroupScoreType, :count).by(1)
     end
   end
