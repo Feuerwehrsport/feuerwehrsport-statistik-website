@@ -47,6 +47,7 @@ set :rvm_ruby_string, "2.2.3"
 set :rvm_autolibs_flag, "read-only"
 set :http_proxy, nil
 set :rails_cache, nil
+set :bundle_without, %w{development test test_dump}.join(' ')   
 
 
 before 'deploy:setup', 'deploy_setup:create_deploy_to'

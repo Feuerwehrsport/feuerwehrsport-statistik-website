@@ -1,11 +1,12 @@
-load 'deploy'
-load 'deploy/assets'
-load 'config/deploy'
-
 require "rvm/capistrano"
 require 'bundler/capistrano'
 require "capistrano-nginx-unicorn"
 require "delayed/recipes" # for delayed_job
+
+load 'deploy'
+load 'deploy/assets'
+load 'config/deploy'
+
 
 set :whenever_command, "bundle exec whenever"
 set :whenever_environment, defer { stage }
@@ -91,6 +92,7 @@ namespace :deploy_setup do
     compile_template_to_executeable("start_delayed_job.erb", delayed_job_basename)
 
     compile_template_and_upload("irbrc.erb", "/home/#{fetch :user}/.irbrc")
+    compile_template_and_upload("rvmrc.erb", "/home/#{fetch :user}/.rvmrc")
   end
 
   task :fix_setup_permissions do
