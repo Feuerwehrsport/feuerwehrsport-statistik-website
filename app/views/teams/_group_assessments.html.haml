@@ -7,7 +7,8 @@
     = "- Mannschaftswertung"
   = count_table(group_assessment.scores, class: "datatable-group-assessments") do |ct|
     - ct.col("Datum", class: "small col-8") { |row| competition_link(row.competition, type: :date) }
-    - ct.col("Typ", class: "small col-10") { |row| competition_link(row.competition, type: :event) }
+    - ct.col("Typ", class: "small col-10") { |row| event_link(row.competition.event) }
+    - ct.col("Ort", class: "small col-10") { |row| place_link(row.competition.place) }
     - ct.col("Zeit", :second_time, class: "small col-8")
     - ct.col("bei 6", :second_time_by_6, class: "small col-8")
     - ct.col("r", class: "small col-5") { |row| row.competition.score_type.score }

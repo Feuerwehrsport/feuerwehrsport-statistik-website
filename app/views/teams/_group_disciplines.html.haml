@@ -8,5 +8,6 @@
     %h3= group_type.type
     = position_count_table(group_discipline.discipline, group_discipline.gender, group_type.scores, class: "datatable-group-disciplines") do |ct|
       - ct.col("Datum", class: "small col-8") { |row| competition_link(row.competition, type: :date) }
-      - ct.col("Typ", class: "small col-10") { |row| competition_link(row.competition, type: :event) }
+      - ct.col("Typ", class: "small col-10") { |row| event_link(row.competition.event) }
+      - ct.col("Ort", class: "small col-10") { |row| place_link(row.competition.place) }
       - ct.col("N", class: "small col-5") { |row| [row.team_number + 1, row.run].reject(&:blank?).join(" ") }
