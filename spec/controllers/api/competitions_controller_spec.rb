@@ -2,12 +2,14 @@ require 'rails_helper'
 
 RSpec.describe API::CompetitionsController, type: :controller do
   describe 'POST create' do
-    it "creates new competition", login: :api do
+    subject { -> { post :create, competition: { name: "Extrapokal", place_id: "1", event_id: "1", date: "2014-01-29" } } }
+    it "creates new competition", login: :sub_admin do
       expect {
-        post :create, competition: { name: "Extrapokal", place_id: "1", event_id: "1", date: "2014-01-29" }
+        subject.call
         expect_api_login_response
       }.to change(Competition, :count).by(1)
     end
+    it_behaves_like "api user get permission error"
   end
 
   describe 'GET show' do
@@ -51,8 +53,9 @@ RSpec.describe API::CompetitionsController, type: :controller do
   end
 
   describe 'PUT update' do
-    it "update competition", login: :api do
-      put :update, id: 1, competition: { name: "toller Wettkampf" }
+    subject { -> { put :update, id: 1, competition: { name: "toller Wettkampf" } } }
+    it "update competition", login: :sub_admin do
+      subject.call
       expect_json_response
       expect(json_body[:competition]).to eq(
         id: 1, 
@@ -63,5 +66,6 @@ RSpec.describe API::CompetitionsController, type: :controller do
         hint_content: "",
       )
     end
+    it_behaves_like "api user get permission error"
   end
 end

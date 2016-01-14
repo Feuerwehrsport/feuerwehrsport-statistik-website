@@ -2,32 +2,61 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    # Define abilities for the passed in user here. For example:
-    #
-    #   user ||= User.new # guest user (not logged in)
-    #   if user.admin?
-    #     can :manage, :all
-    #   else
-    #     can :read, :all
-    #   end
-    #
-    # The first argument to `can` is the action you are giving the user
-    # permission to do.
-    # If you pass :manage it will apply to every action. Other common actions
-    # here are :read, :create, :update and :destroy.
-    #
-    # The second argument is the resource the user can perform the action on.
-    # If you pass :all it will apply to every resource. Otherwise pass a Ruby
-    # class of the resource.
-    #
-    # The third argument is an optional hash of conditions to further filter the
-    # objects.
-    # For example, here the user can only update published articles.
-    #
-    #   can :update, Article, :published => true
-    #
-    # See the wiki for details:
-    # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
+    all_users
+
+    send(:"#{user.role}_abilities") if user.try(:role).in?([:admin, :sub_admin, :user, :api_user])
+  end
+
+  private
+
+  def admin_abilities
     can :manage, :all
+  end
+
+  def sub_admin_abilities
+    user_abilities
+    
+    can :manage, Appointment
+    can :manage, ChangeRequest
+    can :manage, Competition
+    can :manage, Event
+    can :manage, GroupScoreCategory
+    can :manage, GroupScoreType
+    can :manage, GroupScore
+    can :manage, Link
+    can :manage, Person
+    can :manage, Place
+    can :manage, ScoreType
+    can :manage, Score
+    can :manage, Team
+  end
+
+  def user_abilities
+    api_user_abilities
+  end
+
+  def api_user_abilities
+    can :create, Appointment
+    can :create, ChangeRequest
+    can :create, Link
+    can :create, Person
+    can :update, Place
+    can [:create, :update], Team
+    can :update_person_participation, GroupScore
+  end
+
+  def all_users
+    can :create, APIUser
+    can :read, Appointment
+    can :read, Competition
+    can :read, Event
+    can :read, GroupScoreCategory
+    can :read, GroupScoreType
+    can :read, GroupScore
+    can :read, Nation
+    can :read, Person
+    can :read, Place
+    can :read, ScoreType
+    can :read, Team
   end
 end

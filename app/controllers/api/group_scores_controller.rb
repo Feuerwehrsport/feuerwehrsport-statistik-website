@@ -21,6 +21,7 @@ module API
 
     def assign_instance_for_person_participation
       assign_existing_instance
+      authorize!(:update_person_participation, resource_instance)
       self.resource_instance = resource_instance.decorate
     end
 

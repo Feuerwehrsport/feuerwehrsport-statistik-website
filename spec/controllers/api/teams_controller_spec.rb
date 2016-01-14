@@ -2,9 +2,10 @@ require 'rails_helper'
 
 RSpec.describe API::TeamsController, type: :controller do
   describe 'POST create' do
+    subject { -> { post :create, team: { name: "Mannschaft1", shortcut: "Mann1", status: "fire_station" } } }
     it "creates new team", login: :api do
       expect {
-        post :create, team: { name: "Mannschaft1", shortcut: "Mann1", status: "fire_station" }
+        subject.call
         expect_api_login_response
       }.to change(Team, :count).by(1)
     end
@@ -55,8 +56,10 @@ RSpec.describe API::TeamsController, type: :controller do
   end
 
   describe 'PUT update' do
-    it "updates team" do
-      put :update, id: 1, team: { latitude: "12", longitude: "34" }
+    let(:team_attributes) { { latitude: "12", longitude: "34" } }
+    subject { -> { put :update, id: 1, team: team_attributes } }
+    it "updates team", login: :api do
+      subject.call
       expect(json_body[:team]).to eq(
         id: 1,
         latitude: "12.0",
@@ -68,13 +71,32 @@ RSpec.describe API::TeamsController, type: :controller do
         tile_path: nil,
       )
     end
+
+    context "when updating extended attributes" do
+      let(:team_attributes) { { name: "FF Hanswurst", shortcut: "Hanswurst", status: "team" } }
+      context "when user have not enough permissions", login: :api do
+        it "failes to update" do
+          subject.call
+          expect(json_body[:team]).to include(
+            name: "FF Buckow",
+            shortcut: "Buckow",
+            status: "fire_station",
+          )
+        end
+      end
+      it "success", login: :sub_admin do
+        subject.call
+        expect(json_body[:team]).to include(team_attributes)
+      end
+    end
   end
 
   describe 'POST merge' do
-    it "merge two teams", login: :api do
+    subject { -> { put :merge, id: 1, correct_team_id: 2, always: 1 } }
+    it "merge two teams", login: :sub_admin do
       expect_any_instance_of(Team).to receive(:merge_to).and_call_original
       expect {
-        put :merge, id: 1, correct_team_id: 2, always: 1
+        subject.call
       }.to change(TeamSpelling, :count).by(1)
       
       expect_json_response
@@ -89,5 +111,6 @@ RSpec.describe API::TeamsController, type: :controller do
         tile_path: nil,
       )
     end
+    it_behaves_like "api user get permission error"
   end
 end

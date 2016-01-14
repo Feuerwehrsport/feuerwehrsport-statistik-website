@@ -2,12 +2,14 @@ require 'rails_helper'
 
 RSpec.describe API::EventsController, type: :controller do
   describe 'POST create' do
-    it "creates new event", login: :api do
+    subject { -> { post :create, event: { name: "Wurstevent" } } }
+    it "creates new event", login: :sub_admin do
       expect {
-        post :create, event: { name: "Wurstevent" }
+        subject.call
         expect_api_login_response
       }.to change(Event, :count).by(1)
     end
+    it_behaves_like "api user get permission error"
   end
 
   describe 'GET show' do

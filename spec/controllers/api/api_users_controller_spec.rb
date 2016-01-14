@@ -10,8 +10,9 @@ RSpec.describe API::APIUsersController, type: :controller do
     end
 
     context "when session user id is set" do
+      let(:login_user) { APIUser.new(name: "hans") }
       it "returns login false" do
-        expect(APIUser).to receive(:find_by_id).with(99).and_return(APIUser.new(name: "hans"))
+        expect(APIUser).to receive(:find_by_id).with(99).and_return(login_user)
         get :status, {}, { api_user_id: 99 }
         expect_api_login_response
       end
@@ -19,6 +20,7 @@ RSpec.describe API::APIUsersController, type: :controller do
   end
 
   describe 'POST create' do
+    let(:login_user) { APIUser.new(name: "hans") }
     it "creates new user and sign in" do
       expect {
         post :create, api_user: { name: "hans", email_address: "email-address@foo.de" }
@@ -31,6 +33,13 @@ RSpec.describe API::APIUsersController, type: :controller do
         post :create, api_user: { name: "hans", email_address: "not-valid" }
         expect_api_not_login_response success: false, message: "E-Mail-Adresse ist offensichtlich keine gültige E-Mail-Adresse"
       end
+    end
+  end
+
+  describe 'POST logout' do
+    it "log user out", login: :api do
+      post :logout
+      expect_api_not_login_response
     end
   end
 end

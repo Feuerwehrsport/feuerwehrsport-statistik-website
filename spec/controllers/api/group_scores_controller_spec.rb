@@ -47,19 +47,21 @@ RSpec.describe API::GroupScoresController, type: :controller do
   end
 
   describe 'PUT update' do
-    it "update group_score", login: :api do
-      put :update, id: 111, group_score: { team_id: "44" }
+    subject { -> { put :update, id: 111, group_score: { team_id: "44" } } }
+    it "update group_score", login: :sub_admin do
+      subject.call
       expect_json_response
       expect(json_body[:group_score]).to include(team_id: 44)
       expect(GroupScore.find(111).team_id).to eq 44
     end
+    it_behaves_like "api user get permission error"
   end
 
   describe 'PUT person_participation' do
     let(:persons_in) { {  person_1: 1, person_2: 2, person_3: 3, person_4: 4, person_5: "NULL", person_6: 6, person_7: 9999999999 } }
     let(:persons_out) { { person_1: 1, person_2: 2, person_3: 3, person_4: 4, person_5: nil,    person_6: 6, person_7: nil } }
 
-    it "updates person_participations" do
+    it "updates person_participations", login: :api do
       put :person_participation, id: 3, group_score: persons_in
       expect_json_response
       expect(json_body[:group_score]).to include(

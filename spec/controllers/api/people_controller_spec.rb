@@ -56,8 +56,9 @@ RSpec.describe API::PeopleController, type: :controller do
   end
 
   describe 'PUT update' do
-    it "update person", login: :api do
-      put :update, id: 1, person: { first_name: "Vorname", last_name: "Nachname", nation_id: 2 }
+    subject { -> { put :update, id: 1, person: { first_name: "Vorname", last_name: "Nachname", nation_id: 2 } } }
+    it "update person", login: :sub_admin do
+      subject.call
       expect_json_response
       expect(json_body[:person]).to eq(
         first_name: "Vorname",
@@ -68,13 +69,15 @@ RSpec.describe API::PeopleController, type: :controller do
         translated_gender: "weiblich",  
       )
     end
+    it_behaves_like "api user get permission error"
   end
 
   describe 'POST merge' do
-    it "merge two people", login: :api do
+    subject { -> { put :merge, id: 86, correct_person_id: 37, always: 1 } }
+    it "merge two people", login: :sub_admin do
       expect_any_instance_of(Person).to receive(:merge_to).and_call_original
       expect {
-        put :merge, id: 86, correct_person_id: 37, always: 1
+        subject.call
       }.to change(PersonSpelling, :count).by(1)
       
       expect_json_response
@@ -87,5 +90,6 @@ RSpec.describe API::PeopleController, type: :controller do
         translated_gender: "weiblich",
       )
     end
+    it_behaves_like "api user get permission error"
   end
 end

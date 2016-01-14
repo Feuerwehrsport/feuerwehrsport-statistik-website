@@ -27,9 +27,10 @@ module MergeAction
 
   def assign_instances_for_merge
     assign_existing_instance
-    authorize! :merge, resource_instance
     self.resource_instance = resource_instance.decorate
     @correct_resource_instance = resource_class.find(params[correct_variable_name]).decorate
+    authorize!(:merge, resource_instance.object)
+    authorize!(:merge, @correct_resource_instance.object)
   end
 
   def correct_variable_name

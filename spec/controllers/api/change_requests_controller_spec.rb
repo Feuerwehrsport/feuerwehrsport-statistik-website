@@ -14,8 +14,9 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
   end
 
   describe 'GET index' do
-    it "returns change_requests" do
-      get :index
+    subject { -> { get :index } }
+    it "returns change_requests", login: :sub_admin do
+      subject.call
       expect_json_response
       expect(json_body[:change_requests].count).to eq 1
       expect(json_body[:change_requests].first).to include(
@@ -25,9 +26,11 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
         id: 3,
       )
     end
+    it_behaves_like "api user get permission error"
   end
 
   describe 'GET files' do
+    subject { -> { get :files, change_request_id: change_request.id, id: 0 } }
     let(:files_data) do
       { 
         files: [
@@ -37,8 +40,8 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
         ]
       }
     end
-    it "returns change_request file" do
-      get :files, change_request_id: change_request.id, id: 0
+    it "returns change_request file", login: :sub_admin do
+      subject.call
       expect_json_response
       expect(json_body[:change_request_file]).to eq(
         binary: "Y29udGVudA==\n",
@@ -46,13 +49,16 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
         filename: "content.txt",
       )
     end
+    it_behaves_like "api user get permission error"
   end
 
   describe 'PUT update' do
-    it "update change_request", login: :api do
-      put :update, id: change_request.id, change_request: { done: "1" }
+    subject { -> { put :update, id: change_request.id, change_request: { done: "1" } } }
+    it "update change_request", login: :sub_admin do
+      subject.call
       expect_json_response
       expect(change_request.reload.done_at).to_not be nil
     end
+    it_behaves_like "api user get permission error"
   end
 end

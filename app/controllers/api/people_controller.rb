@@ -9,13 +9,11 @@ module API
     protected
 
     def create_permitted_attributes
-      permitted_attributes.permit(:first_name, :last_name, :gender, :nation_id)
+      super.permit(:first_name, :last_name, :gender, :nation_id)
     end
 
     def update_permitted_attributes
-      permitted_keys = []
-      permitted_keys.push(:first_name, :last_name, :nation_id) if can?(:correct, resource_instance)
-      permitted_attributes.permit(*permitted_keys)
+      super.permit(:first_name, :last_name, :nation_id)
     end
 
     def base_collection

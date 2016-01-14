@@ -2,7 +2,9 @@ module API
   class BaseController < ApplicationController
     include LoginActions
     include SerializerSupport
-
+    rescue_from CanCan::AccessDenied do |exception| 
+      failed(message: exception.message)
+    end
     respond_to :json
 
     protected

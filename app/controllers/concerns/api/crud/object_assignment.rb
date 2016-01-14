@@ -10,7 +10,11 @@ module API
       protected
 
       def failed_message
-        resource_instance.errors.full_messages.join("\n")
+        if resource_instance.respond_to?(:errors)
+          resource_instance.errors.full_messages.join("\n")
+        else
+          super
+        end
       end
 
       def assign_collection

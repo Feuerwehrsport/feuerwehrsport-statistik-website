@@ -18,6 +18,7 @@ module API
 
     def assign_instance_for_show_file
       self.resource_instance = ChangeRequest.find(params[:change_request_id]).decorate
+      authorize!(:show, resource_instance.object)
       @change_request_file = resource_instance.files[params[:id].to_i].to_h
       raise ActiveRecord::RecordNotFound.new unless @change_request_file.present?
     end
@@ -28,9 +29,7 @@ module API
     end
 
     def update_permitted_attributes
-      permitted_keys = []
-      permitted_keys.push(:done) if can?(:done, resource_instance)
-      super.permit(*permitted_keys)
+      super.permit(:done)
     end
 
     def permit_scalar_attributes(attributes)

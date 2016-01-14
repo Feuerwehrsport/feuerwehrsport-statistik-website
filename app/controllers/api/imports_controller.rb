@@ -1,5 +1,6 @@
 module API
   class ImportsController < BaseController
+    before_action :authorize_action
     def check_lines
       check = Import::Check.new(check_params)
       if check.valid?
@@ -25,6 +26,13 @@ module API
     end
 
     protected
+
+    def authorize_action
+      authorize!(:create, GroupScore)
+      authorize!(:create, Score)
+      authorize!(:create, Team)
+      authorize!(:create, Person)
+    end
 
     def check_params
       params.require(:import).permit(:discipline, :gender, :raw_lines, :separator, :raw_headline_columns)

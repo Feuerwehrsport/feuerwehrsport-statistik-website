@@ -2,12 +2,14 @@ require 'rails_helper'
 
 RSpec.describe API::PlacesController, type: :controller do
   describe 'POST create' do
-    it "creates new place", login: :api do
+    subject { -> { post :create, place: { name: "Wurstort" } } }
+    it "creates new place", login: :sub_admin do
       expect {
-        post :create, place: { name: "Wurstort" }
+        subject.call
         expect_api_login_response
       }.to change(Place, :count).by(1)
     end
+    it_behaves_like "api user get permission error"
   end
 
   describe 'GET show' do
@@ -30,8 +32,9 @@ RSpec.describe API::PlacesController, type: :controller do
   end
 
   describe 'PUT update' do
+    subject { -> { put :update, id: 1, place: { latitude: "123", longitude: "456" } } }
     it "update place", login: :api do
-      put :update, id: 1, place: { latitude: "123", longitude: "456" }
+      subject.call
       expect_json_response
       expect(json_body[:place]).to eq(
         id: 1,

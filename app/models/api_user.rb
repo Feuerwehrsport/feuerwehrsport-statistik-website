@@ -16,4 +16,8 @@ class APIUser < ActiveRecord::Base
     self.ip_address = request_headers['X-Forwarded-For'] || request_headers['REMOTE_ADDR']
     self.user_agent = request_headers['HTTP_USER_AGENT']
   end
+
+  def role
+    :api_user
+  end
 end
