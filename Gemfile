@@ -60,6 +60,9 @@ group :development do
   gem 'rvm-capistrano', require: false
   gem 'capistrano-nginx-unicorn', require: false
   gem 'capistrano_rsync_with_remote_cache', require: false
+
+  # to test email
+  gem 'recipient_interceptor'
 end
 
 group :development, :test, :test_dump do

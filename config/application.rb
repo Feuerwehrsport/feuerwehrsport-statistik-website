@@ -32,5 +32,19 @@ module FeuerwehrsportStatistik
     config.caching = true
 
     config.wettkampf_manager_path = "#{Rails.root}/spec/fixtures/wettkampf_manager"
+
+    # action_mailer
+    config.action_mailer.default_options = {
+      from: "automailer@feuerwehrsport-statistik.de"
+    }
+    config.action_mailer.smtp_settings = {
+      address: 'www.feuerwehrsport-statistik.de',
+      port: 465,
+      user_name: ENV["EMAIL_USERNAME"],
+      password: ENV["EMAIL_PASSWORD"],
+      tls: true,
+      smtp_sender: "automailer@feuerwehrsport-statistik.de",
+      openssl_verify_mode: OpenSSL::SSL::VERIFY_NONE,
+    }
   end
 end
