@@ -21,6 +21,8 @@ class State
     'DE' => 'Deutschland',
     'AT' => 'Österreich',
     'PL' => 'Polen',
+    'BY' => 'Weißrussland',
+    'HU' => 'Ungarn',
   }
 
   FEDERAL = [
