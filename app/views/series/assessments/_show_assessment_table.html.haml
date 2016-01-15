@@ -1,0 +1,10 @@
+= count_table(rows, class: "datatable-scores") do |ct|
+  - ct.col("Platz", :rank, class: "col-5", th_options: { class: "small" })
+  - ct.col("Name", class: "col-15") { |row| person_link(row.entity, type: :last_name)}
+  - ct.col("Vorname", class: "col-15") { |row| person_link(row.entity, type: :first_name)}
+  - cups.each do |cup|
+    - ct.col(cup.competition.place, class: "col-10", th_options: { title: cup.competition, class: "small" }) { |row| row.participation_for_cup(cup).try(:second_time_with_points) }
+  - ct.col("Bestzeit", :second_best_time, class: "col-5", th_options: { class: "small" })
+  - ct.col("Summe", :second_sum_time, class: "col-5", th_options: { class: "small" })
+  - ct.col("Teil.", :count, class: "col-5", th_options: { class: "small" })
+  - ct.col("Punkte", :points, class: "col-5", th_options: { class: "small" })
