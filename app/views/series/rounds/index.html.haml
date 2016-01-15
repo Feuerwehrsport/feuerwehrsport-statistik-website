@@ -3,13 +3,4 @@
     .col-md-9
       %h1 Wettkampfserien
     .col-md-3= toc.index
-
-
-  - @rounds.each do |name, rows|
-    = toc.anker(name, :h3)
-    = count_table(rows) do |ct|
-      - ct.col("Jahr", :year, link_to: true, class: "col-md-1")
-      - ct.col("Cup-Anzahl", :cup_count, class: "col-md-1")
-      - ct.col("Disziplinen", class: "col-md-3") { |row| row.disciplines.map { |d| discipline_image_name_short(d) }.join(" ").html_safe }
-      - ct.col("Mannschaften", :team_count, class: "col-md-1")
-      - ct.col("Wettkämpfer", :person_count, class: "col-md-1")
+  = render('index_overview', toc: toc)
