@@ -1,7 +1,7 @@
 module UI
   module UniqIDFinder
     def available_id(name)
-      regular = name.parameterize.first(50)
+      regular = name.to_s.parameterize.first(50)
       return regular if id_available?(regular)
       i = 1
       i += 1 while !id_available?("#{regular}-#{i}")
