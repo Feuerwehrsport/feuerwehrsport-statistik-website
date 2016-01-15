@@ -810,7 +810,6 @@ ALTER SEQUENCE scores_id_seq OWNED BY scores.id;
 CREATE TABLE series_assessments (
     id integer NOT NULL,
     round_id integer NOT NULL,
-    aggregate_type character varying NOT NULL,
     discipline character varying NOT NULL,
     name character varying DEFAULT ''::character varying NOT NULL,
     type character varying NOT NULL,

@@ -9,14 +9,14 @@ module Series
 
     scope :with_person, -> (person_id) { joins(:participations).where(series_participations: { person_id: person_id }).uniq }
 
-    validates :round, :discipline, :gender, :aggregate_type, presence: true
+    validates :round, :discipline, :gender, presence: true
 
     def rows
       @rows ||= calculate_rows
     end
 
     def aggregate_class
-      @aggregate_class ||= "Series::ParticipationRows::#{aggregate_type}".constantize
+      @aggregate_class ||= "Series::ParticipationRows::#{round.aggregate_type}".constantize
     end
 
     protected

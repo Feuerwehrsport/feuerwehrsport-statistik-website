@@ -122,8 +122,7 @@ class Import::AutoSeries
             assessments.push Series::PersonAssessment.create!(
               round: round,
               discipline: discipline, 
-              gender: gender, 
-              aggregate_type: config.aggregate_type
+              gender: gender,
             )
           end
         end
@@ -142,8 +141,7 @@ class Import::AutoSeries
             assessments.push Series::TeamAssessment.create!(
               round: round,
               discipline: discipline, 
-              gender: gender, 
-              aggregate_type: config.aggregate_type
+              gender: gender,
             )
           end
         end
@@ -158,7 +156,6 @@ class Import::AutoSeries
               round: round,
               discipline: discipline,
               gender: gender,
-              aggregate_type: config.aggregate_type
             )
           end
         end

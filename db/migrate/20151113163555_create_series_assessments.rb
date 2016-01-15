@@ -2,7 +2,6 @@ class CreateSeriesAssessments < ActiveRecord::Migration
   def change
     create_table :series_assessments do |t|
       t.references :round, null: false
-      t.string :aggregate_type, null: false
       t.string :discipline, null: false
       t.string :name, null: false, default: ""
       t.string :type, null: false

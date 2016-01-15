@@ -11,4 +11,4 @@
         %li= link_to(assessment, assessment)
   .col-md-4= render("series/cups_overview", cups: @assessment.cups)
 = render('show_assessment_table', rows: @assessment.rows, cups: @assessment.cups)
-= render("aggregate_type_#{@assessment.aggregate_type.underscore}") rescue ""
+= render("aggregate_type_#{@assessment.round.aggregate_type.underscore}") rescue ""
