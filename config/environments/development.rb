@@ -15,9 +15,6 @@ Rails.application.configure do
 
   # action_mailer
   config.action_mailer.default_url_options = { host: "localhost", port: "5060"}
-  config.action_mailer.default_options = {
-    from: "automailer@feuerwehrsport-statistik.de"
-  }
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true
   Mail.register_interceptor RecipientInterceptor.new("georf@georf.de", subject_prefix: '[DEV]')
