@@ -1,0 +1,25 @@
+- if @person_assessments.present?
+  = toc.anker("Einzelwertungen", :h3)
+  = count_table(@person_assessments) do |ct|
+    - ct.col("Disziplin") { |row| link_to("#{discipline_image(row.discipline)} #{discipline_name(row.discipline)}".html_safe, row) }
+    - ct.col("Geschlecht") { |row| g(row.gender) }
+    - ct.col("Name", :name)
+    - ct.col("Wettkämpfer") { |row| row.object.participations.pluck(:person_id).uniq.count }
+- if @team_assessments_exists
+  - [:female, :male].each do |gender|
+    - if @round.team_assessment_rows(gender).present?
+      = toc.anker("Mannschaft #{g(gender)}")
+      %h3
+        Mannschaftswertung
+        = g(gender)
+        = g_symbol(gender)
+      = count_table(@round.team_assessment_rows(gender).map(&:decorate)) do |ct|
+        - ct.col("Platz", :rank, class: "col-5")
+        - ct.col("Team", class: "col-15") { |row| numbered_team_link(row, competition_id: @round.cups.map(&:competition_id), gender: gender) }
+        - @round.cups.each do |cup|
+          - ct.col(cup.competition.place, class: "col-10", th_options: { link_to: cup.competition }) { |row| render("series/rounds/participations_table", participations: row.participations_for_cup(cup)) }
+        - ct.col("Teil.", :count, class: "col-5")
+        - ct.col("Bestzeit", :second_best_time, class: "col-5")
+        - ct.col("Punkte", :points, class: "col-5")
+
+= render("series/rounds/aggregate_type_#{@round.aggregate_type.underscore}") rescue ""
