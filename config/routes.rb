@@ -27,6 +27,9 @@ Rails.application.routes.draw do
     end
     resources :scores
     resources :score_types
+    namespace :series do
+      resources :rounds, only: [:new, :create, :show, :index]
+    end
     resources :teams
   end
 

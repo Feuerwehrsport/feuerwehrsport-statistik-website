@@ -1,0 +1,12 @@
+= table_of_contents do |toc|
+  .row
+    .col-md-9
+      %h1 Vorschau der Änderungen
+    .col-md-3= toc.index
+  = render('series/rounds/show', toc: toc, cache: false)
+
+  - @person_assessments.each do |assessment|
+    = toc.anker(assessment.to_s, :h3)
+    = render('series/assessments/show_assessment_table', rows: assessment.rows, cups: assessment.cups)
+
+  = toc.anker("Fortfahren mit Auswahl", :h3)

@@ -1,0 +1,7 @@
+= table_of_contents do |toc|
+  .row
+    .col-md-9
+      %h1 Wettkampfserien
+      = link_to("Wettkampf hinzufügen", action: :new)
+    .col-md-3= toc.index
+  = render('series/rounds/index_overview', toc: toc)
