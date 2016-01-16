@@ -7,13 +7,13 @@
     - ct.col("Wettkämpfer") { |row| row.object.participations.pluck(:person_id).uniq.count }
 - if @team_assessments_exists
   - [:female, :male].each do |gender|
-    - if @round.team_assessment_rows(gender).present?
+    - if @round.team_assessment_rows(gender, cache).present?
       = toc.anker("Mannschaft #{g(gender)}")
       %h3
         Mannschaftswertung
         = g(gender)
         = g_symbol(gender)
-      = count_table(@round.team_assessment_rows(gender).map(&:decorate)) do |ct|
+      = count_table(@round.team_assessment_rows(gender, cache).map(&:decorate)) do |ct|
         - ct.col("Platz", :rank, class: "col-5")
         - ct.col("Team", class: "col-15") { |row| numbered_team_link(row, competition_id: @round.cups.map(&:competition_id), gender: gender) }
         - @round.cups.each do |cup|

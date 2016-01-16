@@ -5,7 +5,7 @@
     .col-md-4= render("series/cups_overview", cups: @round.cups)
     .col-md-3= toc.index
   
-  = render('show', toc: toc)
+  = render('show', toc: toc, cache: true)
 
   %hr
   .col-md-3.pull-right

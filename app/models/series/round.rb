@@ -21,8 +21,8 @@ module Series
       assessments.pluck(:discipline).uniq.sort
     end
 
-    def team_assessment_rows(gender)
-      @team_assessment_rows ||= calculate_rows
+    def team_assessment_rows(gender, cache=true)
+      @team_assessment_rows ||= calculate_rows(cache)
       @team_assessment_rows[gender]
     end
 
@@ -47,8 +47,8 @@ module Series
 
     protected
 
-    def calculate_rows
-      Caching::Cache.fetch(caching_key(:calculate_rows)) do
+    def calculate_rows(cache)
+      Caching::Cache.fetch(caching_key(:calculate_rows), force: !cache) do
         rows = {}
         [:female, :male].each do |gender|
           rows[gender] = teams(gender).values.sort
