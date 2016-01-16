@@ -40,6 +40,10 @@ module Series
         end
       end
 
+      def best_time_without_nil
+        best_time || (TimeInvalid::INVALID + 1)
+      end
+
       def <=> other
         other.points <=> points
       end
