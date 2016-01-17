@@ -2,6 +2,7 @@ module API
   class GroupScoreCategoriesController < BaseController
     include CRUD::IndexAction
     include CRUD::CreateAction
+    include CRUD::ChangeLogSupport
 
     protected
 

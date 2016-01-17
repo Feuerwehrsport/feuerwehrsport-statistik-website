@@ -3,6 +3,7 @@ module API
     include CRUD::CreateAction
     include CRUD::IndexAction
     include CRUD::UpdateAction
+    include CRUD::ChangeLogSupport
 
     before_action :assign_instance_for_show_file, only: :files
 

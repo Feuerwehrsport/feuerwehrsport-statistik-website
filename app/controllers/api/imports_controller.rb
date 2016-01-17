@@ -1,5 +1,6 @@
 module API
   class ImportsController < BaseController
+    include CRUD::ChangeLogSupport
     before_action :authorize_action
     def check_lines
       check = Import::Check.new(check_params)
@@ -12,20 +13,28 @@ module API
     end
 
     def scores
-      import = Import::Scores.new(import_params)
-      if import.valid?
+      if resource_instance.valid?
         begin
-          import.save!
+          resource_instance.save!
+          perform_logging
           success
         rescue ActiveRecord::RecordInvalid => e
           failed(message: e.message)
         end
       else
-        failed(message: import.errors.full_messages.to_sentence)
+        failed(message: resource_instance.errors.full_messages.to_sentence)
       end
     end
 
     protected
+
+    def resource_class
+      Import::Scores
+    end
+
+    def resource_instance
+      @resource_instance ||= resource_class.new(import_params)
+    end
 
     def authorize_action
       authorize!(:create, GroupScore)

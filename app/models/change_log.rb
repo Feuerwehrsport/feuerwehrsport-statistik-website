@@ -14,14 +14,6 @@ class ChangeLog < ActiveRecord::Base
     set(:after_hash, hash)
   end
 
-  def model_class=(model_class)
-    set(:model_class, model_class.to_s)
-  end
-
-  def action_name=(action_name)
-    set(:action_name, action_name)
-  end
-
   def set(key, value)
     content_hash = content
     content_hash[key] = value
