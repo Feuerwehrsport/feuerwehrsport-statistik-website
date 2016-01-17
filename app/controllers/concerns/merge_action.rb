@@ -12,10 +12,10 @@ module MergeAction
         if params[:always].present?
           "#{resource_class}Spelling".constantize.create_from(@correct_resource_instance, resource_instance)
         end
+        merge_change_log
         unless resource_instance.reload.destroy
           raise ActiveRecord::ActiveRecordError.new("Could not destroy #{resource_variable_name} with id ##{resource_instance.id}")
         end
-        # todo logging
         success(resource_variable_name.to_sym => @correct_resource_instance.reload.decorate, resource_name: resource_variable_name)
       end
     rescue ActiveRecord::ActiveRecordError => error
@@ -24,6 +24,13 @@ module MergeAction
   end
 
   protected
+
+  def merge_change_log
+    perform_logging(
+      after_hash: hash_for_logging(@correct_resource_instance),
+      before_hash: hash_for_logging,
+    )
+  end
 
   def assign_instances_for_merge
     assign_existing_instance

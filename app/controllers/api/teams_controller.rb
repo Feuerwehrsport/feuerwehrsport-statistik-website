@@ -4,6 +4,7 @@ module API
     include CRUD::ShowAction
     include CRUD::UpdateAction
     include CRUD::IndexAction
+    include CRUD::ChangeLogSupport
     include MergeAction
 
     protected

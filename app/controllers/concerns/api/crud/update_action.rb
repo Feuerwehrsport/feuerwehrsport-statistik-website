@@ -4,8 +4,8 @@ module API
       extend ActiveSupport::Concern
       
       included do
-        include CRUD::ObjectAssignment
         before_action :assign_instance_for_update, only: :update
+        include CRUD::ObjectAssignment
       end
 
       def update
@@ -25,8 +25,7 @@ module API
 
       def update_instance
         resource_instance.assign_attributes(update_permitted_attributes)
-        authorize!(action_name.to_sym, resource_instance.object)
-        resource_instance.save
+        save_instance
       end
 
       def update_permitted_attributes

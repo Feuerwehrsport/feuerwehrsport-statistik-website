@@ -3,6 +3,7 @@ module API
     include CRUD::CreateAction
     include CRUD::ShowAction
     include CRUD::IndexAction
+    include CRUD::ChangeLogSupport
     
     protected
 

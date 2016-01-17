@@ -1,6 +1,7 @@
 module API
   class LinksController < BaseController
     include CRUD::CreateAction
+    include CRUD::ChangeLogSupport
 
     protected
 

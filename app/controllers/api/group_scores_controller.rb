@@ -2,6 +2,7 @@ module API
   class GroupScoresController < BaseController
     include CRUD::ShowAction
     include CRUD::UpdateAction
+    include CRUD::ChangeLogSupport
     before_action :assign_instance_for_person_participation, only: :person_participation
     
     def person_participation
@@ -23,6 +24,7 @@ module API
       assign_existing_instance
       authorize!(:update_person_participation, resource_instance)
       self.resource_instance = resource_instance.decorate
+      save_attributes_for_logging
     end
 
     def before_person_participation_success
@@ -47,7 +49,8 @@ module API
           end
         end
         if changed
-          # TODO: Logging
+          resource_instance.reload
+          perform_logging
         end
       end
     end

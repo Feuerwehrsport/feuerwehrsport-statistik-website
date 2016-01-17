@@ -151,6 +151,39 @@ ALTER SEQUENCE appointments_id_seq OWNED BY appointments.id;
 
 
 --
+-- Name: change_logs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE change_logs (
+    id integer NOT NULL,
+    admin_user_id integer,
+    api_user_id integer,
+    content json NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: change_logs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE change_logs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: change_logs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE change_logs_id_seq OWNED BY change_logs.id;
+
+
+--
 -- Name: change_requests; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1080,6 +1113,13 @@ ALTER TABLE ONLY appointments ALTER COLUMN id SET DEFAULT nextval('appointments_
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY change_logs ALTER COLUMN id SET DEFAULT nextval('change_logs_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY change_requests ALTER COLUMN id SET DEFAULT nextval('change_requests_id_seq'::regclass);
 
 
@@ -1259,6 +1299,14 @@ ALTER TABLE ONLY api_users
 
 ALTER TABLE ONLY appointments
     ADD CONSTRAINT appointments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: change_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY change_logs
+    ADD CONSTRAINT change_logs_pkey PRIMARY KEY (id);
 
 
 --
@@ -1495,6 +1543,20 @@ CREATE INDEX index_appointments_on_place_id ON appointments USING btree (place_i
 
 
 --
+-- Name: index_change_logs_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_change_logs_on_admin_user_id ON change_logs USING btree (admin_user_id);
+
+
+--
+-- Name: index_change_logs_on_api_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_change_logs_on_api_user_id ON change_logs USING btree (api_user_id);
+
+
+--
 -- Name: index_change_requests_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1706,6 +1768,14 @@ ALTER TABLE ONLY series_assessments
 
 
 --
+-- Name: fk_rails_31ecca654e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY change_logs
+    ADD CONSTRAINT fk_rails_31ecca654e FOREIGN KEY (api_user_id) REFERENCES api_users(id);
+
+
+--
 -- Name: fk_rails_339a5440d1; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1826,6 +1896,14 @@ ALTER TABLE ONLY change_requests
 
 
 --
+-- Name: fk_rails_d36db08295; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY change_logs
+    ADD CONSTRAINT fk_rails_d36db08295 FOREIGN KEY (admin_user_id) REFERENCES admin_users(id);
+
+
+--
 -- Name: fk_rails_deb9c05685; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1938,4 +2016,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160107114749');
 INSERT INTO schema_migrations (version) VALUES ('20160108072218');
 
 INSERT INTO schema_migrations (version) VALUES ('20160108114749');
+
+INSERT INTO schema_migrations (version) VALUES ('20160117083000');
 

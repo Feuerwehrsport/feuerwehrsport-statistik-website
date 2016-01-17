@@ -1,6 +1,7 @@
 module API
   class ScoresController < BaseController
     include CRUD::UpdateAction
+    include CRUD::ChangeLogSupport
 
     protected
 

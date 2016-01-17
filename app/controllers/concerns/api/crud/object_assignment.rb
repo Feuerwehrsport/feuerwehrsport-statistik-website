@@ -52,6 +52,11 @@ module API
       def object_param_id
         :id
       end
+
+      def save_instance
+        authorize!(action_name.to_sym, resource_instance)
+        resource_instance.save
+      end
     end
   end
 end

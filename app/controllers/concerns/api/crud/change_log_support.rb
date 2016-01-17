@@ -1,0 +1,42 @@
+module API
+  module CRUD
+    module ChangeLogSupport
+      extend ActiveSupport::Concern
+
+      included do
+        before_action :save_attributes_for_logging, only: [:create, :update]
+      end
+
+      protected
+
+      def save_attributes_for_logging
+        @logging_attributes_before = hash_for_logging
+      end
+
+      def save_instance
+        saved = super
+        perform_logging if saved
+        saved
+      end
+
+      def hash_for_logging(object=resource_instance)
+        serializer_for_object(object).as_json
+      end
+
+      def perform_logging(hash={})
+        ChangeLog.create(change_log_default_hash.merge(hash))
+      end
+
+      def change_log_default_hash
+        change_log_hash = { 
+          after_hash: hash_for_logging,
+          model_class: resource_class,
+          user: current_user,
+          action_name: action_name,
+        }
+        change_log_hash[:before_hash] = @logging_attributes_before if action_name == "update"
+        change_log_hash
+      end
+    end
+  end
+end
