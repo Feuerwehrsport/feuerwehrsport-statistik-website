@@ -7,7 +7,7 @@ module API
     protected
 
     def update_permitted_attributes
-      permitted_attributes.permit(:team_id)
+      permitted_attributes.permit(:team_id, :team_number)
     end
   end
 end

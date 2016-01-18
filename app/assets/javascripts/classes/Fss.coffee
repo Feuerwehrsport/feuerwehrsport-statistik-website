@@ -252,7 +252,9 @@ class @Fss
     ready = 0
     elementReady = () ->
       ready++
-      location.reload() if ready > array.length
+      if ready > array.length
+        new WaitFssWindow()
+        location.reload()
     
     for element in array
       dataCallback(element, elementReady)

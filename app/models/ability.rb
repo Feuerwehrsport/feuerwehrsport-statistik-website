@@ -41,6 +41,7 @@ class Ability
     can :create, Link
     can :create, Person
     can :update, Place
+    can :update, Score
     can [:create, :update], Team
     can :update_person_participation, GroupScore
   end
