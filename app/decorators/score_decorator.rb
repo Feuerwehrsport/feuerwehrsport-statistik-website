@@ -17,4 +17,8 @@ class ScoreDecorator < ApplicationDecorator
   def second_time
     calculate_second_time(time)
   end
+
+  def translated_discipline_name
+    discipline_name(discipline)
+  end
 end

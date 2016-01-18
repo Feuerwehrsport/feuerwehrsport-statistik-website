@@ -56,6 +56,7 @@ class Ability
     can :read, Nation
     can :read, Person
     can :read, Place
+    can :read, Score
     can :read, ScoreType
     can :read, Team
   end

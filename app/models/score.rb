@@ -48,5 +48,9 @@ class Score < ActiveRecord::Base
 
   def entity
     person  
-  end 
+  end
+
+  def similar_scores
+    Score.where(competition_id: competition_id, person_id: person_id).order(:id)
+  end
 end

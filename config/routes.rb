@@ -65,7 +65,7 @@ Rails.application.routes.draw do
     end
     resources :places, only: [:create, :show, :index, :update]
     resources :score_types, only: [:index]
-    resources :scores, only: [:update]
+    resources :scores, only: [:show, :update]
     resources :teams, only: [:create, :show, :index, :update] do
       member { post :merge }
     end
