@@ -1,0 +1,5 @@
+class ChangeLogsController < ResourceController
+  def index
+    @change_logs = ChangeLog.free_access.decorate.last(1000)
+  end
+end

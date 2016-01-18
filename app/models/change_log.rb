@@ -1,6 +1,22 @@
 class ChangeLog < ActiveRecord::Base
+  FREE_ACCESS_CLASSES = [
+    "Appointment",
+    "Competition",
+    "Event",
+    "Link",
+    "Nation",
+    "News",
+    "Person",
+    "Place",
+    "Team",
+  ]
+
   belongs_to :admin_user
   belongs_to :api_user
+
+  scope :free_access, -> { where(model_class: FREE_ACCESS_CLASSES) }
+
+  validates :model_class, :action_name, presence: true
 
   def content
     (super || {}).deep_symbolize_keys
