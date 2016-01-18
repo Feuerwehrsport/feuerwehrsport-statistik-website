@@ -1,9 +1,11 @@
 module Caching
   class Cleaner
     def perform
-      clean_nginx_cache
-      clean_rails_cache
-      clean_statistik_cache
+      if Rails.configuration.caching
+        clean_nginx_cache
+        clean_rails_cache
+        clean_statistik_cache
+      end
     end
 
     def clean_nginx_cache
