@@ -34,7 +34,7 @@ server {
 
   location @rails_cache_<%= application %> {
     root <%= current_path %>/<%= fetch(:rails_cache) %>;
-    try_files $uri $uri/index.html $uri.html @unicorn_<%= application %>;
+    try_files $uri $uri/_index.html $uri.html @unicorn_<%= application %>;
   }
 
   <% else %> @unicorn_<%= application %>; <% end %>

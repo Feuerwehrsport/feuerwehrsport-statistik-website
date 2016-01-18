@@ -22,7 +22,9 @@ module Caching
         uri = URI.parse(request.url).path
         path = File.join(Rails.root, "public", "cache", File.dirname(uri))
         FileUtils.mkdir_p(path)
-        file_path = File.join(path, "#{File.basename(uri)}.html")
+        basename = File.basename(uri)
+        basename += "_index" if basename.ends_with?("/")
+        file_path = File.join(path, "#{basename}.html")
         logger.debug("CACHING: #{file_path}")
         File.open(file_path, "w+") do |f|
           f.write(response.body)
