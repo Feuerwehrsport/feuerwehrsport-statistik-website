@@ -1,7 +1,7 @@
 class State
   ALL = {
     'BW' => 'Baden-Württemberg',
-    'BY' => 'Bayern',
+    # 'BY' => 'Bayern',
     'BE' => 'Berlin',
     'BB' => 'Brandenburg',
     'HB' => 'Bremen',
