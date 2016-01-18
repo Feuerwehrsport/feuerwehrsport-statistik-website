@@ -72,7 +72,7 @@ Rails.application.routes.draw do
   end
 
   # following controllers will write html cache
-  resources :change_logs, only: [:index]
+  resources :change_logs, only: [:index, :show]
   resources :appointments, only: [:index, :show]
   resources :competitions, only: [:index, :show] do
     member { post :files }
@@ -96,6 +96,7 @@ Rails.application.routes.draw do
     get 'person_la_positions/:person_id', controller: :images, action: :la_positions, as: :images_person_la_positions
   end
 
+  get :rss, to: 'pages#rss'
   get :impressum, to: 'pages#legal_notice'
   get :feuerwehrsport, to: 'pages#firesport_overview'
   get :wettkampf_manager, to: 'pages#wettkampf_manager'

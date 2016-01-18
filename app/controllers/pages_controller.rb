@@ -7,6 +7,10 @@ class PagesController < ResourceController
     @page_title = "Impressum"
   end
 
+  def rss
+    @page_title = "RSS-Feeds"
+  end
+
   def dashboard
     @page_title = "Feuerwehrsport - Die große Auswertung"
     @last_competitions = last_competitions(8)
