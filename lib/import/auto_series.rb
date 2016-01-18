@@ -101,10 +101,10 @@ class Import::AutoSeries
   end
 
   def perform
-    Series::Participation.delete_all
-    Series::Assessment.delete_all
-    Series::Cup.delete_all
-    Series::Round.delete_all
+    ::Series::Participation.delete_all
+    ::Series::Assessment.delete_all
+    ::Series::Cup.delete_all
+    ::Series::Round.delete_all
 
 
     configs.each do |config|

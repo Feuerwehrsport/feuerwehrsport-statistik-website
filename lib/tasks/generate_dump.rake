@@ -49,6 +49,8 @@ client.query("SELECT * FROM events WHERE id < 100 ORDER BY id").each do |row|
   Event.create!(
     id: row["id"],
     name: row["name"],
+    created_at: row["created_at"],
+    updated_at: row["updated_at"],
   )
 end
 
@@ -61,6 +63,8 @@ client.query("SELECT * FROM places WHERE id < 100 ORDER BY id").each do |row|
     name: row["name"],
     latitude: row["latitude"],
     longitude: row["longitude"],
+    created_at: row["created_at"],
+    updated_at: row["updated_at"],
   )
 end
 Place.find(1).update!(latitude: nil, longitude: nil)
@@ -74,6 +78,8 @@ client.query("SELECT * FROM score_types WHERE id < 100 ORDER BY id").each do |ro
     people: row["people"],
     run: row["run"],
     score: row["score"],
+    created_at: row["created_at"],
+    updated_at: row["updated_at"],
   )
 end
 
@@ -90,6 +96,8 @@ client.query("SELECT * FROM teams WHERE id < 100 ORDER BY id").each do |row|
     image: row["image"],
     state: row["state"],
     status: row["status"].to_i,
+    created_at: row["created_at"],
+    updated_at: row["updated_at"],
   )
   team.save!(validate: false)
 end
@@ -119,6 +127,8 @@ client.query("SELECT * FROM group_score_types ORDER BY id").each do |row|
     name: row["name"],
     discipline: row["discipline"],
     regular: row["regular"],
+    created_at: row["created_at"],
+    updated_at: row["updated_at"],
   )
 end
 
@@ -131,6 +141,8 @@ client.query("SELECT * FROM group_score_categories WHERE id < 100 AND competitio
     name: row["name"],
     group_score_type_id: row["group_score_type_id"],
     competition_id: row["competition_id"],
+    created_at: row["created_at"],
+    updated_at: row["updated_at"],
   )
 end
 
@@ -146,6 +158,8 @@ client.query("SELECT * FROM group_scores WHERE team_id IN (#{team_ids.join(",")}
     group_score_category_id: row["group_score_category_id"],
     gender: row["gender"].to_i,
     run: row["run"],
+    created_at: row["created_at"],
+    updated_at: row["updated_at"],
   )
 end
 
@@ -155,6 +169,8 @@ client.query("SELECT * FROM nations ORDER BY id").each do |row|
     id: row["id"],
     name: row["name"],
     iso: row["iso"],
+    created_at: row["created_at"],
+    updated_at: row["updated_at"],
   )
 end
 
@@ -168,6 +184,8 @@ client.query("SELECT * FROM people WHERE id < 100 ORDER BY id").each do |row|
     first_name: row["first_name"],
     gender: row["gender"].to_i,
     nation_id: row["nation_id"],
+    created_at: row["created_at"],
+    updated_at: row["updated_at"],
   )
 end
 
@@ -181,6 +199,8 @@ client.query("SELECT * FROM scores WHERE (team_id IN (#{team_ids.join(",")}) OR 
     time: row["time"],
     team_id: row["team_id"],
     team_number: row["team_number"],
+    created_at: row["created_at"],
+    updated_at: row["updated_at"],
   )
 end
 
@@ -191,6 +211,8 @@ client.query("SELECT * FROM person_participations WHERE person_id IN (#{person_i
     person_id: row["person_id"],
     group_score_id: row["group_score_id"],
     position: row["position"],
+    created_at: row["created_at"],
+    updated_at: row["updated_at"],
   )
 end
 
@@ -211,6 +233,8 @@ client.query("SELECT * FROM news WHERE id < 15 ORDER BY id").each do |row|
     content: row["content"],
     published_at: row["published_at"],
     admin_user: AdminUser.first,
+    created_at: row["created_at"],
+    updated_at: row["updated_at"],
   )
 end
 
@@ -225,6 +249,8 @@ client.query("SELECT * FROM appointments WHERE id < 30 AND (place_id IN (#{place
     event_id: row["event_id"],
     disciplines: row["disciplines"],
     published_at: row["published_at"],
+    created_at: row["created_at"],
+    updated_at: row["updated_at"],
   )
 end
 
@@ -236,6 +262,8 @@ client.query("SELECT * FROM links ORDER BY id").each do |row|
     url: row["url"],
     linkable_id: row["linkable_id"],
     linkable_type: row["linkable_type"],
+    created_at: row["created_at"],
+    updated_at: row["updated_at"],
   )
   link.save!(validate: false)
 end
@@ -246,6 +274,8 @@ client.query("SELECT * FROM competition_files WHERE competition_id IN (#{competi
     file: row["file"],
     keys_string: row["keys_string"],
     competition_id: row["competition_id"],
+    created_at: row["created_at"],
+    updated_at: row["updated_at"],
   )
   competition_file.save!(validate: false)
 end
@@ -256,6 +286,8 @@ client.query("SELECT * FROM team_spellings WHERE team_id IN (#{team_ids.join(","
     team_id: row["team_id"],
     name: row["name"],
     shortcut: row["shortcut"],
+    created_at: row["created_at"],
+    updated_at: row["updated_at"],
   )
 end
 
@@ -267,6 +299,8 @@ client.query("SELECT * FROM person_spellings WHERE person_id IN (#{person_ids.jo
     last_name: row["last_name"],
     gender: row["gender"].to_i,
     official: row["official"].to_i,
+    created_at: row["created_at"],
+    updated_at: row["updated_at"],
   )
 end
 
