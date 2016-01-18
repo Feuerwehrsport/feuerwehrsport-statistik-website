@@ -179,7 +179,7 @@ class @FssFormRowScores extends FssFormRow
     table.append(tr)
     for score, i in @scores
       @scores[i].selects = []
-      tr = $('<tr/>').append($('<th/>').text(score.timeHuman))
+      tr = $('<tr/>').append($('<th/>').text(score.second_time))
 
       for wk, c in @wks
         select = $('<select/>')
