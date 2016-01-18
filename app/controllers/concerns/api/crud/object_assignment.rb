@@ -42,7 +42,7 @@ module API
       end
 
       def assign_new_instance
-        self.resource_instance = build_instance
+        self.resource_instance = build_instance.decorate
       end
 
       def build_instance

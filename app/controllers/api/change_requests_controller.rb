@@ -19,7 +19,7 @@ module API
 
     def assign_instance_for_show_file
       self.resource_instance = ChangeRequest.find(params[:change_request_id]).decorate
-      authorize!(:show, resource_instance.object)
+      authorize!(:show, resource_instance)
       @change_request_file = resource_instance.files[params[:id].to_i].to_h
       raise ActiveRecord::RecordNotFound.new unless @change_request_file.present?
     end

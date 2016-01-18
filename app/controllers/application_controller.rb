@@ -15,4 +15,9 @@ class ApplicationController < ActionController::Base
     controller_segment = controller_path.gsub('/', '.')
     I18n.translate("#{controller_segment}.#{action}.page_title", default: translate("#{controller_segment}.page_title", default: default))
   end
+
+  def authorize!(action_name, model, *args)
+    model = model.object if model.is_a?(Draper::Decorator)
+    super(action_name, model, *args)
+  end
 end
