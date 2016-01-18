@@ -15,11 +15,11 @@ class ChangeRequest < ActiveRecord::Base
   end
 
   def content
-    super.deep_symbolize_keys
+    (super || {}).deep_symbolize_keys
   end
 
   def files_data
-    super.deep_symbolize_keys
+    (super || {}).deep_symbolize_keys
   end
 
   # see http://stackoverflow.com/questions/6977968/sending-uploaded-file-to-resque-worker-to-be-processed
