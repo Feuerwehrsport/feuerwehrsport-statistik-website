@@ -1,26 +1,27 @@
-= toc.anker("Wettkampfserien", :h2)
+- if @series_round_structs.present?
+  = toc.anker("Wettkampfserien", :h2)
 
-%table.table
-  %tr
-    %th Name
-    %th Jahr
-    %th Platz
-    %th Punkte
-    %th{ colspan: @max_cup_count } Teilnahmen
+  %table.table
+    %tr
+      %th Name
+      %th Jahr
+      %th Platz
+      %th Punkte
+      %th{ colspan: @max_cup_count } Teilnahmen
 
-  - @series_round_structs.each do |name, structs|
-    - structs.each_with_index do |struct, i|
-      %tr
-        - if i == 0
-          %td{ rowspan: structs.count }= name
-        %td= struct.round.year
-        %td= "#{struct.row.rank}."
-        %td= struct.row.points
+    - @series_round_structs.each do |name, structs|
+      - structs.each_with_index do |struct, i|
+        %tr
+          - if i == 0
+            %td{ rowspan: structs.count }= name
+          %td= struct.round.year
+          %td= "#{struct.row.rank}."
+          %td= struct.row.points
 
-        - struct.cups.each do |cup|
-          %td.small
-            = competition_link(cup.competition, type: :short_date_with_place)
-            = render("series/rounds/participations_table", participations: struct.row.participations_for_cup(cup), free: '-')
-        - (@max_cup_count - struct.cups.count).times.each do
-          %td
-  
+          - struct.cups.each do |cup|
+            %td.small
+              = competition_link(cup.competition, type: :short_date_with_place)
+              = render("series/rounds/participations_table", participations: struct.row.participations_for_cup(cup), free: '-')
+          - (@max_cup_count - struct.cups.count).times.each do
+            %td
+    
