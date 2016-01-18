@@ -1,4 +1,6 @@
 class PlacesController < ResourceController
+  cache_actions :index, :show
+
   def index
     @places = Place.competition_count.decorate
   end

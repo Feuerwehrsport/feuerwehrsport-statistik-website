@@ -1,4 +1,6 @@
 class PeopleController < ResourceController
+  cache_actions :index, :show
+
   def index
     @people = {}
     [:female, :male].each do |gender|

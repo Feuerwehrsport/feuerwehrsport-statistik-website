@@ -1,4 +1,4 @@
-class ResourceController < CacheController
+class ResourceController < ApplicationController
   include ResourceAccessor
 
   protected

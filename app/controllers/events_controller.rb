@@ -1,4 +1,6 @@
 class EventsController < ResourceController
+  cache_actions :index, :show
+
   def index
     @events = Event.competition_count.decorate
     @chart = Chart::EventIndex.new(events: @events)

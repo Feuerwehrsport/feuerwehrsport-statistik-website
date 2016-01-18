@@ -1,4 +1,6 @@
 class YearsController < ResourceController
+  cache_actions :index, :show, :best_performance, :best_scores
+
   def index
     @years = Year.competition_count.decorate
     @chart = Chart::YearIndex.new(years: @years)

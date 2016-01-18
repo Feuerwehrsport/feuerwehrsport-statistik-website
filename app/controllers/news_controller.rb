@@ -1,4 +1,6 @@
 class NewsController < ResourceController
+  cache_actions :index, :show
+
   def index
     @news = News.all.index_order.decorate
   end

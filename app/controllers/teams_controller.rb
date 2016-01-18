@@ -1,4 +1,6 @@
 class TeamsController < ResourceController
+  cache_actions :index, :show
+
   def index
     @teams = Team.with_members_and_competitions_count.decorate
     @charts = Chart::TeamOverview.new

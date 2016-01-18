@@ -1,6 +1,8 @@
 require 'icalendar'
 
 class AppointmentsController < ResourceController
+  cache_actions :index, :show
+
   def index
     @rows = Appointment.upcoming.decorate
 

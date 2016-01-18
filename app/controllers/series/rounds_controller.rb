@@ -1,5 +1,7 @@
 module Series
   class RoundsController < ResourceController
+    cache_actions :index, :show
+    
     def index
       @rounds = {}
       Series::Round.pluck(:name).uniq.sort.each do |name|
