@@ -31,6 +31,7 @@ loadMap = (draggableMarker=false) ->
           place:
             latitude: marker.getLatLng().lat
             longitude: marker.getLatLng().lng
+          log_action: "update-geo-position"
 
 $ () ->
   new SortTable(selector: ".datatable-places", direction: 'asc')

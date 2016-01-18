@@ -58,7 +58,7 @@ $ () ->
       Fss.getResources "places", (places) ->
         Fss.getResources "events", (events) ->
           editAppointment "Termin hinzufügen",  places, events, {}, (appointmentData) ->
-            Fss.ajaxReload 'POST', 'appointments', appointment: appointmentData
+            Fss.ajaxReload 'POST', 'appointments', appointment: appointmentData, log_action: "add-appointment"
 
   $('#edit-appointment').click () ->
     appointmentId = $(this).data('appointment-id')

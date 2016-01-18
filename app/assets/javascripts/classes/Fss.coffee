@@ -229,7 +229,10 @@ class @Fss
               fssWindow.add(new FssFormRow(div))
             fssWindow.on("submit", (data) ->
               Fss.reloadOnArrayReady data.scores, (score, success) ->
-                Fss.put("group_scores/#{score.id}/person_participation", group_score: score, success)
+                params = 
+                  group_score: score
+                  log_action: "update-participation"
+                Fss.put("group_scores/#{score.id}/person_participation", params, success)
             )
             .open()
         buildWindow(true)

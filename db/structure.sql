@@ -160,6 +160,7 @@ CREATE TABLE change_logs (
     api_user_id integer,
     model_class character varying NOT NULL,
     action_name character varying NOT NULL,
+    log_action character varying,
     content json NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL

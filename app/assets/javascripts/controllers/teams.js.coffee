@@ -57,6 +57,7 @@ loadMap = (draggableMarker=false) ->
           team:
             latitude: marker.getLatLng().lat
             longitude: marker.getLatLng().lng
+          log_action: "update-geo-position"
 
 $ () ->
   new SortTable(selector: ".datatable-teams", noSorting: 0, sortCol: 1, direction: 'asc')
@@ -70,7 +71,7 @@ $ () ->
   $('#add-team').click () ->
     Fss.checkLogin () ->
       teamEditWindow 'Mannschaft anlegen', {}, (data) ->
-        Fss.ajaxReload 'POST', 'teams', team: data
+        Fss.ajaxReload 'POST', 'teams', team: data, log_action: "add-team"
 
   $('.upload-logo').click () ->
     addLogo($(this).data('team-id'))

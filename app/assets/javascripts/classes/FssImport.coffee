@@ -22,7 +22,10 @@ class @FssImport
         .add(new FssFormRowSelect('score_type_id', 'Wertung', @competition.score_type_id, options))
         .on('submit', (data) =>
           competitionId = @selectCompetition.find('option:selected').val()
-          Fss.put("competitions/#{competitionId}", competition: data, () => @addSuccess( () => @changeCompetition() ) )
+          params = 
+            competition: data
+            log_action: "update-score-type"
+          Fss.put("competitions/#{competitionId}", params, () => @addSuccess( () => @changeCompetition() ) )
         )
         .open()
 
@@ -32,14 +35,14 @@ class @FssImport
       Fss.checkLogin () =>
         FssWindow.build("Ort hinzufügen")
         .add(new FssFormRowText('name', 'Name'))
-        .on('submit', (data) => Fss.post('places', place: data, () => @addSuccess() ) )
+        .on('submit', (data) => Fss.post('places', place: data, log_action: "add-place", () => @addSuccess() ) )
         .open()
 
     $(".add-event").click () =>
       Fss.checkLogin () =>
         FssWindow.build("Typ hinzufügen")
         .add(new FssFormRowText('name', 'Name'))
-        .on('submit', (data) => Fss.post('events', event: data, () => @addSuccess() ) )
+        .on('submit', (data) => Fss.post('events', event: data, log_action: "add-event", () => @addSuccess() ) )
         .open()
 
     $(".add-group-score-type").click () =>
@@ -52,7 +55,7 @@ class @FssImport
         FssWindow.build("Gruppen-Typ hinzufügen")
         .add(new FssFormRowText('name', 'Name'))
         .add(new FssFormRowRadio('discipline', 'Disziplin', null, options))
-        .on('submit', (data) => Fss.post('group_score_types', group_score_type: data, () => @addSuccess() ) )
+        .on('submit', (data) => Fss.post('group_score_types', group_score_type: data, log_action: "add-group-score-type", () => @addSuccess() ) )
         .open()
 
     $(".add-competition").click () =>
@@ -69,7 +72,7 @@ class @FssImport
             .add(new FssFormRowSelect('place_id', 'Ort', null, placeOptions))
             .add(new FssFormRowSelect('event_id', 'Typ', null, eventOptions))
             .add(new FssFormRowDate('date', 'Datum'))
-            .on('submit', (data) => Fss.post 'competitions', competition: data, () =>
+            .on('submit', (data) => Fss.post 'competitions', competition: data, log_action: "add-competition", () =>
               @addSuccess () ->
                 $("input[name='competition-type'][value='latest']").attr('checked', true).change()
             )

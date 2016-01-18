@@ -33,6 +33,7 @@ module API
           model_class: resource_class,
           user: current_user,
           action_name: action_name,
+          log_action: params[:log_action],
         }
         change_log_hash[:before_hash] = @logging_attributes_before if action_name == "update"
         change_log_hash

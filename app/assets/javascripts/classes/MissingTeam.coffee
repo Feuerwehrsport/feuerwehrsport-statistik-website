@@ -21,7 +21,7 @@ class @MissingTeam
         .add(new FssFormRowText('shortcut', 'Abkürzung', @name))
         .add(new FssFormRowSelect('status', 'Typ der Mannschaft', 'Feuerwehr', options))
         .on('submit', (data) =>
-          Fss.post 'teams', team: data, () => 
+          Fss.post 'teams', team: data, log_action: "add-team", () => 
             @callback()
         )
         .open()

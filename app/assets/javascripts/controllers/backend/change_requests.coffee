@@ -105,7 +105,7 @@ class Error
             .add(new FssFormRowText('name', 'Name', @data.name))
             .on('submit', (data) =>
               @confirmAction () =>
-                Fss.put "competitions/#{@data.competition_id}", competition: data, () => @confirmDone()
+                Fss.put "competitions/#{@data.competition_id}", competition: data, log_action: "update-name", () => @confirmDone()
             )
             .open()
       when "competition-add-hint"
@@ -142,13 +142,14 @@ class Error
             .append($('<h4/>').text("Korrektur"))
             .append("Vorname: #{@data.person.first_name}<br/>Nachname: #{@data.person.last_name}")
           @getActionBox div, () =>
-            Fss.put "people/#{@data.person_id}", person: @data.person, () => @confirmDone()
+            Fss.put "people/#{@data.person_id}", person: @data.person, log_action: "update-name", () => @confirmDone()
 
       when "person-merge"
         @headline += " - Zusammenführen"
         @openType = (div) =>
           action = (params = {}) =>
             params.correct_person_id = @data.correct_person_id
+            params.log_action = "merge"
             Fss.post "people/#{@data.person_id}/merge", params, (data) => @confirmDone()
           getPersonBox(div)
           getPersonBox(div, null, "Richtige Person", @data.correct_person_id)
@@ -179,7 +180,7 @@ class Error
             .append($('<h4/>').text("neue Nation"))
             .append(nation.name)
           @getActionBox div, () =>
-            Fss.put "people/#{@data.person_id}", person: { nation_id: @data.nation_id }, () => @confirmDone()
+            Fss.put "people/#{@data.person_id}", person: { nation_id: @data.nation_id }, log_action: "update-nation", () => @confirmDone()
       else
         @openType = (div) =>
           @getActionBox(div)
@@ -205,13 +206,14 @@ class Error
             .append($('<h4/>').text("Korrektur"))
             .append("Name: #{@data.team.name}<br/>Kurz: #{@data.team.shortcut}<br/>Typ: #{@data.team.status}")
           @getActionBox div, () =>
-            Fss.put "teams/#{@data.team_id}", team: @data.team, () => @confirmDone()
+            Fss.put "teams/#{@data.team_id}", team: @data.team, log_action: "update-name", () => @confirmDone()
 
       when "team-merge"
         @headline += " - Zusammenführen"
         @openType = (div) =>
           action = (params = {}) =>
             params.correct_team_id = @data.correct_team_id
+            params.log_action = "merge"
             Fss.post "teams/#{@data.team_id}/merge", params, (data) => @confirmDone()
           getTeamBox(div)
           getTeamBox(div, null, "Richtige Mannschaft", @data.correct_team_id)
@@ -236,7 +238,7 @@ class Error
                 selectButton.show()
             selectButton = $('<div/>').hide().addClass("btn btn-success").text('Auswählen').click () => 
               @confirmAction () =>
-                Fss.put "teams/#{@data.team_id}", team: { image_change_request: "#{@id}-#{i}" }, () => @confirmDone()
+                Fss.put "teams/#{@data.team_id}", team: { image_change_request: "#{@id}-#{i}" }, log_action: "update-logo", () => @confirmDone()
             imageBox = $("<div/>")
             .append(file.filename)
             .append('<br/>')
@@ -294,7 +296,7 @@ class Error
               .append($("<pre/>").text(@data.appointment.description))
               .append("Disziplinen: #{@data.appointment.disciplines}")
           @getActionBox(div, () =>
-            Fss.put "appointments/#{@data.appointment_id}", appointment: @data.appointment, () => @confirmDone()
+            Fss.put "appointments/#{@data.appointment_id}", appointment: @data.appointment, log_action: "update", () => @confirmDone()
           , 2)
       else
         @openType = (div) =>

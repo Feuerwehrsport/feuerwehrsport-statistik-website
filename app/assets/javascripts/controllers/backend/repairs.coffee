@@ -28,9 +28,9 @@ class Score
     if @move
       data = team_id: teamId
       if @discipline is 'single'
-        Fss.put "scores/#{@data.id}", score: data, callback
+        Fss.put "scores/#{@data.id}", score: data, log_action: "update-team", callback
       else
-        Fss.put "group_scores/#{@data.id}", group_score: data, callback
+        Fss.put "group_scores/#{@data.id}", group_score: data, log_action: "update-team", callback
     else
       callback()
 
@@ -81,7 +81,6 @@ $ () ->
     $('#team-move').val($('#team-from').val())
 
   $('#do-move').click () ->
-    debugger
     count = 0
     for score in scores
       count++ if score.move 

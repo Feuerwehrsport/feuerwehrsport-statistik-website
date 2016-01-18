@@ -11,8 +11,6 @@
 #= require highcharts/highcharts-more
 
 #= require classes/AlertFssWindow
-#= require classes/BigImage
-#= require classes/Charting
 #= require classes/ConfirmFssWindow
 #= require classes/EventHandler
 #= require classes/Fss
@@ -55,7 +53,7 @@ $ ->
         data.url = "http://#{data.url}" unless data.url.match(/^https?:\/\//)
         data.linkable_id = element.data('linkable-id')
         data.linkable_type = element.data('linkable-type')
-        Fss.ajaxReload 'POST', 'links', link: data
+        Fss.ajaxReload 'POST', 'links', link: data, log_action: 'add-link'
       )
       .open()
 
@@ -108,6 +106,6 @@ $ ->
                 scoreData = 
                   team_id: data.team_id
                   team_number: data["score_#{score.id}"]
-                Fss.put "scores/#{score.id}", score: scoreData, success
+                Fss.put "scores/#{score.id}", score: scoreData, log_action: "update-team", success
             ).open()
   , 1500)

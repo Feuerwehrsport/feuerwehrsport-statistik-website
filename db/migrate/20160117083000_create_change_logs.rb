@@ -5,6 +5,7 @@ class CreateChangeLogs < ActiveRecord::Migration
       t.references :api_user, index: true, foreign_key: true
       t.string :model_class, null: false
       t.string :action_name, null: false
+      t.string :log_action
       t.json :content, null: false
 
       t.timestamps null: false
