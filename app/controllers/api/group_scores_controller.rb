@@ -51,6 +51,7 @@ module API
         if changed
           resource_instance.reload
           perform_logging
+          clean_cache_and_build_new
         end
       end
     end

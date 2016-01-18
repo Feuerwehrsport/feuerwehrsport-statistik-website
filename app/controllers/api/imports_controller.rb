@@ -17,6 +17,7 @@ module API
         begin
           resource_instance.save!
           perform_logging
+          clean_cache_and_build_new
           success
         rescue ActiveRecord::RecordInvalid => e
           failed(message: e.message)

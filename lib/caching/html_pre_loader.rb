@@ -6,8 +6,10 @@ module Caching
     include Rails.application.routes.url_helpers
 
     def perform
-      urls.each do |url|
-        open("#{Rails.configuration.base_url}#{url}").read rescue nil
+      if Rails.env.production?
+        urls.each do |url|
+          open("#{Rails.configuration.base_url}#{url}").read rescue nil
+        end
       end
     end
 

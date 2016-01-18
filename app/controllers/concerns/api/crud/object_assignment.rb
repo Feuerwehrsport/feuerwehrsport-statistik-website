@@ -55,7 +55,9 @@ module API
 
       def save_instance
         authorize!(action_name.to_sym, resource_instance)
-        resource_instance.save
+        saved = resource_instance.save
+        clean_cache_and_build_new if saved
+        saved
       end
     end
   end

@@ -16,6 +16,7 @@ module MergeAction
         unless resource_instance.reload.destroy
           raise ActiveRecord::ActiveRecordError.new("Could not destroy #{resource_variable_name} with id ##{resource_instance.id}")
         end
+        clean_cache_and_build_new
         success(resource_variable_name.to_sym => @correct_resource_instance.reload.decorate, resource_name: resource_variable_name)
       end
     rescue ActiveRecord::ActiveRecordError => error

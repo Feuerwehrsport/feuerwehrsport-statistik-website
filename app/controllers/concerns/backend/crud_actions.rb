@@ -64,11 +64,15 @@ module Backend
     protected
 
     def save_instance
-      resource_instance.save
+      saved = resource_instance.save
+      clean_cache_and_build_new if saved
+      saved
     end
 
     def destroy_instance
-      resource_instance.destroy
+      destroyed = resource_instance.destroy
+      clean_cache_and_build_new if destroyed
+      destroyed
     end
 
     def accessible_collection

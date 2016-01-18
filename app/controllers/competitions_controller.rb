@@ -20,10 +20,16 @@ class CompetitionsController < ResourceController
       CompetitionFile.new(competition: @competition, file: competition_file_params[:file], keys_params: competition_file_params)
     end
 
+    @saved = false
     if @competition_files.all?(&:valid?)
-      @saved = @competition_files.all?(&:save)
-    else
-      @saved = false
+      CompetitionFile.transaction do
+        @saved = @competition_files.all?(&:save!)
+      end
+    end
+
+    if @saved
+      # TODO: Diese methode gehört in die API
+      clean_cache_and_build_new 
     end
   end
 end
