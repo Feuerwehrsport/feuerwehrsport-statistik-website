@@ -1,42 +1,40 @@
 module LinksHelper
   def competition_link(competition, options={})
-    type = options.delete(:type) || :to_s
     options = options.merge(title: "Details zu diesem Wettkampf anzeigen")
-    link_to(competition.send(type), competition, options)
+    details_link(competition, options)
   end
 
   def event_link(event, options={})
-    type = options.delete(:type) || :to_s
     options = options.merge(title: "Details zu diesem Wettkampftyp anzeigen")
-    link_to(event.send(type), event, options)
+    details_link(event, options)
   end
 
   def place_link(place, options={})
-    type = options.delete(:type) || :to_s
-    options = options.merge(title: "Details zu diesem Ort anzeigen")
-    link_to(place.send(type), place, options)
+    options = options.merge(title: "Details zu diesem Wettkampfort anzeigen")
+    details_link(place, options)
   end
 
   def person_link(person, options={})
-    options = options.dup
-    type = options.delete(:type) || :to_s
-    options = options.merge(title: "Details zu #{person.full_name} anzeigen")
-    link_to(person.send(type), person, options)
+    options = options.merge(title: "Details zu #{person.try(:full_name)} anzeigen")
+    details_link(person, options)
   end
 
   def team_link(team, options={})
-    type = options.delete(:type) || :to_s
-    options = options.merge(title: "Details zu #{team.name} anzeigen")
-    link_to(team.send(type), team, options)
+    options = options.merge(title: "Details zu #{team.try(:name)} anzeigen")
+    details_link(team, options)
   end
 
   def year_link(year, options={})
-    type = options.delete(:type) || :to_s
     options = options.merge(title: "Details zu dem Jahr #{year.to_s} anzeigen")
-    link_to(year.send(type), year, options)
+    details_link(year, options)
   end
 
   def contact_link(label)
     link_to(label, impressum_path, title: "Kontakt und Impressum")
+  end
+
+  def details_link(object, options)
+    type = options.delete(:type) || :to_s
+    object.send(type).blank? ?  "" : link_to(object.send(type), object, options)
   end
 end

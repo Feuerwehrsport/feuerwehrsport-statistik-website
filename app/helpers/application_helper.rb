@@ -43,6 +43,7 @@ module ApplicationHelper
   end
 
   def numbered_team_name(score, options={})
+    return "" if score.team.blank?
     number_name = begin
       if score.team_number == -1
         " E"   

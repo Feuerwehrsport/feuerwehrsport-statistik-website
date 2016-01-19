@@ -18,14 +18,14 @@
     .col-md-9= @chart.discipline_scores(ds.discipline, ds.chart_scores)
 
   = count_table(ds.scores, class: "datatable-person-scores") do |t|
-    - t.col("Datum", class: "col70") { |row| link_to(l(row.competition.date), row.competition) }
-    - t.col("Typ", class: "col70") { |row| link_to(row.competition.event, row.competition.event) }
-    - t.col("Ort", class: "col70") { |row| link_to(row.competition.place, row.competition.place) }
+    - t.col("Datum", class: "col70 info-link") { |row| competition_link(row.competition, type: :l_date) }
+    - t.col("Typ", class: "col70 small") { |row| event_link(row.competition.event) }
+    - t.col("Ort", class: "col70 small") { |row| place_link(row.competition.place) }
     - if ds.discipline == :zk
       - t.col("HB", :second_hb, class: "col70")
       - t.col("HL", :second_hl, class: "col70")
     - else
-      - t.col("Team", class: "col70") { |row| link_to(row.team, row.team) }
+      - t.col("Team", class: "col70") { |row| link_to(numbered_team_name(row), row.team) }
     - if group_discipline?(ds.discipline)
       - t.col("Ausschreibung", :group_score_type, class: "small")
       - t.col("Position", class: "small") { |row| competitor_position(ds.discipline, row.position, @person.gender)}
@@ -34,7 +34,7 @@
   - if ds.discipline.in?([:gs, :fs, :la])
     %h3= "#{discipline_name(ds.discipline)} - Mannschaftsmitglieder"
     = count_table(ds.team_mates, class: "datatable-team-mates") do |t|
-      - t.col("Person", class: "col-md-2") { |row| link_to(row.person.full_name, row.person) }
+      - t.col("Person", class: "col-md-2") { |row| person_link(row.person, type: :full_name) }
       - t.col("Läufe", class: "col-md-1") { |row| row.scores.count }
       - t.col("Wettkämpfe", class: "col-md-9 small") { |row| row.scores.map(&:group_score_category).map(&:competition).uniq.sort_by(&:date).map { |c| link_to(c.short_name, c) }.join(", ").html_safe }
     %h3= "#{discipline_name(ds.discipline)} - Gelaufene Positionen"
