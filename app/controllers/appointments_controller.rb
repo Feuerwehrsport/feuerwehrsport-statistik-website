@@ -4,7 +4,7 @@ class AppointmentsController < ResourceController
   cache_actions :index, :show
 
   def index
-    @rows = Appointment.upcoming.decorate
+    @rows = Appointment.upcoming.includes(:place, :event).decorate
 
     if request.format.ics?
       calendar_response("feuerwehrsport-statistik-termine", @rows, "PUBLISH")
