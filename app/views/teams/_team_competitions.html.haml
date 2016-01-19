@@ -1,10 +1,10 @@
 - if @team_competitions.present?
   = toc.anker("Wettkämpfe", :h2)
   = count_table(@team_competitions, class: "datatable-team-competitions") do |ct|
-    - ct.col("Datum") { |row| competition_link(row, type: :date) }
-    - ct.col("Typ") { |row| event_link(row.event) }
-    - ct.col("Ort") { |row| place_link(row.place) }
-    - ct.col("Name") { |row| competition_link(row, type: :name) }
+    - ct.col("Datum", class: "col-10 info-link") { |row| competition_link(row, type: :date) }
+    - ct.col("Typ", class: "col-15 small") { |row| event_link(row.event) }
+    - ct.col("Ort", class: "col-15 small") { |row| place_link(row.place) }
+    - ct.col("Name", class: "col-20 info-link") { |row| competition_link(row, type: :name) }
 
     - [:hl, :hb, :gs, :fs, :la].each do |discipline|
       - ct.col(discipline_name_short(discipline), discipline, class: "col-5", th_options: { title: discipline_name(discipline) })
