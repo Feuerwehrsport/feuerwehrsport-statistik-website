@@ -20,17 +20,18 @@
 
   = toc.anker("Wettkämpfe")
   = count_table(@competitions, class: "datatable-year-competitons") do |t|
-    - t.col("Datum", class: "col-10") { |row| link_to(l(row.date), row) }
-    - t.col("Ort", class: "col-10") { |row| link_to(row.place, row.place) }
-    - t.col("Name", class: "col-20") { |row| link_to(row.name, row) }
-    - t.col("HBw", class: "col-5") { |row| count_or_zero(row.hb_female) }
-    - t.col("HBm", class: "col-5") { |row| count_or_zero(row.hb_male) }
-    - t.col("HLw", class: "col-5") { |row| count_or_zero(row.hl_female) }
-    - t.col("HLm", class: "col-5") { |row| count_or_zero(row.hl_male) }
-    - t.col("GS", class: "col-5") { |row| count_or_zero(row.gs) }
-    - t.col("FSw", class: "col-5") { |row| count_or_zero(row.fs_female) }
-    - t.col("FSm", class: "col-5") { |row| count_or_zero(row.fs_male) }
-    - t.col("LAw", class: "col-5") { |row| count_or_zero(row.la_female) }
-    - t.col("LAm", class: "col-5") { |row| count_or_zero(row.la_male) }
+    - t.col("Datum", class: "col-10 info-link") { |row| competition_link(row, type: :l_date) }
+    - t.col("Ort", class: "col-10 small") { |row| place_link(row.place) }
+    - t.col("Typ", class: "col-10 small") { |row| event_link(row.event) }
+    - t.col("Name", class: "col-20 info-link") { |row| competition_link(row, type: :name) }
+    - t.col("HBw", th_options: { class: "small" }, class: "col-5") { |row| count_or_zero(row.hb_female) }
+    - t.col("HBm", th_options: { class: "small" }, class: "col-5") { |row| count_or_zero(row.hb_male) }
+    - t.col("HLw", th_options: { class: "small" }, class: "col-5") { |row| count_or_zero(row.hl_female) }
+    - t.col("HLm", th_options: { class: "small" }, class: "col-5") { |row| count_or_zero(row.hl_male) }
+    - t.col("GS", th_options: { class: "small" }, class: "col-5") { |row| count_or_zero(row.gs) }
+    - t.col("FSw", th_options: { class: "small" }, class: "col-5") { |row| count_or_zero(row.fs_female) }
+    - t.col("FSm", th_options: { class: "small" }, class: "col-5") { |row| count_or_zero(row.fs_male) }
+    - t.col("LAw", th_options: { class: "small" }, class: "col-5") { |row| count_or_zero(row.la_female) }
+    - t.col("LAm", th_options: { class: "small" }, class: "col-5") { |row| count_or_zero(row.la_male) }
 
   = render 'calculation/competitions_discipline_overview', toc: toc
