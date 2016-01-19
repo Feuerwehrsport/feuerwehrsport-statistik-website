@@ -1,7 +1,7 @@
 class CreateGroupScoreParticipations < ActiveRecord::Migration
   def up
     create_sql = PersonParticipation.
-        select("person_id, team_id, competition_id, group_score_type_id, discipline, time, position").
+        select("person_id, team_id, team_number, competition_id, group_score_type_id, discipline, time, position").
         joins(:group_score).
         joins(group_score: :group_score_category).
         joins(group_score: { group_score_category: :group_score_type }).
