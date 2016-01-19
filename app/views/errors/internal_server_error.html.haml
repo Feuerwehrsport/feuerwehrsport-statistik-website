@@ -1,0 +1,12 @@
+.row
+  .col-md-2
+    = design_image("dialog-warning")
+  .col-md-10
+    %h1
+      Fehler beim Seitenaufbau
+      %small Error 500 - internal server error
+    %p Beim Berechnen der Seite gab es einen Fehler. Der Administrator wird darüber informiert.
+
+    %ul
+      %li= link_to("Startseite", root_path)
+      %li= contact_link("Kontakt")

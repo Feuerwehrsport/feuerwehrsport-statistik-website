@@ -31,6 +31,9 @@ module FeuerwehrsportStatistik
     config.base_url = "http://localhost:5060"
     config.caching = true
 
+    # dynamic error handling
+    config.exceptions_app = self.routes
+
     config.wettkampf_manager_path = "#{Rails.root}/spec/fixtures/wettkampf_manager"
 
     # action_mailer

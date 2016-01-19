@@ -1,0 +1,12 @@
+.row
+  .col-md-2
+    = design_image("dialog-warning")
+  .col-md-10
+    %h1
+      Seite nicht gefunden
+      %small Error 404 - page not found
+    %p Eventuell sind Sie mit einem veralteten Link auf diese Seite gekommen.
+
+    %ul
+      %li= link_to("Startseite", root_path)
+      %li= contact_link("Kontakt")

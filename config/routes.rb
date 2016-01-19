@@ -104,4 +104,8 @@ Rails.application.routes.draw do
   get :records, to: 'pages#records'
   get :best_of, to: 'pages#best_of'
   root to: 'pages#dashboard'
+
+  # error handling
+  get "/404" => "errors#not_found"
+  get "/500" => "errors#internal_server_error"
 end
