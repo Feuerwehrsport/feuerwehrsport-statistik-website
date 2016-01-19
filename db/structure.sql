@@ -500,6 +500,7 @@ CREATE TABLE person_participations (
 CREATE VIEW group_score_participations AS
  SELECT person_participations.person_id,
     group_scores.team_id,
+    group_scores.team_number,
     group_score_categories.competition_id,
     group_score_categories.group_score_type_id,
     group_score_types.discipline,
