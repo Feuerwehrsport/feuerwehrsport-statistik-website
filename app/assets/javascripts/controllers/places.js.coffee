@@ -44,7 +44,7 @@ $ () ->
       markers = for marker in elem.data('map').markers
         L.circle(marker.latlon, marker.count*200, icon: FssMap.defaultIcon()).bindPopup(marker.popup).addTo(map)
       setTimeout( ->
-        map.fitBounds(L.featureGroup(markers).getBounds(), padding: [20, 20])
+        map.fitBounds([[49.4, 5.9],[54.5, 16.8]])
       , 300)
 
   loadMap()
