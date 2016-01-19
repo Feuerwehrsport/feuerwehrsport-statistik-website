@@ -4,7 +4,8 @@
     Neuigkeiten vom
     = l(@news.published_at, format: :only_date)
 .row
-  .col-md-1
+  .col-md-2
+    = design_image("applications-office")
   .col-md-8
     = @news.content.html_safe
   .col-md-1
