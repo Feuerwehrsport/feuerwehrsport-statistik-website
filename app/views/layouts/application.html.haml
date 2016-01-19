@@ -3,6 +3,7 @@
   %head
     %title= page_title
     %meta{:content => "text/html;charset=utf-8", "http-equiv" => "content-type"}/
+    = favicon_link_tag
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
     = javascript_include_tag "controllers/#{controller_path}" if Rails.application.assets.find_asset("controllers/#{controller_path}.js")
