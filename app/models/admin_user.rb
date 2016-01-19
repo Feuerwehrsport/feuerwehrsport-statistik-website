@@ -11,6 +11,8 @@ class AdminUser < ActiveRecord::Base
 
   has_many :news, dependent: :restrict_with_exception
 
+  scope :change_request_notification_receiver, -> { where(role: [:sub_admin, :admin] ) }
+
   validates :name, presence: true
   validates :role, inclusion: { in: ROLES }
 
@@ -20,5 +22,11 @@ class AdminUser < ActiveRecord::Base
 
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
+  end
+
+  def named_email_address
+    address = Mail::Address.new email
+    address.display_name = name
+    address.format
   end
 end

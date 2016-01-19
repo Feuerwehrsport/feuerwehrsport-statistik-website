@@ -14,6 +14,10 @@ class ChangeRequest < ActiveRecord::Base
     end
   end
 
+  def user
+    admin_user || api_user
+  end
+
   def content
     (super || {}).deep_symbolize_keys
   end

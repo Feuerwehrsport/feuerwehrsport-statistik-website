@@ -5,6 +5,6 @@ class AdminUserDecorator < ApplicationDecorator
   decorates_association :news
 
   def to_s
-    email
+    name
   end
 end
