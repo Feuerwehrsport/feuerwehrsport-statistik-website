@@ -4,9 +4,9 @@
   .col-md-9
     = count_table(@rows, class: "datatable-appointments") do |t|
       - t.col("Datum", class: "col-10") { |row| l(row.dated_at) }
-      - t.col("Veranstaltung", class: "col-20") { |row| link_to(row.name, row) }
-      - t.col("Ort", class: "col-20") { |row| place_link(row.place) }
-      - t.col("Typ", class: "col-20") { |row| event_link(row.event) }
+      - t.col("Veranstaltung", class: "col-20 info-link") { |row| link_to(row.name, row) }
+      - t.col("Ort", class: "col-20 small") { |row| place_link(row.place) }
+      - t.col("Typ", class: "col-20 small") { |row| event_link(row.event) }
       - t.col("Disziplinen", :discipline_images, class: "col-20")
   .col-md-3
     %p

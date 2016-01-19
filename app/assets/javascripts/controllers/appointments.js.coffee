@@ -1,4 +1,5 @@
 $ () ->
+  new SortTable(selector: ".datatable-appointments", direction: 'asc')
 
   editAppointment = (headline, places, events, values, submitCallback) ->
     placeOptions = [ value: 'NULL', display: '----' ]
