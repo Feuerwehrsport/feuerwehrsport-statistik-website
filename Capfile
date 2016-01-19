@@ -40,6 +40,11 @@ namespace :deploy do
     run_without_rvm "mkdir -p #{shared_path}/uploads"
     run_without_rvm "ln -nfs #{shared_path}/uploads #{release_path}/public/uploads"
   end
+
+  task :generate_500_html do
+    public_500_html = File.join(release_path, "public/500.html")
+    run_without_rvm "curl -k https://#{nginx_server_name}/500 > #{public_500_html}"
+  end
 end
 
 namespace :rvm do
