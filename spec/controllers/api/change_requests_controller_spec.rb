@@ -4,12 +4,20 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
   let(:files_data) { {} }
   let!(:change_request) { ChangeRequest.create!(content: { key: "person-nation-changed", data: { person_id: 1 }}, files_data: files_data) }
   describe 'POST create' do
+    subject { -> { post :create, change_request: { content: { foo: { bar: "1" } } } } }
     it "creates new change request", login: :api do
       expect {
-        post :create, change_request: { content: { foo: { bar: "1" } } }
+        subject.call
         expect_api_login_response
       }.to change(ChangeRequest, :count).by(1)
       expect(ChangeRequest.last.content).to eq foo: { bar: "1" }
+    end
+
+    it "sends notification", login: :api do
+      expect {
+        subject.call
+        expect_api_login_response
+      }.to change(ActionMailer::Base.deliveries, :count).by(1)
     end
   end
 
@@ -23,7 +31,6 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
         content: { key: "person-nation-changed", data: { person_id: 1 }},
         done_at: nil,
         files: [],
-        id: 3,
       )
     end
     it_behaves_like "api user get permission error"

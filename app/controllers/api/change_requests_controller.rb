@@ -33,6 +33,11 @@ module API
       super.permit(:done)
     end
 
+    def before_create_success
+      deliver(ChangeRequestMailer, :new_notification, resource_instance)
+      super
+    end
+
     def permit_scalar_attributes(attributes)
       attributes.keys.map do |key|
         if attributes[key].is_a?(Hash)
