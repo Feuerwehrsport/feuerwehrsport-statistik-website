@@ -44,7 +44,7 @@ class ErrorsController < ApplicationController
   protected
 
   def old_path_redirects
-    current_path = request.env["ORIGINAL_FULLPATH"]
+    current_path = request.env["ORIGINAL_FULLPATH"] || return
     OLD_PATHS.each do |regexp, old_path|
       old_path_match = OldPathMatch.new(regexp, old_path, current_path)
       redirect_to(old_path_match.redirect_target, status: :moved_permanently) if old_path_match.match?
