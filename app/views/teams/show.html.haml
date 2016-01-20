@@ -16,7 +16,9 @@
           %td= @team_members.count
         %tr
           %th Land/Bundesland
-          %td= @team.full_state
+          %td
+            = @team.full_state
+            #edit-state.btn.btn-xs.btn-default.glyphicon.glyphicon-pencil{ data: { team_id: @team.id, state: @team.state }, title: "Bundesland bearbeiten" }
         %tr
           %th Webseite
           %td= render('links', links: @team.links, linkable_type: "Team", linkable_id: @team.id)

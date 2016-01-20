@@ -27,7 +27,7 @@ class State
 
   FEDERAL = [
     'BW',
-    'BY',
+    # 'BY',
     'BE',
     'BB',
     'HB',
@@ -49,5 +49,7 @@ class State
     'DE',
     'AT',
     'PL',
+    'BY',
+    'HU',
   ]
 end
