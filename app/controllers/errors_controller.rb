@@ -1,5 +1,6 @@
 class ErrorsController < ApplicationController
   before_action :old_path_redirects
+  before_action :entity_merge_redirects
 
   OLD_PATHS = [
     [/^\/page\/administration\.html$/, '/backend'],
@@ -43,11 +44,27 @@ class ErrorsController < ApplicationController
 
   protected
 
+  def original_fullpath
+    request.env["ORIGINAL_FULLPATH"]
+  end
+
+  def redirect_with_log(target, log_message)
+    logger.info("ERROR_CONTROLLER_REDIRECT_INFO[#{log_message}]: #{original_fullpath}  [->]  #{target}")
+    redirect_to(target, status: :moved_permanently)
+  end
+
+  def entity_merge_redirects
+    current_path = original_fullpath || return
+    match = current_path.match(/^\/(?<table>people|teams)\/(?<id>\d+)$/)
+    entity_merge = EntityMerge.where(source_type: match[:table].singularize.classify, source_id: match[:id]).first if match
+    redirect_with_log(url_for(entity_merge.target), :entity_merge_redirects) if entity_merge
+  end
+
   def old_path_redirects
-    current_path = request.env["ORIGINAL_FULLPATH"] || return
+    current_path = original_fullpath || return
     OLD_PATHS.each do |regexp, old_path|
       old_path_match = OldPathMatch.new(regexp, old_path, current_path)
-      redirect_to(old_path_match.redirect_target, status: :moved_permanently) if old_path_match.match?
+      redirect_with_log(old_path_match.redirect_target, :old_path_redirects) if old_path_match.match?
     end
   end
 

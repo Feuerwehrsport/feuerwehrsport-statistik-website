@@ -416,6 +416,40 @@ ALTER SEQUENCE delayed_jobs_id_seq OWNED BY delayed_jobs.id;
 
 
 --
+-- Name: entity_merges; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE entity_merges (
+    id integer NOT NULL,
+    source_id integer NOT NULL,
+    source_type character varying NOT NULL,
+    target_id integer NOT NULL,
+    target_type character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: entity_merges_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE entity_merges_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: entity_merges_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE entity_merges_id_seq OWNED BY entity_merges.id;
+
+
+--
 -- Name: events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1152,6 +1186,13 @@ ALTER TABLE ONLY delayed_jobs ALTER COLUMN id SET DEFAULT nextval('delayed_jobs_
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY entity_merges ALTER COLUMN id SET DEFAULT nextval('entity_merges_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY events ALTER COLUMN id SET DEFAULT nextval('events_id_seq'::regclass);
 
 
@@ -1343,6 +1384,14 @@ ALTER TABLE ONLY competitions
 
 ALTER TABLE ONLY delayed_jobs
     ADD CONSTRAINT delayed_jobs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: entity_merges_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY entity_merges
+    ADD CONSTRAINT entity_merges_pkey PRIMARY KEY (id);
 
 
 --
@@ -1600,6 +1649,20 @@ CREATE INDEX index_competitions_on_place_id ON competitions USING btree (place_i
 --
 
 CREATE INDEX index_competitions_on_score_type_id ON competitions USING btree (score_type_id);
+
+
+--
+-- Name: index_entity_merges_on_source_type_and_source_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_entity_merges_on_source_type_and_source_id ON entity_merges USING btree (source_type, source_id);
+
+
+--
+-- Name: index_entity_merges_on_target_type_and_target_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_entity_merges_on_target_type_and_target_id ON entity_merges USING btree (target_type, target_id);
 
 
 --
@@ -2022,4 +2085,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160108072218');
 INSERT INTO schema_migrations (version) VALUES ('20160108114749');
 
 INSERT INTO schema_migrations (version) VALUES ('20160117083000');
+
+INSERT INTO schema_migrations (version) VALUES ('20160120082100');
 

@@ -13,6 +13,7 @@ module MergeAction
           "#{resource_class}Spelling".constantize.create_from(@correct_resource_instance, resource_instance)
         end
         merge_change_log
+        create_entity_merge
         unless resource_instance.reload.destroy
           raise ActiveRecord::ActiveRecordError.new("Could not destroy #{resource_variable_name} with id ##{resource_instance.id}")
         end
@@ -43,5 +44,9 @@ module MergeAction
 
   def correct_variable_name
     :"correct_#{resource_variable_name}_id"
+  end
+
+  def create_entity_merge
+    EntityMerge.create!(source: resource_instance, target: @correct_resource_instance)
   end
 end

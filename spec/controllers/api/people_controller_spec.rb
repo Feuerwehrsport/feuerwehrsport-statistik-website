@@ -90,6 +90,12 @@ RSpec.describe API::PeopleController, type: :controller do
         translated_gender: "weiblich",
       )
     end
+
+    it "creates entity_merge", login: :sub_admin do
+      expect {
+        subject.call
+      }.to change(EntityMerge, :count).by(1)
+    end
     it_behaves_like "api user get permission error"
   end
 end

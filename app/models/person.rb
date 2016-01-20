@@ -11,6 +11,7 @@ class Person < ActiveRecord::Base
   has_many :teams, through: :team_members
   has_many :person_spellings, dependent: :restrict_with_exception
   has_many :series_participations, dependent: :restrict_with_exception, class_name: 'Series::PersonParticipation'
+  has_many :entity_merges, as: :target
 
   scope :with_score_count, -> do
     select("
@@ -41,5 +42,6 @@ class Person < ActiveRecord::Base
     person_participations.update_all(person_id: correct_person.id)
     person_spellings.update_all(person_id: correct_person.id)
     series_participations.update_all(person_id: correct_person.id)
+    entity_merges.update_all(target_id: correct_person.id)
   end
 end

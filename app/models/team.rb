@@ -19,6 +19,7 @@ class Team < ActiveRecord::Base
   has_many :links, as: :linkable, dependent: :restrict_with_exception
   has_many :team_spellings, dependent: :restrict_with_exception
   has_many :series_participations, dependent: :restrict_with_exception, class_name: 'Series::TeamParticipation'
+  has_many :entity_merges, as: :target
 
   mount_uploader :image, TeamLogoUploader
   change_request_upload(:image)
@@ -108,6 +109,7 @@ class Team < ActiveRecord::Base
     links.update_all(linkable_id: correct_team.id)
     team_spellings.update_all(team_id: correct_team.id)
     series_participations.update_all(team_id: correct_team.id)
+    entity_merges.update_all(target_id: correct_person.id)
   end
 
   private
