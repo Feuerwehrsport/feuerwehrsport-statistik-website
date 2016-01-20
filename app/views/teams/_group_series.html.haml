@@ -14,7 +14,9 @@
         %tr
           - if i == 0
             %td{ rowspan: structs.count }= name
-          %td= struct.round.year
+          %td
+            = struct.round.year
+            %small= "#{g(struct.gender)} #{struct.team_number + 1}"
           %td= "#{struct.row.rank}."
           %td= struct.row.points
 

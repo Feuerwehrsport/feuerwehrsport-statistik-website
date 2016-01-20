@@ -34,12 +34,16 @@ module Series
       round_structs = {}
       Series::Round.with_team(team_id).decorate.each do |round|
         round_structs[round.name] ||= []
-        round.team_assessment_rows(:male).select { |r| r.team.id == team_id }.each do |row|
-          round_structs[round.name].push OpenStruct.new(
-            round: round,
-            cups: round.cups,
-            row: row.decorate,
-          )
+        [:female, :male].each do |gender|
+          round.team_assessment_rows(gender).select { |r| r.team.id == team_id }.each do |row|
+            round_structs[round.name].push OpenStruct.new(
+              round: round,
+              cups: round.cups,
+              row: row.decorate,
+              gender: gender,
+              team_number: row.team_number,
+            )
+          end
         end
       end
       round_structs
