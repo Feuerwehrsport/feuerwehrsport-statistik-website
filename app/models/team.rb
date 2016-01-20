@@ -109,7 +109,7 @@ class Team < ActiveRecord::Base
     links.update_all(linkable_id: correct_team.id)
     team_spellings.update_all(team_id: correct_team.id)
     series_participations.update_all(team_id: correct_team.id)
-    entity_merges.update_all(target_id: correct_person.id)
+    entity_merges.update_all(target_id: correct_team.id)
   end
 
   private
