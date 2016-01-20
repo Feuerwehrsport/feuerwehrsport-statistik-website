@@ -1,0 +1,2 @@
+class EntityMergeDecorator < ApplicationDecorator
+end
