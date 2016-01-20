@@ -9,7 +9,7 @@ class PlacesController < ResourceController
     @place = Place.find(params[:id])
     @competitions = @place.competitions.with_disciplines_count.includes(:event).decorate
     @chart = Chart::CompetitionsScoreOverview.new(competitions: @competitions)
-    @competitions_discipline_overview = Calculation::CompetitionsScoreOverview.new(@competitions.map(&:id)).disciplines
+    @competitions_discipline_overview = Calculation::CompetitionsScoreOverview.new(@competitions).disciplines
     @page_title = "#{@place.decorate} - Wettkampfort"
   end
 end
