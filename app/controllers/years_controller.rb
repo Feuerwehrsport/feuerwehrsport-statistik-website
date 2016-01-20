@@ -10,7 +10,7 @@ class YearsController < ResourceController
     @year = Year.find_by_year!(params[:id]).decorate
     @competitions = @year.competitions.with_disciplines_count.includes(:place, :event).decorate
     @chart = Chart::CompetitionsScoreOverview.new(competitions: @competitions)
-    @competitions_discipline_overview = Calculation::CompetitionsScoreOverview.new(@competitions).disciplines
+    @competitions_discipline_overview = Calculation::CompetitionsScoreOverview.new(@competitions.map(&:id)).disciplines
     @page_title = "Jahr #{@year}"
   end
 
