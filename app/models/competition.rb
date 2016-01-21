@@ -28,6 +28,33 @@ class Competition < ActiveRecord::Base
     la_female = GroupScore.discipline(:la).gender(:female).select("COUNT(*)").where("group_score_categories.competition_id = #{table_name}.id").to_sql
     la_male = GroupScore.discipline(:la).gender(:male).select("COUNT(*)").where("group_score_categories.competition_id = #{table_name}.id").to_sql
 
+    group_score_sql = GroupScore
+      .select("CONCAT(team_id,'-',gender,'-',team_number) AS team")
+      .joins(:group_score_category)
+      .where("group_score_categories.competition_id = competitions.id")
+      .to_sql
+    score_sql = Score
+      .no_finals
+      .with_team
+      .joins(:person)
+      .select("CONCAT(team_id,'-',gender,'-',team_number) AS team")
+      .where("competition_id = competitions.id")
+      .to_sql
+    teams_count_sql = "
+      SELECT COUNT(*)
+      FROM (
+        #{group_score_sql}
+        UNION
+        #{score_sql}
+      ) teams_counts"
+
+    people_sql = Score
+      .group(:person_id)
+      .select(:person_id)
+      .where("competition_id = competitions.id")
+      .to_sql
+    person_count_sql = "SELECT COUNT(*) FROM (#{people_sql}) person_count"
+
     select("#{table_name}.*").
     select("(#{hl_female}) AS hl_female").
     select("(#{hl_male}) AS hl_male").
@@ -37,22 +64,9 @@ class Competition < ActiveRecord::Base
     select("(#{fs_female}) AS fs_female").
     select("(#{fs_male}) AS fs_male").
     select("(#{la_female}) AS la_female").
-    select("(#{la_male}) AS la_male")
-  end
-
-  def team_count
-    @team_count ||= self.class.count_by_sql("
-      SELECT COUNT(*)
-      FROM (
-        #{group_scores.select("CONCAT(team_id,'-',gender,'-',team_number) AS team").to_sql}
-        UNION
-        #{scores.no_finals.with_team.joins(:person).select("CONCAT(team_id,'-',gender,'-',team_number) AS team").to_sql}
-      ) i
-    ")
-  end
-
-  def people_count
-    @people_count ||= self.class.count_by_sql("SELECT COUNT(*) FROM (#{scores.group(:person_id).select(:person_id).to_sql}) i")
+    select("(#{la_male}) AS la_male").
+    select("(#{teams_count_sql}) AS teams_count").
+    select("(#{person_count_sql}) AS people_count")
   end
 
   def group_assessment(discipline, gender)

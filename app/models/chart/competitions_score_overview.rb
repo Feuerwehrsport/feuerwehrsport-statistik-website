@@ -81,13 +81,13 @@ module Chart
     def teams_count_overview
       counts = Hash.new 0
       @competitions.each do |competition| 
-        if competition.team_count == 0
+        if competition.teams_count == 0
           counts[0] += 1
-        elsif competition.team_count < 11
+        elsif competition.teams_count < 11
           counts[1] += 1
-        elsif competition.team_count < 21
+        elsif competition.teams_count < 21
           counts[2] += 1
-        elsif competition.team_count < 31
+        elsif competition.teams_count < 31
           counts[3] += 1
         else
           counts[4] += 1
