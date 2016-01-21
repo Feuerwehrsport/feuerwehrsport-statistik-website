@@ -6,7 +6,7 @@ RSpec.describe CompetitionsController, type: :controller do
       get :index
       expect(assigns(:competitions).count).to eq 304
       expect(assigns(:chart)).to be_instance_of(Chart::CompetitionsScoreOverview)
-      expect(assigns(:competitions_discipline_overview).count).to eq 5
+      expect(assigns(:competitions_discipline_overview).count).to eq 3
     end
   end
 
