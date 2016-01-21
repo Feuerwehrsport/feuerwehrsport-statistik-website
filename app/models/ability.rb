@@ -29,6 +29,7 @@ class Ability
     can :manage, ScoreType
     can :manage, Score
     can :manage, Team
+    can :manage, Import::Scores
   end
 
   def user_abilities
