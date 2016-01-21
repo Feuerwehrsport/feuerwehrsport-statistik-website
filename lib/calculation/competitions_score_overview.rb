@@ -1,64 +1,62 @@
 module Calculation
-  class CompetitionsScoreOverview < Struct.new(:competition_ids)
-    def years
-      @years ||= Year.all
-    end
-
+  class CompetitionsScoreOverview < Struct.new(:competitions)
     def disciplines
-      [
-        DisciplineOverview.new(:hb, :female, competition_ids, years),
-        DisciplineOverview.new(:hb, :male, competition_ids, years),
-        DisciplineOverview.new(:hl, :female, competition_ids, years),
-        DisciplineOverview.new(:hl, :male, competition_ids, years),
-        DisciplineOverview.new(:gs, :female, competition_ids, years),
-        DisciplineOverview.new(:la, :female, competition_ids, years),
-        DisciplineOverview.new(:la, :male, competition_ids, years),
-        DisciplineOverview.new(:fs, :female, competition_ids, years),
-        DisciplineOverview.new(:fs, :male, competition_ids, years),
-      ].each(&:types).reject { |discipline| discipline.types.count == 0 }
+      ds = {}
+
+      Score.yearly_best(competitions).decorate.each do |score|
+        ds[score.discipline] ||= {}
+        ds[score.discipline][score.person.gender] ||= DisciplineOverview.new(score.discipline, score.person.gender, competitions)
+        ds[score.discipline][score.person.gender].edit_types.years[score.competition.year] ||= []
+        ds[score.discipline][score.person.gender].edit_types.years[score.competition.year].push(score)
+      end
+
+      GroupScore.yearly_best(competitions).decorate.each do |score|
+        discipline = score.group_score_category.group_score_type.discipline
+        ds[discipline] ||= {}
+        ds[discipline][score.gender] ||= DisciplineOverview.new(discipline, score.gender, competitions)
+        ds[discipline][score.gender].edit_types(score.group_score_category.group_score_type).years[score.group_score_category.competition.year] ||= []
+        ds[discipline][score.gender].edit_types(score.group_score_category.group_score_type).years[score.group_score_category.competition.year].push(score)
+      end
+      ds
     end
 
-    class DisciplineOverview < Struct.new(:discipline, :gender, :competition_ids, :all_years)
-      def types
-        @scores ||= generate_types
+    class DisciplineOverview < Struct.new(:discipline, :gender, :competitions)
+      attr_reader :types
+
+      def edit_types(type=nil)
+        @types ||= {}
+        @types[type.to_param] ||= TypeOverview.new(scores_relation(type), type)
       end
 
-      def generate_types
-        types = Discipline.group?(discipline) ? group_score_types : single_score_types
-        types.reject { |type| type.count == 0 }
+      def scores_relation(type)
+        Discipline.group?(discipline.to_sym) ? group_scores_relations(type) : single_scores_relations
       end
 
-      def single_score_types
-        scores = Score.where(competition: competition_ids).german.discipline(discipline).gender(gender)
-        [ TypeOverview.new(nil, scores, all_years) ]
+      def single_scores_relations
+        Score
+          .where(competition: competitions)
+          .german
+          .discipline(discipline)
+          .gender(gender)
       end
 
-      def group_score_types
-        GroupScoreType.where(discipline: discipline).map do |group_score_type|
-          scores = GroupScore.
-            joins(:group_score_category).
-            where(group_score_categories: { competition_id: competition_ids, group_score_type_id: group_score_type.id }).
-            gender(gender)
-          TypeOverview.new(group_score_type.decorate, scores, all_years)
-        end
+      def group_scores_relations(type)
+        GroupScore
+          .joins(:group_score_category)
+          .where(group_score_categories: { competition_id: competitions, group_score_type_id: type.id })
+          .gender(gender)
       end
     end
 
-    class TypeOverview < Struct.new(:type, :scores, :all_years)
-      attr_reader :count, :average, :best, :years
+    class TypeOverview
+      attr_reader :count, :average, :best, :years, :type
 
-      def initialize(*args)
-        super
-        years = {}
-        all_years.each do |year|
-          best = scores.year(year).valid.order(:time).limit(1).first.try(:decorate)
-          years[year.decorate] = best if best.present?
-        end
-        
+      def initialize(scores, type)
+        @type = type
         @count = scores.count
         @average = scores.valid.average(:time)
         @best = scores.valid.order(:time).limit(1).first.try(:decorate)
-        @years = years
+        @years = {}
       end
     end
   end

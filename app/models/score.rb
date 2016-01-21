@@ -34,6 +34,42 @@ class Score < ActiveRecord::Base
     from("(#{sql}) AS #{table_name}").where("r=1")
   end
 
+  scope :yearly_best, -> (competitions) do
+    times_subquery = Score
+      .joins(:competition, :person)
+      .select("
+        #{Score.table_name}.discipline, 
+        #{Person.table_name}.gender, 
+        EXTRACT(YEAR FROM #{Competition.table_name}.date) AS year,
+        MIN(#{Score.table_name}.time) AS time
+      ")
+      .german
+      .where(competition_id: competitions)
+      .group("
+        #{Score.table_name}.discipline, 
+        #{Person.table_name}.gender, 
+        EXTRACT(YEAR FROM #{Competition.table_name}.date)
+      ")
+      .to_sql
+
+    scores_subquery = Score
+      .joins(:competition, :person)
+      .joins("INNER JOIN times t ON t.discipline = #{Score.table_name}.discipline AND t.time = #{Score.table_name}.time AND t.year = EXTRACT(YEAR FROM #{Competition.table_name}.date) AND t.gender = #{Person.table_name}.gender")
+      .select("
+        #{Score.table_name}.id
+      ")
+      .german
+      .where(competition_id: competitions)
+      .to_sql
+
+    includes(:person, competition: [:place, :event]).where("#{Score.table_name}.id IN (WITH times AS (#{times_subquery}) #{scores_subquery})").joins(:person, :competition)
+    .order("
+      #{Score.table_name}.discipline, 
+      #{Person.table_name}.gender, 
+      EXTRACT(YEAR FROM #{Competition.table_name}.date)
+    ")
+  end
+
   def uniq_team_id
     "#{competition_id}-#{team_id}-#{team_number}"
   end

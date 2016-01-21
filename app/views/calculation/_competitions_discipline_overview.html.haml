@@ -24,34 +24,36 @@
 = toc.anker("Bestenliste", :h2)
 .calculation-area
   = nav_tab do |t|
-    - @competitions_discipline_overview.each do |discipline|
-      - t.tab(discipline_image_name_short(discipline.discipline, discipline.gender)) do
-        - discipline.types.each do |type|
-          .row
-            .col-md-6
-              - if type.type.present?
-                %h4= type.type
-              %table.table
-                %tr
-                  %th.col-md-1 Durchschnitt
-                  %td.col-md-1= "#{ApplicationDecorator.calculate_second_time(type.average)} s"
-                %tr
-                  %th.col-md-1 Anzahl
-                  %td.col-md-1= type.count
-                - if type.best.present?
+    - @competitions_discipline_overview.each do |discipline, genders|
+      - genders.each do |gender, overview|
+        - t.tab(discipline_image_name_short(discipline, gender)) do
+          - overview.types.each do |key, type|
+            .row
+              .col-md-6
+                - if type.type.present?
+                  %h4= type.type
+                %table.table
                   %tr
-                    %th.col-md-1 Bestzeit
-                    %td.col-md-1
-                      = "#{type.best.second_time} s"
-                      %br
-                      = link_to(type.best.competition, type.best.competition)
-            .col-md-6
-              %table.table
-                - type.years.each do |year, best|
+                    %th.col-md-1 Durchschnitt
+                    %td.col-md-1= "#{ApplicationDecorator.calculate_second_time(type.average)} s"
                   %tr
-                    %th.col-md-1= year
-                    %td.col-md-1= "#{best.second_time} s"
-                    %td.col-md-4
-                      = link_to(best.entity.full_name, best.entity)
-                      %br
-                      = link_to(best.competition, best.competition)
+                    %th.col-md-1 Anzahl
+                    %td.col-md-1= type.count
+                  - if type.best.present?
+                    %tr
+                      %th.col-md-1 Bestzeit
+                      %td.col-md-1
+                        = "#{type.best.second_time} s"
+                        %br
+                        = link_to(type.best.competition, type.best.competition)
+              .col-md-6
+                %table.table
+                  - type.years.each do |year, bests|
+                    - bests.each do |best|
+                      %tr
+                        %th.col-md-1= year
+                        %td.col-md-1= "#{best.second_time} s"
+                        %td.col-md-4
+                          = link_to(best.entity.full_name, best.entity)
+                          %br
+                          = link_to(best.competition, best.competition)

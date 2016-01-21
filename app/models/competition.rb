@@ -84,4 +84,8 @@ class Competition < ActiveRecord::Base
         competition_files: !competition_files.present?,
       }
   end
+
+  def year
+    date.strftime('%Y').to_i
+  end
 end

@@ -44,6 +44,46 @@ class GroupScore < ActiveRecord::Base
       to_sql
     from("(#{sql}) AS #{table_name}").where("r=1")
   end
+  scope :yearly_best, -> (competitions) do
+    times_subquery = GroupScore
+      .joins(group_score_category: :competition)
+      .select("
+        #{GroupScoreCategory.table_name}.group_score_type_id, 
+        #{GroupScore.table_name}.gender,
+        EXTRACT(YEAR FROM #{Competition.table_name}.date) AS year,
+        MIN(#{GroupScore.table_name}.time) AS time
+      ")
+      .where(group_score_categories: { competition_id: competitions })
+      .group("
+        #{GroupScoreCategory.table_name}.group_score_type_id, 
+        #{GroupScore.table_name}.gender,
+        EXTRACT(YEAR FROM #{Competition.table_name}.date)
+      ")
+      .to_sql
+
+    scores_subquery = GroupScore
+      .joins(group_score_category: :competition)
+      .joins("INNER JOIN times t 
+        ON t.group_score_type_id = #{GroupScoreCategory.table_name}.group_score_type_id 
+        AND t.time = #{GroupScore.table_name}.time 
+        AND t.year = EXTRACT(YEAR FROM #{Competition.table_name}.date) 
+        AND t.gender = #{GroupScore.table_name}.gender")
+      .select("
+        #{GroupScore.table_name}.id
+      ")
+      .where(group_score_categories: { competition_id: competitions })
+      .to_sql
+
+    includes(:team, group_score_category: [:group_score_type, competition: [:place, :event]])
+      .where("#{GroupScore.table_name}.id IN (WITH times AS (#{times_subquery}) #{scores_subquery})").joins(group_score_category: [:competition, :group_score_type])
+      .order("
+        #{GroupScoreType.table_name}.discipline,
+        #{GroupScoreType.table_name}.regular DESC,
+        #{GroupScoreType.table_name}.name,
+        #{GroupScore.table_name}.gender, 
+        EXTRACT(YEAR FROM #{Competition.table_name}.date)
+      ")
+  end
 
   validates :team, :group_score_category, :team_number, :gender, :time, presence: true
 
