@@ -162,6 +162,8 @@ class @Fss
       url: url
       data: data
       dataType: 'json'
+      beforeSend: (xhr) ->
+        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
       success: (data) ->
         wait.close()
 
