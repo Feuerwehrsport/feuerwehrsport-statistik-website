@@ -11,7 +11,10 @@ module Helper::NationHelper
     image_tag(asset_path("flags-iso/#{iso}.png"), options)
   end
 
-  def nation_flag_with_iso(nation, options={})
-    "<code class='small' title='#{nation}'>#{nation.iso.upcase} #{nation_flag(nation, options)}</code>".html_safe
+  def nation_flag_with_iso(nation)
+    @nation_flag_with_iso ||= {}
+    @nation_flag_with_iso[nation.id] ||= begin
+      "<code class='small' title='#{nation}'>#{nation.iso.upcase} #{nation_flag(nation)}</code>".html_safe
+    end
   end
 end
