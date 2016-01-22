@@ -105,6 +105,7 @@ de:
         other: Mannschaften
     attributes:
       admin_user:
+        role: Rolle
         email: E-Mail-Adresse
         password: Passwort
         password_confirmation: Passwort wiederholen

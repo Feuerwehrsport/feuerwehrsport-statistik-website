@@ -13,7 +13,7 @@ class AdminUser < ActiveRecord::Base
 
   scope :change_request_notification_receiver, -> { where(role: [:sub_admin, :admin] ) }
 
-  validates :name, presence: true
+  validates :name, :role, :email, presence: true
   validates :role, inclusion: { in: ROLES }
 
   def role
