@@ -5,7 +5,7 @@ module Series
     belongs_to :round
     belongs_to :competition
     has_many :assessments, through: :round
-    has_many :participations
+    has_many :participations, dependent: :destroy
 
     default_scope -> { joins(:competition).order("competitions.date")}
 

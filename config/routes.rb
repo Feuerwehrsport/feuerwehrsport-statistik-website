@@ -28,7 +28,11 @@ Rails.application.routes.draw do
     resources :scores
     resources :score_types
     namespace :series do
-      resources :rounds, only: [:new, :create, :show, :index]
+      resources :rounds, only: [:new, :create, :show, :index] do 
+        member do
+          post ':cup_id/destroy', to: :competition_destroy
+        end
+      end
     end
     resources :teams
   end

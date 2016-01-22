@@ -1,7 +1,7 @@
 - @rounds.each do |name, rows|
   = toc.anker(name, :h3)
   = count_table(rows) do |ct|
-    - ct.col("Jahr", :year, link_to: true, class: "col-md-1")
+    - ct.col("Jahr", class: "col-md-1") { |row|  link_to(row.year, round_link_prefix + [row]) }
     - ct.col("Cup-Anzahl", :cup_count, class: "col-md-1")
     - ct.col("Disziplinen", class: "col-md-3") { |row| row.disciplines.map { |d| discipline_image_name_short(d) }.join(" ").html_safe }
     - ct.col("Mannschaften", :team_count, class: "col-md-1")

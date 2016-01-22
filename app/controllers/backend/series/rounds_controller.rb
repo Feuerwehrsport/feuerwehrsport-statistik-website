@@ -39,6 +39,26 @@ module Backend
         @page_title = "#{@round} - Wettkampfserie"
       end
 
+      def competition_destroy
+        round = ::Series::Round.find(params[:id])
+        @cup = round.cups.find(params[:cup_id])
+        ActiveRecord::Base.transaction do
+          @cup.destroy
+          unless params[:perform].present?
+            round = round.reload
+            @person_assessments = ::Series::PersonAssessment.where(round: round).decorate
+            @team_assessments_exists = ::Series::TeamAssessment.where(round: round).present?
+            @round = round.decorate
+
+            @preview_string = render_to_string(partial: 'backend/series/rounds/preview_changes')
+            raise ActiveRecord::Rollback.new
+          else
+            flash[:success] = "Wettkampf gelöscht"
+            redirect_to action: :show
+          end
+        end
+      end
+
       protected
 
       def permitted_params

@@ -4,4 +4,4 @@
       %h1 Wettkampfserien
       = link_to("Wettkampf hinzufügen", action: :new)
     .col-md-3= toc.index
-  = render('series/rounds/index_overview', toc: toc)
+  = render('series/rounds/index_overview', toc: toc, round_link_prefix: [:backend])
