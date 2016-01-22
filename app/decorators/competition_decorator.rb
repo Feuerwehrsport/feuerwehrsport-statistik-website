@@ -6,6 +6,7 @@ class CompetitionDecorator < ApplicationDecorator
   decorates_association :event
   decorates_association :score_type
   decorates_association :competition_files
+  decorates_association :teams
 
   def to_s
     full_name
