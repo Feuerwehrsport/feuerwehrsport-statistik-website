@@ -114,7 +114,7 @@ class PeopleController < ResourceController
   end
 
   def best_time(scores)
-    scores.map(&:second_time).min
+    scores.sort_by(&:time).first.try(:second_time)
   end
 
   def average_time(valid_scores)
