@@ -26,7 +26,9 @@ RSpec.describe API::Series::ParticipationsController, type: :controller do
         rank: 1, 
         time: 1806, 
         second_time: "18,06", 
-        person_id: 66
+        person_id: 66,
+        participation_type: "person",
+        assessment_id: 1,
       )
     end
     it_behaves_like "api user get permission error"

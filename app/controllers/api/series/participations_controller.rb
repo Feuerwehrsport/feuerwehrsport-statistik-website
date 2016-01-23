@@ -18,7 +18,7 @@ module API
       end
 
       def update_permitted_attributes
-        super.permit(:person_id, :team_id, :team_number, :rank, :points, :time)
+        super.permit(:assessment_id, :person_id, :team_id, :team_number, :rank, :points, :time)
       end
 
       def create_permitted_attributes

@@ -142,7 +142,7 @@ class @Fss
       callbackSuccess = dataOrCallback
       dataOrCallback = {}
     Fss.get type, dataOrCallback, (data) ->
-      callbackSuccess(data[type])
+      callbackSuccess(data[type.replace(/\//, "_")])
 
   @get: (url, data, callbackSuccess, callbackFailed=false) ->
     Fss.ajaxRequest("GET", url, data, {}, callbackSuccess, callbackFailed=false)
