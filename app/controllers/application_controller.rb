@@ -18,6 +18,11 @@ class ApplicationController < ActionController::Base
     super(action_name, model, *args)
   end
 
+  def can?(action_name, model, *args)
+    model = model.object if model.is_a?(Draper::Decorator)
+    super(action_name, model, *args)
+  end
+
   def deliver(mailer, method, *args)
     args = args.map do |arg|
       arg = arg.object if arg.is_a?(Draper::Decorator)
