@@ -40,7 +40,7 @@ module Backend
         action_name: action_name,
       }
       change_log_hash[:after_hash] = hash_for_logging if action_name != "destroy"
-      change_log_hash[:before_hash] = @logging_attributes_before if action_name == "update"
+      change_log_hash[:before_hash] = @logging_attributes_before if action_name.in?(["update", "destroy"])
       change_log_hash
     end
   end
