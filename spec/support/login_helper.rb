@@ -12,3 +12,10 @@ shared_context "as sub_admin user", login: :sub_admin do
     sign_in login_user
   end
 end
+
+shared_context "as admin user", login: :admin do
+  let(:login_user) { AdminUser.where(role: :admin).first || AdminUser.create!(name: "admin", email: "admin@a.de", password: "asdf1234", confirmed_at: Time.now, role: :admin) }
+  before do
+    sign_in login_user
+  end
+end

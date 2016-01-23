@@ -70,6 +70,9 @@ Rails.application.routes.draw do
     resources :places, only: [:create, :show, :index, :update]
     resources :score_types, only: [:index]
     resources :scores, only: [:show, :update]
+    namespace :series do
+      resources :participations, only: [:create, :show, :update, :destroy]
+    end 
     resources :teams, only: [:create, :show, :index, :update] do
       member { post :merge }
     end

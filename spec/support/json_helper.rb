@@ -29,3 +29,12 @@ RSpec.shared_examples "api user get permission error" do |parameter|
     end
   end
 end
+
+RSpec.shared_examples "sub_admin get permission error" do |parameter|
+  context "when user has no permissions", login: :sub_admin do
+    it "failes" do
+      subject.call
+      expect_api_authorize_error
+    end
+  end
+end
