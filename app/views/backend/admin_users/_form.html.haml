@@ -1,0 +1,5 @@
+= simple_form_for([:backend, resource_instance]) do |f|
+  - [:name, :email].each do |attribute|
+    = f.input attribute
+  = f.input :role, collection: AdminUser::ROLES
+  = f.button :submit
