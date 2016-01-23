@@ -59,6 +59,14 @@ module API
         clean_cache_and_build_new if saved
         saved
       end
+
+      def destroy_instance
+        authorize!(action_name.to_sym, resource_instance)
+        resource_instance.destroy
+        destroyed = resource_instance.destroyed?
+        clean_cache_and_build_new if destroyed
+        destroyed
+      end
     end
   end
 end

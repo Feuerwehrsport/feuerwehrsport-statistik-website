@@ -4,7 +4,7 @@ module API
       extend ActiveSupport::Concern
 
       included do
-        before_action :save_attributes_for_logging, only: [:create, :update]
+        before_action :save_attributes_for_logging, only: [:create, :update, :destroy]
       end
 
       protected
@@ -17,6 +17,12 @@ module API
         saved = super
         perform_logging if saved
         saved
+      end
+
+      def destroy_instance
+        destroyed = super
+        perform_logging if destroyed
+        destroyed
       end
 
       def hash_for_logging(object=resource_instance)
