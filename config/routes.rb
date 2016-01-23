@@ -30,7 +30,7 @@ Rails.application.routes.draw do
     namespace :series do
       resources :rounds, only: [:new, :create, :show, :index] do 
         member do
-          post ':cup_id/destroy', to: :competition_destroy
+          post ':cup_id/destroy', action: :competition_destroy
         end
       end
     end
