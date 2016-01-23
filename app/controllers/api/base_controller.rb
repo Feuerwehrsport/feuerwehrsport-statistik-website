@@ -35,5 +35,9 @@ module API
       end
       hash
     end
+
+    def self.current_controller_namespace
+      "api"
+    end
   end
 end

@@ -10,12 +10,16 @@ module ResourceAccessor
 
   class_methods do
     def resource_variable_name
-      controller_name.singularize
+      resource_full_path.singularize.parameterize.underscore
+    end
+
+    def resource_full_path
+      controller_path.sub(/^#{current_controller_namespace}\//, '')
     end
 
     def resource_class
       begin
-        controller_path.classify.constantize
+        resource_full_path.classify.constantize
       rescue NameError
         begin
           controller_name.classify.constantize

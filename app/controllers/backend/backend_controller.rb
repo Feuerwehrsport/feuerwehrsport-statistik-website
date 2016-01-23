@@ -10,6 +10,10 @@ module Backend
       current_admin_user
     end
 
+    def self.current_controller_namespace
+      "backend"
+    end
+
     private
 
     def ensure_user_signed_in

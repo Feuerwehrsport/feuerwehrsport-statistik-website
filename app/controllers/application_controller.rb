@@ -30,4 +30,8 @@ class ApplicationController < ActionController::Base
     end
     mailer.send(method, *args).deliver_later
   end
+
+  def self.current_controller_namespace
+    ""
+  end
 end
