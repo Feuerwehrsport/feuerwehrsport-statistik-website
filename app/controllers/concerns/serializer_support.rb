@@ -22,17 +22,6 @@ module SerializerSupport
   end
 
   def serializer_for_object(object)
-    begin
-      if object.is_a?(Draper::Decorator)
-        serializer = "#{object.object.class.name}Serializer".constantize
-      elsif object.is_a?(ActiveRecord::Base)
-        serializer = "#{object.class.name}Serializer".constantize
-      else
-        return object
-      end
-      serializer.new(object)
-    rescue NameError
-      object
-    end
+    object.respond_to?(:to_serializer) ? object.to_serializer : object
   end
 end
