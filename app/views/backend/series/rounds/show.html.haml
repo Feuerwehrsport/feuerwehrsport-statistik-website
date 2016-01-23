@@ -6,4 +6,4 @@
       %tr
         %th= competition_link(cup.competition)
         %td= button_to("Entfernen", {action: :competition_destroy, cup_id: cup.id}, class: "btn btn-danger", data: { confirm: "Diesen Wettkampf mit allen Zeiten aus der Serie entfernen?" })
-  = render('single_show', toc: toc)
+  #edit-series-participations= render('single_show', toc: toc)

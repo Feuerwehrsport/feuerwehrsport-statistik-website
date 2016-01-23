@@ -140,4 +140,9 @@ module ApplicationHelper
       link_to(score.second_time, score.competition, title: score.competition)
     end.join(", ").html_safe
   end
+
+  def series_assessment_cup_participation(cup, row)
+    result = row.participation_for_cup(cup)
+    result ? content_tag(:div, result.second_time_with_points, class: "series-participation", data: { id: result.id }) : ""
+  end
 end

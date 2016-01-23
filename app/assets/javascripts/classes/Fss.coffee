@@ -153,6 +153,9 @@ class @Fss
   @put: (url, data, callbackSuccess, callbackFailed=false) ->
     Fss.ajaxRequest("PUT", url, data, {}, callbackSuccess, callbackFailed=false)
 
+  @delete: (url, callbackSuccess, callbackFailed=false) ->
+    Fss.ajaxRequest("DELETE", url, {}, {}, callbackSuccess, callbackFailed=false)
+
   @ajaxRequest: (type, url, data, options, callbackSuccess, callbackFailed=false) ->
     url = "/api/#{url}"
     wait = new WaitFssWindow()
