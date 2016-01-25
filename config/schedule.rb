@@ -24,3 +24,7 @@ every :reboot do
   command "/etc/init.d/unicorn_fws-statistik restart"
   command "#{base_command}delayed_job restart"
 end
+
+every :day, at: '2:42 am' do
+  command "#{base_command}rake backup_dump"
+end
