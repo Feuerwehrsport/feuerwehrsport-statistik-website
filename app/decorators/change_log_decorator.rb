@@ -9,10 +9,41 @@ class ChangeLogDecorator < ApplicationDecorator
   end
 
   def translated_action
-    "#{object.model_class} #{object.log_action || object.action_name}"
+    default = "#{object.model_class} #{object.log_action || object.action_name}"
+    I18n.t("change_logs.#{object.model_class.underscore.gsub("/", "_")}.#{(object.log_action || object.action_name).underscore}", defaults: default)
   end
 
   def user_name
     admin_user || "API-Benutzer"
+  end
+
+  def translated_diff_hash
+    diff_hash.map do |key, changes|
+      "#{Team.human_attribute_name(key)}: von »#{changes.first}« zu »#{changes.last}«"
+    end
+  end
+
+  def readable_content
+    begin
+      if model_class == "Link" && log_action == 'add-link'
+        link = build_after_model.decorate
+        "Link #{link_to(link.label, link.url)} bei #{link_to(link.linkable, link.linkable)}".html_safe
+      elsif model_class == "News" && object.action_name == 'create'
+        news = build_after_model.decorate
+        link_to(news, news_path(news))
+      elsif model_class == "Team" && log_action == 'update-state'
+        before = State::ALL[diff_hash[:state].first.to_s]
+        after = State::ALL[diff_hash[:state].last.to_s]
+        team = build_after_model.decorate
+        "Land der Mannschaft #{link_to(team, team_path(team))} von »#{before}« zu »#{after}«".html_safe
+      elsif model_class == "Team" && log_action.in?(['add-team', 'update-geo-position'])
+        team = build_after_model.decorate
+        link_to(team, team_path(team))
+      else
+        translated_diff_hash
+      end
+    rescue NameError
+      translated_diff_hash
+    end
   end
 end

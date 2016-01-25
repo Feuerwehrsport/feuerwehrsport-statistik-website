@@ -5,7 +5,7 @@ atom_feed do |feed|
   @change_logs.each do |change_log|
     feed.entry(change_log, published: change_log.created_at) do |entry|
       entry.title(change_log.translated_action)
-      entry.content(change_log.diff_hash.to_s)
+      entry.content(change_log.readable_content, type: 'html')
       entry.author do |author|
         author.name(change_log.user_name)
       end

@@ -43,4 +43,15 @@ class ChangeLog < ActiveRecord::Base
       self.admin_user = user
     end
   end
+
+  def build_after_model
+    object = model_class.constantize.new
+    content[:after_hash].each do |attribute, value|
+      begin
+        object.send(:"#{attribute}=", value) if object.respond_to?(:"#{attribute}=")
+      rescue ActiveRecord::AssociationTypeMismatch
+      end
+    end
+    object
+  end
 end

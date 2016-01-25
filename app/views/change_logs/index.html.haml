@@ -4,7 +4,6 @@
     RSS-Feed
 %h1 Veränderungen
 = count_table(@change_logs, class: "datatable-change-logs") do |t|
-  - t.col("Zeitpunkt", :created_at)
-  - t.col("Beschreibung", :model_class)
-  - t.col("Aktion", :action_name)
-  - t.col("Inhalt", :diff_hash)
+  - t.col("Zeitpunkt") { |row| l(row.created_at) }
+  - t.col("Beschreibung", :translated_action)
+  - t.col("Inhalt", :readable_content)

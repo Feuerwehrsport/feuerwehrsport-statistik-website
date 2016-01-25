@@ -178,6 +178,18 @@ de:
       gs_members: Wettkämpfer bei der Gruppenstafette
       single_team: Team-Zuordnungen bei Einzeldisziplinen
 
+  change_logs:
+    competition:
+      add_competition: Wettkampf hinzufügen
+    link:
+      add_link: Link hinzufügen
+    news:
+      create: Neuigkeit hinzufügen
+    team:
+      add_team: Mannscahft hinzufügen
+      update_geo_position: Geo-Position einer Mannschaft aktualisieren
+      update_state: Land einer Mannschaft aktualisieren
+
   # basic stuff
 
   errors:
