@@ -10,7 +10,7 @@
     %th.small Punkte
     %th{ colspan: @max_series_cups } Teilnahmen
     - series_row do |name_s, year_s, assessment, row, cups|
-      %tr
+      %tr{ class: (year_s.present? ? "other-year" : "") }
         - if name_s.present?
           %td{ rowspan: name_s.rowspan }= name_s.name
 
@@ -22,7 +22,11 @@
             = discipline_image(assessment.discipline)
             = discipline_name(assessment.discipline)
             = assessment.name
-        %td= "#{row.rank}."
+        %td
+          - if row.rank <= assessment.round.aggregate_class.single_honor_rank
+            %strong= "#{row.rank}."
+          - else
+            = "#{row.rank}."
         %td.small= row.points
 
         - cups.each do |cup|

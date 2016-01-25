@@ -8,6 +8,10 @@ module Series
         3
       end
 
+      def self.single_honor_rank
+        3
+      end
+
       def team_id
         team.id
       end
