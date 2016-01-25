@@ -87,7 +87,11 @@ module Import
         when :group
           competition.group_assessment(discipline, gender)
         when :person
-          competition.scores.no_finals.gender(gender).discipline(discipline).best_of_competition.sort_by(&:time)
+          if discipline.to_sym == :zk
+            competition.scores.no_finals.gender(gender).discipline(discipline).best_of_competition.sort_by(&:time)
+          else
+            competition.score_double_events.gender(gender).sort_by(&:time)
+          end
         end
       end
   
@@ -101,10 +105,10 @@ module Import
             points: points, 
             rank: rank
           }
-          if score.is_a?(Score)
-            ::Series::PersonParticipation.create!(hash.merge(person: score.person))
-          else
+          if score.is_a?(GroupScore)
             ::Series::TeamParticipation.create!(hash.merge(team: score.team, team_number: score.team_number))
+          else
+            ::Series::PersonParticipation.create!(hash.merge(person: score.person))
           end
           points -= 1 if points > 0
           rank += 1
