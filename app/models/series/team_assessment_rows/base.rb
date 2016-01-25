@@ -4,6 +4,10 @@ module Series
       include Draper::Decoratable
       attr_reader :rank
 
+      def self.honor_rank
+        3
+      end
+
       def team_id
         team.id
       end

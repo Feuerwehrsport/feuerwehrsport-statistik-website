@@ -15,7 +15,9 @@ module Series
       joins(:cups).
       group("#{table_name}.id")
     end
-    scope :with_team, -> (team_id) { joins(:participations).where(series_participations:  { team_id: team_id }).uniq }
+    scope :with_team, -> (team_id, gender) do
+      joins(:participations).where(series_participations:  { team_id: team_id }).merge(TeamAssessment.gender(gender)).uniq
+    end
 
     def disciplines
       assessments.pluck(:discipline).uniq.sort
@@ -30,20 +32,17 @@ module Series
       @aggregate_class ||= "Series::TeamAssessmentRows::#{aggregate_type}".constantize
     end
 
-    def self.for_team(team_id)
+    def self.for_team(team_id, gender)
       round_structs = {}
-      Series::Round.with_team(team_id).decorate.each do |round|
+      Series::Round.with_team(team_id, gender).decorate.each do |round|
         round_structs[round.name] ||= []
-        [:female, :male].each do |gender|
-          round.team_assessment_rows(gender).select { |r| r.team.id == team_id }.each do |row|
-            round_structs[round.name].push OpenStruct.new(
-              round: round,
-              cups: round.cups,
-              row: row.decorate,
-              gender: gender,
-              team_number: row.team_number,
-            )
-          end
+        round.team_assessment_rows(gender).select { |r| r.team.id == team_id }.each do |row|
+          round_structs[round.name].push OpenStruct.new(
+            round: round,
+            cups: round.cups,
+            row: row.decorate,
+            team_number: row.team_number,
+          )
         end
       end
       round_structs
