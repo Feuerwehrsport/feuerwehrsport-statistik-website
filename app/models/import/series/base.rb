@@ -2,6 +2,7 @@ module Import
   module Series
     class Base
       TYPES = [
+        "BrandenburgCup",
         "DCup",
         "MVCup",
         "MVHindernisCup",
@@ -110,11 +111,15 @@ module Import
           else
             ::Series::PersonParticipation.create!(hash.merge(person: score.person))
           end
-          points -= 1 if points > 0
           rank += 1
+          points = decrement_points(points, rank)
         end
       end
 
+      def decrement_points(points, rank)
+        points -= 1 if points > 0
+        points
+      end
 
       class AssessmentConfig < Struct.new(:id, :entities, :block, :selected_entities)
         def selected_entities= new_entities

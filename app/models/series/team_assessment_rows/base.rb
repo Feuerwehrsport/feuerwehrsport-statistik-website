@@ -4,6 +4,11 @@ module Series
       include Draper::Decoratable
       attr_reader :rank
 
+      def initialize(*args)
+        super(*args)
+        @rank = 0
+      end
+
       def self.honor_rank
         3
       end

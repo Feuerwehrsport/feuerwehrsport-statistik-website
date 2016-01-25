@@ -37,6 +37,7 @@ module Series
       Series::Round.with_team(team_id, gender).decorate.each do |round|
         round_structs[round.name] ||= []
         round.team_assessment_rows(gender).select { |r| r.team.id == team_id }.each do |row|
+          next if row.rank.nil?
           round_structs[round.name].push OpenStruct.new(
             round: round,
             cups: round.cups,
@@ -44,6 +45,7 @@ module Series
             team_number: row.team_number,
           )
         end
+        round_structs.delete(round.name) if round_structs[round.name].empty?
       end
       round_structs
     end
