@@ -7,6 +7,12 @@
       = @person.full_name
       %small= g_symbol(@person.gender)
 
+    - if @person_spellings.count > 0
+      .small{ title: "Dies passiert zum Beispiel durch eine Hochzeit." }
+        = @person.first_name
+        ist auch unter
+        = @person_spellings.map(&:full_name).join(", ")
+        bekannt
 
   .row
     .col-md-3= @chart.year_overview

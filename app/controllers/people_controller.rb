@@ -27,6 +27,7 @@ class PeopleController < ResourceController
     @chart = Chart::PersonShow.new(person: @person, team_structs: @team_structs)
     @series_structs = Series::PersonAssessment.for(@person.id)
     @max_series_cups = @series_structs.values.flatten.map(&:values).flatten.map(&:cups).map(&:count).max
+    @person_spellings = @person.person_spellings.official.decorate.to_a
     @page_title = "#{@person.full_name} - Wettkämpfer"
   end
 

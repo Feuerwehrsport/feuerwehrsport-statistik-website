@@ -6,6 +6,7 @@ class PersonSpelling < ActiveRecord::Base
   scope :search_exactly, -> (last_name, first_name) do
     where("last_name ILIKE ? AND first_name ILIKE ?", last_name, first_name)
   end
+  scope :official, -> { where(official: true) }
 
   validates :person, :first_name, :last_name, :gender, presence: true
 
