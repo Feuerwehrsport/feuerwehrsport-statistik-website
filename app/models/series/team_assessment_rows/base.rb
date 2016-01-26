@@ -61,6 +61,9 @@ module Series
         other.points <=> points
       end
 
+      def self.special_sort!(rows)
+      end 
+
       def calculate_rank!(other_rows)
         other_rows.each_with_index do |rank_row, rank|
           if 0 == (self <=> rank_row)

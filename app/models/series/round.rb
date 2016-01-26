@@ -58,6 +58,7 @@ module Series
         [:female, :male].each do |gender|
           rows[gender] = teams(gender).values.sort
           rows[gender].each { |row| row.calculate_rank!(rows[gender]) }
+          rows[gender].each { |row| aggregate_class.special_sort!(rows[gender]) }
         end
         rows
       end
