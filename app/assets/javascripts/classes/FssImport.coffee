@@ -129,7 +129,7 @@ class @FssImport
     sortedCompetitions = @competitions.slice()
 
     if value is 'sorted'
-      sortedCompetitions.reverse()
+      sortedCompetitions.sort (a, b) -> return b.date.localeCompare(a.date)
     else if value is 'latest'
       sortedCompetitions.sort (a, b) -> return b.id - a.id
     else
