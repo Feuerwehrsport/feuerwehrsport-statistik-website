@@ -50,7 +50,7 @@ class Error
       @isOpen = true
       @tr.addClass('active').find('span').toggleClass('glyphicon-chevron-down glyphicon-chevron-up')
       unless @openTrs
-        code = $('<tr/>').append($('<td/>').attr('colspan', 4).append($('<pre/>').text(JSON.stringify(@content))))
+        code = $('<tr/>').append($('<td/>').attr('colspan', 4).append($('<pre/>').text(JSON.stringify(@content, null, 2))))
         div = $('<div/>').addClass("row")
         @openType(div)
         @openTrs = code.add($('<tr/>').append($('<td/>').attr('colspan', 4).append(div)))
