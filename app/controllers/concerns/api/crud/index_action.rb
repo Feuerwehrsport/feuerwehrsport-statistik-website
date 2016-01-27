@@ -4,7 +4,7 @@ module API
       extend ActiveSupport::Concern
       
       included do
-        include ObjectAssignment
+        include ::CRUD::ObjectAssignment
         before_action :assign_collection_for_index, only: :index
       end
 

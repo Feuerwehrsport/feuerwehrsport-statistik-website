@@ -5,7 +5,7 @@ module API
       
       included do
         before_action :assign_instance_for_destroy, only: :destroy
-        include CRUD::ObjectAssignment
+        include ::CRUD::ObjectAssignment
       end
 
       def destroy
