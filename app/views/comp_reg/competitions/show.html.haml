@@ -1,0 +1,10 @@
+= resource_instance.name
+= resource_instance.date
+= resource_instance.place
+
+.row
+  = link_to("Wettkampf bearbeiten", action: :edit)
+
+.row
+- resource_instance.competition_assessments.each do |assessment|
+  = assessment

@@ -79,6 +79,10 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :comp_reg do
+    resources :competitions, only: [:new, :create, :show, :index, :edit, :update, :destroy]
+  end
+
   # following controllers will write html cache
   resources :change_logs, only: [:index, :show]
   resources :appointments, only: [:index, :show]

@@ -222,6 +222,178 @@ ALTER SEQUENCE change_requests_id_seq OWNED BY change_requests.id;
 
 
 --
+-- Name: comp_reg_assessment_participations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE comp_reg_assessment_participations (
+    id integer NOT NULL,
+    type character varying NOT NULL,
+    competition_assessment_id integer NOT NULL,
+    team_id integer,
+    person_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: comp_reg_assessment_participations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE comp_reg_assessment_participations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: comp_reg_assessment_participations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE comp_reg_assessment_participations_id_seq OWNED BY comp_reg_assessment_participations.id;
+
+
+--
+-- Name: comp_reg_competition_assessments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE comp_reg_competition_assessments (
+    id integer NOT NULL,
+    competition_id integer NOT NULL,
+    discipline character varying NOT NULL,
+    gender integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: comp_reg_competition_assessments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE comp_reg_competition_assessments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: comp_reg_competition_assessments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE comp_reg_competition_assessments_id_seq OWNED BY comp_reg_competition_assessments.id;
+
+
+--
+-- Name: comp_reg_competitions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE comp_reg_competitions (
+    id integer NOT NULL,
+    name character varying DEFAULT ''::character varying NOT NULL,
+    date date NOT NULL,
+    place character varying NOT NULL,
+    admin_user_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: comp_reg_competitions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE comp_reg_competitions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: comp_reg_competitions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE comp_reg_competitions_id_seq OWNED BY comp_reg_competitions.id;
+
+
+--
+-- Name: comp_reg_people; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE comp_reg_people (
+    id integer NOT NULL,
+    competition_id integer NOT NULL,
+    team_id integer,
+    person_id integer,
+    first_name character varying NOT NULL,
+    last_name character varying NOT NULL,
+    gender integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: comp_reg_people_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE comp_reg_people_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: comp_reg_people_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE comp_reg_people_id_seq OWNED BY comp_reg_people.id;
+
+
+--
+-- Name: comp_reg_teams; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE comp_reg_teams (
+    id integer NOT NULL,
+    competition_id integer NOT NULL,
+    team_id integer,
+    name character varying NOT NULL,
+    shortcut character varying NOT NULL,
+    gender integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: comp_reg_teams_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE comp_reg_teams_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: comp_reg_teams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE comp_reg_teams_id_seq OWNED BY comp_reg_teams.id;
+
+
+--
 -- Name: competition_files; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1165,6 +1337,41 @@ ALTER TABLE ONLY change_requests ALTER COLUMN id SET DEFAULT nextval('change_req
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY comp_reg_assessment_participations ALTER COLUMN id SET DEFAULT nextval('comp_reg_assessment_participations_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comp_reg_competition_assessments ALTER COLUMN id SET DEFAULT nextval('comp_reg_competition_assessments_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comp_reg_competitions ALTER COLUMN id SET DEFAULT nextval('comp_reg_competitions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comp_reg_people ALTER COLUMN id SET DEFAULT nextval('comp_reg_people_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comp_reg_teams ALTER COLUMN id SET DEFAULT nextval('comp_reg_teams_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY competition_files ALTER COLUMN id SET DEFAULT nextval('competition_files_id_seq'::regclass);
 
 
@@ -1360,6 +1567,46 @@ ALTER TABLE ONLY change_logs
 
 ALTER TABLE ONLY change_requests
     ADD CONSTRAINT change_requests_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: comp_reg_assessment_participations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY comp_reg_assessment_participations
+    ADD CONSTRAINT comp_reg_assessment_participations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: comp_reg_competition_assessments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY comp_reg_competition_assessments
+    ADD CONSTRAINT comp_reg_competition_assessments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: comp_reg_competitions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY comp_reg_competitions
+    ADD CONSTRAINT comp_reg_competitions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: comp_reg_people_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY comp_reg_people
+    ADD CONSTRAINT comp_reg_people_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: comp_reg_teams_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY comp_reg_teams
+    ADD CONSTRAINT comp_reg_teams_pkey PRIMARY KEY (id);
 
 
 --
@@ -1771,6 +2018,14 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 
 
 --
+-- Name: fk_rails_043fe334db; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comp_reg_competitions
+    ADD CONSTRAINT fk_rails_043fe334db FOREIGN KEY (admin_user_id) REFERENCES admin_users(id);
+
+
+--
 -- Name: fk_rails_087bd7ddca; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1811,11 +2066,27 @@ ALTER TABLE ONLY series_participations
 
 
 --
+-- Name: fk_rails_15c95409f5; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comp_reg_assessment_participations
+    ADD CONSTRAINT fk_rails_15c95409f5 FOREIGN KEY (competition_assessment_id) REFERENCES comp_reg_competition_assessments(id);
+
+
+--
 -- Name: fk_rails_17052afd34; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY scores
     ADD CONSTRAINT fk_rails_17052afd34 FOREIGN KEY (team_id) REFERENCES teams(id);
+
+
+--
+-- Name: fk_rails_1fe22e9baa; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comp_reg_teams
+    ADD CONSTRAINT fk_rails_1fe22e9baa FOREIGN KEY (team_id) REFERENCES teams(id);
 
 
 --
@@ -1851,11 +2122,27 @@ ALTER TABLE ONLY competitions
 
 
 --
+-- Name: fk_rails_3d5190e1c4; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comp_reg_teams
+    ADD CONSTRAINT fk_rails_3d5190e1c4 FOREIGN KEY (competition_id) REFERENCES comp_reg_competitions(id);
+
+
+--
 -- Name: fk_rails_3f47875492; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY appointments
     ADD CONSTRAINT fk_rails_3f47875492 FOREIGN KEY (event_id) REFERENCES events(id);
+
+
+--
+-- Name: fk_rails_45da1b2122; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comp_reg_people
+    ADD CONSTRAINT fk_rails_45da1b2122 FOREIGN KEY (person_id) REFERENCES people(id);
 
 
 --
@@ -1891,11 +2178,35 @@ ALTER TABLE ONLY news
 
 
 --
+-- Name: fk_rails_6ca390b69a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comp_reg_people
+    ADD CONSTRAINT fk_rails_6ca390b69a FOREIGN KEY (competition_id) REFERENCES comp_reg_competitions(id);
+
+
+--
 -- Name: fk_rails_6d79ed02ed; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY person_participations
     ADD CONSTRAINT fk_rails_6d79ed02ed FOREIGN KEY (group_score_id) REFERENCES group_scores(id);
+
+
+--
+-- Name: fk_rails_6dfb91e2b1; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comp_reg_assessment_participations
+    ADD CONSTRAINT fk_rails_6dfb91e2b1 FOREIGN KEY (person_id) REFERENCES comp_reg_people(id);
+
+
+--
+-- Name: fk_rails_7188435791; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comp_reg_people
+    ADD CONSTRAINT fk_rails_7188435791 FOREIGN KEY (team_id) REFERENCES comp_reg_teams(id);
 
 
 --
@@ -1955,6 +2266,14 @@ ALTER TABLE ONLY people
 
 
 --
+-- Name: fk_rails_ce616f5f59; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comp_reg_competition_assessments
+    ADD CONSTRAINT fk_rails_ce616f5f59 FOREIGN KEY (competition_id) REFERENCES comp_reg_competitions(id);
+
+
+--
 -- Name: fk_rails_d283e0df68; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1968,6 +2287,14 @@ ALTER TABLE ONLY change_requests
 
 ALTER TABLE ONLY change_logs
     ADD CONSTRAINT fk_rails_d36db08295 FOREIGN KEY (admin_user_id) REFERENCES admin_users(id);
+
+
+--
+-- Name: fk_rails_d742b584f9; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comp_reg_assessment_participations
+    ADD CONSTRAINT fk_rails_d742b584f9 FOREIGN KEY (team_id) REFERENCES comp_reg_teams(id);
 
 
 --
@@ -2087,4 +2414,14 @@ INSERT INTO schema_migrations (version) VALUES ('20160108114749');
 INSERT INTO schema_migrations (version) VALUES ('20160117083000');
 
 INSERT INTO schema_migrations (version) VALUES ('20160120082100');
+
+INSERT INTO schema_migrations (version) VALUES ('20160126101105');
+
+INSERT INTO schema_migrations (version) VALUES ('20160126205832');
+
+INSERT INTO schema_migrations (version) VALUES ('20160126211222');
+
+INSERT INTO schema_migrations (version) VALUES ('20160126211225');
+
+INSERT INTO schema_migrations (version) VALUES ('20160126211331');
 
