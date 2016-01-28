@@ -68,4 +68,16 @@ RSpec.describe API::CompetitionsController, type: :controller do
     end
     it_behaves_like "api user get permission error"
   end
+
+  describe 'POST files' do
+    let(:testfile) { fixture_file_upload('testfile.pdf', 'application/pdf') }
+    it "creates files", login: :api do
+      expect {
+        post :files, id: 1, competition_file: { "0" => { file: testfile, hl_male: "1", hb_female: "1" } }
+      }.to change(CompetitionFile, :count).by(1)
+      expect(response).to redirect_to competition_path(1, anchor: 'toc-dateien')
+      expect(CompetitionFile.last.keys).to match_array ["hl_male", "hb_female"]
+      expect(CompetitionFile.last.competition_id).to eq 1
+    end
+  end
 end

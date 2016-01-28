@@ -49,7 +49,9 @@ Rails.application.routes.draw do
     resources :change_requests, only: [:create, :index, :update] do
       resources :files, only: [:show], to: 'change_requests#files'
     end
-    resources :competitions, only: [:create, :show, :index, :update]
+    resources :competitions, only: [:create, :show, :index, :update] do
+      member { post :files }
+    end
     resources :events, only: [:create, :show, :index]
     resources :group_score_types, only: [:create, :index]
     resources :group_score_categories, only: [:create, :index]
@@ -82,9 +84,7 @@ Rails.application.routes.draw do
   # following controllers will write html cache
   resources :change_logs, only: [:index, :show]
   resources :appointments, only: [:index, :show]
-  resources :competitions, only: [:index, :show] do
-    member { post :files }
-  end
+  resources :competitions, only: [:index, :show]
   resources :people, only: [:index, :show]
   resources :places, only: [:index, :show]
   resources :teams, only: [:index, :show]

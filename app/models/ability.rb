@@ -39,6 +39,7 @@ class Ability
   def api_user_abilities
     can :create, Appointment
     can :create, ChangeRequest
+    can :create, CompetitionFile
     can :create, Link
     can :create, Person
     can :update, Place
