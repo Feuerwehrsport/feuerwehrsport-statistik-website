@@ -9,7 +9,7 @@ class CompetitionFileDecorator < ApplicationDecorator
 
   def human_keys
     object.keys.map do |key|
-      discipline, gender = key.split("-")
+      discipline, gender = key.gsub("_", "-").split("-")
       gender = :female if gender.nil? && discipline == "gs"
       gender = :male if gender.nil? && discipline == "hl"
       discipline_image_name_short(discipline, gender)

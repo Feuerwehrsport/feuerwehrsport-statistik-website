@@ -4,14 +4,14 @@ reloadErrors = () ->
     table.children().remove()
     for changeRequest in changeRequests
       continue if changeRequest.done_at
-      error = new Error(changeRequest.id, changeRequest.content, changeRequest.created_at, changeRequest.files)
+      error = new Error(changeRequest.id, changeRequest.content, changeRequest.created_at, changeRequest.files, changeRequest.user)
       table.append(error.getTr())
 
 parseDateTime = (dateTime) ->
   new Date(dateTime)
 
 class Error
-  constructor: (@id, @content, @createdAt, @files) ->
+  constructor: (@id, @content, @createdAt, @files, @user={}) ->
     @key = @content.key
     @data = @content.data
     @headline = @key
@@ -26,10 +26,10 @@ class Error
 
 
   getTr: () =>
-    creatorTd = $('<th/>').text(@creatorName)
-    if @creatorEmail
+    creatorTd = $('<td/>').text(@user.name).addClass('small')
+    if @user.named_email_address
       creatorTd.append(" (")
-      creatorTd.append($('<a/>').attr("href", "mailto:#{@creatorEmail}").text(@creatorEmail))
+      creatorTd.append($('<a/>').attr("href", "mailto:#{@user.named_email_address}").text(@user.named_email_address))
       creatorTd.append(")")
     @tr = $('<tr/>')
       .append($('<th/>').text(parseDateTime(@createdAt).toLocaleString()))
@@ -50,7 +50,7 @@ class Error
       @isOpen = true
       @tr.addClass('active').find('span').toggleClass('glyphicon-chevron-down glyphicon-chevron-up')
       unless @openTrs
-        code = $('<tr/>').append($('<td/>').attr('colspan', 4).append($('<pre/>').text(JSON.stringify(@content))))
+        code = $('<tr/>').append($('<td/>').attr('colspan', 4).append($('<pre/>').text(JSON.stringify(@content, null, 2))))
         div = $('<div/>').addClass("row")
         @openType(div)
         @openTrs = code.add($('<tr/>').append($('<td/>').attr('colspan', 4).append(div)))

@@ -38,6 +38,7 @@ gem 'rmagick'
 
 # user rights management
 gem 'devise'
+gem 'devise-i18n-views'
 gem 'cancancan'
 
 # charts

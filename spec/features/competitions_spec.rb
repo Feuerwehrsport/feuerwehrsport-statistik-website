@@ -105,7 +105,7 @@ describe "competitions features", type: :feature, js: true, driver: :webkit do
       attach_file('competition_file[0][file]', "#{Rails.root}/spec/fixtures/testfile.pdf")
       check("competition_file[0][fs_female]")
       click_on("Hochladen")
-      expect(page).to have_content("Dateien erfolgreich gespeichert")
+      expect(page).to have_content("testfile.pdf")
     end
   end
 end

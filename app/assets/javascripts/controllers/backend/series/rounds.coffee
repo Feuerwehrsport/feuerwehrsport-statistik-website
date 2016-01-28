@@ -37,6 +37,10 @@ $ () ->
         .on('submit', success)
         .open()
 
+  upDown = (id, data) ->
+    new ConfirmFssWindow 'Ändern?', "Points: #{data.points}; Rank: #{data.rank}", () ->
+      Fss.ajaxReload("PUT", "series/participations/#{id}", series_participation: data)
+
   roundId = $('#edit-series-participations').data('round-id')
   $('#edit-series-participations .series-participation').each () ->
     $(@).addClass("btn btn-default btn-xs")
@@ -57,32 +61,48 @@ $ () ->
 
   $(document).on 'click', '#edit-series-participations .series-participation', () ->
     id = $(@).data('id')
-
-    w = FssWindow.build("Serienteilnahme")
-    change = $('<button/>').text('Ändern').on('click', (e) ->
-      e.preventDefault()
-      w.close()
-
-      Fss.getResource 'series/participations', id, (participation) ->
+    Fss.getResource 'series/participations', id, (participation) ->
+      w = FssWindow.build("Serienteilnahme")
+      change = $('<button/>').text('Ändern').on('click', (e) ->
+        e.preventDefault()
+        w.close()
         if participation.participation_type == "person"
           editPersonParticipation 'Teilnahme korrigieren', participation, (data) ->
             Fss.ajaxReload("PUT", "series/participations/#{id}", series_participation: data)
         else
           editTeamParticipation 'Teilnahme korrigieren', participation, (data) ->
             Fss.ajaxReload("PUT", "series/participations/#{id}", series_participation: data)
-    )
-    destroy = $('<button/>').text('Löschen').on('click', (e) ->
-      e.preventDefault()
-      w.close()
-      new ConfirmFssWindow "Löschen?", "Diesen Eintrag wirklich löschen?", () ->
-        Fss.ajaxReload("DELETE", "series/participations/#{id}", {})
-    )
-    cancel = $('<button/>').text('Abbrechen').on('click', (e) ->
-      e.preventDefault()
-      w.close()
-    )
-    w.add((new FssFormRow(change, destroy, cancel)).addClass('submit-row'))
-    w.open()
+      )
+      up = $('<button/>').text('↑').on('click', (e) ->
+        e.preventDefault()
+        w.close()
+        data =
+          rank: participation.rank - 1
+          points: participation.points + 1
+        data.rank = 1 if data.rank < 1
+        upDown(id, data)
+      )
+      down = $('<button/>').text('↓').on('click', (e) ->
+        e.preventDefault()
+        w.close()
+        data =
+          rank: participation.rank + 1
+          points: participation.points - 1
+        data.points = 0 if data.points < 0
+        upDown(id, data)
+      )
+      destroy = $('<button/>').text('Löschen').on('click', (e) ->
+        e.preventDefault()
+        w.close()
+        new ConfirmFssWindow "Löschen?", "Diesen Eintrag wirklich löschen?", () ->
+          Fss.ajaxReload("DELETE", "series/participations/#{id}", {})
+      )
+      cancel = $('<button/>').text('Abbrechen').on('click', (e) ->
+        e.preventDefault()
+        w.close()
+      )
+      w.add((new FssFormRow(change, up, down, destroy, cancel)).addClass('submit-row'))
+      w.open()
 
   new SortTable(selector: ".datatable-scores", direction: 'asc')
 
