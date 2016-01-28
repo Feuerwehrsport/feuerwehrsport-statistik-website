@@ -169,6 +169,14 @@ de:
 
 
   # views
+  backend:
+    dashboard:
+      page_title: Administration
+    change_requests:
+      page_title: Fehler bearbeiten
+    imports:
+      page_title: Wettkämpfe importieren
+
   competitions:
     missed_information:
       competition_files: Wettkampfergebnisse als Datei-Upload
