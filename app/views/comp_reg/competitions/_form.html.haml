@@ -1,5 +1,21 @@
 = simple_form_for(resource_instance) do |f|
-  = f.input :name
-  = f.input :date
-  = f.input :place
-  = f.submit
+  .row
+    .col-md-8
+      %h3 Allgemeine Information
+      = f.input :name
+      = f.input :date, as: :date_picker
+      = f.input :place
+      = f.input :description, as: :wysihtml5
+      = f.input :close_at, include_blank: true, as: :datetime_picker
+      = f.input :open_at, include_blank: true, as: :datetime_picker
+
+
+      %h3 Angebotene Disziplinen
+    = f.simple_fields_for :competition_assessments do |competition_assessment|
+      = render 'competition_assessment_fields', f: competition_assessment
+    .col-md-8.links
+      = link_to_add_association 'Wertung hinzufügen', f, :competition_assessments, class: "btn btn-sm btn-info"
+    .col-md-8
+      .pull-right
+        = link_to("Abbrechen", { action: :index }, class: "btn btn-default")
+        = f.submit class: "btn btn-primary"

@@ -14,6 +14,7 @@ module CRUD
 
     def assign_instance_for_new
       assign_new_instance
+      authorize!(action_name.to_sym, resource_instance)
     end
   end
 end

@@ -27,6 +27,7 @@ module CRUD
 
     def create_instance
       resource_instance.assign_attributes(create_permitted_attributes)
+      authorize!(action_name.to_sym, resource_instance)
       save_instance
     end
 

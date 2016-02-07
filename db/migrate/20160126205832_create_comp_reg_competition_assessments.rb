@@ -3,6 +3,7 @@ class CreateCompRegCompetitionAssessments < ActiveRecord::Migration
     create_table :comp_reg_competition_assessments do |t|
       t.references :competition, null: false
       t.string :discipline, null: false
+      t.string :name, null: false, default: ""
       t.integer :gender, null: false
 
       t.timestamps null: false

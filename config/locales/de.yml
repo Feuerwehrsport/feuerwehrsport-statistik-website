@@ -66,6 +66,9 @@ de:
       competition:
         one: Wettkampf
         other: Wettkämpfe
+      comp_reg/competition:
+        one: Wettkampf
+        other: Wettkämpfe
       group_score:
         one: Mannschaftszeit
         other: Mannschaftszeiten
@@ -125,6 +128,17 @@ de:
         score_type_id: Mannschaftwertung
       competition_file:
         file: Datei
+      comp_reg/competition:
+        close_at: Anmeldung schließen
+        date: Datum
+        description: Beschreibung
+        open_at: Anmeldung öffnen
+        place: Ort
+      comp_reg/person:
+        first_name: Vorname
+        last_name: Nachname
+      comp_reg/team:
+        shortcut: Abkürzung
       group_score:
         group_score_category: Kategorie
         group_score_category_id: Kategorie
@@ -283,4 +297,9 @@ de:
   time:
     formats:
       default: '%Y-%m-%d %H:%M Uhr'
+      german: '%d.%m.%Y %H:%M Uhr'
       only_date: '%d.%m.%Y'
+  helpers:
+     submit:
+       create: "%{model} anlegen"
+       update: "%{model} speichern"

@@ -1,3 +1,19 @@
+GIT
+  remote: git://github.com/egeek/momentjs-rails.git
+  revision: bb72242dfec3ee50260e4ad0f57e27b57aa9526f
+  specs:
+    momentjs-rails (2.11.1)
+      railties (>= 3.1)
+
+GIT
+  remote: git://github.com/zpaulovics/datetimepicker-rails.git
+  revision: 36d21cec5da7f5b214925804f60e63c61c747023
+  branch: master
+  submodules: true
+  specs:
+    datetimepicker-rails (4.7.16)
+      momentjs-rails (>= 2.9.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -82,6 +98,7 @@ GEM
       json (>= 1.7)
       mime-types (>= 1.16)
     chronic (0.10.2)
+    cocoon (1.2.7)
     coderay (1.1.0)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
@@ -324,9 +341,11 @@ DEPENDENCIES
   capybara-screenshot
   capybara-webkit
   carrierwave
+  cocoon
   coffee-rails (~> 4)
   daemons
   database_cleaner
+  datetimepicker-rails!
   delayed_job_active_record
   devise
   devise-i18n-views
@@ -336,6 +355,7 @@ DEPENDENCIES
   icalendar
   jquery-rails
   lazy_high_charts
+  momentjs-rails!
   mysql2 (~> 0.3.18)
   pg
   pry

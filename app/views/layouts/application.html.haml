@@ -12,6 +12,9 @@
     - if backend?
       = javascript_include_tag "backend"
       = stylesheet_link_tag "backend"
+    - if comp_reg?
+      = javascript_include_tag "comp_reg"
+      = stylesheet_link_tag "comp_reg"
     = csrf_meta_tags
     /[if lt IE 9]
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>

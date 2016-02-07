@@ -6,8 +6,9 @@ class Discipline
   }
   WITHOUT_DOUBLE_EVENT = [:hb, :hl, :gs, :fs, :la]
   ALL                  = [:hb, :hl, :zk, :gs, :fs, :la]
+  GROUP                = [:gs, :fs, :la]
   def self.group?(discipline)
-    discipline.in? [:gs, :fs, :la]
+    discipline.to_sym.in? GROUP
   end
 
   def self.participation_count(discipline)

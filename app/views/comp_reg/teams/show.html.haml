@@ -1,0 +1,44 @@
+.pull-right
+  - if can?(:edit, resource_instance)
+    = link_to("Mannschaft bearbeiten", { action: :edit }, class: "btn btn-default")
+= breadcrum
+
+%table.table.table-bordered
+  %tr
+    %th{colspan: 4} Mannschaftsanmeldung
+  %tr
+    %td{colspan: 2}= resource_instance.competition.name
+    %td{colspan: 2}
+      = discipline_image(:hb, width: 60)
+      = discipline_image(:fs, width: 60)
+      = discipline_image(:hl, width: 60)
+      = discipline_image(:la, width: 60)
+  %tr
+    %th am:
+    %td= resource_instance.competition.date
+    %th in:
+    %td= resource_instance.competition.place
+  %tr
+    %th Wertungsgruppe:
+    %td{colspan: 3}= g(resource_instance.gender)
+  %tr
+    %th Mannschaftsleiter:
+    %td{colspan: 3}
+  %tr
+    %th Straße, Nr.:
+    %td{colspan: 3}
+  %tr
+    %th PLZ, Ort:
+    %td{colspan: 3}
+  %tr
+    %th Telefon:
+    %td{colspan: 3}
+  %tr
+    %th E-Mail-Adresse:
+    %td{colspan: 3}
+
+  %tr
+    %th Wertungen:
+    %td{colspan: 3}
+      = resource_instance.team_assessment_participations.map(&:competition_assessment).join(", ")
+        

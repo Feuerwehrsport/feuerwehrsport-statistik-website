@@ -42,6 +42,10 @@ module ApplicationHelper
     controller.class.name.split("::").first=="Backend"
   end
 
+  def comp_reg?
+    controller.class.name.split("::").first=="CompReg"
+  end
+
   def numbered_team_name(score, options={})
     return "" if score.team.blank?
     number_name = begin
@@ -144,5 +148,11 @@ module ApplicationHelper
   def series_assessment_cup_participation(cup, row)
     result = row.participation_for_cup(cup)
     result ? content_tag(:div, result.second_time_with_points, class: "series-participation", data: { id: result.id }) : ""
+  end
+
+  def errors_on?(*attributes)
+    attributes.any? do |attribute|
+      resource_instance.errors[attribute].present?
+    end
   end
 end

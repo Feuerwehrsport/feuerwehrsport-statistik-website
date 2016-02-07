@@ -1,7 +1,9 @@
 class Ability
   include CanCan::Ability
+  attr_reader :user
 
   def initialize(user)
+    @user = user
     all_users
 
     send(:"#{user.role}_abilities") if user.try(:role).in?([:admin, :sub_admin, :user, :api_user])
@@ -34,6 +36,21 @@ class Ability
 
   def user_abilities
     api_user_abilities
+
+    can :manage, CompReg::Competition, admin_user_id: user.id
+    can :read, CompReg::Competition
+    can :participate, CompReg::Competition do |competition|
+      competition.date >= Date.today &&
+      ( competition.open_at.nil? || competition.open_at <= Time.now ) &&
+      ( competition.close_at.nil? || competition.close_at >= Time.now )
+    end
+    can :manage, CompReg::Team do |team|
+      can?(:participate, team.competition) &&
+      (team.admin_user_id == user.id || team.competition.admin_user_id == user.id)
+    end
+    can :read, CompReg::Team do |team|
+      can?(:participate, team.competition)
+    end
   end
 
   def api_user_abilities

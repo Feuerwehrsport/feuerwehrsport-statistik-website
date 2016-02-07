@@ -18,6 +18,7 @@ gem 'coffee-rails', '~> 4'
 # haml support
 gem 'haml-rails'
 gem 'simple_form'
+gem 'cocoon' # nested_form helper
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'bootstrap-wysihtml5-rails'
@@ -55,6 +56,10 @@ gem 'icalendar'
 
 # markdown
 gem 'redcarpet'
+
+# datetimepicker for simple_form
+gem 'momentjs-rails', github: 'egeek/momentjs-rails'
+gem 'datetimepicker-rails', github: 'zpaulovics/datetimepicker-rails', branch: 'master', submodules: true
 
 group :development do
   gem 'capistrano', '~> 2', require: false

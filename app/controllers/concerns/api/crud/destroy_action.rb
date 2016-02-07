@@ -16,6 +16,7 @@ module API
 
       def assign_instance_for_destroy
         assign_existing_instance
+        authorize!(action_name.to_sym, resource_instance)
         self.resource_instance = resource_instance.decorate
       end
 

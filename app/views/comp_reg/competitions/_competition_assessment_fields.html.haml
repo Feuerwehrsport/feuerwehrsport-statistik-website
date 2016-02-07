@@ -1,0 +1,5 @@
+.nested-fields.col-md-5.competition-assessment
+  = f.input :discipline, collection: [:hl, :hb, :la, :fs, :gs].map { |d| [ discipline_name(d), d] }
+  = f.input :gender, collection: Genderable::GENDERS.keys.map { |gender| [ g(gender), gender ]}
+  = f.input :name, hint: "Kann normalerweise weggelassen werden"
+  = link_to_remove_association "Wertung entfernen", f, class: "btn btn-default btn-xs"

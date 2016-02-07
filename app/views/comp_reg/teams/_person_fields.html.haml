@@ -1,0 +1,12 @@
+%tr.nested-fields
+  %td= f.input :first_name
+  %td
+    = f.input :last_name
+    = f.input :competition_id, as: :hidden
+    = f.input :gender, as: :hidden
+  - @assessments.each do |assessment|
+    = f.simple_fields_for :person_assessment_participations, f.object.person_assessment_participations.find_or_initialize_by(competition_assessment: assessment) do |g|
+      %td{ title: discipline_name(assessment.discipline) }
+        = g.input :_destroy, as: :boolean, label: discipline_image(assessment.discipline), input_html: { checked: g.object.persisted? }, checked_value: "0", unchecked_value: "1"
+        = g.input :competition_assessment_id, as: :hidden
+  %td= link_to_remove_association "entfernen", f, class: "btn btn-default btn-xs"

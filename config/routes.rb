@@ -82,7 +82,11 @@ Rails.application.routes.draw do
   end
 
   namespace :comp_reg do
-    resources :competitions, only: [:new, :create, :show, :index, :edit, :update, :destroy]
+    resources :competitions do
+      collection { get :new_select_template }
+    end
+    resources :teams, only: [:new, :create, :show, :edit, :update, :destroy]
+    resources :people
   end
 
   # following controllers will write html cache

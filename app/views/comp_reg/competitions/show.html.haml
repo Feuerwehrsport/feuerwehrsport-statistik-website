@@ -1,10 +1,30 @@
-= resource_instance.name
-= resource_instance.date
-= resource_instance.place
+%h1
+  = resource_instance
+  %small
+    = resource_instance.place
+    = "- Wettkampfanmeldung"
 
-.row
-  = link_to("Wettkampf bearbeiten", action: :edit)
+.pull-right
+  - if can?(:participate, resource_instance)
+    = link_to("Mannschaft anmelden", new_comp_reg_team_path(competition_id: resource_instance), class: "btn btn-sm btn-default")
+  - if can?(:update, resource_instance)
+    = link_to("Wettkampf bearbeiten", { action: :edit }, class: "btn btn-sm btn-default")
+  
+= breadcrum
 
-.row
-- resource_instance.competition_assessments.each do |assessment|
-  = assessment
+%h3 Beschreibung
+.jumbotron= resource_instance.description.html_safe
+%table.table
+  %tr
+    %th Anmeldung öffnen
+    %td= l(resource_instance.open_at || resource_instance.created_at, format: :german)
+  %tr
+    %th Anmeldung schließen
+    %td= l(resource_instance.close_at || resource_instance.date, format: :german)
+
+%h3 angemeldete Mannschaften
+= count_table(resource_instance.teams) do |ct|
+  - ct.col("Name") { |row| link_to(row.name, row) }
+  - resource_instance.competition_assessments.each do |assessment|
+    - ct.col(discipline_image_name_short(assessment.discipline, assessment.gender)) { |row| row.competition_assessments.include?(assessment) ? "x" : "" }
+

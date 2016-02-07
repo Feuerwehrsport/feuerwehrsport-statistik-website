@@ -263,6 +263,7 @@ CREATE TABLE comp_reg_competition_assessments (
     id integer NOT NULL,
     competition_id integer NOT NULL,
     discipline character varying NOT NULL,
+    name character varying DEFAULT ''::character varying NOT NULL,
     gender integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -294,9 +295,12 @@ ALTER SEQUENCE comp_reg_competition_assessments_id_seq OWNED BY comp_reg_competi
 
 CREATE TABLE comp_reg_competitions (
     id integer NOT NULL,
-    name character varying DEFAULT ''::character varying NOT NULL,
+    name character varying NOT NULL,
     date date NOT NULL,
     place character varying NOT NULL,
+    description text NOT NULL,
+    open_at timestamp without time zone,
+    close_at timestamp without time zone,
     admin_user_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -369,6 +373,7 @@ CREATE TABLE comp_reg_teams (
     name character varying NOT NULL,
     shortcut character varying NOT NULL,
     gender integer NOT NULL,
+    admin_user_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -2095,6 +2100,14 @@ ALTER TABLE ONLY comp_reg_teams
 
 ALTER TABLE ONLY scores
     ADD CONSTRAINT fk_rails_23d89423d6 FOREIGN KEY (competition_id) REFERENCES competitions(id);
+
+
+--
+-- Name: fk_rails_2cc62682f7; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comp_reg_teams
+    ADD CONSTRAINT fk_rails_2cc62682f7 FOREIGN KEY (admin_user_id) REFERENCES admin_users(id);
 
 
 --
