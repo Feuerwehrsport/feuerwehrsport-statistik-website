@@ -1,0 +1,13 @@
+%h2 Passwort vergessen?
+
+.row
+  .col-md-6
+    = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+      = f.error_notification
+      .form-inputs
+        = f.input :email, required: true, autofocus: true
+
+      .form-actions
+        = f.button :submit, "E-Mail mit weiteren Instruktionen zusenden", class: "btn-primary"
+
+  = render "devise/shared/links"
