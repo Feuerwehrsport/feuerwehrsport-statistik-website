@@ -373,6 +373,13 @@ CREATE TABLE comp_reg_teams (
     name character varying NOT NULL,
     shortcut character varying NOT NULL,
     gender integer NOT NULL,
+    team_number integer DEFAULT 1 NOT NULL,
+    team_leader character varying DEFAULT ''::character varying NOT NULL,
+    street_with_house_number character varying DEFAULT ''::character varying NOT NULL,
+    postal_code character varying DEFAULT ''::character varying NOT NULL,
+    locality character varying DEFAULT ''::character varying NOT NULL,
+    phone_number character varying DEFAULT ''::character varying NOT NULL,
+    email_address character varying DEFAULT ''::character varying NOT NULL,
     admin_user_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL

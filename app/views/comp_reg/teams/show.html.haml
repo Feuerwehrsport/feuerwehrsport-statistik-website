@@ -5,41 +5,61 @@
 
 %table.table.table-bordered
   %tr
-    %th{colspan: 4} Mannschaftsanmeldung
+    %th{ colspan: 3, class: "text-center"}
+      %h2 Mannschaftsanmeldung
+      %h4 - Teilnehmerliste A -
   %tr
-    %td{colspan: 2}= resource_instance.competition.name
-    %td{colspan: 2}
-      = discipline_image(:hb, width: 60)
-      = discipline_image(:fs, width: 60)
-      = discipline_image(:hl, width: 60)
-      = discipline_image(:la, width: 60)
+    %td{ colspan: 2, class: "text-center col-md-5" }
+      %h3= resource_instance.competition.name
+    %td{ class: "text-center col-md-7" }
+      = discipline_image(:hb, width: 85)
+      = discipline_image(:fs, width: 85)
+      = discipline_image(:hl, width: 85)
+      = discipline_image(:la, width: 85)
   %tr
-    %th am:
-    %td= resource_instance.competition.date
-    %th in:
-    %td= resource_instance.competition.place
+    %th{ colspan: 2, class: "text-center col-md-5" }
+      %h4= l(resource_instance.competition.date, format: :german)
+    %th{ class: "text-center col-md-7" }
+      %h4= "in #{resource_instance.competition.place}"
   %tr
-    %th Wertungsgruppe:
-    %td{colspan: 3}= g(resource_instance.gender)
+    %th{ class: "col-md-3" } Wertungsgruppe:
+    %td{colspan: 2}= g(resource_instance.gender)
   %tr
     %th Mannschaftsleiter:
-    %td{colspan: 3}
+    %td{colspan: 2}= resource_instance.team_leader
   %tr
     %th Straße, Nr.:
-    %td{colspan: 3}
+    %td{colspan: 2}= resource_instance.street_with_house_number
   %tr
     %th PLZ, Ort:
-    %td{colspan: 3}
+    %td{colspan: 2}= resource_instance.postal_code
   %tr
     %th Telefon:
-    %td{colspan: 3}
+    %td{colspan: 2}= resource_instance.phone_number
   %tr
     %th E-Mail-Adresse:
-    %td{colspan: 3}
+    %td{colspan: 2}= resource_instance.email_address
 
   %tr
+    %th{ colspan: 3, class: "text-center"}
+      %h2 Namensliste
+      %h4 - Teilnehmerliste B -
+  %tr
+    %td{ colspan: 2, class: "text-center col-md-5" }
+      %h3= resource_instance.competition.name
+    %td{ class: "text-center col-md-7" }
+      = discipline_image(:hb, width: 85)
+      = discipline_image(:fs, width: 85)
+      = discipline_image(:hl, width: 85)
+      = discipline_image(:la, width: 85)
+  %tr
+    %th{ colspan: 2, class: "text-center col-md-5" }
+      %h4= l(resource_instance.competition.date, format: :german)
+    %th{ class: "text-center col-md-7" }
+      %h4= "in #{resource_instance.competition.place}"
+  %tr
     %th Wertungen:
-    %td{colspan: 3}
+    %td{colspan: 2}
       = resource_instance.team_assessment_participations.map(&:competition_assessment).join(", ")
 
 - if resource_instance.people.present?

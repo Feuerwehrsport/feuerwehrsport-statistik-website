@@ -1,0 +1,22 @@
+= simple_form_for(resource_instance) do |f|
+  = hidden_field_tag(:step, 1)
+  = f.input :competition_id, as: :hidden
+  %fieldset
+    %legend Allgemein
+    = f.input :name
+    = f.input :team_number
+    = f.input :shortcut
+    = f.input :gender, collection: Genderable::GENDERS.keys.map { |gender| [ g(gender), gender ]}
+
+  %fieldset
+    %legend Daten der Mannschaft
+    = f.input :team_leader
+    = f.input :street_with_house_number
+    = f.input :postal_code
+    = f.input :locality
+    = f.input :phone_number
+    = f.input :email_address
+
+  .pull-right
+    = link_to("Abbrechen", comp_reg_competition_path(resource_instance.competition_id), class: "btn btn-default")
+    = f.submit "Weiter", class: "btn btn-primary" 

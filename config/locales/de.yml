@@ -141,6 +141,13 @@ de:
         last_name: Nachname
       comp_reg/team:
         shortcut: Abkürzung
+        team_leader: Mannschaftsleiter
+        street_with_house_number: Straße und Hausnummer
+        postal_code: Postleitzahl
+        locality: Ort
+        phone_number: Telefonnummer
+        email_address: E-Mail-Adresse
+        team_number: Mannschaftsnummer
       group_score:
         group_score_category: Kategorie
         group_score_category_id: Kategorie

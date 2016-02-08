@@ -8,6 +8,7 @@ module CompReg
     has_many :people, inverse_of: :team
 
     validates :competition, :name, :gender, :shortcut, presence: true
+    validates :email_address, email_format: true, allow_blank: true
 
     accepts_nested_attributes_for :team_assessment_participations, reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :people, reject_if: :all_blank, allow_destroy: true

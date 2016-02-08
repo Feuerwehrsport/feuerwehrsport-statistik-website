@@ -6,6 +6,14 @@ class CreateCompRegTeams < ActiveRecord::Migration
       t.string :name, null: false
       t.string :shortcut, null: false
       t.integer :gender, null: false
+      t.integer :team_number, null: false, default: 1
+      t.string :team_leader, null: false, default: ""
+      t.string :street_with_house_number, null: false, default: ""
+      t.string :postal_code, null: false, default: ""
+      t.string :locality, null: false, default: ""
+      t.string :phone_number, null: false, default: ""
+      t.string :email_address, null: false, default: ""
+
       t.references :admin_user, null: false
       t.timestamps null: false
     end
