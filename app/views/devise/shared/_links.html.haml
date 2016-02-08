@@ -1,0 +1,15 @@
+.col-md-4
+  - if controller_name != 'sessions'
+    = link_to "Anmelden", new_session_path(resource_name), class: "btn btn-block btn-default btn-sm"
+
+  - if devise_mapping.registerable? && controller_name != 'registrations'
+    = link_to "Registrieren", new_registration_path(resource_name), class: "btn btn-block btn-default btn-sm"
+
+  - if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations'
+    = link_to "Passwort vergessen?", new_password_path(resource_name), class: "btn btn-block btn-default btn-sm"
+
+  - if devise_mapping.confirmable? && controller_name != 'confirmations'
+    = link_to "Aktivierungs-E-Mail nicht bekommen?", new_confirmation_path(resource_name), class: "btn btn-block btn-default btn-sm"
+
+  - if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks'
+    = link_to "Entsperr-E-Mail nicht bekommen?", new_unlock_path(resource_name), class: "btn btn-block btn-default btn-sm"

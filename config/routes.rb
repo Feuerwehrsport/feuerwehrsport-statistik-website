@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  devise_for :admin_users
+  devise_for :admin_users, controllers: {
+    registrations: 'admin_users/registrations'
+  }
+
 
   # backend: area for admin users
   namespace :backend do

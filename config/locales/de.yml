@@ -108,7 +108,9 @@ de:
         role: Rolle
         email: E-Mail-Adresse
         password: Passwort
+        current_password: Aktuelles Passwort
         password_confirmation: Passwort wiederholen
+        remember_me: Automatisch einloggen
       api_user:
         email_address: E-Mail-Adresse
         name: Name

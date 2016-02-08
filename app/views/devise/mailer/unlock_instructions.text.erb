@@ -1,0 +1,7 @@
+Hallo <%= @resource.name %>,
+
+dein Benutzerkonto wurde aufgrund von zu vielen falschen Anmeldeversuchen gesperrt.
+
+Über einen Aufruf der folgenden URL kannst du deine Konto wieder freischalten:
+
+<%= unlock_url(@resource, unlock_token: @token) %>
