@@ -49,6 +49,15 @@ module CompReg
       @types = [la, la_youth, hb, hl, dcup, empty]
     end
 
+    def show
+      super
+
+      if request.format.to_sym == :wettkampf_manager_import
+        response.headers['Content-Disposition'] = "attachment; filename=\"#{resource_instance.to_s.parameterize}.wettkampf_manager_import\""
+        render text: resource_instance.to_serializer.to_json
+      end
+    end
+
     protected
 
     def permitted_attributes

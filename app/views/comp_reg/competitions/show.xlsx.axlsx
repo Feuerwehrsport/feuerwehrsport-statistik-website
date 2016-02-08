@@ -1,0 +1,36 @@
+wb = xlsx_package.workbook
+
+team_assessments = resource_instance.competition_assessments.decorate
+person_assessments = resource_instance.competition_assessments.for_people.decorate
+
+wb.add_worksheet(name: "Mannschaften") do |sheet|
+  headline = ["Name", "Abkürzung", "Geschlecht"]
+  team_assessments.each { |assessment| headline.push(assessment.with_gender) }
+  sheet.add_row(headline)
+
+  resource_instance.teams.each do |team|
+    row = [team.name, team.shortcut, g(team.gender)]
+    team_assessments.each do |assessment|
+      if Discipline.group?(assessment.discipline)
+        row.push(team.competition_assessments.include?(assessment) ? "x" : "")
+      else
+        row.push(count_or_zero(team.people.with_assessment(assessment).count))
+      end
+    end
+    sheet.add_row(row)
+  end
+end
+
+wb.add_worksheet(name: "Wettkämpfer") do |sheet|
+  headline = ["Vorname", "Nachname", "Geschlecht", "Mannschaft"]
+  person_assessments.each { |assessment| headline.push(assessment.with_gender) }
+  sheet.add_row(headline)
+
+  resource_instance.people.each do |person|
+    row = [person.first_name, person.last_name, g(person.gender), person.team]
+    person_assessments.each do |assessment|
+      row.push(person.competition_assessments.include?(assessment) ? "x" : "")
+    end
+    sheet.add_row(row)
+  end
+end
