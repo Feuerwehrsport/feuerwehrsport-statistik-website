@@ -12,5 +12,9 @@ module CompReg
       all_disciplines = all_disciplines.where(discipline: Discipline::GROUP) if entity.is_a?(Team)
       all_disciplines
     end
+
+    scope :requestable_for_person, -> (team) do
+      where(competition_id: team.competition_id, gender: team.gender).where.not(discipline: Discipline::GROUP)
+    end
   end
 end

@@ -22,9 +22,15 @@
     %th Anmeldung schließen
     %td= l(resource_instance.close_at || resource_instance.date, format: :german)
 
-%h3 angemeldete Mannschaften
-= count_table(resource_instance.teams) do |ct|
-  - ct.col("Name") { |row| link_to(row.name, row) }
-  - resource_instance.competition_assessments.each do |assessment|
-    - ct.col(discipline_image_name_short(assessment.discipline, assessment.gender)) { |row| row.competition_assessments.include?(assessment) ? "x" : "" }
+- [:female, :male].each do |gender|
+  - if resource_instance.teams.gender(gender).present?
+    %h3= "angemeldete #{g(gender)} Mannschaften"
+    = count_table(resource_instance.teams.gender(gender)) do |ct|
+      - ct.col("Name", class: "col-md-4") { |row| link_to(row.name, row) }
+      - resource_instance.competition_assessments.gender(gender).each do |assessment|
+        - ct.col(discipline_image_name_short(assessment.discipline, assessment.gender)) do |row| 
+          - if Discipline.group?(assessment.discipline)
+            - row.competition_assessments.include?(assessment) ? "x" : ""
+          - else
+            - count_or_zero(row.people.with_assessment(assessment).count)
 
