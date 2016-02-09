@@ -64,8 +64,10 @@
 
 - if resource_instance.people.present?
   %h3 Wettkämpfer
+  - i = 0
   = count_table(resource_instance.people) do |ct|
+    - ct.col("Nr.") { i += 1 }
     - ct.col("Vorname", :first_name)
     - ct.col("Nachname", :last_name)
     - assessments = CompReg::CompetitionAssessment.requestable_for_person(resource_instance).decorate.each do |assessment|
-      - ct.col(assessment) { |row| row.competition_assessments.include?(assessment) ? "X" : "" }
+      - ct.col(assessment) { |row| row.person_assessment_participations.find_by(competition_assessment: assessment).try(:single_competitor_order) }

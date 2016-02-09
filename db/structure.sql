@@ -231,6 +231,7 @@ CREATE TABLE comp_reg_assessment_participations (
     competition_assessment_id integer NOT NULL,
     team_id integer,
     person_id integer,
+    single_competitor_order integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
