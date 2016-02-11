@@ -1,6 +1,8 @@
 class Team < ActiveRecord::Base
   include GeoPosition
   include ChangeRequestUploader
+  include TeamScopes
+
   STATUS = { team: 0, fire_station: 1 }
   enum status: STATUS
   
@@ -36,6 +38,13 @@ class Team < ActiveRecord::Base
   scope :status, -> (status) { where(status: STATUS[status.to_sym]) }
   scope :index_order, -> { order(:name) }
   scope :search, -> (team_name) { where("name ILIKE ? OR shortcut ILIKE ?", team_name, team_name) }
+  scope :where_name_like, -> (name) do
+    name = name.strip.gsub(/^FF\s/i, "").gsub(/^Team\s/i, "").strip
+
+    in_names = Team.select(:id).like_name_or_shortcut(name).to_sql
+    in_spellings = TeamSpelling.select(TeamSpelling.arel_table[:team_id].as("id")).like_name_or_shortcut(name).to_sql
+    where("#{table_name}.id IN (#{in_names}) OR #{table_name}.id IN (#{in_spellings})")
+  end
 
   def person_scores_count(person)
     scores.where(person: person).count + person_participations.where(person: person).count

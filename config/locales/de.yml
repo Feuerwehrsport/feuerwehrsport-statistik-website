@@ -130,6 +130,9 @@ de:
         score_type_id: Mannschaftwertung
       competition_file:
         file: Datei
+      comp_reg/assessment_participation:
+        group_competitor_order: Reihenfolge
+        single_competitor_order: Reihenfolge        
       comp_reg/competition:
         close_at: Anmeldung schließen
         date: Datum
@@ -190,6 +193,19 @@ de:
         status_fire_station: Feuerwehr
         state: Land
 
+  assessment_types:
+    group_competitor: Mannschaftswertung
+    group_competitor_order: Mannschaftswertung (%{competitor_order})
+    group_competitor_short: M
+    group_competitor_short_order: M%{competitor_order}
+    single_competitor: Einzelstarter
+    single_competitor_order: Einzelstarter (%{competitor_order})
+    single_competitor_short: E
+    single_competitor_short_order: E%{competitor_order}
+    out_of_competition: Außer der Wertung
+    out_of_competition_order: Außer der Wertung
+    out_of_competition_short: A
+    out_of_competition_short_order: A
 
   # views
   backend:

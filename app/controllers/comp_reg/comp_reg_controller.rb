@@ -8,6 +8,10 @@ module CompReg
 
     protected
 
+    def clean_cache?(action_name)
+      false
+    end
+
     def current_user
       current_admin_user
     end

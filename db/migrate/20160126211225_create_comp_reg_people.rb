@@ -4,6 +4,7 @@ class CreateCompRegPeople < ActiveRecord::Migration
       t.references :competition, null: false
       t.references :team
       t.references :person, foreign_key: true
+      t.references :admin_user, foreign_key: true, null: false
       t.string :first_name, null: false
       t.string :last_name, null: false
       t.integer :gender, null: false

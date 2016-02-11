@@ -62,6 +62,8 @@
     %td{colspan: 2}
       = resource_instance.team_assessment_participations.map(&:competition_assessment).join(", ")
 
+= link_to("Wettkämpfer hinzufügen", controller: :people, action: :new, competition_id: resource_instance.competition_id, team_id: resource_instance.id)
+
 - if resource_instance.people.present?
   %h3 Wettkämpfer
   - i = 0
@@ -69,5 +71,7 @@
     - ct.col("Nr.") { i += 1 }
     - ct.col("Vorname", :first_name)
     - ct.col("Nachname", :last_name)
+    - ct.col("") { |row| link_to("Bearbeiten", action: :edit, controller: :people, id: row.id)}
+    - ct.col("") { |row| link_to("Disziplinen", action: :participations, controller: :people, id: row.id)}
     - assessments = CompReg::CompetitionAssessment.requestable_for_person(resource_instance).decorate.each do |assessment|
-      - ct.col(assessment) { |row| row.person_assessment_participations.find_by(competition_assessment: assessment).try(:single_competitor_order) }
+      - ct.col(assessment) { |row| row.person_assessment_participations.find_by(competition_assessment: assessment).try(:decorate).try(:short_type) }

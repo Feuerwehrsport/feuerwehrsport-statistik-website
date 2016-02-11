@@ -78,7 +78,13 @@ Rails.application.routes.draw do
     namespace :series do
       resources :participations, only: [:create, :show, :update, :destroy]
       resources :team_assessments, only: [:index]
-    end 
+    end
+    resources :suggestions, only: [] do
+      collection do
+        post :people
+        post :teams
+      end
+    end
     resources :teams, only: [:create, :show, :index, :update] do
       member { post :merge }
     end
@@ -89,7 +95,11 @@ Rails.application.routes.draw do
       collection { get :new_select_template }
     end
     resources :teams, only: [:new, :create, :show, :edit, :update, :destroy]
-    resources :people
+    resources :people, only: [:new, :create, :edit, :update, :destroy] do
+      member do
+        get :participations
+      end
+    end
   end
 
   # following controllers will write html cache

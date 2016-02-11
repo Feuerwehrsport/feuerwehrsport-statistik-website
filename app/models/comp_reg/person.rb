@@ -2,6 +2,7 @@ module CompReg
   class Person < ActiveRecord::Base
     include Genderable
     belongs_to :competition
+    belongs_to :admin_user
     has_many :person_assessment_participations, inverse_of: :person
     has_many :competition_assessments, through: :person_assessment_participations
     belongs_to :team
@@ -11,7 +12,7 @@ module CompReg
       where(comp_reg_competition_assessments: { id: assessment })
     end
 
-    validates :first_name, :last_name, :gender, :competition, presence: true
+    validates :first_name, :last_name, :gender, :competition, :admin_user, presence: true
 
     accepts_nested_attributes_for :person_assessment_participations, reject_if: :all_blank, allow_destroy: true
 

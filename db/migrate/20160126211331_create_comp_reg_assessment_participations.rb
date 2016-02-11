@@ -6,7 +6,9 @@ class CreateCompRegAssessmentParticipations < ActiveRecord::Migration
       t.references :competition_assessment, null: false
       t.references :team
       t.references :person
-      t.integer :single_competitor_order
+      t.integer :assessment_type, null: false, default: 0
+      t.integer :single_competitor_order, null: false, default: 0
+      t.integer :group_competitor_order, null: false, default: 0
 
       t.timestamps null: false
     end

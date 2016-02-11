@@ -50,21 +50,6 @@
             %h4= discipline_name(assessment.discipline)
             = g.input :_destroy, as: :boolean, label: 'Teilnahme', input_html: { checked: g.object.persisted? }, checked_value: "0", unchecked_value: "1"
             = g.input :competition_assessment_id, as: :hidden
-  - @assessments = CompReg::CompetitionAssessment.requestable_for_person(resource_instance).decorate
-  - if @assessments.present?
-    %h3 Wettkämpfer
-    %table.table#people-table
-      %thead
-        %tr.nested-fields
-          %th
-          %th
-          - @assessments.each do |assessment|
-            %th= assessment
-          %th
-      %tbody
-        = f.simple_fields_for :people do |person|
-          = render 'person_fields', f: person
-    = link_to_add_association 'Wettkämpfer hinzufügen', f, :people, data: { association_insertion_node: "#people-table", association_insertion_method: "append" }
   .pull-right
     = link_to("Abbrechen", comp_reg_competition_path(resource_instance.competition_id), class: "btn btn-default")
     = f.submit class: "btn btn-primary" 

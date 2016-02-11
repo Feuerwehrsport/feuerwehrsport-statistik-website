@@ -1,4 +1,5 @@
 class TeamSpelling < ActiveRecord::Base
+  include TeamScopes
   belongs_to :team
 
   scope :search, -> (team_name) { where("name ILIKE ? OR shortcut ILIKE ?", team_name, team_name) }

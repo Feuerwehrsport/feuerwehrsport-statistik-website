@@ -231,7 +231,9 @@ CREATE TABLE comp_reg_assessment_participations (
     competition_assessment_id integer NOT NULL,
     team_id integer,
     person_id integer,
-    single_competitor_order integer,
+    assessment_type integer DEFAULT 0 NOT NULL,
+    single_competitor_order integer DEFAULT 0 NOT NULL,
+    group_competitor_order integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -336,6 +338,7 @@ CREATE TABLE comp_reg_people (
     competition_id integer NOT NULL,
     team_id integer,
     person_id integer,
+    admin_user_id integer NOT NULL,
     first_name character varying NOT NULL,
     last_name character varying NOT NULL,
     gender integer NOT NULL,
@@ -2236,6 +2239,14 @@ ALTER TABLE ONLY comp_reg_people
 
 ALTER TABLE ONLY competitions
     ADD CONSTRAINT fk_rails_7f26f3b040 FOREIGN KEY (score_type_id) REFERENCES score_types(id);
+
+
+--
+-- Name: fk_rails_86823d0b62; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comp_reg_people
+    ADD CONSTRAINT fk_rails_86823d0b62 FOREIGN KEY (admin_user_id) REFERENCES admin_users(id);
 
 
 --

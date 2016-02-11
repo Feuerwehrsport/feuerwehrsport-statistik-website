@@ -32,6 +32,15 @@ class Person < ActiveRecord::Base
     where("last_name ILIKE ? AND first_name ILIKE ?", last_name, first_name)
   end
   scope :index_order, -> { order(:last_name, :first_name) }
+  scope :where_name_like, -> (name) do
+    query = "%#{name.split("").join("%")}%"
+    spelling_query = PersonSpelling.where("(first_name || ' ' || last_name) ILIKE ?", query).select(:person_id)
+    where("(first_name || ' ' || last_name) ILIKE ? OR id IN (#{spelling_query.to_sql})", query)
+  end
+  scope :order_by_teams, -> (other_teams) do
+    sql = other_teams.joins(:team_members).where(team_members: { person_id: arel_table[:id] }).select("1").to_sql
+    order("EXISTS(#{sql}) DESC")
+  end
 
   validates :last_name, :gender, :nation, presence: true
 

@@ -13,8 +13,8 @@ module CompReg
       all_disciplines
     end
 
-    scope :requestable_for_person, -> (team) do
-      where(competition_id: team.competition_id, gender: team.gender).for_people
+    scope :requestable_for_person, -> (person) do
+      where(competition_id: person.competition_id).gender(person.gender).for_people
     end
 
     scope :for_people, -> { where.not(discipline: Discipline::GROUP) }
