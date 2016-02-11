@@ -139,6 +139,8 @@ de:
         description: Beschreibung
         open_at: Anmeldung öffnen
         place: Ort
+        person_tags: Anklickbare Werte für Wettkämpfer
+        team_tags: Anklickbare Werte für Mannschaften
       comp_reg/person:
         first_name: Vorname
         last_name: Nachname

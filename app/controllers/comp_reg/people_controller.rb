@@ -15,6 +15,7 @@ module CompReg
 
     def permitted_attributes
       super.permit(:first_name, :last_name, :gender, :competition_id, :person_id, :team_id, 
+        tags_attributes: [:id, :_destroy, :name],
         person_assessment_participations_attributes: [ :id, :_destroy, :single_competitor_order, 
           :competition_assessment_id, :assessment_type, :group_competitor_order ]
       )

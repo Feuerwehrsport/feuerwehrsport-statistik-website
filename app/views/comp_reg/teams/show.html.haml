@@ -23,7 +23,7 @@
       %h4= "in #{resource_instance.competition.place}"
   %tr
     %th{ class: "col-md-3" } Wertungsgruppe:
-    %td{colspan: 2}= g(resource_instance.gender)
+    %td{colspan: 2}= ([g(resource_instance.gender)] + resource_instance.tag_names).join(", ")
   %tr
     %th Mannschaftsleiter:
     %td{colspan: 2}= resource_instance.team_leader
@@ -71,6 +71,7 @@
     - ct.col("Nr.") { i += 1 }
     - ct.col("Vorname", :first_name)
     - ct.col("Nachname", :last_name)
+    - ct.col("Attribute") { |person| person.tag_names.join(", ") }
     - ct.col("") { |row| link_to("Bearbeiten", action: :edit, controller: :people, id: row.id)}
     - ct.col("") { |row| link_to("Disziplinen", action: :participations, controller: :people, id: row.id)}
     - assessments = CompReg::CompetitionAssessment.requestable_for_person(resource_instance).decorate.each do |assessment|

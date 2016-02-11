@@ -1,6 +1,7 @@
 module CompReg
   class Team < ActiveRecord::Base
     include Genderable
+    include Taggable
     belongs_to :competition
     belongs_to :admin_user
     has_many :team_assessment_participations, inverse_of: :team

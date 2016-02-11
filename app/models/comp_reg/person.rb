@@ -1,6 +1,7 @@
 module CompReg
   class Person < ActiveRecord::Base
     include Genderable
+    include Taggable
     belongs_to :competition
     belongs_to :admin_user
     has_many :person_assessment_participations, inverse_of: :person

@@ -13,6 +13,7 @@ module CompReg
     def permitted_attributes
       super.permit(:name, :shortcut, :gender, :competition_id, :team_number, :team_leader, :street_with_house_number, 
         :postal_code, :locality, :phone_number, :email_address,
+        tags_attributes: [:id, :_destroy, :name],
         team_assessment_participations_attributes: [:id, :_destroy, :competition_assessment_id],
         people_attributes: [:id, :_destroy, :first_name, :last_name, :gender, :competition_id,
           person_assessment_participations_attributes: [:id, :_destroy, :single_competitor_order, :competition_assessment_id]

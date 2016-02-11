@@ -305,6 +305,8 @@ CREATE TABLE comp_reg_competitions (
     open_at timestamp without time zone,
     close_at timestamp without time zone,
     admin_user_id integer NOT NULL,
+    person_tags character varying DEFAULT ''::character varying NOT NULL,
+    team_tags character varying DEFAULT ''::character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -1202,6 +1204,39 @@ ALTER SEQUENCE series_rounds_id_seq OWNED BY series_rounds.id;
 
 
 --
+-- Name: tags; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE tags (
+    id integer NOT NULL,
+    taggable_id integer NOT NULL,
+    taggable_type character varying NOT NULL,
+    name character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE tags_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE tags_id_seq OWNED BY tags.id;
+
+
+--
 -- Name: team_competitions; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -1535,6 +1570,13 @@ ALTER TABLE ONLY series_rounds ALTER COLUMN id SET DEFAULT nextval('series_round
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY tags ALTER COLUMN id SET DEFAULT nextval('tags_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY team_spellings ALTER COLUMN id SET DEFAULT nextval('team_spellings_id_seq'::regclass);
 
 
@@ -1791,6 +1833,14 @@ ALTER TABLE ONLY series_participations
 
 ALTER TABLE ONLY series_rounds
     ADD CONSTRAINT series_rounds_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY tags
+    ADD CONSTRAINT tags_pkey PRIMARY KEY (id);
 
 
 --
@@ -2456,4 +2506,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160126211222');
 INSERT INTO schema_migrations (version) VALUES ('20160126211225');
 
 INSERT INTO schema_migrations (version) VALUES ('20160126211331');
+
+INSERT INTO schema_migrations (version) VALUES ('20160211080337');
 

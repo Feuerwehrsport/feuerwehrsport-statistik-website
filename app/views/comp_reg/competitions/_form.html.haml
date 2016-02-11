@@ -8,7 +8,8 @@
       = f.input :description, as: :wysihtml5
       = f.input :close_at, include_blank: true, as: :datetime_picker
       = f.input :open_at, include_blank: true, as: :datetime_picker
-
+      = f.input :person_tags
+      = f.input :team_tags
 
       %h3 Angebotene Disziplinen
     = f.simple_fields_for :competition_assessments do |competition_assessment|
