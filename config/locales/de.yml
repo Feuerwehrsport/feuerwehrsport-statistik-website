@@ -211,12 +211,22 @@ de:
 
   # views
   backend:
-    dashboard:
+    dashboards:
+      index:
+        page_title: Interner Bereich
       page_title: Administration
     change_requests:
       page_title: Fehler bearbeiten
     imports:
       page_title: Wettkämpfe importieren
+
+  comp_reg:
+    competitions:
+      page_title: Wettkampfanmeldungen
+    teams:
+      page_title: Wettkampfanmeldungen - Mannschaften
+    people:
+      page_title: Wettkampfanmeldungen - Wettkämpfer
 
   competitions:
     missed_information:
