@@ -14,7 +14,7 @@ module CompReg
       la.competition_assessments.build(discipline: :la, gender: :female)
 
       la_youth = build_instance.decorate
-      la_youth.name = "Löschangriff-Wettkampf"
+      la_youth.name = "Löschangriff-Wettkampf mit Jugend"
       la_youth.competition_assessments.build(discipline: :la, gender: :male)
       la_youth.competition_assessments.build(discipline: :la, gender: :female)
       la_youth.competition_assessments.build(discipline: :la, gender: :male, name: "Jugend")
@@ -32,6 +32,7 @@ module CompReg
 
       dcup = build_instance.decorate
       dcup.name = "Deutschland-Cup"
+      dcup.person_tags = "U20"
       dcup.competition_assessments.build(discipline: :la, gender: :male)
       dcup.competition_assessments.build(discipline: :la, gender: :female)
       dcup.competition_assessments.build(discipline: :fs, gender: :male)
@@ -51,6 +52,15 @@ module CompReg
 
     def show
       super
+
+      @teams = {}
+      @people = {}
+      @people_count = {}
+      [:female, :male].each do |gender|
+        @teams[gender] = resource_instance.object.teams.gender(gender).decorate
+        @people[gender] = resource_instance.object.people.gender(gender).where(team_id: nil).accessible_by(current_ability).decorate
+        @people_count[gender] = resource_instance.object.people.gender(gender).where(team_id: nil).count
+      end
 
       if request.format.to_sym == :wettkampf_manager_import
         response.headers['Content-Disposition'] = "attachment; filename=\"#{resource_instance.to_s.parameterize}.wettkampf_manager_import\""

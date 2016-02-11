@@ -1,9 +1,18 @@
 .row
   .col-md-6
     = simple_form_for(resource_instance) do |f|
-      = f.input :first_name
-      = f.input :last_name
-      = f.input :gender, collection: Genderable::GENDERS.keys.map { |gender| [ g(gender), gender ]}
+      .form-group.string
+        %label.string.control-label{ for: "person_suggestion" } Schnelleingabe
+        %input.string.form-control{ name: "person_suggestion", id: "person_suggestion", type: "text", data: { team_name: resource_instance.try(:team).try(:name) } }
+      .suggestions-entries
+        %table.table.table-hover.table-condensed
+      .row
+        .col-md-4
+          = f.input :first_name
+        .col-md-4
+          = f.input :last_name
+        .col-md-4
+          = f.input :gender, collection: Genderable::GENDERS.keys.map { |gender| [ g(gender), gender ]}
       = f.input :team_id, as: :hidden
       = f.input :person_id, as: :hidden
       = f.input :competition_id, as: :hidden

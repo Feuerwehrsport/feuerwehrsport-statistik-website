@@ -4,6 +4,7 @@
     .col-md-5.template
       = simple_form_for(type) do |f|
         = f.input :name, as: :hidden
+        = f.input :person_tags, as: :hidden
         %h3= type.name
         %table.table.table-condensed
           = f.simple_fields_for :competition_assessments do |competition_assessment|

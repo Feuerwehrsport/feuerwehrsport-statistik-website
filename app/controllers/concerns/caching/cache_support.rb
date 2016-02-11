@@ -37,9 +37,10 @@ module Caching
     end
 
     def clean_cache_and_build_new
-      return if clean_cache?(action_name)
-      Caching::Cleaner.new.perform
-      Caching::Builder.enqueue_with_options(run_at: Time.now + 5.minutes)
+      if clean_cache?(action_name)
+        Caching::Cleaner.new.perform
+        Caching::Builder.enqueue_with_options(run_at: Time.now + 5.minutes)
+      end
     end
   end
 end

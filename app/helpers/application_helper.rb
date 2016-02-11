@@ -155,4 +155,11 @@ module ApplicationHelper
       resource_instance.errors[attribute].present?
     end
   end
+
+  def image_link_to(image, title, *args)
+    options = args.extract_options!
+    image_options = options.delete(:image)
+    title = "#{design_image(image, image_options)} #{title}".html_safe
+    link_to(title, *args, options)
+  end
 end

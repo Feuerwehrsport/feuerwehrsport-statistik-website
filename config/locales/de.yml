@@ -69,6 +69,10 @@ de:
       comp_reg/competition:
         one: Wettkampf
         other: Wettkämpfe
+      comp_reg/person: Wettkämpfer
+      comp_reg/team:
+        one: Mannschaft
+        other: Mannschaften
       group_score:
         one: Mannschaftszeit
         other: Mannschaftszeiten

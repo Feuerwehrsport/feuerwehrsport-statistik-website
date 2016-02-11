@@ -5,6 +5,7 @@ module CompReg
     include CRUD::ShowAction
     include CRUD::EditAction
     include CRUD::UpdateAction
+    include CRUD::DestroyAction
 
     before_action :assign_step_for_form, only: [:new, :create, :edit, :update]
 
@@ -37,6 +38,10 @@ module CompReg
 
     def assign_step_for_form
       @step = params[:step].to_i
+    end
+
+    def before_destroy_success
+      redirect_to controller: :competitions, id: resource_instance.competition_id, action: :show
     end
   end
 end

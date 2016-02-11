@@ -6,5 +6,9 @@ module CompReg
     def to_s
       name
     end
+
+    def with_number
+      "#{name} #{team_number}"
+    end
   end
 end

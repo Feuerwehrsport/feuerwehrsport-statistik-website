@@ -4,9 +4,9 @@ module CompReg
     include Taggable
     belongs_to :competition
     belongs_to :admin_user
-    has_many :team_assessment_participations, inverse_of: :team
+    has_many :team_assessment_participations, inverse_of: :team, dependent: :destroy
     has_many :competition_assessments, through: :team_assessment_participations
-    has_many :people, inverse_of: :team
+    has_many :people, inverse_of: :team, dependent: :destroy
 
     validates :competition, :name, :gender, :shortcut, :admin_user, presence: true
     validates :email_address, email_format: true, allow_blank: true

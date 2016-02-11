@@ -6,27 +6,32 @@
 
 .pull-right
   - if can?(:participate, resource_instance)
-    = link_to("Mannschaft anmelden", new_comp_reg_team_path(competition_id: resource_instance), class: "btn btn-sm btn-default")
+    = image_link_to("team-add", "Mannschaft anmelden", new_comp_reg_team_path(competition_id: resource_instance), image: { width: "18px" }, class: "btn btn-default btn-sm")
+    = image_link_to("person-add", "Wettkämpfer anmelden", new_comp_reg_person_path(competition_id: resource_instance), image: { width: "18px" }, class: "btn btn-default btn-sm")
   - if can?(:update, resource_instance)
-    = link_to("Wettkampf bearbeiten", { action: :edit }, class: "btn btn-sm btn-default")
+    = image_link_to("configure", "Wettkampf bearbeiten", { action: :edit }, image: { width: "18px" }, class: "btn btn-default btn-sm")
   
 = breadcrum
 
 %h3 Beschreibung
-.jumbotron= resource_instance.description.html_safe
-%table.table
-  %tr
-    %th Anmeldung öffnen
-    %td= l(resource_instance.open_at || resource_instance.created_at, format: :german)
-  %tr
-    %th Anmeldung schließen
-    %td= l(resource_instance.close_at || resource_instance.date, format: :german)
+.row
+  .col-md-8.jumbotron= resource_instance.description.html_safe
+  .col-md-4
+    %table.table
+      %tr
+        %th Anmeldung öffnen
+        %td= l(resource_instance.open_at || resource_instance.created_at, format: :german)
+      %tr
+        %th Anmeldung schließen
+        %td= l(resource_instance.close_at || resource_instance.date, format: :german)
 
 - [:female, :male].each do |gender|
-  - if resource_instance.teams.gender(gender).present?
-    %h3= "angemeldete #{g(gender)} Mannschaften"
-    = count_table(resource_instance.teams.gender(gender)) do |ct|
-      - ct.col("Name", class: "col-md-4") { |row| link_to(row.name, row) }
+  - if @teams[gender].present?
+    %h3
+      = "Mannschaften #{g(gender)}"
+      %small= g_symbol(gender)
+    = count_table(@teams[gender]) do |ct|
+      - ct.col("Name", class: "col-md-4") { |row| can?(:update, row) ? link_to(row.name, row) : row.name }
       - resource_instance.competition_assessments.gender(gender).each do |assessment|
         - ct.col(discipline_image_name_short(assessment.discipline, assessment.gender)) do |row| 
           - if Discipline.group?(assessment.discipline)
@@ -34,12 +39,40 @@
           - else
             - count_or_zero(row.people.with_assessment(assessment).count)
 
+  - if @people_count[gender] > 0
+    %h3
+      = "Einzelstarter #{g(gender)}"
+      %small= "#{g_symbol(gender)} Anzahl: #{@people_count[gender]}"
+    - if @people[gender].present?
+      = count_table(@people[gender]) do |ct|
+        - ct.col("Vorname", :first_name, class: "col-20")
+        - ct.col("Nachname", :last_name, class: "col-20")
+        - ct.col("Aktionen", class: "col-20") { |row| link_to("Bearbeiten", controller: :people, id: row.id, action: :edit) + " " + link_to("Disziplinen", controller: :people, id: row.id, action: :participations) }
+        - resource_instance.competition_assessments.gender(gender).decorate.each do |assessment|
+          - unless Discipline.group?(assessment.discipline)
+            - ct.col(assessment) { |row| row.person_assessment_participations.find_by(competition_assessment: assessment).try(:decorate).try(:short_type) }
+    - unless can?(:update, resource_instance)
+      %p.text-center.small Es werden eventuell nicht alle Wettkämpfer angezeigt, da du nicht genügend Rechte dafür besitzt.
+
 
 %hr
+  - if can?(:export, resource_instance)
+    .col-md-4.pull-right
+      .panel.panel-default
+        .panel-heading
+          %h3.panel-title Export
+        .panel-body
+          = link_to("Wettkampf-Manager-Konfiguration", { format: :wettkampf_manager_import }, class: "btn btn-default btn-block btn-sm")
+          = link_to("Excel-Format", { format: :xlsx }, class: "btn btn-default btn-block btn-sm")
+
   .col-md-4.pull-right
     .panel.panel-default
       .panel-heading
-        %h3.panel-title Export
+        %h3.panel-title Aktionen
       .panel-body
-        = link_to("Wettkampf-Manager-Konfiguration", { format: :wettkampf_manager_import }, class: "btn btn-default btn-block btn-sm")
-        = link_to("Excel-Format", { format: :xlsx }, class: "btn btn-default btn-block btn-sm")
+        - if can?(:participate, resource_instance)
+          = image_link_to("team-add", "Mannschaft anmelden", new_comp_reg_team_path(competition_id: resource_instance), image: { width: "22px" }, class: "btn btn-default btn-block")
+          = image_link_to("person-add", "Wettkämpfer anmelden", new_comp_reg_person_path(competition_id: resource_instance), image: { width: "22px" }, class: "btn btn-default btn-block")
+        - if can?(:update, resource_instance)
+          = image_link_to("configure", "Wettkampf bearbeiten", { action: :edit }, image: { width: "22px" }, class: "btn btn-default btn-block")
+      

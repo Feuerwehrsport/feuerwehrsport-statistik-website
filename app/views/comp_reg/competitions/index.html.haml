@@ -4,7 +4,7 @@
 = breadcrum
 
 = count_table(resource_collection) do |ct|
-  - ct.col("Datum") { |row| l(row.date, format: :german) }
-  - ct.col("Name", :name)
-  - ct.col("Ort", :place)
+  - ct.col("Datum", class: "col-15") { |row| l(row.date, format: :german) }
+  - ct.col("Name", :name, class: "col-30")
+  - ct.col("Ort", :place, class: "col-30")
   - ct.col("Aktionen") { |row| link_to("Ansehen", row) }
