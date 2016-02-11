@@ -1,0 +1,14 @@
+%h1 Interner Bereich
+.row
+  .col-md-4
+    %ul.nav.nav-pills.nav-stacked.backend-nav
+      - if can?(:index, CompReg::Competition)
+        %li
+          %a{ href: comp_reg_competitions_path }
+            Wettkampfanmeldungen
+            %span.badge= CompReg::Competition.open.count
+      - if can?(:manage, Import::Scores)
+        %li= link_to("Administration", action: :administration)
+
+      %li= link_to("Benutzer ändern", edit_admin_user_registration_path)
+      %li= link_to("Ausloggen", destroy_admin_user_session_path, method: :delete)

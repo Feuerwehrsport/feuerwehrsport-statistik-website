@@ -9,6 +9,12 @@ module CompReg
 
     accepts_nested_attributes_for :competition_assessments, reject_if: :all_blank, allow_destroy: true
 
+    scope :open, -> do
+      where("date >= ?", Date.today).
+      where("open_at IS NULL OR open_at <= ?", Time.now).
+      where("close_at IS NULL OR close_at >= ?", Time.now)
+    end
+
     def person_tag_list
       person_tags.split(',').each(&:strip!)
     end

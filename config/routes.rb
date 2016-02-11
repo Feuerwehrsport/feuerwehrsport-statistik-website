@@ -6,7 +6,12 @@ Rails.application.routes.draw do
 
   # backend: area for admin users
   namespace :backend do
-    root to: 'dashboard#index'
+    root to: 'dashboards#index'
+    resources :dashboards, only: [] do
+      collection do
+        get :administration
+      end
+    end
     resources :admin_users
     resources :appointments
     resources :change_requests, only: [:index]
