@@ -23,6 +23,9 @@
     %th{ class: "text-center col-md-7" }
       %h4= "in #{resource_instance.competition.place}"
   %tr
+    %th{ class: "col-md-3" } Name:
+    %td{colspan: 2}= resource_instance.with_number
+  %tr
     %th{ class: "col-md-3" } Wertungsgruppe:
     %td{colspan: 2}= ([g(resource_instance.gender)] + resource_instance.tag_names).join(", ")
   %tr
@@ -33,7 +36,7 @@
     %td{colspan: 2}= resource_instance.street_with_house_number
   %tr
     %th PLZ, Ort:
-    %td{colspan: 2}= resource_instance.postal_code
+    %td{colspan: 2}= "#{resource_instance.postal_code} #{resource_instance.locality}"
   %tr
     %th Telefon:
     %td{colspan: 2}= resource_instance.phone_number

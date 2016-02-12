@@ -63,7 +63,7 @@ module CompReg
       end
 
       format = request.format.to_sym
-      if format.in?([:wettkampf_manager_import, :xlsx])
+      if format.in?([:wettkampf_manager_import, :xlsx, :pdf])
         authorize!(:export, resource_instance)
         response.headers['Content-Disposition'] = "attachment; filename=\"#{resource_instance.to_s.parameterize}.#{format}\""
         if format == :wettkampf_manager_import

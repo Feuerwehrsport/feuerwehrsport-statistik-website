@@ -54,8 +54,11 @@ gem 'validates_email_format_of'
 # ics export
 gem 'icalendar'
 
-# excel export
+# export
 gem 'axlsx_rails'
+gem 'prawn'
+gem 'prawn-table'
+gem 'prawnto'
 
 # markdown
 gem 'redcarpet'

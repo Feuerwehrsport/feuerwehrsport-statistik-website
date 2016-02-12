@@ -4,6 +4,7 @@ module ApplicationHelper
   include MapHelper
   include Helper::PositionSelectorHelper
   include Helper::NationHelper
+  include Helper::PrawnHelper
 
   COMPETITOR_POSITION = {
     la: [
