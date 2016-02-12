@@ -28,6 +28,7 @@ module CompReg
     end
 
     def before_create_success
+      deliver(CompetitionMailer, :new_person_registered, resource_instance) if resource_instance.team.nil?
       redirect_to action: :participations, id: resource_instance.id
     end
 

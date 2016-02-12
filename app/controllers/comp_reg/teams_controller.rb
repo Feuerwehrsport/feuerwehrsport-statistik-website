@@ -53,5 +53,10 @@ module CompReg
     def before_destroy_success
       redirect_to controller: :competitions, id: resource_instance.competition_id, action: :show
     end
+
+    def before_create_success
+      deliver(CompetitionMailer, :new_team_registered, resource_instance)
+      super
+    end
   end
 end
