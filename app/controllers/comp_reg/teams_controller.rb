@@ -9,6 +9,16 @@ module CompReg
 
     before_action :assign_step_for_form, only: [:new, :create, :edit, :update]
 
+    def show
+      super
+
+      format = request.format.to_sym
+      if format.in?([:xlsx, :pdf])
+        authorize!(:export, resource_instance)
+        response.headers['Content-Disposition'] = "attachment; filename=\"#{resource_instance.to_s.parameterize}.#{format}\""
+      end
+    end
+
     protected
 
     def permitted_attributes
