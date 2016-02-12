@@ -308,7 +308,9 @@ CREATE TABLE comp_reg_competitions (
     person_tags character varying DEFAULT ''::character varying NOT NULL,
     team_tags character varying DEFAULT ''::character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    slug character varying,
+    published boolean DEFAULT false NOT NULL
 );
 
 
@@ -1937,6 +1939,13 @@ CREATE INDEX index_change_requests_on_api_user_id ON change_requests USING btree
 
 
 --
+-- Name: index_comp_reg_competitions_on_slug; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_comp_reg_competitions_on_slug ON comp_reg_competitions USING btree (slug);
+
+
+--
 -- Name: index_competition_files_on_competition_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2508,4 +2517,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160126211225');
 INSERT INTO schema_migrations (version) VALUES ('20160126211331');
 
 INSERT INTO schema_migrations (version) VALUES ('20160211080337');
+
+INSERT INTO schema_migrations (version) VALUES ('20160212203857');
 

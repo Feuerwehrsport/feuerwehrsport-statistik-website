@@ -98,6 +98,7 @@ Rails.application.routes.draw do
   namespace :comp_reg do
     resources :competitions do
       collection { get :new_select_template }
+      member { get :publishing }
     end
     resources :teams, only: [:new, :create, :show, :edit, :update, :destroy]
     resources :people, only: [:new, :create, :edit, :update, :destroy] do
@@ -106,6 +107,8 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  get 'wa/:slug', to: 'comp_reg/competitions#slug_handle', as: :comp_reg_slug
 
   # following controllers will write html cache
   resources :change_logs, only: [:index, :show]

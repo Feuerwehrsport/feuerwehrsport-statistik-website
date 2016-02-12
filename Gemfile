@@ -59,6 +59,7 @@ gem 'axlsx_rails'
 gem 'prawn'
 gem 'prawn-table'
 gem 'prawnto'
+gem 'rqrcode_png'
 
 # markdown
 gem 'redcarpet'

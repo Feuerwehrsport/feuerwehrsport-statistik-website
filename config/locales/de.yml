@@ -143,7 +143,9 @@ de:
         description: Beschreibung
         open_at: Anmeldung öffnen
         place: Ort
+        published: Veröffentlichen
         person_tags: Anklickbare Werte für Wettkämpfer
+        slug: Kurzname
         team_tags: Anklickbare Werte für Mannschaften
       comp_reg/person:
         first_name: Vorname

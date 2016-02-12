@@ -8,6 +8,12 @@ module CompReg
     include CRUD::UpdateAction
     include CRUD::DestroyAction
 
+    before_action :assign_instance_for_edit, only: [:edit, :publishing]
+
+    def publishing
+      resource_instance.slug = resource_instance.to_s.parameterize if resource_instance.slug.blank?
+    end
+
     def new_select_template
       la = build_instance.decorate
       la.name = "Löschangriff-Wettkampf"
@@ -73,10 +79,20 @@ module CompReg
       end
     end
 
+    def slug_handle
+      competition = Competition.find_by_slug!(params[:slug])
+      redirect_to action: :show, id: competition.id
+    end
+
+    def update
+      @publishing_form = params[:publishing].present?
+      super
+    end
+
     protected
 
     def permitted_attributes
-      super.permit(:name, :place, :date, :description, :open_at, :close_at, :person_tags, :team_tags,
+      super.permit(:name, :place, :date, :description, :open_at, :close_at, :person_tags, :team_tags, :slug, :published,
         competition_assessments_attributes: [:id, :discipline, :gender, :name, :_destroy]
       )
     end
