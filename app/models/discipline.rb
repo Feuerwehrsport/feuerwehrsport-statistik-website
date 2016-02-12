@@ -8,7 +8,7 @@ class Discipline
   ALL                  = [:hb, :hl, :zk, :gs, :fs, :la]
   GROUP                = [:gs, :fs, :la]
   def self.group?(discipline)
-    discipline.to_sym.in? GROUP
+    discipline.try(:to_sym).in? GROUP
   end
 
   def self.participation_count(discipline)

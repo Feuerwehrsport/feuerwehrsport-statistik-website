@@ -4,7 +4,7 @@ module API
       extend ActiveSupport::Concern
       
       included do
-        include ::CRUD::IndexAction
+        include ::CRUD::DestroyAction
         include InstanceMethods
       end
 
