@@ -9,4 +9,16 @@
         = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
       .form-actions
         = f.button :submit, "Anmelden"
+  .col-md-5
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title Interner Bereich
+      .panel-body
+        %ul
+          %li Mannschaft für Wettkämpfe anmelden
+          %li Wettkämpfer für Wettkämpfe anmelden
+          %li Wettkämpfe ausschreiben
+          %li Wertungslisten hochladen (BETA)
+        %p= "Du musst dir ein #{link_to("Konto anlegen", new_registration_path(resource_name))}, um dich einloggen zu können.".html_safe
+
   = render "devise/shared/links"
