@@ -56,6 +56,7 @@ module CompReg
 
     def before_create_success
       deliver(CompetitionMailer, :new_team_registered, resource_instance)
+      deliver(TeamMailer, :notification_to_creator, resource_instance)
       super
     end
   end

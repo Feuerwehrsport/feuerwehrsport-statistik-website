@@ -1,0 +1,10 @@
+Du hast eine Mannschaft für den Wettkampf <%= @competition %> angemeldet.
+
+Weitere Information zu diesem Wettkampf findest du hier:
+<%= comp_reg_competition_url(@competition) %>
+
+Du kannst deine Anmeldung auch weiterhin bearbeiten oder wieder entfernen. Nutze dafür die folgende Seite:
+<%= comp_reg_team_url(@team) %>
+
+Mannschaft: <%= @team.with_number %>
+Geschlecht: <%= @team.translated_gender %>
