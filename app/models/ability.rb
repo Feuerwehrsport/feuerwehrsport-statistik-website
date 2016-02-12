@@ -48,8 +48,9 @@ class Ability
       can?(:participate, team.competition) &&
       (team.admin_user_id == user.id || team.competition.admin_user_id == user.id)
     end
-    can :read, CompReg::Team do |team|
-      can?(:participate, team.competition)
+    can :manage, CompReg::Person do |person|
+      can?(:participate, person.competition) &&
+      (person.admin_user_id == user.id || person.competition.admin_user_id == user.id)
     end
   end
 

@@ -62,9 +62,13 @@ module CompReg
         @people_count[gender] = resource_instance.object.people.gender(gender).where(team_id: nil).count
       end
 
-      if request.format.to_sym == :wettkampf_manager_import
-        response.headers['Content-Disposition'] = "attachment; filename=\"#{resource_instance.to_s.parameterize}.wettkampf_manager_import\""
-        render text: resource_instance.to_serializer.to_json
+      format = request.format.to_sym
+      if format.in?([:wettkampf_manager_import, :xlsx])
+        authorize!(:export, resource_instance)
+        response.headers['Content-Disposition'] = "attachment; filename=\"#{resource_instance.to_s.parameterize}.#{format}\""
+        if format == :wettkampf_manager_import
+          render text: resource_instance.to_serializer.to_json
+        end
       end
     end
 
