@@ -6,6 +6,7 @@ module CompReg
     include CRUD::IndexAction
     include CRUD::EditAction
     include CRUD::UpdateAction
+    include CRUD::DestroyAction
 
     def new_select_template
       la = build_instance.decorate

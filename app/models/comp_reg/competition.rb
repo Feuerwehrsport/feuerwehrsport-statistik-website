@@ -1,9 +1,9 @@
 module CompReg
   class Competition < ActiveRecord::Base
     belongs_to :admin_user
-    has_many :competition_assessments, inverse_of: :competition
-    has_many :teams
-    has_many :people
+    has_many :competition_assessments, inverse_of: :competition, dependent: :destroy
+    has_many :teams, dependent: :destroy
+    has_many :people, dependent: :destroy
 
     validates :date, :description, :name, :admin_user, :place, presence: true
 

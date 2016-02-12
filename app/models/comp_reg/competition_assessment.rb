@@ -2,6 +2,7 @@ module CompReg
   class CompetitionAssessment < ActiveRecord::Base
     include Genderable
     belongs_to :competition
+    has_many :assessment_participations, dependent: :destroy
 
     validates :competition, :discipline, :gender, presence: true
 
