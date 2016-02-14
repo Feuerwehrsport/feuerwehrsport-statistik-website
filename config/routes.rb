@@ -90,6 +90,7 @@ Rails.application.routes.draw do
         post :teams
       end
     end
+    resources :team_members, only: [:index]
     resources :teams, only: [:create, :show, :index, :update] do
       member { post :merge }
     end

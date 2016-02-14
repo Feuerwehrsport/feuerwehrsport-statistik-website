@@ -80,5 +80,6 @@ class Ability
     can :read, Score
     can :read, ScoreType
     can :read, Team
+    can :read, TeamMember
   end
 end
