@@ -77,6 +77,7 @@ Rails.application.routes.draw do
     resources :people, only: [:create, :show, :index, :update] do
       member { post :merge }
     end
+    resources :person_spellings, only: [:index]
     resources :places, only: [:create, :show, :index, :update]
     resources :score_types, only: [:index]
     resources :scores, only: [:show, :update]
@@ -91,6 +92,7 @@ Rails.application.routes.draw do
       end
     end
     resources :team_members, only: [:index]
+    resources :team_spellings, only: [:index]
     resources :teams, only: [:create, :show, :index, :update] do
       member { post :merge }
     end

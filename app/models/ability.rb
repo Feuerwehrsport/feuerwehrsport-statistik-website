@@ -76,10 +76,12 @@ class Ability
     can :read, GroupScore
     can :read, Nation
     can :read, Person
+    can :read, PersonSpelling
     can :read, Place
     can :read, Score
     can :read, ScoreType
     can :read, Team
     can :read, TeamMember
+    can :read, TeamSpelling
   end
 end
