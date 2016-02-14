@@ -1,19 +1,31 @@
 %h1 Wettkampftermine
 
-.row
-  .col-md-9
-    = count_table(@rows, class: "datatable-appointments") do |t|
-      - t.col("Datum", class: "col-10") { |row| l(row.dated_at) }
-      - t.col("Veranstaltung", class: "col-20 info-link") { |row| link_to(row.name, row) }
-      - t.col("Ort", class: "col-20 small") { |row| place_link(row.place) }
-      - t.col("Typ", class: "col-20 small") { |row| event_link(row.event) }
-      - t.col("Disziplinen", :discipline_images, class: "col-20")
-  .col-md-3
-    %p
-      %a.btn.btn-default.btn-sm.btn-block{ href: url_for(format: :ics) }
-        = design_image("calendar", width: "18px")
-        iCalendar-Datei aller Termine
-    %p
-      #add-appointment.btn.btn-default.btn-sm.btn-block
-        = design_image("appointment-new", width: "18px")
-        Neuen Termin hinzufügen
+= nav_tab do |nt|
+  - nt.tab("Wettkampftermine") do
+    .row
+      .col-md-9
+        = count_table(@rows, class: "datatable-appointments") do |t|
+          - t.col("Datum", class: "col-10") { |row| l(row.dated_at) }
+          - t.col("Veranstaltung", class: "col-20 info-link") { |row| link_to(row.name, row) }
+          - t.col("Ort", class: "col-20 small") { |row| place_link(row.place) }
+          - t.col("Typ", class: "col-20 small") { |row| event_link(row.event) }
+          - t.col("Disziplinen", :discipline_images, class: "col-20")
+      .col-md-3
+        %p
+          = image_link_to("calendar", "iCalendar-Datei aller Termine", url_for(format: :ics), image: { width: "18px" }, class: "btn btn-default btn-sm btn-block")
+          = image_link_to("appointment-new", "Neuen Termin hinzufügen", url_for(format: :ics), image: { width: "18px" }, class: "btn btn-default btn-sm btn-block")
+  - nt.tab("Online-Anmeldungen") do
+    .row
+      .col-md-8
+        = count_table(@comp_reg_competitions) do |t|
+          - t.col("Datum", class: "col-10") { |row| l(row.date) }
+          - t.col("Veranstaltung", class: "col-20 info-link") { |row| link_to(row.name, row) }
+          - t.col("Ort", :place, class: "col-20 small")
+          - t.col("Disziplinen", :discipline_images, class: "col-10")
+      .col-md-4
+        %p
+          = image_link_to("appointment-new", "Online-Anmeldung hinzufügen", new_select_template_comp_reg_competitions_path, image: { width: "18px" }, class: "btn btn-default btn-sm btn-block")
+        %p
+          Diese Seite bietet es an, Online-Anmeldung von Wettkämpfen zu schalten. Weitere Informationen zum Vorgehen ist auf 
+          = link_to("einer separaten Seite", online_anmeldungen_path)
+          erklärt.

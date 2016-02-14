@@ -70,6 +70,11 @@ class PagesController < ResourceController
     end
   end
 
+  def online_anmeldungen
+    @page_title = "Hinweise zu Online-Anmeldungen"
+    @comp_reg_competitions = CompReg::Competition.open.decorate
+  end
+
   protected
 
   def last_competitions(limit)

@@ -1,10 +1,11 @@
 require 'icalendar'
 
 class AppointmentsController < ResourceController
-  cache_actions :index, :show
+  cache_actions :show
 
   def index
     @rows = Appointment.upcoming.includes(:place, :event).decorate
+    @comp_reg_competitions = CompReg::Competition.open.decorate
 
     if request.format.ics?
       calendar_response("feuerwehrsport-statistik-termine", @rows, "PUBLISH")

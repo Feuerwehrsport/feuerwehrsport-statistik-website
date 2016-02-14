@@ -29,6 +29,10 @@ module CompReg
       Rails.application.routes.url_helpers.comp_reg_slug_url(slug_url_options)
     end
 
+    def discipline_array
+      competition_assessments.pluck(:discipline).uniq
+    end
+
     protected
 
     def slug_url_options

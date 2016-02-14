@@ -1,0 +1,59 @@
+= table_of_contents do |toc|
+  .row
+    .col-md-9
+      .page-header
+        %h1 Online-Anmeldungen
+      %p.lead Diese Webseite stellt die Möglichkeit bereit, Online-Anmeldungen für Feuerwehrsportwettkämpfe zu schalten. Mannschaften und Einzelstarter können sich dann für diese anmelden.
+    .col-md-3
+      = toc.index
+  = toc.anker("Ablauf der Anmeldung", :h2)
+  %ol
+    %li
+      Registrieren eines Benutzers
+      %ul
+        %li Um einen Wettkampf anzulegen, muss man sich ein Konto anlegen.
+        %li Der Name ist für andere Nutzer sichtbar, die E-Mail-Adresse nicht
+        %li= link_to("Registrieren", new_admin_user_registration_path)
+        %li Während der Registrierung wird die E-Mail-Adresse überprüft
+    %li
+      Anlegen eines Wettkampfes
+      %ul
+        %li
+          Nach der Auswahl einer Vorlage, können verschiedene Daten eingegeben werden. Dazu gehören:
+          %ol
+            %li Name des Wettkämpfes
+            %li Ort
+            %li Datum
+            %li Beschreibung als Freitext mit Formatierungen und Links
+            %li Zeitpunkte für das Öffnen und Schließen der Anmeldung
+            %li Zusätzliche Wertungen für Wettkämpfer und Mannschaften
+        %li Einzelne Disziplinen und Wertungen können hinzugefügt werden
+    %li
+      Freigeben eines Wettkampfes
+      %ul
+        %li Nach dem Anlegen ist der Wettkampf noch nicht freigeschaltet
+        %li Erst nach dem Freischalten ist auch die Anmeldung möglich
+        %li Nur freigeschaltete Wettkämpfe sind für alle sichtbar
+    %li
+      Anmelden einer Mannschaft
+      %ul
+        %li Man fügt einem Wettkampf eine Mannschaftsanmelung hinzu
+        %li Danach kann man einzelne Wettkämpfer hinzufügen
+    %li
+      Exportieren eines Wettkampfes
+      %ul
+        %li Als Excel-Datei oder PDF-Datei mit relevanten Informationen
+        %li Als Import-Datei für den Wettkampf-Manager, der daraus automatisch einen Wettkampf erstellt
+  = toc.anker("Screencast des Ablaufs", :h2)
+  %p To be done.
+  = toc.anker("Aktuelle Anmeldungen", :h2)
+  .row
+    .col-md-8
+      = count_table(@comp_reg_competitions) do |t|
+        - t.col("Datum", class: "col-10") { |row| l(row.date) }
+        - t.col("Veranstaltung", class: "col-20 info-link") { |row| link_to(row.name, row) }
+        - t.col("Ort", :place, class: "col-20 small")
+        - t.col("Disziplinen", :discipline_images, class: "col-10")
+    .col-md-4
+      %p
+        = image_link_to("appointment-new", "Online-Anmeldung hinzufügen", new_select_template_comp_reg_competitions_path, image: { width: "18px" }, class: "btn btn-default btn-sm btn-block")

@@ -137,6 +137,7 @@ Rails.application.routes.draw do
   get :impressum, to: 'pages#legal_notice'
   get :feuerwehrsport, to: 'pages#firesport_overview'
   get :wettkampf_manager, to: 'pages#wettkampf_manager'
+  get :online_anmeldungen, to: 'pages#online_anmeldungen'
   get :last_competitions, to: 'pages#last_competitions_overview'
   get :records, to: 'pages#records'
   get :best_of, to: 'pages#best_of'

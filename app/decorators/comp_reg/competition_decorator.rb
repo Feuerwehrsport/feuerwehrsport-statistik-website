@@ -10,5 +10,11 @@ module CompReg
     def german_date
       l(date, format: :german)
     end
+    
+    def discipline_images(options={})
+      object.discipline_array.map do |discipline|
+        discipline_image(discipline, options)
+      end.join(" ").html_safe
+    end
   end
 end
