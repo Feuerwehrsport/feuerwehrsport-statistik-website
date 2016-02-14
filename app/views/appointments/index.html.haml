@@ -13,7 +13,9 @@
       .col-md-3
         %p
           = image_link_to("calendar", "iCalendar-Datei aller Termine", url_for(format: :ics), image: { width: "18px" }, class: "btn btn-default btn-sm btn-block")
-          = image_link_to("appointment-new", "Neuen Termin hinzufügen", url_for(format: :ics), image: { width: "18px" }, class: "btn btn-default btn-sm btn-block")
+          #add-appointment.btn.btn-default.btn-sm.btn-block
+            = design_image("appointment-new", width: "18px")
+            Neuen Termin hinzufügen
   - nt.tab("Online-Anmeldungen") do
     .row
       .col-md-8
