@@ -12,6 +12,11 @@ module CompReg
       joins(:competition_assessments).
       where(comp_reg_competition_assessments: { id: assessment })
     end
+    scope :manageable_by, -> (user) do
+      person_sql = Person.joins(:competition).merge(Competition.open).where(admin_user_id: user.id).select(:id).to_sql
+      competition_sql = Person.joins(:competition).where(comp_reg_competitions: { admin_user_id: user.id }).select(:id).to_sql
+      where("id IN ((#{person_sql}) UNION (#{competition_sql}))")
+    end
 
     validates :first_name, :last_name, :gender, :competition, :admin_user, presence: true
 

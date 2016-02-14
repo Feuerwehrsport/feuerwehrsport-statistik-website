@@ -39,16 +39,16 @@ class Ability
 
     can :manage, CompReg::Competition, admin_user_id: user.id
     can :read, CompReg::Competition, published: true
-    can :participate, CompReg::Competition do |competition|
+    can :participate, CompReg::Competition, CompReg::Competition.open do |competition|
       competition.date >= Date.today &&
       ( competition.open_at.nil? || competition.open_at <= Time.now ) &&
       ( competition.close_at.nil? || competition.close_at >= Time.now )
     end
-    can :manage, CompReg::Team do |team|
-      can?(:participate, team.competition) &&
+    can :manage, CompReg::Team, CompReg::Team.manageable_by(user) do |team|
+      can?(:participate, team.competition) && 
       (team.admin_user_id == user.id || team.competition.admin_user_id == user.id)
     end
-    can :manage, CompReg::Person do |person|
+    can :manage, CompReg::Person, CompReg::Person.manageable_by(user) do |person|
       can?(:participate, person.competition) &&
       (person.admin_user_id == user.id || person.competition.admin_user_id == user.id)
     end
