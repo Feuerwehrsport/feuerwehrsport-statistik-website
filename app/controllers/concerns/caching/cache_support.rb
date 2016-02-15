@@ -13,12 +13,17 @@ module Caching
 
     included do
       after_filter :save_html_cache
+      helper_method :save_html_cache?
     end
 
     protected
 
+    def save_html_cache?
+      self.class.cache_action?(action_name) && request.format.to_sym == :html && Rails.configuration.caching
+    end
+
     def save_html_cache
-      if self.class.cache_action?(action_name) && request.format.to_sym == :html && Rails.configuration.caching
+      if save_html_cache?
         uri = URI.parse(request.url).path
         path = File.join(Rails.root, "public", "cache", File.dirname(uri))
         FileUtils.mkdir_p(path)
