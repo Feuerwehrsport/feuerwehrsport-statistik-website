@@ -78,13 +78,13 @@
         = image_link_to("configure", "Wettkampf bearbeiten", { action: :edit }, image: { width: "22px" }, class: "btn btn-default btn-block")
         = image_link_to("configure", "Öffentlichkeitseinstellungen", { action: :publishing }, image: { width: "18px" }, class: "btn btn-default btn-block")
 
-- if resource_instance.slug.present?      
-  .col-md-4.pull-right
+- if resource_instance.slug.present?
+  .col-md-8.pull-right
     .panel.panel-default
       .panel-heading URL zu dieser Seite
       .panel-body
         %p.small= link_to(resource_instance.slug_url, resource_instance.slug_url)
-        %img{ src: RQRCode::QRCode.new(resource_instance.slug_url, size: 6, level: :h ).to_img.resize(200, 200).to_data_url }
+        %img{ src: RQRCode::QRCode.new(resource_instance.slug_url, level: :h).to_img.resize(200, 200).to_data_url }
 - if can?(:update, resource_instance) && !resource_instance.published?
   .col-md-4.pull-right
     .panel.panel-danger

@@ -10,8 +10,9 @@ module CompReg
 
     accepts_nested_attributes_for :competition_assessments, reject_if: :all_blank, allow_destroy: true
 
+    scope :published, -> { where(published: true) }
     scope :open, -> do
-      where(published: true).
+      published.
       where("date >= ?", Date.today).
       where("open_at IS NULL OR open_at <= ?", Time.now).
       where("close_at IS NULL OR close_at >= ?", Time.now)
