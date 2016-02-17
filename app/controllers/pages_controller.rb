@@ -1,5 +1,5 @@
 class PagesController < ResourceController
-  cache_actions :firesport_overview, :legal_notice, :rss, :dashboard, :last_competitions_overview, :wettkampf_manager,
+  cache_actions :firesport_overview, :legal_notice, :rss, :dashboard, :last_competitions_overview,
     :records, :best_of
 
   def firesport_overview
