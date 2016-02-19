@@ -24,11 +24,23 @@ module WettkampfManager
       release_data["date"]
     end
 
+    def invalid?
+      release_data["invalid"].present?
+    end
+
+    def invalid_message
+      markdown(release_data["invalid"])
+    end
+
     def change_log
-      Redcarpet::Markdown.new(Redcarpet::Render::HTML).render(release_data["change-log"]).html_safe
+      markdown(release_data["change-log"])
     end
 
     protected
+
+    def markdown(message)
+      Redcarpet::Markdown.new(Redcarpet::Render::HTML).render(message).html_safe
+    end
 
     def release_data
       @release_data ||= begin
