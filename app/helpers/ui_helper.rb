@@ -22,4 +22,10 @@ module UIHelper
   def button_dropdown(resource, options={})
     UI::ButtonDropdown.new(self, resource, options)
   end
+
+  def youtube_video(id, options={})
+    options =  { width: 400, height: 225, frameborder: 0, allowfullscreen: true }.merge(options)
+    options[:src] = "https://www.youtube-nocookie.com/embed/#{id}"
+    content_tag(:iframe, "", options)
+  end
 end
