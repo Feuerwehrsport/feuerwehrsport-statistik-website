@@ -65,7 +65,7 @@
                 %ul
                   - version.targets.each do |target|
                     %li
-                      %a{ href: "/public/wettkampf_manager/#{version.version_number}/#{target.basename}" }= target.basename
+                      %a{ href: "/uploads/wettkampf_manager/#{version.version_number}/#{target.basename}" }= target.basename
                       %span.label.label-info= number_to_human_size(target.size)
                 %a.btn.btn-default.btn-xs.pull-right{href: "https://github.com/Feuerwehrsport/wettkampf-manager/tree/#{version.commit_id}", title: "Commit-ID" }
                   %span.glyphicon.glyphicon-paperclip{"aria-hidden" => "true" }
