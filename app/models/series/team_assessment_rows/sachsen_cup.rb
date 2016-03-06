@@ -1,6 +1,6 @@
 module Series
   module TeamAssessmentRows
-    class MVCup < LaCup
+    class SachsenCup < LaCup
     end
   end
 end

@@ -19,6 +19,10 @@ module Import
           end
           add_assessment_config(gender, teams)
         end
+        categories = competition.group_score_categories.map do |group_score_category|
+          [group_score_category.id.to_s, group_score_category.decorate, true]
+        end
+        add_assessment_config("group_score_categories", categories)
       end
 
       def exclude_scores(scores, assessment)
@@ -28,6 +32,9 @@ module Import
         scores = scores.select do |score|
           [score.team_id.to_s, score.team_number.to_s].in?(selected_teams)
         end
+
+        category_ids = find_assessment_config("group_score_categories").selected_entities.map(&:first)
+        scores = scores.select { |score| score.group_score_category_id.to_s.in?(category_ids) }
         scores
       end
     end

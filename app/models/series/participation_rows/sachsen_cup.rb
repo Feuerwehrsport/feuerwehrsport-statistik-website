@@ -1,6 +1,6 @@
 module Series
   module ParticipationRows
-    class BrandenburgCup < Base
+    class SachsenCup < Base
     end
   end
 end

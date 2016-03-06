@@ -7,6 +7,7 @@ module Import
         "MVCup",
         "MVHindernisCup",
         "MVSteigerCup",
+        "SachsenCup",
         "SachsenSteigerCup",
       ]
       include ActiveModel::Model
