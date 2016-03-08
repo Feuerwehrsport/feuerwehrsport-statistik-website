@@ -34,6 +34,12 @@ module CompReg
       competition_assessments.pluck(:discipline).uniq
     end
 
+    def possible_assessment_types 
+      keys = CompReg::PersonAssessmentParticipation.assessment_types.keys
+      keys.shift unless group_score?
+      keys
+    end
+
     protected
 
     def slug_url_options

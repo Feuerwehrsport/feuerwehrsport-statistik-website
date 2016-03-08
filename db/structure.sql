@@ -310,7 +310,8 @@ CREATE TABLE comp_reg_competitions (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     slug character varying,
-    published boolean DEFAULT false NOT NULL
+    published boolean DEFAULT false NOT NULL,
+    group_score boolean DEFAULT false NOT NULL
 );
 
 
@@ -2519,4 +2520,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160126211331');
 INSERT INTO schema_migrations (version) VALUES ('20160211080337');
 
 INSERT INTO schema_migrations (version) VALUES ('20160212203857');
+
+INSERT INTO schema_migrations (version) VALUES ('20160308202224');
 

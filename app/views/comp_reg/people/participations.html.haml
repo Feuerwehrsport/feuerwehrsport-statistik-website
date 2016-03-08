@@ -13,7 +13,7 @@
 
                 .row.edit-assesment-type
                   .col-md-9
-                    = g.input :assessment_type, as: :select, collection: CompReg::PersonAssessmentParticipation.assessment_types.keys, label: assessment.decorate, label_method: lambda { |type| t("assessment_types.#{type}") }
+                    = g.input :assessment_type, as: :select, collection: resource_instance.competition.possible_assessment_types, label: assessment.decorate, label_method: lambda { |type| t("assessment_types.#{type}") }, include_blank: false
                   .col-md-3.group-competitor-order
                     = g.input :group_competitor_order
                   .col-md-3.single-competitor-order

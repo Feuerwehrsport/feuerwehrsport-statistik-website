@@ -5,6 +5,7 @@ module CompReg
     include CRUD::ShowAction
     include CRUD::EditAction
     include CRUD::UpdateAction
+    include CRUD::DestroyAction
 
     before_action :assign_instance_for_edit, only: [:edit, :participations]
 
@@ -36,6 +37,14 @@ module CompReg
     end
 
     def before_update_success
+      if resource_instance.team.present?
+        redirect_to action: :show, controller: :teams, id: resource_instance.team_id
+      else
+        redirect_to action: :show, controller: :competitions, id: resource_instance.competition_id
+      end
+    end
+  
+    def before_destroy_success
       if resource_instance.team.present?
         redirect_to action: :show, controller: :teams, id: resource_instance.team_id
       else

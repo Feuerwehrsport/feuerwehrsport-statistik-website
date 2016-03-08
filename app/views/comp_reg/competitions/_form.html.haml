@@ -30,6 +30,7 @@
       .col-md-8
         %fieldset
           %legend Angebotene Disziplinen
+          = f.input :group_score
       = f.simple_fields_for :competition_assessments do |competition_assessment|
         = render 'competition_assessment_fields', f: competition_assessment
       .col-md-8.links

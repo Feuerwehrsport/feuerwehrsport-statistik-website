@@ -92,7 +92,8 @@ module CompReg
     protected
 
     def permitted_attributes
-      super.permit(:name, :place, :date, :description, :open_at, :close_at, :person_tags, :team_tags, :slug, :published,
+      super.permit(:name, :place, :date, :description, :open_at, :close_at, :person_tags, :team_tags, :slug, 
+        :published, :group_score,
         competition_assessments_attributes: [:id, :discipline, :gender, :name, :_destroy]
       )
     end

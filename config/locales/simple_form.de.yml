@@ -11,6 +11,7 @@ de:
        comp_reg_competition:
          person_tags: 'Komma separierte Liste (z.B.: U20-Wertung)'
          team_tags: 'Komma separierte Liste (z.B.: BB-Cup-Wertung)'
+         group_score: 'Wird dies ausgewählt, können die Anmelder eine Reihenfolge innerhalb der Mannschaft angeben.'
     # Examples
     # labels:
     #   defaults:
