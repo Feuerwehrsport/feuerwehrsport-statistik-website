@@ -5,9 +5,8 @@
     = "- Wettkampfanmeldung"
 
 .pull-right
-  - if can?(:participate, resource_instance)
-    = image_link_to("team-add", "Mannschaft anmelden", new_comp_reg_team_path(competition_id: resource_instance), image: { width: "18px" }, class: "btn btn-default btn-sm")
-    = image_link_to("person-add", "Wettkämpfer anmelden", new_comp_reg_person_path(competition_id: resource_instance), image: { width: "18px" }, class: "btn btn-default btn-sm")
+  = image_link_to("team-add", "Mannschaft anmelden", new_comp_reg_team_path(competition_id: resource_instance), image: { width: "18px" }, class: "btn btn-default btn-sm")
+  = image_link_to("person-add", "Wettkämpfer anmelden", new_comp_reg_person_path(competition_id: resource_instance), image: { width: "18px" }, class: "btn btn-default btn-sm")
   - if can?(:update, resource_instance)
     = image_link_to("configure", "Wettkampf bearbeiten", { action: :edit }, image: { width: "18px" }, class: "btn btn-default btn-sm")
   
@@ -71,9 +70,8 @@
     .panel-heading
       %h3.panel-title Aktionen
     .panel-body
-      - if can?(:participate, resource_instance)
-        = image_link_to("team-add", "Mannschaft anmelden", new_comp_reg_team_path(competition_id: resource_instance), image: { width: "22px" }, class: "btn btn-default btn-block")
-        = image_link_to("person-add", "Wettkämpfer anmelden", new_comp_reg_person_path(competition_id: resource_instance), image: { width: "22px" }, class: "btn btn-default btn-block")
+      = image_link_to("team-add", "Mannschaft anmelden", new_comp_reg_team_path(competition_id: resource_instance), image: { width: "22px" }, class: "btn btn-default btn-block")
+      = image_link_to("person-add", "Wettkämpfer anmelden", new_comp_reg_person_path(competition_id: resource_instance), image: { width: "22px" }, class: "btn btn-default btn-block")
       - if can?(:update, resource_instance)
         = image_link_to("configure", "Wettkampf bearbeiten", { action: :edit }, image: { width: "22px" }, class: "btn btn-default btn-block")
         = image_link_to("configure", "Öffentlichkeitseinstellungen", { action: :publishing }, image: { width: "18px" }, class: "btn btn-default btn-block")

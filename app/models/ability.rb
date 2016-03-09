@@ -38,7 +38,6 @@ class Ability
     api_user_abilities
 
     can :manage, CompReg::Competition, admin_user_id: user.id
-    can :read, CompReg::Competition, published: true
     can :participate, CompReg::Competition, CompReg::Competition.open do |competition|
       competition.date >= Date.today &&
       ( competition.open_at.nil? || competition.open_at <= Time.now ) &&
@@ -88,5 +87,7 @@ class Ability
     can :read, Series::Cup
     can :read, Series::Participation
     can :read, Series::Round
+
+    can :read, CompReg::Competition, published: true
   end
 end

@@ -2,8 +2,8 @@ module CompReg
   class CompRegController < ApplicationController
     include ResourceAccessor
 
-    before_action :authenticate_admin_user!
-    before_action :ensure_user_signed_in
+    # before_action :authenticate_admin_user!
+    # before_action :ensure_user_signed_in
     protect_from_forgery with: :exception
 
     protected

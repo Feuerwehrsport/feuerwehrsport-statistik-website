@@ -13,7 +13,11 @@ class AdminUsers::RegistrationsController < Devise::RegistrationsController
   end
 
   def after_sign_up_path_for(resource)
-    new_admin_user_session_path
+    if session[:requested_url_before_login].present?
+      redirect_to session.delete(:requested_url_before_login)
+    else
+      new_admin_user_session_path
+    end
   end
 
   def after_inactive_sign_up_path_for(resource)
