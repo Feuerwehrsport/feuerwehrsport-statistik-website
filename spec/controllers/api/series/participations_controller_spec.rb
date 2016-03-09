@@ -21,18 +21,41 @@ RSpec.describe API::Series::ParticipationsController, type: :controller do
       subject.call
       expect_json_response
       expect(json_body[:series_participation]).to eq(
-        id: 1, 
-        points: 20, 
-        rank: 1, 
-        time: 1806, 
-        second_time: "18,06", 
-        person_id: 66,
-        participation_type: "person",
         assessment_id: 1,
+        cup_id: 22,
+        id: 1,
+        participation_type: "person",
+        person_id: 66,
+        points: 20,
+        rank: 1,
+        second_time: "18,06",
+        team_id: nil,
+        team_number: nil,
+        time: 1806,
+        type: "Series::PersonParticipation",
       )
     end
-    it_behaves_like "api user get permission error"
-    it_behaves_like "sub_admin get permission error"
+  end
+
+  describe 'GET index' do
+    it "returns participations" do
+      get :index
+      expect_json_response
+      expect(json_body[:series_participations].first).to eq(
+        assessment_id: 1,
+        cup_id: 22,
+        id: 1,
+        participation_type: "person",
+        person_id: 66,
+        points: 20,
+        rank: 1,
+        second_time: "18,06",
+        team_id: nil,
+        team_number: nil,
+        time: 1806,
+        type: "Series::PersonParticipation",
+      )
+    end
   end
 
   describe 'PUT update' do

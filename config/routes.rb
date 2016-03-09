@@ -82,7 +82,10 @@ Rails.application.routes.draw do
     resources :score_types, only: [:index]
     resources :scores, only: [:show, :update]
     namespace :series do
-      resources :participations, only: [:create, :show, :update, :destroy]
+      resources :assessments, only: [:index]
+      resources :cups, only: [:index]
+      resources :participations, only: [:create, :show, :index, :update, :destroy]
+      resources :rounds, only: [:index]
       resources :team_assessments, only: [:index]
     end
     resources :suggestions, only: [] do

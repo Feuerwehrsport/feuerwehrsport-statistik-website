@@ -83,5 +83,10 @@ class Ability
     can :read, Team
     can :read, TeamMember
     can :read, TeamSpelling
+
+    can :read, Series::Assessment
+    can :read, Series::Cup
+    can :read, Series::Participation
+    can :read, Series::Round
   end
 end

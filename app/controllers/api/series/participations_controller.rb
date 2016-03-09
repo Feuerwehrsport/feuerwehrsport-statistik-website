@@ -3,6 +3,7 @@ module API
     class ParticipationsController < BaseController
       include CRUD::CreateAction
       include CRUD::ShowAction
+      include CRUD::IndexAction
       include CRUD::UpdateAction
       include CRUD::DestroyAction
       include CRUD::ChangeLogSupport
