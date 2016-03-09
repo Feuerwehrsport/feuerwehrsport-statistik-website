@@ -52,8 +52,6 @@ module CompReg
 
       empty = build_instance.decorate
       empty.name = "Leere Vorlage"
-      empty.competition_assessments.build(discipline: :hl, gender: :male)
-      empty.competition_assessments.build(discipline: :hl, gender: :female)
       @types = [la, la_youth, hb, hl, dcup, empty]
     end
 
