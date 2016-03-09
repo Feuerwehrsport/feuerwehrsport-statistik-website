@@ -8,9 +8,12 @@ RSpec.describe API::Series::TeamAssessmentsController, type: :controller do
       expect(json_body[:series_team_assessments].first).to eq(
         translated_gender: "weiblich", 
         name: "Löschangriff nass - weiblich", 
+        gender: "female",
+        real_name: "",
         discipline: "la", 
         round_id: 15,
         id: 2,
+        type: "Series::TeamAssessment",
       )
     end
   end
