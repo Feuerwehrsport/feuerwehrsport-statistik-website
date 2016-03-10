@@ -52,10 +52,10 @@
       %th{ colspan: 3, class: "text-center"}
         %h2 Namensliste
         %h4 - Teilnehmerliste B -
+        .pull-right
+          = image_link_to("person-add", "Wettkämpfer hinzufügen", { controller: :people, action: :new, competition_id: resource_instance.competition_id, team_id: resource_instance.id }, image: { width: "18px" }, class: "btn btn-default btn-sm")
 
 - if resource_instance.competition.competition_assessments.for_people.present?
-  .pull-right
-    = image_link_to("person-add", "Wettkämpfer hinzufügen", { controller: :people, action: :new, competition_id: resource_instance.competition_id, team_id: resource_instance.id }, image: { width: "18px" }, class: "btn btn-default btn-sm")
 
   - if resource_instance.people.present?
     %h3 Wettkämpfer
