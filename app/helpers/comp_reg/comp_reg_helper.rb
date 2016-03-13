@@ -131,4 +131,15 @@ module CompReg::CompRegHelper
       end
     end
   end
+
+  def edit_participation(row, assessment)
+    value = row.person_assessment_participations.find_by(competition_assessment: assessment).try(:decorate).try(:short_type)
+    link = link_to(
+      content_tag(:span, "", class: "glyphicon glyphicon-pencil"), 
+      { action: :participations, controller: :people, id: row.id }, 
+      { remote: true, class: "btn btn-default btn-xs pull-right" }
+    )
+    link = can?(:edit, row) ? link : ""
+    "#{value.presence || "-"} #{link}".html_safe
+  end
 end

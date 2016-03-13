@@ -33,7 +33,11 @@ module CompReg
         deliver(CompetitionMailer, :new_person_registered, resource_instance)
         deliver(PersonMailer, :notification_to_creator, resource_instance)
       end
-      redirect_to action: :participations, id: resource_instance.id
+      if resource_instance.team.present?
+        redirect_to action: :show, controller: :teams, id: resource_instance.team_id
+      else
+        redirect_to action: :participations, id: resource_instance.id
+      end
     end
 
     def before_update_success

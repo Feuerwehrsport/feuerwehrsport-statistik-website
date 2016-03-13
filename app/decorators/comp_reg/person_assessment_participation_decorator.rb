@@ -5,7 +5,11 @@ module CompReg
     end
 
     def short_type
-      t("assessment_types.#{assessment_type}_short_order", competitor_order: competitor_order)
+      if single_competitor? && competitor_order <= 0
+        "E"
+      else
+        t("assessment_types.#{assessment_type}_short_order", competitor_order: competitor_order)
+      end
     end
 
     def competitor_order

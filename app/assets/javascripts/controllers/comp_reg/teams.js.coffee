@@ -1,3 +1,5 @@
+#= require classes/person_suggestion
+#= require lib/edit_participations
 $ () ->
   $('input.person-assessment').each () ->
     context = $(@)

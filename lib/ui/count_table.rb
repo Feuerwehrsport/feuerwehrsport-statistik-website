@@ -1,5 +1,5 @@
 module UI
-  class CountTable < Struct.new(:view, :rows, :options, :columns, :data_fields)
+  class CountTable < Struct.new(:view, :rows, :options, :columns, :data_fields, :footer_options, :footer_block)
     def initialize(*args)
       super
       self.options ||= {}
@@ -34,6 +34,11 @@ module UI
 
     def headlines
       columns.map(&:name)
+    end
+
+    def footer(options={}, &block)
+      self.footer_options = options
+      self.footer_block = block
     end
 
     class DataField < Struct.new(:name, :block)

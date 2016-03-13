@@ -8,3 +8,6 @@
       %tr{ data: ct.row_data(row) }
         - ct.columns.each do |column|
           %td{ class: column.options[:class] }= column.content(row)
+    - if ct.footer_block.present?
+      %tr
+        %td{ ct.footer_options.merge(colspan: ct.columns.count) }= ct.footer_block.call

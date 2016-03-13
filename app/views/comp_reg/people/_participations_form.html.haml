@@ -1,0 +1,18 @@
+%h3= "#{resource_instance.first_name} #{resource_instance.last_name}"
+= simple_form_for(resource_instance, remote: remote) do |f|
+  = f.input :gender, as: :hidden
+  - CompReg::CompetitionAssessment.requestable_for_person(resource_instance.object).decorate.each do |assessment|
+    .assessment-participation
+      = f.simple_fields_for :person_assessment_participations, resource_instance.person_assessment_participations.find_or_initialize_by(competition_assessment: assessment) do |g|
+        = g.input :_destroy, as: :boolean, label: 'Teilnahme', input_html: { checked: g.object.persisted? }, checked_value: "0", unchecked_value: "1"
+        = g.input :competition_assessment_id, as: :hidden
+
+        .row.edit-assesment-type
+          .col-md-9
+            = g.input :assessment_type, as: :select, collection: resource_instance.competition.possible_assessment_types, label: assessment.decorate, label_method: lambda { |type| t("assessment_types.#{type}") }, include_blank: false
+          .col-md-3.group-competitor-order
+            = g.input :group_competitor_order
+          .col-md-3.single-competitor-order
+            = g.input :single_competitor_order
+  .pull-right
+    = f.submit class: "btn btn-primary"

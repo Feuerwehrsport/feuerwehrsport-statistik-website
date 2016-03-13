@@ -53,22 +53,23 @@
         %h2 Namensliste
         %h4 - Teilnehmerliste B -
         .pull-right
-          = image_link_to("person-add", "Wettkämpfer hinzufügen", { controller: :people, action: :new, competition_id: resource_instance.competition_id, team_id: resource_instance.id }, image: { width: "18px" }, class: "btn btn-default btn-sm")
+          = image_link_to("person-add", "Wettkämpfer hinzufügen", { controller: :people, action: :new, competition_id: resource_instance.competition_id, team_id: resource_instance.id }, image: { width: "18px" }, class: "btn btn-default btn-sm", remote: true)
 
 - if resource_instance.competition.competition_assessments.for_people.present?
 
-  - if resource_instance.people.present?
-    %h3 Wettkämpfer
-    - i = 0
-    = count_table(resource_instance.people) do |ct|
-      - ct.col("Nr.") { i += 1 }
-      - ct.col("Vorname", :first_name)
-      - ct.col("Nachname", :last_name)
-      - ct.col("Attribute") { |person| person.tag_names.join(", ") }
-      - ct.col("") { |row| link_to("Bearbeiten", action: :edit, controller: :people, id: row.id)}
-      - ct.col("") { |row| link_to("Disziplinen", action: :participations, controller: :people, id: row.id)}
-      - assessments = CompReg::CompetitionAssessment.requestable_for_person(resource_instance).decorate.each do |assessment|
-        - ct.col(assessment) { |row| row.person_assessment_participations.find_by(competition_assessment: assessment).try(:decorate).try(:short_type) }
+  #competitors.refreshable
+    - if resource_instance.people.present?
+      %h3 Wettkämpfer
+      - i = 0
+      = count_table(resource_instance.people) do |ct|
+        - ct.col("lfd. Nr.") { i += 1 }
+        - ct.col("Vorname", :first_name)
+        - ct.col("Nachname", :last_name)
+        - if resource_instance.competition.person_tag_list.present?
+          - ct.col("Attribute") { |person| person.tag_names.join(", ") }
+        - ct.col("") { |row| link_to("Bearbeiten", action: :edit, controller: :people, id: row.id)}
+        - assessments = CompReg::CompetitionAssessment.requestable_for_person(resource_instance).decorate.each do |assessment|
+          - ct.col(assessment) { |row| edit_participation(row, assessment) }
 
 %hr
   - if can?(:export, resource_instance)

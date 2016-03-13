@@ -6,7 +6,7 @@
 
 .pull-right
   = image_link_to("team-add", "Mannschaft anmelden", new_comp_reg_team_path(competition_id: resource_instance), image: { width: "18px" }, class: "btn btn-default btn-sm")
-  = image_link_to("person-add", "Wettkämpfer anmelden", new_comp_reg_person_path(competition_id: resource_instance), image: { width: "18px" }, class: "btn btn-default btn-sm")
+  = image_link_to("person-add", "Wettkämpfer anmelden", new_comp_reg_person_path(competition_id: resource_instance), image: { width: "18px" }, class: "btn btn-default btn-sm", remote: true)
   - if can?(:update, resource_instance)
     = image_link_to("configure", "Wettkampf bearbeiten", { action: :edit }, image: { width: "18px" }, class: "btn btn-default btn-sm")
   
@@ -14,7 +14,9 @@
 
 %h3 Beschreibung
 .row
-  .col-md-8.jumbotron= resource_instance.description.html_safe
+  .col-md-8
+    .panel.panel-default
+      .panel-body.competition-description= resource_instance.description.html_safe
   .col-md-4
     %table.table
       %tr
@@ -39,19 +41,22 @@
             - count_or_zero(row.people.with_assessment(assessment).count)
 
   - if @people_count[gender] > 0
-    %h3
-      = "Einzelstarter #{g(gender)}"
-      %small= "#{g_symbol(gender)} Anzahl: #{@people_count[gender]}"
-    - if @people[gender].present?
-      = count_table(@people[gender]) do |ct|
-        - ct.col("Vorname", :first_name, class: "col-20")
-        - ct.col("Nachname", :last_name, class: "col-20")
-        - ct.col("Aktionen", class: "col-20") { |row| link_to("Bearbeiten", controller: :people, id: row.id, action: :edit) + " " + link_to("Disziplinen", controller: :people, id: row.id, action: :participations) }
-        - resource_instance.competition_assessments.gender(gender).decorate.each do |assessment|
-          - unless Discipline.group?(assessment.discipline)
-            - ct.col(assessment) { |row| row.person_assessment_participations.find_by(competition_assessment: assessment).try(:decorate).try(:short_type) }
-    - unless can?(:update, resource_instance)
-      %p.text-center.small Es werden eventuell nicht alle Wettkämpfer angezeigt, da du nicht genügend Rechte dafür besitzt.
+    .refreshable{ id: "competitors-#{gender}" }
+      %h3
+        = "Einzelstarter #{g(gender)}"
+        %small= "#{g_symbol(gender)} Anzahl: #{@people_count[gender]}"
+      - if @people[gender].present?
+        = count_table(@people[gender]) do |ct|
+          - ct.col("Vorname", :first_name, class: "col-20")
+          - ct.col("Nachname", :last_name, class: "col-20")
+          - if resource_instance.person_tag_list.present?
+            - ct.col("Attribute") { |person| person.tag_names.join(", ") }
+          - ct.col("") { |row| can?(:edit, row) ? link_to("Bearbeiten", action: :edit, controller: :people, id: row.id) : "" }
+          - resource_instance.competition_assessments.gender(gender).decorate.each do |assessment|
+            - unless Discipline.group?(assessment.discipline)
+              - ct.col(assessment) { |row| edit_participation(row, assessment) }
+          - if !can?(:update, resource_instance)
+            - ct.footer(class: "text-center small active") { "Es werden eventuell nicht alle Wettkämpfer angezeigt, da du nicht genügend Rechte dafür besitzt." }
 
 
 %hr
@@ -71,7 +76,7 @@
       %h3.panel-title Aktionen
     .panel-body
       = image_link_to("team-add", "Mannschaft anmelden", new_comp_reg_team_path(competition_id: resource_instance), image: { width: "22px" }, class: "btn btn-default btn-block")
-      = image_link_to("person-add", "Wettkämpfer anmelden", new_comp_reg_person_path(competition_id: resource_instance), image: { width: "22px" }, class: "btn btn-default btn-block")
+      = image_link_to("person-add", "Wettkämpfer anmelden", new_comp_reg_person_path(competition_id: resource_instance), image: { width: "22px" }, class: "btn btn-default btn-block", remote: true)
       - if can?(:update, resource_instance)
         = image_link_to("configure", "Wettkampf bearbeiten", { action: :edit }, image: { width: "22px" }, class: "btn btn-default btn-block")
         = image_link_to("configure", "Öffentlichkeitseinstellungen", { action: :publishing }, image: { width: "18px" }, class: "btn btn-default btn-block")
