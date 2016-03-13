@@ -37,6 +37,7 @@ de:
     page_gap: "..."
 
   attributes:
+    admin_user: Verwalter
     competition: Wettkampf
     competition_id: Wettkampf
     created_at: Erstellt am

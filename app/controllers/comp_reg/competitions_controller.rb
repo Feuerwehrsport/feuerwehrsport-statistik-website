@@ -90,8 +90,10 @@ module CompReg
     protected
 
     def permitted_attributes
-      super.permit(:name, :place, :date, :description, :open_at, :close_at, :person_tags, :team_tags, :slug, 
-        :published, :group_score,
+      attributes = [:name, :place, :date, :description, :open_at, :close_at, :person_tags, :team_tags, :slug, 
+        :published, :group_score]
+      attributes.push(:admin_user_id) if can?(:manage, AdminUser)
+      super.permit(*attributes,
         competition_assessments_attributes: [:id, :discipline, :gender, :name, :_destroy]
       )
     end
