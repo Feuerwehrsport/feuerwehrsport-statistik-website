@@ -1,13 +1,28 @@
 #= require classes/person_suggestion
 #= require lib/edit_participations
+#= require lib/jquery.sortable
+
+
+updateOrder = () ->
+  i = 0
+  $('.registration-form').each () ->
+    i++
+    form = $(this)
+    params =
+      authenticity_token: form.find('input[name=authenticity_token]').val()
+      _method: 'patch'
+      comp_reg_person:
+        registration_order: i
+    $.post form.attr('action'), params
+
+bindSortedTable = () ->
+  $('.people-sortable-table tbody').sortable(
+    forcePlaceholderSize: true
+    items: 'tr'
+    placeholder: $('.people-sortable-table tr td.placeholder').parent().remove().removeClass('hide')
+  ).on 'sortupdate', updateOrder
+
+
 $ () ->
-  $('input.person-assessment').each () ->
-    context = $(@)
-    formGroup = context.closest('.form-group').addClass("single-competitor-order")
-    checkbox = context.closest('td').find("input[type=checkbox]")
-    checkbox.closest('.form-group').addClass("person-assessment")    
-    
-    checkbox.change(() ->
-      opacity = if checkbox.is(':checked') then 1 else 0.3
-      formGroup.css(opacity: opacity)
-    ).change()
+  bindSortedTable()
+  $(document).on('partials-refreshed', bindSortedTable)

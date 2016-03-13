@@ -8,6 +8,7 @@ module CompReg
     has_many :competition_assessments, through: :person_assessment_participations
     belongs_to :team
 
+    default_scope -> { order(:competition_id, :team_id, :registration_order) }
     scope :with_assessment, -> (assessment) do
       joins(:competition_assessments).
       where(comp_reg_competition_assessments: { id: assessment })

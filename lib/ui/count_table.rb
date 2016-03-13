@@ -63,7 +63,11 @@ module UI
             count_table.view.send(options[:helper_method], row)
           end
         else
-          block.call(row)
+          if options[:haml]
+            count_table.view.capture_haml(row, &block)
+          else
+            block.call(row)
+          end
         end
       end
 

@@ -348,7 +348,8 @@ CREATE TABLE comp_reg_people (
     last_name character varying NOT NULL,
     gender integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    registration_order integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2522,4 +2523,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160211080337');
 INSERT INTO schema_migrations (version) VALUES ('20160212203857');
 
 INSERT INTO schema_migrations (version) VALUES ('20160308202224');
+
+INSERT INTO schema_migrations (version) VALUES ('20160313210251');
 

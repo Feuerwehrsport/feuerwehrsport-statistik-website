@@ -60,16 +60,18 @@
   #competitors.refreshable
     - if resource_instance.people.present?
       %h3 Wettkämpfer
-      - i = 0
-      = count_table(resource_instance.people) do |ct|
-        - ct.col("lfd. Nr.") { i += 1 }
+      = count_table(resource_instance.people, class: "people-sortable-table") do |ct|
         - ct.col("Vorname", :first_name)
         - ct.col("Nachname", :last_name)
         - if resource_instance.competition.person_tag_list.present?
           - ct.col("Attribute") { |person| person.tag_names.join(", ") }
-        - ct.col("") { |row| link_to("Bearbeiten", action: :edit, controller: :people, id: row.id)}
+        - ct.col("", haml: true) do |row| 
+          = link_to("Bearbeiten", action: :edit, controller: :people, id: row.id)
+          = simple_form_for row, html: { class: "hide registration-form" } do |f|
+            = f.input :registration_order, as: :hidden
         - assessments = CompReg::CompetitionAssessment.requestable_for_person(resource_instance).decorate.each do |assessment|
           - ct.col(assessment) { |row| edit_participation(row, assessment) }
+        - ct.footer(class: "placeholder" ) { "" }
 
 %hr
   - if can?(:export, resource_instance)
