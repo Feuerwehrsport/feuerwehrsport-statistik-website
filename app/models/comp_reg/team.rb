@@ -19,5 +19,20 @@ module CompReg
       competition_sql = Team.joins(:competition).where(comp_reg_competitions: { admin_user_id: user.id }).select(:id).to_sql
       where("id IN ((#{team_sql}) UNION (#{competition_sql}))")
     end
+
+    def self.build_from_last(attributes)
+      last_registration = where(attributes).order(:updated_at).last
+      if last_registration.present?
+        attributes.merge!(last_registration.slice(
+          "team_leader",
+          "street_with_house_number",
+          "postal_code",
+          "locality",
+          "phone_number",
+          "email_address"
+        ))
+      end
+      new(attributes)
+    end
   end
 end

@@ -34,7 +34,7 @@ module CompReg
 
     def build_instance
       @competition = Competition.find(params[:competition_id]) if params[:competition_id].present?
-      resource_class.new(competition: @competition, admin_user: current_admin_user)
+      resource_class.build_from_last(competition: @competition, admin_user: current_admin_user)
     end
 
     def save_instance
