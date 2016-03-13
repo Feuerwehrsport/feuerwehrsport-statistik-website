@@ -19,9 +19,14 @@ Rails.application.configure do
 
   # action_mailer
   config.action_mailer.default_url_options = { host: "localhost", port: "5060"}
-  config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.perform_deliveries = true
-  Mail.register_interceptor RecipientInterceptor.new("georf@georf.de", subject_prefix: '[DEV]')
+
+  if ENV['EMAIL_DELIVERY'].present?
+    config.action_mailer.raise_delivery_errors = true
+    config.action_mailer.perform_deliveries = true
+    Mail.register_interceptor RecipientInterceptor.new("georf@georf.de", subject_prefix: '[DEV]')
+  else
+    config.action_mailer.delivery_method = :file
+  end
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
