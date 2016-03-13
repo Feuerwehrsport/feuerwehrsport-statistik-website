@@ -25,11 +25,8 @@ class PersonSuggestion
       name: @lastValue
       team_name: $('#person_suggestion').data('team-name')
 
-    suggestion_gender = $('#person_gender').val()
+    suggestion_gender = $('#comp_reg_person_gender').val()
     params.gender = suggestion_gender if suggestion_gender
-
-    real_gender = $('#person_suggestion').data('gender')
-    params.real_gender = real_gender if real_gender
 
     $.post "/api/suggestions/people", params, (result) =>
       table.children().remove()

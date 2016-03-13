@@ -20,12 +20,18 @@ module CompReg
     end
 
     validates :first_name, :last_name, :gender, :competition, :admin_user, presence: true
+    validate :validate_team_gender
 
     accepts_nested_attributes_for :person_assessment_participations, reject_if: :all_blank, allow_destroy: true
 
     before_validation do
       self.gender = team.gender if team.present? && gender.nil?
       self.competition = team.competition if team.present? && competition.nil?
+    end
+    before_save do
+      if registration_order == 0 && team.present?
+        self.registration_order = (team.people.maximum(:registration_order) || 0) + 1
+      end
     end
 
     def gender
@@ -34,6 +40,12 @@ module CompReg
 
     def competition_id
       super || team.try(:competition_id)
+    end
+ 
+    private
+
+    def validate_team_gender
+      errors.add(:gender, :invalid) if team.present? && team.gender != gender
     end
   end
 end
