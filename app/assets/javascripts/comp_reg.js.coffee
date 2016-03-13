@@ -1,7 +1,5 @@
 #= require cocoon
-#= require bootstrap-wysihtml5
-#= require bootstrap-wysihtml5/locales/de-DE
-
+#= require lib/froala
 #= require moment
 #= require moment/de
 #= require bootstrap-datetimepicker
