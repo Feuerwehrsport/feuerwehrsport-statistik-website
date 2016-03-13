@@ -3,7 +3,7 @@ Rails-Projekt der Webseite www.feuerwehrsport-statistik.de
 
 [![Build Status](https://travis-ci.org/Feuerwehrsport/feuerwehrsport-statistik-website.svg?branch=master)](https://travis-ci.org/Feuerwehrsport/feuerwehrsport-statistik-website)
 
-* [Derzeitige Webseite](http://www.feuerwehrsport-statistik.de/)
+* [Derzeitige Webseite](https://www.feuerwehrsport-statistik.de/)
 * [Alte PHP-Webseite](http://alt.feuerwehrsport-statistik.de/)
 * [Entwicklerblog](http://www.georf.de/)
 * Begin der Entwicklung: September 2015

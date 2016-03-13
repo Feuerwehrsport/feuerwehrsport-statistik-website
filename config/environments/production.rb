@@ -64,7 +64,7 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.perform_deliveries = true
-  config.action_mailer.default_url_options = { host: "www.feuerwehrsport-statistik.de" }
+  config.action_mailer.default_url_options = { host: "www.feuerwehrsport-statistik.de", protocol: :https }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
@@ -79,7 +79,7 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.base_url = "http://www.feuerwehrsport-statistik.de"
-  config.action_controller.default_url_options = { host: "www.feuerwehrsport-statistik.de" }
+  config.base_url = "https://www.feuerwehrsport-statistik.de"
+  config.action_controller.default_url_options = { host: "www.feuerwehrsport-statistik.de", protocol: :https }
   config.wettkampf_manager_path = "/srv/fws-statistik/shared/uploads/wettkampf_manager"
 end
