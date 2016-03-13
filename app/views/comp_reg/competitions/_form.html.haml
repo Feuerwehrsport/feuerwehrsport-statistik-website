@@ -9,7 +9,7 @@
           = f.input :name
           = f.input :date, as: :date_picker
           = f.input :place
-          = f.input :description, as: :froala
+          = f.input :description, as: :wysihtml5
           - if can?(:manage, AdminUser)
             = f.association :admin_user
         %fieldset

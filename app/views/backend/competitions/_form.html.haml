@@ -6,5 +6,5 @@
     - if @resource_instance.respond_to? attribute
       = f.association attribute
 
-  = f.input :hint_content, as: :froala
+  = f.input :hint_content, as: :wysihtml5
   = f.button :submit
