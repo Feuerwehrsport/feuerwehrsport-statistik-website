@@ -10,6 +10,7 @@ module CompReg
 
     accepts_nested_attributes_for :competition_assessments, reject_if: :all_blank, allow_destroy: true
 
+    default_scope -> { order(:date) }
     scope :published, -> { where(published: true) }
     scope :open, -> do
       published.
