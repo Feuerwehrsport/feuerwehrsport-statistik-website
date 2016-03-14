@@ -1,6 +1,5 @@
 #= require cocoon
-#= require bootstrap-wysihtml5
-#= require bootstrap-wysihtml5/locales/de-DE
+#= require ckeditor/init
 
 #= require moment
 #= require moment/de

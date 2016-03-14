@@ -11,3 +11,10 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.precompile += %w( search.js )
 
 Rails.application.config.assets.precompile << /(^[^_\/]|\/[^_])[^\/]*$/
+Rails.application.config.assets.precompile += %w( ckeditor/* )
+
+
+Ckeditor.setup do |config|
+  config.assets_languages = ['de']
+  #config.assets_plugins = ['image', 'smiley']
+end
