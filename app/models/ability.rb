@@ -51,6 +51,8 @@ class Ability
       can?(:participate, person.competition) &&
       (person.admin_user_id == user.id || person.competition.admin_user_id == user.id)
     end
+
+    can :logout, AdminUser
   end
 
   def api_user_abilities

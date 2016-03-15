@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied do |exception|
     if admin_user_signed_in?
       flash[:danger] = "Sie verfügen nicht über die Rechte, die angeforderte Seite anzuzeigen."
-      redirect_to root_path
+      redirect_to backend_root_path
     else
       flash[:danger] = "Bitte melden Sie sich an, um die angeforderte Seite anzuzeigen."
       session[:requested_url_before_login] = request.fullpath
@@ -45,5 +45,17 @@ class ApplicationController < ActionController::Base
 
   def self.current_controller_namespace
     ""
+  end
+
+  def after_sign_in_path_for(resource)
+    if session[:requested_url_before_login].present?
+      session.delete(:requested_url_before_login)
+    else
+      backend_root_path
+    end
+  end
+  
+  def after_sign_out_path_for(resource_or_scope)
+    new_admin_user_session_path
   end
 end
