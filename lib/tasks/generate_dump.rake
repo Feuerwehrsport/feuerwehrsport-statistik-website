@@ -220,13 +220,17 @@ client.query("SELECT * FROM person_participations WHERE person_id IN (#{person_i
 end
 
 puts "admin_users"
-AdminUser.create!(
-  name: "Test-Admin",
-  role: "admin",
-  email: "a@a.de",
-  password: "asdf1234",
-  confirmed_at: DateTime.parse("2015-01-01 14:11"),
-)
+AdminUser::ROLES.each do |role|
+  ["first", "second"].each do |name|
+    AdminUser.create!(
+      name: "Test-#{role}-#{name}",
+      role: role,
+      email: "#{role}@#{name}.com",
+      password: "asdf1234",
+      confirmed_at: DateTime.parse("2015-01-01 14:11"),
+    )
+  end
+end
 
 puts "news"
 client.query("SELECT * FROM news WHERE id < 15 ORDER BY id").each do |row|

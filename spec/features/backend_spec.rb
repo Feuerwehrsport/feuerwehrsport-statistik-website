@@ -11,7 +11,7 @@ describe "signin process", type: :feature do
       fill_in 'E-Mail-Adresse', with: 'a@a.de'
       fill_in 'Passwort', with: 'asdf12345'
       click_button 'Anmelden'
-      expect(page).to have_content 'Ungültige Anmeldedaten'
+      expect(page).to have_content 'E-Mail-Adresse oder Passwort ungültig'
     end
   end
 end

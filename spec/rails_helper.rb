@@ -68,6 +68,10 @@ RSpec.configure do |config|
     # pg_dump -a -U fws-statistik -h localhost fws-statistik -T schema_migrations | gzip > spec/fixtures/db/dump.sql.gz
   end
 
+  config.before(:each) do
+    Capybara.reset_sessions!
+  end
+
   config.around(:each) do |example|
     DatabaseCleaner.cleaning do
       example.run

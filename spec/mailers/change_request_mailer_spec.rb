@@ -6,7 +6,7 @@ RSpec.describe ChangeRequestMailer, type: :mailer do
     let(:mail) { described_class.new_notification(change_request) }
 
     it 'renders the receiver email' do
-      expect(mail.to).to eq ["a@a.de"]
+      expect(mail.to).to eq ["sub_admin@first.com", "sub_admin@second.com", "admin@first.com", "admin@second.com"]
     end
 
     it 'renders the sender email' do

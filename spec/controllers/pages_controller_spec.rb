@@ -9,7 +9,7 @@ RSpec.describe PagesController, type: :controller do
       expect(assigns(:score_valid_count)).to eq 2727
       expect(assigns(:score_invalid_count)).to eq 252
       expect(assigns(:places_count)).to eq 99
-      expect(assigns(:events_count)).to eq 20
+      expect(assigns(:events_count)).to eq 21
       expect(assigns(:competitions_count)).to eq 304
       expect(assigns(:teams_count)).to eq 95
       expect(assigns(:years_count).count).to eq 23
