@@ -301,7 +301,7 @@ CREATE TABLE comp_reg_competitions (
     name character varying NOT NULL,
     date date NOT NULL,
     place character varying NOT NULL,
-    description text NOT NULL,
+    description text DEFAULT ''::text NOT NULL,
     open_at timestamp without time zone,
     close_at timestamp without time zone,
     admin_user_id integer NOT NULL,
@@ -2525,4 +2525,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160212203857');
 INSERT INTO schema_migrations (version) VALUES ('20160308202224');
 
 INSERT INTO schema_migrations (version) VALUES ('20160313210251');
+
+INSERT INTO schema_migrations (version) VALUES ('20160316073250');
 

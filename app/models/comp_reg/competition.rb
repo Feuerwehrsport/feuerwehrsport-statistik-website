@@ -5,7 +5,7 @@ module CompReg
     has_many :teams, dependent: :destroy
     has_many :people, dependent: :destroy
 
-    validates :date, :description, :name, :admin_user, :place, presence: true
+    validates :date, :name, :admin_user, :place, presence: true
     validates :slug, uniqueness: { case_sensitive: false }, allow_blank: true, format: { with: /\A[a-zA-Z0-9\-_+]*\z/ }
 
     accepts_nested_attributes_for :competition_assessments, reject_if: :all_blank, allow_destroy: true
