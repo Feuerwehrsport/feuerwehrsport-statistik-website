@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "teams", type: :feature, js: true, driver: :webkit do
+describe "teams", type: :feature, js: true do
   it "can add team" do
     api_sign_in
 

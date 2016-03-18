@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "competitions features", type: :feature, js: true, driver: :webkit do
+describe "competitions features", type: :feature, js: true do
   context "index" do
     it "shows an overview" do
       visit competitions_path

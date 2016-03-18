@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "appointments", type: :feature, js: true, driver: :webkit do
+describe "appointments", type: :feature, js: true do
   it "can add appointment and edit one" do
     api_sign_in
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "people", type: :feature, js: true, driver: :webkit do
+describe "people", type: :feature, js: true do
   it "can add person" do
     api_sign_in
 

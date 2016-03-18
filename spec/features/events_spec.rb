@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "events features", type: :feature, js: true, driver: :webkit do
+describe "events features", type: :feature, js: true do
   context "index" do
     it "shows an overview" do
       visit events_path

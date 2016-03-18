@@ -17,19 +17,15 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require 'capybara/rspec'
+require 'capybara/poltergeist'
 require 'capybara-screenshot/rspec'
-require 'capybara-webkit'
+
+Capybara.javascript_driver = :poltergeist
+Capybara::Screenshot.prune_strategy = { keep: 20 }
 
 RSpec.configure do |config|
-  Capybara::Webkit.configure do |config|
-    config.block_url("*.tile.openstreetmap.de")
-  end
-  Capybara::Screenshot.webkit_options = { width: 1024, height: 768 }
-  Capybara::Screenshot.prune_strategy = { keep: 20 }
-
-  # Capybara::Webkit.configure {|c| c.debug = true }
-  config.before(:each) do
-    Capybara.javascript_driver = :webkit
+  config.before(type: :feature) do
+    page.driver.browser.url_blacklist = ['*.tile.openstreetmap.de'] if page.driver.browser.respond_to?(:url_blacklist=)
   end
 
   # rspec-expectations config goes here. You can use an alternate

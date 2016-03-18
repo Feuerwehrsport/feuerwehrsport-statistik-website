@@ -10,7 +10,8 @@ $ () ->
     FssMap.loadStyle () ->
       red = elem.data('map').red
       map = FssMap.getMap('competition-map')
-      markers = for marker in elem.data('map').markers
+      markers = elem.data('map').markers || []
+      markers = for marker in markers
         L.marker(marker.latlon, icon: FssMap.defaultIcon()).bindPopup(marker.popup).addTo(map)
       markers.push(L.marker(red.latlon, icon: FssMap.redIcon()).bindPopup(red.popup).addTo(map))
       setTimeout( ->

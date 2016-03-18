@@ -94,9 +94,6 @@ GEM
     capybara-screenshot (1.0.11)
       capybara (>= 1.0, < 3)
       launchy
-    capybara-webkit (1.7.1)
-      capybara (>= 2.3.0, < 2.6.0)
-      json
     carrierwave (0.10.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
@@ -109,6 +106,7 @@ GEM
       orm_adapter (~> 0.5.0)
     climate_control (0.0.3)
       activesupport (>= 3.0)
+    cliver (0.3.2)
     cocaine (0.5.8)
       climate_control (>= 0.0.3, < 1.0)
     cocoon (1.2.7)
@@ -203,6 +201,7 @@ GEM
     mime-types (2.6.2)
     mini_portile (0.6.2)
     minitest (5.8.0)
+    multi_json (1.11.2)
     mysql2 (0.3.20)
     nenv (0.2.0)
     net-scp (1.2.1)
@@ -220,6 +219,11 @@ GEM
     orm_adapter (0.5.0)
     pdf-core (0.6.0)
     pg (0.18.3)
+    poltergeist (1.9.0)
+      capybara (~> 2.1)
+      cliver (~> 0.3.1)
+      multi_json (~> 1.0)
+      websocket-driver (>= 0.2.0)
     prawn (2.0.2)
       pdf-core (~> 0.6.0)
       ttfunk (~> 1.4.0)
@@ -347,6 +351,9 @@ GEM
       i18n
     warden (1.2.3)
       rack (>= 1.0)
+    websocket-driver (0.6.3)
+      websocket-extensions (>= 0.1.0)
+    websocket-extensions (0.1.2)
     whenever (0.9.4)
       chronic (>= 0.6.3)
     will_paginate (3.0.7)
@@ -369,7 +376,6 @@ DEPENDENCIES
   capistrano_rsync_with_remote_cache
   capybara
   capybara-screenshot
-  capybara-webkit
   carrierwave
   ckeditor
   cocoon
@@ -389,6 +395,7 @@ DEPENDENCIES
   momentjs-rails!
   mysql2 (~> 0.3.18)
   pg
+  poltergeist
   prawn
   prawn-table
   prawnto

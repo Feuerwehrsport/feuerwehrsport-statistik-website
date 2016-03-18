@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "places features", type: :feature, js: true, driver: :webkit do
+describe "places features", type: :feature, js: true do
   context "index" do
     it "shows an overview" do
       visit places_path

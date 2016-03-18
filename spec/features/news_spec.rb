@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "news features", type: :feature, js: true, driver: :webkit do
+describe "news features", type: :feature, js: true do
   it "shows an overview" do
     visit news_index_path
     expect(page).to have_content 'Neuigkeiten'
