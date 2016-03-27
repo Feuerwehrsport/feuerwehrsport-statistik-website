@@ -14,5 +14,9 @@ def api_sign_in
 end
 
 def sign_out
-  visit destroy_admin_user_session_path
+  within('#footer') do
+    click_on("Anmelden")
+  end
+  click_on("Ausloggen")
+  expect(page).to have_content("Erfolgreich abgemeldet")
 end

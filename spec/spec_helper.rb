@@ -25,6 +25,8 @@ Capybara::Screenshot.prune_strategy = { keep: 20 }
 
 RSpec.configure do |config|
   config.before(type: :feature) do
+    default_url_options[:host] = "localhost"
+    Capybara.server_host = 'localhost'
     page.driver.browser.url_blacklist = ['*.tile.openstreetmap.de'] if page.driver.browser.respond_to?(:url_blacklist=)
   end
 

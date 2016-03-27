@@ -1,7 +1,7 @@
 .pull-right
   - if can?(:edit, resource_instance)
     = image_link_to("configure", "Mannschaft bearbeiten", { action: :edit}, image: { width: "18px" }, class: "btn btn-default btn-sm")
-    = image_link_to("person-add", "Wettkämpfer hinzufügen", { controller: :people, action: :new, competition_id: resource_instance.competition_id, team_id: resource_instance.id }, image: { width: "18px" }, class: "btn btn-default btn-sm")
+    = image_link_to("person-add", "Wettkämpfer hinzufügen", { controller: :people, action: :new, competition_id: resource_instance.competition_id, team_id: resource_instance.id }, image: { width: "18px" }, class: "btn btn-default btn-sm", remote: true)
 = breadcrum
 
 %table.table.table-bordered
