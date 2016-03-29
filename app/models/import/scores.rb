@@ -17,7 +17,7 @@ module Import
       Score.transaction do
         scores.each do |score|
           insert_hash = {
-            team_number: score[:team_number].to_i - 1,
+            team_number: score[:team_number].to_i,
             team: Team.find_by_id(score[:team_id]),
           }
 

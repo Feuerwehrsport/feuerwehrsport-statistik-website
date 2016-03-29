@@ -1,4 +1,15 @@
 class Score < ActiveRecord::Base
+  # 4  = Mannschaft 4
+  # 3  = Mannschaft 3
+  # 2  = Mannschaft 2
+  # 1  = Mannschaft 1
+  # 0 = Einzelstarter
+  # -1 = Finale
+  # -2 = Halbfinale
+  # -3 = Viertelfinale
+  # -4 = Achtelfinale
+  # -5 = Außer der Wertung 
+
   include TimeInvalid
 
   belongs_to :person
@@ -12,7 +23,7 @@ class Score < ActiveRecord::Base
   scope :hl, -> { discipline(:hl) }
   scope :hb, -> { discipline(:hb) }
   scope :no_finals, -> { where("team_number >= 0") }
-  scope :out_of_competition, -> { where(team_number: -1) }
+  scope :out_of_competition, -> { where(team_number: -5) }
   scope :finals, -> (final_number) { where(team_number: final_number) }
   scope :with_team, -> { where.not(team_id: nil) }
   scope :best_of_competition, -> do

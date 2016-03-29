@@ -9,7 +9,7 @@ RSpec.describe API::ScoresController, type: :controller do
       expect(json_body[:score]).to eq(
         id: 1, 
         team_id: 1, 
-        team_number: 0, 
+        team_number: 1, 
         time: 2179, 
         discipline: "hb", 
         second_time: "21,79", 
@@ -23,7 +23,7 @@ RSpec.describe API::ScoresController, type: :controller do
             discipline: "hb", 
             translated_discipline_name: "Hindernisbahn", 
             team_id: 1, 
-            team_number: 0
+            team_number: 1
           }, {
             id: 39, 
             time: 2148, 
@@ -31,7 +31,7 @@ RSpec.describe API::ScoresController, type: :controller do
             discipline: "hb", 
             translated_discipline_name: "Hindernisbahn", 
             team_id: 1, 
-            team_number: 0
+            team_number: 1
           }
         ],
       )

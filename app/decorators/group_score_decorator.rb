@@ -15,7 +15,7 @@ class GroupScoreDecorator < ApplicationDecorator
   end
 
   def to_s
-    "#{team} #{team_number + 1} - #{second_time}"
+    "#{team} #{team_number} - #{second_time}"
   end
 
   def second_time

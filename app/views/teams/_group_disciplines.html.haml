@@ -10,4 +10,4 @@
       - ct.col("Datum", class: "small col-8 info-link") { |row| competition_link(row.competition, type: :date) }
       - ct.col("Typ", class: "small col-10") { |row| event_link(row.competition.event) }
       - ct.col("Ort", class: "small col-10") { |row| place_link(row.competition.place) }
-      - ct.col("N", class: "small col-5") { |row| [row.team_number + 1, row.run].reject(&:blank?).join(" ") }
+      - ct.col("N", class: "small col-5") { |row| [row.team_number, row.run].reject(&:blank?).join(" ") }

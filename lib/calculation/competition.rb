@@ -63,7 +63,7 @@ module Calculation
     def generate_disciplines
       [:hb, :hl].each do |discipline|
         [:female, :male].each do |gender|
-          [false, -2, -3, -4, -5].each do |final|
+          [false, -1, -2, -3, -4].each do |final|
             single = SingleDiscipline.new(self, discipline, gender, final)
             if single.count > 0
               @single_categories[discipline] ||= Set.new

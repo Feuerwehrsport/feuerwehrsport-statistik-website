@@ -23,7 +23,7 @@ module Import
       def configure_assessments
         [:female, :male].each do |gender|
           teams = competition.group_scores.gender(gender).pluck(:team_id, :team_number).uniq.map do |team_id, team_number|
-            ["#{team_id}-#{team_number}", "#{Team.find(team_id).name} #{team_number+1}", true]
+            ["#{team_id}-#{team_number}", "#{Team.find(team_id).name} #{team_number}", true]
           end
           add_assessment_config("#{gender}-team", teams)
 

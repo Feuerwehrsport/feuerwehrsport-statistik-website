@@ -31,7 +31,7 @@ describe "competitions features", type: :feature, js: true do
       expect(page).to_not have_content("Hakenleitersteigen weiblich Mannschaftswertung")
 
       expect(page).to have_content("Hakenleitersteigen männlich")
-      expect(page).to have_content("1 bis 10 von 35 Einträgen")
+      expect(page).to have_content("1 bis 10 von 36 Einträgen")
       expect(page).to have_content("Hakenleitersteigen männlich Mannschaftswertung")
 
       expect(page).to_not have_content("Zweikampf weiblich")

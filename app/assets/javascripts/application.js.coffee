@@ -76,17 +76,17 @@ $ ->
             for team in teams
               teamOptions.push({ value: team.id, display: team.name })
             numbers = [
-              { display: 'Außer der Wertung', value: -6 },
-              { display: 'Achtelfinale', value: -5 },
-              { display: 'Viertelfinale', value: -4 },
-              { display: 'Halbfinale', value: -3 },
-              { display: 'Finale', value: -2 },
-              { display: 'Einzelstarter', value: -1 },
-              { display: 'Mannschaft 1', value: 0 },
-              { display: 'Mannschaft 2', value: 1 },
-              { display: 'Mannschaft 3', value: 2 },
-              { display: 'Mannschaft 4', value: 3 },
-              { display: 'Mannschaft 5', value: 4 }
+              { display: 'Außer der Wertung', value: -5 },
+              { display: 'Achtelfinale', value: -4 },
+              { display: 'Viertelfinale', value: -3 },
+              { display: 'Halbfinale', value: -2 },
+              { display: 'Finale', value: -1 },
+              { display: 'Einzelstarter', value: 0 },
+              { display: 'Mannschaft 1', value: 1 },
+              { display: 'Mannschaft 2', value: 2 },
+              { display: 'Mannschaft 3', value: 3 },
+              { display: 'Mannschaft 4', value: 4 },
+              { display: 'Mannschaft 5', value: 5 }
             ]
 
             w = FssWindow.build('Wertungszeit zuordnen')

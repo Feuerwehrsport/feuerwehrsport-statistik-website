@@ -8,7 +8,7 @@ RSpec.describe API::GroupScoresController, type: :controller do
       expect(json_body[:group_score]).to eq(
         id: 3,
         team_id: 10,
-        team_number: 0,
+        team_number: 1,
         gender: "male",
         time: 2287,
         group_score_category_id: 30,

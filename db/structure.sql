@@ -522,7 +522,7 @@ CREATE VIEW competition_team_numbers AS
     group_score_categories.competition_id
    FROM (group_scores
      JOIN group_score_categories ON ((group_score_categories.id = group_scores.group_score_category_id)))
-  WHERE (group_scores.team_number >= 0)
+  WHERE (group_scores.team_number > 0)
 UNION
  SELECT scores.team_id,
     scores.team_number,
@@ -530,7 +530,7 @@ UNION
     scores.competition_id
    FROM (scores
      JOIN people ON ((people.id = scores.person_id)))
-  WHERE ((scores.team_number >= 0) AND (scores.team_id IS NOT NULL));
+  WHERE ((scores.team_number > 0) AND (scores.team_id IS NOT NULL));
 
 
 --
@@ -2527,4 +2527,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160308202224');
 INSERT INTO schema_migrations (version) VALUES ('20160313210251');
 
 INSERT INTO schema_migrations (version) VALUES ('20160316073250');
+
+INSERT INTO schema_migrations (version) VALUES ('20160328201007');
+
+INSERT INTO schema_migrations (version) VALUES ('20160328201807');
 

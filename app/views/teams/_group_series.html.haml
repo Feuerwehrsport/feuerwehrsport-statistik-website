@@ -19,7 +19,7 @@
             %td
               - if struct.round.year != @year_before
                 = struct.round.year
-              .small= "Mannschaft #{struct.team_number + 1}"
+              .small= "Mannschaft #{struct.team_number}"
             %td
               - if struct.row.rank <= struct.round.aggregate_class.honor_rank
                 %strong= "#{struct.row.rank}."

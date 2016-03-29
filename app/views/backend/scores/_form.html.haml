@@ -1,7 +1,7 @@
 = simple_form_for([:backend, @resource_instance]) do |f|
   = f.association :person, label_method: :full_name
   = f.association :team
-  = f.input :team_number, hint: "0: Mannschaft 1<br/>1: Mannschaft 2<br/>-1: Einzelstarter<br/>-2: Finale<br/>-3: Halbfinale<br/>-6: Außer der Wertung".html_safe
+  = f.input :team_number, hint: "1: Mannschaft 1<br/>2: Mannschaft 2<br/>0: Einzelstarter<br/>-1: Finale<br/>-2: Halbfinale<br/>-5: Außer der Wertung".html_safe
   = f.input :time
   = f.input :discipline, collection: [:hb, :hl]
   = f.association :competition

@@ -85,7 +85,7 @@ class Team < ActiveRecord::Base
             discipline(discipline).
             includes(:competition).
             each do |score|
-          next if score.team_number < 0 || score.team_id.nil?
+          next if score.team_number < 1 || score.team_id.nil?
           team_scores[score.uniq_team_id] ||= Calculation::CompetitionGroupAssessment.new(self, score.team_number, score.competition, gender)
           team_scores[score.uniq_team_id].add_score(score)
         end

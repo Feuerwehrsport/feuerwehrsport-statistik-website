@@ -50,11 +50,11 @@ module ApplicationHelper
   def numbered_team_name(score, options={})
     return "" if score.team.blank?
     number_name = begin
-      if score.team_number == -1
+      if score.team_number == 0
         " E"   
-      elsif score.team_number <= -2 && score.team_number >= -5
+      elsif score.team_number <= -1 && score.team_number >= -4
         ' F'
-      elsif score.team_number == -6
+      elsif score.team_number == -5
         ' A'
       else
         options = { 
@@ -66,7 +66,7 @@ module ApplicationHelper
           gender(options[:gender]).
           where(competition_id: options[:competition_id], team_id: options[:team_id]).
           distinct.count(:team_number)
-        c > 1 ? " #{score.team_number + 1}" : ""
+        c > 1 ? " #{score.team_number}" : ""
       end
     end
     run = score.try(:run).present? ? " #{score.run}" : ""

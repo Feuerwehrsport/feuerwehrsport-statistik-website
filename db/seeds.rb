@@ -5,3 +5,9 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+
+competition = CompReg::Competition.create!(name: "test", date: Date.today + 10.days, place: "hier", description: "Beschreibung", admin_user: AdminUser.first)
+hb = CompReg::CompetitionAssessment.create!(competition: competition, discipline: "hb", gender: :male)
+hl = CompReg::CompetitionAssessment.create!(competition: competition, discipline: "hl", gender: :male)
+team = CompReg::Team.create!(competition: competition, name: "Mannschaft", shortcut: "Manns", gender: :male, admin_user: AdminUser.first)
