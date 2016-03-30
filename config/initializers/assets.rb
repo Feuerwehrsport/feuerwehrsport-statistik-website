@@ -7,8 +7,3 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.paths << Emoji.images_path
 
 Rails.application.config.assets.precompile += %w( controllers/* application.* backend.* comp_reg.* leaflet.* )
-
-Ckeditor.setup do |config|
-  config.assets_languages = ['de']
-  #config.assets_plugins = ['image', 'smiley']
-end

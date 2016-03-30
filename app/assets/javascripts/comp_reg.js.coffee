@@ -1,5 +1,5 @@
 #= require cocoon
-#= require ckeditor/init
+#= require lib/ckeditor
 
 #= require moment
 #= require moment/de

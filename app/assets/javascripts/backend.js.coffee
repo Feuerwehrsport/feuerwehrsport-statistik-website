@@ -1,1 +1,1 @@
-#= require ckeditor/init
+#= require lib/ckeditor

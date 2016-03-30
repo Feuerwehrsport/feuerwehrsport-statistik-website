@@ -21,7 +21,6 @@ gem 'simple_form'
 gem 'cocoon' # nested_form helper
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
-gem 'ckeditor'
 
 # Draper as model decorator
 gem 'draper'
