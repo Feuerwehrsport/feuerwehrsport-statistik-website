@@ -65,7 +65,9 @@ gem 'redcarpet'
 
 # datetimepicker for simple_form
 gem 'momentjs-rails', github: 'egeek/momentjs-rails'
-gem 'datetimepicker-rails', github: 'zpaulovics/datetimepicker-rails', branch: 'master', submodules: true
+# used for generating files:
+# gem 'datetimepicker-rails', github: 'zpaulovics/datetimepicker-rails', branch: 'master', submodules: true
+
 
 group :development do
   gem 'capistrano', '~> 2', require: false
