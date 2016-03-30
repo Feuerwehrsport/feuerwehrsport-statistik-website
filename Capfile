@@ -43,7 +43,7 @@ namespace :deploy do
 
   task :generate_500_html do
     public_500_html = File.join(release_path, "public/500.html")
-    run_without_rvm "curl -k https://#{nginx_server_name}/500 > #{public_500_html}"
+    run_without_rvm "curl -sk https://#{nginx_server_name}/500 > #{public_500_html}"
   end
 end
 
