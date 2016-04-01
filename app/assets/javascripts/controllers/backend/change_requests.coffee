@@ -23,6 +23,7 @@ class Error
       when "person-correction", "person-merge", "person-other", "person-change-nation" then @handlePerson()
       when "team-other", "team-correction", "team-merge", "team-logo" then @handleTeam()
       when "appointment-edit" then @handleDate()
+      when "report-link" then @handleLink()
 
 
   getTr: () =>
@@ -298,6 +299,42 @@ class Error
           @getActionBox(div, () =>
             Fss.put "appointments/#{@data.appointment_id}", appointment: @data.appointment, log_action: "update", () => @confirmDone()
           , 2)
+      else
+        @openType = (div) =>
+          @getActionBox(div)
+
+  handleLink: () =>
+    getLinkBox = (appendTo, id = @data.link_id) =>
+      box = @box(5, appendTo).append($('<h4/>').text("Link"))
+      Fss.getResource 'links', id, (link) =>
+        box.append(
+          $('<a/>')
+          .attr('href', link.linkable_url)
+          .text("#{link.linkable_id} #{link.linkable_type}")
+        )
+        .append("<br/>")
+        .append(
+          $('<a/>')
+          .attr('href', link.url)
+          .text(link.label)
+        )
+        .append("<br/>Name: #{link.label}")
+        .append("<br/>Ziel: #{link.url}")
+
+    @headline = "Link"
+    switch @key
+      when "report-link"
+        @headline += " - Meldung"
+        @openType = (div) =>
+          getLinkBox(div)
+          @getActionBox(div).append($('<div/>').addClass("btn btn-info").text('Link löschen').click( () => 
+            @confirmAction(
+              () =>
+                Fss.ajaxRequest "DELETE", "links/#{@data.link_id}", {}, {}, () =>
+                  @confirmDone()
+              "Link löschen?"
+            )
+          ))
       else
         @openType = (div) =>
           @getActionBox(div)

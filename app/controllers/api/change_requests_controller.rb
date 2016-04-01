@@ -1,3 +1,5 @@
+require_dependency 'api/crud/change_log_support'
+
 module API
   class ChangeRequestsController < BaseController
     include CRUD::CreateAction

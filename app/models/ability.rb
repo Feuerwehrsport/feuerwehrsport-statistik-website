@@ -32,6 +32,7 @@ class Ability
     can :manage, Score
     can :manage, Team
     can :manage, Import::Scores
+    can :manage, Link
   end
 
   def user_abilities
@@ -59,7 +60,7 @@ class Ability
     can :create, Appointment
     can :create, ChangeRequest
     can :create, CompetitionFile
-    can :create, Link
+    can [:create, :show], Link
     can :create, Person
     can :update, Place
     can :update, Score

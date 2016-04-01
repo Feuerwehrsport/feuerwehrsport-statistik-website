@@ -72,7 +72,7 @@ Rails.application.routes.draw do
         post :scores
       end
     end
-    resources :links, only: [:create]
+    resources :links, only: [:create, :show, :destroy]
     resources :nations, only: [:show, :index]
     resources :people, only: [:create, :show, :index, :update] do
       member { post :merge }
