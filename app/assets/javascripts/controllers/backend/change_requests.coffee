@@ -327,7 +327,11 @@ class Error
         @headline += " - Meldung"
         @openType = (div) =>
           getLinkBox(div)
-          @getActionBox(div).append($('<div/>').addClass("btn btn-info").text('Link löschen').click( () => 
+          @box(3, div)
+          .append($('<a/>').attr('href', "/backend/links/#{@data.link_id}/edit").text("Link bearbeiten"))
+          @getActionBox(div)
+          .append("<br/>")
+          .append($('<div/>').addClass("btn btn-info").text('Link löschen').click( () => 
             @confirmAction(
               () =>
                 Fss.ajaxRequest "DELETE", "links/#{@data.link_id}", {}, {}, () =>
