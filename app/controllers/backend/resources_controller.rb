@@ -11,6 +11,7 @@ module Backend
         GroupScore,
         GroupScoreCategory,
         GroupScoreType,
+        Link,
         Nation,
         News,
         Person,
