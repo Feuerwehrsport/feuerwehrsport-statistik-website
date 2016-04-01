@@ -18,8 +18,6 @@ do ($ = jQuery, window, document) ->
       if @partials.length > 0
         @highlightWaitingPartials()
         $.ajax(@settings.url, cache: false, success: @refreshBySource)
-      else
-        console.log "Nothing to refresh"
 
     highlightWaitingPartials: ->
       @partials.each ->
@@ -33,7 +31,6 @@ do ($ = jQuery, window, document) ->
         if replacement.length == 1
           $(@).html(replacement.html())
           $(@).css(opacity: '1.0')
-          console.log "Refreshed #{id}"
       $(@element).trigger('partials-refreshed')
 
   $.fn[pluginName] = (options) ->

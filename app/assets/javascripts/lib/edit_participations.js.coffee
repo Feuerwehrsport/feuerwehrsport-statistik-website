@@ -1,6 +1,5 @@
 handlers = []
 resetHandler = () ->
-  console.log(this)
   $('.assessment-participation').each () ->
     context = $(this)
     checkbox = context.find("input[type=checkbox]")
