@@ -96,6 +96,9 @@ de:
       person_participation:
         one: Wettkämpferteilnahme
         other: Wettkämpferteilnahmen
+      person_spelling:
+        one: Wettkämpferschreibweise
+        other: Wettkämpferschreibweisen
       place:
         one: Wettkampfort
         other: Wettkampforte
@@ -187,6 +190,10 @@ de:
       person_participation:
         group_score: Mannschaftszeit
         group_score_id: Mannschaftszeit
+      person_spelling:
+        official: Offiziell
+        first_name: Vorname
+        last_name: Nachname
       score:
         person: Wettkämpfer
       score_type:

@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     resources :news
     resources :people
     resources :person_participations
+    resources :person_spellings
     resources :places
     resources :repairs, only: [] do
       collection do

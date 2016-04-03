@@ -16,6 +16,7 @@ module Backend
         News,
         Person,
         PersonParticipation,
+        PersonSpelling,
         Place,
         Score,
         ScoreType,
