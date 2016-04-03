@@ -11,7 +11,10 @@
             %td= @competition.name
         %tr
           %th{ colspan: 2 } Typ:
-          %td= link_to(@competition.event, @competition.event)
+          %td= event_link(@competition.event)
+        %tr
+          %th{ colspan: 2 } Ort:
+          %td= place_link(@competition.place)
         - if @calc.single_score_count > 0
           %tr
             %th{ colspan: 2 } Mannschaftswertung:
