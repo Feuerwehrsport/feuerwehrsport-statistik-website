@@ -28,7 +28,6 @@ describe "appointments", type: :feature, js: true do
       disciplines: "fs",
       event_id: 1,
       place_id: 1,
-      published_at: nil,
     )
 
     # edit one

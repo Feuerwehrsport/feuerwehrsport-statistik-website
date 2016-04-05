@@ -6,6 +6,7 @@ module Backend
     def self.models
       [
         AdminUser,
+        Appointment,
         Competition,
         Event,
         GroupScore,

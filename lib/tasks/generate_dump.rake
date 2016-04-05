@@ -255,7 +255,6 @@ client.query("SELECT * FROM appointments WHERE id < 30 AND (place_id IN (#{place
     place_id: row["place_id"],
     event_id: row["event_id"],
     disciplines: row["disciplines"],
-    published_at: row["published_at"],
     created_at: row["created_at"],
     updated_at: row["updated_at"],
   )
