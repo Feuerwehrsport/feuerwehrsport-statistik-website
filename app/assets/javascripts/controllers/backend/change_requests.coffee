@@ -286,16 +286,20 @@ class Error
           correctBox = @box(5, div)
           .append($('<h4/>').text("Korrektur"))
           .append("Name: #{@data.appointment.name}")
+          .append("<br/>")
+          .append($("<pre/>").text(@data.appointment.description))
+          .append("Disziplinen: #{@data.appointment.disciplines}")
 
-
-          Fss.getResource 'places', @data.appointment.place_id, (place) =>
+          if @data.appointment.place_id
+            Fss.getResource 'places', @data.appointment.place_id, (place) =>
+              correctBox.append("<br/>Ort: #{place.name}")
+          else
+            @data.appointment.place_id = null
+          if @data.appointment.event_id
             Fss.getResource 'events', @data.appointment.event_id, (event) =>
-              correctBox
-              .append("<br/>Ort: #{place.name}")
-              .append("<br/>Typ: #{event.name}")
-              .append("<br/>")
-              .append($("<pre/>").text(@data.appointment.description))
-              .append("Disziplinen: #{@data.appointment.disciplines}")
+              correctBox.append("<br/>Typ: #{event.name}")
+          else
+            @data.appointment.event_id = null
           @getActionBox(div, () =>
             Fss.put "appointments/#{@data.appointment_id}", appointment: @data.appointment, log_action: "update", () => @confirmDone()
           , 2)
