@@ -126,7 +126,9 @@ CREATE TABLE appointments (
     event_id integer,
     disciplines character varying DEFAULT ''::character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    creator_id integer,
+    creator_type character varying
 );
 
 
@@ -2532,4 +2534,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160328201007');
 INSERT INTO schema_migrations (version) VALUES ('20160328201807');
 
 INSERT INTO schema_migrations (version) VALUES ('20160405211227');
+
+INSERT INTO schema_migrations (version) VALUES ('20160406194136');
 

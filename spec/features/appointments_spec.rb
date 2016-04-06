@@ -19,9 +19,9 @@ describe "appointments", type: :feature, js: true do
     expect(page).to_not have_content("Bitte warten")
     expect(page).to have_content("Wintertraining_xyz")
 
-    appointment = Appointment.where(name: "Wintertraining_xyz")
-    expect(appointment.count).to eq 1
-    expect(appointment.first.attributes.symbolize_keys).to include(
+    appointments = Appointment.where(name: "Wintertraining_xyz")
+    expect(appointments.count).to eq 1
+    expect(appointments.first.attributes.symbolize_keys).to include(
       name: "Wintertraining_xyz",
       dated_at: Date.today,
       description: "Beschreibung\n123",
@@ -29,6 +29,10 @@ describe "appointments", type: :feature, js: true do
       event_id: 1,
       place_id: 1,
     )
+    api_sign_out
+    
+    api_sign_in
+    visit appointments_path
 
     # edit one
     click_on("Wintertraining_xyz")
@@ -43,6 +47,7 @@ describe "appointments", type: :feature, js: true do
       check("Hakenleitersteigen")
       click_on("OK")
     end
+    expect(page).to_not have_content("Bitte warten")
     expect(page).to have_content("Der Fehlerbericht wurde gespeichert")
 
 

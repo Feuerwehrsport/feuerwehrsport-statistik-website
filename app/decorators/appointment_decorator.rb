@@ -5,6 +5,7 @@ class AppointmentDecorator < ApplicationDecorator
   decorates_association :links
   index_columns :id, :name, :dated_at
 
+  attr_accessor :current_user
   delegate :to_s, to: :name
 
   def discipline_images(options={})

@@ -48,8 +48,8 @@ $ () ->
         description: data.description
         disciplines: disciplines.join(",")
   
-      appointmentData.place_id = data.place_id if data.place_id isnt "NULL"
-      appointmentData.event_id = data.event_id if data.event_id isnt "NULL"
+      appointmentData.place_id = if data.place_id isnt "NULL" then data.place_id else null
+      appointmentData.event_id = if data.event_id isnt "NULL" then data.event_id else null
       submitCallback(appointmentData)
     )
     .open()
@@ -66,6 +66,9 @@ $ () ->
     Fss.checkLogin () ->
       Fss.getResources "places", (places) ->
         Fss.getResources "events", (events) ->
-          Fss.getResource "appointments", appointmentId, (date) ->
-            editAppointment "Termin bearbeiten", places, events, date, (appointmentData) ->
-              Fss.changeRequest 'appointment-edit', appointment_id: appointmentId, appointment: appointmentData
+          Fss.getResource "appointments", appointmentId, (appointment) ->
+            editAppointment "Termin bearbeiten", places, events, appointment, (appointmentData) ->
+              if appointment.updateable
+                Fss.ajaxReload 'PUT', "appointments/#{appointmentId}", appointment: appointmentData, log_action: "edit-appointment"
+              else
+                Fss.changeRequest 'appointment-edit', appointment_id: appointmentId, appointment: appointmentData

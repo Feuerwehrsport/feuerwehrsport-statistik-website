@@ -58,6 +58,7 @@ class Ability
 
   def api_user_abilities
     can :create, Appointment
+    can :update, Appointment, creator: @user
     can :create, ChangeRequest
     can :create, CompetitionFile
     can [:create, :show], Link

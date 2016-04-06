@@ -3,6 +3,7 @@ require 'icalendar'
 class Appointment < ActiveRecord::Base
   belongs_to :place
   belongs_to :event
+  belongs_to :creator, polymorphic: true
   has_many :links, as: :linkable, dependent: :restrict_with_exception
 
   default_scope -> { order(:dated_at) }
