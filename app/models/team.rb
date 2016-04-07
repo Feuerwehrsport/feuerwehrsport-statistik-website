@@ -102,7 +102,7 @@ class Team < ActiveRecord::Base
         current_discipline = OpenStruct.new(discipline: discipline, gender: gender, types: [])
         group_score_types(discipline).each do |group_type|
           scores = group_scores.gender(gender).group_score_type(group_type).includes(:person_participations).to_a
-          current_discipline.types.push(OpenStruct.new(scores: scores.map(&:decorate), type: group_type)) if scores.count > 0
+          current_discipline.types.push(GroupDisciplineType.new(scores.map(&:decorate), group_type)) if scores.count > 0
         end
         group_disciplines.push(current_discipline) if current_discipline.types.count > 0
       end
@@ -119,6 +119,20 @@ class Team < ActiveRecord::Base
     team_spellings.update_all(team_id: correct_team.id)
     series_participations.update_all(team_id: correct_team.id)
     entity_merges.update_all(target_id: correct_team.id)
+  end
+
+  GroupDisciplineType = Struct.new(:scores, :type) do
+    def valid_scores
+      @valid_scores ||= scores.reject(&:time_invalid?)
+    end
+
+    def best_time
+      @best_time ||= scores.sort_by(&:time).first.try(:second_time)
+    end
+
+    def average_time
+      ApplicationDecorator.calculate_second_time(valid_scores.map(&:time).sum.to_f/valid_scores.size)
+    end
   end
 
   private

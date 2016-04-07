@@ -6,6 +6,19 @@
     = g(group_discipline.gender)
   - group_discipline.types.each do |group_type|
     %h3= group_type.type
+    .row
+      .col-md-3
+        %table.table.table-condensed
+          %tr
+            %th Bestzeit
+            %td= "#{group_type.best_time} s"
+          %tr
+            %th Durchschnitt
+            %td= "#{group_type.average_time} s"
+        - if group_type.valid_scores.size > 0
+          = @chart.discipline_invalid(group_discipline.discipline, group_type.scores)
+      .col-md-9
+        = @chart.group_discipline_scores(group_type.valid_scores)
     = position_count_table(group_discipline.discipline, group_discipline.gender, group_type.scores, class: "datatable-group-disciplines") do |ct|
       - ct.col("Datum", class: "small col-8 info-link") { |row| competition_link(row.competition, type: :date) }
       - ct.col("Typ", class: "small col-10") { |row| event_link(row.competition.event) }
