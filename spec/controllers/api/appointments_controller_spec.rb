@@ -23,7 +23,7 @@ RSpec.describe API::AppointmentsController, type: :controller do
         disciplines: "gs,hb,hl,la", 
         dated_at: "2013-09-21",
         description: "Am 21.09.2013 findet das Finale des Deutschland-Cups in Charlottenthal statt.",
-        updateable: true,
+        updateable: false,
       }
     end
   end
@@ -40,7 +40,7 @@ RSpec.describe API::AppointmentsController, type: :controller do
         place: "Charlottenthal", 
         event: "D-Cup", 
         disciplines: "gs,hb,hl,la", 
-        updateable: true,
+        updateable: false,
       )
     end
     it_behaves_like "api user get permission error"
