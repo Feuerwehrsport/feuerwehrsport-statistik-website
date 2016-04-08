@@ -94,6 +94,8 @@ group :development, :test, :test_dump do
   gem 'spring'
   gem 'spring-commands-rspec'
 
+  gem 'factory_girl'
+
   gem 'rspec-rails'
   gem 'rspec-collection_matchers'
   gem 'guard-rspec', require: false

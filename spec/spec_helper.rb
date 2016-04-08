@@ -19,6 +19,7 @@
 require 'capybara/rspec'
 require 'capybara/poltergeist'
 require 'capybara-screenshot/rspec'
+require 'factory_girl'
 
 Capybara.javascript_driver = :poltergeist
 Capybara::Screenshot.prune_strategy = { keep: 20 }
