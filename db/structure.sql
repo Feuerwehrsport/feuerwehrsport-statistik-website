@@ -491,7 +491,12 @@ CREATE TABLE people (
     gender integer NOT NULL,
     nation_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    hb_count integer DEFAULT 0 NOT NULL,
+    hl_count integer DEFAULT 0 NOT NULL,
+    la_count integer DEFAULT 0 NOT NULL,
+    fs_count integer DEFAULT 0 NOT NULL,
+    gs_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2536,4 +2541,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160328201807');
 INSERT INTO schema_migrations (version) VALUES ('20160405211227');
 
 INSERT INTO schema_migrations (version) VALUES ('20160406194136');
+
+INSERT INTO schema_migrations (version) VALUES ('20160412060949');
 

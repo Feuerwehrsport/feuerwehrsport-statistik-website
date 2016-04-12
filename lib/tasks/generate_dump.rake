@@ -189,6 +189,11 @@ client.query("SELECT * FROM people WHERE id < 100 ORDER BY id").each do |row|
     nation_id: row["nation_id"],
     created_at: row["created_at"],
     updated_at: row["updated_at"],
+    hb_count: row["hb_count"],
+    hl_count: row["hl_count"],
+    fs_count: row["fs_count"],
+    gs_count: row["gs_count"],
+    la_count: row["la_count"],
   )
 end
 

@@ -13,16 +13,6 @@ class Person < ActiveRecord::Base
   has_many :series_participations, dependent: :restrict_with_exception, class_name: 'Series::PersonParticipation'
   has_many :entity_merges, as: :target
 
-  scope :with_score_count, -> do
-    select("
-      people.*,
-      (#{Score.select("COUNT(*)").hb.where("person_id = people.id").to_sql}) AS hb_count,
-      (#{Score.select("COUNT(*)").hl.where("person_id = people.id").to_sql}) AS hl_count,
-      (#{GroupScoreParticipation.la.select("COUNT(*)").where("person_id = people.id").to_sql}) AS la_count,
-      (#{GroupScoreParticipation.fs.select("COUNT(*)").where("person_id = people.id").to_sql}) AS fs_count,
-      (#{GroupScoreParticipation.gs.select("COUNT(*)").where("person_id = people.id").to_sql}) AS gs_count
-    ")
-  end
   scope :german, -> { where(nation_id: 1) }
   scope :search, -> (value) do
     search_value = "%#{value}%"
@@ -43,6 +33,14 @@ class Person < ActiveRecord::Base
   end
 
   validates :last_name, :gender, :nation, presence: true
+
+  def self.update_score_count
+    update_all("hb_count = (#{Score.select("COUNT(*)").hb.where("person_id = people.id").to_sql})")
+    update_all("hl_count = (#{Score.select("COUNT(*)").hl.where("person_id = people.id").to_sql})")
+    update_all("la_count = (#{GroupScoreParticipation.la.select("COUNT(*)").where("person_id = people.id").to_sql})")
+    update_all("fs_count = (#{GroupScoreParticipation.fs.select("COUNT(*)").where("person_id = people.id").to_sql})")
+    update_all("gs_count = (#{GroupScoreParticipation.gs.select("COUNT(*)").where("person_id = people.id").to_sql})")
+  end
 
   def merge_to(correct_person)
     raise ActiveRecord::ActiveRecordError.new("same id") if id == correct_person.id
