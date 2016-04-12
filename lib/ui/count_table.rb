@@ -32,6 +32,16 @@ module UI
       data
     end
 
+    def row_class(row=nil, &block)
+      if block.present?
+        @row_class_block = block
+      elsif @row_class_block.present?
+        @row_class_block.call(row)
+      else
+        nil
+      end
+    end
+
     def headlines
       columns.map(&:name)
     end

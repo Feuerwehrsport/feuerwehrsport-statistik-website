@@ -4,6 +4,7 @@
 = breadcrum
 
 = count_table(resource_collection) do |ct|
+  - ct.row_class { |row| row.date < Date.today ? "text-muted" : nil }
   - ct.col("Datum", class: "col-15") { |row| l(row.date, format: :german) }
   - ct.col("Name", :name, class: "col-30")
   - ct.col("Ort", :place, class: "col-30")

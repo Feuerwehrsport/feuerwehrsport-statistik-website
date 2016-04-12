@@ -12,6 +12,7 @@ module CompReg
 
     default_scope -> { order(:date) }
     scope :published, -> { where(published: true) }
+    scope :overview, -> { where("date >= ?", Date.today) }
     scope :open, -> do
       published.
       where("date >= ?", Date.today).

@@ -5,7 +5,7 @@ class AppointmentsController < ResourceController
 
   def index
     @rows = Appointment.upcoming.includes(:place, :event).decorate
-    @comp_reg_competitions = CompReg::Competition.published.decorate
+    @comp_reg_competitions = CompReg::Competition.published.overview.decorate
 
     if request.format.ics?
       calendar_response("feuerwehrsport-statistik-termine", @rows, "PUBLISH")

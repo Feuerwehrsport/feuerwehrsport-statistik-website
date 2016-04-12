@@ -5,7 +5,7 @@
         %th{ column.th_options }= column.th_value
   %tbody
     - ct.rows.each do |row|
-      %tr{ data: ct.row_data(row) }
+      %tr{ data: ct.row_data(row), class: ct.row_class(row) }
         - ct.columns.each do |column|
           %td{ class: column.options[:class] }= column.content(row)
     - if ct.footer_block.present?
