@@ -3,6 +3,8 @@ require "rails_helper"
 RSpec.describe CompReg::CompetitionMailer, type: :mailer do
   let(:team) { create(:comp_reg_team) }
   let(:person) { create(:comp_reg_person) }
+  before { Timecop.freeze(Time.parse("2016-04-08")) }
+  after { Timecop.return }
 
   describe '#new_team_registered' do
     let(:mail) { described_class.new_team_registered(team) }

@@ -2,6 +2,8 @@ require "rails_helper"
 
 RSpec.describe CompReg::TeamMailer, type: :mailer do
   let(:team) { create(:comp_reg_team) }
+  before { Timecop.freeze(Time.parse("2016-04-08")) }
+  after { Timecop.return }
 
   describe '#notification_to_creator' do
     let(:mail) { described_class.notification_to_creator(team) }
