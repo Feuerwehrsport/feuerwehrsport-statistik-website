@@ -120,6 +120,17 @@ client.query("SELECT * FROM competitions WHERE id < 500 AND place_id IN (#{place
     created_at: row["created_at"],
     updated_at: row["updated_at"],
     hint_content: row["hint_content"],
+    hl_female: row["hl_female"],
+    hl_male: row["hl_male"],
+    hb_female: row["hb_female"],
+    hb_male: row["hb_male"],
+    gs: row["gs"],
+    fs_female: row["fs_female"],
+    fs_male: row["fs_male"],
+    la_female: row["la_female"],
+    la_male: row["la_male"],
+    teams_count: row["teams_count"],
+    people_count: row["people_count"],
   )
 end
 

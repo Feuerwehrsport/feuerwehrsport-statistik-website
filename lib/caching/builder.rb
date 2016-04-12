@@ -5,6 +5,7 @@ module Caching
     def perform
       remove_future_builders
       Person.update_score_count
+      Competition.update_discipline_score_count
       HTMLPreLoader.perform_now
     end
 

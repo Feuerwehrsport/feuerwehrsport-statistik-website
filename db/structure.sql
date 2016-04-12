@@ -553,7 +553,18 @@ CREATE TABLE competitions (
     published_at timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    hint_content text DEFAULT ''::text NOT NULL
+    hint_content text DEFAULT ''::text NOT NULL,
+    hl_female integer DEFAULT 0 NOT NULL,
+    hl_male integer DEFAULT 0 NOT NULL,
+    hb_female integer DEFAULT 0 NOT NULL,
+    hb_male integer DEFAULT 0 NOT NULL,
+    gs integer DEFAULT 0 NOT NULL,
+    fs_female integer DEFAULT 0 NOT NULL,
+    fs_male integer DEFAULT 0 NOT NULL,
+    la_female integer DEFAULT 0 NOT NULL,
+    la_male integer DEFAULT 0 NOT NULL,
+    teams_count integer DEFAULT 0 NOT NULL,
+    people_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2543,4 +2554,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160405211227');
 INSERT INTO schema_migrations (version) VALUES ('20160406194136');
 
 INSERT INTO schema_migrations (version) VALUES ('20160412060949');
+
+INSERT INTO schema_migrations (version) VALUES ('20160412064204');
 

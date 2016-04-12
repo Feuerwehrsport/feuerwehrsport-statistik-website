@@ -17,7 +17,8 @@ class Competition < ActiveRecord::Base
     year_value = year.is_a?(Year) ? year.year.to_i : year.to_i
     where("EXTRACT(YEAR FROM date) = #{year_value}")
   end
-  scope :with_disciplines_count, -> do
+
+  def self.update_discipline_score_count
     hl_female = Score.hl.gender(:female).select("COUNT(*)").where("competition_id = #{table_name}.id").to_sql
     hl_male = Score.hl.gender(:male).select("COUNT(*)").where("competition_id = #{table_name}.id").to_sql
     hb_female = Score.hb.gender(:female).select("COUNT(*)").where("competition_id = #{table_name}.id").to_sql
@@ -55,18 +56,17 @@ class Competition < ActiveRecord::Base
       .to_sql
     person_count_sql = "SELECT COUNT(*) FROM (#{people_sql}) person_count"
 
-    select("#{table_name}.*").
-    select("(#{hl_female}) AS hl_female").
-    select("(#{hl_male}) AS hl_male").
-    select("(#{hb_female}) AS hb_female").
-    select("(#{hb_male}) AS hb_male").
-    select("(#{gs}) AS gs").
-    select("(#{fs_female}) AS fs_female").
-    select("(#{fs_male}) AS fs_male").
-    select("(#{la_female}) AS la_female").
-    select("(#{la_male}) AS la_male").
-    select("(#{teams_count_sql}) AS teams_count").
-    select("(#{person_count_sql}) AS people_count")
+    update_all("hl_female = (#{hl_female})")
+    update_all("hl_male = (#{hl_male})")
+    update_all("hb_female = (#{hb_female})")
+    update_all("hb_male = (#{hb_male})")
+    update_all("gs = (#{gs})")
+    update_all("fs_female = (#{fs_female})")
+    update_all("fs_male = (#{fs_male})")
+    update_all("la_female = (#{la_female})")
+    update_all("la_male = (#{la_male})")
+    update_all("teams_count = (#{teams_count_sql})")
+    update_all("people_count = (#{person_count_sql})")
   end
 
   def group_assessment(discipline, gender)
