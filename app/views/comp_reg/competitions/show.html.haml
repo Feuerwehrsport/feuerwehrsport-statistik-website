@@ -7,7 +7,7 @@
 .pull-right
   = image_link_to("team-add", "Mannschaft anmelden", new_comp_reg_team_path(competition_id: resource_instance), image: { width: "18px" }, class: "btn btn-default btn-sm")
   - if resource_instance.competition_assessments.for_people.present?
-    = image_link_to("person-add", "Wettkämpfer anmelden", new_comp_reg_person_path(competition_id: resource_instance), image: { width: "18px" }, class: "btn btn-default btn-sm", remote: true)
+    = image_link_to("person-add", "Wettkämpfer anmelden", new_comp_reg_person_path(competition_id: resource_instance), image: { width: "18px" }, class: "btn btn-default btn-sm", remote: can?(:participate, resource_instance))
   - if can?(:update, resource_instance)
     = image_link_to("configure", "Wettkampf bearbeiten", { action: :edit }, image: { width: "18px" }, class: "btn btn-default btn-sm")
   
