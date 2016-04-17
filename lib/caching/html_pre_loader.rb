@@ -16,7 +16,6 @@ module Caching
     def urls
       urls = [
         root_path,
-        appointments_path,
         change_logs_path,
         competitions_path,
         people_path,

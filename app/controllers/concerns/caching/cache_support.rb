@@ -18,12 +18,16 @@ module Caching
 
     protected
 
-    def save_html_cache?
-      self.class.cache_action?(action_name) && request.format.to_sym == :html && Rails.configuration.caching
+    def save_html_cache?(content_type: "text/html")
+      self.class.cache_action?(action_name) && cache_format?(content_type) && Rails.configuration.caching
+    end
+
+    def cache_format?(cont)
+      request.format.to_sym == :html || content_type == "text/html"
     end
 
     def save_html_cache
-      if save_html_cache?
+      if save_html_cache?(content_type: response.content_type)
         uri = URI.parse(request.url).path
         path = File.join(Rails.root, "public", "cache", File.dirname(uri))
         FileUtils.mkdir_p(path)
