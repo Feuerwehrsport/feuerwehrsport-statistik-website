@@ -491,7 +491,12 @@ CREATE TABLE people (
     gender integer NOT NULL,
     nation_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    hb_count integer DEFAULT 0 NOT NULL,
+    hl_count integer DEFAULT 0 NOT NULL,
+    la_count integer DEFAULT 0 NOT NULL,
+    fs_count integer DEFAULT 0 NOT NULL,
+    gs_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -548,7 +553,18 @@ CREATE TABLE competitions (
     published_at timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    hint_content text DEFAULT ''::text NOT NULL
+    hint_content text DEFAULT ''::text NOT NULL,
+    hl_female integer DEFAULT 0 NOT NULL,
+    hl_male integer DEFAULT 0 NOT NULL,
+    hb_female integer DEFAULT 0 NOT NULL,
+    hb_male integer DEFAULT 0 NOT NULL,
+    gs integer DEFAULT 0 NOT NULL,
+    fs_female integer DEFAULT 0 NOT NULL,
+    fs_male integer DEFAULT 0 NOT NULL,
+    la_female integer DEFAULT 0 NOT NULL,
+    la_male integer DEFAULT 0 NOT NULL,
+    teams_count integer DEFAULT 0 NOT NULL,
+    people_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -777,6 +793,46 @@ CREATE SEQUENCE group_scores_id_seq
 --
 
 ALTER SEQUENCE group_scores_id_seq OWNED BY group_scores.id;
+
+
+--
+-- Name: import_requests; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE import_requests (
+    id integer NOT NULL,
+    file character varying,
+    url character varying,
+    date date,
+    place_id integer,
+    event_id integer,
+    description text,
+    admin_user_id integer,
+    edit_user_id integer,
+    edited_at timestamp without time zone,
+    finished_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: import_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE import_requests_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: import_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE import_requests_id_seq OWNED BY import_requests.id;
 
 
 --
@@ -1484,6 +1540,13 @@ ALTER TABLE ONLY group_scores ALTER COLUMN id SET DEFAULT nextval('group_scores_
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY import_requests ALTER COLUMN id SET DEFAULT nextval('import_requests_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY links ALTER COLUMN id SET DEFAULT nextval('links_id_seq'::regclass);
 
 
@@ -1734,6 +1797,14 @@ ALTER TABLE ONLY group_score_types
 
 ALTER TABLE ONLY group_scores
     ADD CONSTRAINT group_scores_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: import_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY import_requests
+    ADD CONSTRAINT import_requests_pkey PRIMARY KEY (id);
 
 
 --
@@ -2016,6 +2087,34 @@ CREATE INDEX index_group_scores_on_group_score_category_id ON group_scores USING
 --
 
 CREATE INDEX index_group_scores_on_team_id ON group_scores USING btree (team_id);
+
+
+--
+-- Name: index_import_requests_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_import_requests_on_admin_user_id ON import_requests USING btree (admin_user_id);
+
+
+--
+-- Name: index_import_requests_on_edit_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_import_requests_on_edit_user_id ON import_requests USING btree (edit_user_id);
+
+
+--
+-- Name: index_import_requests_on_event_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_import_requests_on_event_id ON import_requests USING btree (event_id);
+
+
+--
+-- Name: index_import_requests_on_place_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_import_requests_on_place_id ON import_requests USING btree (place_id);
 
 
 --
@@ -2536,4 +2635,10 @@ INSERT INTO schema_migrations (version) VALUES ('20160328201807');
 INSERT INTO schema_migrations (version) VALUES ('20160405211227');
 
 INSERT INTO schema_migrations (version) VALUES ('20160406194136');
+
+INSERT INTO schema_migrations (version) VALUES ('20160408065523');
+
+INSERT INTO schema_migrations (version) VALUES ('20160412060949');
+
+INSERT INTO schema_migrations (version) VALUES ('20160412064204');
 

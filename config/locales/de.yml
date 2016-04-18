@@ -83,6 +83,9 @@ de:
       group_score_type:
         one: Wertungstyp
         other: Wertungstypen
+      import_request:
+        one: Importanfrage
+        other: Importanfragen
       link:
         one: Link
         other: Links
@@ -176,6 +179,17 @@ de:
         group_score_type_id: Wertungstyp 
       group_score_type:
         regular: nach WKO
+      import_request:
+        date: Datum des Wettkampfes
+        description: Zusätzliche Beschreibung
+        event: Typ
+        file: Datei
+        place: Ort
+        remove_file: Datei entfernen
+        finished_label: Status
+        url: Link
+        german_created_at: Erstellt am
+        edit_user: Bearbeiter
       news:
         admin_user: Bearbeiter
         content: Inhalt
