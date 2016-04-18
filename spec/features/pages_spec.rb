@@ -6,7 +6,7 @@ describe "pages features", type: :feature do
       visit root_path
       expect(page.find("h1")).to have_content 'Feuerwehrsport - die große Auswertung'
       expect(page.find("h4 a[href='/news/14']")).to have_content 'Löschangriff Position anzeigen'
-      expect(page).to have_link 'D-Cup - Charlottenthal - 14.06.2008', href: competition_path(2)
+      expect(page).to have_link 'MV-Cup - Ostseebad Nienhagen - 11.07.2014', href: competition_path(498)
       expect(page).to have_content 'Super Leistungen vom Jahr 2015'
       expect(page).to have_content 'Fehler in den Daten'
     end
@@ -31,7 +31,7 @@ describe "pages features", type: :feature do
     it "shows list of the last inserted competitions" do
       visit last_competitions_path
       expect(page).to have_content 'Neu eingetragene Wettkämpfe'
-      expect(first("td")).to have_link 'D-Cup - Charlottenthal - 14.06.2008', href: competition_path(2)
+      expect(first("td")).to have_link 'MV-Cup - Ostseebad Nienhagen - 11.07.2014', href: competition_path(498)
     end
   end
 

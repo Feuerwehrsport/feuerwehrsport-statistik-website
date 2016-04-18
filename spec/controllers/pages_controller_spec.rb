@@ -23,7 +23,7 @@ RSpec.describe PagesController, type: :controller do
     it "assigns the 100 last competitions" do
       get :last_competitions_overview
       expect(assigns(:last_competitions).count).to eq 100
-      expect(assigns(:last_competitions).first.id).to eq 2
+      expect(assigns(:last_competitions).first.id).to eq 498
     end
   end
 

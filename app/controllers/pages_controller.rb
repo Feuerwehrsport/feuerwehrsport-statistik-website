@@ -78,6 +78,6 @@ class PagesController < ResourceController
   protected
 
   def last_competitions(limit)
-    Competition.order(created_at: :desc).includes(:place, :event).first(limit).map(&:decorate)
+    Competition.order(created_at: :desc).order(id: :desc).includes(:place, :event).first(limit).map(&:decorate)
   end
 end
