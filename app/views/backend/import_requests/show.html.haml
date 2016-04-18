@@ -1,0 +1,70 @@
+= render 'instance_head'
+
+%table.table
+  %tr
+    %th Absender
+    %td= @resource_instance_decorated.admin_user
+  %tr
+    %th Datei
+    %td
+      - if @resource_instance_decorated.file.present?
+        = link_to(@resource_instance_decorated.file.file.filename, @resource_instance_decorated.file.url)
+      - else
+        Keine Angabe
+  %tr
+    %th Link
+    %td
+      - if @resource_instance_decorated.url.present?
+        = link_to(@resource_instance_decorated.url, @resource_instance_decorated.url)
+      - else
+        Keine Angabe
+  %tr
+    %th Ort
+    %td
+      - if @resource_instance_decorated.place.present?
+        = place_link(@resource_instance_decorated.place)
+      - else
+        Keine Angabe
+  %tr
+    %th Typ
+    %td
+      - if @resource_instance_decorated.event.present?
+        = event_link(@resource_instance_decorated.event)
+      - else
+        Keine Angabe
+  %tr
+    %th Beschreibung
+    %td
+      %pre= @resource_instance_decorated.description
+
+%hr
+
+- if @resource_instance_decorated.edited_at.present?
+  %table.table
+    %tr
+      %th Bearbeiter
+      %td= @resource_instance_decorated.edit_user
+    %tr
+      %th Bearbeitet seit
+      %td= l(@resource_instance_decorated.edited_at)
+    - if @resource_instance_decorated.finished_at.present?
+      %tr
+        %th Abgeschlossen seit
+        %td= l(@resource_instance_decorated.finished_at)
+    - elsif can?(:update, resource_instance)
+      %tr
+        %td{ colspan: 2 }
+          = simple_form_for([:backend, @resource_instance]) do |f|
+            = f.input :finished, as: :hidden, input_html: { value: "1" }
+
+            = f.button :submit, "Abschließen"
+
+- else
+  Noch keine Bearbeitung
+
+  - if can?(:update, resource_instance)
+    %hr
+    = simple_form_for([:backend, @resource_instance]) do |f|
+      = f.input :edit_user_id, as: :hidden, input_html: { value: current_admin_user.id }
+
+      = f.button :submit, "Import übernehmen"

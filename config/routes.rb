@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     resources :group_score_categories
     resources :group_score_types
     resources :imports, only: [:index]
+    resources :import_requests
     resources :links
     resources :nations
     resources :news

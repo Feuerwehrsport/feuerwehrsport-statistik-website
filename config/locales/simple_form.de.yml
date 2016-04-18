@@ -8,10 +8,15 @@ de:
     error_notification:
       default_message: "Bitte beseitigen Sie folgende Fehler:"
     hints:
-       comp_reg_competition:
-         person_tags: 'Komma separierte Liste (z.B.: U20-Wertung)'
-         team_tags: 'Komma separierte Liste (z.B.: BB-Cup-Wertung)'
-         group_score: 'Wird dies ausgewählt, können die Anmelder eine Reihenfolge innerhalb der Mannschaft angeben.'
+      comp_reg_competition:
+        person_tags: 'Komma separierte Liste (z.B.: U20-Wertung)'
+        team_tags: 'Komma separierte Liste (z.B.: BB-Cup-Wertung)'
+        group_score: 'Wird dies ausgewählt, können die Anmelder eine Reihenfolge innerhalb der Mannschaft angeben.'
+
+      import_request:
+        file: Zum Beispiel ein PDF oder eine Excel-Liste. Keine Bilder, Scans oder Bildschirmfotos
+        url: Eventuell die Quelle oder weitere Ergebnisse
+
     # Examples
     # labels:
     #   defaults:

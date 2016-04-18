@@ -14,8 +14,7 @@ module Backend
     def create
       assign_attributes
       if save_instance
-        flash[:success] = t('scaffold.created')    
-        redirect_to [:backend, resource_instance]    
+        after_create_success 
       else
         render action: :new
       end
@@ -63,6 +62,11 @@ module Backend
 
     protected
 
+    def after_create_success
+      flash[:success] = t('scaffold.created')
+      redirect_to [:backend, resource_instance]
+    end
+
     def save_instance
       saved = resource_instance.save
       clean_cache_and_build_new if saved
@@ -98,8 +102,12 @@ module Backend
       @page_title = "#{resource_class.model_name.human} - #{@resource_instance_decorated}"
     end
 
+    def build_instance
+      resource_class.new
+    end
+
     def new_instance
-      self.resource_instance = resource_class.new
+      self.resource_instance = build_instance
       @resource_instance_decorated = resource_instance.decorate
       @page_title = "#{resource_class.model_name.human}"
     end

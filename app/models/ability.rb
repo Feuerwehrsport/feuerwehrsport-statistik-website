@@ -33,6 +33,8 @@ class Ability
     can :manage, Team
     can :manage, Import::Scores
     can :manage, Link
+
+    can :manage, ImportRequest
   end
 
   def user_abilities
@@ -52,6 +54,9 @@ class Ability
       can?(:participate, person.competition) &&
       (person.admin_user_id == user.id || person.competition.admin_user_id == user.id)
     end
+
+    can [:index, :show], ImportRequest, admin_user_id: user.id
+    can :create, ImportRequest
 
     can :logout, AdminUser
   end
