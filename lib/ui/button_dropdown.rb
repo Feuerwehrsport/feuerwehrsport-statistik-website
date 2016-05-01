@@ -18,11 +18,11 @@ module UI
     def action_items(type, action)
       url_options = options.slice(:controller).merge(action: action)
       if can?(action, resource)
-        if action == :destroy && resource.to_param.present?
+        if action == :destroy && resource.to_param.present? && !resource.respond_to?(:new)
           action_item(type, action, t("scaffold.#{action}"), url_for(url_options.merge(id: resource.to_param)), method: 'delete', data: { confirm: t("scaffold.confirm_deletion") })
         elsif action.in? [:index, :new]
           action_item(type, action, t("scaffold.#{action}"), url_for(url_options))
-        elsif resource.to_param.present?
+        elsif resource.to_param.present? && !resource.respond_to?(:new)
           action_item(type, action, t("scaffold.#{action}"), url_for(url_options.merge(id: resource.to_param)))
         end
       end
