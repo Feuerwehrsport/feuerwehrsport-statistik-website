@@ -1,0 +1,88 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: "Übersicht") do |sheet|
+  sheet.add_row(["Wettkampf", @competition.to_s])
+  sheet.add_row(["Name", @competition.name])
+  sheet.add_row(["Typ", @competition.event.to_s])
+  sheet.add_row(["Ort", @competition.place.to_s])
+  if @calc.single_score_count > 0
+    sheet.add_row(["Mannschaftswertung", @competition.score_type.present? ? @competition.score_type.to_s : "Keine"])
+  end
+  sheet.add_row(["Datum", l(@competition.date)])
+  sheet.add_row([])
+  sheet.add_row([])
+  
+  sheet.add_row(["", "Frauen", "Männer"])
+  @calc.single_categories.each do |discipline, finals|
+    finals.each do |final|
+      name = discipline_name_short(discipline)
+      name += " #{final_name(final)}" if final
+      sheet.add_row([name, count_or_zero(@calc.discipline(discipline, :female, final).try(:count)), count_or_zero(@calc.discipline(discipline, :male, final).try(:count))])
+    end
+  end
+  @calc.group_categories.each do |discipline, types|
+    types.each do |type|
+      sheet.add_row([discipline_name_short(discipline), count_or_zero(@calc.discipline(discipline, :female, type).try(:count)), count_or_zero(@calc.discipline(discipline, :male, type).try(:count))])
+    end
+  end
+end
+
+@calc.disciplines.each do |discipline|
+  if Discipline.group?(discipline.discipline)
+    wb.add_worksheet(name: "#{discipline_name_short(discipline.discipline)} #{g_symbol(discipline.gender)}") do |sheet|
+
+      times = 0
+      data = []
+      discipline.scores.sort { |a, b| a.sort_method(b, method: :competition_scores_from_team_with_run) }.each do |score|
+        line = [numbered_team_name(score)]
+        line += score.competition_scores_from_team_with_run.map(&:decorate).map(&:second_time)
+        times = [times, score.competition_scores_from_team_with_run.count].max
+        data.push(line)
+      end
+
+      headline = ["Mannschaft"]
+      times.times { |i| headline.push("Zeit #{i + 1}") }
+
+      sheet.add_row(headline)
+      data.each { |line| sheet.add_row(line) }
+    end
+  elsif discipline.discipline == :zk
+    wb.add_worksheet(name: "#{discipline_name_short(discipline.discipline)} #{g_symbol(discipline.gender)}") do |sheet|
+      sheet.add_row(["Nachname", "Vorname", "HB", "HL", "Zeit"])
+      discipline.scores.sort.each do |score|
+        sheet.add_row([score.person.last_name, score.person.first_name, score.second_hb, score.second_hl, score.second_time])
+      end
+    end
+  else
+    wb.add_worksheet(name: "#{discipline_name_short(discipline.discipline)} #{g_symbol(discipline.gender)} #{final_name(discipline.category)}") do |sheet|
+      times = 0
+      data = []
+      discipline.scores.sort.each do |score|
+        line = [score.person.last_name, score.person.first_name]
+        line += score.similar_scores.map(&:decorate).map(&:second_time)
+        times = [times, score.similar_scores.count].max
+        data.push(line)
+      end
+
+      headline = ["Nachname", "Vorname"]
+      times.times { |i| headline.push("Zeit #{i + 1}") }
+
+      sheet.add_row(headline)
+      data.each { |line| sheet.add_row(line) }
+    end
+
+    if !discipline.category && @competition.score_type.present?
+      wb.add_worksheet(name: "#{discipline_name_short(discipline.discipline)} #{g_symbol(discipline.gender)} Mannschaft") do |sheet|
+        sheet.add_row(["Team", "Summe", "Wertung", "Außerhalb"])
+        @competition.group_assessment(discipline.discipline, discipline.gender).each do |ga|
+          sheet.add_row([
+            numbered_team_name(ga),
+            ga.second_time, 
+            ga.score_in_assessment.map(&:person).map(&:short_name).join(", "), 
+            ga.score_out_assessment.map(&:person).map(&:short_name).join(", "),
+          ])
+        end
+      end
+    end
+  end
+end

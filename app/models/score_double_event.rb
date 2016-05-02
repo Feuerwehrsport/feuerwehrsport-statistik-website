@@ -7,4 +7,16 @@ class ScoreDoubleEvent < ActiveRecord::View
   def time_invalid?
     false
   end
+
+  def <=>(other)
+    compare = time <=> other.time
+    return compare if compare != 0
+    keys = person.gender == "female" ? [:hb, :hl] : [:hl, :hb]
+    keys.each do |key|
+      compare = send(key) <=> other.send(key)
+      next if compare == 0
+      return compare
+    end
+    0
+  end
 end

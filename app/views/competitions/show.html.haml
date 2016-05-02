@@ -50,6 +50,11 @@
               %th= discipline_image_name_short(discipline)
               %td= count_or_zero(@calc.discipline(discipline, :female, type).try(:count))
               %td= count_or_zero(@calc.discipline(discipline, :male, type).try(:count))
+    .col-md-6
+      .pull-right
+        = link_to(url_for(format: :xlsx), class: "btn btn-default") do
+          = design_image(:export, width: '22px', title: "Excel-Export")
+          Excel-Export
   - if @competition.hint_content.present?
     = toc.anker("Hinweise", :h2)
     = @competition.hint_content.html_safe

@@ -33,10 +33,10 @@ module ApplicationHelper
   }
 
   FINAL_NAMES = {
-    -2 => "Finale",
-    -3 => "Halbfinale",
-    -4 => "Viertelfinale",
-    -5 => "Achtelfinale",
+    -1 => "Finale",
+    -2 => "Halbfinale",
+    -3 => "Viertelfinale",
+    -4 => "Achtelfinale",
   }
 
   def backend?

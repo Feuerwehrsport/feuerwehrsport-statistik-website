@@ -86,7 +86,13 @@ class Score < ActiveRecord::Base
   end
 
   def <=>(other)
-    time <=> other.time
+    both = [similar_scores, other.similar_scores].map(&:count)
+    (0..(both.min - 1)).each do |i|
+      compare = similar_scores[i].time <=> other.similar_scores[i].time
+      next if compare == 0
+      return compare
+    end
+    both.last <=> both.first
   end
 
   def entity_id
@@ -98,6 +104,6 @@ class Score < ActiveRecord::Base
   end
 
   def similar_scores
-    Score.where(competition_id: competition_id, person_id: person_id).order(:id)
+    @similar_scores ||= Score.where(competition_id: competition_id, person_id: person_id, discipline: discipline, team_number: team_number).order(:time, :id)
   end
 end

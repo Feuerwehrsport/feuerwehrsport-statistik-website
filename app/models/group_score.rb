@@ -105,10 +105,18 @@ class GroupScore < ActiveRecord::Base
     @competition_scores_from_team ||= similar_scores.where(team_number: team_number).sort_by(&:time)
   end
 
+  def competition_scores_from_team_with_run
+    @competition_scores_from_team_with_run ||= similar_scores.where(team_number: team_number, run: run).sort_by(&:time)
+  end
+
   def <=>(other)
-    both = [competition_scores_from_team, other.competition_scores_from_team].map(&:count)
+    sort_method(other)
+  end
+
+  def sort_method(other, method: :competition_scores_from_team)
+    both = [send(method), other.send(method)].map(&:count)
     (0..(both.min - 1)).each do |i|
-      compare = competition_scores_from_team[i].time <=> other.competition_scores_from_team[i].time
+      compare = send(method)[i].time <=> other.send(method)[i].time
       next if compare == 0
       return compare
     end

@@ -21,4 +21,8 @@ class ScoreDecorator < ApplicationDecorator
   def translated_discipline_name
     discipline_name(discipline)
   end
+
+  def <=>(other)
+    object.<=>(other)
+  end
 end

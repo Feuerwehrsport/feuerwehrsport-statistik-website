@@ -13,4 +13,8 @@ class ScoreDoubleEventDecorator < ApplicationDecorator
   def second_hl
     calculate_second_time(hl)
   end
+
+  def <=>(other)
+    object.<=>(other)
+  end
 end
