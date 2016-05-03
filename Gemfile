@@ -68,6 +68,7 @@ gem 'momentjs-rails', github: 'egeek/momentjs-rails'
 # used for generating files:
 # gem 'datetimepicker-rails', github: 'zpaulovics/datetimepicker-rails', branch: 'master', submodules: true
 
+gem 'm3_log_file_parser', git: 'https://github.com/lichtbit/m3_log_file_parser.git'
 
 group :development do
   gem 'capistrano', '~> 2', require: false

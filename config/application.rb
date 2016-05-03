@@ -49,5 +49,11 @@ module FeuerwehrsportStatistik
       smtp_sender: "automailer@feuerwehrsport-statistik.de",
       openssl_verify_mode: OpenSSL::SSL::VERIFY_NONE,
     }
+
+    logdir_path = "/srv/fws-statistik/shared/log"
+    config.log_file_parser = OpenStruct.new(
+      run_before: -> { `cd "#{logdir_path}" ; find -name "production.log-*" ! -name "*.gz" -exec ln -sf {} production.yesterday \;` },
+      log_path: "#{logdir_path}/production.yesterday",
+    )
   end
 end

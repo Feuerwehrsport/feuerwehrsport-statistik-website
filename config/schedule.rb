@@ -25,6 +25,7 @@ every :reboot do
   command "#{base_command}delayed_job restart"
 end
 
-every :day, at: '2:42 am' do
+every :day, at: '5:12 am' do
   command "#{base_command}rake backup_dump"
+  command "#{base_command}rake m3:log_file_parser"
 end
