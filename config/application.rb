@@ -52,7 +52,7 @@ module FeuerwehrsportStatistik
 
     logdir_path = "/srv/fws-statistik/shared/log"
     config.log_file_parser = OpenStruct.new(
-      run_before: -> { `cd "#{logdir_path}" ; find -name "production.log-*" ! -name "*.gz" -exec ln -sf {} production.yesterday \;` },
+      run_before: -> { `cd "#{logdir_path}" ; find -name "production.log-*" ! -name "*.gz" -exec ln -sf {} production.yesterday \\;` },
       log_path: "#{logdir_path}/production.yesterday",
     )
   end
