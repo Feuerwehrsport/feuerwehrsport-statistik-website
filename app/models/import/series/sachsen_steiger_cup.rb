@@ -1,29 +1,29 @@
 module Import
   module Series
-    class DCup < Base
+    class SachsenSteigerCup < Base
 
       protected
 
-      def assessment_disciplines
-        {
-          person: { hb: ["", "U20"], hl: ["", "U20"], zk: ["", "U20"] },
-          team: { la: [""], fs: [""], gs: [""] },
-          group: { hb: [""], hl: [""] },
-        }
-      end
-
       def points
         {
-          team: 10,
           person: 30,
           group: 10,
         }
       end
 
+      def assessment_disciplines
+        {
+          person: { hl: [""] },
+          team: { },
+          group: { hl: [""] },
+        }
+      end
+
       def configure_assessments
-        [:female, :male].each do |gender|
+        [:male].each do |gender|
           group_teams = competition.group_assessment([:hl, :hb], gender).map {|ga| [ga.team.id, ga.team_number]}
           team_teams  = competition.group_scores.gender(gender).pluck(:team_id, :team_number)
+
           teams = (group_teams + team_teams).uniq.map do |team_id, team_number|
             ["#{team_id}-#{team_number}", "#{Team.find(team_id).name} #{team_number}", true]
           end
@@ -34,7 +34,6 @@ module Import
             [person.id.to_s, person.full_name, true]
           end
           add_assessment_config("#{gender}-single", people)
-          add_assessment_config("#{gender}-singleU20", people)
         end
       end
 
@@ -48,7 +47,7 @@ module Import
           end
           scores
         else
-          selected_people = find_assessment_config("#{assessment.gender}-single#{assessment.name}").selected_entities.map do |key, name, selected|
+          selected_people = find_assessment_config("#{assessment.gender}-single").selected_entities.map do |key, name, selected|
             key
           end
           scores.select { |score| score.person_id.to_s.in?(selected_people) }
