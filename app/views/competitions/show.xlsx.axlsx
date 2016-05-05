@@ -29,7 +29,7 @@ end
 
 @calc.disciplines.each do |discipline|
   if Discipline.group?(discipline.discipline)
-    wb.add_worksheet(name: "#{discipline_name_short(discipline.discipline)} #{g_symbol(discipline.gender)}") do |sheet|
+    wb.add_worksheet(name: "#{discipline_name_short(discipline.discipline)} #{g_symbol(discipline.gender)} (#{discipline.category.id})") do |sheet|
 
       times = 0
       data = []
