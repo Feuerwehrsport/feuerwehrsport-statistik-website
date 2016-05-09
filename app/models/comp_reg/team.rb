@@ -14,6 +14,7 @@ module CompReg
     accepts_nested_attributes_for :team_assessment_participations, reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :people, reject_if: :all_blank, allow_destroy: true
 
+    default_scope -> { order(:name, :team_number) }
     scope :manageable_by, -> (user) do
       team_sql = Team.joins(:competition).merge(Competition.open).where(admin_user_id: user.id).select(:id).to_sql
       competition_sql = Team.joins(:competition).where(comp_reg_competitions: { admin_user_id: user.id }).select(:id).to_sql
