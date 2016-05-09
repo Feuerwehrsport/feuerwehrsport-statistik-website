@@ -19,6 +19,13 @@
       - else
         Keine Angabe
   %tr
+    %th Datum
+    %td
+      - if @resource_instance_decorated.date.present?
+        = l(@resource_instance_decorated.date)
+      - else
+        Keine Angabe
+  %tr
     %th Ort
     %td
       - if @resource_instance_decorated.place.present?
@@ -36,6 +43,12 @@
     %th Beschreibung
     %td
       %pre= @resource_instance_decorated.description
+  %tr
+    %th Absender
+    %td= link_to(@resource_instance_decorated.admin_user, "mailto: #{@resource_instance_decorated.admin_user.email}")
+  %tr
+    %th Eingetragen
+    %td= l(@resource_instance_decorated.created_at)
 
 %hr
 
