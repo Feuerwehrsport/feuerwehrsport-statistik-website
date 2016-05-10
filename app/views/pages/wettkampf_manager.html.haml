@@ -60,16 +60,18 @@
               %a.version-select.list-group-item{ data: { version: version.version_number }, href: "#", class: (index == 0 ? "active" : "") }
                 %span.badge= version.date
                 = version.version_number
-
               .list-group-item{ data: { version: version.version_number }, class: (index == 0 ? "" : "hide") }
                 %ul
                   - version.targets.each do |target|
                     %li
                       %a{ href: "/uploads/wettkampf_manager/#{version.version_number}/#{target.basename}" }= target.basename
                       %span.label.label-info= number_to_human_size(target.size)
-                %a.btn.btn-default.btn-xs.pull-right{href: "https://github.com/Feuerwehrsport/wettkampf-manager/tree/#{version.commit_id}", title: "Commit-ID" }
-                  %span.glyphicon.glyphicon-paperclip{"aria-hidden" => "true" }
-                  = version.commit_id.first(7)
+                .pull-right
+                  - if version.database_changed
+                    .label.label-info{ title: "Integrierte Datenbank wurde #{l(version.database_changed, format: :german)} aktualisiert" }= l(version.database_changed, format: :german)
+                  %a.btn.btn-default.btn-xs{href: "https://github.com/Feuerwehrsport/wettkampf-manager/tree/#{version.commit_id}", title: "Commit-ID" }
+                    %span.glyphicon.glyphicon-paperclip{"aria-hidden" => "true" }
+                    = version.commit_id.first(7)
                 - if version.invalid?
                   .alert.alert-danger
                     %h4 Version nicht funktionsfähig

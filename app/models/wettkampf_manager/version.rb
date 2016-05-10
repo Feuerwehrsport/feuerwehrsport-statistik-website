@@ -36,6 +36,11 @@ module WettkampfManager
       markdown(release_data["change-log"])
     end
 
+    def database_changed
+      dc = release_data["database-changed"]
+      dc.present? ? Time.parse(dc) : nil
+    end
+
     protected
 
     def markdown(message)

@@ -1,5 +1,6 @@
 {
-  "date": "2015-09-21", 
+  "date": "2015-09-21",
+  "database-changed": "2016-05-10 23:09:17",
   "commit-id": "e2bc217cf72b9ac73429c37258de468450bafa89", 
   "change-log": "* Reihenfolge der x-Besten-Startliste invertieren\n"
 }
