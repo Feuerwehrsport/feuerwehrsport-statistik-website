@@ -6,6 +6,7 @@ class Place < ActiveRecord::Base
 
   validates :name, presence: true
 
+  default_scope { order(:name) }
   scope :competition_count, -> do
     select("#{table_name}.*, COUNT(#{Competition.table_name}.id) AS count").
     joins(:competitions).
@@ -15,5 +16,4 @@ class Place < ActiveRecord::Base
     search_value = "%#{value}%"
     where("name ILIKE ?", search_value)
   end
-  scope :index_order, -> { order(:name) }
 end
