@@ -34,6 +34,8 @@
       %small= g_symbol(gender)
     = count_table(@teams[gender]) do |ct|
       - ct.col("Name", class: "col-md-4") { |row| can?(:update, row) ? link_to(row.with_number, row) : row.with_number }
+      - if resource_instance.team_tag_list.present?
+        - ct.col("Attribute") { |row| row.tag_names.join(", ") }
       - resource_instance.competition_assessments.gender(gender).each do |assessment|
         - ct.col(discipline_image_name_short(assessment.discipline, assessment.gender)) do |row| 
           - if Discipline.group?(assessment.discipline)
