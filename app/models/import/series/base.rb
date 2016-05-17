@@ -9,6 +9,7 @@ module Import
         "MVSteigerCup",
         "SachsenCup",
         "SachsenSteigerCup",
+        "ThueringenCup",
       ]
       include ActiveModel::Model
       attr_accessor :competition_id, :series_type, :selected_entities, :series_round_id, :perform_now, :second_run
