@@ -125,18 +125,25 @@ module Import
       end
 
       seconds = 0
-      millis = 0
+      millis = "0"
       if time.include?(',') || time.include?('.')
         time = time.gsub(',', '.')
         time = time.gsub(':', '')
         time = time.gsub(';', '')
-        seconds, millis = time.split(".").map(&:to_i)
+        seconds, millis = time.split(".")
       elsif time.include?(';') || time.include?(':')
         time = time.gsub(':', '.')
         time = time.gsub(';', '.')
-        seconds, millis = time.split(".").map(&:to_i)
+        seconds, millis = time.split(".")
       elsif time.to_i.to_s == time.to_s
-        seconds = time.to_i
+        seconds = time
+      end
+      seconds = seconds.to_i
+      millis = millis.first(2)
+      if millis.match(/\A\d\z/)
+        millis = millis.to_i * 10
+      else
+        millis = millis.to_i
       end
       time = seconds * 100 + millis if seconds > 0
 

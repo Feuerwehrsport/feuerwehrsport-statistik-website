@@ -76,6 +76,8 @@ describe Import::Line do
 
       expect(line.send(:normalize_time, '1:31:12')).to be 9112
       expect(line.send(:normalize_time, '1:31,12')).to be 9112
+
+      expect(line.send(:normalize_time, '20,2')).to be 2020
     end
   end
 
