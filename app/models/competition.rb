@@ -17,6 +17,11 @@ class Competition < ActiveRecord::Base
     year_value = year.is_a?(Year) ? year.year.to_i : year.to_i
     where("EXTRACT(YEAR FROM date) = #{year_value}")
   end
+  scope :search, -> (value) do
+    search_value = "%#{value}%"
+    joins(:place, :event).
+    where("competitions.name ILIKE ? OR places.name ILIKE ? OR events.name ILIKE ?", search_value, search_value, search_value)
+  end
 
   def self.update_discipline_score_count
     hl_female = Score.hl.gender(:female).select("COUNT(*)").where("competition_id = #{table_name}.id").to_sql
