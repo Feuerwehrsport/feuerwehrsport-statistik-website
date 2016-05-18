@@ -1,7 +1,7 @@
 = simple_form_for([:backend, @resource_instance]) do |f|
   = f.input :name
   = f.input :shortcut
-  = f.input :status
+  = f.input :status, collection: Team::STATUS.keys, selected: @resource_instance.status
   = f.input :latitude
   = f.input :longitude
   = f.input :image
