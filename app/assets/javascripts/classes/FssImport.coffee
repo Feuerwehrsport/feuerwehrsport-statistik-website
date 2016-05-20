@@ -74,7 +74,7 @@ class @FssImport
             .add(new FssFormRowDate('date', 'Datum'))
             .on('submit', (data) => Fss.post 'competitions', competition: data, log_action: "add-competition", () =>
               @addSuccess () ->
-                $("input[name='competition-type'][value='latest']").attr('checked', true).change()
+                $("input[name='competition-type'][value='latest']").prop('checked', true).trigger('change')
             )
             .open()
 
