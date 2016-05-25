@@ -6,7 +6,7 @@ module Import
 
       def points
         {
-          team: 20,
+          team: 15,
         }
       end
     end
