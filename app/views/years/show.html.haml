@@ -10,8 +10,8 @@
             %li= link_to("Bestzeiten des Jahres", action: :best_scores)
             %li= link_to("Bestleistungen des Jahres", action: :best_performance)
         .col-md-6
-          %p 
-            Diese Seite zeigt Statistiken über das Jahr 2015. Für die einzelnen Disziplinen sind die Unterseiten
+          %p
+            = "Diese Seite zeigt Statistiken über das Jahr #{@year}. Für die einzelnen Disziplinen sind die Unterseiten"
             = link_to("Bestzeiten des Jahres", action: :best_scores)
             und
             = link_to("Bestleistungen des Jahres", action: :best_performance)

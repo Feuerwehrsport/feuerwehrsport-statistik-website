@@ -8,8 +8,7 @@
       %li= link_to("Überblick über das Jahr #{@year}", action: :show)
       %li= link_to("Bestleistungen des Jahres", action: :best_performance)
   .col-md-4
-    %p
-      Die Tabellen zeigen die gesammelten Bestzeiten für das Jahr 2015 in den einzelnen Disziplinen.
+    %p= "Die Tabellen zeigen die gesammelten Bestzeiten für das Jahr #{@year} in den einzelnen Disziplinen."
 
 = nav_tab do |nv|
   - @discipline_structs.each do |struct|
