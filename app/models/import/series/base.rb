@@ -41,7 +41,7 @@ module Import
       protected
 
       def add_assessment_config(id, entities, &block)
-        @assessment_configs.push(AssessmentConfig.new(id.to_s, entities, block))
+        @assessment_configs.push(AssessmentConfig.new(id.to_s, entities.deep_dup, block))
       end
 
       def find_assessment_config(id)
