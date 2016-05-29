@@ -114,8 +114,8 @@ module Import
       return false if time == 'n'
       return TimeInvalid::INVALID if time.in?(['d', 'o.w.', 'o. w.'])
       
-      time = time.gsub(/^(.+)\s*s\s*\.?$/, "#{$1}").strip
-      time = time.gsub(/^(.+)\s*sekunden$/, "#{$1}").strip
+      time = time.gsub(/^(.+)\s*s\s*\.?$/, "\\1").strip
+      time = time.gsub(/^(.+)\s*sekunden$/, "\\1").strip
 
       return false unless time =~ /^[\d,:;.]+$/
 
