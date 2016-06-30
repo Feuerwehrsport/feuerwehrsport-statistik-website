@@ -107,6 +107,9 @@ Rails.application.routes.draw do
     resources :competitions do
       collection { get :new_select_template }
       member { get :publishing }
+      scope module: :competitions do
+        resource :mail, only: [:new, :create]
+      end
     end
     resources :teams, only: [:new, :create, :show, :edit, :update, :destroy]
     resources :people, only: [:new, :create, :edit, :update, :destroy] do

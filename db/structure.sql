@@ -336,6 +336,41 @@ ALTER SEQUENCE comp_reg_competitions_id_seq OWNED BY comp_reg_competitions.id;
 
 
 --
+-- Name: comp_reg_competitions_mails; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE comp_reg_competitions_mails (
+    id integer NOT NULL,
+    competition_id integer,
+    admin_user_id integer,
+    add_registration_file boolean DEFAULT true NOT NULL,
+    subject character varying,
+    text text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: comp_reg_competitions_mails_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE comp_reg_competitions_mails_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: comp_reg_competitions_mails_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE comp_reg_competitions_mails_id_seq OWNED BY comp_reg_competitions_mails.id;
+
+
+--
 -- Name: comp_reg_people; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1470,6 +1505,13 @@ ALTER TABLE ONLY comp_reg_competitions ALTER COLUMN id SET DEFAULT nextval('comp
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY comp_reg_competitions_mails ALTER COLUMN id SET DEFAULT nextval('comp_reg_competitions_mails_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY comp_reg_people ALTER COLUMN id SET DEFAULT nextval('comp_reg_people_id_seq'::regclass);
 
 
@@ -1709,6 +1751,14 @@ ALTER TABLE ONLY comp_reg_assessment_participations
 
 ALTER TABLE ONLY comp_reg_competition_assessments
     ADD CONSTRAINT comp_reg_competition_assessments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: comp_reg_competitions_mails_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY comp_reg_competitions_mails
+    ADD CONSTRAINT comp_reg_competitions_mails_pkey PRIMARY KEY (id);
 
 
 --
@@ -2010,6 +2060,20 @@ CREATE INDEX index_change_requests_on_admin_user_id ON change_requests USING btr
 --
 
 CREATE INDEX index_change_requests_on_api_user_id ON change_requests USING btree (api_user_id);
+
+
+--
+-- Name: index_comp_reg_competitions_mails_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_comp_reg_competitions_mails_on_admin_user_id ON comp_reg_competitions_mails USING btree (admin_user_id);
+
+
+--
+-- Name: index_comp_reg_competitions_mails_on_competition_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_comp_reg_competitions_mails_on_competition_id ON comp_reg_competitions_mails USING btree (competition_id);
 
 
 --
@@ -2467,6 +2531,14 @@ ALTER TABLE ONLY comp_reg_competition_assessments
 
 
 --
+-- Name: fk_rails_ce7bcaa98c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comp_reg_competitions_mails
+    ADD CONSTRAINT fk_rails_ce7bcaa98c FOREIGN KEY (competition_id) REFERENCES comp_reg_competitions(id);
+
+
+--
 -- Name: fk_rails_d283e0df68; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2488,6 +2560,14 @@ ALTER TABLE ONLY change_logs
 
 ALTER TABLE ONLY comp_reg_assessment_participations
     ADD CONSTRAINT fk_rails_d742b584f9 FOREIGN KEY (team_id) REFERENCES comp_reg_teams(id);
+
+
+--
+-- Name: fk_rails_d8902a3d91; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comp_reg_competitions_mails
+    ADD CONSTRAINT fk_rails_d8902a3d91 FOREIGN KEY (admin_user_id) REFERENCES admin_users(id);
 
 
 --
@@ -2641,4 +2721,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160408065523');
 INSERT INTO schema_migrations (version) VALUES ('20160412060949');
 
 INSERT INTO schema_migrations (version) VALUES ('20160412064204');
+
+INSERT INTO schema_migrations (version) VALUES ('20160628193212');
 

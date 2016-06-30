@@ -70,6 +70,9 @@ de:
       comp_reg/competition:
         one: Wettkampf
         other: Wettkämpfe
+      comp_reg/competitions/mail:
+        one: E-Mail
+        other: E-Mails
       comp_reg/person: Wettkämpfer
       comp_reg/team:
         one: Mannschaft
@@ -155,6 +158,10 @@ de:
         person_tags: Anklickbare Werte für Wettkämpfer
         slug: Kurzname
         team_tags: Anklickbare Werte für Mannschaften
+      comp_reg/competitions/mail:
+        subject: Betreff
+        text: Inhalt
+        add_registration_file: Anmeldung als PDF anhängen
       comp_reg/person:
         first_name: Vorname
         last_name: Nachname

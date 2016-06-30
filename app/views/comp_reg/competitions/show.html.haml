@@ -84,6 +84,7 @@
       - if can?(:update, resource_instance)
         = image_link_to("configure", "Wettkampf bearbeiten", { action: :edit }, image: { width: "22px" }, class: "btn btn-default btn-block")
         = image_link_to("configure", "Öffentlichkeitseinstellungen", { action: :publishing }, image: { width: "18px" }, class: "btn btn-default btn-block")
+        = link_to("E-Mail versenden", new_comp_reg_competition_mail_path(competition_id: params[:id]), class: "btn btn-default btn-block")
 
 - if resource_instance.slug.present?
   .col-md-8.pull-right

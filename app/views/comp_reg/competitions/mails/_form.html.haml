@@ -1,0 +1,9 @@
+= simple_form_for(resource_instance, url: comp_reg_competition_mail_path) do |f|
+  .row
+    .col-md-8
+      = f.input :subject
+      = f.input :text
+      = f.input :add_registration_file
+      = f.submit class: "btn btn-primary"
+    .col-md-4
+      %p Mit dieser Funktion senden Sie allen angemeldeten Mannschaften und Einzelstarten eine E-Mail. Sie können die Anmeldung der einzelnen Mannschaft auch als PDF-Datei anhängen (Teilnehmerliste A und B).

@@ -49,7 +49,7 @@ end
 
 resource_instance.teams.each do |team|
   pdf.start_new_page
-  team_pdf_overview(pdf, team.decorate)
+  team.decorate.team_pdf_overview(pdf)
 end
 
 pdf_footer(pdf, resource_instance.to_s)
