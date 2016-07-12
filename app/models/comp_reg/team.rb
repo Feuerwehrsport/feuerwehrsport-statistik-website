@@ -4,6 +4,7 @@ module CompReg
     include Taggable
     belongs_to :competition
     belongs_to :admin_user
+    belongs_to :federal_state
     has_many :team_assessment_participations, inverse_of: :team, dependent: :destroy
     has_many :competition_assessments, through: :team_assessment_participations
     has_many :people, inverse_of: :team, dependent: :destroy

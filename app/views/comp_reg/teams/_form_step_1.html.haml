@@ -10,6 +10,7 @@
   = f.input :locality, as: :hidden
   = f.input :phone_number, as: :hidden
   = f.input :email_address,as: :hidden
+  = f.input :federal_state_id, as: :hidden
   = hidden_field_tag(:step, 0)
 
   .row
@@ -40,6 +41,7 @@
   = f.input :locality, as: :hidden
   = f.input :phone_number, as: :hidden
   = f.input :email_address,as: :hidden
+  = f.input :federal_state_id, as: :hidden
 
   - if resource_instance.competition.team_tag_list.present?
     %fieldset

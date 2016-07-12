@@ -8,6 +8,7 @@
       = f.input :team_number
       = f.input :shortcut
       = f.input :gender, collection: Genderable::GENDERS.keys.map { |gender| [ g(gender), gender ]}
+      = f.association :federal_state
   .col-md-4
     .panel.panel-default
       .panel-heading

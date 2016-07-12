@@ -36,7 +36,10 @@
     %td{colspan: 2}= resource_instance.street_with_house_number
   %tr
     %th PLZ, Ort:
-    %td{colspan: 2}= "#{resource_instance.postal_code} #{resource_instance.locality}"
+    %td{colspan: 2}
+      = "#{resource_instance.postal_code} #{resource_instance.locality}"
+      - if resource_instance.federal_state.present?
+        = "/ #{resource_instance.federal_state}"
   %tr
     %th Telefon:
     %td{colspan: 2}= resource_instance.phone_number

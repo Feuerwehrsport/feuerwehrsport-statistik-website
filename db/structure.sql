@@ -428,7 +428,8 @@ CREATE TABLE comp_reg_teams (
     email_address character varying DEFAULT ''::character varying NOT NULL,
     admin_user_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    federal_state_id integer
 );
 
 
@@ -724,6 +725,38 @@ CREATE SEQUENCE events_id_seq
 --
 
 ALTER SEQUENCE events_id_seq OWNED BY events.id;
+
+
+--
+-- Name: federal_states; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE federal_states (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    shortcut character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: federal_states_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE federal_states_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: federal_states_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE federal_states_id_seq OWNED BY federal_states.id;
 
 
 --
@@ -1561,6 +1594,13 @@ ALTER TABLE ONLY events ALTER COLUMN id SET DEFAULT nextval('events_id_seq'::reg
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY federal_states ALTER COLUMN id SET DEFAULT nextval('federal_states_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY group_score_categories ALTER COLUMN id SET DEFAULT nextval('group_score_categories_id_seq'::regclass);
 
 
@@ -1823,6 +1863,14 @@ ALTER TABLE ONLY entity_merges
 
 ALTER TABLE ONLY events
     ADD CONSTRAINT events_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: federal_states_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY federal_states
+    ADD CONSTRAINT federal_states_pkey PRIMARY KEY (id);
 
 
 --
@@ -2723,4 +2771,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160412060949');
 INSERT INTO schema_migrations (version) VALUES ('20160412064204');
 
 INSERT INTO schema_migrations (version) VALUES ('20160628193212');
+
+INSERT INTO schema_migrations (version) VALUES ('20160712062218');
 

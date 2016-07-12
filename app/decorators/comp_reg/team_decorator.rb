@@ -3,6 +3,7 @@ module CompReg
     decorates_association :competition
     decorates_association :team_assessment_participations
     decorates_association :admin_user
+    decorates_association :federal_state
 
     def to_s
       name
@@ -17,6 +18,9 @@ module CompReg
       pdf.move_down 12
       pdf.text '- Teilnehmerliste A -', align: :center, size: 14
       pdf.move_down 12
+
+      location_line = "#{postal_code} #{locality}"
+      location_line += " / #{federal_state}" if resource_instance.federal_state.present?
 
       pdf.table([
         [
@@ -48,7 +52,7 @@ module CompReg
         ],
         [
           { content: "PLZ, Ort:", size: 12, align: :right },
-          { content: "#{postal_code} #{locality}", size: 11, align: :left, colspan: 4, font_style: :italic },
+          { content: location_line, size: 11, align: :left, colspan: 4, font_style: :italic },
         ],
         [
           { content: "Telefon:", size: 12, align: :right },
