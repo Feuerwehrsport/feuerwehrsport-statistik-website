@@ -20,7 +20,7 @@ module CompReg
       pdf.move_down 12
 
       location_line = "#{postal_code} #{locality}"
-      location_line += " / #{federal_state}" if resource_instance.federal_state.present?
+      location_line += " / #{federal_state}" if federal_state.present?
 
       pdf.table([
         [
