@@ -109,3 +109,5 @@ $ ->
                 Fss.put "scores/#{score.id}", score: scoreData, log_action: "update-team", success
             ).open()
   , 1500)
+
+  new SortTable(selector: ".datatable-unspecified", direction: 'asc')

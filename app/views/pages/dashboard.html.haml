@@ -3,6 +3,17 @@
     .col-md-3= design_image("statistiken-logo", alt: "Logo")
     .col-md-9.page-header
       %h1 Feuerwehrsport - die große Auswertung
+  .row.jumbotron
+    .col-md-4= image_tag(asset_path('dm.jpg'), class: 'img-responsive')
+    .col-md-6
+      %p.lead
+        Die Live-Ergebnisse der Deutschen Meisterschaft im Feuerwehrsport werden unter
+        = link_to('https://dm.feuerwehrsport-statistik.de', 'https://dm.feuerwehrsport-statistik.de')
+        bereitgestellt.
+      %ul
+        %li= link_to('Statistische Vorschau', news_path(34))
+        %li= link_to('Offizielle Webseite zur Deutschen Meisterschaft', 'http://www.deutsche-feuerwehrmeisterschaften-rostock.de')
+    .col-md-2= image_tag(asset_path('dm-qrcode.png'), class: 'img-responsive')
   .row
     .col-md-9
       %p.lead
