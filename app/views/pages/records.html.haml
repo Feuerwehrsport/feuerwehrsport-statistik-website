@@ -45,10 +45,10 @@
       %td= discipline_image(:fs)
       %td= discipline_name(:fs)
       %td
-      %td= nation_flag([:by, "Weißrussland"])
-      %td Weißrussland
-      %td 53,52 s
-      %td 4. WM 2008 - Sofia (Bulgarien)
+      %td= nation_flag([:ua, "Ukraine"])
+      %td Ukraine
+      %td 53,10 s
+      %td= competition_find_link(1099)
     %tr
       %td= discipline_image(:la)
       %td
@@ -100,11 +100,11 @@
       %td= discipline_image(:fs)
       %td= discipline_name(:fs)
       %td
-        %small= persons([227, 92, 68, 179], type: :short_name)
-      %td= image_tag(@team2.image.thumb)
-      %td= team_link(@team2)
-      %td 59,60 s
-      %td= competition_find_link(232)
+        %small= persons([268, 248, 42, 79], type: :short_name)
+      %td= image_tag(@team3.image.thumb)
+      %td= team_link(@team3)
+      %td 59,21 s
+      %td= competition_find_link(1097)
     %tr
       %td= discipline_image(:la)
       %td
@@ -121,6 +121,64 @@
       %td{colspan: "7"}
         %em.small
           Nach der deutschen Wettkampfordnung werden in der Disziplin Löschangriff nass keine Rekorde geführt.
+    
+    %tr
+      %td{colspan: "7"}
+        = toc.anker('Weltrekorde - Frauen', :h3)
+    %tr
+      %th{colspan: "2"} Wettkampf
+      %th Name
+      %th{colspan: "2"} Nationalität
+      %th Zeit
+      %th Aufgestellt
+    %tr
+      %td= discipline_image(:hl)
+      %td= discipline_name(:hl)
+      %td Ekaterina Chendakova
+      %td= nation_flag([:ru, "Russland"])
+      %td Russland
+      %td 6,99 s
+      %td= competition_find_link(1099)
+    %tr
+      %td= discipline_image(:hb)
+      %td= discipline_name(:hb)
+      %td Ekaterina Chendakova
+      %td= nation_flag([:ru, "Russland"])
+      %td Russland
+      %td 15,85 s
+      %td= competition_find_link(1099)
+    %tr
+      %td= discipline_image(:zk)
+      %td= discipline_name(:zk)
+      %td Ekaterina Chendakova
+      %td= nation_flag([:ru, "Russland"])
+      %td Russland
+      %td
+        23,31 s
+        %br/
+        %small 7,04 s/16,27 s
+      %td= competition_find_link(1099)
+    %tr
+      %td= discipline_image(:fs)
+      %td= discipline_name(:fs)
+      %td
+      %td= nation_flag([:ru, "Russland"])
+      %td Russland
+      %td 59,34 s
+      %td= competition_find_link(1099)
+    %tr
+      %td= discipline_image(:la)
+      %td
+        = discipline_name(:la)
+        %br/
+        %small (ISFFR - 2xB, 20m C)
+      %td
+      %td= nation_flag([:ru, "Russland"])
+      %td Russland
+      %td 24,51 s
+      %td= competition_find_link(869)
+
+
     %tr
       %td{colspan: "7"}
         = toc.anker("Deutsche Rekorde - Frauen", :h3)
@@ -139,30 +197,37 @@
       %td 18,20 s
       %td= competition_find_link(12)
     %tr
+      %td= discipline_image(:hb)
+      %td
+        = discipline_name(:hb)
+        %br/
+        %small 80cm Balken
+      %td= persons(8, type: :full_name)
+      %td= image_tag(@team61.image.thumb)
+      %td= team_link(@team61)
+      %td 18,22 s
+      %td= competition_find_link(651)
+    %tr
       %td= discipline_image(:hl)
       %td
         = discipline_name(:hl)
-        %br/
-        %small (inoffiziell)
       %td= persons(17, type: :full_name)
-      %td= image_tag(@team15.image.thumb)
-      %td= team_link(@team15)
-      %td 8,30 s
-      %td= competition_find_link(876)
+      %td= image_tag(@team2.image.thumb)
+      %td= team_link(@team2)
+      %td 8,13 s
+      %td= competition_find_link(1097)
     %tr
       %td= discipline_image(:zk)
       %td
         = discipline_name(:zk)
-        %br/
-        %small (inoffiziell)
       %td= persons(17, type: :full_name)
-      %td= image_tag(@team15.image.thumb)
-      %td= team_link(@team15)
+      %td= image_tag(@team2.image.thumb)
+      %td= team_link(@team2)
       %td 
-        27,35 s
+        27,16 s
         %br/
-        %small 8,30 s/19,05 s
-      %td= competition_find_link(876)
+        %small 8,13 s/19,03 s
+      %td= competition_find_link(1097)
     %tr
       %td= discipline_image(:fs)
       %td= discipline_name(:fs)
@@ -171,6 +236,18 @@
       %td= image_tag(@team2.image.thumb)
       %td= team_link(@team2)
       %td 66,89 s
+      %td= competition_find_link(53)
+    %tr
+      %td= discipline_image(:fs)
+      %td
+        = discipline_name(:fs)
+        %br/
+        %small Haus/80cm Balken
+      %td
+        %small= persons([17, 8, 435, 116], type: :short_name)
+      %td= image_tag(@team61.image.thumb)
+      %td= team_link(@team61)
+      %td 67,15 s
       %td= competition_find_link(53)
     %tr
       %td= discipline_image(:gs)
@@ -186,15 +263,15 @@
       %td
         = discipline_name(:la)
         %br/
-        %small (ISFFR - 1xB)
+        %small (ISFFR - 2xB, 20m C)
       %td
-        %small= persons([8, 116, 11, 284, 12, 143, 435], type: :short_name)
+        %small= persons([291, 38, 288, 4, 283, 2250, 290], type: :short_name)
       %td= image_tag(@team61.image.thumb)
       %td= team_link(@team61)
-      %td 30,35 s
-      %td= competition_find_link(651)
+      %td 28,41 s
+      %td= competition_find_link(1099)
     %tr
       %td{colspan: "7"}
         %em.small
           Nach der deutschen Wettkampfordnung werden in der Disziplin Löschangriff nass keine Rekorde geführt.
-  %p Stand: 27.09.2015
+  %p Stand: 23.08.2016
