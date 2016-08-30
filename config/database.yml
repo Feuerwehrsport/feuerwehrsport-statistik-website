@@ -2,9 +2,9 @@ default: &default
   adapter: postgresql
   encoding: utf8
   host: localhost
-  database: fws-statistik
-  username: fws-statistik
-  password: fws-statistik
+  database: feuerwehrsport-statistik
+  username: feuerwehrsport-statistik
+  password: feuerwehrsport-statistik
 
 
 development:
@@ -12,11 +12,11 @@ development:
 
 test:
   <<: *default
-  database: fws-statistik-test
+  database: feuerwehrsport-statistik-test
 
 test_dump:
   <<: *default
-  database: fws-statistik-test-dump
+  database: feuerwehrsport-statistik-test-dump
 
 production:
   <<: *default

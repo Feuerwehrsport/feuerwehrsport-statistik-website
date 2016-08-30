@@ -1,9 +1,6 @@
 source 'https://rubygems.org'
 
 gem 'rails', '~> 4'
-
-# this version works with rails 4.2.3
-gem 'mysql2', '~> 0.3.18'
 gem 'pg'
 
 # Use SCSS for stylesheets
@@ -71,10 +68,8 @@ gem 'momentjs-rails', github: 'egeek/momentjs-rails'
 gem 'm3_log_file_parser', git: 'https://github.com/lichtbit/m3_log_file_parser.git'
 
 group :development do
-  gem 'capistrano', '~> 2', require: false
-  gem 'rvm-capistrano', require: false
-  gem 'capistrano-nginx-unicorn', require: false
-  gem 'capistrano_rsync_with_remote_cache', require: false
+  gem 'm3_capistrano', require: false, git: 'ssh://git@cubie-rostock.chickenkiller.com:36000/m3_capistrano', branch: 'master', ref: 'b4f0dad9d6cd20eafa58e28b87e437265efe2514'
+  # gem 'm3_capistrano', path: '../m3_capistrano'
 
   # to test email
   gem 'recipient_interceptor'
