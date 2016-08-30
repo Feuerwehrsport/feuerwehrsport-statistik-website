@@ -1,7 +1,7 @@
 set :rails_env, "production"
 
 server "stadthafen-rails", :app, :web, :db, primary: true
-# ssh_options[:port] = 2412
+ssh_options[:port] = 1322
 
 set :nginx_server_name, "www.feuerwehrsport-statistik.de"
 set :unicorn_workers, 2

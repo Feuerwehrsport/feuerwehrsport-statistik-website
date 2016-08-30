@@ -6,6 +6,11 @@ default: &default
   username: feuerwehrsport-statistik
   password: feuerwehrsport-statistik
 
+online_default: &online_default
+  <<: *default
+  database: <%= ENV['RAILS_DB_DATABASE'] %>
+  username: <%= ENV['RAILS_DB_USERNAME'] %>
+  password: <%= ENV['RAILS_DB_PASSWORD'] %>
 
 development:
   <<: *default
@@ -19,4 +24,4 @@ test_dump:
   database: feuerwehrsport-statistik-test-dump
 
 production:
-  <<: *default
+  <<: *online_default
