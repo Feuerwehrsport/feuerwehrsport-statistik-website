@@ -6,11 +6,11 @@ task :backup_dump do |task, args|
     "change_logs",
     "change_requests",
   ].map { |t| " -T #{t} " }
-  backup_path = "/srv/fws-statistik/dump"
+  backup_path = "/srv/feuerwehrsport-statistik/dump"
   backup_path = "/tmp#{backup_path}" unless Rails.env.production?
 
   `if [ ! -d #{backup_path} ] ; then mkdir -p #{backup_path} ; cd #{backup_path} ; git init ; fi`
-  `pg_dump -a -U fws-statistik -h localhost fws-statistik #{excluded_tables.join} > #{backup_path}/dump.sql`
+  `pg_dump -a -U feuerwehrsport-statistik -h localhost feuerwehrsport-statistik #{excluded_tables.join} > #{backup_path}/dump.sql`
 
   `cd #{backup_path}; git add dump.sql`
   unless `cd #{backup_path}; git status`.match("nothing to commit")

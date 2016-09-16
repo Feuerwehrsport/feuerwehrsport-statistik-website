@@ -18,10 +18,10 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
-base_command = '/usr/bin/fws-statistik.'
+base_command = '/usr/bin/feuerwehrsport-statistik.'
 
 every :reboot do
-  command "/etc/init.d/unicorn_fws-statistik restart"
+  command "/etc/init.d/unicorn_feuerwehrsport-statistik restart"
   command "#{base_command}delayed_job restart"
 end
 

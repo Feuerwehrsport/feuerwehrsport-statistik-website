@@ -67,7 +67,7 @@ RSpec.configure do |config|
     `gunzip -c #{sql_file} | psql -U #{username} #{host} #{database}`
     DatabaseCleaner.strategy = :transaction
 
-    # pg_dump -a -U fws-statistik -h localhost fws-statistik -T schema_migrations | gzip > spec/fixtures/db/dump.sql.gz
+    # pg_dump -a -U feuerwehrsport-statistik -h localhost feuerwehrsport-statistik -T schema_migrations | gzip > spec/fixtures/db/dump.sql.gz
   end
 
   config.before(:each) do

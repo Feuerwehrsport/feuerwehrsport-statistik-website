@@ -81,5 +81,5 @@ Rails.application.configure do
 
   config.base_url = "https://www.feuerwehrsport-statistik.de"
   config.action_controller.default_url_options = { host: "www.feuerwehrsport-statistik.de", protocol: :https }
-  config.wettkampf_manager_path = "/srv/fws-statistik/shared/uploads/wettkampf_manager"
+  config.wettkampf_manager_path = "/srv/feuerwehrsport-statistik/shared/uploads/wettkampf_manager"
 end
