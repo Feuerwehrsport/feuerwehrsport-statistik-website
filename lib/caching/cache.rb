@@ -4,6 +4,8 @@ require 'singleton'
 module Caching
   class Cache < ActiveSupport::Cache::FileStore
     include Singleton
+    class_attribute :caching
+    self.caching = true
 
     def initialize
       FileUtils.mkdir_p(cache_path)
@@ -11,7 +13,7 @@ module Caching
     end
 
     def fetch(*args, &block)
-      if Rails.configuration.caching
+      if Rails.configuration.caching && self.caching
         super(*args, &block)
       else
         yield
@@ -24,6 +26,18 @@ module Caching
 
     def self.method_missing(m, *args, &block)
       instance.send(m, *args, &block)
+    end
+
+    def self.disable
+      caching_before = self.caching
+      self.caching = false
+      begin
+        yield
+      rescue Exception => e
+        self.caching = caching_before
+        raise e
+      end
+      self.caching = caching_before
     end
   end
 end

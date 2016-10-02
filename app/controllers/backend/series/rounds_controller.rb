@@ -7,19 +7,22 @@ module Backend
       end
 
       def create
-        ActiveRecord::Base.transaction do
-          @resouce_instance = import_series_class.new(permitted_params)
+        Caching::Cache.disable do
+          ActiveRecord::Base.transaction do
+            @resouce_instance = import_series_class.new(permitted_params)
 
-          @person_assessments = ::Series::PersonAssessment.where(round: @resouce_instance.round).decorate
-          @team_assessments_exists = ::Series::TeamAssessment.where(round: @resouce_instance.round).present?
-          @round = @resouce_instance.round.decorate
+            @person_assessments = ::Series::PersonAssessment.where(round: @resouce_instance.round).decorate
+            @team_assessments_exists = ::Series::TeamAssessment.where(round: @resouce_instance.round).present?
+            @round = @resouce_instance.round.decorate
 
-          @preview_string = render_to_string(partial: 'backend/series/rounds/preview_changes')
-          if @resouce_instance.perform_now != "1"
-            raise ActiveRecord::Rollback.new
-          else
-            flash[:success] = "Wettkampf hinzugefügt"
-            redirect_to action: :index
+            @preview_string = render_to_string(partial: 'backend/series/rounds/preview_changes')
+            if @resouce_instance.perform_now != "1"
+              raise ActiveRecord::Rollback.new
+            else
+              flash[:success] = "Wettkampf hinzugefügt"
+              Caching::Cleaner.new.perform
+              redirect_to action: :index
+            end
           end
         end
       end
