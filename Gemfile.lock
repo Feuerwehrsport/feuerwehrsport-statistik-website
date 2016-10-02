@@ -13,7 +13,7 @@ GIT
       rails (~> 4.0)
 
 GIT
-  remote: ssh://git@cubie-rostock.chickenkiller.com:36000/m3_capistrano
+  remote: ssh://gitolite3@stadthafen-rails/m3_capistrano
   revision: b4f0dad9d6cd20eafa58e28b87e437265efe2514
   ref: b4f0dad9d6cd20eafa58e28b87e437265efe2514
   branch: master

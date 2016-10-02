@@ -9,13 +9,10 @@
           %ul
             %li= link_to("Bestzeiten des Jahres", action: :best_scores)
             %li= link_to("Bestleistungen des Jahres", action: :best_performance)
+            %li= link_to("Verbesserungen des Jahres", year_inprovements_path(@year))
         .col-md-6
           %p
-            = "Diese Seite zeigt Statistiken über das Jahr #{@year}. Für die einzelnen Disziplinen sind die Unterseiten"
-            = link_to("Bestzeiten des Jahres", action: :best_scores)
-            und
-            = link_to("Bestleistungen des Jahres", action: :best_performance)
-            interessant.
+            Diese Seite zeigt Statistiken über das Jahr #{@year}. Für die einzelnen Disziplinen sind die Unterseiten #{link_to("Bestzeiten des Jahres", action: :best_scores)}, #{link_to("Bestleistungen des Jahres", action: :best_performance)} und #{link_to("Verbesserungen des Jahres", year_inprovements_path(@year) } interessant.
     .col-md-3= toc.index
 
   = toc.anker("Wettkämpfe")

@@ -1,0 +1,17 @@
+%h1 Verbesserungen von #{@year.to_i - 1} zu #{@year}
+
+%p Die nachfolgende Tabelle zeigt eine Übersicht der Wettkämpfer an, die im Jahr #{link_to(@year.to_i - 1, year_path(@year.to_i - 1))} und #{link_to(@year, year_path(@year))} jeweils mindenstens drei gültige Zeiten hatten. Die <var>Durchschnitt</var>sspalten geben den Durchschnitt der besten drei Zeiten des Jahres an. In der <var>Unterschied</var>spalte wird der absolute Unterschied zwischen den Jahren angezeigt.
+
+%p Die Tabelle zeigt die Sportler weiter oben, die sich im Vergleich von #{link_to(@year.to_i - 1, year_path(@year.to_i - 1))} zu #{link_to(@year, year_path(@year))} verbessert haben.
+
+= nav_tab do |nv|
+  - @disciplines.each do |discipline|
+    - nv.tab(discipline_image_name_short(discipline.discipline, discipline.gender)) do
+      = count_table(discipline.all.map(&:decorate), class: "datatable-years") do |t|
+        - t.col('Wettkämpfer', class: 'col-10') { |row| person_link(row.person, type: :full_name) }
+        - t.col('Unterschied', class: 'col-5') { |row| row.second_difference }
+        - t.col("Ø #{@year}", class: 'col-5') { |row| row.second_current_average }
+        - t.col("Ø #{@year.to_i - 1}", class: 'col-5') { |row| row.second_last_average }
+        - t.col("Zeiten #{@year}", class: 'col-10 small') { |row| score_links(row.current_scores) }
+        - t.col("Zeiten #{@year.to_i - 1}", class: 'col-10 small') { |row| score_links(row.last_scores) }
+

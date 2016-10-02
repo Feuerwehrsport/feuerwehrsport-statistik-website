@@ -134,6 +134,9 @@ Rails.application.routes.draw do
       get :best_performance
       get :best_scores
     end
+    scope module: :years do
+      resources :inprovements, only: [:index, :show]
+    end
   end
   resources :events, only: [:index, :show]
   namespace :series do
