@@ -1,0 +1,27 @@
+- [:female, :male].each do |gender|
+  - assessments = Series::Round.where(name: round_name).map { |r| r.assessments.gender(gender).first }.compact
+  - people_ids = Series::PersonParticipation.joins(assessment: :round).where(series_rounds: { name: round_name}).joins(:person).merge(Person.gender(gender)).uniq.pluck(:person_id).uniq
+
+  = toc.anker("Ewige Tabelle #{g(gender)}", :h3)
+  %table.datatable-extra.datatable.table.table-striped.table-bordered.table-condensed
+    %thead
+      %tr
+        %th Nachname
+        %th Vorname
+        - assessments.each do |assessment|
+          %th= assessment.round.year
+    %tbody
+      - Person.where(id: people_ids).order(:last_name, :first_name).each do |person|
+        %tr
+          %td= person.last_name
+          %td= person.first_name
+          - assessments.each do |assessment|
+            - row = assessment.rows.find { |r| r.entity.id == person.id }
+            - if row.present?
+              %td{ data: { order: row.rank }}
+                - if row.rank < 4
+                  %strong= "#{row.rank}. (#{row.points})"
+                - else
+                  = "#{row.rank}. (#{row.points})"
+            - else
+              %td{ data: { order: 99999 }}

@@ -22,4 +22,5 @@
         - ct.col("Bestzeit", :second_best_time, class: "col-5")
         - ct.col("Punkte", :points, class: "col-5")
 
-= render("series/rounds/aggregate_type_#{@round.aggregate_type.underscore}") rescue ""
+- if lookup_context.find_all("series/rounds/aggregate_type_#{@round.aggregate_type.underscore}",[],true).any?
+  = render("series/rounds/aggregate_type_#{@round.aggregate_type.underscore}", toc: toc)

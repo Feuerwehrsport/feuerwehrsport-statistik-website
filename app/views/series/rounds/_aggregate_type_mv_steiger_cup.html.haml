@@ -1,4 +1,4 @@
-%h4 Hakenleitersteigen in Mecklenburg-Vorpommern
+= toc.anker('Hakenleitersteigen in Mecklenburg-Vorpommern', :h3)
 
 %p Der MV-Steigercup wurde 2009 zum ersten Mal vom Team MV ausgeschrieben, um die Feuerwehrleute im eigenen Bundesland den Sport näher an die Wehr zu bringen. Vorher gab es nur Wettkämpfe in anderen Bundesländern oder beim D-Cup.
 
@@ -8,7 +8,7 @@
 
 = render('link', target: "http://www.feuerwehrsport-teammv.de/termine/steigercup/", label: "Weitere Informationen beim Team-MV")
 
-%h4 Neue Regelung seit 2012
+= toc.anker('Neue Regelung seit 2012', :h3)
 
 .row
   .col-md-9
@@ -17,3 +17,5 @@
     %p Die neuen Wanderpokale sollen für die nächsten 10 Jahre wandern. Axel Scheurenbrand hat diese mit persönlicher Arbeit 2014 bereitgestellt. Danach werden alle Punkte über die Jahre zusammengezählt und die drei Pokale nach Punkten vergeben. So soll es auch möglich sein, dass jemand, der immer nur vierter wurde den Pokal endgültig nach Hause holt.
   .col-md-2
     = image_tag(asset_path("series/mv-steigercup-pokal.jpg"), class: "full-width")
+
+= render('endless_table', toc: toc, round_name: 'MV-Steigercup')
