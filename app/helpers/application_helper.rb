@@ -146,9 +146,17 @@ module ApplicationHelper
     end.join(", ").html_safe
   end
 
-  def series_assessment_cup_participation(cup, row)
+  def series_assessment_cup_participation(cup, row, html: true)
     result = row.participation_for_cup(cup)
-    result ? content_tag(:div, result.second_time_with_points, class: "series-participation", data: { id: result.id }) : ""
+    if result
+      if html
+        content_tag(:div, result.second_time_with_points, class: "series-participation", data: { id: result.id })
+      else
+        result.second_time_with_points
+      end
+    else
+      ''
+    end
   end
 
   def errors_on?(*attributes)

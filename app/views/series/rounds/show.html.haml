@@ -24,3 +24,10 @@
         Diese Ergebnisse wurden importiert. Gerade bei Wettkampfserien kann es dabei zu Fehlern kommen. Wenn du einen Fehler findest, 
         = contact_link("kontaktiere")
         uns!
+  - if @team_assessments_exists
+    .col-md-3.pull-right
+      .panel.panel-default
+        .panel-heading
+          %h3.panel-title Ausdrucken
+        .panel-body
+          Die Ergebnisse können auch als #{link_to('PDF', format: :pdf)} heruntergeladen werden.
