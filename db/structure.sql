@@ -2,12 +2,16 @@
 -- PostgreSQL database dump
 --
 
+-- Dumped from database version 9.5.4
+-- Dumped by pg_dump version 9.5.4
+
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
+SET row_security = off;
 
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
@@ -30,7 +34,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: admin_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: admin_users; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE admin_users (
@@ -79,7 +83,7 @@ ALTER SEQUENCE admin_users_id_seq OWNED BY admin_users.id;
 
 
 --
--- Name: api_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: api_users; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE api_users (
@@ -114,7 +118,7 @@ ALTER SEQUENCE api_users_id_seq OWNED BY api_users.id;
 
 
 --
--- Name: appointments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: appointments; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE appointments (
@@ -152,7 +156,7 @@ ALTER SEQUENCE appointments_id_seq OWNED BY appointments.id;
 
 
 --
--- Name: change_logs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: change_logs; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE change_logs (
@@ -188,7 +192,7 @@ ALTER SEQUENCE change_logs_id_seq OWNED BY change_logs.id;
 
 
 --
--- Name: change_requests; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: change_requests; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE change_requests (
@@ -223,7 +227,7 @@ ALTER SEQUENCE change_requests_id_seq OWNED BY change_requests.id;
 
 
 --
--- Name: comp_reg_assessment_participations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: comp_reg_assessment_participations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE comp_reg_assessment_participations (
@@ -260,7 +264,7 @@ ALTER SEQUENCE comp_reg_assessment_participations_id_seq OWNED BY comp_reg_asses
 
 
 --
--- Name: comp_reg_competition_assessments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: comp_reg_competition_assessments; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE comp_reg_competition_assessments (
@@ -294,7 +298,7 @@ ALTER SEQUENCE comp_reg_competition_assessments_id_seq OWNED BY comp_reg_competi
 
 
 --
--- Name: comp_reg_competitions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: comp_reg_competitions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE comp_reg_competitions (
@@ -336,7 +340,7 @@ ALTER SEQUENCE comp_reg_competitions_id_seq OWNED BY comp_reg_competitions.id;
 
 
 --
--- Name: comp_reg_competitions_mails; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: comp_reg_competitions_mails; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE comp_reg_competitions_mails (
@@ -371,7 +375,7 @@ ALTER SEQUENCE comp_reg_competitions_mails_id_seq OWNED BY comp_reg_competitions
 
 
 --
--- Name: comp_reg_people; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: comp_reg_people; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE comp_reg_people (
@@ -409,7 +413,7 @@ ALTER SEQUENCE comp_reg_people_id_seq OWNED BY comp_reg_people.id;
 
 
 --
--- Name: comp_reg_teams; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: comp_reg_teams; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE comp_reg_teams (
@@ -453,7 +457,7 @@ ALTER SEQUENCE comp_reg_teams_id_seq OWNED BY comp_reg_teams.id;
 
 
 --
--- Name: competition_files; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: competition_files; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE competition_files (
@@ -486,7 +490,7 @@ ALTER SEQUENCE competition_files_id_seq OWNED BY competition_files.id;
 
 
 --
--- Name: group_score_categories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: group_score_categories; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE group_score_categories (
@@ -500,7 +504,7 @@ CREATE TABLE group_score_categories (
 
 
 --
--- Name: group_scores; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: group_scores; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE group_scores (
@@ -517,7 +521,7 @@ CREATE TABLE group_scores (
 
 
 --
--- Name: people; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: people; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE people (
@@ -537,7 +541,7 @@ CREATE TABLE people (
 
 
 --
--- Name: scores; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: scores; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE scores (
@@ -576,7 +580,7 @@ UNION
 
 
 --
--- Name: competitions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: competitions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE competitions (
@@ -624,7 +628,7 @@ ALTER SEQUENCE competitions_id_seq OWNED BY competitions.id;
 
 
 --
--- Name: delayed_jobs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: delayed_jobs; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE delayed_jobs (
@@ -663,7 +667,7 @@ ALTER SEQUENCE delayed_jobs_id_seq OWNED BY delayed_jobs.id;
 
 
 --
--- Name: entity_merges; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: entity_merges; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE entity_merges (
@@ -697,7 +701,7 @@ ALTER SEQUENCE entity_merges_id_seq OWNED BY entity_merges.id;
 
 
 --
--- Name: events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: events; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE events (
@@ -728,7 +732,7 @@ ALTER SEQUENCE events_id_seq OWNED BY events.id;
 
 
 --
--- Name: federal_states; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: federal_states; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE federal_states (
@@ -779,7 +783,7 @@ ALTER SEQUENCE group_score_categories_id_seq OWNED BY group_score_categories.id;
 
 
 --
--- Name: group_score_types; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: group_score_types; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE group_score_types (
@@ -793,7 +797,7 @@ CREATE TABLE group_score_types (
 
 
 --
--- Name: person_participations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: person_participations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE person_participations (
@@ -864,7 +868,7 @@ ALTER SEQUENCE group_scores_id_seq OWNED BY group_scores.id;
 
 
 --
--- Name: import_requests; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: import_requests; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE import_requests (
@@ -904,7 +908,7 @@ ALTER SEQUENCE import_requests_id_seq OWNED BY import_requests.id;
 
 
 --
--- Name: links; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: links; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE links (
@@ -938,7 +942,7 @@ ALTER SEQUENCE links_id_seq OWNED BY links.id;
 
 
 --
--- Name: nations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: nations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE nations (
@@ -970,7 +974,7 @@ ALTER SEQUENCE nations_id_seq OWNED BY nations.id;
 
 
 --
--- Name: news; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: news; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE news (
@@ -1042,7 +1046,7 @@ ALTER SEQUENCE person_participations_id_seq OWNED BY person_participations.id;
 
 
 --
--- Name: person_spellings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: person_spellings; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE person_spellings (
@@ -1077,7 +1081,7 @@ ALTER SEQUENCE person_spellings_id_seq OWNED BY person_spellings.id;
 
 
 --
--- Name: places; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: places; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE places (
@@ -1110,7 +1114,7 @@ ALTER SEQUENCE places_id_seq OWNED BY places.id;
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE schema_migrations (
@@ -1123,7 +1127,7 @@ CREATE TABLE schema_migrations (
 --
 
 CREATE VIEW score_double_events AS
- SELECT DISTINCT ON (concat(hb_scores.competition_id, '-', hb_scores.person_id)) hb_scores.person_id,
+ SELECT DISTINCT ON ((concat(hb_scores.competition_id, '-', hb_scores.person_id))) hb_scores.person_id,
     hb_scores.competition_id,
     hb_scores."time" AS hb,
     hl_scores."time" AS hl,
@@ -1132,17 +1136,17 @@ CREATE VIEW score_double_events AS
             scores.competition_id,
             scores.person_id
            FROM scores
-          WHERE (((scores."time" <> 99999999) AND ((scores.discipline)::text = 'hb'::text)) AND (scores.team_number >= 0))) hb_scores
+          WHERE ((scores."time" <> 99999999) AND ((scores.discipline)::text = 'hb'::text) AND (scores.team_number >= 0))) hb_scores
      JOIN ( SELECT scores."time",
             scores.competition_id,
             scores.person_id
            FROM scores
-          WHERE (((scores."time" <> 99999999) AND ((scores.discipline)::text = 'hl'::text)) AND (scores.team_number >= 0))) hl_scores ON (((hb_scores.competition_id = hl_scores.competition_id) AND (hb_scores.person_id = hl_scores.person_id))))
-  ORDER BY concat(hb_scores.competition_id, '-', hb_scores.person_id), (hb_scores."time" + hl_scores."time");
+          WHERE ((scores."time" <> 99999999) AND ((scores.discipline)::text = 'hl'::text) AND (scores.team_number >= 0))) hl_scores ON (((hb_scores.competition_id = hl_scores.competition_id) AND (hb_scores.person_id = hl_scores.person_id))))
+  ORDER BY (concat(hb_scores.competition_id, '-', hb_scores.person_id)), (hb_scores."time" + hl_scores."time");
 
 
 --
--- Name: score_types; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: score_types; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE score_types (
@@ -1194,7 +1198,7 @@ ALTER SEQUENCE scores_id_seq OWNED BY scores.id;
 
 
 --
--- Name: series_assessments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: series_assessments; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE series_assessments (
@@ -1229,7 +1233,7 @@ ALTER SEQUENCE series_assessments_id_seq OWNED BY series_assessments.id;
 
 
 --
--- Name: series_cups; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: series_cups; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE series_cups (
@@ -1261,7 +1265,7 @@ ALTER SEQUENCE series_cups_id_seq OWNED BY series_cups.id;
 
 
 --
--- Name: series_participations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: series_participations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE series_participations (
@@ -1300,7 +1304,7 @@ ALTER SEQUENCE series_participations_id_seq OWNED BY series_participations.id;
 
 
 --
--- Name: series_rounds; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: series_rounds; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE series_rounds (
@@ -1309,7 +1313,8 @@ CREATE TABLE series_rounds (
     year integer NOT NULL,
     aggregate_type character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    official boolean DEFAULT false NOT NULL
 );
 
 
@@ -1333,7 +1338,7 @@ ALTER SEQUENCE series_rounds_id_seq OWNED BY series_rounds.id;
 
 
 --
--- Name: tags; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: tags; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE tags (
@@ -1398,7 +1403,7 @@ UNION
 
 
 --
--- Name: team_spellings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: team_spellings; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE team_spellings (
@@ -1431,7 +1436,7 @@ ALTER SEQUENCE team_spellings_id_seq OWNED BY team_spellings.id;
 
 
 --
--- Name: teams; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: teams; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE teams (
@@ -1474,8 +1479,8 @@ ALTER SEQUENCE teams_id_seq OWNED BY teams.id;
 CREATE VIEW years AS
  SELECT date_part('year'::text, competitions.date) AS year
    FROM competitions
-  GROUP BY date_part('year'::text, competitions.date)
-  ORDER BY date_part('year'::text, competitions.date) DESC;
+  GROUP BY (date_part('year'::text, competitions.date))
+  ORDER BY (date_part('year'::text, competitions.date)) DESC;
 
 
 --
@@ -1738,7 +1743,7 @@ ALTER TABLE ONLY teams ALTER COLUMN id SET DEFAULT nextval('teams_id_seq'::regcl
 
 
 --
--- Name: admin_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: admin_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY admin_users
@@ -1746,7 +1751,7 @@ ALTER TABLE ONLY admin_users
 
 
 --
--- Name: api_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: api_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY api_users
@@ -1754,7 +1759,7 @@ ALTER TABLE ONLY api_users
 
 
 --
--- Name: appointments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: appointments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY appointments
@@ -1762,7 +1767,7 @@ ALTER TABLE ONLY appointments
 
 
 --
--- Name: change_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: change_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY change_logs
@@ -1770,7 +1775,7 @@ ALTER TABLE ONLY change_logs
 
 
 --
--- Name: change_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: change_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY change_requests
@@ -1778,7 +1783,7 @@ ALTER TABLE ONLY change_requests
 
 
 --
--- Name: comp_reg_assessment_participations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: comp_reg_assessment_participations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY comp_reg_assessment_participations
@@ -1786,7 +1791,7 @@ ALTER TABLE ONLY comp_reg_assessment_participations
 
 
 --
--- Name: comp_reg_competition_assessments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: comp_reg_competition_assessments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY comp_reg_competition_assessments
@@ -1794,7 +1799,7 @@ ALTER TABLE ONLY comp_reg_competition_assessments
 
 
 --
--- Name: comp_reg_competitions_mails_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: comp_reg_competitions_mails_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY comp_reg_competitions_mails
@@ -1802,7 +1807,7 @@ ALTER TABLE ONLY comp_reg_competitions_mails
 
 
 --
--- Name: comp_reg_competitions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: comp_reg_competitions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY comp_reg_competitions
@@ -1810,7 +1815,7 @@ ALTER TABLE ONLY comp_reg_competitions
 
 
 --
--- Name: comp_reg_people_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: comp_reg_people_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY comp_reg_people
@@ -1818,7 +1823,7 @@ ALTER TABLE ONLY comp_reg_people
 
 
 --
--- Name: comp_reg_teams_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: comp_reg_teams_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY comp_reg_teams
@@ -1826,7 +1831,7 @@ ALTER TABLE ONLY comp_reg_teams
 
 
 --
--- Name: competition_files_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: competition_files_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY competition_files
@@ -1834,7 +1839,7 @@ ALTER TABLE ONLY competition_files
 
 
 --
--- Name: competitions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: competitions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY competitions
@@ -1842,7 +1847,7 @@ ALTER TABLE ONLY competitions
 
 
 --
--- Name: delayed_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: delayed_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY delayed_jobs
@@ -1850,7 +1855,7 @@ ALTER TABLE ONLY delayed_jobs
 
 
 --
--- Name: entity_merges_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: entity_merges_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY entity_merges
@@ -1858,7 +1863,7 @@ ALTER TABLE ONLY entity_merges
 
 
 --
--- Name: events_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY events
@@ -1866,7 +1871,7 @@ ALTER TABLE ONLY events
 
 
 --
--- Name: federal_states_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: federal_states_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY federal_states
@@ -1874,7 +1879,7 @@ ALTER TABLE ONLY federal_states
 
 
 --
--- Name: group_score_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: group_score_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY group_score_categories
@@ -1882,7 +1887,7 @@ ALTER TABLE ONLY group_score_categories
 
 
 --
--- Name: group_score_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: group_score_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY group_score_types
@@ -1890,7 +1895,7 @@ ALTER TABLE ONLY group_score_types
 
 
 --
--- Name: group_scores_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: group_scores_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY group_scores
@@ -1898,7 +1903,7 @@ ALTER TABLE ONLY group_scores
 
 
 --
--- Name: import_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: import_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY import_requests
@@ -1906,7 +1911,7 @@ ALTER TABLE ONLY import_requests
 
 
 --
--- Name: links_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY links
@@ -1914,7 +1919,7 @@ ALTER TABLE ONLY links
 
 
 --
--- Name: nations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: nations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY nations
@@ -1922,7 +1927,7 @@ ALTER TABLE ONLY nations
 
 
 --
--- Name: news_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: news_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY news
@@ -1930,7 +1935,7 @@ ALTER TABLE ONLY news
 
 
 --
--- Name: people_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: people_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY people
@@ -1938,7 +1943,7 @@ ALTER TABLE ONLY people
 
 
 --
--- Name: person_participations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: person_participations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY person_participations
@@ -1946,7 +1951,7 @@ ALTER TABLE ONLY person_participations
 
 
 --
--- Name: person_spellings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: person_spellings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY person_spellings
@@ -1954,7 +1959,7 @@ ALTER TABLE ONLY person_spellings
 
 
 --
--- Name: places_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: places_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY places
@@ -1962,7 +1967,7 @@ ALTER TABLE ONLY places
 
 
 --
--- Name: score_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: score_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY score_types
@@ -1970,7 +1975,7 @@ ALTER TABLE ONLY score_types
 
 
 --
--- Name: scores_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: scores_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY scores
@@ -1978,7 +1983,7 @@ ALTER TABLE ONLY scores
 
 
 --
--- Name: series_assessments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: series_assessments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY series_assessments
@@ -1986,7 +1991,7 @@ ALTER TABLE ONLY series_assessments
 
 
 --
--- Name: series_cups_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: series_cups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY series_cups
@@ -1994,7 +1999,7 @@ ALTER TABLE ONLY series_cups
 
 
 --
--- Name: series_participations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: series_participations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY series_participations
@@ -2002,7 +2007,7 @@ ALTER TABLE ONLY series_participations
 
 
 --
--- Name: series_rounds_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: series_rounds_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY series_rounds
@@ -2010,7 +2015,7 @@ ALTER TABLE ONLY series_rounds
 
 
 --
--- Name: tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY tags
@@ -2018,7 +2023,7 @@ ALTER TABLE ONLY tags
 
 
 --
--- Name: team_spellings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: team_spellings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY team_spellings
@@ -2026,7 +2031,7 @@ ALTER TABLE ONLY team_spellings
 
 
 --
--- Name: teams_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: teams_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY teams
@@ -2034,273 +2039,273 @@ ALTER TABLE ONLY teams
 
 
 --
--- Name: delayed_jobs_priority; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: delayed_jobs_priority; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX delayed_jobs_priority ON delayed_jobs USING btree (priority, run_at);
 
 
 --
--- Name: index_admin_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_admin_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_admin_users_on_confirmation_token ON admin_users USING btree (confirmation_token);
 
 
 --
--- Name: index_admin_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_admin_users_on_email; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_admin_users_on_email ON admin_users USING btree (email);
 
 
 --
--- Name: index_admin_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_admin_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_admin_users_on_reset_password_token ON admin_users USING btree (reset_password_token);
 
 
 --
--- Name: index_admin_users_on_unlock_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_admin_users_on_unlock_token; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_admin_users_on_unlock_token ON admin_users USING btree (unlock_token);
 
 
 --
--- Name: index_appointments_on_event_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_appointments_on_event_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_appointments_on_event_id ON appointments USING btree (event_id);
 
 
 --
--- Name: index_appointments_on_place_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_appointments_on_place_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_appointments_on_place_id ON appointments USING btree (place_id);
 
 
 --
--- Name: index_change_logs_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_change_logs_on_admin_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_change_logs_on_admin_user_id ON change_logs USING btree (admin_user_id);
 
 
 --
--- Name: index_change_logs_on_api_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_change_logs_on_api_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_change_logs_on_api_user_id ON change_logs USING btree (api_user_id);
 
 
 --
--- Name: index_change_requests_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_change_requests_on_admin_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_change_requests_on_admin_user_id ON change_requests USING btree (admin_user_id);
 
 
 --
--- Name: index_change_requests_on_api_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_change_requests_on_api_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_change_requests_on_api_user_id ON change_requests USING btree (api_user_id);
 
 
 --
--- Name: index_comp_reg_competitions_mails_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_comp_reg_competitions_mails_on_admin_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_comp_reg_competitions_mails_on_admin_user_id ON comp_reg_competitions_mails USING btree (admin_user_id);
 
 
 --
--- Name: index_comp_reg_competitions_mails_on_competition_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_comp_reg_competitions_mails_on_competition_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_comp_reg_competitions_mails_on_competition_id ON comp_reg_competitions_mails USING btree (competition_id);
 
 
 --
--- Name: index_comp_reg_competitions_on_slug; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_comp_reg_competitions_on_slug; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_comp_reg_competitions_on_slug ON comp_reg_competitions USING btree (slug);
 
 
 --
--- Name: index_competition_files_on_competition_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_competition_files_on_competition_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_competition_files_on_competition_id ON competition_files USING btree (competition_id);
 
 
 --
--- Name: index_competitions_on_event_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_competitions_on_event_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_competitions_on_event_id ON competitions USING btree (event_id);
 
 
 --
--- Name: index_competitions_on_place_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_competitions_on_place_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_competitions_on_place_id ON competitions USING btree (place_id);
 
 
 --
--- Name: index_competitions_on_score_type_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_competitions_on_score_type_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_competitions_on_score_type_id ON competitions USING btree (score_type_id);
 
 
 --
--- Name: index_entity_merges_on_source_type_and_source_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_entity_merges_on_source_type_and_source_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_entity_merges_on_source_type_and_source_id ON entity_merges USING btree (source_type, source_id);
 
 
 --
--- Name: index_entity_merges_on_target_type_and_target_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_entity_merges_on_target_type_and_target_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_entity_merges_on_target_type_and_target_id ON entity_merges USING btree (target_type, target_id);
 
 
 --
--- Name: index_group_score_categories_on_competition_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_group_score_categories_on_competition_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_group_score_categories_on_competition_id ON group_score_categories USING btree (competition_id);
 
 
 --
--- Name: index_group_score_categories_on_group_score_type_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_group_score_categories_on_group_score_type_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_group_score_categories_on_group_score_type_id ON group_score_categories USING btree (group_score_type_id);
 
 
 --
--- Name: index_group_scores_on_group_score_category_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_group_scores_on_group_score_category_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_group_scores_on_group_score_category_id ON group_scores USING btree (group_score_category_id);
 
 
 --
--- Name: index_group_scores_on_team_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_group_scores_on_team_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_group_scores_on_team_id ON group_scores USING btree (team_id);
 
 
 --
--- Name: index_import_requests_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_import_requests_on_admin_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_import_requests_on_admin_user_id ON import_requests USING btree (admin_user_id);
 
 
 --
--- Name: index_import_requests_on_edit_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_import_requests_on_edit_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_import_requests_on_edit_user_id ON import_requests USING btree (edit_user_id);
 
 
 --
--- Name: index_import_requests_on_event_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_import_requests_on_event_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_import_requests_on_event_id ON import_requests USING btree (event_id);
 
 
 --
--- Name: index_import_requests_on_place_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_import_requests_on_place_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_import_requests_on_place_id ON import_requests USING btree (place_id);
 
 
 --
--- Name: index_news_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_news_on_admin_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_news_on_admin_user_id ON news USING btree (admin_user_id);
 
 
 --
--- Name: index_people_on_gender; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_people_on_gender; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_people_on_gender ON people USING btree (gender);
 
 
 --
--- Name: index_people_on_nation_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_people_on_nation_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_people_on_nation_id ON people USING btree (nation_id);
 
 
 --
--- Name: index_person_participations_on_group_score_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_person_participations_on_group_score_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_person_participations_on_group_score_id ON person_participations USING btree (group_score_id);
 
 
 --
--- Name: index_person_participations_on_person_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_person_participations_on_person_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_person_participations_on_person_id ON person_participations USING btree (person_id);
 
 
 --
--- Name: index_person_spellings_on_person_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_person_spellings_on_person_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_person_spellings_on_person_id ON person_spellings USING btree (person_id);
 
 
 --
--- Name: index_scores_on_competition_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_scores_on_competition_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_scores_on_competition_id ON scores USING btree (competition_id);
 
 
 --
--- Name: index_scores_on_person_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_scores_on_person_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_scores_on_person_id ON scores USING btree (person_id);
 
 
 --
--- Name: index_scores_on_team_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_scores_on_team_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_scores_on_team_id ON scores USING btree (team_id);
 
 
 --
--- Name: index_team_spellings_on_team_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_team_spellings_on_team_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_team_spellings_on_team_id ON team_spellings USING btree (team_id);
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
@@ -2662,7 +2667,7 @@ ALTER TABLE ONLY series_participations
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user",public;
+SET search_path TO "$user", public;
 
 INSERT INTO schema_migrations (version) VALUES ('20150921202610');
 
@@ -2773,4 +2778,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160412064204');
 INSERT INTO schema_migrations (version) VALUES ('20160628193212');
 
 INSERT INTO schema_migrations (version) VALUES ('20160712062218');
+
+INSERT INTO schema_migrations (version) VALUES ('20161016202253');
 

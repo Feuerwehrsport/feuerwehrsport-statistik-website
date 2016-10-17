@@ -6,28 +6,4 @@
     .col-md-3= toc.index
   
   = render('show', toc: toc, cache: true)
-
-  %hr
-  .col-md-3.pull-right
-    .panel.panel-default
-      .panel-heading
-        %h3.panel-title Anregungen?
-      .panel-body 
-        Falls du Anmerkungen zu dieser Wettkampfserie hast, 
-        = contact_link("kontaktiere")
-        uns!
-  .col-md-3.pull-right
-    .panel.panel-warning
-      .panel-heading
-        %h3.panel-title Keine offiziellen Ergebnisse!
-      .panel-body 
-        Diese Ergebnisse wurden importiert. Gerade bei Wettkampfserien kann es dabei zu Fehlern kommen. Wenn du einen Fehler findest, 
-        = contact_link("kontaktiere")
-        uns!
-  - if @team_assessments_exists
-    .col-md-3.pull-right
-      .panel.panel-default
-        .panel-heading
-          %h3.panel-title Ausdrucken
-        .panel-body
-          Die Ergebnisse können auch als #{link_to('PDF', format: :pdf)} heruntergeladen werden.
+  = render('series/round_footer', official: @round.official?, pdf: @team_assessments_exists)
