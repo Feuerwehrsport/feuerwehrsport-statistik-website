@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include Caching::CacheSupport
+  include PDFSupport
   
   # handle access denied
   rescue_from CanCan::AccessDenied do |exception|

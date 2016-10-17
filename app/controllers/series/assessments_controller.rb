@@ -7,7 +7,7 @@ module Series
       @page_title = "#{@assessment.round} #{@assessment} - Wettkampfserie"
 
       if request.format.pdf?
-        prawnto(prawn: { page_layout: :landscape, page_size: 'A4', margin: [36, 36, 40, 36] })
+        configure_prawn(title: @page_title, page_layout: :landscape)
       end
     end
   end
