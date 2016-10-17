@@ -14,6 +14,6 @@ module PDFSupport
       info: info,
     }
 
-    prawnto(prawn: prawn_options.merge(options), filename: filename)
+    prawnto(prawn: prawn_options.merge(options), filename: filename, inline: true)
   end
 end
