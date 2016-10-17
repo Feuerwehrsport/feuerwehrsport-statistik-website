@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4'
+gem 'rails', '4.2.5'
 gem 'pg'
 
 # Use SCSS for stylesheets
@@ -18,10 +18,12 @@ gem 'simple_form'
 gem 'cocoon' # nested_form helper
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
+gem 'sprockets', '3.3.4'
+gem 'sprockets-rails', '2.3.3'
 
 # Draper as model decorator
 gem 'draper'
-gem 'active_model_serializers'
+gem 'active_model_serializers', '~> 0.9.3'
 
 # Use Unicorn as the app server
 gem 'unicorn'
