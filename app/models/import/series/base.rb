@@ -4,6 +4,7 @@ module Import
       TYPES = [
         "BrandenburgCup",
         "DCup",
+        "ExtraLiga",
         "MVCup",
         "MVHindernisCup",
         "MVSteigerCup",
