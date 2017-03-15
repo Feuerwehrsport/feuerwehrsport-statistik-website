@@ -37,11 +37,12 @@ class @Fss
       ]
 
   @disciplines:
-    la: "Löschangriff"
-    fs: "Feuerwehrstafette"
-    gs: "Gruppenstafette"
-    hl: "Hakenleitersteigen"
-    hb: "Hindernisbahn"
+    la: 'Löschangriff'
+    fs: 'Feuerwehrstafette'
+    gs: 'Gruppenstafette'
+    hl: 'Hakenleitersteigen'
+    hb: 'Hindernisbahn'
+    hw: 'Hindernisbahn (flach)'
 
   @genders:
     male: "männlich"

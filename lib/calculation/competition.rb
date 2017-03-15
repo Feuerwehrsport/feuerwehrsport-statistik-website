@@ -37,6 +37,13 @@ module Calculation
         @count = @scores.size
       end
     end
+    
+    class LowDoubleEventDiscipline < DoubleEventDiscipline
+      def calculate_scores
+        @scores = calculation.competition.score_low_double_events.gender(gender).decorate
+        @count = @scores.size
+      end
+    end
 
     class GroupDiscipline < Discipline
       
@@ -61,7 +68,7 @@ module Calculation
     end
 
     def generate_disciplines
-      [:hb, :hl].each do |discipline|
+      [:hb, :hw, :hl].each do |discipline|
         [:female, :male].each do |gender|
           [false, -1, -2, -3, -4].each do |final|
             single = SingleDiscipline.new(self, discipline, gender, final)
@@ -77,6 +84,8 @@ module Calculation
       [:female, :male].each do |gender|
         double_event = DoubleEventDiscipline.new(self, :zk, gender)
         @disciplines.push(double_event) if double_event.count > 0
+        low_double_event = LowDoubleEventDiscipline.new(self, :zk, gender)
+        @disciplines.push(low_double_event) if low_double_event.count > 0
       end
 
       [:gs, :fs, :la].each do |discipline|

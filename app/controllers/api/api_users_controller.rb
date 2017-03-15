@@ -1,25 +1,23 @@
-module API
-  class APIUsersController < BaseController
-    include CRUD::CreateAction
+class API::APIUsersController < API::BaseController
+  include API::CRUD::CreateAction
 
-    def status
-      success
-    end
+  def status
+    success
+  end
 
-    def logout
-      reset_session
-      success
-    end
+  def logout
+    reset_session
+    success
+  end
 
-    protected
+  protected
 
-    def before_create_success
-      session[:api_user_id] = resource_instance.id
-      super
-    end
+  def before_create_success
+    session[:api_user_id] = resource_instance.id
+    super
+  end
 
-    def permitted_attributes
-      super.permit(:name, :email_address).merge(request_headers: request.headers)
-    end
+  def permitted_attributes
+    super.permit(:name, :email_address).merge(request_headers: request.headers)
   end
 end

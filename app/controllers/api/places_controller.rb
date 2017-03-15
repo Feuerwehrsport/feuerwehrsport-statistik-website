@@ -1,19 +1,17 @@
-module API
-  class PlacesController < BaseController
-    include CRUD::CreateAction
-    include CRUD::ShowAction
-    include CRUD::IndexAction
-    include CRUD::UpdateAction
-    include CRUD::ChangeLogSupport
+class API::PlacesController < API::BaseController
+  include API::CRUD::CreateAction
+  include API::CRUD::ShowAction
+  include API::CRUD::IndexAction
+  include API::CRUD::UpdateAction
+  include API::CRUD::ChangeLogSupport
 
-    protected
+  protected
 
-    def create_permitted_attributes
-      permitted_attributes.permit(:name)
-    end
+  def create_permitted_attributes
+    permitted_attributes.permit(:name)
+  end
 
-    def update_permitted_attributes
-      permitted_attributes.permit(:latitude, :longitude)
-    end
+  def update_permitted_attributes
+    permitted_attributes.permit(:latitude, :longitude)
   end
 end

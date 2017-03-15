@@ -17,7 +17,7 @@ class PeopleController < ResourceController
       OpenStruct.new(
         team: team,
         score_count: team.person_scores_count(@person),
-        hb:  team.scores.hb.where(person: @person).count,
+        hb:  team.scores.low_and_high_hb.where(person: @person).count,
         hl:  team.scores.hl.where(person: @person).count,
         gs:  team.group_score_participations.gs.where(person: @person).count,
         fs:  team.group_score_participations.fs.where(person: @person).count,
@@ -56,7 +56,7 @@ class PeopleController < ResourceController
   def person_discipline_structs
     disciplines = []
     
-    [:hb, :hl].each do |discipline|
+    [:hb, :hw, :hl].each do |discipline|
       scores = @person.scores.where(discipline: discipline)
       if scores.count > 0
         chart_scores = scores.valid.best_of_competition.includes(:competition).decorate.sort_by {|s| s.competition.date}
@@ -75,21 +75,22 @@ class PeopleController < ResourceController
       end
     end
 
-    scores = @person.score_double_events
-    if scores.count > 0
-      chart_scores = scores.includes(:competition).decorate.sort_by {|s| s.competition.date}
-      scores = scores.includes(competition: [:place, :event]).decorate
-      valid_scores = scores.reject(&:time_invalid?)
+    { zk: @person.score_double_events, zw: @person.score_low_double_events }.each do |discipline, scores|
+      if scores.count > 0
+        chart_scores = scores.includes(:competition).decorate.sort_by {|s| s.competition.date}
+        scores = scores.includes(competition: [:place, :event]).decorate
+        valid_scores = scores.reject(&:time_invalid?)
 
-      disciplines.push(OpenStruct.new(
-        discipline: :zk, 
-        scores: scores,
-        chart_scores: chart_scores,
-        best_time: best_time(scores),
-        average_time: average_time(valid_scores),
-        count: scores.size,
-        valid_scores: valid_scores
-      ))
+        disciplines.push(OpenStruct.new(
+          discipline: discipline, 
+          scores: scores,
+          chart_scores: chart_scores,
+          best_time: best_time(scores),
+          average_time: average_time(valid_scores),
+          count: scores.size,
+          valid_scores: valid_scores
+        ))
+      end
     end
 
     [:gs, :fs, :la].each do |discipline|

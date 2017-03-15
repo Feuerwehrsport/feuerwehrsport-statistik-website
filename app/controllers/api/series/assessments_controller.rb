@@ -1,7 +1,3 @@
-module API
-  module Series
-    class AssessmentsController < BaseController
-      include CRUD::IndexAction
-    end
-  end
+class API::Series::AssessmentsController < API::BaseController
+  include API::CRUD::IndexAction
 end

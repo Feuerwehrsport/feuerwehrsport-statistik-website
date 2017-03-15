@@ -1,7 +1,3 @@
-module API
-  module Series
-    class RoundsController < BaseController
-      include CRUD::IndexAction
-    end
-  end
+class API::Series::RoundsController < API::BaseController
+  include API::CRUD::IndexAction
 end

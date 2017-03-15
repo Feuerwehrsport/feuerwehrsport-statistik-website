@@ -22,6 +22,8 @@ class Score < ActiveRecord::Base
   scope :discipline, -> (discipline) { where(discipline: discipline) }
   scope :hl, -> { discipline(:hl) }
   scope :hb, -> { discipline(:hb) }
+  scope :hw, -> { discipline(:hw) }
+  scope :low_and_high_hb, -> { where(discipline: [:hb, :hw]) }
   scope :no_finals, -> { where("team_number >= 0") }
   scope :out_of_competition, -> { where(team_number: -5) }
   scope :finals, -> (final_number) { where(team_number: final_number) }

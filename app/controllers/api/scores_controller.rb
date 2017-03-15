@@ -1,13 +1,11 @@
-module API
-  class ScoresController < BaseController
-    include CRUD::ShowAction
-    include CRUD::UpdateAction
-    include CRUD::ChangeLogSupport
+class API::ScoresController < API::BaseController
+  include API::CRUD::ShowAction
+  include API::CRUD::UpdateAction
+  include API::CRUD::ChangeLogSupport
 
-    protected
+  protected
 
-    def update_permitted_attributes
-      permitted_attributes.permit(:team_id, :team_number)
-    end
+  def update_permitted_attributes
+    permitted_attributes.permit(:team_id, :team_number)
   end
 end

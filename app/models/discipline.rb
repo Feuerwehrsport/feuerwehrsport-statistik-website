@@ -4,8 +4,8 @@ class Discipline
     fs: 4,
     la: 7,
   }
-  WITHOUT_DOUBLE_EVENT = [:hb, :hl, :gs, :fs, :la]
-  ALL                  = [:hb, :hl, :zk, :gs, :fs, :la]
+  WITHOUT_DOUBLE_EVENT = [:hb, :hw, :hl, :gs, :fs, :la]
+  ALL                  = [:hb, :hw, :hl, :zk, :gs, :fs, :la]
   GROUP                = [:gs, :fs, :la]
   def self.group?(discipline)
     discipline.try(:to_sym).in? GROUP

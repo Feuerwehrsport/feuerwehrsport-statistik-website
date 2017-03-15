@@ -1,9 +1,7 @@
-module Backend
-  class ScoresController < ResourcesController
-    protected
+class Backend::ScoresController < Backend::ResourcesController
+  protected
 
-    def permitted_attributes
-      super.permit(:person_id, :team_id, :team_number, :time, :discipline, :competition_id)
-    end
+  def permitted_attributes
+    super.permit(:person_id, :team_id, :team_number, :time, :discipline, :competition_id)
   end
 end

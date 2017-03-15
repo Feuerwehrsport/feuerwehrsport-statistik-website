@@ -1,9 +1,7 @@
-module Backend
-  class NewsController < ResourcesController
-    protected
+class Backend::NewsController < Backend::ResourcesController
+  protected
 
-    def permitted_attributes
-      super.permit(:title, :admin_user_id, :content, :published_at)
-    end
+  def permitted_attributes
+    super.permit(:title, :admin_user_id, :content, :published_at)
   end
 end

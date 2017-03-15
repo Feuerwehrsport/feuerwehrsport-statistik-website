@@ -7,6 +7,7 @@ class Competition < ActiveRecord::Base
   has_many :scores, dependent: :restrict_with_exception
   has_many :group_scores, through: :group_score_categories
   has_many :score_double_events
+  has_many :score_low_double_events
   has_many :links, as: :linkable, dependent: :restrict_with_exception
   has_many :competition_files, dependent: :restrict_with_exception
 
@@ -26,7 +27,7 @@ class Competition < ActiveRecord::Base
   def self.update_discipline_score_count
     hl_female = Score.hl.gender(:female).select("COUNT(*)").where("competition_id = #{table_name}.id").to_sql
     hl_male = Score.hl.gender(:male).select("COUNT(*)").where("competition_id = #{table_name}.id").to_sql
-    hb_female = Score.hb.gender(:female).select("COUNT(*)").where("competition_id = #{table_name}.id").to_sql
+    hb_female = Score.low_and_high_hb.gender(:female).select("COUNT(*)").where("competition_id = #{table_name}.id").to_sql
     hb_male = Score.hb.gender(:male).select("COUNT(*)").where("competition_id = #{table_name}.id").to_sql
     gs = GroupScore.discipline(:gs).select("COUNT(*)").where("group_score_categories.competition_id = #{table_name}.id").to_sql
     fs_female = GroupScore.discipline(:fs).gender(:female).select("COUNT(*)").where("group_score_categories.competition_id = #{table_name}.id").to_sql

@@ -1,17 +1,13 @@
-module API
-  module Series
-    class TeamAssessmentsController < BaseController
-      include CRUD::IndexAction
+class API::Series::TeamAssessmentsController < API::BaseController
+  include API::CRUD::IndexAction
 
-      protected
+  protected
 
-      def base_collection
-        if params[:round_id].present?
-          super.round(params[:round_id])
-        else
-          super
-        end
-      end
+  def base_collection
+    if params[:round_id].present?
+      super.round(params[:round_id])
+    else
+      super
     end
   end
 end

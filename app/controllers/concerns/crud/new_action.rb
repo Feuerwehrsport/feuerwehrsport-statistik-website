@@ -1,20 +1,18 @@
-module CRUD
-  module NewAction
-    extend ActiveSupport::Concern
-    
-    included do
-      include ObjectAssignment
-      before_action :assign_instance_for_new, only: :new
-    end
+module CRUD::NewAction
+  extend ActiveSupport::Concern
+  
+  included do
+    include CRUD::ObjectAssignment
+    before_action :assign_instance_for_new, only: :new
+  end
 
-    def new
-    end
+  def new
+  end
 
-    protected
+  protected
 
-    def assign_instance_for_new
-      assign_new_instance
-      authorize!(action_name.to_sym, resource_instance)
-    end
+  def assign_instance_for_new
+    assign_new_instance
+    authorize!(action_name.to_sym, resource_instance)
   end
 end

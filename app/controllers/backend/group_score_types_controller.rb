@@ -1,9 +1,7 @@
-module Backend
-  class GroupScoreTypesController < ResourcesController
-    protected
+class Backend::GroupScoreTypesController < Backend::ResourcesController
+  protected
 
-    def permitted_attributes
-      super.permit(:regular, :name, :discipline)
-    end
+  def permitted_attributes
+    super.permit(:regular, :name, :discipline)
   end
 end

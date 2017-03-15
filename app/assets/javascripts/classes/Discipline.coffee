@@ -78,7 +78,7 @@ class @Discipline extends EventHandler
     Fss.getResources 'group_score_categories', input, callback
 
   selectCategory: () =>
-    if !@categoryId and $.inArray(@discipline, ['hl', 'hb']) is -1
+    if !@categoryId and $.inArray(@discipline, ['hl', 'hb', 'hw']) is -1
       @getGroupScoreCategories (categories) =>
         return @addCategory() if categories.length is 0
 

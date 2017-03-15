@@ -1,20 +1,18 @@
-module Caching
-  class Builder
-    include Delayed::Helper
+class Caching::Builder
+  include Delayed::Helper
 
-    def perform
-      remove_future_builders
-      Person.update_score_count
-      Competition.update_discipline_score_count
-      HTMLPreLoader.perform_now
-    end
+  def perform
+    remove_future_builders
+    Person.update_score_count
+    Competition.update_discipline_score_count
+    Caching::HTMLPreLoader.perform_now
+  end
 
-    private
+  private
 
-    def remove_future_builders
-      same_future_jobs.each do |job|
-        job.delete
-      end
+  def remove_future_builders
+    same_future_jobs.each do |job|
+      job.delete
     end
   end
 end

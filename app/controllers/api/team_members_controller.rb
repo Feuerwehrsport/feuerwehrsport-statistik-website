@@ -1,5 +1,3 @@
-module API
-  class TeamMembersController < BaseController
-    include CRUD::IndexAction
-  end
+class API::TeamMembersController < API::BaseController
+  include API::CRUD::IndexAction
 end

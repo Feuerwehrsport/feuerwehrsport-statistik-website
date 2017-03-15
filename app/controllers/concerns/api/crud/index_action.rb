@@ -1,20 +1,15 @@
-module API
-  module CRUD
-    module IndexAction
-      extend ActiveSupport::Concern
-      
-      included do
-        include ::CRUD::IndexAction
-        include InstanceMethods
-      end
+module API::CRUD::IndexAction
+  extend ActiveSupport::Concern
 
-      module InstanceMethods
+  included do
+    include ::CRUD::IndexAction
+    include InstanceMethods
+  end
 
-        def index
-          success(resource_variable_name.pluralize.to_sym => resource_collection.decorate)
-        end
-      end
+  module InstanceMethods
+
+    def index
+      success(resource_variable_name.pluralize.to_sym => resource_collection.decorate)
     end
   end
 end
-

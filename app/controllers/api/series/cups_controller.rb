@@ -1,7 +1,3 @@
-module API
-  module Series
-    class CupsController < BaseController
-      include CRUD::IndexAction
-    end
-  end
+class API::Series::CupsController < API::BaseController
+  include API::CRUD::IndexAction
 end

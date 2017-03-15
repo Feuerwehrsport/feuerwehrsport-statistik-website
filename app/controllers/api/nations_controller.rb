@@ -1,6 +1,4 @@
-module API
-  class NationsController < BaseController
-    include CRUD::ShowAction
-    include CRUD::IndexAction
-  end
+class API::NationsController < API::BaseController
+  include API::CRUD::ShowAction
+  include API::CRUD::IndexAction
 end

@@ -1,11 +1,9 @@
-module ActiveRecord
-  class View < Base
-    self.abstract_class = true
+class ActiveRecord::View < ActiveRecord::Base
+  self.abstract_class = true
 
-    protected
+  protected
 
-    def readonly?
-      true
-    end
+  def readonly?
+    true
   end
 end

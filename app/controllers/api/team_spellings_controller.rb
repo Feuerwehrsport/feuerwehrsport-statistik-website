@@ -1,5 +1,3 @@
-module API
-  class TeamSpellingsController < BaseController
-    include CRUD::IndexAction
-  end
+class API::TeamSpellingsController < API::BaseController
+  include API::CRUD::IndexAction
 end

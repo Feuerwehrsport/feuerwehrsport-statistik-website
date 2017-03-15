@@ -13,7 +13,7 @@
         %tr
           %th Durchschnitt
           %td= "#{ds.average_time} s"
-      - if ds.discipline != :zk && ds.valid_scores.size > 0
+      - if !ds.discipline.in?([:zk, :zw]) && ds.valid_scores.size > 0
         = @chart.discipline_invalid(ds.discipline, ds.scores)
     .col-md-9= @chart.discipline_scores(ds.discipline, ds.chart_scores)
 
@@ -21,7 +21,7 @@
     - t.col("Datum", class: "col70 info-link") { |row| competition_link(row.competition, type: :l_date) }
     - t.col("Typ", class: "col70 small") { |row| event_link(row.competition.event) }
     - t.col("Ort", class: "col70 small") { |row| place_link(row.competition.place) }
-    - if ds.discipline == :zk
+    - if ds.discipline.in?([:zk, :zw])
       - t.col("HB", :second_hb, class: "col70")
       - t.col("HL", :second_hl, class: "col70")
     - else

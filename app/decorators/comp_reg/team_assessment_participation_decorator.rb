@@ -1,5 +1,3 @@
-module CompReg
-  class TeamAssessmentParticipationDecorator < ApplicationDecorator
-    decorates_association :competition_assessment
-  end
+class CompReg::TeamAssessmentParticipationDecorator < ApplicationDecorator
+  decorates_association :competition_assessment
 end

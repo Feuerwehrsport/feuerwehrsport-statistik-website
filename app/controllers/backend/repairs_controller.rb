@@ -1,4 +1,2 @@
-module Backend
-  class RepairsController < BackendController
-  end
+class Backend::RepairsController < Backend::BackendController
 end

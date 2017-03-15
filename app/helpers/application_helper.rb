@@ -101,10 +101,14 @@ module ApplicationHelper
   end
 
   def discipline_name_short(discipline)
+    discipline = :hb if discipline.to_sym == :hw
+    discipline = :zk if discipline.to_sym == :zw
     discipline.to_s.upcase
   end
 
   def discipline_image(discipline, options={})
+    discipline = :hb if discipline.to_sym == :hw
+    discipline = :zk if discipline.to_sym == :zw
     options = { width: 20, title: discipline_name(discipline) }.merge(options)
     image_tag(asset_path("disciplines/#{discipline}.png"), options)
   end

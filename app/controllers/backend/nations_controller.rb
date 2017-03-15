@@ -1,9 +1,7 @@
-module Backend
-  class NationsController < ResourcesController
-    protected
+class Backend::NationsController < Backend::ResourcesController
+  protected
 
-    def permitted_attributes
-      super.permit(:name, :iso)
-    end
+  def permitted_attributes
+    super.permit(:name, :iso)
   end
 end

@@ -1,5 +1,3 @@
-module API
-  class ScoreTypesController < BaseController
-    include CRUD::IndexAction
-  end
+class API::ScoreTypesController < API::BaseController
+  include API::CRUD::IndexAction
 end

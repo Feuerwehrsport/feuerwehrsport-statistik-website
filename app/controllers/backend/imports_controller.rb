@@ -1,4 +1,2 @@
-module Backend
-  class ImportsController < BackendController
-  end
+class Backend::ImportsController < Backend::BackendController
 end

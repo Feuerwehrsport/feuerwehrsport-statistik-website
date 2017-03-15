@@ -1,0 +1,2 @@
+class ScoreLowDoubleEventDecorator < ScoreDoubleEventDecorator
+end

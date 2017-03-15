@@ -1,14 +1,12 @@
-module API
-  class LinksController < BaseController
-    include CRUD::CreateAction
-    include CRUD::ShowAction
-    include CRUD::DestroyAction
-    include CRUD::ChangeLogSupport
+class API::LinksController < API::BaseController
+  include API::CRUD::CreateAction
+  include API::CRUD::ShowAction
+  include API::CRUD::DestroyAction
+  include API::CRUD::ChangeLogSupport
 
-    protected
+  protected
 
-    def permitted_attributes
-      super.permit(:label, :url, :linkable_type, :linkable_id)
-    end
+  def permitted_attributes
+    super.permit(:label, :url, :linkable_type, :linkable_id)
   end
 end

@@ -1,4 +1,2 @@
-module Backend
-  class ChangeRequestsController < BackendController
-  end
+class Backend::ChangeRequestsController < Backend::BackendController
 end
