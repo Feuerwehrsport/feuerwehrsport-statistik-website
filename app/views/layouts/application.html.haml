@@ -6,7 +6,7 @@
     = favicon_link_tag
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
-    = javascript_include_tag "controllers/#{controller_path}" if Rails.application.assets.find_asset("controllers/#{controller_path}.js")
+    = javascript_include_tag "controllers/#{controller_path}" if ::Sprockets::Railtie.build_environment(Rails.application).find_asset("controllers/#{controller_path}.js").present?
     = auto_discovery_link_tag(:rss, news_index_path(format: :atom))
     = auto_discovery_link_tag(:rss, change_logs_path(format: :atom))
     - if backend?
