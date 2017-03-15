@@ -18,8 +18,8 @@ gem 'simple_form'
 gem 'cocoon' # nested_form helper
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
-gem 'sprockets', '3.3.4'
-gem 'sprockets-rails', '2.3.3'
+gem 'sprockets'
+gem 'sprockets-rails'
 
 # Draper as model decorator
 gem 'draper'
