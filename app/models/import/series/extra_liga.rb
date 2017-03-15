@@ -42,7 +42,7 @@ class Import::Series::ExtraLiga < Import::Series::Base
         assessment: assessment, 
         cup: cup, 
         time: score.time, 
-        points: , 
+        points: points,
         rank: rank
       }
       ::Series::PersonParticipation.create!(hash.merge(person: score.person))
