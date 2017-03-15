@@ -1,17 +1,17 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.5'
+gem 'rails'
 gem 'pg'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5'
+gem 'sass-rails'
 gem 'jquery-rails'
 gem 'bootstrap-sass'
 #gem 'jquery-datatables-rails', '~> 3.3.0'
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3'
+gem 'uglifier'
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4'
+gem 'coffee-rails'
 # haml support
 gem 'haml-rails'
 gem 'simple_form'
@@ -23,7 +23,7 @@ gem 'sprockets-rails'
 
 # Draper as model decorator
 gem 'draper'
-gem 'active_model_serializers', '~> 0.9.3'
+gem 'active_model_serializers'
 
 # Use Unicorn as the app server
 gem 'unicorn'
@@ -67,7 +67,7 @@ gem 'momentjs-rails', github: 'egeek/momentjs-rails'
 # used for generating files:
 # gem 'datetimepicker-rails', github: 'zpaulovics/datetimepicker-rails', branch: 'master', submodules: true
 
-gem 'm3_log_file_parser', git: 'https://github.com/lichtbit/m3_log_file_parser.git'
+# gem 'm3_log_file_parser', git: 'https://github.com/lichtbit/m3_log_file_parser.git'
 
 group :development do
   gem 'm3_capistrano', require: false, git: 'ssh://gitolite3@stadthafen-rails/m3_capistrano', branch: 'master', ref: 'b4f0dad9d6cd20eafa58e28b87e437265efe2514'

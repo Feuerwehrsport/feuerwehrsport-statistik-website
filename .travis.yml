@@ -1,6 +1,6 @@
 language: ruby
 rvm:
-  - 2.2.5
+  - 2.4.0
 bundler_args: --without production development
 cache: bundler
 script: 
@@ -11,7 +11,7 @@ notifications:
     recipients:
       - georf@georf.de
 addons:
-  postgresql: "9.4"
+  postgresql: '9.5'
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
   - cp config/database.yml.travis config/database.yml

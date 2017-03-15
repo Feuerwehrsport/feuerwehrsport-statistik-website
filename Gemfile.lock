@@ -6,13 +6,6 @@ GIT
       railties (>= 3.1)
 
 GIT
-  remote: https://github.com/lichtbit/m3_log_file_parser.git
-  revision: 07ab2ab1e872db5859f7d85d185ceaa13ded4986
-  specs:
-    m3_log_file_parser (0.0.1)
-      rails (~> 4.0)
-
-GIT
   remote: ssh://gitolite3@stadthafen-rails/m3_capistrano
   revision: b4f0dad9d6cd20eafa58e28b87e437265efe2514
   ref: b4f0dad9d6cd20eafa58e28b87e437265efe2514
@@ -27,40 +20,42 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    actionmailer (4.2.5)
-      actionpack (= 4.2.5)
-      actionview (= 4.2.5)
-      activejob (= 4.2.5)
+    actionmailer (4.2.8)
+      actionpack (= 4.2.8)
+      actionview (= 4.2.8)
+      activejob (= 4.2.8)
       mail (~> 2.5, >= 2.5.4)
       rails-dom-testing (~> 1.0, >= 1.0.5)
-    actionpack (4.2.5)
-      actionview (= 4.2.5)
-      activesupport (= 4.2.5)
+    actionpack (4.2.8)
+      actionview (= 4.2.8)
+      activesupport (= 4.2.8)
       rack (~> 1.6)
       rack-test (~> 0.6.2)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    actionview (4.2.5)
-      activesupport (= 4.2.5)
+    actionview (4.2.8)
+      activesupport (= 4.2.8)
       builder (~> 3.1)
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
-      rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    active_model_serializers (0.9.6)
-      activemodel (>= 3.2)
-    activejob (4.2.5)
-      activesupport (= 4.2.5)
+      rails-html-sanitizer (~> 1.0, >= 1.0.3)
+    active_model_serializers (0.10.5)
+      actionpack (>= 4.1, < 6)
+      activemodel (>= 4.1, < 6)
+      case_transform (>= 0.2)
+      jsonapi-renderer (>= 0.1.1.beta1, < 0.2)
+    activejob (4.2.8)
+      activesupport (= 4.2.8)
       globalid (>= 0.3.0)
-    activemodel (4.2.5)
-      activesupport (= 4.2.5)
+    activemodel (4.2.8)
+      activesupport (= 4.2.8)
       builder (~> 3.1)
-    activerecord (4.2.5)
-      activemodel (= 4.2.5)
-      activesupport (= 4.2.5)
+    activerecord (4.2.8)
+      activemodel (= 4.2.8)
+      activesupport (= 4.2.8)
       arel (~> 6.0)
-    activesupport (4.2.5)
+    activesupport (4.2.8)
       i18n (~> 0.7)
-      json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
@@ -107,6 +102,8 @@ GEM
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
       mime-types (>= 1.16)
+    case_transform (0.2)
+      activesupport
     chronic (0.10.2)
     chunky_png (1.3.8)
     cliver (0.3.2)
@@ -185,7 +182,7 @@ GEM
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
-    json (1.8.6)
+    jsonapi-renderer (0.1.2)
     key_struct (0.4.2)
     kgio (2.11.0)
     launchy (2.4.3)
@@ -248,16 +245,16 @@ GEM
     rack (1.6.5)
     rack-test (0.6.3)
       rack (>= 1.0)
-    rails (4.2.5)
-      actionmailer (= 4.2.5)
-      actionpack (= 4.2.5)
-      actionview (= 4.2.5)
-      activejob (= 4.2.5)
-      activemodel (= 4.2.5)
-      activerecord (= 4.2.5)
-      activesupport (= 4.2.5)
+    rails (4.2.8)
+      actionmailer (= 4.2.8)
+      actionpack (= 4.2.8)
+      actionview (= 4.2.8)
+      activejob (= 4.2.8)
+      activemodel (= 4.2.8)
+      activerecord (= 4.2.8)
+      activesupport (= 4.2.8)
       bundler (>= 1.3.0, < 2.0)
-      railties (= 4.2.5)
+      railties (= 4.2.8)
       sprockets-rails
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
@@ -267,9 +264,9 @@ GEM
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
-    railties (4.2.5)
-      actionpack (= 4.2.5)
-      activesupport (= 4.2.5)
+    railties (4.2.8)
+      actionpack (= 4.2.8)
+      activesupport (= 4.2.8)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     raindrops (0.17.0)
@@ -383,7 +380,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_model_serializers (~> 0.9.3)
+  active_model_serializers
   axlsx_rails
   bootstrap-sass
   cancancan
@@ -391,7 +388,7 @@ DEPENDENCIES
   capybara-screenshot
   carrierwave
   cocoon
-  coffee-rails (~> 4)
+  coffee-rails
   daemons
   database_cleaner
   delayed_job_active_record
@@ -405,7 +402,6 @@ DEPENDENCIES
   jquery-rails
   lazy_high_charts
   m3_capistrano!
-  m3_log_file_parser!
   momentjs-rails!
   pg
   poltergeist
@@ -414,14 +410,14 @@ DEPENDENCIES
   prawnto
   pry
   pry-byebug
-  rails (= 4.2.5)
+  rails
   recipient_interceptor
   redcarpet
   rmagick
   rqrcode_png
   rspec-collection_matchers
   rspec-rails
-  sass-rails (~> 5)
+  sass-rails
   schema_plus_views
   simple_form
   spring
@@ -429,7 +425,7 @@ DEPENDENCIES
   sprockets
   sprockets-rails
   timecop
-  uglifier (>= 1.3)
+  uglifier
   unicorn
   validates_email_format_of
   whenever
@@ -437,4 +433,4 @@ DEPENDENCIES
   will_paginate-bootstrap
 
 BUNDLED WITH
-   1.14.5
+   1.14.6

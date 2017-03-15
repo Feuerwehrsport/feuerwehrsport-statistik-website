@@ -1,4 +1,5 @@
 class LinkSerializer < ActiveModel::Serializer
+  include Rails.application.routes.url_helpers
   attributes :id, :label, :linkable_id, :linkable_type, :url, :linkable_url
 
   def linkable_url
