@@ -3,6 +3,6 @@ class Backend::DashboardsController < Backend::BackendController
   end
 
   def administration
-    @models = ResourcesController.models.sort_by { |m| m.model_name.human(count: 0) }
+    @models = Backend::ResourcesController.models.sort_by { |m| m.model_name.human(count: 0) }
   end
 end
