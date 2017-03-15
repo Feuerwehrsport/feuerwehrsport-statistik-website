@@ -1,33 +1,35 @@
-upstream unicorn_<%= application %> {
-  server unix:/tmp/unicorn.<%= application %>.sock fail_timeout=0;
+upstream unicorn_feuerwehrsport-statistik {
+  server unix:/tmp/unicorn.feuerwehrsport-statistik.sock fail_timeout=0;
 }
 
-<% if nginx_use_ssl %>
-server {
-  server_name <%= nginx_server_name %> <%= nginx_other_server_names %>;
-  listen 80 <%= fetch(:nginx_default_server) ? "default_server" : "" %>;
-  <% if fetch(:nginx_forwarded_https_port) == 443 %>
-    rewrite ^(.*) https://$host$1 permanent;
-  <% else %>
-    rewrite ^(.*) https://$host:<%= fetch(:nginx_forwarded_https_port) %>$1 permanent;
-  <% end %>
-}
-<% end %>
 
 server {
-<% if nginx_use_ssl %>
-  listen 443 <%= fetch(:nginx_default_server) ? "default_server" : "" %>;
+  server_name www.feuerwehrsport-statistik.de feuerwehrsport-statistik.de;
+  listen 80 ;
+
+  rewrite ^(.*) https://feuerwehrsport-statistik.de$1 permanent;
+}
+
+
+server {
+
+  listen 443 ;
   ssl on;
-  ssl_certificate /etc/ssl/certs/<%= nginx_ssl_certificate %>;
-  ssl_certificate_key /etc/ssl/private/<%= nginx_ssl_certificate_key %>;
-<% else %>
-  listen 80 <%= fetch(:nginx_default_server) ? "default_server" : "" %>;
-<% end %>
+  ssl_certificate /etc/ssl/certs/www.feuerwehrsport-statistik.de.2016.crt;
+  ssl_certificate_key /etc/ssl/private/www.feuerwehrsport-statistik.de.2016.key;
+  server_name www.feuerwehrsport-statistik.de; 
+  rewrite ^(.*) https://feuerwehrsport-statistik.de$1 permanent;
+}
 
-  <% if fetch(:nginx_http_authentication_user) && fetch(:nginx_http_authentication_password) %>
-  auth_basic "Staging-Bereich";
-  auth_basic_user_file /etc/nginx/htpasswd_<%= fetch(:application) %>;
-  <% end %>
+  
+
+server {
+
+  listen 443 ;
+  ssl on;
+  ssl_certificate /etc/ssl/certs/www.feuerwehrsport-statistik.de.2016.crt;
+  ssl_certificate_key /etc/ssl/private/www.feuerwehrsport-statistik.de.2016.key;
+
 
   client_max_body_size 4G;
   keepalive_timeout 10;
@@ -35,31 +37,28 @@ server {
   error_page 500 502 504 /500.html;
   error_page 503 @503;
 
-  server_name <%= nginx_server_name %> <%= nginx_other_server_names %>;
-  root <%= current_path %>/public;
-  try_files $uri/index.html $uri <%
+  server_name feuerwehrsport-statistik.de;
+  root /srv/feuerwehrsport-statistik/current/public;
+  try_files $uri/index.html $uri  @rails_cache_feuerwehrsport-statistik;
 
-  if !fetch(:rails_cache).nil?
-    %> @rails_cache_<%= application %>;
-
-  location @rails_cache_<%= application %> {
-    root <%= current_path %>/<%= fetch(:rails_cache) %>;
-    try_files $uri $uri/_index.html $uri.html @unicorn_<%= application %>;
+  location @rails_cache_feuerwehrsport-statistik {
+    root /srv/feuerwehrsport-statistik/current/public/cache;
+    try_files $uri $uri/_index.html $uri.html @unicorn_feuerwehrsport-statistik;
   }
 
-  <% else %> @unicorn_<%= application %>; <% end %>
+  
 
-  location @unicorn_<%= application %> {
+  location @unicorn_feuerwehrsport-statistik {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Host $http_host;
     proxy_redirect off;
-<% if nginx_use_ssl %>
+
     proxy_set_header X-Forwarded-Proto https;
-<% end %>
-    proxy_pass http://unicorn_<%= application %>;
+
+    proxy_pass http://unicorn_feuerwehrsport-statistik;
     # limit_req zone=one;
-    access_log <%= shared_path %>/log/nginx/nginx.access.log;
-    error_log <%= shared_path %>/log/nginx/nginx.error.log;
+    access_log /srv/feuerwehrsport-statistik/shared/log/nginx/nginx.access.log;
+    error_log /srv/feuerwehrsport-statistik/shared/log/nginx/nginx.error.log;
   }
 
   location ^~ /assets/ {
