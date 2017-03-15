@@ -43,9 +43,6 @@ gem 'cancancan'
 # charts
 gem 'lazy_high_charts'
 
-# browser detection
-gem 'browser'
-
 # extra validations
 gem 'validates_email_format_of'
 
@@ -61,6 +58,9 @@ gem 'rqrcode_png'
 
 # markdown
 gem 'redcarpet'
+
+
+gem 'schema_plus_views'
 
 # datetimepicker for simple_form
 gem 'momentjs-rails', github: 'egeek/momentjs-rails'
