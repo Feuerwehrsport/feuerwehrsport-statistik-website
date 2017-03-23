@@ -16,6 +16,7 @@ pdf.text strip_tags(simple_format(resource_instance.description.html_safe)), inl
     line.push("Nr.")
     line.push("Vorname")
     line.push("Nachname")
+    line.push('Mannschaft')
     line.push("Attribute")
     resource_instance.competition_assessments.gender(gender).decorate.each do |assessment|
       line.push(assessment.shortcut) unless Discipline.group?(assessment.discipline)
@@ -28,6 +29,7 @@ pdf.text strip_tags(simple_format(resource_instance.description.html_safe)), inl
       line.push(i += 1)
       line.push(person.first_name)
       line.push(person.last_name)
+      line.push(person.team_name)
       line.push(person.tag_names.join(", "))
       resource_instance.competition_assessments.gender(gender).decorate.each do |assessment|
         unless Discipline.group?(assessment.discipline)

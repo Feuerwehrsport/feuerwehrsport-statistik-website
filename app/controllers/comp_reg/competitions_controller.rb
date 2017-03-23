@@ -77,7 +77,7 @@ class CompReg::CompetitionsController < CompReg::CompRegController
   end
 
   def slug_handle
-    competition = Competition.find_by_slug!(params[:slug])
+    competition = CompReg::Competition.find_by_slug!(params[:slug])
     redirect_to action: :show, id: competition.id
   end
 

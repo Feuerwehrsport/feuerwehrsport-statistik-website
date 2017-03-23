@@ -1,6 +1,6 @@
 module CompReg
   class PersonSerializer < ActiveModel::Serializer
-    attributes :id, :team_id, :first_name, :last_name, :statitics_person_id, :gender, :assessment_participations, :tag_names
+    attributes :id, :team_id, :team_name, :first_name, :last_name, :statitics_person_id, :gender, :assessment_participations, :tag_names
 
     def statitics_person_id
       object.person_id

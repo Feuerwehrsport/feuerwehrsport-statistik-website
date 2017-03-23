@@ -27,7 +27,7 @@ wb.add_worksheet(name: "Wettkämpfer") do |sheet|
   sheet.add_row(headline)
 
   resource_instance.people.each do |person|
-    row = [person.first_name, person.last_name, g(person.gender), person.team.with_number]
+    row = [person.first_name, person.last_name, g(person.gender), person.team.try(:with_number) || person.team_name]
 
     person_assessments.each do |assessment|
       row.push(person.person_assessment_participations.find_by(competition_assessment: assessment).try(:decorate).try(:short_type))

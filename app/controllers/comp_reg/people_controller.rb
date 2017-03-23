@@ -14,7 +14,7 @@ class CompReg::PeopleController < CompReg::CompRegController
   protected
 
   def permitted_attributes
-    super.permit(:first_name, :last_name, :gender, :competition_id, :person_id, :team_id, :registration_order,
+    super.permit(:first_name, :last_name, :gender, :team_name, :competition_id, :person_id, :team_id, :registration_order,
       tags_attributes: [:id, :_destroy, :name],
       person_assessment_participations_attributes: [ :id, :_destroy, :single_competitor_order, 
         :competition_assessment_id, :assessment_type, :group_competitor_order ]
@@ -22,7 +22,7 @@ class CompReg::PeopleController < CompReg::CompRegController
   end
 
   def build_instance
-    @competition = Competition.find(params[:competition_id]) if params[:competition_id].present?
+    @competition = CompReg::Competition.find(params[:competition_id]) if params[:competition_id].present?
     @team = Team.find(params[:team_id]) if params[:team_id].present?
     resource_class.new(competition: @competition, admin_user: current_admin_user, team: @team)
   end

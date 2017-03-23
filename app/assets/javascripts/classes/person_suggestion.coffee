@@ -43,6 +43,7 @@ class PersonSuggestion
       $('#comp_reg_person_last_name').val(entry.last_name)
       $('#comp_reg_person_gender').val(entry.gender)
       $('#comp_reg_person_person_id').val(entry.id)
+      $('#comp_reg_person_team_name').val(entry.teams[0])
 
 $ () ->
   new PersonSuggestion

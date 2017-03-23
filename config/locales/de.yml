@@ -169,6 +169,7 @@ de:
       comp_reg/person:
         first_name: Vorname
         last_name: Nachname
+        team_name: Mannschaft
       comp_reg/team:
         shortcut: Abkürzung
         team_leader: Mannschaftsleiter

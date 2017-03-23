@@ -50,8 +50,9 @@
         %small= "#{g_symbol(gender)} Anzahl: #{@people_count[gender]}"
       - if @people[gender].present?
         = count_table(@people[gender]) do |ct|
-          - ct.col("Vorname", :first_name, class: "col-20")
-          - ct.col("Nachname", :last_name, class: "col-20")
+          - ct.col("Vorname", :first_name, class: "col-15 small")
+          - ct.col("Nachname", :last_name, class: "col-15 small")
+          - ct.col('Team', :team_name, class: "col-10 small")
           - if resource_instance.person_tag_list.present?
             - ct.col("Attribute") { |person| person.tag_names.join(", ") }
           - ct.col("") { |row| can?(:edit, row) ? link_to("Bearbeiten", action: :edit, controller: :people, id: row.id) : "" }
