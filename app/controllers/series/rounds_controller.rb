@@ -10,8 +10,8 @@ class Series::RoundsController < ResourceController
 
   def show
     round = Series::Round.find(params[:id])
-    @person_assessments = PersonAssessment.where(round: round).decorate
-    @team_assessments_exists = TeamAssessment.where(round: round).present?
+    @person_assessments = Series::PersonAssessment.where(round: round).decorate
+    @team_assessments_exists = Series::TeamAssessment.where(round: round).present?
     @round = round.decorate
     @page_title = "#{@round} - Wettkampfserie"
 
