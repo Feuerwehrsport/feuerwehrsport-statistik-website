@@ -1,0 +1,35 @@
+de:
+  change_logs:
+    appointment:
+      add_appointment: Termin hinzufügen
+      edit_appointment: Termin bearbeiten
+      update: Termin bearbeiten
+    competition:
+      add_competition: Wettkampf hinzufügen
+      update: Wettkampf aktualisieren
+      update_score_type: Mannschaftswertung eines Wettkampfes anpassen
+    link:
+      add_link: Link hinzufügen
+      destroy: Link entfernen
+      update: Link aktualisieren
+    news:
+      create: Neuigkeit hinzufügen
+      update: Neuigkeit aktualisieren
+    person:
+      add_person: Wettkämpfer hinzufügen
+      create: Wettkämpfer hinzufügen
+      merge: Wettkämpfer zusammenführen
+      update: Wettkämpfer aktualisieren
+    place:
+      add_place: Ort hinzufügen
+      update: Ort aktualisieren
+      update_geo_position: Geo-Position eines Ortes aktualisieren
+    team:
+      add_team: Mannschaft hinzufügen
+      destroy: Mannschaft entfernen
+      merge: Mannschaften zusammenführen
+      update: Mannschaft aktualisieren
+      update_geo_position: Geo-Position einer Mannschaft aktualisieren
+      update_logo: Mannschaftlogo aktualisieren
+      update_name: Name einer Mannschaft aktualisieren
+      update_state: Land einer Mannschaft aktualisieren
