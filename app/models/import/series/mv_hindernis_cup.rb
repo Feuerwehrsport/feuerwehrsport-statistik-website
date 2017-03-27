@@ -6,7 +6,7 @@ module Import
 
       def assessment_disciplines
         {
-          person: { hb: [""] },
+          person: { hb: [""], hw: [""] },
           team: {},
           group: {},
         }
