@@ -1,17 +1,14 @@
 = table_of_contents do |toc|
   .row
-    .col-md-3= design_image("wettkampf-manager-logo")
-    .col-md-9
-      .page-header
-        %h1 Wettkampf-Manager
+    .col-md-8= design_image('wettkampf-manager-logo', alt: 'Wettkampf-Manager', class: 'img-responsive')
   .row
     .col-md-8
-      %p.lead Der Wettkampf-Manager ist ein Programm zum Auswerten von Wettkämpfen. Unabhängig von Excel können Startlisten, Ergebnislisten und Gesamtwertungen erstellt werden. Die Eingabe der Daten ist über mehrere PCs gleichzeitig möglich. Eine Live-Tabelle kann über WLAN bereitgestellt werden.
+      %p.lead Der Wettkampf-Manager ist ein Programm zum Auswerten von Feuerwehrsportwettkämpfen. Unabhängig von Excel können Startlisten, Ergebnislisten und Gesamtwertungen erstellt werden. Die Eingabe der Daten ist über mehrere PCs gleichzeitig möglich. Eine Live-Tabelle und alle Ergebnisse können über WLAN bereitgestellt werden.
     .col-md-4= toc.index
   .row
     .col-md-6
-      = toc.anker("Überblick", :h2)
-      %p Eine Auflistung der bisherigen Funktionen:
+      = toc.anker('Überblick', :h2)
+      %p Eine Auflistung der integrierten Funktionen:
       %ul
         %li Namensvorschläge bei Eingabe
         %li
@@ -29,7 +26,20 @@
             %li D-Cup-Wertung
         %li automatische Zweikampfwertung
         %li automatische U20-Wertung
-        %li D-Cup-Jahreswertung integriert
+        %li
+          Serien-Jahreswertung integriert
+          %ul
+            %li Brandenburg-Cup
+            %li D-Cup
+            %li MV-Cup
+            %li MV-Hinderniscup
+            %li MV-Steigercup
+            %li Sachsen-Cup
+            %li Sachsen-Steiger-Cup
+            %li Thüringen-Cup
+        %li Losreihenfolge
+        %li Startnummern
+        %li Online-Anmeldung können einfach importiert werden
         %li
           Startlistenerstellung:
           %ul
@@ -52,7 +62,7 @@
             %li Platzhalter können frei verschoben werden
             %li PDF-Erstellung für alle Ergebnislisten
     .col-md-6
-      = toc.anker("Download", :h2)
+      = toc.anker('Download', :h2)
       .row
         .col-md-12
           .list-group
@@ -69,8 +79,8 @@
                 .pull-right
                   - if version.database_changed
                     .label.label-info{ title: "Integrierte Datenbank wurde #{l(version.database_changed, format: :german)} aktualisiert" }= l(version.database_changed, format: :german)
-                  %a.btn.btn-default.btn-xs{href: "https://github.com/Feuerwehrsport/wettkampf-manager/tree/#{version.commit_id}", title: "Commit-ID" }
-                    %span.glyphicon.glyphicon-paperclip{"aria-hidden" => "true" }
+                  %a.btn.btn-default.btn-xs{href: "https://github.com/Feuerwehrsport/wettkampf-manager/tree/#{version.commit_id}", title: 'Commit-ID' }
+                    %span.glyphicon.glyphicon-paperclip{'aria-hidden' => 'true' }
                     = version.commit_id.first(7)
                 - if version.invalid?
                   .alert.alert-danger
@@ -79,28 +89,23 @@
                 %h4 Veränderungen
                 = version.change_log
     .col-md-6
-      = toc.anker("Hinweise zur Installation", :h2)
+      = toc.anker('Hinweise zur Installation', :h2)
       %ol
         %li Datei herunterladen und entpacken
         %li
-          %em install.bat
+          Verzeichnispfad darf <b>keine</b> Leerzeichen enthalten<br/>
+          Beispiel: <code>C:\wettkampf-manager\</code>
+        %li
+          %code starten.bat
           ausführen
         %li
           Warten bis im Terminal-Fenster
-          %em Weiter mit beliebiger Taste
-          steht. Dieser Vorgang benötigt eine Internetverbindung und dauert circa 15 Minuten.
+          %code Booting WEBrick
+          steht.
         %li
-          %em start_server.bat
-          ausführen (hier fragt die Firewall ob
-          %em Ruby
-          Zugriff haben darf)
-        %li
-          %a{ href: "http://localhost/" } http://localhost/
+          = link_to('http://localhost/', 'http://localhost/')
           im Webbrowser eingeben und angezeigten Schritten folgen
-      %p
-        Die Installation kann erneut durchgeführt werden. Dafür einfach erneut die
-        %em install.bat
-        ausführen. Dabei wird gefragt, ob die vorhandenen Daten gelöscht werden sollen.
+      %p Weitere Informationen in der beiliegenden Dokumentation.
     .col-md-6
       = toc.anker("Fehler, Probleme, Wünsche", :h2)
       %p Es kann immer mal wieder vorkommen, dass Fehler auftreten. Diese bitte per E-Mail oder als Ticket melden. Vorher könnt ihr einmal nachgucken, ob es für das Problem schon ein Ticket gibt.
@@ -115,10 +120,7 @@
       %ul
         %li Automatisches Veröffentlichen auf der Statistikseite
         %li Automatisches Veröffentlichen auf gesonderter Seite
-        %li Online-Anmeldung im Vorfeld
         %li Viele Verbesserungen bei der Bedienung
-        %li Startnummern
-        %li Losreihenfolge
     .col-md-6
       = toc.anker("Einführung per Video", :h2)
       = youtube_video("iShzo88TNz8")

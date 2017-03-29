@@ -141,7 +141,7 @@ module ApplicationHelper
   end
 
   def design_image(key, options={})
-    image_tag(asset_path("design_images/#{key}.png"), options)
+    image_tag("design_images/#{key}.png", options)
   end
 
   def score_links(scores)

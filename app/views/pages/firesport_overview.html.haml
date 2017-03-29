@@ -10,8 +10,9 @@
   .row
     .col-md-9
       %p
-        Der Wettkampf-Manager ist ein Programm zum Auswerten von Wettkämpfen. Unabhängig von Excel können Startlisten, Ergebnislisten und Gesamtwertungen erstellt werden. Die Eingabe der Daten ist über mehrere PCs gleichzeitig möglich. Eine Live-Tabelle kann über WLAN bereitgestellt werden.
-    .col-md-3= link_to("Weitere Informationen", url_for(action: :wettkampf_manager), class: "btn btn-default")
+        Der #{link_to('Wettkampf-Manager',  url_for(action: :wettkampf_manager))} ist ein Programm zum Auswerten von Feuerwehrsportwettkämpfen. Unabhängig von Excel können Startlisten, Ergebnislisten und Gesamtwertungen erstellt werden. Die Eingabe der Daten ist über mehrere PCs gleichzeitig möglich. Eine Live-Tabelle und alle Ergebnisse können über WLAN bereitgestellt werden.
+    .col-md-3
+      = link_to('Weitere Informationen', url_for(action: :wettkampf_manager), class: 'btn btn-default')
   = toc.anker("Online-Anmeldungen", :h2)
   .row
     .col-md-9
