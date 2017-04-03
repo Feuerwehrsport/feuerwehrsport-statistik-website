@@ -6,6 +6,13 @@ GIT
       railties (>= 3.1)
 
 GIT
+  remote: https://github.com/lichtbit/m3_log_file_parser.git
+  revision: 07ab2ab1e872db5859f7d85d185ceaa13ded4986
+  specs:
+    m3_log_file_parser (0.0.1)
+      rails (~> 4.0)
+
+GIT
   remote: ssh://gitolite3@stadthafen-rails/m3_capistrano
   revision: b4f0dad9d6cd20eafa58e28b87e437265efe2514
   ref: b4f0dad9d6cd20eafa58e28b87e437265efe2514
@@ -402,6 +409,7 @@ DEPENDENCIES
   jquery-rails
   lazy_high_charts
   m3_capistrano!
+  m3_log_file_parser!
   momentjs-rails!
   pg
   poltergeist
