@@ -16,8 +16,8 @@ class CompReg::Team < ActiveRecord::Base
 
   default_scope -> { order(:name, :team_number) }
   scope :manageable_by, -> (user) do
-    team_sql = Team.joins(:competition).merge(Competition.open).where(admin_user_id: user.id).select(:id).to_sql
-    competition_sql = Team.joins(:competition).where(comp_reg_competitions: { admin_user_id: user.id }).select(:id).to_sql
+    team_sql = CompReg::Team.joins(:competition).merge(CompReg::Competition.open).where(admin_user_id: user.id).select(:id).to_sql
+    competition_sql = CompReg::Team.joins(:competition).where(comp_reg_competitions: { admin_user_id: user.id }).select(:id).to_sql
     where("id IN ((#{team_sql}) UNION (#{competition_sql}))")
   end
 

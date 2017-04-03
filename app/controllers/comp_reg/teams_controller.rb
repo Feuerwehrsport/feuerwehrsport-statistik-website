@@ -32,7 +32,7 @@ class CompReg::TeamsController < CompReg::CompRegController
   end
 
   def build_instance
-    @competition = Competition.find(params[:competition_id]) if params[:competition_id].present?
+    @competition = CompReg::Competition.find(params[:competition_id]) if params[:competition_id].present?
     resource_class.build_from_last(competition: @competition, admin_user: current_admin_user)
   end
 
