@@ -23,14 +23,14 @@ class CompReg::PeopleController < CompReg::CompRegController
 
   def build_instance
     @competition = CompReg::Competition.find(params[:competition_id]) if params[:competition_id].present?
-    @team = Team.find(params[:team_id]) if params[:team_id].present?
+    @team = CompReg::Team.find(params[:team_id]) if params[:team_id].present?
     resource_class.new(competition: @competition, admin_user: current_admin_user, team: @team)
   end
 
   def before_create_success
     if resource_instance.team.nil?
-      deliver(CompetitionMailer, :new_person_registered, resource_instance)
-      deliver(PersonMailer, :notification_to_creator, resource_instance)
+      deliver(CompReg::CompetitionMailer, :new_person_registered, resource_instance)
+      deliver(CompReg::PersonMailer, :notification_to_creator, resource_instance)
     end
     if resource_instance.team.present?
       redirect_to action: :show, controller: :teams, id: resource_instance.team_id
