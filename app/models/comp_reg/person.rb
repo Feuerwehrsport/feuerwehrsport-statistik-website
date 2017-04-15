@@ -13,8 +13,8 @@ class CompReg::Person < ActiveRecord::Base
     where(comp_reg_competition_assessments: { id: assessment })
   end
   scope :manageable_by, -> (user) do
-    person_sql = Person.joins(:competition).merge(Competition.open).where(admin_user_id: user.id).select(:id).to_sql
-    competition_sql = Person.joins(:competition).where(comp_reg_competitions: { admin_user_id: user.id }).select(:id).to_sql
+    person_sql = CompReg::Person.joins(:competition).merge(CompReg::Competition.open).where(admin_user_id: user.id).select(:id).to_sql
+    competition_sql = CompReg::Person.joins(:competition).where(comp_reg_competitions: { admin_user_id: user.id }).select(:id).to_sql
     where("id IN ((#{person_sql}) UNION (#{competition_sql}))")
   end
 
