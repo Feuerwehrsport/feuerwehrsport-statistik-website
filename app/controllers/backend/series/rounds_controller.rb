@@ -1,13 +1,13 @@
 class Backend::Series::RoundsController < Backend::BackendController
   def new
-    @resouce_instance = Import::Series::Base.new
-    @possible_types = Import::Series::Base::TYPES
+    @resouce_instance = Import::Series.new
   end
 
   def create
     Caching::Cache.disable do
       ActiveRecord::Base.transaction do
-        @resouce_instance = import_series_class.new(permitted_params)
+        @resouce_instance = Import::Series.new(permitted_params)
+        @resouce_instance.run
 
         @person_assessments = ::Series::PersonAssessment.where(round: @resouce_instance.round).decorate
         @team_assessments_exists = ::Series::TeamAssessment.where(round: @resouce_instance.round).present?
@@ -62,8 +62,9 @@ class Backend::Series::RoundsController < Backend::BackendController
 
   protected
 
+
   def permitted_params
-    params.require(:import_series_base)
+    params.require(:import_series)
   end
 
   def import_series_class

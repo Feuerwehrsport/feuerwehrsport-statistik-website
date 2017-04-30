@@ -11,10 +11,9 @@
         %th Wettkampfserie
         %td= link_to(@resouce_instance.round.decorate, @resouce_instance.round)
 
-= simple_form_for(@resouce_instance, url: backend_series_rounds_path, as: :import_series_base) do |f|
+= simple_form_for(@resouce_instance, url: backend_series_rounds_path, as: :import_series) do |f|
   = f.input :competition_id, as: :hidden
   = f.input :series_round_id, as: :hidden
-  = f.input :series_type, as: :hidden
   = f.input :second_run, as: :hidden, value: "1"
   = nav_tab do |t|
     - @resouce_instance.assessment_configs.each do |assessment_config|
@@ -22,7 +21,7 @@
         - assessment_config.entities.each do |entity|
           .div
             %label
-              = check_box "import_series_base[selected_entities][#{assessment_config.id}]", entity.first, checked: entity.last
+              = check_box "import_series[selected_entities][#{assessment_config.id}]", entity.first, checked: entity.last
               = entity.second
   - if @resouce_instance.second_run
     .alert.alert-danger

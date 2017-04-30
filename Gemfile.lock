@@ -12,6 +12,11 @@ GIT
     m3_log_file_parser (0.0.1)
       rails (~> 4.0)
 
+PATH
+  remote: firesport-series
+  specs:
+    firesport-series (0.0.0)
+
 GIT
   remote: ssh://gitolite3@stadthafen-rails/m3_capistrano
   revision: b4f0dad9d6cd20eafa58e28b87e437265efe2514
@@ -403,6 +408,7 @@ DEPENDENCIES
   devise-i18n-views
   draper
   factory_girl
+  firesport-series!
   guard-rspec
   haml-rails
   icalendar

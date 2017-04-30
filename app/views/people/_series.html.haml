@@ -23,7 +23,7 @@
             = discipline_name(assessment.discipline)
             = assessment.name
         %td
-          - if row.rank <= assessment.round.aggregate_class.single_honor_rank
+          - if row.rank <= assessment.aggregate_class.honor_rank
             %strong= "#{row.rank}."
           - else
             = "#{row.rank}."

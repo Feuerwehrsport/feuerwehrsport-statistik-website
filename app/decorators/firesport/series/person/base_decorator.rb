@@ -1,4 +1,4 @@
-class Series::ParticipationRows::BaseDecorator < ApplicationDecorator
+class Firesport::Series::Person::BaseDecorator < ApplicationDecorator
   decorates_association :round
   decorates_association :entity
 
