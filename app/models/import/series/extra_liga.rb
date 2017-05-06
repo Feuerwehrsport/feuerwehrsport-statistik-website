@@ -4,7 +4,7 @@ class Import::Series::ExtraLiga < Import::Series::Base
 
   def assessment_disciplines
     {
-      person: { hb: [""], hl: [""] },
+      person: { hb: [""], hl: [""], hw: [""] },
       team: {},
       group: {},
     }
