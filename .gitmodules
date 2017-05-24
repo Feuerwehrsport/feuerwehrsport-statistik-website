@@ -3,4 +3,4 @@
 	url = git@github.com:Feuerwehrsport/firesport-series.git
 [submodule "firesport"]
 	path = firesport
-	url = ./firesport
+	url = git@github.com:Feuerwehrsport/firesport.git
