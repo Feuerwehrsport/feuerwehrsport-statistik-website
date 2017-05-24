@@ -16,6 +16,12 @@ PATH
   remote: firesport-series
   specs:
     firesport-series (0.0.0)
+      firesport
+
+PATH
+  remote: firesport
+  specs:
+    firesport (0.0.0)
 
 GIT
   remote: ssh://gitolite3@stadthafen-rails/m3_capistrano
@@ -408,6 +414,7 @@ DEPENDENCIES
   devise-i18n-views
   draper
   factory_girl
+  firesport!
   firesport-series!
   guard-rspec
   haml-rails

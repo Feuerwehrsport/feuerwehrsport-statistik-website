@@ -69,6 +69,7 @@ gem 'momentjs-rails', github: 'egeek/momentjs-rails'
 
 gem 'm3_log_file_parser', git: 'https://github.com/lichtbit/m3_log_file_parser.git'
 
+gem 'firesport', path: 'firesport'
 gem 'firesport-series', path: 'firesport-series'
 
 group :development do
