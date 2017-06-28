@@ -53,6 +53,7 @@ module FeuerwehrsportStatistik
     config.log_file_parser = OpenStruct.new(
       run_before: -> { `cd "#{logdir_path}" ; find -name "production.log-*" ! -name "*.gz" -exec ln -sf {} production.yesterday \\;` },
       log_path: "#{logdir_path}/production.yesterday",
+      output_if: -> (parser) { [parser.fatal_errors.present?, parser.error_requests.present?, parser.warn_requests.present?].any? },
     )
   end
 end
