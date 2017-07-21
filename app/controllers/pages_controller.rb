@@ -47,6 +47,7 @@ class PagesController < ResourceController
     @team3  = Team.find(3).decorate
     @team15 = Team.find(15).decorate
     @team61 = Team.find(61).decorate
+    @team1869 = Team.find(1869).decorate
   end
 
   def best_of
