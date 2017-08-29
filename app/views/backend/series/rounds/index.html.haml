@@ -2,6 +2,7 @@
   .row
     .col-md-9
       %h1 Wettkampfserien
-      = link_to("Wettkampf hinzufügen", action: :new)
+      = link_to("Wettkampf hinzufügen", { action: :new }, class: 'btn btn-default')
+      #create-round.btn.btn-default{ data: { class_names: Firesport::Series::Handler.team_class_names } } Serie hinzufügen
     .col-md-3= toc.index
   = render('series/rounds/index_overview', toc: toc, round_link_prefix: [:backend])

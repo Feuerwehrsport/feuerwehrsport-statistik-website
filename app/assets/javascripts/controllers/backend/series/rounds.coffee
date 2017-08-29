@@ -106,3 +106,20 @@ $ () ->
 
   new SortTable(selector: ".datatable-scores", direction: 'asc')
 
+
+  $(document).on 'click', '#create-round', () ->
+    teamClassNames = $(@).data('class-names')
+
+    classNameOptions = []
+    for teamClassName in teamClassNames
+      classNameOptions.push
+        value: teamClassName
+        display: teamClassName
+    FssWindow.build('Wettkampfserie hinzufügen')
+    .add(new FssFormRowText('name', 'Name'))
+    .add(new FssFormRowText('year', 'Jahr'))
+    .add(new FssFormRowSelect('aggregate_type', 'Klasse', null, classNameOptions))
+    .add(new FssFormRowCheckbox('official', 'Offiziell'))
+    .on('submit', (data) ->
+      Fss.ajaxReload('POST', 'series/rounds', series_round: data))
+    .open()

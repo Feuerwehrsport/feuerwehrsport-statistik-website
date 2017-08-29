@@ -87,7 +87,7 @@ Rails.application.routes.draw do
       resources :assessments, only: [:index]
       resources :cups, only: [:index]
       resources :participations, only: [:create, :show, :index, :update, :destroy]
-      resources :rounds, only: [:index]
+      resources :rounds, only: [:create, :index]
       resources :team_assessments, only: [:index]
     end
     resources :suggestions, only: [] do
