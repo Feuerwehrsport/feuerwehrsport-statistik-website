@@ -90,6 +90,12 @@ class Import::Series
       scores = scores.select do |score|
         [score.team_id.to_s, score.team_number.to_s].in?(selected_teams)
       end
+
+      selected_categories = find_assessment_config('categories').selected_entities.map { |key, name, selected| key }
+      scores = scores.select do |score|
+        score.group_score_category_id.to_s.in?(selected_categories)
+      end
+
       scores
     else
       selected_people = find_assessment_config("#{gender}-person#{name}").selected_entities.map do |key, name, selected|
@@ -114,6 +120,8 @@ class Import::Series
 
   def configure_assessments
     @assessment_configs = []
+    add_assessment_config('categories', competition.group_score_categories.map { |c| [c.id.to_s, "#{c.name} #{c.group_score_type.name}", true] })
+
     [:female, :male].each do |gender|
       group_teams = competition.group_assessment(group_assessment_disciplines.keys, gender).map {|ga| [ga.team.id, ga.team_number]}
       team_teams  = competition.group_scores.gender(gender).pluck(:team_id, :team_number)
