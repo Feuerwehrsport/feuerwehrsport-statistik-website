@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170323111455) do
+ActiveRecord::Schema.define(version: 20170829114824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -504,6 +504,7 @@ SELECT DISTINCT ON ((concat(hb_scores.competition_id, '-', hb_scores.person_id))
     t.datetime "created_at",     :null=>false
     t.datetime "updated_at",     :null=>false
     t.boolean  "official",       :default=>false, :null=>false
+    t.integer  "full_cup_count", :default=>4, :null=>false
   end
 
   create_table "tags", force: :cascade do |t|

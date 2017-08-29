@@ -107,19 +107,36 @@ $ () ->
   new SortTable(selector: ".datatable-scores", direction: 'asc')
 
 
-  $(document).on 'click', '#create-round', () ->
-    teamClassNames = $(@).data('class-names')
-
-    classNameOptions = []
+  classNameOptions = ->
+    teamClassNames = $('#create-round').data('class-names')
+    options = []
     for teamClassName in teamClassNames
-      classNameOptions.push
+      options.push
         value: teamClassName
         display: teamClassName
+    options
+
+  $('#create-round').click ->
     FssWindow.build('Wettkampfserie hinzufügen')
     .add(new FssFormRowText('name', 'Name'))
     .add(new FssFormRowText('year', 'Jahr'))
-    .add(new FssFormRowSelect('aggregate_type', 'Klasse', null, classNameOptions))
+    .add(new FssFormRowSelect('aggregate_type', 'Klasse', null, classNameOptions()))
     .add(new FssFormRowCheckbox('official', 'Offiziell'))
+    .add(new FssFormRowText('full_cup_count', 'Komplett', round.full_cup_count))
     .on('submit', (data) ->
       Fss.ajaxReload('POST', 'series/rounds', series_round: data))
     .open()
+
+  $('a[data-round-id]').each ->
+    id = $(@).data('round-id')
+    $('<button>').insertAfter($(@)).addClass('btn btn-default btn-xs').text('Edit').click ->
+      Fss.getResource 'series/rounds', id, (round) ->
+        FssWindow.build('Wettkampfserie bearbeiten')
+        .add(new FssFormRowText('name', 'Name', round.name))
+        .add(new FssFormRowText('year', 'Jahr', round.year))
+        .add(new FssFormRowSelect('aggregate_type', 'Klasse', round.aggregate_type, classNameOptions()))
+        .add(new FssFormRowCheckbox('official', 'Offiziell', round.official))
+        .add(new FssFormRowText('full_cup_count', 'Komplett', round.full_cup_count))
+        .on('submit', (data) ->
+          Fss.ajaxReload('PUT', "series/rounds/#{id}", series_round: data))
+        .open()

@@ -28,7 +28,7 @@ class Backend::Series::RoundsController < Backend::BackendController
   def index
     @rounds = {}
     ::Series::Round.pluck(:name).uniq.sort.each do |name|
-      @rounds[name] = ::Series::Round.cup_count.where(name: name)
+      @rounds[name] = ::Series::Round.cup_count.where(name: name).decorate
     end
   end
 

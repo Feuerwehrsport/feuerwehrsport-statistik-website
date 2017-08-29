@@ -49,6 +49,10 @@ class Series::Round < ActiveRecord::Base
     round_structs
   end
 
+  def cups_left
+    full_cup_count - cup_count
+  end
+
   protected
 
   def calculate_rows(cache)
