@@ -15,14 +15,18 @@
           %td{ rowspan: name_s.rowspan }= name_s.name
 
         - if year_s.present?
-          %td{ rowspan: year_s.rowspan }= year_s.year
+          %td{ rowspan: year_s.rowspan, class: assessment.round.complete? ? nil : 'text-muted' }
+            = year_s.year
+            - unless assessment.round.complete?
+              .small (offen)
 
         %td
           %a{ href: url_for(assessment) }
             = discipline_image(assessment.discipline)
             = discipline_name(assessment.discipline)
             = assessment.name
-        %td
+        %td{ class: assessment.round.complete? ? nil : 'text-muted' }
+
           - if row.rank <= assessment.aggregate_class.honor_rank
             %strong= "#{row.rank}."
           - else

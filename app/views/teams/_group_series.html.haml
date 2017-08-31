@@ -19,13 +19,15 @@
             %td
               - if struct.round.year != @year_before
                 = struct.round.year
+                - unless struct.round.complete?
+                  .small (offen)
               .small= "Mannschaft #{struct.team_number}"
-            %td
+            %td{ class: struct.round.complete? ? nil : 'text-muted' }
               - if struct.row.rank <= struct.round.aggregate_class.honor_rank
                 %strong= "#{struct.row.rank}."
               - else
                 = "#{struct.row.rank}."
-            %td.small= struct.row.points
+            %td.small{ class: struct.round.complete? ? nil : 'text-muted' }= struct.row.points
 
             - struct.cups.each do |cup|
               %td.small

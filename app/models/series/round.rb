@@ -53,6 +53,14 @@ class Series::Round < ActiveRecord::Base
     full_cup_count - cup_count
   end
 
+  def cup_count
+    attributes['cup_count'] || cups.count
+  end
+
+  def complete?
+    cups_left == 0
+  end
+
   protected
 
   def calculate_rows(cache)
