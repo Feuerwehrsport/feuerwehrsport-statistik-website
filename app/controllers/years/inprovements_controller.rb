@@ -3,7 +3,7 @@ class Years::InprovementsController < ResourceController
     @year = Year.find_by_year!(params[:year_id]).decorate
     @disciplines = [
       Years::Inprovement.new(@year.to_i, :hl, :female, @team),
-      Years::Inprovement.new(@year.to_i, :hb, :female, @team),
+      Years::Inprovement.new(@year.to_i, @year.to_i < 2017 ? :hb : :hw, :female, @team),
       Years::Inprovement.new(@year.to_i, :hl, :male, @team),
       Years::Inprovement.new(@year.to_i, :hb, :male, @team),
     ]

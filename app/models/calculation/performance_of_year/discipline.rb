@@ -5,7 +5,7 @@ module Calculation
 
       def self.get(year, count=nil)
         [
-          [:hb, :female],
+          [year.to_i > 2016 ? :hw : :hb, :female],
           [:hb, :male],
           [:hl, :female],
           [:hl, :male],

@@ -14,4 +14,8 @@ class Year < ActiveRecord::View
   def to_param
     year.to_i
   end
+
+  def to_i
+    to_param
+  end
 end

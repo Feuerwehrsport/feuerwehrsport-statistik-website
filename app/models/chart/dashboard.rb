@@ -35,6 +35,7 @@ module Chart
 
     def averages(discipline, gender)
       years.map do |year|
+        discipline = :hw if year > 2016 && discipline == :hb && gender == :female
         scores = Score.valid.discipline(discipline).gender(gender)
         with_sql = scores.
           select(:competition_id).
