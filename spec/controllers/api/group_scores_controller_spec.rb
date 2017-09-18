@@ -1,42 +1,43 @@
 require 'rails_helper'
 
 RSpec.describe API::GroupScoresController, type: :controller do
+  let(:group_score) { create(:group_score, :double) }
   describe 'GET show' do
-    it "returns group_score" do
-      get :show, id: 3
+    it 'returns group_score' do
+      get :show, id: group_score.id
       expect_json_response
       expect(json_body[:group_score]).to eq(
-        id: 3,
-        team_id: 10,
+        id: group_score.id,
+        team_id: group_score.team_id,
         team_number: 1,
-        gender: "male",
+        gender: 'male',
         time: 2287,
-        group_score_category_id: 30,
-        run: "",
-        discipline: "la",
-        second_time: "22,87",
-        translated_discipline_name: "Löschangriff nass",
+        group_score_category_id: group_score.group_score_category_id,
+        run: nil,
+        discipline: 'la',
+        second_time: '22,87',
+        translated_discipline_name: 'Löschangriff nass',
         similar_scores: [
           {
-            id: 3,
+            id: group_score.id,
             time: 2287,
-            second_time: "22,87",
+            second_time: '22,87',
             person_1: nil,
-            person_2: 69,
-            person_3: 88,
-            person_4: 57,
+            person_2: nil,
+            person_3: nil,
+            person_4: nil,
             person_5: nil,
             person_6: nil,
             person_7: nil
           },
           {
-            id: 4,
-            time: 2659,
-            second_time: "26,59",
+            id: group_score.team.group_scores.last.id,
+            time: 2345,
+            second_time: '23,45',
             person_1: nil,
-            person_2: 69,
-            person_3: 88,
-            person_4: 57,
+            person_2: nil,
+            person_3: nil,
+            person_4: nil,
             person_5: nil,
             person_6: nil,
             person_7: nil
@@ -47,34 +48,40 @@ RSpec.describe API::GroupScoresController, type: :controller do
   end
 
   describe 'PUT update' do
-    subject { -> { put :update, id: 111, group_score: { team_id: "44" } } }
-    it "update group_score", login: :sub_admin do
+    let(:team) { create(:team) }
+    subject { -> { put :update, id: group_score.id, group_score: { team_id: team.id } } }
+    it 'update group_score', login: :sub_admin do
       subject.call
       expect_json_response
-      expect(json_body[:group_score]).to include(team_id: 44)
-      expect(GroupScore.find(111).team_id).to eq 44
+      expect(json_body[:group_score]).to include(team_id: team.id)
+      expect(GroupScore.find(group_score.id).team_id).to eq team.id
     end
-    it_behaves_like "api user get permission error"
+    it_behaves_like 'api user get permission error'
   end
 
   describe 'PUT person_participation' do
-    let(:persons_in) { {  person_1: 1, person_2: 2, person_3: 3, person_4: 4, person_5: "NULL", person_6: 6, person_7: 9999999999 } }
-    let(:persons_out) { { person_1: 1, person_2: 2, person_3: 3, person_4: 4, person_5: nil,    person_6: 6, person_7: nil } }
+    let(:p1) { create(:person) }
+    let(:p2) { create(:person) }
+    let(:p3) { create(:person) }
+    let(:p4) { create(:person) }
+    let(:p6) { create(:person) }
+    let(:persons_in) { {  person_1: p1.id, person_2: p2.id, person_3: p3.id, person_4: p4.id, person_5: 'NULL', person_6: p6.id, person_7: 9999999999 } }
+    let(:persons_out) { {  person_1: p1.id, person_2: p2.id, person_3: p3.id, person_4: p4.id, person_5: nil, person_6: p6.id, person_7: nil } }
 
-    it "updates person_participations", login: :api do
-      put :person_participation, id: 3, group_score: persons_in
+    it 'updates person_participations', login: :api do
+      put :person_participation, id: group_score.id, group_score: persons_in
       expect_json_response
       expect(json_body[:group_score]).to include(
         similar_scores: [
-          persons_out.merge(id: 3, time: 2287, second_time: "22,87"),
+          persons_out.merge(id: group_score.id, time: 2287, second_time: '22,87'),
           {
-            id: 4,
-            time: 2659,
-            second_time: "26,59",
+            id: group_score.team.group_scores.last.id,
+            time: 2345,
+            second_time: '23,45',
             person_1: nil,
-            person_2: 69,
-            person_3: 88,
-            person_4: 57,
+            person_2: nil,
+            person_3: nil,
+            person_4: nil,
             person_5: nil,
             person_6: nil,
             person_7: nil

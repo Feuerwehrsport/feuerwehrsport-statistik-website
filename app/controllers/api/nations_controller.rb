@@ -1,4 +1,3 @@
 class API::NationsController < API::BaseController
-  include API::CRUD::ShowAction
-  include API::CRUD::IndexAction
+  api_actions :show, :index, change_log: true
 end

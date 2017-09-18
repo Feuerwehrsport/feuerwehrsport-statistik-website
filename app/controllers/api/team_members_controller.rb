@@ -1,3 +1,3 @@
 class API::TeamMembersController < API::BaseController
-  include API::CRUD::IndexAction
+  api_actions :index
 end

@@ -1,9 +1,6 @@
 class API::ChangeRequestsController < API::BaseController
-  include API::CRUD::CreateAction
-  include API::CRUD::IndexAction
-  include API::CRUD::UpdateAction
-  include API::CRUD::ChangeLogSupport
-
+  api_actions :create, :index, :update, change_log: true,
+    update_form: [:done]
   before_action :assign_instance_for_show_file, only: :files
 
   def files
@@ -17,23 +14,21 @@ class API::ChangeRequestsController < API::BaseController
   end
 
   def assign_instance_for_show_file
-    self.resource_instance = ChangeRequest.find(params[:change_request_id]).decorate
-    authorize!(:show, resource_instance)
-    @change_request_file = resource_instance.files[params[:id].to_i].to_h
+    self.resource = ChangeRequest.find(params[:change_request_id]).decorate
+    @change_request_file = resource.files[params[:id].to_i].to_h
     raise ActiveRecord::RecordNotFound.new unless @change_request_file.present?
   end
 
-  def create_permitted_attributes
-    super_attributes = super
-    super_attributes.permit(content: permit_scalar_attributes(super_attributes[:content]), files: [])
+  def resource_params
+    if action_name == 'create'
+      params[resource_params_name].permit(content: permit_scalar_attributes(params[resource_params_name][:content]), files: [])
+    else
+      super
+    end
   end
 
-  def update_permitted_attributes
-    super.permit(:done)
-  end
-
-  def before_create_success
-    deliver(ChangeRequestMailer, :new_notification, resource_instance)
+  def after_create
+    deliver_later(ChangeRequestMailer, :new_notification, resource)
     super
   end
 

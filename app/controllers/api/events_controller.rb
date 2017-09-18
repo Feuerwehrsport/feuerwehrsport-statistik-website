@@ -1,12 +1,4 @@
 class API::EventsController < API::BaseController
-  include API::CRUD::CreateAction
-  include API::CRUD::ShowAction
-  include API::CRUD::IndexAction
-  include API::CRUD::ChangeLogSupport
-  
-  protected
-
-  def create_permitted_attributes
-    permitted_attributes.permit(:name)
-  end
+  api_actions :create, :show, :index, change_log: true,
+    default_form: [:name]
 end

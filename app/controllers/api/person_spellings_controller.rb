@@ -1,3 +1,3 @@
 class API::PersonSpellingsController < API::BaseController
-  include API::CRUD::IndexAction
+  api_actions :index, change_log: true
 end

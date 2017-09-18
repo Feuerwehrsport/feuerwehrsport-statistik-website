@@ -1,5 +1,6 @@
 class API::APIUsersController < API::BaseController
-  include API::CRUD::CreateAction
+  api_actions :create,
+    default_form: [:name, :email_address]
 
   def status
     success
@@ -7,17 +8,18 @@ class API::APIUsersController < API::BaseController
 
   def logout
     reset_session
+    @current_api_user = nil
     success
   end
 
   protected
 
-  def before_create_success
-    session[:api_user_id] = resource_instance.id
-    super
+  def after_create
+    session[:api_user_id] = resource.id
+    success
   end
 
-  def permitted_attributes
-    super.permit(:name, :email_address).merge(request_headers: request.headers)
+  def build_resource
+    super.tap { |r| r.request_headers = request.headers }
   end
 end

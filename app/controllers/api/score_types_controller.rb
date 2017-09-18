@@ -1,3 +1,3 @@
 class API::ScoreTypesController < API::BaseController
-  include API::CRUD::IndexAction
+  api_actions :index
 end

@@ -1,3 +1,3 @@
 class API::Series::CupsController < API::BaseController
-  include API::CRUD::IndexAction
+  api_actions :index
 end

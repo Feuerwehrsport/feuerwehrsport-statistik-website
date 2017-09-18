@@ -1,14 +1,9 @@
 class API::GroupScoreTypesController < API::BaseController
-  include API::CRUD::CreateAction
-  include API::CRUD::IndexAction
-  include API::CRUD::ChangeLogSupport
+  api_actions :create, :index, change_log: true,
+    default_form: [:name, :discipline]
 
   protected
 
-  def create_permitted_attributes
-    permitted_attributes.permit(:name, :discipline)
-  end
-  
   def base_collection
     super_collection = super
     super_collection = super_collection.where(discipline: params[:discipline]) if params[:discipline].present?

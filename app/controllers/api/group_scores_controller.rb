@@ -1,13 +1,14 @@
 class API::GroupScoresController < API::BaseController
-  include API::CRUD::ShowAction
-  include API::CRUD::UpdateAction
-  include API::CRUD::ChangeLogSupport
-  before_action :assign_instance_for_person_participation, only: :person_participation
+  api_actions :show, :update, change_log: true,
+    default_form: [:team_id].push((1..7).map { |i| :"person_#{i}" })
   
   def person_participation
+    assign_resource
+    authorize!(:person_participation, resource)
+    save_attributes_for_logging
     begin
       change_person_participations
-      before_person_participation_success
+      success(resource_modulized_name.to_sym => resource_update_object, resource_name: resource_modulized_name)
     rescue ActiveRecord::RecordInvalid => e
       failed(message: e.message)
     end
@@ -15,31 +16,16 @@ class API::GroupScoresController < API::BaseController
 
   protected
 
-  def update_permitted_attributes
-    permitted_attributes.permit(:team_id)
-  end
-
-  def assign_instance_for_person_participation
-    assign_existing_instance
-    authorize!(:update_person_participation, resource_instance)
-    self.resource_instance = resource_instance.decorate
-    save_attributes_for_logging
-  end
-
-  def before_person_participation_success
-    success(resource_variable_name.to_sym => resource_instance, resource_name: resource_variable_name)
-  end
-
   def change_person_participations
     GroupScore.transaction do
       changed = false
       (1..7).each do |position|
-        if permitted_attributes["person_#{position}"].present?
-          participation = resource_instance.person_participations.where(position: position).first_or_initialize
-          participation.person = Person.find_by_id(permitted_attributes["person_#{position}"])
+        if resource_params["person_#{position}"].present?
+          participation = resource.person_participations.where(position: position).first_or_initialize
+          participation.person = Person.find_by_id(resource_params["person_#{position}"])
           if participation.changed?
             if participation.person.nil?
-              resource_instance.person_participations.where(position: position).destroy_all
+              resource.person_participations.where(position: position).destroy_all
             else
               participation.save!
             end
@@ -48,7 +34,7 @@ class API::GroupScoresController < API::BaseController
         end
       end
       if changed
-        resource_instance.reload
+        resource.reload
         perform_logging
         clean_cache_and_build_new
       end

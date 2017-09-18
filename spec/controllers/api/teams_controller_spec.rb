@@ -1,9 +1,21 @@
 require 'rails_helper'
 
 RSpec.describe API::TeamsController, type: :controller do
+  let(:team) { create(:team) }
+  let(:team_attributes) {{
+    id: team.id,
+    latitude: '52.12',
+    longitude: '14.45',
+    name: 'FF Warin',
+    shortcut: 'Warin',
+    state: 'MV',
+    status: 'fire_station',
+    tile_path: nil,
+  }}
+
   describe 'POST create' do
-    subject { -> { post :create, team: { name: "Mannschaft1", shortcut: "Mann1", status: "fire_station" } } }
-    it "creates new team", login: :api do
+    subject { -> { post :create, team: { name: 'Mannschaft1', shortcut: 'Mann1', status: 'fire_station' } } }
+    it 'creates new team', login: :api do
       expect {
         subject.call
         expect_api_login_response
@@ -12,35 +24,19 @@ RSpec.describe API::TeamsController, type: :controller do
   end
 
   describe 'GET show' do
-    it "returns team" do
-      get :show, id: 1
-      expect(json_body[:team]).to eq(
-        id: 1,
-        latitude: "52.5611297253",
-        longitude: "14.0714263916",
-        name: "FF Buckow",
-        shortcut: "Buckow",
-        state: "BB",
-        status: "fire_station",
-        tile_path: nil,
-      )
+    it 'returns team' do
+      get :show, id: team.id
+      expect(json_body[:team]).to eq team_attributes
     end
 
-    context "when extended" do
-      it "returns team" do
-        get :show, id: 1, extended: "1"
-        expect(json_body[:team]).to include(
-          id: 1,
-          latitude: "52.5611297253",
-          longitude: "14.0714263916",
-          name: "FF Buckow",
-          shortcut: "Buckow",
-          state: "BB",
-          status: "fire_station",
-          tile_path: nil,
-        )
-        expect(json_body[:team][:single_scores]).to have(59).items
-        expect(json_body[:team][:la_scores]).to have(5).items
+    context 'when extended' do
+      let!(:score) { create(:score, team: team) }
+      let!(:group_score) { create(:group_score, team: team) }
+      it 'returns team' do
+        get :show, id: team.id, extended: 1
+        expect(json_body[:team]).to include(team_attributes)
+        expect(json_body[:team][:single_scores]).to have(1).items
+        expect(json_body[:team][:la_scores]).to have(1).items
         expect(json_body[:team][:fs_scores]).to have(0).items
         expect(json_body[:team][:gs_scores]).to have(0).items
       end
@@ -48,75 +44,55 @@ RSpec.describe API::TeamsController, type: :controller do
   end
 
   describe 'GET index' do
-    it "returns teams" do
+    before { team }
+    it 'returns teams' do
       get :index
       expect_json_response
-      expect(json_body[:teams].first).to include(id: 7, name: "Auswahl Berlin")
+      expect(json_body[:teams].first).to eq team_attributes
     end
   end
 
   describe 'PUT update' do
-    let(:team_attributes) { { latitude: "12", longitude: "34" } }
-    subject { -> { put :update, id: 1, team: team_attributes } }
-    it "updates team", login: :api do
+    let(:changed_attributes) { { latitude: '12.0', longitude: '34.0' } }
+    subject { -> { put :update, id: team.id, team: changed_attributes } }
+    it 'updates team', login: :api do
       subject.call
-      expect(json_body[:team]).to eq(
-        id: 1,
-        latitude: "12.0",
-        longitude: "34.0",
-        name: "FF Buckow",
-        shortcut: "Buckow",
-        state: "BB",
-        status: "fire_station",
-        tile_path: nil,
-      )
+      expect(json_body[:team]).to eq(team_attributes.merge(changed_attributes))
     end
 
-    context "when updating extended attributes" do
-      let(:team_attributes) { { name: "FF Hanswurst", shortcut: "Hanswurst", status: "team" } }
-      context "when user have not enough permissions", login: :api do
-        it "failes to update" do
+    context 'when updating extended attributes' do
+      let(:changed_attributes) { { name: 'FF Hanswurst', shortcut: 'Hanswurst', status: 'team' } }
+      context 'when user have not enough permissions', login: :api do
+        it 'failes to update' do
           subject.call
-          expect(json_body[:team]).to include(
-            name: "FF Buckow",
-            shortcut: "Buckow",
-            status: "fire_station",
-          )
+          expect(json_body[:team]).to eq(team_attributes)
         end
       end
-      it "success", login: :sub_admin do
+      it 'success', login: :sub_admin do
         subject.call
-        expect(json_body[:team]).to include(team_attributes)
+        expect(json_body[:team]).to eq(team_attributes.merge(changed_attributes))
       end
     end
   end
 
   describe 'POST merge' do
-    subject { -> { put :merge, id: 1, correct_team_id: 2, always: 1 } }
-    it "merge two teams", login: :sub_admin do
+    let(:bad_team) { create(:team, :mv) }
+    subject { -> { put :merge, id: bad_team.id, correct_team_id: team.id, always: 1 } }
+    it 'merge two teams', login: :sub_admin do
       expect_any_instance_of(Team).to receive(:merge_to).and_call_original
       expect {
         subject.call
       }.to change(TeamSpelling, :count).by(1)
       
       expect_json_response
-      expect(json_body[:team]).to eq(
-        id: 2,
-        latitude: "53.6851567563",
-        longitude: "12.2669005394",
-        name: "Team Mecklenburg-Vorpommern",
-        shortcut: "Team MV",
-        state: "MV",
-        status: "team",
-        tile_path: nil,
-      )
+      expect(json_body[:team]).to eq(team_attributes)
     end
 
-    it "creates entity_merge", login: :sub_admin do
+    it 'creates entity_merge', login: :sub_admin do
       expect {
         subject.call
       }.to change(EntityMerge, :count).by(1)
     end
-    it_behaves_like "api user get permission error"
+    it_behaves_like 'api user get permission error'
   end
 end

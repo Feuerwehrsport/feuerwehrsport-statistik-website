@@ -1,22 +1,18 @@
 class API::AppointmentsController < API::BaseController
-  include API::CRUD::CreateAction
-  include API::CRUD::ShowAction
-  include API::CRUD::UpdateAction
-  include API::CRUD::ChangeLogSupport
+  api_actions :create, :show, :update, change_log: true,
+    default_form: [:name, :description, :dated_at, :disciplines, :place_id, :event_id]
 
   protected
 
-  def permitted_attributes
-    super.permit(:name, :description, :dated_at, :disciplines, :place_id, :event_id)
+  def build_resource
+    super.tap { |r| r.assign_attributes(creator: current_user) }
   end
 
-  def build_instance
-    resource_class.new(creator: current_user)
+  def resource_show_object
+    super.tap { |r| r.updateable = can?(:update, resource) }
   end
 
-  def resource_instance_show_object
-    object = super
-    object.current_user = current_user
-    object
+  def resource_update_object
+    resource_show_object
   end
 end

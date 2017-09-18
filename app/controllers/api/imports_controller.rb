@@ -1,6 +1,7 @@
 class API::ImportsController < API::BaseController
-  include API::CRUD::ChangeLogSupport
+  include API::Actions::ChangeLogSupport
   before_action :authorize_action
+
   def check_lines
     check = Import::Check.new(check_params)
     if check.valid?
@@ -12,9 +13,9 @@ class API::ImportsController < API::BaseController
   end
 
   def scores
-    if resource_instance.valid?
+    if resource.valid?
       begin
-        resource_instance.save!
+        resource.save!
         perform_logging
         clean_cache_and_build_new
         success
@@ -22,7 +23,7 @@ class API::ImportsController < API::BaseController
         failed(message: e.message)
       end
     else
-      failed(message: resource_instance.errors.full_messages.to_sentence)
+      failed(message: resource.errors.full_messages.to_sentence)
     end
   end
 
@@ -32,8 +33,8 @@ class API::ImportsController < API::BaseController
     Import::Scores
   end
 
-  def resource_instance
-    @resource_instance ||= resource_class.new(import_params)
+  def resource
+    @resource ||= resource_class.new(import_params)
   end
 
   def authorize_action

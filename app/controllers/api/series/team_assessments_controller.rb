@@ -1,5 +1,5 @@
 class API::Series::TeamAssessmentsController < API::BaseController
-  include API::CRUD::IndexAction
+  api_actions :index
 
   protected
 

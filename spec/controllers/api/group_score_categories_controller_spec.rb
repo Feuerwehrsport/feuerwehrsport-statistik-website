@@ -1,55 +1,62 @@
 require 'rails_helper'
 
 RSpec.describe API::GroupScoreCategoriesController, type: :controller do
+  let(:group_score_category) { create(:group_score_category) }
+
   describe 'GET index' do
-    it "returns group_score_categories" do
+    before { group_score_category }
+    it 'returns group_score_categories' do
       get :index
       expect_json_response
       expect(json_body[:group_score_categories].first).to eq(
-        id: 1, 
-        group_score_type: "WKO DIN-Pumpe", 
-        competition: "14.06.2008 - Charlottenthal, D-Cup", 
-        name: "default",
+        id: group_score_category.id,
+        group_score_type: 'WKO',
+        competition: '01.05.2017 - Charlottenthal, D-Cup (Erster Lauf)',
+        name: 'default',
       )
     end
 
-    context "when discipline given" do
-      before { GroupScoreCategory.last.update!(group_score_type: GroupScoreType.where(discipline: :gs).first) }
-      it "returns group_score_categories" do
-        get :index, discipline: "gs"
+    context 'when discipline given' do
+      let(:group_score_type) { create(:group_score_type, discipline: :gs) }
+      let(:group_score_category) { create(:group_score_category, group_score_type: group_score_type) }
+      it 'returns group_score_categories' do
+        get :index, discipline: 'gs'
         expect_json_response
         expect(json_body[:group_score_categories].first).to eq(
-          id: 99, 
-          group_score_type: "WKO", 
-          competition: "16.06.2012 - Doberlug-Kirchhain, Stadtausscheid", 
-          name: "default",
+          id: group_score_category.id,
+          group_score_type: 'WKO',
+          competition: '01.05.2017 - Charlottenthal, D-Cup (Erster Lauf)',
+          name: 'default',
         )
       end
     end
 
-    context "when competition_id given" do
-      it "returns group_score_categories" do
-        get :index, competition_id: "40"
+    context 'when competition_id given' do
+      let!(:group_score_category2) { create(:group_score_category, competition: create(:competition)) }
+      it 'returns group_score_categories' do
+        get :index, competition_id: group_score_category2.competition.id
         expect_json_response
         expect(json_body[:group_score_categories].first).to eq(
-          id: 25, 
-          group_score_type: "WKO DIN-Pumpe", 
-          competition: "08.05.2010 - Buch, Pokallauf", 
-          name: "default",
+          id: group_score_category2.id,
+          group_score_type: 'WKO',
+          competition: '01.05.2017 - Charlottenthal, D-Cup (Erster Lauf)',
+          name: 'default',
         )
       end
     end
   end
 
   describe 'POST create' do
-    subject { -> { post :create, group_score_category: { name: "FooBar", competition_id: 1, group_score_type_id: 1 } } }
-    it "creates new group_score_category", login: :sub_admin do
+    let(:competition) { create(:competition) }
+    let(:group_score_type) { create(:group_score_type) }
+    subject { -> { post :create, group_score_category: { name: 'FooBar', competition_id: competition.id, group_score_type_id: group_score_type.id } } }
+    it 'creates new group_score_category', login: :sub_admin do
       expect {
         subject.call
         expect_api_login_response
       }.to change(GroupScoreCategory, :count).by(1)
-      expect(GroupScoreCategory.last.name).to eq "FooBar"
+      expect(GroupScoreCategory.last.name).to eq 'FooBar'
     end
-    it_behaves_like "api user get permission error"
+    it_behaves_like 'api user get permission error'
   end
 end
