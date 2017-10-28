@@ -1,56 +1,26 @@
 source 'https://rubygems.org'
 
-gem 'rails'
-gem 'pg'
+gem 'm3', path: 'm3'
+gem 'pg', '~> 0.20.0' # eliminated deprecation warnings
+gem 'responders'
 
-# Use SCSS for stylesheets
-gem 'sass-rails'
+gem 'firesport', path: 'firesport'
+gem 'firesport-series', path: 'firesport-series'
+
 gem 'jquery-rails'
-gem 'bootstrap-sass'
-#gem 'jquery-datatables-rails', '~> 3.3.0'
-# Use Uglifier as compressor for JavaScript assets
 gem 'uglifier'
-# Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails'
-# haml support
-gem 'haml-rails'
-gem 'simple_form'
 gem 'cocoon' # nested_form helper
-gem 'will_paginate'
-gem 'will_paginate-bootstrap'
-gem 'sprockets'
-gem 'sprockets-rails'
 
-# Draper as model decorator
-gem 'draper'
 gem 'active_model_serializers'
-
-# Use Unicorn as the app server
-gem 'unicorn'
-gem 'whenever', require: false
-gem 'delayed_job_active_record'
-gem 'daemons'
-
-# image and pdf uploader
-gem 'carrierwave'
-gem 'rmagick'
-
-# user rights management
-gem 'devise'
-gem 'devise-i18n-views'
-gem 'cancancan'
 
 # charts
 gem 'lazy_high_charts'
-
-# extra validations
-gem 'validates_email_format_of'
 
 # ics export
 gem 'icalendar'
 
 # export
-gem 'axlsx_rails'
 gem 'prawn'
 gem 'prawn-table'
 gem 'prawnto'
@@ -59,50 +29,25 @@ gem 'rqrcode_png'
 # markdown
 gem 'redcarpet'
 
-
+# validation
+gem 'schema_validations'
 gem 'schema_plus_views'
 
-# datetimepicker for simple_form
-gem 'momentjs-rails', github: 'egeek/momentjs-rails'
-# used for generating files:
-# gem 'datetimepicker-rails', github: 'zpaulovics/datetimepicker-rails', branch: 'master', submodules: true
+group :production do
+  gem 'unicorn'
+  gem 'm3_log_file_parser', git: 'https://github.com/lichtbit/m3_log_file_parser.git'
+end
 
-gem 'm3_log_file_parser', git: 'https://github.com/lichtbit/m3_log_file_parser.git'
-
-gem 'firesport', path: 'firesport'
-gem 'firesport-series', path: 'firesport-series'
+group :development, :test do
+  # Bug in Bundler Version 1.11.2: https://github.com/bundler/bundler/issues/3981
+  # gem 'm3_rspec', require: false, git: 'ssh://gitolite3@stadthafen-rails/m3_rspec'
+  gem 'm3_rspec', path: '../m3_rspec'
+end
 
 group :development do
-  gem 'm3_capistrano', require: false, git: 'ssh://gitolite3@stadthafen-rails/m3_capistrano', branch: 'master', ref: 'b4f0dad9d6cd20eafa58e28b87e437265efe2514'
-  # gem 'm3_capistrano', path: '../m3_capistrano'
-
-  # to test email
-  gem 'recipient_interceptor'
-end
-
-group :development, :test, :test_dump do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  #gem 'byebug'
-  
-  gem 'pry'
-  gem 'pry-byebug'
-
-  # Access an IRB console on exception pages or by using <%= console %> in views
-  #gem 'web-console', '~> 2.0'
-  gem 'timecop'
-
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-  gem 'spring-commands-rspec'
 
-  gem 'factory_girl'
-
-  gem 'rspec-rails'
-  gem 'rspec-collection_matchers'
-  gem 'guard-rspec', require: false
-  gem 'database_cleaner'
-  gem 'capybara'
-  gem 'poltergeist'
-  gem 'capybara-screenshot'
+  gem 'm3_capistrano', require: false, git: 'ssh://gitolite3@stadthafen-rails/m3_capistrano'
+  # gem 'm3_capistrano', path: '../m3_capistrano'
 end
-

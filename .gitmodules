@@ -4,3 +4,6 @@
 [submodule "firesport"]
 	path = firesport
 	url = git@github.com:Feuerwehrsport/firesport.git
+[submodule "m3"]
+	path = m3
+	url = ssh://gitolite3@stadthafen-rails/m3
