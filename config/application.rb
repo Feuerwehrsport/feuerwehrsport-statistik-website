@@ -41,5 +41,6 @@ module FeuerwehrsportStatistik
       log_path: "#{logdir_path}/production.yesterday",
       output_if: ->(parser) { [parser.fatal_errors.present?, parser.error_requests.present?, parser.warn_requests.present?].any? },
     )
+    config.m3.session.login_redirect_url = { controller: 'backend/dashboards', action: :index }
   end
 end
