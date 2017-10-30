@@ -1,6 +1,7 @@
-%fieldset
-  %legend Wettkampf
-  .row
+.section
+  .container.page-header
+    %h1 Wettkampf
+  .container
     .col-md-2
       %input#competition-type-sorted{checked: "checked", name: "competition-type", type: "radio", value: "sorted"}/
       %label{for: "competition-type-sorted"} Sortiert
@@ -30,7 +31,7 @@
       %button.add-group-score-type Gruppen-Typ
     #show-group-score-types.col-md-3
       %table.table
-  .row
+  .container
     .col-md-2
       %h4 Löschangriff
       %button.add-discipline.discipline-la-male male
@@ -51,4 +52,5 @@
     .col-md-2
       %h4 Gruppenstafette
       %button.add-discipline.discipline-gs-female female
-#disciplines
+  .container
+    #disciplines
