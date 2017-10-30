@@ -8,12 +8,12 @@
 .row
   .col-md-3= discipline.chart.invalid_pie
   .col-md-9= discipline.chart.single_scores_overview
-= count_table(discipline.scores, class: "datatable scores-single change-team") do |t|
+= count_table(discipline.scores, class: 'datatable scores-single change-team') do |t|
   - t.data('score-id') { |row| row.id }
-  - t.col("Nachname", [:person, :last_name], class: "col-20", link_to: :person)
-  - t.col("Vorname", [:person, :first_name], class: "col-20", link_to: :person)
-  - t.col("Mannschaft", helper_method: :numbered_team_link, class: "small col-20")
-  - t.col("Zeit", :second_time, class: "col-10 time-col")
+  - t.col('Nachname', [:person, :last_name], class: 'col-20', link_to: :person)
+  - t.col('Vorname', [:person, :first_name], class: 'col-20', link_to: :person)
+  - t.col('Mannschaft', helper_method: :numbered_team_link, class: 'small col-20')
+  - t.col('Zeit', :second_time, class: 'col-10 time-col')
 
 - if !discipline.category && @competition.score_type.present?
   %h2
@@ -22,9 +22,9 @@
     = g(discipline.gender)
     %small Mannschaftswertung
 
-  = count_table(@competition.group_assessment(discipline.discipline, discipline.gender)) do |ct|
-    - ct.col("Team", helper_method: :numbered_team_link)
-    - ct.col("Summe", :second_time)
-    - ct.col("Wertung", class: "small") { |row| row.score_in_assessment.map {|s| link_to(s.person.short_name, s.person) }.join(", ").html_safe }
-    - ct.col("Außerhalb", class: "small") { |row| row.score_out_assessment.map {|s| link_to(s.person.short_name, s.person) }.join(", ").html_safe }
+  = count_table(resource.group_assessment(discipline.discipline, discipline.gender)) do |ct|
+    - ct.col('Team', helper_method: :numbered_team_link)
+    - ct.col('Summe', :second_time)
+    - ct.col('Wertung', class: 'small') { |row| row.score_in_assessment.map {|s| link_to(s.person.short_name, s.person) }.join(', ').html_safe }
+    - ct.col('Außerhalb', class: 'small') { |row| row.score_out_assessment.map {|s| link_to(s.person.short_name, s.person) }.join(', ').html_safe }
   

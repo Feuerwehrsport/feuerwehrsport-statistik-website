@@ -3,5 +3,5 @@
     .col-md-9
       %h1 Vorschau der Änderungen
     .col-md-3= toc.index
-  = render('single_show', toc: toc)
-  = toc.anker("Fortfahren mit Auswahl", :h3)
+  = render 'backend/series/rounds/single_show', toc: toc, round: round
+  = toc.anker('Fortfahren mit Auswahl', :h3)

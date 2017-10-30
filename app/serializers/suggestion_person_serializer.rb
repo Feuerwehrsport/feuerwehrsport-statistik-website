@@ -1,5 +1,5 @@
 class SuggestionPersonSerializer < ActiveModel::Serializer
-  attributes :id, :last_name, :first_name, :gender, :translated_gender, :teams
+  attributes :id, :last_name, :first_name, :gender, :gender_translated, :teams
 
   def teams
     object.teams.map(&:shortcut)

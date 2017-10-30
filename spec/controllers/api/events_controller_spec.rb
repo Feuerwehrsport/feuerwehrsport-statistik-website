@@ -5,10 +5,10 @@ RSpec.describe API::EventsController, type: :controller do
   describe 'POST create' do
     subject { -> { post :create, event: { name: 'Wurstevent' } } }
     it 'creates new event', login: :sub_admin do
-      expect {
+      expect do
         subject.call
         expect_api_login_response
-      }.to change(Event, :count).by(1)
+      end.to change(Event, :count).by(1)
     end
     it_behaves_like 'api user get permission error'
   end

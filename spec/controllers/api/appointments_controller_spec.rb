@@ -21,10 +21,10 @@ RSpec.describe API::AppointmentsController, type: :controller do
 
   describe 'POST create' do
     it 'creates new appointment', login: :api do
-      expect {
+      expect do
         post :create, appointment: { name: 'Termin1', description: 'Beschreibung', dated_at: '2016-02-29' }
         expect_api_login_response
-      }.to change(Appointment, :count).by(1)
+      end.to change(Appointment, :count).by(1)
     end
   end
 
@@ -51,7 +51,7 @@ RSpec.describe API::AppointmentsController, type: :controller do
     it 'update appointment', login: :sub_admin do
       subject.call
       expect_api_login_response resource_name: 'appointment', appointment: expected_attributes.merge(appointment_changes.merge(
-        updateable: true,
+                                                                                                       updateable: true,
       ))
     end
     it_behaves_like 'api user get permission error'

@@ -28,7 +28,7 @@ RSpec.describe API::GroupScoresController, type: :controller do
             person_4: nil,
             person_5: nil,
             person_6: nil,
-            person_7: nil
+            person_7: nil,
           },
           {
             id: group_score.team.group_scores.last.id,
@@ -40,9 +40,9 @@ RSpec.describe API::GroupScoresController, type: :controller do
             person_4: nil,
             person_5: nil,
             person_6: nil,
-            person_7: nil
-          }
-        ]
+            person_7: nil,
+          },
+        ],
       )
     end
   end
@@ -65,8 +65,8 @@ RSpec.describe API::GroupScoresController, type: :controller do
     let(:p3) { create(:person) }
     let(:p4) { create(:person) }
     let(:p6) { create(:person) }
-    let(:persons_in) { {  person_1: p1.id, person_2: p2.id, person_3: p3.id, person_4: p4.id, person_5: 'NULL', person_6: p6.id, person_7: 9999999999 } }
-    let(:persons_out) { {  person_1: p1.id, person_2: p2.id, person_3: p3.id, person_4: p4.id, person_5: nil, person_6: p6.id, person_7: nil } }
+    let(:persons_in) { { person_1: p1.id, person_2: p2.id, person_3: p3.id, person_4: p4.id, person_5: 'NULL', person_6: p6.id, person_7: 9_999_999_999 } }
+    let(:persons_out) { { person_1: p1.id, person_2: p2.id, person_3: p3.id, person_4: p4.id, person_5: nil, person_6: p6.id, person_7: nil } }
 
     it 'updates person_participations', login: :api do
       put :person_participation, id: group_score.id, group_score: persons_in
@@ -84,8 +84,8 @@ RSpec.describe API::GroupScoresController, type: :controller do
             person_4: nil,
             person_5: nil,
             person_6: nil,
-            person_7: nil
-          }
+            person_7: nil,
+          },
         ],
       )
     end

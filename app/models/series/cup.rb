@@ -6,7 +6,7 @@ class Series::Cup < ActiveRecord::Base
   has_many :assessments, through: :round, class_name: 'Series::Assessment'
   has_many :participations, dependent: :destroy, class_name: 'Series::Participation'
 
-  default_scope -> { joins(:competition).order("competitions.date")}
+  default_scope -> { joins(:competition).order('competitions.date') }
 
   validates :round, :competition, presence: true
 end

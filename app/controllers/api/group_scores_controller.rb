@@ -1,7 +1,7 @@
 class API::GroupScoresController < API::BaseController
   api_actions :show, :update, change_log: true,
-    default_form: [:team_id].push((1..7).map { |i| :"person_#{i}" })
-  
+                              default_form: [:team_id].push((1..7).map { |i| :"person_#{i}" })
+
   def person_participation
     assign_resource
     authorize!(:person_participation, resource)
@@ -20,18 +20,16 @@ class API::GroupScoresController < API::BaseController
     GroupScore.transaction do
       changed = false
       (1..7).each do |position|
-        if resource_params["person_#{position}"].present?
-          participation = resource.person_participations.where(position: position).first_or_initialize
-          participation.person = Person.find_by_id(resource_params["person_#{position}"])
-          if participation.changed?
-            if participation.person.nil?
-              resource.person_participations.where(position: position).destroy_all
-            else
-              participation.save!
-            end
-            changed = true
-          end
+        next if resource_params["person_#{position}"].blank?
+        participation = resource.person_participations.where(position: position).first_or_initialize
+        participation.person = Person.find_by(id: resource_params["person_#{position}"])
+        next unless participation.changed?
+        if participation.person.nil?
+          resource.person_participations.where(position: position).destroy_all
+        else
+          participation.save!
         end
+        changed = true
       end
       if changed
         resource.reload

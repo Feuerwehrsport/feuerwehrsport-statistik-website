@@ -1,7 +1,9 @@
-class PlaceDecorator < ApplicationDecorator
-  include Indexable
+class PlaceDecorator < AppDecorator
   decorates_association :competitions
-  index_columns :id, :name
 
   delegate :to_s, to: :name
+
+  def page_title
+    "#{name} - Wettkampfort"
+  end
 end

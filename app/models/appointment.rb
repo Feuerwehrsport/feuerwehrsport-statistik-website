@@ -1,18 +1,21 @@
-require 'icalendar'
-
 class Appointment < ActiveRecord::Base
+  include M3::URLSupport
+
   belongs_to :place
   belongs_to :event
   belongs_to :creator, polymorphic: true
   has_many :links, as: :linkable, dependent: :restrict_with_exception
 
   default_scope -> { order(:dated_at) }
-  scope :upcoming, -> { where("dated_at >= ?", 1.weeks.ago) }
+  scope :upcoming, -> { where('dated_at >= ?', 1.week.ago) }
+  scope :event, ->(event_id) { where(event_id: event_id) }
+  scope :place, ->(place_id) { where(place_id: place_id) }
 
   validates :dated_at, :name, :description, presence: true
+  attr_accessor :updateable
 
   def discipline_array
-    disciplines.split(",")
+    disciplines.split(',')
   end
 
   def disciplines
@@ -28,7 +31,7 @@ class Appointment < ActiveRecord::Base
     e.location = place.name if place.present?
     e.created = created_at
     e.last_modified = updated_at
-    e.uid = e.url = Rails.application.routes.url_helpers.appointment_url(self, Rails.configuration.action_controller.default_url_options)
+    e.uid = e.url = appointment_url(self)
     e
   end
 end

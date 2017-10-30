@@ -1,0 +1,12 @@
+de:
+  activerecord:
+    models:
+      appointment:
+        one: Wettkampftermin
+        other: Wettkampftermine
+    attributes:
+      appointment:
+        creator: Ersteller
+        dated_at: Datum
+        event: Art
+        place: Ort

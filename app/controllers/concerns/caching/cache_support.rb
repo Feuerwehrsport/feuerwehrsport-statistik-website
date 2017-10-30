@@ -11,36 +11,36 @@ module Caching::CacheSupport
   end
 
   included do
-    after_filter :save_html_cache
+    after_action :save_html_cache
     helper_method :save_html_cache?
   end
 
   protected
 
-  def save_html_cache?(content_type: "text/html")
+  def save_html_cache?(content_type: 'text/html')
     self.class.cache_action?(action_name) && cache_format?(content_type) && Rails.configuration.caching
   end
 
-  def cache_format?(cont)
-    request.format.to_sym == :html || content_type == "text/html"
+  def cache_format?(_cont)
+    request.format.to_sym == :html || content_type == 'text/html'
   end
 
   def save_html_cache
     if save_html_cache?(content_type: response.content_type)
       uri = URI.parse(request.url).path
-      path = File.join(Rails.root, "public", "cache", File.dirname(uri))
+      path = File.join(Rails.root, 'public', 'cache', File.dirname(uri))
       FileUtils.mkdir_p(path)
       basename = File.basename(uri)
-      basename += "_index" if basename.ends_with?("/")
+      basename += '_index' if basename.ends_with?('/')
       file_path = File.join(path, "#{basename}.html")
       logger.debug("CACHING: #{file_path}")
-      File.open(file_path, "w+") do |f|
+      File.open(file_path, 'w+') do |f|
         f.write(response.body)
       end
     end
   end
 
-  def clean_cache?(action_name)
+  def clean_cache?(_action_name)
     true
   end
 

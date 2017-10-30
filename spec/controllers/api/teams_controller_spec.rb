@@ -2,24 +2,26 @@ require 'rails_helper'
 
 RSpec.describe API::TeamsController, type: :controller do
   let(:team) { create(:team) }
-  let(:team_attributes) {{
-    id: team.id,
-    latitude: '52.12',
-    longitude: '14.45',
-    name: 'FF Warin',
-    shortcut: 'Warin',
-    state: 'MV',
-    status: 'fire_station',
-    tile_path: nil,
-  }}
+  let(:team_attributes) do
+    {
+      id: team.id,
+      latitude: '52.12',
+      longitude: '14.45',
+      name: 'FF Warin',
+      shortcut: 'Warin',
+      state: 'MV',
+      status: 'fire_station',
+      tile_path: nil,
+    }
+  end
 
   describe 'POST create' do
     subject { -> { post :create, team: { name: 'Mannschaft1', shortcut: 'Mann1', status: 'fire_station' } } }
     it 'creates new team', login: :api do
-      expect {
+      expect do
         subject.call
         expect_api_login_response
-      }.to change(Team, :count).by(1)
+      end.to change(Team, :count).by(1)
     end
   end
 
@@ -80,18 +82,18 @@ RSpec.describe API::TeamsController, type: :controller do
     subject { -> { put :merge, id: bad_team.id, correct_team_id: team.id, always: 1 } }
     it 'merge two teams', login: :sub_admin do
       expect_any_instance_of(Team).to receive(:merge_to).and_call_original
-      expect {
+      expect do
         subject.call
-      }.to change(TeamSpelling, :count).by(1)
-      
+      end.to change(TeamSpelling, :count).by(1)
+
       expect_json_response
       expect(json_body[:team]).to eq(team_attributes)
     end
 
     it 'creates entity_merge', login: :sub_admin do
-      expect {
+      expect do
         subject.call
-      }.to change(EntityMerge, :count).by(1)
+      end.to change(EntityMerge, :count).by(1)
     end
     it_behaves_like 'api user get permission error'
   end

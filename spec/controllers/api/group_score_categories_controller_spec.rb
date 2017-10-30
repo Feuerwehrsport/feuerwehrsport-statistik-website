@@ -51,10 +51,10 @@ RSpec.describe API::GroupScoreCategoriesController, type: :controller do
     let(:group_score_type) { create(:group_score_type) }
     subject { -> { post :create, group_score_category: { name: 'FooBar', competition_id: competition.id, group_score_type_id: group_score_type.id } } }
     it 'creates new group_score_category', login: :sub_admin do
-      expect {
+      expect do
         subject.call
         expect_api_login_response
-      }.to change(GroupScoreCategory, :count).by(1)
+      end.to change(GroupScoreCategory, :count).by(1)
       expect(GroupScoreCategory.last.name).to eq 'FooBar'
     end
     it_behaves_like 'api user get permission error'

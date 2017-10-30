@@ -2,37 +2,37 @@ require 'rails_helper'
 
 RSpec.describe API::ScoresController, type: :controller do
   let(:score) { create(:score, :double) }
-  let(:correct_score) {
+  let(:correct_score) do
     {
-      id: score.id, 
-      team_id: score.team_id, 
-      team_number: 1, 
-      time: 1976, 
-      discipline: 'hb', 
-      second_time: '19,76', 
-      translated_discipline_name: 'Hindernisbahn', 
+      id: score.id,
+      team_id: score.team_id,
+      team_number: 1,
+      time: 1976,
+      discipline: 'hb',
+      second_time: '19,76',
+      translated_discipline_name: 'Hindernisbahn',
       person: 'Alfred Meier',
       similar_scores: [
         {
-          id: score.id, 
-          time: 1976, 
-          second_time: '19,76', 
-          discipline: 'hb', 
-          translated_discipline_name: 'Hindernisbahn', 
-          team_id: score.team_id, 
-          team_number: 1
+          id: score.id,
+          time: 1976,
+          second_time: '19,76',
+          discipline: 'hb',
+          translated_discipline_name: 'Hindernisbahn',
+          team_id: score.team_id,
+          team_number: 1,
         }, {
-          id: score.person.score_ids.last, 
-          time: 2091, 
-          second_time: '20,91', 
-          discipline: 'hb', 
-          translated_discipline_name: 'Hindernisbahn', 
-          team_id: score.team_id, 
-          team_number: 1
+          id: (score.person.score_ids - [score.id]).first,
+          time: 2091,
+          second_time: '20,91',
+          discipline: 'hb',
+          translated_discipline_name: 'Hindernisbahn',
+          team_id: score.team_id,
+          team_number: 1,
         }
       ],
     }
-  }
+  end
   describe 'GET show' do
     it 'returns score' do
       get :show, id: score.id

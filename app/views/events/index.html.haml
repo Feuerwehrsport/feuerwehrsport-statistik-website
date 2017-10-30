@@ -1,7 +1,9 @@
-%h1 Wettkampftypen
+.section
+  .container
+    %h1 Wettkampftypen
 
-= count_table(@events, class: "datatable-events") do |t|
-  - t.col("Typ", class: "col-md-4") { |row| event_link(row) }
-  - t.col("Wettkämpfe", :count, class: "col-md-1")
+    = count_table(collection, class: 'datatable-events') do |t|
+      - t.col('Typ', class: 'col-md-4') { |row| event_link(row) }
+      - t.col('Wettkämpfe', :count, class: 'col-md-1')
 
-= @chart.events_count
+    = @chart.events_count

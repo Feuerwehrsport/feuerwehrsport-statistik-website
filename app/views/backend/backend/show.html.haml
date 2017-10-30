@@ -1,0 +1,26 @@
+= render 'hero', actions: member_actions
+- begin
+  = render resource
+- rescue ActionView::MissingTemplate => e
+  .section
+    .container
+      %dl
+        - m3_show_structure.each do |field|
+          %dt= resource_class.human_attribute_name(field.name)
+          %dd
+            - if belongs_to_associations[field.name].present?
+              = link_to(field.value(resource), [:backend, belongs_to_associations[field.name]])
+            - else
+              = field.value(resource)
+
+- if current_admin_user.role.in?([:sub_admin, :admin])
+  .section
+    .container
+      = nav_tab do |nv|
+        - has_many_associations.each do |name, url|
+          - nv.tab(name) do
+            = remote_index_table(url) do
+              .loading loading...
+.section
+  .container
+    = ca_t(:footer_html)

@@ -1,6 +1,6 @@
 class API::ChangeRequestsController < API::BaseController
   api_actions :create, :index, :update, change_log: true,
-    update_form: [:done]
+                                        update_form: [:done]
   before_action :assign_instance_for_show_file, only: :files
 
   def files
@@ -16,7 +16,7 @@ class API::ChangeRequestsController < API::BaseController
   def assign_instance_for_show_file
     self.resource = ChangeRequest.find(params[:change_request_id]).decorate
     @change_request_file = resource.files[params[:id].to_i].to_h
-    raise ActiveRecord::RecordNotFound.new unless @change_request_file.present?
+    raise ActiveRecord::RecordNotFound if @change_request_file.blank?
   end
 
   def resource_params

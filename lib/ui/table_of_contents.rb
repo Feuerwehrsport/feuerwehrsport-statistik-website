@@ -3,20 +3,20 @@ module UI
     include ActionView::Helpers::TagHelper
     include UniqIDFinder
     attr_reader :ankers
-    alias_method :elements, :ankers
+    alias elements ankers
 
     def index
-      "|||TOC_PLACEHOLDER_TOC|||"
+      '|||TOC_PLACEHOLDER_TOC|||'
     end
 
-    def anker(name, element=nil, options={})
+    def anker(name, element = nil, options = {})
       @ankers ||= []
       tag_value = options[:tag_value] || name
       label_value = options[:label_value] || name
       id = available_id(name)
       @ankers.push(OpenStruct.new(name: label_value, id: id))
-      element_tag = element.present? ? content_tag(element, tag_value) : ""
-      content_tag(:a, "", id: "toc-#{id}") + element_tag
+      element_tag = element.present? ? content_tag(element, tag_value) : ''
+      content_tag(:a, '', id: "toc-#{id}") + element_tag
     end
 
     def handle(content)

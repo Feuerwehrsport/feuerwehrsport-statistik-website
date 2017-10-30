@@ -1,20 +1,28 @@
-require "rails_helper"
+require 'rails_helper'
 
-RSpec.describe ChangeRequestMailer, type: :mailer do
-  describe 'new_notification' do
+describe ChangeRequestMailer do
+  describe '#new_notification' do
     let(:change_request) { ChangeRequest.new }
-    let(:mail) { described_class.new_notification(change_request) }
+    let(:website) { admin_user.login.website }
+    let(:admin_user) { create(:admin_user, :sub_admin) }
+    let(:mail) { described_class.configure(website, nil, :new_notification, change_request) }
 
-    it 'renders the receiver email' do
-      expect(mail.to).to eq ["sub_admin@first.com", "sub_admin@second.com", "admin@first.com", "admin@second.com"]
+    it 'renders the header information' do
+      expect(mail.subject).to eq 'Fehler bei Feuerwehrsport-Statistik'
+      expect(mail.to).to eq ['admin_user@example.com']
+      expect(mail.from).to eq ['info@kranbauer.de']
     end
 
-    it 'renders the sender email' do
-      expect(mail.from).to eq ["automailer@feuerwehrsport-statistik.de"]
-    end
-
-    it 'renders body' do
-      expect(mail.body.encoded).to include backend_change_requests_url
+    it 'assigns body' do
+      expect(mail.body.raw_source).to include(
+        "Es wurde ein neuer Hinweis gemeldet:\n" \
+        "\n" \
+        "Stichpunkt: \n" \
+        "Inhalt: \n" \
+        "Absender: \n" \
+        "\n" \
+        "http://www.kranbauer.de/backend/change_requests\n",
+      )
     end
   end
 end

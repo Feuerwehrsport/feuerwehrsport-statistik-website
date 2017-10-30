@@ -8,7 +8,7 @@ class Caching::Cleaner
   end
 
   def clean_nginx_cache
-    path = File.join(Rails.root, "public", "cache")
+    path = File.join(Rails.root, 'public', 'cache')
     Rails.logger.debug("CACHING_CLEAN: #{`find #{path}`}")
     `rm -rf "#{path}"`
   end

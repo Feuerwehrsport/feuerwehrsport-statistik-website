@@ -1,0 +1,17 @@
+de:
+  activerecord:
+    models:
+      person_spelling:
+        one: Wettkämpferschreibweise
+        other: Wettkämpferschreibweisen
+    attributes:
+      person_spelling:
+        first_name: Vorname
+        gender: Geschlecht
+        last_name: Nachname
+        official: Offiziell
+        person: Wettkämpfer
+  t3:
+    backend/person_spellings:
+      inline_labels:
+        official: Offizielle Namensänderung die angezeigt wird

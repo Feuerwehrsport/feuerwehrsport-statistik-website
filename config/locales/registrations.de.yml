@@ -1,0 +1,19 @@
+de:
+  activerecord:
+    models:
+      registrations/competition:
+        one: Wettkampfanmeldung
+        other: Wettkampfanmeldungen
+    attributes:
+      registrations/competition:
+        date: Datum
+        place: Ort
+        description: Beschreibung
+        open_at: Anmeldung öffnen
+        close_at: Anmeldung schließen
+  t3:
+    registrations/competitions:
+      views:
+        actions:
+          add_team: Mannschaft anmelden
+          add_person: Einzelstarter anmelden

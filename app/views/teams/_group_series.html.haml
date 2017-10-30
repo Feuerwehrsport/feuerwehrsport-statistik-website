@@ -1,6 +1,6 @@
 - [:female, :male].each do |gender|
   - if @series_round_structs[gender].present?
-    = toc.anker("Wettkampfserien #{g(gender)}", :h2, label_value: "Serien #{g(gender)}")
+    = toc.anker "Wettkampfserien #{g(gender)}", :h2, label_value: "Serien #{g(gender)}"
 
     %table.table.table-bordered.table-condensed
       %tr
@@ -12,7 +12,7 @@
 
       - @series_round_structs[gender].each do |name, structs|
         - structs.each_with_index do |struct, i|
-          %tr{ class: (struct.round.year != @year_before ? "other-year" : "") }
+          %tr{ class: (struct.round.year != @year_before ? 'other-year' : '') }
             - if i == 0
               %td{ rowspan: structs.count }= name
               - @year_before = nil
@@ -21,19 +21,19 @@
                 = struct.round.year
                 - unless struct.round.complete?
                   .small (offen)
-              .small= "Mannschaft #{struct.team_number}"
+              .small Mannschaft #{struct.team_number}
             %td{ class: struct.round.complete? ? nil : 'text-muted' }
               - if struct.row.rank <= struct.round.aggregate_class.honor_rank
-                %strong= "#{struct.row.rank}."
+                %strong #{struct.row.rank}.
               - else
-                = "#{struct.row.rank}."
+                #{struct.row.rank}.
             %td.small{ class: struct.round.complete? ? nil : 'text-muted' }= struct.row.points
 
             - struct.cups.each do |cup|
               %td.small
                 - if struct.round.year != @year_before
                   = competition_link(cup.competition, type: :short_date_with_place)
-                = render("series/rounds/participations_table", participations: struct.row.participations_for_cup(cup), free: '-')
+                = render('series/rounds/participations_table', participations: struct.row.participations_for_cup(cup), free: '-')
             - (@max_cup_count[gender] - struct.cups.count).times.each do
               %td
             - @year_before = struct.round.year

@@ -1,0 +1,12 @@
+de:
+  activemodel:
+    models:
+      repairs/team_score_move: Mannschaft auseinanderziehen
+    attributes:
+      repairs/team_score_move:
+        destination_team: Zielmannschaft
+        source_team: Quellmannschaft
+  t3:
+    backend/repairs/team_score_moves:
+      form_actions:
+        create: Weiter

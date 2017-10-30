@@ -1,13 +1,17 @@
 require 'open-uri'
 
 class Caching::HTMLPreLoader
-  include Delayed::Helper
+  include M3::Delayable
   include Rails.application.routes.url_helpers
 
   def perform
     if Rails.env.production?
       urls.each do |url|
-        open("#{Rails.configuration.base_url}#{url}", read_timeout: 25).read rescue nil
+        begin
+          open("#{Rails.configuration.base_url}#{url}", read_timeout: 25).read
+        rescue
+          nil
+        end
       end
     end
   end

@@ -1,15 +1,17 @@
 class PlacesController < ResourceController
-  cache_actions :index, :show
-
-  def index
-    @places = Place.competition_count.decorate
-  end
+  resource_actions :show, :index, cache: %i[show index]
 
   def show
-    @place = Place.find(params[:id])
-    @competitions = @place.competitions.includes(:event).decorate
-    @chart = Chart::CompetitionsScoreOverview.new(competitions: @competitions)
+    super
+    competitions = resource.competitions.includes(:event)
+    @chart = Chart::CompetitionsScoreOverview.new(competitions: competitions)
+    @competitions = competitions.decorate
     @competitions_discipline_overview = Calculation::CompetitionsScoreOverview.new(@competitions.map(&:id)).disciplines
-    @page_title = "#{@place.decorate} - Wettkampfort"
+  end
+
+  protected
+
+  def find_collection
+    super.competition_count
   end
 end

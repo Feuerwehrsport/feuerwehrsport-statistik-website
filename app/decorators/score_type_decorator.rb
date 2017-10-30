@@ -1,7 +1,4 @@
-class ScoreTypeDecorator < ApplicationDecorator
-  include Indexable
-  index_columns :id, :description
-
+class ScoreTypeDecorator < AppDecorator
   def to_s
     description
   end

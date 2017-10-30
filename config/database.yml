@@ -19,9 +19,5 @@ test:
   <<: *default
   database: feuerwehrsport-statistik-test
 
-test_dump:
-  <<: *default
-  database: feuerwehrsport-statistik-test-dump
-
 production:
   <<: *online_default

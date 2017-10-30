@@ -1,0 +1,28 @@
+= @preview_string.html_safe
+
+%h4
+.row
+  .col-md-4
+    %table.table
+      %tr
+        %th Wettkampf
+        %td= competition_link(resource.competition.decorate)
+      %tr
+        %th Wettkampfserie
+        %td= link_to(resource.round.decorate, resource.round)
+
+
+= m3_form(m3_form_options.slice(:as, :url, :html)) do |f|
+  = f.input :competition_id, as: :hidden
+
+  = nav_tab do |t|
+    - resource.assessment_configs.each do |assessment_config|
+      - t.tab(assessment_config.id) do
+        - assessment_config.entities.each do |entity|
+          .div
+            %label
+              = check_box "series_round_import[selected_entities][#{assessment_config.id}]", entity.first, checked: entity.last
+              = entity.second
+  .alert.alert-danger
+    = f.input :import_now
+  = f.actions(m3_form_options.slice(:abort_url))

@@ -1,39 +1,40 @@
 = table_of_contents do |toc|
-  .page-header.row
-    .col-md-8
-      %h1 Impressum
-    .col-md-4
-      = toc.index
-  .row
-    .col-md-9
-      = toc.anker("Kontakt", :h2)
-      %p
-        Besteht ein Bedürfnis, den Administrator und Entwickler dieser Seite zu kontaktieren, ist dies sehr wohl gewünscht. Für Anregungen oder Kritik bin ich immer offen. Meine E-Mail-Adresse im Bezug auf diese Seite lautet statistik@feuerwehrsport-teammv.de.
-      %p
-        Falls es sich um einen Fehler in der Programmierung handelt, bitte ich darum, dass die URL der Seite kopiert wird und mit der E-Mail verschickt wird. So kann ich den Fehler schneller finden und auch beheben.
-      %table.table
-        %tr
-          %th Anprechpartner
-          %td Georg Limbach
-        %tr
-          %th E-Mail-Adresse
-          %td statistik@feuerwehrsport-teammv.de
-    .col-md3= design_image(:kontact)
-  .row
-    .col-md-9
-      = toc.anker("Hinweise", :h2)
-      %p
-        Diese Webseite betreibe ich kostenlos als Privatperson. Sollte sich jemand durch die Verwendung der Daten in seinem Urheberrecht verletzt fühlen, bitte nicht sofort abmahnen, sondern eine E-Mail schreiben. Dies spart Zeit und Geld.
-      %p
-        Die veröffentlichten Daten stammen von zugeschickten oder im Internet verfügbaren Dokumenten. In der allgemeinen Rechtsauffassung haben Ergebnisse von Sportveranstaltungen keinen Urheberrechtsschutz, weil die Schöpfungshöhe nicht erreicht wird. Dies gilt dann nicht, wenn aus den Ergebnissen ein neuen Werk entsteht (z. B. eine gestaltete Ergebnisliste). Die auf dem Server abgelegten Kopien (PDFs) der Ergebnislisten sollen der Dokumentation und Beweisbarkeit der Ergebnisse dienen.
-    .col-md3= design_image(:office)
-  .row
-    .col-md-9
-      = toc.anker("Verantwortlichkeit", :h2)
-      %h4 georf.de
-      %p 
-        Herr Georg Limbach
-        %br
-        Dürerplatz 3
-        %br
-        18057 Rostock
+  .section
+    .container.page-header
+      .col-md-8
+        %h1 Impressum
+      .col-md-4
+        = toc.index
+    .container
+      .col-md-9
+        = toc.anker('Kontakt', :h2)
+        %p
+          Besteht ein Bedürfnis, den Administrator und Entwickler dieser Seite zu kontaktieren, ist dies sehr wohl gewünscht. Für Anregungen oder Kritik bin ich immer offen. Meine E-Mail-Adresse im Bezug auf diese Seite lautet statistik@feuerwehrsport-teammv.de.
+        %p
+          Falls es sich um einen Fehler in der Programmierung handelt, bitte ich darum, dass die URL der Seite kopiert wird und mit der E-Mail verschickt wird. So kann ich den Fehler schneller finden und auch beheben.
+        %table.table
+          %tr
+            %th Anprechpartner
+            %td Georg Limbach
+          %tr
+            %th E-Mail-Adresse
+            %td georf@georf.de
+      .col-md3= design_image(:kontact)
+    .container
+      .col-md-9
+        = toc.anker('Hinweise', :h2)
+        %p
+          Diese Webseite betreibe ich kostenlos als Privatperson. Sollte sich jemand durch die Verwendung der Daten in seinem Urheberrecht verletzt fühlen, bitte nicht sofort abmahnen, sondern eine E-Mail schreiben. Dies spart Zeit und Geld.
+        %p
+          Die veröffentlichten Daten stammen von zugeschickten oder im Internet verfügbaren Dokumenten. In der allgemeinen Rechtsauffassung haben Ergebnisse von Sportveranstaltungen keinen Urheberrechtsschutz, weil die Schöpfungshöhe nicht erreicht wird. Dies gilt dann nicht, wenn aus den Ergebnissen ein neuen Werk entsteht (z. B. eine gestaltete Ergebnisliste). Die auf dem Server abgelegten Kopien (PDFs) der Ergebnislisten sollen der Dokumentation und Beweisbarkeit der Ergebnisse dienen.
+      .col-md3= design_image(:office)
+    .container
+      .col-md-9
+        = toc.anker('Verantwortlichkeit', :h2)
+        %h4 georf.de
+        %p 
+          Herr Georg Limbach
+          %br
+          Dürerplatz 3
+          %br
+          18057 Rostock

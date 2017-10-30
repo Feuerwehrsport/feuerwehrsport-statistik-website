@@ -11,10 +11,10 @@ RSpec.describe API::Series::ParticipationsController, type: :controller do
     let(:attributes) { { cup_id: cup.id, assessment_id: assessment.id, person_id: person.id, time: '1234', rank: '22', points: '22' } }
     subject { -> { post :create, series_participation: attributes } }
     it 'creates new participation', login: :admin do
-      expect {
+      expect do
         subject.call
         expect_api_login_response
-      }.to change(Series::Participation, :count).by(1)
+      end.to change(Series::Participation, :count).by(1)
     end
     it_behaves_like 'api user get permission error'
     it_behaves_like 'sub_admin get permission error'
@@ -44,7 +44,7 @@ RSpec.describe API::Series::ParticipationsController, type: :controller do
 
   describe 'GET index' do
     before { participation }
-    it "returns participations" do
+    it 'returns participations' do
       get :index
       expect_json_response
       expect(json_body[:series_participations].first).to eq(
@@ -79,12 +79,12 @@ RSpec.describe API::Series::ParticipationsController, type: :controller do
     before { participation }
     subject { -> { delete :destroy, id: participation.id } }
     it 'destroys participation', login: :admin do
-      expect {
+      expect do
         subject.call
         expect_json_response
-      }.to change(Series::Participation, :count).by(-1)
+      end.to change(Series::Participation, :count).by(-1)
     end
     it_behaves_like 'api user get permission error'
-    it_behaves_like "sub_admin get permission error"
+    it_behaves_like 'sub_admin get permission error'
   end
 end

@@ -14,7 +14,7 @@ module ActiveModel
       end
     end
 
-    def to_serializer(object=self)
+    def to_serializer(object = self)
       klass = self.class.serializer_class
       klass.nil? ? object : klass.new(object)
     end

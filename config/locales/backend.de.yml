@@ -1,0 +1,20 @@
+de:
+  t3:
+    backend/change_requests:
+      views:
+        page_title: Fehler bearbeiten
+    backend/dashboards:
+      views:
+        page_title: Backend
+    backend/imports:
+      views:
+        page_title: Import
+    backend/registrations:
+      controllers:
+        registered: Sie haben sich erfolgreich registriert. Bitte bestätigen Sie Ihre
+          E-Mail-Adresse mit dem Aufrufen des Verifizierungslinks.
+      form_actions:
+        create: Registrieren
+      views:
+        page_title: Nutzer registrieren
+        title: Nutzer registrieren

@@ -1,13 +1,11 @@
-module Series
-  class AssessmentSerializer < ActiveModel::Serializer
-    attributes :id, :translated_gender, :name, :discipline, :round_id, :type, :gender, :real_name
+class Series::AssessmentSerializer < ActiveModel::Serializer
+  attributes :id, :gender, :name, :discipline, :round_id, :type, :gender_translated, :real_name
 
-    def name
-      object.to_s
-    end
+  def name
+    object.to_s
+  end
 
-    def real_name
-      object.name
-    end
+  def real_name
+    object.name
   end
 end

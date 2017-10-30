@@ -1,16 +1,20 @@
 class EventsController < ResourceController
-  cache_actions :index, :show
+  resource_actions :show, :index, cache: %i[show index]
 
   def index
-    @events = Event.competition_count.decorate
-    @chart = Chart::EventIndex.new(events: @events)
+    @chart = Chart::EventIndex.new(events: collection.decorate)
   end
 
   def show
-    @event = Event.find(params[:id])
-    @competitions = @event.competitions.includes(:place).decorate
-    @chart = Chart::CompetitionsScoreOverview.new(competitions: @competitions)
-    @competitions_discipline_overview = Calculation::CompetitionsScoreOverview.new(@competitions.map(&:id)).disciplines
-    @page_title = "#{@event.decorate} - Wettkampftyp"
+    competitions = resource.competitions.includes(:place)
+    @chart = Chart::CompetitionsScoreOverview.new(competitions: competitions)
+    @competitions = competitions.decorate
+    @competitions_discipline_overview = Calculation::CompetitionsScoreOverview.new(competitions.map(&:id)).disciplines
+  end
+
+  protected
+
+  def find_collection
+    super.competition_count
   end
 end

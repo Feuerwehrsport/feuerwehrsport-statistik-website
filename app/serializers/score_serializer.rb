@@ -1,5 +1,6 @@
 class ScoreSerializer < ActiveModel::Serializer
-  attributes :id, :team_id, :team_number, :time, :discipline, :second_time, :translated_discipline_name, :similar_scores, :person
+  attributes :id, :team_id, :team_number, :time, :discipline, :second_time, :translated_discipline_name,
+             :similar_scores, :person
 
   def similar_scores
     Score.where(competition_id: object.competition_id, person_id: object.person_id).order(:id).decorate.map do |score|

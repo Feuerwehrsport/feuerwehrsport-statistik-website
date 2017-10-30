@@ -1,7 +1,9 @@
-class EventDecorator < ApplicationDecorator
-  include Indexable
+class EventDecorator < AppDecorator
   decorates_association :competitions
-  index_columns :id, :name
 
   delegate :to_s, to: :name
+
+  def page_title
+    "#{name} - Wettkampftyp"
+  end
 end

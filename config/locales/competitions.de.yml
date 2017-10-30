@@ -1,0 +1,31 @@
+de:
+  activerecord:
+    models:
+      competition:
+        one: Wettkampf
+        other: Wettkämpfe
+      competition_file:
+        one: Wettkampfdokument
+        other: Wettkampfdokumente
+    attributes:
+      competition:
+        date: Datum
+        event: Typ
+        event_id: Typ
+        hint_content: Hinweise
+        place: Ort
+        place_id: Ort
+        score_type: Mannschaftwertung
+        score_type_id: Mannschaftwertung
+      competition_file:
+        competition: Wettkampf
+        file: Datei
+
+  competitions:
+    missed_information:
+      competition_files: Wettkampfergebnisse als Datei-Upload
+      links: Verlinkungen
+      la_members: Wettkämpfer beim Löschangriff
+      fs_members: Wettkämpfer bei der Feuerwehrstafette
+      gs_members: Wettkämpfer bei der Gruppenstafette
+      single_team: Team-Zuordnungen bei Einzeldisziplinen

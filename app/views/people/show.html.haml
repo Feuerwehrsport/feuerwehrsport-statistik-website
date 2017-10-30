@@ -1,44 +1,47 @@
 = table_of_contents do |toc|
-  .page-header
-    %span.pull-right
-      = @person.nation
-      = nation_flag(@person.nation, width: 24)
-    %h1
-      = @person.full_name
-      %small= g_symbol(@person.gender)
+  .section
+    .container.page-header
+      %span.pull-right
+        = resource.nation
+        = nation_flag(resource.nation, width: 24)
+      %h1
+        = resource.full_name
+        %small= g_symbol(resource.gender)
 
-    - if @person_spellings.count > 0
-      .small{ title: "Dies passiert zum Beispiel durch eine Hochzeit." }
-        = @person.first_name
-        ist auch unter
-        = @person_spellings.map(&:full_name).join(", ")
-        bekannt
+      - if @person_spellings.count > 0
+        .small{ title: 'Dies passiert zum Beispiel durch eine Hochzeit.' }
+          = resource.first_name
+          ist auch unter
+          = @person_spellings.map(&:full_name).join(", ")
+          bekannt
 
-  .row
-    .col-md-3= @chart.year_overview
-    .col-md-6
-      - @teams.each do |team|
-        - if team.image.present?
-          = image_tag(team.image.tile, width: 100, title: team)
-        - else
-          .team-logo-replacement= team
-    .col-md-3= toc.index
-  %hr
-
-
-  - @discipline_structs.each do |discipline_struct|
-    = render('person_discipline_overview', toc: toc, ds: discipline_struct)
+    .container
+      .col-md-3= @chart.year_overview
+      .col-md-6
+        - @teams.each do |team|
+          - if team.image.present?
+            = image_tag(team.image.tile, width: 100, title: team)
+          - else
+            .team-logo-replacement= team
+      .col-md-3= toc.index
+    .container
+      %hr
+    .container
 
 
-  - if @teams.present?
-    = toc.anker("Mannschaft", :h2)
-    .person-teams-area
-      - @team_structs.each do |team_struct|
-        = render('person_team_overview', team_struct: team_struct)
+      - @discipline_structs.each do |discipline_struct|
+        = render('person_discipline_overview', toc: toc, ds: discipline_struct)
 
-  = render('series', toc: toc)
 
-  = toc.anker('Fehler melden', :h2)
-  %p Beim Importieren der Ergebnisse kann es immer wieder mal zu Fehlern kommen. Geraden wenn die Namen in den Ergebnislisten verkehrt geschrieben wurden, kann keine eindeutige Zuordnung stattfinden. Außerdem treten auch Probleme mit Umlauten oder anderen besonderen Buchstaben im Namen auf.
-  %p Ihr könnt jetzt beim Korrigieren der Daten helfen. Dafür klickt ihr auf folgenden Link und generiert eine Meldung für den Administrator. Dieser überprüft dann die Eingaben und leitet weitere Schritte ein.
-  #add-change-request.btn.btn-default{ data: { person_id: @person.id } } Fehler mit dieser Person melden
+      - if @teams.present?
+        = toc.anker("Mannschaft", :h2)
+        .person-teams-area
+          - @team_structs.each do |team_struct|
+            = render('person_team_overview', team_struct: team_struct)
+
+      = render('series', toc: toc)
+
+      = toc.anker('Fehler melden', :h2)
+      %p Beim Importieren der Ergebnisse kann es immer wieder mal zu Fehlern kommen. Geraden wenn die Namen in den Ergebnislisten verkehrt geschrieben wurden, kann keine eindeutige Zuordnung stattfinden. Außerdem treten auch Probleme mit Umlauten oder anderen besonderen Buchstaben im Namen auf.
+      %p Ihr könnt jetzt beim Korrigieren der Daten helfen. Dafür klickt ihr auf folgenden Link und generiert eine Meldung für den Administrator. Dieser überprüft dann die Eingaben und leitet weitere Schritte ein.
+      #add-change-request.btn.btn-default{ data: { person_id: resource.id } } Fehler mit dieser Person melden

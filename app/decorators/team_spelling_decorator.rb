@@ -1,2 +1,2 @@
-class TeamSpellingDecorator < ApplicationDecorator
+class TeamSpellingDecorator < AppDecorator
 end

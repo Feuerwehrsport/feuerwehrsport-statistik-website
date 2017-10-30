@@ -1,7 +1,9 @@
-%h1 Wettkampforte
+.section
+  .container
+    %h1 Wettkampforte
 
-= count_table(@places, class: "datatable-places") do |t|
-  - t.col("Ort", class: "col-md-4") { |row| place_link(row) }
-  - t.col("Wettkämpfe", :count, class: "col-md-1")
+    = count_table(collection, class: 'datatable-places') do |t|
+      - t.col('Ort', class: 'col-md-4') { |row| place_link(row) }
+      - t.col('Wettkämpfe', :count, class: 'col-md-1')
 
-= map(id: "places-map", markers: @places) { |m| { count: m.count } }
+    = map(id: 'places-map', markers: collection) { |m| { count: m.count } }

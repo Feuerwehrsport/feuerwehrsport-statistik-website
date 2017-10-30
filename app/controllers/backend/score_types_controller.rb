@@ -1,7 +1,15 @@
-class Backend::ScoreTypesController < Backend::ResourcesController
-  protected
+class Backend::ScoreTypesController < Backend::BackendController
+  backend_actions
 
-  def permitted_attributes
-    super.permit(:people, :run, :score)
+  default_form do |f|
+    f.input :people
+    f.input :run
+    f.input :score
+  end
+
+  default_index do |t|
+    t.col :people
+    t.col :run
+    t.col :score
   end
 end

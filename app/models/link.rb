@@ -1,5 +1,6 @@
 class Link < ActiveRecord::Base
   belongs_to :linkable, polymorphic: true
 
-  validates :label, :url, :linkable, presence: true
+  scope :linkable_id, ->(id) { where(linkable_id: id) }
+  scope :linkable_type, ->(type) { where(linkable_type: type) }
 end

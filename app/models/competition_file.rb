@@ -1,17 +1,17 @@
 class CompetitionFile < ActiveRecord::Base
-  POSSIBLE_KEYS = [
-    :zk_female, :hb_female, :hl_female, :gs_female, :fs_female, :la_female,
-    :zk_male, :hb_male, :hl_male, :fs_male, :la_male,
-  ]
+  POSSIBLE_KEYS = %i[
+    zk_female hb_female hl_female gs_female fs_female la_female
+    zk_male hb_male hl_male fs_male la_male
+  ].freeze
 
   belongs_to :competition
   mount_uploader :file, ResultUploader
+  scope :competition, ->(competition_id) { where(competition_id: competition_id) }
 
   validates :file, :competition, presence: true
-  validates :file, file_mime_type: { content_type: /pdf/ }
 
   def keys
-    keys_string.split(",")
+    keys_string.split(',')
   end
 
   def self.possible_keys
@@ -23,6 +23,6 @@ class CompetitionFile < ActiveRecord::Base
     POSSIBLE_KEYS.each do |possible_key|
       keys.push(possible_key) if params[possible_key].present?
     end
-    self.keys_string = keys.join(",")
+    self.keys_string = keys.uniq.join(',')
   end
 end

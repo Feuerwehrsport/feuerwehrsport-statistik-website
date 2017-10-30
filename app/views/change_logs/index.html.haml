@@ -1,9 +1,12 @@
-.pull-right
-  %a{ href: change_logs_path(format: :atom), title: "RSS-Feed der Änderungen" }
-    = design_image("application-rss", width: "20")
-    RSS-Feed
-%h1 Veränderungen
-= count_table(@change_logs, class: "datatable-change-logs") do |t|
-  - t.col("Zeitpunkt") { |row| l(row.created_at) }
-  - t.col("Beschreibung", :translated_action)
-  - t.col("Inhalt", :readable_content)
+.section
+  .container
+    .pull-right
+      %a{ href: change_logs_path(format: :atom), title: 'RSS-Feed der Änderungen' }
+        = design_image('application-rss', width: '20')
+        RSS-Feed
+    %h1 Veränderungen
+  .container
+    = count_table(collection, class: 'datatable-change-logs') do |t|
+      - t.col('Zeitpunkt', :created_at)
+      - t.col('Beschreibung', :translated_action)
+      - t.col('Inhalt', :readable_content)

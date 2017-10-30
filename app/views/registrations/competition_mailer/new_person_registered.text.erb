@@ -1,0 +1,10 @@
+Es wurde ein neuer Einzelstarter für den Wettkampf <%= @competition %> angemeldet.
+
+Weitere Informationen zu deinem Wettkampf findest du hier:
+<%= comp_reg_competition_url(@competition) %>
+
+Wettkämpfer: <%= @person.first_name %> <%= @person.last_name %>
+Geschlecht: <%= @person.gender_translated %>
+Absender: <%= @person.admin_user %>
+
+Bitte beachte, dass du über weitere Änderungen bezüglich dieses Einzelstarters nicht separat informiert wirst.

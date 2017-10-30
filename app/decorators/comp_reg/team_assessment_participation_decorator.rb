@@ -1,3 +1,0 @@
-class CompReg::TeamAssessmentParticipationDecorator < ApplicationDecorator
-  decorates_association :competition_assessment
-end

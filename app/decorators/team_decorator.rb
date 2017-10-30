@@ -1,8 +1,9 @@
-class TeamDecorator < ApplicationDecorator
-  include Indexable
-  index_columns :id, :name
-
+class TeamDecorator < AppDecorator
   delegate :to_s, to: :name
+
+  def page_title
+    "#{name} - Mannschaft"
+  end
 
   def full_name
     name

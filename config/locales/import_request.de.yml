@@ -1,0 +1,18 @@
+de:
+  activerecord:
+    models:
+      import_request:
+        one: Importanfrage
+        other: Importanfragen
+    attributes:
+      import_request:
+        date: Datum des Wettkampfes
+        description: Zusätzliche Beschreibung
+        event: Typ
+        file: Datei
+        place: Ort
+        remove_file: Datei entfernen
+        finished_label: Status
+        url: Link
+        german_created_at: Erstellt am
+        edit_user: Bearbeiter

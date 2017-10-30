@@ -1,15 +1,15 @@
 class ChangeLog < ActiveRecord::Base
-  FREE_ACCESS_CLASSES = [
-    "Appointment",
-    "Competition",
-    "Event",
-    "Link",
-    "Nation",
-    "News",
-    "Person",
-    "Place",
-    "Team",
-  ]
+  FREE_ACCESS_CLASSES = %w[
+    Appointment
+    Competition
+    Event
+    Link
+    Nation
+    News
+    Person
+    Place
+    Team
+  ].freeze
 
   belongs_to :admin_user
   belongs_to :api_user

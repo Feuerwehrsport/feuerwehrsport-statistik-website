@@ -1,0 +1,14 @@
+%h2.kicker
+  - live_url = url_for(controller: "/#{resource_name.pluralize}", action: (action_name == 'index' ? :index : :show), id: params[:id]) rescue nil
+  - if live_url
+    .pull-right= link_to('Live-Resource', live_url)
+  = link_to('Backend', backend_root_url)
+  - if collection_action(:index).link_to?
+    »
+    = link_to resource_class.model_name.human(count: :many), url_for(action: :index)
+  - elsif parent_resource?
+    »
+    - if parent_url
+      = link_to parent_resource, parent_url
+    - else
+      %span= parent_resource

@@ -23,19 +23,19 @@ module Calculation
       end
 
       def invalid_time_count
-        scores.to_a.count - valid_time_count
+        scores.to_a.size - valid_time_count
       end
 
       def valid_time_average
-        @valid_time_average ||= valid_time_count > 0 ? valid_time_sum/valid_time_count : TimeInvalid::INVALID
+        @valid_time_average ||= valid_time_count > 0 ? valid_time_sum / valid_time_count : TimeInvalid::INVALID
       end
 
       def points
         @points ||= begin
           # - 1/23 *x^2+ 10
           sum = 0
-          (0..valid_time_count-1).each do |z|
-            subtotal = -1.0/23.0 * (z ** 2) + 10
+          (0..valid_time_count - 1).each do |z|
+            subtotal = -1.0 / 23.0 * (z**2) + 10
             break if subtotal < 0
             sum += subtotal
           end

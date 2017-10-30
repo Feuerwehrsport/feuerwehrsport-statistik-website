@@ -9,7 +9,7 @@ class AppointmentSerializer < ActiveModel::Serializer
     object.event.to_s
   end
 
-  def updateable
-    object.current_user.present? && object.current_user == object.creator
+  def dated_at
+    object.dated_at_iso
   end
 end

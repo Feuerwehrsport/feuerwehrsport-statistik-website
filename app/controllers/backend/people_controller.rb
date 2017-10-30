@@ -1,7 +1,22 @@
-class Backend::PeopleController < Backend::ResourcesController
-  protected
+class Backend::PeopleController < Backend::BackendController
+  backend_actions
 
-  def permitted_attributes
-    super.permit(:first_name, :last_name, :gender, :nation_id)
+  default_form do |f|
+    f.input :first_name
+    f.input :last_name
+    f.input :gender, collection: %i[male female]
+    f.association :nation
+  end
+
+  filter_index do |by|
+    by.scope :nation, collection: Nation.filter_collection
+    by.scope :team, collection: Team.all.filter_collection
+  end
+
+  default_index do |t|
+    t.col :first_name
+    t.col :last_name
+    t.col :gender
+    t.col :nation, sortable: { nation: :name }
   end
 end

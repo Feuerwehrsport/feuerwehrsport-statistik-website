@@ -1,0 +1,11 @@
+= table_of_contents do |toc|
+  = toc.index
+  = toc.anker('Wettkämpfe', :h2)
+  %table.table
+    - resource.cups.each do |cup|
+      %tr
+        %th= competition_link(cup.competition)
+        %td
+          .add-team-participation.btn.btn-info.btn-sm{ data: { cup_id: cup.id } } Mannschaftsteilnahme hinzufügen
+        %td= button_to('Entfernen', backend_series_cup_path(cup.id), class: 'btn btn-danger btn-sm', data: { confirm: 'Diesen Wettkampf mit allen Zeiten aus der Serie entfernen?'}, method: :delete )
+  #edit-series-participations{ data: { round_id: resource.id } }= render('single_show', toc: toc, round: resource)

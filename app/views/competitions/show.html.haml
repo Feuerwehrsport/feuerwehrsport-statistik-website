@@ -1,97 +1,104 @@
 = table_of_contents do |toc|
-  .page-header
-    %h1= @competition
-  .row
-    .col-md-3= toc.index
-    .col-md-3
-      %table.table.table-condensed
-        - if @competition.name.present?
+  .section
+    .container.page-header
+      %h1= resource
+    .container
+      .col-md-3= toc.index
+      .col-md-3
+        %table.table.table-condensed
+          - if resource.name.present?
+            %tr
+              %th{ colspan: 2 } Name:
+              %td= resource.name
           %tr
-            %th{ colspan: 2 } Name:
-            %td= @competition.name
-        %tr
-          %th{ colspan: 2 } Typ:
-          %td= event_link(@competition.event)
-        %tr
-          %th{ colspan: 2 } Ort:
-          %td= place_link(@competition.place)
-        - if @calc.single_score_count > 0
+            %th{ colspan: 2 } Typ:
+            %td= event_link(resource.event)
           %tr
-            %th{ colspan: 2 } Mannschaftswertung:
+            %th{ colspan: 2 } Ort:
+            %td= place_link(resource.place)
+          - if @calc.single_score_count > 0
+            %tr
+              %th{ colspan: 2 } Mannschaftswertung:
+              %td
+                - if resource.score_type.present?
+                  = resource.score_type
+                - else
+                  Keine
+          %tr
+            %th{ colspan: 2 } Datum:
+            %td= resource.date
+          %tr
+            %th{ colspan: 3 } &nbsp;
+          %tr
             %td
-              - if @competition.score_type.present?
-                = @competition.score_type
-              - else
-                Keine
-        %tr
-          %th{ colspan: 2 } Datum:
-          %td= l(@competition.date)
-        %tr
-          %th{ colspan: 3 } &nbsp;
-        %tr
-          %td
-          %th Frauen
-          %th Männer
-        - @calc.single_categories.each do |discipline, finals|
-          - finals.each do |final|
-            %tr
-              - if !final
+            %th Frauen
+            %th Männer
+          - @calc.single_categories.each do |discipline, finals|
+            - finals.each do |final|
+              %tr
+                - if !final
+                  %th= discipline_image_name_short(discipline)
+                - else
+                  %th
+                    = discipline_image(discipline)
+                    = final_name(final)
+                %td= count_or_zero(@calc.discipline(discipline, :female, final).try(:count))
+                %td= count_or_zero(@calc.discipline(discipline, :male, final).try(:count))
+
+          - @calc.group_categories.each do |discipline, types|
+            - types.each do |type|
+              %tr
                 %th= discipline_image_name_short(discipline)
-              - else
-                %th
-                  = discipline_image(discipline)
-                  = final_name(final)
-              %td= count_or_zero(@calc.discipline(discipline, :female, final).try(:count))
-              %td= count_or_zero(@calc.discipline(discipline, :male, final).try(:count))
+                %td= count_or_zero(@calc.discipline(discipline, :female, type).try(:count))
+                %td= count_or_zero(@calc.discipline(discipline, :male, type).try(:count))
+      .col-md-6
+        .pull-right
+          = link_to(url_for(format: :xlsx), class: "btn btn-default") do
+            = design_image(:export, width: '22px', title: "Excel-Export")
+            Excel-Export
+    - if resource.hint_content.present?
+      .container
+        = toc.anker("Hinweise", :h2)
+        = resource.hint_content.html_safe
+    - @calc.disciplines.each do |discipline|
+      .container
+        - if Discipline.group?(discipline.discipline)
+          = render "group_discipline", toc: toc, discipline: discipline
+        - elsif discipline.discipline == :zk
+          = render "double_event_discipline", toc: toc, discipline: discipline
+        - else
+          = render "single_discipline", toc: toc, discipline: discipline
+        
+    - if resource.place.positioned?
+      .container
+        = toc.anker("Karte", :h2)
+        = map(id: 'competition-map', red: resource.place, markers: resource.teams.select(&:positioned?))
 
-        - @calc.group_categories.each do |discipline, types|
-          - types.each do |type|
-            %tr
-              %th= discipline_image_name_short(discipline)
-              %td= count_or_zero(@calc.discipline(discipline, :female, type).try(:count))
-              %td= count_or_zero(@calc.discipline(discipline, :male, type).try(:count))
-    .col-md-6
-      .pull-right
-        = link_to(url_for(format: :xlsx), class: "btn btn-default") do
-          = design_image(:export, width: '22px', title: "Excel-Export")
-          Excel-Export
-  - if @competition.hint_content.present?
-    = toc.anker("Hinweise", :h2)
-    = @competition.hint_content.html_safe
-  - @calc.disciplines.each do |discipline|
-    - if Discipline.group?(discipline.discipline)
-      = render "group_discipline", toc: toc, discipline: discipline
-    - elsif discipline.discipline == :zk
-      = render "double_event_discipline", toc: toc, discipline: discipline
-    - else
-      = render "single_discipline", toc: toc, discipline: discipline
-      
-  - if @competition.place.positioned?
-    = toc.anker("Karte", :h2)
-    = map(id: 'competition-map', red: @competition.place, markers: @competition.teams.select(&:positioned?))
+    .container
+      = toc.anker("Weblinks", :h2)
+      = render('links', links: resource.links, linkable_type: resource_class, linkable_id: resource.id)
 
-  = toc.anker("Weblinks", :h2)
-  = render('links', links: @competition.links, linkable_type: resource_class, linkable_id: @competition.id)
+    .container
+      = toc.anker("Dateien", :h2)
+      - if resource.competition_files.present?
+        = render('competition_files', files: resource.competition_files)
+      = render('competition_file_form')
 
-  = toc.anker("Dateien", :h2)
-  - if @competition.competition_files.present?
-    = render('competition_files', files: @competition.competition_files)
-  = render('competition_file_form')
+    .container
+      = toc.anker("Fehler oder Hinweis melden", :h2)
 
-  = toc.anker("Fehler oder Hinweis melden", :h2)
+      %p Beim Importieren der Ergebnisse kann es immer wieder mal zu Fehlern kommen. Geraden wenn die Namen in den Ergebnislisten verkehrt geschrieben wurden, kann keine eindeutige Zuordnung stattfinden. Außerdem treten auch Probleme mit Umlauten oder anderen besonderen Buchstaben im Namen auf.
+      %p Ihr könnt jetzt beim Korrigieren der Daten helfen. Dafür klickt ihr auf folgenden Link und generiert eine Meldung für den Administrator. Dieser überprüft dann die Eingaben und leitet weitere Schritte ein.
 
-  %p Beim Importieren der Ergebnisse kann es immer wieder mal zu Fehlern kommen. Geraden wenn die Namen in den Ergebnislisten verkehrt geschrieben wurden, kann keine eindeutige Zuordnung stattfinden. Außerdem treten auch Probleme mit Umlauten oder anderen besonderen Buchstaben im Namen auf.
-  %p Ihr könnt jetzt beim Korrigieren der Daten helfen. Dafür klickt ihr auf folgenden Link und generiert eine Meldung für den Administrator. Dieser überprüft dann die Eingaben und leitet weitere Schritte ein.
+    .container
+      .col-md-8
+        %p Auch Hinweise können zu einem Wettkampf gegeben werden. Dazu zählen zum Beispiel:
+        %ul
+          %li Name des Wettkampfs
+          %li Besondere Bedindungen
+          %li Wetter
+          %li Aufteilung auf mehrere Orte oder Tage
+        %p
+          #add-change-request.btn.btn-default{ data: { competition_name: resource.name, competition_id: resource.id } } Fehler oder Hinweis melden
 
-  .row
-    .col-md-8
-      %p Auch Hinweise können zu einem Wettkampf gegeben werden. Dazu zählen zum Beispiel:
-      %ul
-        %li Name des Wettkampfs
-        %li Besondere Bedindungen
-        %li Wetter
-        %li Aufteilung auf mehrere Orte oder Tage
-      %p
-        #add-change-request.btn.btn-default{ data: { competition_name: @competition.name, competition_id: @competition.id } } Fehler oder Hinweis melden
-
-    = render('missed_information', missed: @competition.missed_information)
+      = render('missed_information', missed: resource.missed_information)

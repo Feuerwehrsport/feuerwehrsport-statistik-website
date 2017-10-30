@@ -1,6 +1,7 @@
 = table_of_contents do |toc|
-  .row
-    .col-md-9
-      %h1 Wettkampfserien
-    .col-md-3= toc.index
-  = render('index_overview', toc: toc, round_link_prefix: [])
+  .section
+    .container
+      .col-md-9
+        %h1 Wettkampfserien
+      .col-md-3= toc.index
+    = render('index_overview', toc: toc, round_link_prefix: [])

@@ -6,6 +6,6 @@ class Series::CupSerializer < ActiveModel::Serializer
   end
 
   def date
-    object.competition.date
+    object.competition.date_iso
   end
 end

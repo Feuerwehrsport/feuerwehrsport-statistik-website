@@ -5,10 +5,10 @@ RSpec.describe API::PeopleController, type: :controller do
   let(:person) { create(:person) }
   describe 'POST create' do
     it 'creates new person', login: :api do
-      expect {
+      expect do
         post :create, person: { first_name: 'Alfred', last_name: 'Meier', gender: 'male', nation_id: nation.id }
         expect_api_login_response
-      }.to change(Person, :count).by(1)
+      end.to change(Person, :count).by(1)
     end
   end
 
@@ -35,22 +35,22 @@ RSpec.describe API::PeopleController, type: :controller do
       expect_json_response
       expect(json_body[:people].count).to eq 2
       expect(json_body[:people]).to match_array([
-        {
-          first_name: 'Alfred',
-          gender: 'male',
-          id: person.id,
-          last_name: 'Meier',
-          nation_id: 1,
-          gender_translated: 'männlich',
-        }, {  
-          first_name: 'Johanna',
-          gender: 'female',
-          id: female_person.id,
-          last_name: 'Meyer',
-          nation_id: 1,
-          gender_translated: 'weiblich',
-        }
-      ])
+                                                  {
+                                                    first_name: 'Alfred',
+                                                    gender: 'male',
+                                                    id: person.id,
+                                                    last_name: 'Meier',
+                                                    nation_id: 1,
+                                                    gender_translated: 'männlich',
+                                                  }, {
+                                                    first_name: 'Johanna',
+                                                    gender: 'female',
+                                                    id: female_person.id,
+                                                    last_name: 'Meyer',
+                                                    nation_id: 1,
+                                                    gender_translated: 'weiblich',
+                                                  }
+                                                ])
     end
 
     it 'returns only gendered people' do
@@ -79,7 +79,7 @@ RSpec.describe API::PeopleController, type: :controller do
         id: person.id,
         last_name: 'Nachname',
         nation_id: 1,
-        gender_translated: 'männlich', 
+        gender_translated: 'männlich',
       )
     end
     it_behaves_like 'api user get permission error'
@@ -90,10 +90,10 @@ RSpec.describe API::PeopleController, type: :controller do
     subject { -> { put :merge, id: person.id, correct_person_id: correct_person.id, always: 1 } }
     it 'merge two people', login: :sub_admin do
       expect_any_instance_of(Person).to receive(:merge_to).and_call_original
-      expect {
+      expect do
         subject.call
-      }.to change(PersonSpelling, :count).by(1)
-      
+      end.to change(PersonSpelling, :count).by(1)
+
       expect_json_response
       expect(json_body[:person]).to eq(
         first_name: 'Alfredo',
@@ -106,9 +106,9 @@ RSpec.describe API::PeopleController, type: :controller do
     end
 
     it 'creates entity_merge', login: :sub_admin do
-      expect {
+      expect do
         subject.call
-      }.to change(EntityMerge, :count).by(1)
+      end.to change(EntityMerge, :count).by(1)
     end
     it_behaves_like 'api user get permission error'
   end

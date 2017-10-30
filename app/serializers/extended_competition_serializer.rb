@@ -7,15 +7,15 @@ class ExtendedCompetitionSerializer < CompetitionSerializer
 
   def score_count
     hash = {}
-    [:hb, :hl].each do |discipline|
+    %i[hb hl].each do |discipline|
       hash[discipline] = {}
-      [:female, :male].each do |gender|
+      %i[female male].each do |gender|
         hash[discipline][gender] = object.scores.discipline(discipline).gender(gender).count
       end
     end
-    [:gs, :fs, :la].each do |discipline|
+    %i[gs fs la].each do |discipline|
       hash[discipline] = {}
-      [:female, :male].each do |gender|
+      %i[female male].each do |gender|
         hash[discipline][gender] = object.group_scores.discipline(discipline).gender(gender).count
       end
     end

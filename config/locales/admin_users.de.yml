@@ -1,0 +1,13 @@
+de:
+  activerecord:
+    models:
+      admin_user:
+        one: Verwalter
+        other: Verwalter
+    attributes:
+      admin_user:
+        name: Name
+        role: Rolle
+        email_address: E-Mail-Adresse
+        password: Passwort
+        password_confirmation: Passwort wiederholen

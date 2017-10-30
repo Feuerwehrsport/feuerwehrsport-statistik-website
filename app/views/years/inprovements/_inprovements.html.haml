@@ -7,7 +7,7 @@
 = nav_tab do |nv|
   - @disciplines.each do |discipline|
     - nv.tab(discipline_image_name_short(discipline.discipline, discipline.gender)) do
-      = count_table(discipline.all.map(&:decorate), class: "datatable-years") do |t|
+      = count_table(discipline.all.map(&:decorate), class: 'datatable-years') do |t|
         - t.col('Wettkämpfer', class: 'col-10') { |row| person_link(row.person, type: :full_name) }
         - t.col('Unterschied', class: 'col-5') { |row| row.second_difference }
         - t.col("Ø #{@year}", class: 'col-5') { |row| row.second_current_average }

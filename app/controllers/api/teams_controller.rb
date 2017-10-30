@@ -1,6 +1,6 @@
 class API::TeamsController < API::BaseController
-  api_actions :create, :show, :index, :update, change_log: true, 
-    create_form: [:name, :shortcut, :status]
+  api_actions :create, :show, :index, :update, change_log: true,
+                                               create_form: %i[name shortcut status]
   include MergeAction
 
   form_for :update do |f|

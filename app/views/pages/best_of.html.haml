@@ -1,18 +1,19 @@
-.page-header
-  %h1 Die 100 schnellsten Zeiten
-.row
-  .col-md-6
-    %p Die Tabellen zeigen die 100 besten Zeiten. Dies sind keine Rekorde, da auch unbestätigte Wettkämpfe zu finden sind.
-  .col-md-6
-    %ul
-      %li= link_to("Bestätigte Rekorde", records_path)
-      %li= link_to("Überblick über die Jahre", years_path)
-      %li= link_to("Alle Wettkämpfe", competitions_path)
-
-= nav_tab do |nv|
-  - @discipline_structs.each do |struct|
-    - nv.tab(discipline_image_name_short(struct.discipline, struct.gender)) do
-      = count_table(struct.scores, table_class: UI::RankTable, class: "datatable-best-scores", rank_options: { class: "col-10" }) do |t|
-        - t.col("Name", class: "col-30") { |row| person_link(row.entity, type: :full_name) }
-        - t.col("Zeit", :second_time, class: "col-10")
-        - t.col("Wettkampf", class: "col-40") { |row| competition_link(row.competition) }
+.section
+  .container.page-header
+    %h1 Die 100 schnellsten Zeiten
+  .container
+    .col-md-6
+      %p Die Tabellen zeigen die 100 besten Zeiten. Dies sind keine Rekorde, da auch unbestätigte Wettkämpfe zu finden sind.
+    .col-md-6
+      %ul
+        %li= link_to("Bestätigte Rekorde", records_path)
+        %li= link_to("Überblick über die Jahre", years_path)
+        %li= link_to("Alle Wettkämpfe", competitions_path)
+  .container
+    = nav_tab do |nv|
+      - @discipline_structs.each do |struct|
+        - nv.tab(discipline_image_name_short(struct.discipline, struct.gender)) do
+          = count_table(struct.scores, table_class: UI::RankTable, class: "datatable-best-scores", rank_options: { class: "col-10" }) do |t|
+            - t.col("Name", class: "col-30") { |row| person_link(row.entity, type: :full_name) }
+            - t.col("Zeit", :second_time, class: "col-10")
+            - t.col("Wettkampf", class: "col-40") { |row| competition_link(row.competition) }

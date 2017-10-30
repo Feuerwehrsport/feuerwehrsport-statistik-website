@@ -64,7 +64,7 @@ $ () ->
                   continue if person.id is personId
                   options.push
                     value: person.id
-                    display: "#{person.last_name}, #{person.first_name} (#{person.translated_gender})"
+                    display: "#{person.last_name}, #{person.first_name} (#{person.gender_translated})"
 
                 FssWindow.build('Namen korrigieren')
                 .add(new FssFormRowDescription('Bitte wählen Sie die korrekte Person aus:'))

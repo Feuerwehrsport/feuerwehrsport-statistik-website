@@ -1,7 +1,11 @@
-class Backend::PlacesController < Backend::ResourcesController
-  protected
+class Backend::PlacesController < Backend::BackendController
+  backend_actions
 
-  def permitted_attributes
-    super.permit(:name, :latitude, :longitude)
+  default_form do |f|
+    f.input :name
+  end
+
+  default_index do |t|
+    t.col :name
   end
 end

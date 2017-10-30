@@ -1,0 +1,32 @@
+de:
+  activerecord:
+    models:
+      series/cup:
+        one: Wettkampfserien-Cup
+        other: Wettkampfserien-Cups
+      series/round:
+        one: Wettkampfserie
+        other: Wettkampfserien
+    attributes:
+      series/round:
+        name: Name
+        year: Jahr
+        aggregate_type: Berechnungs-Klasse
+        full_cup_count: Cup-Anzahl
+        official: Offizielle Ergebnisse
+  activemodel:
+    models:
+      series/round_import: Serienimport
+    attributes:
+      series/round_import:
+        round: Serie
+  t3:
+    backend/series/rounds:
+      inline_labels:
+        official: Offizielle Ergebnisse
+      views:
+        actions:
+          import: Import
+    backend/series/round_imports:
+      inline_labels:
+        import_now: Jetzt importieren

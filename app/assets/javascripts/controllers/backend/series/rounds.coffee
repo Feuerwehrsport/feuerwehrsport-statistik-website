@@ -5,7 +5,7 @@ $ () ->
       for person in people
         options.push
           value: person.id
-          display: "#{person.last_name}, #{person.first_name} (#{person.translated_gender})"
+          display: "#{person.last_name}, #{person.first_name} (#{person.gender_translated})"
       FssWindow.build(title)
       .add(new FssFormRowSelect('person_id', 'Person', participation.person_id, options))
       .add(new FssFormRowText('rank', 'Platz', participation.rank))
@@ -62,16 +62,16 @@ $ () ->
   $(document).on 'click', '#edit-series-participations .series-participation', () ->
     id = $(@).data('id')
     Fss.getResource 'series/participations', id, (participation) ->
-      w = FssWindow.build("Serienteilnahme")
+      w = FssWindow.build('Serienteilnahme')
       change = $('<button/>').text('Ändern').on('click', (e) ->
         e.preventDefault()
         w.close()
-        if participation.participation_type == "person"
+        if participation.participation_type == 'person'
           editPersonParticipation 'Teilnahme korrigieren', participation, (data) ->
-            Fss.ajaxReload("PUT", "series/participations/#{id}", series_participation: data)
+            Fss.ajaxReload('PUT', "series/participations/#{id}", series_participation: data)
         else
           editTeamParticipation 'Teilnahme korrigieren', participation, (data) ->
-            Fss.ajaxReload("PUT", "series/participations/#{id}", series_participation: data)
+            Fss.ajaxReload('PUT', "series/participations/#{id}", series_participation: data)
       )
       up = $('<button/>').text('↑').on('click', (e) ->
         e.preventDefault()

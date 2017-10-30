@@ -1,10 +1,11 @@
-class PersonDecorator < ApplicationDecorator
-  include Indexable
+class PersonDecorator < AppDecorator
   decorates_association :nation
-  index_columns :id, :first_name, :last_name, :translated_gender
+  localizes_gender
 
-  def to_s
-    last_name
+  delegate :to_s, to: :full_name
+
+  def page_title
+    "#{full_name} - Wettkämpfer"
   end
 
   def full_name
@@ -13,5 +14,9 @@ class PersonDecorator < ApplicationDecorator
 
   def short_name
     "#{first_name[0]}. #{last_name}"
+  end
+
+  def searchable_name
+    "#{last_name}, #{first_name}"
   end
 end

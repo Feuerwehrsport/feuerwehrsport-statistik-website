@@ -1,42 +1,39 @@
 require 'rails_helper'
 
-describe "years features", type: :feature, js: true do
-  context "index" do
-    it "shows an overview" do
-      visit years_path
-      expect(page).to have_content '1 bis 10 von 23 Einträgen'
-      click_on("Nächste")
-      expect(page).to have_content '11 bis 20 von 23 Einträgen'
-    end
+describe 'years features' do
+  (2000..2017).each do |year|
+    let!(:"competition_#{year}") { create(:competition, date: Date.new(year, 1, 1)) }
+    let!(:competitions) { create_list(:competition, 15, date: Date.new(2012, 1, 1)) }
+    let!(:score) { create(:score, :double, competition: competitions.first) }
+    let!(:group_score) { create(:score, :double, competition: competitions.first) }
   end
 
-  context "show" do
-    it "shows an competitions overview" do
-      visit year_path(id: 2012)
-      expect(page).to have_content '1 bis 10 von 45 Einträgen'
-      click_on("Nächste")
-      expect(page).to have_content '11 bis 20 von 45 Einträgen'
-    end
-  end
+  it 'visit all functions' do
+    visit years_path
+    expect(page).to have_content '1 bis 10 von 18 Einträgen'
+    save_review_screenshot
+    click_on 'Nächste'
+    expect(page).to have_content '11 bis 18 von 18 Einträgen'
+    click_on 'Zurück'
 
-  context "best_scores" do
-    it "shows the best scores" do
-      visit best_scores_year_path(id: 2012)
-      expect(page).to have_content 'Bestzeiten des Jahres 2012'
-      expect(page).to have_content '1 bis 10 von 13 Einträgen'
-      click_on("Nächste")
-      expect(page).to have_content '11 bis 13 von 13 Einträgen'
-    end
-  end
+    click_on '2012'
+    expect(page).to have_content '1 bis 10 von 16 Einträgen'
+    save_review_screenshot
+    expect(current_path).to eq year_path(2012)
+    click_on 'Nächste'
+    expect(page).to have_content '11 bis 16 von 16 Einträgen'
 
-  context "best_performance" do
-    it "shows the best performance" do
-      visit best_performance_year_path(id: 2012)
-      expect(page).to have_content 'Bestleistungen des Jahres 2012'
-      expect(page).to have_content 'Punkte'
-      expect(page).to have_content '1 bis 10 von 13 Einträgen'
-      click_on("Nächste")
-      expect(page).to have_content '11 bis 13 von 13 Einträgen'
-    end
+    click_on 'Bestzeiten des Jahres', match: :first
+    expect(page).to have_content 'Bestzeiten des Jahres 2012'
+    save_review_screenshot
+    expect(page).to have_content '1 bis 1 von 1 Einträgen'
+    expect(current_path).to eq best_scores_year_path(2012)
+
+    click_on 'Bestleistungen des Jahres'
+    expect(page).to have_content 'Bestleistungen des Jahres 2012'
+    save_review_screenshot
+    expect(page).to have_content '1 bis 1 von 1 Einträgen'
+    expect(current_path).to eq best_performance_year_path(2012)
+    expect(page).to have_content 'Punkte'
   end
 end

@@ -1,7 +1,4 @@
-class ScoreDecorator < ApplicationDecorator
-  include Indexable
-  index_columns :id, :person, :competition, :second_time, :discipline
-
+class ScoreDecorator < AppDecorator
   decorates_association :competition
   decorates_association :team
   decorates_association :person
@@ -22,7 +19,5 @@ class ScoreDecorator < ApplicationDecorator
     discipline_name(discipline)
   end
 
-  def <=>(other)
-    object.<=>(other)
-  end
+  delegate :<=>, to: :object
 end

@@ -23,7 +23,7 @@ module Calculation
     class DisciplineOverview < Struct.new(:discipline, :gender, :competitions)
       attr_reader :types
 
-      def edit_types(type=nil)
+      def edit_types(type = nil)
         @types ||= {}
         @types[type.to_param] ||= TypeOverview.new(scores_relation(type), type)
       end

@@ -1,50 +1,50 @@
 = table_of_contents do |toc|
-  .row
-    .col-md-2
-      - if @team.image.present?
-        = image_tag(@team.image.tile)
-      - else
-        = design_image(:upload_logo, class: "upload-logo", data: { team_id: @team.id })
-      %hr
-      = @chart.gender_pie
-    .col-md-7
-      .page-header
-        %h1= @team.name
-      %table.table
-        %tr
-          %th Wettkämpfer
-          %td= @team_members.count
-        %tr
-          %th Land/Bundesland
-          %td
-            = @team.full_state
-            #edit-state.btn.btn-xs.btn-default.glyphicon.glyphicon-pencil{ data: { team_id: @team.id, state: @team.state }, title: "Bundesland bearbeiten" }
-        %tr
-          %th Webseite
-          %td= render('links', links: @team.links, linkable_type: "Team", linkable_id: @team.id)
+  .section
+    .container
+      .col-md-2
+        - if resource.image.present?
+          = image_tag(resource.image.tile)
+        - else
+          = design_image(:upload_logo, class: 'upload-logo', data: { team_id: resource.id })
+        %hr
+        = @chart.gender_pie
+      .col-md-7
+        .page-header
+          %h1= resource.name
+        %table.table
+          %tr
+            %th Wettkämpfer
+            %td= @team_members.count
+          %tr
+            %th Land/Bundesland
+            %td
+              = resource.full_state
+              #edit-state.btn.btn-xs.btn-default.glyphicon.glyphicon-pencil{ data: { team_id: resource.id, state: resource.state }, title: "Bundesland bearbeiten" }
+          %tr
+            %th Webseite
+            %td= render('links', links: resource.links, linkable_type: 'Team', linkable_id: resource.id)
 
-    .col-md-3= toc.index
+      .col-md-3= toc.index
 
-  = render 'team_members', toc: toc
-  = render 'team_competitions', toc: toc
-  = render 'group_assessments', toc: toc
-  = render 'group_disciplines', toc: toc
-  = render 'group_series', toc: toc
+    .container= render 'team_members', toc: toc
+    .container= render 'team_competitions', toc: toc
+    .container= render 'group_assessments', toc: toc
+    .container= render 'group_disciplines', toc: toc
+    .container= render 'group_series', toc: toc
 
-  = toc.anker("Karte", :h2)
-  .row
-    .col-md-9
-      = map(id: 'team-map', red: @team, data: { team_id: @team.id })
-    .col-md-3.team-map-actions
-      - unless @team.positioned?
-        %p Bisher wurden keine Geoposition für dieses Team hinterlegt.
-        .btn.btn-default#add-geo-position Geoposition hinzufügen
+    .container= toc.anker('Karte', :h2)
+    .container
+      .col-md-9
+        = map(id: 'team-map', red: resource, data: { team_id: resource.id })
+      .col-md-3.team-map-actions
+        - unless resource.positioned?
+          %p Bisher wurden keine Geoposition für dieses Team hinterlegt.
+          .btn.btn-default#add-geo-position Geoposition hinzufügen
 
+    .container
+      = toc.anker('Fehler melden', :h2)
+      %p Beim Importieren der Ergebnisse kann es immer wieder mal zu Fehlern kommen. Geraden wenn die Namen in den Ergebnislisten verkehrt geschrieben wurden, kann keine eindeutige Zuordnung stattfinden. Außerdem treten auch Probleme mit Umlauten oder anderen besonderen Buchstaben im Namen auf.
 
+      %p Ihr könnt jetzt beim Korrigieren der Daten helfen. Dafür klickt ihr auf folgenden Link und generiert eine Meldung für den Administrator. Dieser überprüft dann die Eingaben und leitet weitere Schritte ein.
 
-  = toc.anker("Fehler melden", :h2)
-  %p Beim Importieren der Ergebnisse kann es immer wieder mal zu Fehlern kommen. Geraden wenn die Namen in den Ergebnislisten verkehrt geschrieben wurden, kann keine eindeutige Zuordnung stattfinden. Außerdem treten auch Probleme mit Umlauten oder anderen besonderen Buchstaben im Namen auf.
-
-  %p Ihr könnt jetzt beim Korrigieren der Daten helfen. Dafür klickt ihr auf folgenden Link und generiert eine Meldung für den Administrator. Dieser überprüft dann die Eingaben und leitet weitere Schritte ein.
-
-  .btn.btn-default#add-change-request{ data: { team_id: @team.id } } Fehler mit diesem Team melden
+      .btn.btn-default#add-change-request{ data: { team_id: resource.id } } Fehler mit diesem Team melden

@@ -1,12 +1,12 @@
-set :rails_env, "staging"
+set :rails_env, 'staging'
 
-server "www.server.de", :app, :web, :db, primary: true
+server 'www.server.de', :app, :web, :db, primary: true
 # ssh_options[:port] = 2412
 
 set :nginx_use_ssl, false
-set :nginx_server_name, "www.server.de"
+set :nginx_server_name, 'www.server.de'
 set :nginx_forwarded_http_port, 1380
-set :nginx_forwarded_https_port, 13443
+set :nginx_forwarded_https_port, 13_443
 set :unicorn_workers, 2
 
 set :nginx_http_authentication_user, 'user'
@@ -18,11 +18,10 @@ set :nginx_http_authentication_password, 'secret'
 
 # set :http_proxy, 'http://proxy.server.de:8080'
 
-# set :default_environment, fetch(:default_environment).merge({ 
+# set :default_environment, fetch(:default_environment).merge({
 #   'http_proxy' => fetch(:http_proxy),
 #   'https_proxy' => fetch(:http_proxy),
 # })
-
 
 # Figure out the name of the current local branch
 def current_git_branch

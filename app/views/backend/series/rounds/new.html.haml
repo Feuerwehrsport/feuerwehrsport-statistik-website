@@ -1,4 +1,0 @@
-= simple_form_for(@resouce_instance, url: backend_series_rounds_path) do |f|
-  = f.input :competition_id, collection: Competition.order(date: :desc).decorate, label_method: :full_name
-  = f.input :series_round_id, collection: Series::Round.all.decorate, label_method: :to_s
-  = f.button :submit

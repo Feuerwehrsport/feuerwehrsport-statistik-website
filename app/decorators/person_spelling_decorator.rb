@@ -1,12 +1,11 @@
-class PersonSpellingDecorator < ApplicationDecorator
-  include Indexable
-  index_columns :id, :person, :first_name, :last_name, :gender, :official
-
+class PersonSpellingDecorator < AppDecorator
   decorates_association :person
+  localizes_gender
+  localizes_boolean :official
 
   def to_s
     full_name
-  end  
+  end
 
   def full_name
     "#{first_name} #{last_name}"

@@ -1,6 +1,6 @@
 class API::AppointmentsController < API::BaseController
   api_actions :create, :show, :update, change_log: true,
-    default_form: [:name, :description, :dated_at, :disciplines, :place_id, :event_id]
+                                       default_form: %i[name description dated_at disciplines place_id event_id]
 
   protected
 

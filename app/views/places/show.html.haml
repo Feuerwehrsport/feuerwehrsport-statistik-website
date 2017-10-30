@@ -1,36 +1,38 @@
 = table_of_contents do |toc|
-  .page-header.row
-    .col-md-9
-      %h1
-        = @place.decorate
-        %small Wettkampfort
+  .section
+    .container.page-header
+      .col-md-9
+        %h1
+          = resource.decorate
+          %small Wettkampfort
 
-    .col-md-3= toc.index
+      .col-md-3= toc.index
+    .container
+      = toc.anker 'Wettkämpfe'
+      = count_table(@competitions, class: 'datatable-place-competitons') do |t|
+        - t.col('Datum', class: 'col-10 info-link') { |row| competition_link(row, type: :date_iso) }
+        - t.col('Typ', class: 'col-10 small') { |row| link_to(row.event, row.event) }
+        - t.col('Name', class: 'col-20 info-link') { |row| competition_link(row, type: :name) }
+        - t.col('HBw', class: 'col-5') { |row| count_or_zero(row.hb_female) }
+        - t.col('HBm', class: 'col-5') { |row| count_or_zero(row.hb_male) }
+        - t.col('HLw', class: 'col-5') { |row| count_or_zero(row.hl_female) }
+        - t.col('HLm', class: 'col-5') { |row| count_or_zero(row.hl_male) }
+        - t.col('GS', class: 'col-5') { |row| count_or_zero(row.gs) }
+        - t.col('FSw', class: 'col-5') { |row| count_or_zero(row.fs_female) }
+        - t.col('FSm', class: 'col-5') { |row| count_or_zero(row.fs_male) }
+        - t.col('LAw', class: 'col-5') { |row| count_or_zero(row.la_female) }
+        - t.col('LAm', class: 'col-5') { |row| count_or_zero(row.la_male) }
 
-  = toc.anker("Wettkämpfe")
-  = count_table(@competitions, class: "datatable-place-competitons") do |t|
-    - t.col("Datum", class: "col-10 info-link") { |row| competition_link(row, type: :l_date) }
-    - t.col("Typ", class: "col-10 small") { |row| link_to(row.event, row.event) }
-    - t.col("Name", class: "col-20 info-link") { |row| competition_link(row, type: :name) }
-    - t.col("HBw", class: "col-5") { |row| count_or_zero(row.hb_female) }
-    - t.col("HBm", class: "col-5") { |row| count_or_zero(row.hb_male) }
-    - t.col("HLw", class: "col-5") { |row| count_or_zero(row.hl_female) }
-    - t.col("HLm", class: "col-5") { |row| count_or_zero(row.hl_male) }
-    - t.col("GS", class: "col-5") { |row| count_or_zero(row.gs) }
-    - t.col("FSw", class: "col-5") { |row| count_or_zero(row.fs_female) }
-    - t.col("FSm", class: "col-5") { |row| count_or_zero(row.fs_male) }
-    - t.col("LAw", class: "col-5") { |row| count_or_zero(row.la_female) }
-    - t.col("LAm", class: "col-5") { |row| count_or_zero(row.la_male) }
+    .container= render 'calculation/competitions_discipline_overview', toc: toc
 
-  = render 'calculation/competitions_discipline_overview', toc: toc
-
-  = toc.anker("Karte", :h2)
-  .row
-    .col-md-9
-      = map(id: 'place-map', red: @place, data: { place_id: @place.id })
-    .col-md-3.place-map-actions
-      - if @place.positioned?
-        .btn.btn-default#change-geo-position Geoposition bearbeiten
-      - else
-        %p Bisher wurden keine Geoposition für diesen Ort hinterlegt.
-        .btn.btn-default#change-geo-position Geoposition hinzufügen
+    .container
+      = toc.anker 'Karte', :h2
+    .container
+      .col-md-9
+        = map(id: 'place-map', red: resource, data: { place_id: resource.id })
+      .col-md-3.place-map-actions
+        - if resource.positioned?
+          .btn.btn-default#change-geo-position Geoposition bearbeiten
+        - else
+          %p Bisher wurden keine Geoposition für diesen Ort hinterlegt.
+          .btn.btn-default#change-geo-position Geoposition hinzufügen

@@ -1,0 +1,18 @@
+= render 'hero', actions: false
+.section
+  .container
+    .col-md-3 Von: #{resource.source_team}
+    .col-md-6.text-center
+      #do-move.btn.btn-primary Ausführen
+      = link_to('Zurück', url_for(params.merge(action: :new)), class: 'btn btn-default')
+    .col-md-3 Nach: #{resource.destination_team}
+        
+.section
+  .container
+    %table#score-table.table.table-hover.table-condensed.table-bordered{ data: { source_team: resource.source_team_id, destination_team: resource.destination_team_id } }
+      %tr#headline
+        %th
+        %th ID
+        %th N
+        %th Wettkampf
+        %th

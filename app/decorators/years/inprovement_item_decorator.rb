@@ -1,4 +1,4 @@
-class Years::InprovementItemDecorator < ApplicationDecorator
+class Years::InprovementItemDecorator < AppDecorator
   decorates_association :person
   decorates_association :current_scores
   decorates_association :last_scores

@@ -4,28 +4,29 @@
     %title= page_title
     %meta{:content => "text/html;charset=utf-8", "http-equiv" => "content-type"}/
     = favicon_link_tag
-    = stylesheet_link_tag    'application', media: 'all'
-    = javascript_include_tag 'application'
-    = javascript_include_tag "controllers/#{controller_path}" if ::Sprockets::Railtie.build_environment(Rails.application).find_asset("controllers/#{controller_path}.js").present?
-    = auto_discovery_link_tag(:rss, news_index_path(format: :atom))
-    = auto_discovery_link_tag(:rss, change_logs_path(format: :atom))
     - if backend?
-      = javascript_include_tag "backend"
-      = stylesheet_link_tag "backend"
-    - if comp_reg?
-      = javascript_include_tag "comp_reg"
-      = stylesheet_link_tag "comp_reg"
+      = javascript_include_tag 'backend'
+      = stylesheet_link_tag 'backend'
+    - elsif registrations?
+      = javascript_include_tag 'registrations'
+      = stylesheet_link_tag 'registrations'
+    - else
+      = javascript_include_tag 'application'
+      = stylesheet_link_tag    'application'
+
+    = javascript_include_tag "controllers/#{controller_path}" if ::Sprockets::Railtie.build_environment(Rails.application).find_asset("controllers/#{controller_path}.js").present?
+    = auto_discovery_link_tag(:rss, news_articles_path(format: :atom))
+    = auto_discovery_link_tag(:rss, change_logs_path(format: :atom))
     = csrf_meta_tags
     /[if lt IE 9]
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
   %body
     = render 'navigation'
-    .container
-      - unless save_html_cache?
-        - flash.each do |name, msg|
-          %div{class: "alert alert-#{name.to_s}"}
-            %a.close{href: "#", "data-dismiss" => "alert"} &times;
-            = msg
-      = yield
+    - unless save_html_cache?
+      - flash.each do |name, msg|
+        %div{class: "alert alert-#{name.to_s}"}
+          %a.close{href: "#", "data-dismiss" => "alert"} &times;
+          = msg
+    = yield
     = render 'footer'

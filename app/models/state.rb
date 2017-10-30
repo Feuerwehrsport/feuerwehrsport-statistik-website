@@ -23,7 +23,7 @@ class State
     'PL' => 'Polen',
     'BY' => 'Weißrussland',
     'HU' => 'Ungarn',
-  }
+  }.freeze
 
   FEDERAL = [
     'BW',
@@ -42,14 +42,14 @@ class State
     'ST',
     'SH',
     'TH',
-  ]
+  ].freeze
 
-  INTERNATIONAL = [
-    'CZ',
-    'DE',
-    'AT',
-    'PL',
-    'BY',
-    'HU',
-  ]
+  INTERNATIONAL = %w[
+    CZ
+    DE
+    AT
+    PL
+    BY
+    HU
+  ].freeze
 end

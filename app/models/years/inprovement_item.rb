@@ -18,10 +18,10 @@ class Years::InprovementItem < Struct.new(:person)
   end
 
   def last_average
-    last_scores.count >= 3 ? last_scores.sort_by!(&:time).first(3).map(&:time).sum/3 : Firesport::INVALID_TIME
+    last_scores.count >= 3 ? last_scores.sort_by!(&:time).first(3).map(&:time).sum / 3 : Firesport::INVALID_TIME
   end
 
   def current_average
-    current_scores.count >= 3 ? current_scores.sort_by!(&:time).first(3).map(&:time).sum/3 : Firesport::INVALID_TIME
+    current_scores.count >= 3 ? current_scores.sort_by!(&:time).first(3).map(&:time).sum / 3 : Firesport::INVALID_TIME
   end
 end

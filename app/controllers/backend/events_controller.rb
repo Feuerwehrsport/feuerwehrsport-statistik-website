@@ -1,7 +1,11 @@
-class Backend::EventsController < Backend::ResourcesController
-  protected
+class Backend::EventsController < Backend::BackendController
+  backend_actions
 
-  def permitted_attributes
-    super.permit(:name)
+  default_form do |f|
+    f.input :name
+  end
+
+  default_index do |t|
+    t.col :name
   end
 end

@@ -1,5 +1,5 @@
 module Helper::NationHelper
-  def nation_flag(nation, options={})
+  def nation_flag(nation, options = {})
     if nation.is_a?(Array)
       iso = nation.first
       name = nation.last

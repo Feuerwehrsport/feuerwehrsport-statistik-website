@@ -10,7 +10,7 @@ module UI
       after_initialize if respond_to? :after_initialize
     end
 
-    def col column_head, column_key=nil, options={}, &block
+    def col(column_head, column_key = nil, options = {}, &block)
       if column_key.is_a? Hash
         options = column_key
         column_key = nil
@@ -32,13 +32,11 @@ module UI
       data
     end
 
-    def row_class(row=nil, &block)
+    def row_class(row = nil, &block)
       if block.present?
         @row_class_block = block
       elsif @row_class_block.present?
         @row_class_block.call(row)
-      else
-        nil
       end
     end
 
@@ -46,7 +44,7 @@ module UI
       columns.map(&:name)
     end
 
-    def footer(options={}, &block)
+    def footer(options = {}, &block)
       self.footer_options = options
       self.footer_block = block
     end
@@ -55,11 +53,11 @@ module UI
     end
 
     class Column < Struct.new(:count_table, :name, :keys, :options, :block)
-      def content row
+      def content(row)
         if keys.present?
           value = row
           keys.each { |key| value = value.try(key) }
-          
+
           if options[:link_to].present?
             to = options[:link_to] == true ? row : row.try(options[:link_to])
             count_table.view.link_to(value, to)
@@ -67,7 +65,7 @@ module UI
             value
           end
         elsif options[:helper_method].present?
-          if options[:helper_method_options].present? 
+          if options[:helper_method_options].present?
             count_table.view.send(options[:helper_method], row, options[:helper_method_options])
           else
             count_table.view.send(options[:helper_method], row)

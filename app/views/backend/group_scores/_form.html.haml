@@ -1,8 +1,0 @@
-= simple_form_for([:backend, @resource_instance]) do |f|
-  = f.association :team
-  = f.input :team_number
-  = f.input :gender, collection: [:male, :female]
-  = f.input :time
-  = f.association :group_score_category, label_method: :with_competition
-  = f.input :run, collection: ["A", "B", "C"]
-  = f.button :submit

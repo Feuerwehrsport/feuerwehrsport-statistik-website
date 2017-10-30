@@ -1,7 +1,26 @@
-class Backend::TeamsController < Backend::ResourcesController
-  protected
+class Backend::TeamsController < Backend::BackendController
+  backend_actions
 
-  def permitted_attributes
-    super.permit(:name, :shortcut, :status, :latitude, :longitude, :image, :state)
+  default_form do |f|
+    f.input :name
+    f.input :shortcut
+    f.input :status
+    f.input :latitude
+    f.input :longitude
+    f.input :image
+    f.input :state
+  end
+
+  filter_index do |by|
+    by.scope :person, collection: Person.filter_collection, label_method: :searchable_name
+    by.scope :competition, collection: Competition.filter_collection
+  end
+
+  default_index do |t|
+    t.col :name
+    t.col :shortcut
+    t.col :status
+    t.col :image
+    t.col :state
   end
 end

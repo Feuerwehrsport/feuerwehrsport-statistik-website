@@ -1,6 +1,7 @@
-class GroupScoreTypeDecorator < ApplicationDecorator
-  include Indexable
-  index_columns :id, :name, :discipline, :regular
-
+class GroupScoreTypeDecorator < AppDecorator
   delegate :to_s, to: :name
+
+  def searchable_name
+    "#{discipline}, #{self}"
+  end
 end

@@ -1,7 +1,28 @@
-class Backend::GroupScoresController < Backend::ResourcesController
-  protected
+class Backend::GroupScoresController < Backend::BackendController
+  backend_actions
 
-  def permitted_attributes
-    super.permit(:team_id, :team_number, :gender, :time, :group_score_category_id, :run)
+  default_form do |f|
+    f.association :team
+    f.input :team_number
+    f.input :gender, collection: %i[male female]
+    f.input :time
+    f.association :group_score_category, label_method: :with_competition
+    f.input :run, collection: %w[A B C]
+  end
+
+  filter_index do |by|
+    by.scope :competition, collection: Competition.filter_collection
+    by.scope :group_score_category, collection: [], hidden: true
+    by.scope :group_score_type, collection: GroupScoreType.filter_collection, label_method: :searchable_name
+    by.scope :person, collection: [], hidden: true
+    by.scope :team, collection: Team.filter_collection
+  end
+
+  default_index do |t|
+    t.col :competition, sortable: false
+    t.col :time
+    t.col :team, sortable: { team: :name }
+    t.col :team_number
+    t.col :discipline, sortable: false
   end
 end

@@ -6,7 +6,7 @@ module Calculation
       end
 
       def self.score_collection
-        Score.german.includes(competition: [:event, :place]).includes(:person)
+        Score.german.includes(competition: %i[event place]).includes(:person)
       end
     end
   end

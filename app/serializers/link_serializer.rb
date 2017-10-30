@@ -1,12 +1,11 @@
 class LinkSerializer < ActiveModel::Serializer
-  include Rails.application.routes.url_helpers
+  include M3::URLSupport
   attributes :id, :label, :linkable_id, :linkable_type, :url, :linkable_url
 
   def linkable_url
-    url_for(object.linkable) rescue root_path
-  end
-
-  def default_url_options
-    Rails.configuration.action_controller.default_url_options
+    return if object.linkable.blank?
+    url_for(object.linkable)
+  rescue ActionController::UrlGenerationError
+    root_path
   end
 end

@@ -1,42 +1,49 @@
 class YearsController < ResourceController
-  cache_actions :index, :show, :best_performance, :best_scores
+  resource_actions :show, :index, cache: %i[show index best_performance best_scores]
 
   def index
-    @years = Year.competition_count.decorate
-    @chart = Chart::YearIndex.new(years: @years)
+    super
+    @chart = Chart::YearIndex.new(years: collection.decorate)
   end
 
   def show
-    @year = Year.find_by_year!(params[:id]).decorate
-    @competitions = @year.competitions.includes(:place, :event).decorate
-    @chart = Chart::CompetitionsScoreOverview.new(competitions: @competitions)
-    @competitions_discipline_overview = Calculation::CompetitionsScoreOverview.new(@competitions.map(&:id)).disciplines
-    @page_title = "Jahr #{@year}"
+    competitions = @year.competitions.includes(:place, :event)
+    @chart = Chart::CompetitionsScoreOverview.new(competitions: competitions)
+    @competitions_discipline_overview = Calculation::CompetitionsScoreOverview.new(competitions.map(&:id)).disciplines
+    @competitions = competitions.decorate
   end
 
   def best_performance
-    @year = Year.find_by_year!(params[:id]).decorate
-    @performance_overview_disciplines = Calculation::PerformanceOfYear::Discipline.get(@year.year).map(&:decorate)
+    assign_resource
+    @performance_overview_disciplines = Calculation::PerformanceOfYear::Discipline.get(resource.year).map(&:decorate)
   end
 
   def best_scores
-    @year = Year.find_by_year!(params[:id]).decorate
+    assign_resource
     @discipline_structs = []
     [
-      [:hb, :female],
-      [:hb, :male],
-      [:hl, :female],
-      [:hl, :male],
-      [:gs, :female],
-      [:la, :female],
-      [:la, :male],
+      %i[hb female],
+      %i[hb male],
+      %i[hl female],
+      %i[hl male],
+      %i[gs female],
+      %i[la female],
+      %i[la male],
     ].each do |discipline, gender|
       klass = Discipline.group?(discipline) ? GroupScore.regular : Score
+      scores = klass.best_of_year(resource, discipline, gender).order(:time).decorate
+      next if scores.to_a.blank?
       @discipline_structs.push OpenStruct.new(
         discipline: discipline,
         gender: gender,
-        scores: klass.best_of_year(@year.object, discipline, gender).order(:time).decorate
+        scores: scores,
       )
     end
+  end
+
+  protected
+
+  def find_collection
+    super.competition_count
   end
 end

@@ -23,12 +23,11 @@ job_type :ensure_delayed_job_running, ':path/etc/ensure_delayed_job_running.sh :
 job_type :ensure_unicorn_running, ':path/etc/ensure_unicorn_running.sh :task'
 
 every :reboot do
-  command "/etc/init.d/unicorn_feuerwehrsport-statistik restart"
+  command '/etc/init.d/unicorn_feuerwehrsport-statistik restart'
   command "#{base_command}delayed_job restart"
 end
 
 every :day, at: '5:12 am' do
-  command "#{base_command}rake backup_dump"
   command "#{base_command}rake m3:log_file_parser"
 end
 

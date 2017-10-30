@@ -1,10 +1,9 @@
-class AdminUserDecorator < ApplicationDecorator
-  include Indexable
-  index_columns :id, :email
-
-  decorates_association :news
-
+class AdminUserDecorator < AppDecorator
   def to_s
     name
+  end
+
+  def name_with_role
+    "#{role}: #{name}"
   end
 end

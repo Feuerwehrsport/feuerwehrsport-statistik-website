@@ -1,7 +1,4 @@
-class GroupScoreDecorator < ApplicationDecorator
-  include Indexable
-  index_columns :id, :team, :team_number, :translated_gender, :competition, :discipline, :second_time
-
+class GroupScoreDecorator < AppDecorator
   decorates_association :competition
   decorates_association :team
   decorates_association :group_score_category
@@ -10,9 +7,7 @@ class GroupScoreDecorator < ApplicationDecorator
     team
   end
 
-  def discipline
-    group_score_category.discipline
-  end
+  delegate :discipline, to: :group_score_category
 
   def to_s
     "#{team} #{team_number} - #{second_time}"

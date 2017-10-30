@@ -2,7 +2,7 @@ module UI
   class NavTab
     include UniqIDFinder
     attr_reader :tabs
-    alias_method :elements, :tabs
+    alias elements tabs
 
     def initialize
       @tabs = []

@@ -1,4 +1,4 @@
-class GroupScoreParticipationDecorator < ApplicationDecorator
+class GroupScoreParticipationDecorator < AppDecorator
   decorates_association :competition
   decorates_association :team
   decorates_association :group_score_type

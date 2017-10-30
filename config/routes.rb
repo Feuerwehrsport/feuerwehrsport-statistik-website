@@ -1,9 +1,4 @@
 Rails.application.routes.draw do
-  devise_for :admin_users, controllers: {
-    registrations: 'admin_users/registrations'
-  }
-
-
   # backend: area for admin users
   namespace :backend do
     root to: 'dashboards#index'
@@ -12,7 +7,7 @@ Rails.application.routes.draw do
         get :administration
       end
     end
-    resources :admin_users
+    resources :admin_users, only: %i[show edit update index destroy]
     resources :appointments
     resources :change_requests, only: [:index]
     resources :competitions
@@ -25,24 +20,22 @@ Rails.application.routes.draw do
     resources :import_requests
     resources :links
     resources :nations
-    resources :news
+    resources :news_articles
     resources :people
     resources :person_participations
     resources :person_spellings
     resources :places
-    resources :repairs, only: [] do
-      collection do
-        get :teams
-      end
+    namespace :repairs do
+      resource :team_score_move
     end
+    resource :registration
     resources :scores
     resources :score_types
     namespace :series do
-      resources :rounds, only: [:new, :create, :show, :index] do 
-        member do
-          post ':cup_id/destroy', action: :competition_destroy
-        end
+      resources :rounds do
+        resource :import, only: %i[new create], controller: :round_imports
       end
+      resources :cups, only: [:destroy]
     end
     resources :teams
   end
@@ -55,39 +48,39 @@ Rails.application.routes.draw do
         post :logout
       end
     end
-    resources :appointments, only: [:create, :show, :update]
-    resources :change_requests, only: [:create, :index, :update] do
+    resources :appointments, only: %i[create show update]
+    resources :change_requests, only: %i[create index update] do
       resources :files, only: [:show], to: 'change_requests#files'
     end
-    resources :competitions, only: [:create, :show, :index, :update] do
-      member { post :files }
+    resources :competitions, only: %i[create show index update] do
+      resource :competition_files, only: [:create]
     end
-    resources :events, only: [:create, :show, :index]
-    resources :group_score_types, only: [:create, :index]
-    resources :group_score_categories, only: [:create, :index]
-    resources :group_scores, only: [:show, :update] do
+    resources :events, only: %i[create show index]
+    resources :group_score_types, only: %i[create index]
+    resources :group_score_categories, only: %i[create index]
+    resources :group_scores, only: %i[show update] do
       member { put :person_participation }
     end
     resources :imports, only: [] do
-      collection do 
+      collection do
         post :check_lines
         post :scores
       end
     end
-    resources :links, only: [:create, :show, :destroy]
-    resources :nations, only: [:show, :index]
-    resources :people, only: [:create, :show, :index, :update] do
+    resources :links, only: %i[create show destroy]
+    resources :nations, only: %i[show index]
+    resources :people, only: %i[create show index update] do
       member { post :merge }
     end
     resources :person_spellings, only: [:index]
-    resources :places, only: [:create, :show, :index, :update]
+    resources :places, only: %i[create show index update]
     resources :score_types, only: [:index]
-    resources :scores, only: [:show, :update]
+    resources :scores, only: %i[show index update]
     namespace :series do
       resources :assessments, only: [:index]
       resources :cups, only: [:index]
-      resources :participations, only: [:create, :show, :index, :update, :destroy]
-      resources :rounds, only: [:create, :show, :update, :index]
+      resources :participations, only: %i[create show index update destroy]
+      resources :rounds, only: %i[create show update index]
       resources :team_assessments, only: [:index]
     end
     resources :suggestions, only: [] do
@@ -98,49 +91,46 @@ Rails.application.routes.draw do
     end
     resources :team_members, only: [:index]
     resources :team_spellings, only: [:index]
-    resources :teams, only: [:create, :show, :index, :update] do
+    resources :teams, only: %i[create show index update] do
       member { post :merge }
     end
   end
 
-  namespace :comp_reg do
+  namespace :registrations do
     resources :competitions do
       collection { get :new_select_template }
-      member { get :publishing }
-      scope module: :competitions do
-        resource :mail, only: [:new, :create]
+      resources :teams, only: %i[new create show edit update destroy]
+      resources :people, only: %i[new create edit update destroy] do
+        member do
+          get :participations
+        end
       end
-    end
-    resources :teams, only: [:new, :create, :show, :edit, :update, :destroy]
-    resources :people, only: [:new, :create, :edit, :update, :destroy] do
-      member do
-        get :participations
-      end
+      resource :mail, only: %i[new create]
     end
   end
 
   get 'wa/:slug', to: 'comp_reg/competitions#slug_handle', as: :comp_reg_slug
 
   # following controllers will write html cache
-  resources :change_logs, only: [:index, :show]
-  resources :appointments, only: [:index, :show]
-  resources :competitions, only: [:index, :show]
-  resources :people, only: [:index, :show]
-  resources :places, only: [:index, :show]
-  resources :teams, only: [:index, :show]
-  resources :news, only: [:index, :show]
-  resources :years, only: [:index, :show] do
+  resources :change_logs, only: %i[index show]
+  resources :appointments, only: %i[index show]
+  resources :competitions, only: %i[index show]
+  resources :people, only: %i[index show]
+  resources :places, only: %i[index show]
+  resources :teams, only: %i[index show]
+  resources :news_articles, only: %i[index show]
+  resources :years, only: %i[index show] do
     member do
       get :best_performance
       get :best_scores
     end
     scope module: :years do
-      resources :inprovements, only: [:index, :show]
+      resources :inprovements, only: %i[index show]
     end
   end
-  resources :events, only: [:index, :show]
+  resources :events, only: %i[index show]
   namespace :series do
-    resources :rounds, only: [:index, :show]
+    resources :rounds, only: %i[index show]
     resources :assessments, only: [:show]
   end
   scope :images do
@@ -157,7 +147,18 @@ Rails.application.routes.draw do
   get :best_of, to: 'pages#best_of'
   root to: 'pages#dashboard'
 
+  resource :session, controller: 'm3/login/sessions', only: %i[new create show destroy] do
+    collection do
+      get 'verify/:verify_token', action: :verify
+    end
+  end
+  resources :password_reset, controller: 'm3/login/password_resets', only: %i[new create index edit update]
+  resources :expired_login, controller: 'm3/login/expired_logins', only: %i[new create index]
+  resources :changed_email_addresses, controller: 'm3/login/changed_email_addresses', only: %i[edit update]
+
+  get 'association_select/:association', as: :association_select, to: 'association_select#show'
+
   # error handling
-  get "/404" => "errors#not_found"
-  get "/500" => "errors#internal_server_error"
+  get '/404' => 'errors#not_found'
+  get '/500' => 'errors#internal_server_error'
 end

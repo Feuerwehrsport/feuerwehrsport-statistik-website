@@ -1,9 +1,9 @@
 %div
   %ul.nav.nav-tabs
     - nt.tabs.each_with_index do |tab, index|
-      %li{ class: index == 0 ? "active" : "" }
-        %a{"data-toggle" => "tab", href: "##{tab.global_id}"}= tab.name
+      %li{ class: index == 0 ? 'active' : '' }
+        %a{'data-toggle' => 'tab', href: "##{tab.global_id}"}= tab.name
   .tab-content
     - nt.tabs.each_with_index do |tab, index|
-      .tab-pane.fade{ class: index == 0 ? "in active" : "", id: tab.global_id }
+      .tab-pane.fade{ class: index == 0 ? 'in active' : '', id: tab.global_id }
         = capture_haml &tab.block

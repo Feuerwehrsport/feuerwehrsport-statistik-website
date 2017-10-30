@@ -1,5 +1,5 @@
 - @group_disciplines.each do |group_discipline|
-  = toc.anker("#{discipline_name(group_discipline.discipline)} #{g_symbol(group_discipline.gender)}")
+  = toc.anker"#{discipline_name(group_discipline.discipline)} #{g_symbol(group_discipline.gender)}"
   %h2
     = discipline_image(group_discipline.discipline)
     = discipline_name(group_discipline.discipline)
@@ -19,8 +19,8 @@
           = @chart.discipline_invalid(group_discipline.discipline, group_type.scores)
       .col-md-9
         = @chart.group_discipline_scores(group_type.valid_scores)
-    = position_count_table(group_discipline.discipline, group_discipline.gender, group_type.scores, class: "datatable-group-disciplines") do |ct|
-      - ct.col("Datum", class: "small col-8 info-link") { |row| competition_link(row.competition, type: :date) }
-      - ct.col("Typ", class: "small col-10") { |row| event_link(row.competition.event) }
-      - ct.col("Ort", class: "small col-10") { |row| place_link(row.competition.place) }
-      - ct.col("N", class: "small col-5") { |row| [row.team_number, row.run].reject(&:blank?).join(" ") }
+    = position_count_table(group_discipline.discipline, group_discipline.gender, group_type.scores, class: 'datatable-group-disciplines') do |ct|
+      - ct.col('Datum', class: 'small col-8 info-link') { |row| competition_link(row.competition, type: :date_iso) }
+      - ct.col('Typ', class: 'small col-10') { |row| event_link(row.competition.event) }
+      - ct.col('Ort', class: 'small col-10') { |row| place_link(row.competition.place) }
+      - ct.col('N', class: 'small col-5') { |row| [row.team_number, row.run].reject(&:blank?).join(' ') }

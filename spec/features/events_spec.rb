@@ -1,23 +1,33 @@
 require 'rails_helper'
 
-describe "events features", type: :feature, js: true do
-  context "index" do
-    it "shows an overview" do
+describe 'events features', type: :feature, js: true do
+  let(:event) { create(:event) }
+
+  context 'index' do
+    it 'shows an overview' do
+      13.times { create(:competition, event: create(:event)) }
+
       visit events_path
-      expect(page).to have_content '1 bis 10 von 20 Einträgen'
-      click_on("Nächste")
-      expect(page).to have_content '11 bis 20 von 20 Einträgen'
+      expect(page).to have_content '1 bis 10 von 13 Einträgen'
+      save_review_screenshot
+      click_on 'Nächste', match: :first
+      expect(page).to have_content '11 bis 13 von 13 Einträgen'
+      click_on 'Zurück', match: :first
+      expect(page).to have_content '1 bis 10 von 13 Einträgen'
     end
   end
 
-  context "show" do
-    it "shows an competitions overview" do
-      api_sign_in
+  context 'show' do
+    it 'shows an competitions overview' do
+      create_list(:competition, 13, event: event)
 
-      visit event_path(id: 15)
-      expect(page).to have_content '1 bis 10 von 12 Einträgen'
-      click_on("Nächste")
-      expect(page).to have_content '11 bis 12 von 12 Einträgen'
+      visit event_path(event)
+      expect(page).to have_content '1 bis 10 von 13 Einträgen'
+      save_review_screenshot
+      click_on('Nächste')
+      expect(page).to have_content '11 bis 13 von 13 Einträgen'
+      click_on 'Zurück'
+      expect(page).to have_content '1 bis 10 von 13 Einträgen'
     end
   end
 end

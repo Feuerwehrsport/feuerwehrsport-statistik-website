@@ -1,23 +1,25 @@
 = table_of_contents do |toc|
-  .page-header.row
-    .col-md-9
-      %h1 Wettkämpfe
-    .col-md-3= toc.index
+  .section
+    .container.page-header
+      .col-md-9
+        %h1 Wettkämpfe
+      .col-md-3= toc.index
 
-  = toc.anker("Wettkämpfe")
-  = count_table(@competitions, class: "datatable-competitons") do |t|
-    - t.col("Datum", class: "col-10 info-link") { |row| competition_link(row, type: :l_date) }
-    - t.col("Typ", class: "col-10 small") { |row| event_link(row.event) }
-    - t.col("Ort", class: "col-10 small") { |row| place_link(row.place) }
-    - t.col("Name", class: "col-20 info-link") { |row| competition_link(row, type: :name) }
-    - t.col("HBw", class: "col-5", th_options: { class: "small" }) { |row| count_or_zero(row.hb_female) }
-    - t.col("HBm", class: "col-5", th_options: { class: "small" }) { |row| count_or_zero(row.hb_male) }
-    - t.col("HLw", class: "col-5", th_options: { class: "small" }) { |row| count_or_zero(row.hl_female) }
-    - t.col("HLm", class: "col-5", th_options: { class: "small" }) { |row| count_or_zero(row.hl_male) }
-    - t.col("GS", class: "col-5", th_options: { class: "small" }) { |row| count_or_zero(row.gs) }
-    - t.col("FSw", class: "col-5", th_options: { class: "small" }) { |row| count_or_zero(row.fs_female) }
-    - t.col("FSm", class: "col-5", th_options: { class: "small" }) { |row| count_or_zero(row.fs_male) }
-    - t.col("LAw", class: "col-5", th_options: { class: "small" }) { |row| count_or_zero(row.la_female) }
-    - t.col("LAm", class: "col-5", th_options: { class: "small" }) { |row| count_or_zero(row.la_male) }
+    .container
+      = toc.anker('Wettkämpfe')
+      = count_table(collection, class: 'datatable-competitons') do |t|
+        - t.col('Datum', class: 'col-10 info-link') { |row| competition_link(row, type: :date_iso) }
+        - t.col('Typ', class: 'col-10 small') { |row| event_link(row.event) }
+        - t.col('Ort', class: 'col-10 small') { |row| place_link(row.place) }
+        - t.col('Name', class: 'col-20 info-link') { |row| competition_link(row, type: :name) }
+        - t.col('HBw', class: 'col-5', th_options: { class: 'small' }) { |row| count_or_zero(row.hb_female) }
+        - t.col('HBm', class: 'col-5', th_options: { class: 'small' }) { |row| count_or_zero(row.hb_male) }
+        - t.col('HLw', class: 'col-5', th_options: { class: 'small' }) { |row| count_or_zero(row.hl_female) }
+        - t.col('HLm', class: 'col-5', th_options: { class: 'small' }) { |row| count_or_zero(row.hl_male) }
+        - t.col('GS', class: 'col-5', th_options: { class: 'small' }) { |row| count_or_zero(row.gs) }
+        - t.col('FSw', class: 'col-5', th_options: { class: 'small' }) { |row| count_or_zero(row.fs_female) }
+        - t.col('FSm', class: 'col-5', th_options: { class: 'small' }) { |row| count_or_zero(row.fs_male) }
+        - t.col('LAw', class: 'col-5', th_options: { class: 'small' }) { |row| count_or_zero(row.la_female) }
+        - t.col('LAm', class: 'col-5', th_options: { class: 'small' }) { |row| count_or_zero(row.la_male) }
 
-  = render 'calculation/competitions_discipline_overview', toc: toc
+    .container= render 'calculation/competitions_discipline_overview', toc: toc

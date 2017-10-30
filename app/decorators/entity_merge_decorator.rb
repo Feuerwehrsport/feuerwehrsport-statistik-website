@@ -1,2 +1,2 @@
-class EntityMergeDecorator < ApplicationDecorator
+class EntityMergeDecorator < AppDecorator
 end

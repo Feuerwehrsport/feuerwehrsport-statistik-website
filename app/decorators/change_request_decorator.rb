@@ -1,4 +1,4 @@
-class ChangeRequestDecorator < ApplicationDecorator
+class ChangeRequestDecorator < AppDecorator
   decorates_association :admin_user
   decorates_association :api_user
   decorates_association :user

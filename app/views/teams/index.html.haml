@@ -1,37 +1,39 @@
-%h1= page_title
+.section
+  .container.page-header
+    %h1= page_title
+  .container
+    = count_table(collection, class: 'datatable-teams') do |t|
+      - t.col('', class: 'col-5') { |row| row.image.present? ? image_tag(row.image.thumb) : '' }
+      - t.col('Name', class: 'col-40') { |row| team_link(row) }
+      - t.col('Abk.', :shortcut, class: 'col-30')
+      - t.col('Typ', :human_status, class: 'col-10 small')
+      - t.col('Land', :state, class: 'col-10 small')
+      - t.col('Mitglieder', :members_count, class: 'col-15', th_options: { class: 'small' })
+      - t.col('Wettkämpfe', :competitions_count, class: 'col-15', th_options: { class: 'small' })
+  .container
+    .col-md-6
+      %h4 Verteilung der Bundesländer
+      = @charts.federal_states_pie
+    .col-md-6
+      %h4 Verteilung der Staaten
+      = @charts.international_states_pie
 
-= count_table(@teams, class: "datatable-teams") do |t|
-  - t.col("", class: "col-5") { |row| row.image.present? ? image_tag(row.image.thumb) : "" }
-  - t.col("Name", class: "col-40") { |row| team_link(row) }
-  - t.col("Abk.", :shortcut, class: "col-30")
-  - t.col("Typ", :human_status, class: "col-10 small")
-  - t.col("Land", :state, class: "col-10 small")
-  - t.col("Mitglieder", :members_count, class: "col-15", th_options: { class: "small" })
-  - t.col("Wettkämpfe", :competitions_count, class: "col-15", th_options: { class: "small" })
+  .container
+    %h2 Neue Mannschaft anlegen
+  .container
+    .col-md-4
+      %p Ist deine Mannschaft oder Feuerwehr noch nicht eingetragen? Dann lege sie doch einfach schnell an. Mit nur ein paar Klicks und ohne Anmeldung ist es in einer Minute geschafft.
+      .btn.btn-default#add-team Anlegen
 
-.row
-  .col-md-6
-    %h4 Verteilung der Bundesländer
-    = @charts.federal_states_pie
-  .col-md-6
-    %h4 Verteilung der Staaten
-    = @charts.international_states_pie
-
-%h2 Neue Mannschaft anlegen
-.row
-  .col-md-4
-    %p Ist deine Mannschaft oder Feuerwehr noch nicht eingetragen? Dann lege sie doch einfach schnell an. Mit nur ein paar Klicks und ohne Anmeldung ist es in einer Minute geschafft.
-    .btn.btn-default#add-team Anlegen
-
-  .col-md-4
-    = image_tag asset_path("actions/user-group-new.png")
-  .col-md-4
-    %h4 Konventionen - Freiwillige Feuerwehren
-    %p Bei der Eingabe einer Feuerwehr einigen wir uns der Übersichts geschuldet auf folgende Abkürzung:
-    %table
-      %tr
-        %th Name: 
-        %td FF XXX
-      %tr
-        %th Abk.: 
-        %td XXX
+    .col-md-4
+      = image_tag asset_path('actions/user-group-new.png')
+    .col-md-4
+      %h4 Konventionen - Freiwillige Feuerwehren
+      %p Bei der Eingabe einer Feuerwehr einigen wir uns der Übersichts geschuldet auf folgende Abkürzung:
+      %table
+        %tr
+          %th Name: 
+          %td FF XXX
+        %tr
+          %th Abk.: 
+          %td XXX

@@ -1,8 +1,10 @@
-%h1 Jahre
+.section
+  .container
+    %h1 Jahre
 
-= count_table(@years, class: "datatable-years") do |t|
-  - t.col("Jahr", class: "col-md-4") { |row| year_link(row) }
-  - t.col("Wettkämpfe", :count, class: "col-md-1")
+    = count_table(collection, class: 'datatable-years') do |t|
+      - t.col('Jahr', class: 'col-md-4') { |row| year_link(row) }
+      - t.col('Wettkämpfe', :count, class: 'col-md-1')
 
-%h4 Anzahl der Wettkämpfe pro Jahr
-= @chart.years_count
+    %h4 Anzahl der Wettkämpfe pro Jahr
+    = @chart.years_count

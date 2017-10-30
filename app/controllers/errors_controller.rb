@@ -30,22 +30,24 @@ class ErrorsController < ApplicationController
     [/^\/page\/wettkampf-manager\.html$/, '/wettkampf_manager'],
     [/^\/page\/year-(\d+)\.html$/, '/years/%1%'],
     [/^\/page\/years\.html$/, '/years'],
-  ]
-  
+    [/^\/news\/(\d+)$/, '/news_articles/%1%'],
+    [/^\/news\/?$/, '/news_articles'],
+  ].freeze
+
   def not_found
-    @page_title = "404 - Seite nicht gefunden"
+    @page_title = '404 - Seite nicht gefunden'
     render(status: 404)
   end
 
   def internal_server_error
-    @page_title = "500 - Interner Fehler"
+    @page_title = '500 - Interner Fehler'
     render(status: 500)
   end
 
   protected
 
   def original_fullpath
-    request.env["ORIGINAL_FULLPATH"]
+    request.env['ORIGINAL_FULLPATH']
   end
 
   def redirect_with_log(target, log_message)
@@ -72,16 +74,16 @@ class ErrorsController < ApplicationController
     def match?
       match.present?
     end
-      
+
     def match
       @match ||= current_path.match(regexp)
     end
 
     def redirect_target
       (1..(match.length - 1)).each do |i|
-        self.new_path = self.new_path.gsub("%#{i}%", match[i])
+        self.new_path = new_path.gsub("%#{i}%", match[i])
       end
-      self.new_path
+      new_path
     end
   end
 end

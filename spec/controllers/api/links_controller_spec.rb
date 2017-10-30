@@ -5,10 +5,10 @@ RSpec.describe API::LinksController, type: :controller do
   let(:team) { create(:team) }
   describe 'POST create' do
     it 'creates new link', login: :api do
-      expect {
-        post :create, link: { label: 'Linkname', url: 'http://foobar', linkable_id: team.id, linkable_type: 'Team'}
+      expect do
+        post :create, link: { label: 'Linkname', url: 'http://foobar', linkable_id: team.id, linkable_type: 'Team' }
         expect_api_login_response
-      }.to change(Link, :count).by(1)
+      end.to change(Link, :count).by(1)
     end
   end
 
@@ -21,7 +21,7 @@ RSpec.describe API::LinksController, type: :controller do
         label: 'Bericht auf Feuerwehrsport Team-MV',
         linkable_id: link.linkable_id,
         linkable_type: 'Competition',
-        linkable_url: "http://localhost/competitions/#{link.linkable_id}",
+        linkable_url: "http://test.host/competitions/#{link.linkable_id}",
         url: 'http://www.feuerwehrsport-teammv.de/2012/08/24-08-2012-3-mv-steigercup-kagsdorf/',
       )
     end
@@ -31,10 +31,10 @@ RSpec.describe API::LinksController, type: :controller do
     before { link }
     subject { -> { delete :destroy, id: link.id } }
     it 'destroys link', login: :sub_admin do
-      expect {
+      expect do
         subject.call
         expect_json_response
-      }.to change(Link, :count).by(-1)
+      end.to change(Link, :count).by(-1)
     end
     it_behaves_like 'api user get permission error'
   end

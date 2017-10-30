@@ -1,9 +1,10 @@
 = table_of_contents do |toc|
-  .page-header.row
-    .col-md-5
-      %h1= @round
-    .col-md-4= render("series/cups_overview", cups: @round.cups)
-    .col-md-3= toc.index
+  .section
+    .container.page-header
+      .col-md-5
+        %h1= resource
+      .col-md-4= render("series/cups_overview", cups: resource.cups)
+      .col-md-3= toc.index
   
-  = render('show', toc: toc, cache: true)
-  = render('series/round_footer', official: @round.official?, pdf: @team_assessments_exists)
+    = render('show', toc: toc, cache: true, round: resource)
+    .container= render('series/round_footer', official: resource.official?, pdf: @team_assessments_exists)

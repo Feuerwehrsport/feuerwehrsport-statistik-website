@@ -1,4 +1,4 @@
-class Series::ParticipationDecorator < ApplicationDecorator
+class Series::ParticipationDecorator < AppDecorator
   def second_time_with_points
     "#{second_time} (#{points})"
   end

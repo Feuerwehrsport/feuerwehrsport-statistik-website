@@ -1,7 +1,13 @@
-class Backend::NationsController < Backend::ResourcesController
-  protected
+class Backend::NationsController < Backend::BackendController
+  backend_actions
 
-  def permitted_attributes
-    super.permit(:name, :iso)
+  default_form do |f|
+    f.input :name
+    f.input :iso
+  end
+
+  default_index do |t|
+    t.col :name
+    t.col :iso
   end
 end

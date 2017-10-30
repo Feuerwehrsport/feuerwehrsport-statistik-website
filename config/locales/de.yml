@@ -54,26 +54,17 @@ de:
     name: Name
     second_time: Zeit
     time: Zeit
-    translated_gender: Geschlecht
+    gender_translated: Geschlecht
 
   activerecord: &activerecord
     models:
-      admin_user:
-        one: Verwalter
-        other: Verwalter
       api_user: Benuter
-      appointment:
-        one: Wettkampftermin
-        other: Wettkampftermine
       event:
         one: Wettkampftyp
         other: Wettkampftypen
       change_log:
         one: Veränderung
         other: Veränderungen
-      competition:
-        one: Wettkampf
-        other: Wettkämpfe
       comp_reg/competition:
         one: Wettkampf
         other: Wettkämpfe
@@ -93,25 +84,16 @@ de:
       group_score_type:
         one: Wertungstyp
         other: Wertungstypen
-      import_request:
-        one: Importanfrage
-        other: Importanfragen
       link:
         one: Link
         other: Links
       nation:
         one: Nation
         other: Nationen
-      news:
-        one: Neuigkeit
-        other: Neuigkeiten
       person: Wettkämpfer
       person_participation:
         one: Wettkämpferteilnahme
         other: Wettkämpferteilnahmen
-      person_spelling:
-        one: Wettkämpferschreibweise
-        other: Wettkämpferschreibweisen
       place:
         one: Wettkampfort
         other: Wettkampforte
@@ -121,9 +103,6 @@ de:
       score_type:
         one: Mannschaftwertung
         other: Mannschaftwertungen
-      series/round:
-        one: Wettkampfserie
-        other: Wettkampfserien
       team:
         one: Mannschaft
         other: Mannschaften
@@ -131,29 +110,9 @@ de:
         one: Jahr
         other: Jahre
     attributes:
-      admin_user:
-        role: Rolle
-        email: E-Mail-Adresse
-        password: Passwort
-        current_password: Aktuelles Passwort
-        password_confirmation: Passwort wiederholen
-        remember_me: Automatisch einloggen
       api_user:
         email_address: E-Mail-Adresse
         name: Name
-      appointment:
-        dated_at: Datum
-      competition:
-        date: Datum
-        event: Typ
-        event_id: Typ
-        hint_content: Hinweise
-        place: Ort
-        place_id: Ort
-        score_type: Mannschaftwertung
-        score_type_id: Mannschaftwertung
-      competition_file:
-        file: Datei
       comp_reg/assessment_participation:
         group_competitor_order: Reihenfolge
         single_competitor_order: Reihenfolge        
@@ -198,22 +157,6 @@ de:
         group_score_type_id: Wertungstyp 
       group_score_type:
         regular: nach WKO
-      import_request:
-        date: Datum des Wettkampfes
-        description: Zusätzliche Beschreibung
-        event: Typ
-        file: Datei
-        place: Ort
-        remove_file: Datei entfernen
-        finished_label: Status
-        url: Link
-        german_created_at: Erstellt am
-        edit_user: Bearbeiter
-      news:
-        admin_user: Bearbeiter
-        content: Inhalt
-        published_at: Veröffentlicht am
-        title: Titel
       person:
         first_name: Vorname
         group_scores: Mannschaftszeiten
@@ -223,10 +166,6 @@ de:
       person_participation:
         group_score: Mannschaftszeit
         group_score_id: Mannschaftszeit
-      person_spelling:
-        official: Offiziell
-        first_name: Vorname
-        last_name: Nachname
       score:
         person: Wettkämpfer
       score_type:
@@ -276,16 +215,6 @@ de:
     people:
       page_title: Wettkampfanmeldungen - Wettkämpfer
 
-  competitions:
-    missed_information:
-      competition_files: Wettkampfergebnisse als Datei-Upload
-      links: Verlinkungen
-      la_members: Wettkämpfer beim Löschangriff
-      fs_members: Wettkämpfer bei der Feuerwehrstafette
-      gs_members: Wettkämpfer bei der Gruppenstafette
-      single_team: Team-Zuordnungen bei Einzeldisziplinen
-
-
   # basic stuff
 
   errors:
@@ -320,8 +249,7 @@ de:
       other_than: 'darf nicht gleich %{count} sein'
   date:
     formats:
-      default: '%Y-%m-%d'
-      german: '%d.%m.%Y'
+      iso: '%Y-%m-%d'
     day_names:
       - Montag
       - Dienstag

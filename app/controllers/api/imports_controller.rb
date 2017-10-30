@@ -53,7 +53,7 @@ class API::ImportsController < API::BaseController
       :team_number,
       :team_id,
       :run,
-      {times: []},
+      { times: [] },
       :person_id,
       :last_name,
       :first_name,

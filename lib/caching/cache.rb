@@ -12,7 +12,7 @@ class Caching::Cache < ActiveSupport::Cache::FileStore
   end
 
   def fetch(*args, &block)
-    if Rails.configuration.caching && self.caching
+    if Rails.configuration.caching && caching
       super(*args, &block)
     else
       yield
@@ -28,7 +28,7 @@ class Caching::Cache < ActiveSupport::Cache::FileStore
   end
 
   def self.disable
-    caching_before = self.caching
+    caching_before = caching
     self.caching = false
     begin
       yield

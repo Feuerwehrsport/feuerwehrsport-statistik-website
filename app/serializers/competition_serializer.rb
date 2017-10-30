@@ -8,4 +8,8 @@ class CompetitionSerializer < ActiveModel::Serializer
   def event
     object.event.to_s
   end
+
+  def date
+    object.date_iso
+  end
 end

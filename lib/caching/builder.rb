@@ -1,5 +1,5 @@
 class Caching::Builder
-  include Delayed::Helper
+  include M3::Delayable
 
   def perform
     remove_future_builders
@@ -11,8 +11,6 @@ class Caching::Builder
   private
 
   def remove_future_builders
-    same_future_jobs.each do |job|
-      job.delete
-    end
+    same_future_jobs.each(&:delete)
   end
 end

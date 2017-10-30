@@ -1,8 +1,27 @@
 class Backend::DashboardsController < Backend::BackendController
-  def index
-  end
+  RESOURCE_MODELS = [
+    AdminUser,
+    Appointment,
+    Competition,
+    CompetitionFile,
+    Event,
+    GroupScore,
+    GroupScoreCategory,
+    GroupScoreType,
+    Link,
+    Nation,
+    NewsArticle,
+    Person,
+    PersonParticipation,
+    PersonSpelling,
+    Place,
+    Score,
+    ScoreType,
+    Team,
+    ::Series::Round,
+  ].freeze
 
-  def administration
-    @models = Backend::ResourcesController.models.sort_by { |m| m.model_name.human(count: 0) }
+  def index
+    @models = RESOURCE_MODELS.sort_by { |m| m.model_name.human(count: 0) }
   end
 end

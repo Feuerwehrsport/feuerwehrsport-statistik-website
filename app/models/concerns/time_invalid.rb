@@ -1,7 +1,7 @@
 module TimeInvalid
-  INVALID = 99999999
+  INVALID = 99_999_999
   extend ActiveSupport::Concern
-  
+
   included do
     scope :valid, -> { where.not(time: INVALID) }
     scope :invalid, -> { where(time: INVALID) }

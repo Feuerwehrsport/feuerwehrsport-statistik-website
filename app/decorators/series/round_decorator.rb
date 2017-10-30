@@ -1,8 +1,13 @@
-class Series::RoundDecorator < ApplicationDecorator
+class Series::RoundDecorator < AppDecorator
   decorates_association :cups
+  localizes_boolean :official
 
   def to_s
     "#{name} #{year}"
+  end
+
+  def page_title
+    "#{self} - Wettkampfserie"
   end
 
   def cup_count_with_status

@@ -1,8 +1,6 @@
-class Series::CupDecorator < ApplicationDecorator
+class Series::CupDecorator < AppDecorator
   decorates_association :round
   decorates_association :competition
 
-  def to_s
-    competition.to_s
-  end
+  delegate :to_s, to: :competition
 end

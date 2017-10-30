@@ -1,6 +1,6 @@
 class API::GroupScoreTypesController < API::BaseController
   api_actions :create, :index, change_log: true,
-    default_form: [:name, :discipline]
+                               default_form: %i[name discipline]
 
   protected
 

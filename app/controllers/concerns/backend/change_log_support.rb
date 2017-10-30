@@ -3,7 +3,7 @@ module Backend::ChangeLogSupport
   include SerializerSupport
 
   included do
-    before_action :save_attributes_for_logging, only: [:create, :update, :destroy]
+    before_action :save_attributes_for_logging, only: %i[create update destroy]
   end
 
   protected
@@ -28,7 +28,7 @@ module Backend::ChangeLogSupport
     serializer_for_object(@resource_instance_decorated).as_json
   end
 
-  def perform_logging(hash={})
+  def perform_logging(hash = {})
     ChangeLog.create!(change_log_default_hash.merge(hash))
   end
 
@@ -38,8 +38,8 @@ module Backend::ChangeLogSupport
       user: current_admin_user,
       action_name: action_name,
     }
-    change_log_hash[:after_hash] = hash_for_logging if action_name != "destroy"
-    change_log_hash[:before_hash] = @logging_attributes_before if action_name.in?(["update", "destroy"])
+    change_log_hash[:after_hash] = hash_for_logging if action_name != 'destroy'
+    change_log_hash[:before_hash] = @logging_attributes_before if action_name.in?(%w[update destroy])
     change_log_hash
   end
 end

@@ -1,5 +1,4 @@
 module SerializerSupport
-  
   protected
 
   def handle_serializer(hash)
@@ -22,6 +21,7 @@ module SerializerSupport
   end
 
   def serializer_for_object(object)
+    object = object.decorate if object.respond_to?(:decorate)
     object.respond_to?(:to_serializer) ? object.to_serializer : object
   end
 end

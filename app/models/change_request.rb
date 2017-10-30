@@ -1,4 +1,4 @@
-class ChangeRequest < ActiveRecord::Base 
+class ChangeRequest < ActiveRecord::Base
   belongs_to :api_user
   belongs_to :admin_user
 
@@ -60,7 +60,7 @@ class ChangeRequest < ActiveRecord::Base
 
   class ChangeRequestFile < StringIO
     attr_reader :filename, :content_type, :binary
-    alias_method :original_filename, :filename
+    alias original_filename filename
 
     def initialize(object)
       @filename = object[:filename]

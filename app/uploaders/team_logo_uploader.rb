@@ -1,7 +1,4 @@
-class TeamLogoUploader < CarrierWave::Uploader::Base
-  include CarrierWave::RMagick
-  storage :file
-
+class TeamLogoUploader < M3::ApplicationUploader
   def store_dir
     "uploads/teams/#{model.id}"
   end
@@ -17,6 +14,6 @@ class TeamLogoUploader < CarrierWave::Uploader::Base
   end
 
   def extension_white_list
-    %w(jpg jpeg gif png)
+    %w[jpg jpeg gif png]
   end
 end

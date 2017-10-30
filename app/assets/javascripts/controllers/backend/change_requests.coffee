@@ -130,7 +130,7 @@ class Error
         box.append(
           $('<a/>')
           .attr('href', "/page/person-#{person.id}.html")
-          .text("#{person.first_name} #{person.last_name} (#{person.translated_gender})")
+          .text("#{person.first_name} #{person.last_name} (#{person.gender_translated})")
         ).append("<br/>ID: #{id}")
         callback(person, box)
     @headline = "Person"

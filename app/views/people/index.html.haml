@@ -1,42 +1,46 @@
 = table_of_contents do |toc|
-  .row
-    .col-md-9
-      %h1 Wettkämpfer
-    .col-md-3= toc.index
+  .section
+    .container
+      .col-md-9
+        %h1 Wettkämpfer
+      .col-md-3= toc.index
 
-  - [:female, :male].each do |gender|
-    = toc.anker(g(gender), :h2)
+    - [:female, :male].each do |gender|
+      .container
+        = toc.anker(g(gender), :h2)
 
-    = count_table(@people[gender], class: "datatable-people") do |t|
-      - t.col("Name", class: "col-20") { |row| link_to(row.last_name, row) }
-      - t.col("Vorname", class: "col-20") { |row| link_to(row.first_name, row) }
-      - t.col("Nation", class: "col-10") { |row| nation_flag_with_iso(row.nation) }
-      - t.col("HB", class: "col-10") { |row| count_or_zero(row.hb_count) }
-      - t.col("HL", class: "col-10") { |row| count_or_zero(row.hl_count) }
-      - t.col("LA", class: "col-10") { |row| count_or_zero(row.la_count) }
-      - t.col("FS", class: "col-10") { |row| count_or_zero(row.fs_count) }
-      - if gender == :female
-        - t.col("GS", class: "col-10") { |row| count_or_zero(row.gs_count) }
+        = count_table(@gendered_people[gender], class: 'datatable-people') do |t|
+          - t.col('Name', class: 'col-20') { |row| link_to(row.last_name, row) }
+          - t.col('Vorname', class: 'col-20') { |row| link_to(row.first_name, row) }
+          - t.col('Nation', class: 'col-10') { |row| nation_flag_with_iso(row.nation) }
+          - t.col('HB', class: 'col-10') { |row| count_or_zero(row.hb_count) }
+          - t.col('HL', class: 'col-10') { |row| count_or_zero(row.hl_count) }
+          - t.col('LA', class: 'col-10') { |row| count_or_zero(row.la_count) }
+          - t.col('FS', class: 'col-10') { |row| count_or_zero(row.fs_count) }
+          - if gender == :female
+            - t.col('GS', class: 'col-10') { |row| count_or_zero(row.gs_count) }
 
-  = toc.anker("Auswertung")
-  .row
-    .col-md-4
-      %h4 Geschlechter
-      = @chart.gender_pie
+    .container
+      = toc.anker('Auswertung')
+    .container
+      .col-md-4
+        %h4 Geschlechter
+        = @chart.gender_pie
 
-    .col-md-4
-      %h4 Disziplinen bei Frauen
-      = @chart.disciplines_pie(:female)
+      .col-md-4
+        %h4 Disziplinen bei Frauen
+        = @chart.disciplines_pie(:female)
 
-    .col-md-4
-      %h4 Disziplinen bei Männern
-      = @chart.disciplines_pie(:male)
+      .col-md-4
+        %h4 Disziplinen bei Männern
+        = @chart.disciplines_pie(:male)
 
 
-  = toc.anker("Neue Person hinzufügen", :h2)
-  .row
-    .col-md-5
-      %p Ist eine Person die du kennst noch nicht eingetragen? Dann trage sie doch schnell ins System ein!
-    .col-md-4
-      #add-person.btn.btn-default Person hinzufügen
-    .col-md-3= design_image("system-users")
+    .container
+      = toc.anker('Neue Person hinzufügen', :h2)
+    .container
+      .col-md-5
+        %p Ist eine Person die du kennst noch nicht eingetragen? Dann trage sie doch schnell ins System ein!
+      .col-md-4
+        #add-person.btn.btn-default Person hinzufügen
+      .col-md-3= design_image('system-users')

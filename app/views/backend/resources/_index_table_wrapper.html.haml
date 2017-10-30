@@ -1,9 +1,0 @@
-- if resource_class.respond_to?(:search)
-  .pull-right= render "search_widget"
-
-
-= will_paginate resource_collection, renderer: BootstrapPagination::Rails
-= crud_table(resource_collection.decorate) do |ct|
-  - resource_class.new.decorate.index_columns.each do |column|
-    - ct.col(resource_class.human_attribute_name(column), column)
-= will_paginate resource_collection, renderer: BootstrapPagination::Rails

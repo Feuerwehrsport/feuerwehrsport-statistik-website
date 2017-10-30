@@ -1,5 +1,5 @@
 class ExtendedTeamSerializer < TeamSerializer
-  [:fs, :gs, :la].each do |discipline|
+  %i[fs gs la].each do |discipline|
     attributes :"#{discipline}_scores"
 
     define_method(:"#{discipline}_scores") do

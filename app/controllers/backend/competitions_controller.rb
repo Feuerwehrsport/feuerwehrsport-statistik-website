@@ -1,7 +1,35 @@
-class Backend::CompetitionsController < Backend::ResourcesController
-  protected
+class Backend::CompetitionsController < Backend::BackendController
+  default_actions for_class: Competition
 
-  def permitted_attributes
-    super.permit(:name, :date, :place_id, :event_id, :score_type_id, :hint_content)
+  default_form do |f|
+    f.input :name
+    f.input :date
+    f.association :place
+    f.association :event
+    f.association :score_type
+    f.input :hint_content # , as: :ckeditor TODO
+  end
+
+  filter_index do |by|
+    by.scope :event, collection: Event.filter_collection
+    by.scope :place, collection: Place.filter_collection
+    by.scope :score_type, collection: ScoreType.filter_collection
+    by.scope :team, collection: Team.filter_collection
+  end
+
+  default_index do |t|
+    t.col :name
+    t.col :date
+    t.col :place, sortable: { place: :name }
+    t.col :event, sortable: { event: :name }
+  end
+
+  default_show do |t|
+    t.col :name
+    t.col :date
+    t.col :place
+    t.col :event
+    t.col :score_type
+    t.col :hint_content
   end
 end

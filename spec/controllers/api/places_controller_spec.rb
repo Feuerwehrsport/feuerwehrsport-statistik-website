@@ -5,10 +5,10 @@ RSpec.describe API::PlacesController, type: :controller do
   describe 'POST create' do
     subject { -> { post :create, place: { name: 'Wurstort' } } }
     it 'creates new place', login: :sub_admin do
-      expect {
+      expect do
         subject.call
         expect_api_login_response
-      }.to change(Place, :count).by(1)
+      end.to change(Place, :count).by(1)
     end
     it_behaves_like 'api user get permission error'
   end

@@ -1,5 +1,4 @@
 module API::LoginActions
-
   protected
 
   def current_user
@@ -7,7 +6,7 @@ module API::LoginActions
   end
 
   def current_api_user
-    @current_api_user ||= APIUser.find_by_id(session[:api_user_id])
+    @current_api_user ||= APIUser.find_by(id: session[:api_user_id])
   end
 
   def login_status

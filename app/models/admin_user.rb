@@ -1,33 +1,21 @@
 class AdminUser < ActiveRecord::Base
-  ROLES = [
-    :user,
-    :sub_admin,
-    :admin
-  ]
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :confirmable, :lockable,
-         :recoverable, :rememberable, :trackable, :validatable, 
-         :registerable
+  include M3::Login::Loginable
+  delegate :name, :email_address, to: :login, allow_nil: true
 
-  has_many :news, dependent: :restrict_with_exception
+  ROLES = %i[
+    user
+    sub_admin
+    admin
+  ].freeze
 
-  scope :change_request_notification_receiver, -> { where(role: [:sub_admin, :admin] ) }
+  has_many :news_articles, dependent: :restrict_with_exception
 
-  validates :name, :role, :email, presence: true
+  scope :change_request_notification_receiver, -> { where(role: %i[sub_admin admin]) }
+  scope :filter_collection, -> { joins(:login).order('admin_users.role, m3_logins.name') }
+
   validates :role, inclusion: { in: ROLES }
 
   def role
     super.try(:to_sym)
-  end
-
-  def send_devise_notification(notification, *args)
-    devise_mailer.send(notification, self, *args).deliver_later
-  end
-
-  def named_email_address
-    address = Mail::Address.new email
-    address.display_name = name
-    address.format
   end
 end

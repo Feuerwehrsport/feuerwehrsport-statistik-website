@@ -5,7 +5,7 @@ class GroupScoreParticipation < ActiveRecord::View
   belongs_to :team
   belongs_to :group_score_type
   belongs_to :competition
-  
+
   scope :la, -> { where(discipline: 'la') }
   scope :fs, -> { where(discipline: 'fs') }
   scope :gs, -> { where(discipline: 'gs') }

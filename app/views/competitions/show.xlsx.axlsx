@@ -1,14 +1,14 @@
 wb = xlsx_package.workbook
 
-wb.add_worksheet(name: "Übersicht") do |sheet|
-  sheet.add_row(["Wettkampf", @competition.to_s])
-  sheet.add_row(["Name", @competition.name])
-  sheet.add_row(["Typ", @competition.event.to_s])
-  sheet.add_row(["Ort", @competition.place.to_s])
+wb.add_worksheet(name: 'Übersicht') do |sheet|
+  sheet.add_row(["Wettkampf", resource.to_s])
+  sheet.add_row(["Name", resource.name])
+  sheet.add_row(["Typ", resource.event.to_s])
+  sheet.add_row(["Ort", resource.place.to_s])
   if @calc.single_score_count > 0
-    sheet.add_row(["Mannschaftswertung", @competition.score_type.present? ? @competition.score_type.to_s : "Keine"])
+    sheet.add_row(["Mannschaftswertung", resource.score_type.present? ? resource.score_type.to_s : "Keine"])
   end
-  sheet.add_row(["Datum", l(@competition.date)])
+  sheet.add_row(["Datum", resource.date])
   sheet.add_row([])
   sheet.add_row([])
   
@@ -71,10 +71,10 @@ end
       data.each { |line| sheet.add_row(line) }
     end
 
-    if !discipline.category && @competition.score_type.present?
+    if !discipline.category && resource.score_type.present?
       wb.add_worksheet(name: "#{discipline_name_short(discipline.discipline)} #{g_symbol(discipline.gender)} Mannschaft") do |sheet|
         sheet.add_row(["Team", "Summe", "Wertung", "Außerhalb"])
-        @competition.group_assessment(discipline.discipline, discipline.gender).each do |ga|
+        resource.group_assessment(discipline.discipline, discipline.gender).each do |ga|
           sheet.add_row([
             numbered_team_name(ga),
             ga.second_time, 

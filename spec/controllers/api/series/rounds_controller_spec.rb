@@ -6,10 +6,10 @@ RSpec.describe API::Series::RoundsController, type: :controller do
   describe 'POST create' do
     subject { -> { post :create, series_round: attributes } }
     it 'creates new round', login: :admin do
-      expect {
+      expect do
         subject.call
         expect_api_login_response
-      }.to change(Series::Round, :count).by(1)
+      end.to change(Series::Round, :count).by(1)
     end
     it_behaves_like 'api user get permission error'
     it_behaves_like 'sub_admin get permission error'
@@ -35,7 +35,7 @@ RSpec.describe API::Series::RoundsController, type: :controller do
         id: round.id,
         name: 'D-Cup',
         year: 2016,
-        full_cup_count:4,
+        full_cup_count: 4,
         official: false,
       )
     end
@@ -51,7 +51,7 @@ RSpec.describe API::Series::RoundsController, type: :controller do
         id: round.id,
         name: 'D-Cup',
         year: 2016,
-        full_cup_count:4,
+        full_cup_count: 4,
         official: false,
       )
     end

@@ -2,14 +2,15 @@ module Import
   class Check
     include ActiveModel::Model
     include ActiveModel::Validations::Callbacks
-    attr_accessor :discipline, :gender, :raw_lines, :separator, :raw_headline_columns, :lines, :headline_columns, 
-      :import_lines, :missing_teams
+    attr_accessor :discipline, :gender, :raw_lines, :separator, :raw_headline_columns, :lines, :headline_columns,
+                  :import_lines, :missing_teams
 
     validates :discipline, :gender, :lines, :headline_columns, presence: true
     validates :separator, length: { minimum: 1 }
     validates :discipline, inclusion: { in: Discipline::WITHOUT_DOUBLE_EVENT }
-    validates :gender, inclusion: { in: ["female", "male"] }
+    validates :gender, inclusion: { in: %w[female male] }
     validate :required_columns_present_validation
+    validate :column_count_validation
 
     before_validation do
       if separator.is_a?(String)
@@ -51,7 +52,13 @@ module Import
         columns.push('first_name', 'last_name')
       end
       unless columns.map { |column| headline_columns.try(:include?, column) }.all?
-        errors.add(:headline_columns, " has not all required columns (#{columns.join(", ")} for #{discipline})")
+        errors.add(:headline_columns, " has not all required columns (#{columns.join(', ')} for #{discipline})")
+      end
+    end
+
+    def column_count_validation
+      if lines.any? { |line| line.count != headline_columns.count }
+        errors.add(:raw_lines, ' has not enough columns')
       end
     end
   end

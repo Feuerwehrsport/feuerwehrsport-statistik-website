@@ -1,12 +1,7 @@
-class LinkDecorator < ApplicationDecorator
-  include Indexable
-  index_columns :id, :label, :linkable
-
+class LinkDecorator < AppDecorator
   decorates_association :linkable
 
-  def label
-    object.label
-  end
+  delegate :label, to: :object
 
   def to_s
     object.label

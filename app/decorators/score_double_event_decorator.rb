@@ -1,11 +1,11 @@
-class ScoreDoubleEventDecorator < ApplicationDecorator
+class ScoreDoubleEventDecorator < AppDecorator
   decorates_association :competition
   decorates_association :person
 
   def second_time
     calculate_second_time(time)
   end
-  
+
   def second_hb
     calculate_second_time(hb)
   end
@@ -14,7 +14,5 @@ class ScoreDoubleEventDecorator < ApplicationDecorator
     calculate_second_time(hl)
   end
 
-  def <=>(other)
-    object.<=>(other)
-  end
+  delegate :<=>, to: :object
 end

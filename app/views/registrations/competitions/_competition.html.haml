@@ -1,0 +1,88 @@
+%h3 Beschreibung
+.row
+  .col-md-8
+    .panel.panel-default
+      .panel-body.competition-description= resource.description.html_safe
+  .col-md-4
+    %table.table
+      %tr
+        %th Anmeldung öffnet am
+        %td= resource.open_at_date.presence || resource.created_at_date
+      %tr
+        %th Anmeldung schließt am
+        %td= resource.close_at.presence || resource.date
+
+- [:female, :male].each do |gender|
+  - if @teams[gender].present?
+    %h3
+      = "Mannschaften #{g(gender)}"
+      %small= g_symbol(gender)
+    = count_table(@teams[gender]) do |ct|
+      - ct.col('Name', class: 'col-md-4') { |row| can?(:update, row) ? link_to(row.with_number, row) : row.with_number }
+      - if resource.team_tag_list.present?
+        - ct.col('Attribute') { |row| row.tag_names.join(', ') }
+      - resource.competition_assessments.gender(gender).each do |assessment|
+        - ct.col(discipline_image_name_short(assessment.discipline, assessment.gender)) do |row| 
+          - if Discipline.group?(assessment.discipline)
+            - row.competition_assessments.include?(assessment) ? 'x' : ''
+          - else
+            - count_or_zero(row.people.with_assessment(assessment).uniq.count)
+
+  .refreshable{ id: "competitors-#{gender}" }
+    - if @people_count[gender] > 0
+      %h3
+        = "Einzelstarter #{g(gender)}"
+        %small= "#{g_symbol(gender)} Anzahl: #{@people_count[gender]}"
+      - if @people[gender].present?
+        = count_table(@people[gender]) do |ct|
+          - ct.col('Vorname', :first_name, class: 'col-15 small')
+          - ct.col('Nachname', :last_name, class: 'col-15 small')
+          - ct.col('Team', :team_name, class: 'col-10 small')
+          - if resource.person_tag_list.present?
+            - ct.col("Attribute") { |person| person.tag_names.join(", ") }
+          / - ct.col("") { |row| can?(:edit, row) ? link_to("Bearbeiten", action: :edit, controller: :people, id: row.id) : "" }
+          - resource.competition_assessments.gender(gender).decorate.each do |assessment|
+            - unless Discipline.group?(assessment.discipline)
+              / - ct.col(assessment) { |row| edit_participation(row, assessment) }
+          - if !can?(:update, resource)
+            - ct.footer(class: 'text-center small active') { 'Es werden eventuell nicht alle Wettkämpfer angezeigt, da du nicht genügend Rechte dafür besitzt.' }
+
+
+%hr
+- if can?(:export, resource)
+  .col-md-4.pull-right
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title Export
+      .panel-body
+        = link_to("Wettkampf-Manager-Konfiguration", { format: :wettkampf_manager_import }, class: "btn btn-default btn-block btn-sm")
+        = link_to("Excel-Format", { format: :xlsx }, class: "btn btn-default btn-block btn-sm")
+        = link_to("PDF-Format", { format: :pdf }, class: "btn btn-default btn-block btn-sm")
+
+.col-md-4.pull-right
+  .panel.panel-default
+    .panel-heading
+    .panel-body
+      %h3.panel-title Aktionen
+      = image_link_to('team-add', 'Mannschaft anmelden', new_registrations_competition_team_path(resource), image: { width: "22px" }, class: "btn btn-default btn-block")
+      - if resource.competition_assessments.for_people.present?
+        = image_link_to("person-add", "Wettkämpfer anmelden", new_registrations_competition_person_path(resource), image: { width: "22px" }, class: "btn btn-default btn-block", remote: true)
+      - if can?(:update, resource)
+        = image_link_to("configure", "Wettkampf bearbeiten", { action: :edit }, image: { width: "22px" }, class: "btn btn-default btn-block")
+        / = image_link_to("configure", "Öffentlichkeitseinstellungen", { action: :publishing }, image: { width: "18px" }, class: "btn btn-default btn-block")
+        = link_to("E-Mail versenden", new_registrations_competition_mail_path(competition_id: params[:id]), class: "btn btn-default btn-block")
+
+- if resource.slug.present?
+  .col-md-8.pull-right
+    .panel.panel-default
+      .panel-heading URL zu dieser Seite
+      .panel-body
+        %p.small= link_to(resource.slug_url, resource.slug_url)
+        %img{ src: RQRCode::QRCode.new(resource.slug_url, level: :h).to_img.resize(200, 200).to_data_url }
+- if can?(:update, resource) && !resource.published?
+  .col-md-4.pull-right
+    .panel.panel-danger
+      .panel-heading
+        %h4.text-center Wettkampf ist noch nicht öffentlich
+      .panel-body
+        / = image_link_to("configure", "Veröffentlichen", { action: :publishing }, image: { width: "18px" }, class: "btn btn-default")

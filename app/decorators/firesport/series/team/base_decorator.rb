@@ -1,4 +1,4 @@
-class Firesport::Series::Team::BaseDecorator < ApplicationDecorator
+class Firesport::Series::Team::BaseDecorator < AppDecorator
   decorates_association :team
 
   def participations_for_cup(cup)

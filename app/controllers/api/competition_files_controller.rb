@@ -22,7 +22,7 @@ class API::CompetitionFilesController < API::BaseController
           model_class: CompetitionFile,
         )
       end
-      clean_cache_and_build_new 
+      clean_cache_and_build_new
     end
     redirect_to(competition_path(parent_resource, anchor: 'toc-dateien'))
   end

@@ -1,6 +1,6 @@
 class API::APIUsersController < API::BaseController
   api_actions :create,
-    default_form: [:name, :email_address]
+              default_form: %i[name email_address]
 
   def status
     success

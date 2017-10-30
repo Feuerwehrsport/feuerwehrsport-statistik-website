@@ -1,7 +1,4 @@
-class NationDecorator < ApplicationDecorator
-  include Indexable
-  index_columns :id, :name
-
+class NationDecorator < AppDecorator
   def to_s
     name
   end

@@ -3,8 +3,8 @@ module PagesHelper
     competition_link(Competition.find(id).decorate)
   end
 
-  def persons(ids, options={})
+  def persons(ids, options = {})
     ids = [ids] unless ids.is_a?(Array)
-    ids.map { |id| person_link(Person.find(id).decorate, options) }.join(", ").html_safe
+    ids.map { |id| person_link(Person.find(id).decorate, options) }.join(', ').html_safe
   end
 end

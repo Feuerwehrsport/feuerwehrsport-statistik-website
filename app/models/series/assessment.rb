@@ -6,8 +6,8 @@ class Series::Assessment < ActiveRecord::Base
   has_many :cups, through: :round, class_name: 'Series::Cup'
   has_many :participations, class_name: 'Series::Participation'
 
-  scope :with_person, -> (person_id) { joins(:participations).where(series_participations: { person_id: person_id }).uniq }
-  scope :round, -> (round_id) { where(round_id: round_id) }
+  scope :with_person, ->(person_id) { joins(:participations).where(series_participations: { person_id: person_id }).uniq }
+  scope :round, ->(round_id) { where(round_id: round_id) }
 
   validates :round, :discipline, :gender, presence: true
 

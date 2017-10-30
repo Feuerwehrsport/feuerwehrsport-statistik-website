@@ -1,23 +1,18 @@
-class GroupScoreCategoryDecorator < ApplicationDecorator
-  include Indexable
-  index_columns :id, :competition, :name, :group_score_type, :discipline
-
+class GroupScoreCategoryDecorator < AppDecorator
   decorates_association :competition
   decorates_association :group_score_type
 
   def to_s
-    name == "default" ? "Standardwertung" : name
+    name == 'default' ? 'Standardwertung' : name
   end
 
   def with_competition
-    "#{to_s} - #{competition}"
+    "#{self} - #{competition}"
   end
 
-  def discipline
-    group_score_type.discipline
-  end
+  delegate :discipline, to: :group_score_type
 
-  def shortcut(options={})
-    name == "default" ? "" : "#{options[:prefix]}#{name}"
+  def shortcut(options = {})
+    name == 'default' ? '' : "#{options[:prefix]}#{name}"
   end
 end

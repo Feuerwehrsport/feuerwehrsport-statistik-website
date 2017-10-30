@@ -11,7 +11,7 @@ RSpec.describe API::Series::CupsController, type: :controller do
         competition_id: cup.competition_id,
         date: '2017-05-01',
         id: cup.id,
-        place: "Charlottenthal",
+        place: 'Charlottenthal',
         round_id: cup.round_id,
       )
     end

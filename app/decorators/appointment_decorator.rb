@@ -1,16 +1,19 @@
-class AppointmentDecorator < ApplicationDecorator
-  include Indexable
+class AppointmentDecorator < AppDecorator
   decorates_association :event
   decorates_association :place
   decorates_association :links
-  index_columns :id, :name, :dated_at
 
-  attr_accessor :current_user
+  localizes :dated_at
+
   delegate :to_s, to: :name
 
-  def discipline_images(options={})
+  def discipline_images(options = {})
     object.discipline_array.map do |discipline|
       discipline_image(discipline, options)
-    end.join(" ").html_safe
+    end.join(' ').html_safe
+  end
+
+  def page_title
+    "#{dated_at} #{name} - Wettkampftermin"
   end
 end

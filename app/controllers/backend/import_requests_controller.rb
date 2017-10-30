@@ -1,24 +1,31 @@
-class Backend::ImportRequestsController < Backend::ResourcesController
-  protected
+class Backend::ImportRequestsController < Backend::BackendController
+  backend_actions
 
-  def permitted_attributes
-    attributes = [:file, :url, :date, :place_id, :event_id, :description, :remove_file]
-    if can?(:update, resource_instance)
-      attributes.push(:edit_user_id, :finished)
+  default_form do |f|
+    f.input :file
+    f.input :url
+    f.input :date
+    f.association :place, collection: Place.filter_collection
+    f.association :event, collection: Event.filter_collection
+    f.input :description
+    if can?(:update, resource)
+      f.association :edit_user
+      f.input :finished, as: :boolean
     end
-    super.permit(*attributes)
   end
 
-  def clean_cache?(action_name)
+  protected
+
+  def clean_cache?(_action_name)
     false
   end
 
-  def build_instance
-    resource_class.new(admin_user: current_admin_user)
+  def build_resource
+    super.tap { |r| r.admin_user = current_admin_user }
   end
 
-  def after_create_success
-    deliver(ImportRequestMailer, :new_request, resource_instance)
+  def after_create
+    deliver_later(ImportRequestMailer, :new_request, resource)
     super
   end
 end

@@ -1,21 +1,14 @@
-shared_context "as api user", login: :api do
-  let(:login_user) { APIUser.first || APIUser.create!(name: "hans") }
+shared_context 'as api user', login: :api do
+  let(:login_user) { APIUser.first || APIUser.create!(name: 'hans', ip_address_hash: 'a', user_agent_hash: 'a') }
   before do
-    session[:api_user_id] = login_user.id if respond_to?(:session) and session.present?
-    controller.session[:api_user_id] = login_user.id if respond_to?(:controller) and controller.present?
+    session[:api_user_id] = login_user.id if respond_to?(:session) && session.present?
+    controller.session[:api_user_id] = login_user.id if respond_to?(:controller) && controller.present?
   end
 end
 
-shared_context "as sub_admin user", login: :sub_admin do
-  let(:login_user) { AdminUser.where(role: :sub_admin).first || AdminUser.create!(name: "sub_admin", email: "sub_admin@a.de", password: "asdf1234", confirmed_at: Time.now, role: :sub_admin) }
-  before do
-    sign_in login_user
-  end
-end
-
-shared_context "as admin user", login: :admin do
-  let(:login_user) { AdminUser.where(role: :admin).first || AdminUser.create!(name: "admin", email: "admin@a.de", password: "asdf1234", confirmed_at: Time.now, role: :admin) }
-  before do
-    sign_in login_user
+%i[user sub_admin admin].each do |user_type|
+  shared_context "as #{user_type} user", login: user_type do
+    let(:login_user) { AdminUser.where(role: user_type).first || create(:admin_user, user_type) }
+    before { mock_m3_login(login_user.login) }
   end
 end

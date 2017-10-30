@@ -6,7 +6,7 @@ module Calculation
       end
 
       def self.score_collection
-        GroupScore.regular.includes(group_score_category: { competition: [:event, :place] }).includes(:team)
+        GroupScore.regular.includes(group_score_category: { competition: %i[event place] }).includes(:team)
       end
     end
   end

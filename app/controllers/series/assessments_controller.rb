@@ -1,9 +1,9 @@
 class Series::AssessmentsController < ResourceController
-  cache_actions :show
+  resource_actions :show, cache: [:show]
+
   def show
-    @assessment = Series::Assessment.find(params[:id]).decorate
-    @person_assessments = Series::PersonAssessment.where(round: @assessment.round).where.not(id: @assessment.id).decorate
-    @page_title = "#{@assessment.round} #{@assessment} - Wettkampfserie"
+    @person_assessments = Series::PersonAssessment.where(round: resource.round).where.not(id: resource.id).decorate
+    @page_title = "#{resource.round} #{resource} - Wettkampfserie"
 
     if request.format.pdf?
       configure_prawn(title: @page_title, page_layout: :landscape)

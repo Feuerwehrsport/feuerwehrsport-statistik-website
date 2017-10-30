@@ -1,0 +1,28 @@
+.col-md-4
+  .panel.panel-default
+    .panel-heading
+      %h3.panel-title Wettkampfanmeldung
+    .panel-body
+      = link_to(resource.competition, resource.competition)
+.col-md-4
+  .panel.panel-default
+    - if resource.team.present?
+      .panel-heading
+        %h3.panel-title Mannschaft
+      .panel-body
+        Dieser Wettkämpfer startet für die Mannschaft
+        %b= resource.team.with_number
+        = "."
+    - else
+      .panel-heading
+        %h3.panel-title Einzelstarter
+      .panel-body
+        Dieser Wettkämpfer startet ohne Mannschaftszuordnung.
+- unless resource.new_record?
+  .col-md-4
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title Entfernen?
+      .panel-body
+        %p Wollen Sie die Anmeldung für diesen Wettkämpfer entfernen?
+        = link_to("Entfernen", { action: :destroy }, method: :delete, data: { confirm: "Wettkämpfer entfernen?" }, class: "btn btn-default btn-block btn-sm")
