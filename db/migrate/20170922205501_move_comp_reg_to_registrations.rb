@@ -1,4 +1,4 @@
-class MoveRegistrationsToRegistrations < ActiveRecord::Migration
+class MoveCompRegToRegistrations < ActiveRecord::Migration
   def change
     rename_table :comp_reg_assessment_participations, :registrations_assessment_participations
     rename_table :comp_reg_competition_assessments, :registrations_competition_assessments
