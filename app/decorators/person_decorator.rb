@@ -1,5 +1,6 @@
 class PersonDecorator < AppDecorator
   decorates_association :nation
+  decorates_association :bla_badge
   localizes_gender
 
   delegate :to_s, to: :full_name

@@ -1,0 +1,26 @@
+de:
+  activerecord:
+    attributes:
+      bla/badge:
+        hb_score: HB-Wertung
+        hb_time: HB-Zeit
+        hl_score: HL-Wertung
+        hl_time: HL-Zeit
+        person: Wettkämpfer
+        status: Stufe
+        year: Jahr
+    collections:
+      bla/badge:
+        status:
+          bronze: Bronze
+          silver: Silber
+          gold: Gold
+    models:
+      bla/badge: Bundesleistungsabzeichen
+
+  activemodel:
+    attributes:
+      bla/badge_generator:
+        year: Jahr
+    models:
+      bla/badge_generator: BLA-Generator

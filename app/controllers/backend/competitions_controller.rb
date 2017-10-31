@@ -8,6 +8,7 @@ class Backend::CompetitionsController < Backend::BackendController
     f.association :event
     f.association :score_type
     f.input :hint_content # , as: :ckeditor TODO
+    f.input :scores_for_bla_badge
   end
 
   filter_index do |by|
@@ -31,5 +32,6 @@ class Backend::CompetitionsController < Backend::BackendController
     t.col :event
     t.col :score_type
     t.col :hint_content
+    t.col :scores_for_bla_badge
   end
 end

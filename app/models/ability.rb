@@ -46,9 +46,9 @@ class Ability
 
     can :manage, Registrations::Competition, admin_user_id: user.id
     can :participate, Registrations::Competition, Registrations::Competition.open do |competition|
-      competition.date >= Date.today &&
-        (competition.open_at.nil? || competition.open_at <= Time.now) &&
-        (competition.close_at.nil? || competition.close_at >= Time.now)
+      competition.date >= Date.current &&
+        (competition.open_at.nil? || competition.open_at <= Time.current) &&
+        (competition.close_at.nil? || competition.close_at >= Time.current)
     end
     can :manage, Registrations::Team, Registrations::Team.manageable_by(user) do |team|
       can?(:participate, team.competition) &&
@@ -81,6 +81,7 @@ class Ability
   def all_users
     can %i[create status logout], APIUser
     can :read, Appointment
+    can :read, BLA::Badge
     can :read, Competition
     can :read, ChangeLog
     can :read, Event

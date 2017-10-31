@@ -63,8 +63,8 @@ GIT
 
 GIT
   remote: ssh://gitolite3@stadthafen-rails/m3_rspec
-  revision: 6450f0944ee6b548c0c99d5ce443dfa327b08561
-  ref: 6450f0944ee6b548c0c99d5ce443dfa327b08561
+  revision: 93d0fda6d25ac01149f907d5d7fb5b6b0b2450f2
+  ref: 93d0fda6d25ac01149f907d5d7fb5b6b0b2450f2
   specs:
     m3_rspec (0.0.1)
       capybara

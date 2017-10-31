@@ -33,7 +33,7 @@ module FeuerwehrsportStatistik
     # dynamic error handling
     config.exceptions_app = routes
 
-    config.wettkampf_manager_path = "#{Rails.root}/spec/fixtures/wettkampf_manager"
+    config.wettkampf_manager_path = Rails.root.join('spec', 'fixtures', 'wettkampf_manager')
 
     logdir_path = '/srv/feuerwehrsport-statistik/shared/log'
     config.log_file_parser = OpenStruct.new(
@@ -41,6 +41,6 @@ module FeuerwehrsportStatistik
       log_path: "#{logdir_path}/production.yesterday",
       output_if: ->(parser) { [parser.fatal_errors.present?, parser.error_requests.present?, parser.warn_requests.present?].any? },
     )
-    config.m3.session.login_redirect_url = { controller: 'backend/dashboards', action: :index }
+    config.m3.session.login_redirect_url = { controller: '/backend/dashboards', action: :index }
   end
 end

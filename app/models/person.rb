@@ -2,17 +2,18 @@ class Person < ActiveRecord::Base
   include Genderable
 
   belongs_to :nation
+  has_one :bla_badge, class_name: 'BLA::Badge', dependent: :restrict_with_exception
   has_many :person_participations, dependent: :restrict_with_exception
   has_many :group_scores, through: :person_participations
   has_many :scores, dependent: :restrict_with_exception
-  has_many :score_double_events
-  has_many :score_low_double_events
-  has_many :group_score_participations
-  has_many :team_members
+  has_many :score_double_events, dependent: :restrict_with_exception
+  has_many :score_low_double_events, dependent: :restrict_with_exception
+  has_many :group_score_participations, dependent: :restrict_with_exception
+  has_many :team_members, dependent: :restrict_with_exception
   has_many :teams, through: :team_members
   has_many :person_spellings, dependent: :restrict_with_exception
   has_many :series_participations, dependent: :restrict_with_exception, class_name: 'Series::PersonParticipation'
-  has_many :entity_merges, as: :target
+  has_many :entity_merges, as: :target, dependent: :restrict_with_exception
 
   scope :german, -> { nation(1) }
   scope :search, ->(value) do
@@ -29,7 +30,12 @@ class Person < ActiveRecord::Base
     where("(first_name || ' ' || last_name) ILIKE ? OR id IN (#{spelling_query.to_sql})", query)
   end
   scope :order_by_teams, ->(other_teams) do
-    order(other_teams.joins(:team_members).where(TeamMember.arel_table[:person_id].eq(arel_table[:id])).select('1').exists.desc)
+    order(other_teams
+      .joins(:team_members)
+      .where(TeamMember.arel_table[:person_id].eq(arel_table[:id]))
+      .select('1')
+      .exists
+      .desc)
   end
   scope :nation, ->(nation_id) { where(nation_id: nation_id) }
   scope :team, ->(team_id) { joins(:team_members).where(team_members: { team_id: team_id }) }
@@ -53,5 +59,6 @@ class Person < ActiveRecord::Base
     person_spellings.update_all(person_id: correct_person.id)
     series_participations.update_all(person_id: correct_person.id)
     entity_merges.update_all(target_id: correct_person.id)
+    bla_badge.try(:update_attribute, :target_id, correct_person.id)
   end
 end

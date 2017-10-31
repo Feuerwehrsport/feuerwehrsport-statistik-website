@@ -1,0 +1,25 @@
+.container
+  .col-md-2
+    = image_tag("bla/badge_#{badge.object.status}.jpg", class: 'img-responsive')
+  .col-md-4
+    %p.lead Träger des Bundesleistungsabzeichens in der Stufe <strong>#{badge.status}</strong>
+    %p
+      %em eine offizielle Auszeichnung des Deutschen Feuerwehrverbandes
+  .col-md-6
+    %table.table.table-condensed.table-bordered
+      %tr
+        %th Verliehen:
+        %td= badge.year
+      - [:hl, :hb].each do |discipline|
+        - if badge.send("#{discipline}_time").present?
+          %tr
+            %th= discipline_name(discipline)
+            %td
+              = "#{badge.send("second_#{discipline}_time")} Sekunden"
+              - if badge.send("#{discipline}_score")
+                %br
+                = competition_link(badge.send("#{discipline}_score").competition)
+    %ul
+      %li= link_to('Details zum Bundesleistungsabzeichen', bla_badges_path)
+.container
+  %hr

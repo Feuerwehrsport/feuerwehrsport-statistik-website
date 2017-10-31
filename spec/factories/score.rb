@@ -12,5 +12,13 @@ FactoryGirl.define do
         create(:score, time: 2091, person: score.person, team: score.team, competition: score.competition)
       end
     end
+
+    trait :hl do
+      discipline :hl
+    end
+
+    trait :hb do
+      discipline :hb
+    end
   end
 end

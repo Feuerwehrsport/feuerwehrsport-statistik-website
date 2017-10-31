@@ -15,6 +15,8 @@ class Score < ActiveRecord::Base
   belongs_to :person
   belongs_to :competition
   belongs_to :team
+  has_many :hl_bla_badges, foreign_key: :hl_score_id, class_name: 'BLA::Badge', dependent: :destroy
+  has_many :hb_bla_badges, foreign_key: :hl_score_id, class_name: 'BLA::Badge', dependent: :destroy
 
   validates :person, :competition, :discipline, :time, :team_number, presence: true
 
@@ -41,7 +43,7 @@ class Score < ActiveRecord::Base
     from("(#{sql}) AS #{table_name}").where('r=1')
   end
   scope :best_of, ->(discipline, gender) do
-    sql = Score.discipline(discipline).gender(gender)
+    sql = Score.joins(:person).merge(Person.german).discipline(discipline).gender(gender)
                .select("#{table_name}.*, ROW_NUMBER() OVER (PARTITION BY person_id ORDER BY time ) AS r")
                .to_sql
     from("(#{sql}) AS #{table_name}").where('r=1')
@@ -67,16 +69,21 @@ class Score < ActiveRecord::Base
 
     scores_subquery = Score
                       .joins(:competition, :person)
-                      .joins("INNER JOIN times t ON t.discipline = #{Score.table_name}.discipline AND t.time = #{Score.table_name}.time AND t.year = EXTRACT(YEAR FROM #{Competition.table_name}.date) AND t.gender = #{Person.table_name}.gender")
-                      .select("
-        #{Score.table_name}.id
-      ")
+                      .joins(
+                        "INNER JOIN times t ON t.discipline = #{Score.table_name}.discipline AND " \
+                        "t.time = #{Score.table_name}.time AND " \
+                        "t.year = EXTRACT(YEAR FROM #{Competition.table_name}.date) AND " \
+                        "t.gender = #{Person.table_name}.gender",
+                      )
+                      .select("#{Score.table_name}.id")
                       .german
                       .where(competition_id: competitions)
                       .to_sql
 
-    includes(:person, competition: %i[place event]).where("#{Score.table_name}.id IN (WITH times AS (#{times_subquery}) #{scores_subquery})").joins(:person, :competition)
-                                                   .order("
+    includes(:person, competition: %i[place event])
+      .where("#{Score.table_name}.id IN (WITH times AS (#{times_subquery}) #{scores_subquery})")
+      .joins(:person, :competition)
+      .order("
       #{Score.table_name}.discipline,
       #{Person.table_name}.gender,
       EXTRACT(YEAR FROM #{Competition.table_name}.date)
@@ -94,7 +101,7 @@ class Score < ActiveRecord::Base
     both = [similar_scores, other.similar_scores].map(&:count)
     (0..(both.min - 1)).each do |i|
       compare = similar_scores[i].time <=> other.similar_scores[i].time
-      next if compare == 0
+      next if compare.zero?
       return compare
     end
     both.last <=> both.first
@@ -109,6 +116,11 @@ class Score < ActiveRecord::Base
   end
 
   def similar_scores
-    @similar_scores ||= Score.where(competition_id: competition_id, person_id: person_id, discipline: discipline, team_number: team_number).order(:time, :id)
+    @similar_scores ||= Score.where(
+      competition_id: competition_id,
+      person_id: person_id,
+      discipline: discipline,
+      team_number: team_number,
+    ).order(:time, :id)
   end
 end

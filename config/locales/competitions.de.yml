@@ -1,12 +1,5 @@
 de:
   activerecord:
-    models:
-      competition:
-        one: Wettkampf
-        other: Wettkämpfe
-      competition_file:
-        one: Wettkampfdokument
-        other: Wettkampfdokumente
     attributes:
       competition:
         date: Datum
@@ -17,15 +10,28 @@ de:
         place_id: Ort
         score_type: Mannschaftwertung
         score_type_id: Mannschaftwertung
+        scores_for_bla_badge: Zeiten für BLA
       competition_file:
         competition: Wettkampf
         file: Datei
+    models:
+      competition:
+        one: Wettkampf
+        other: Wettkämpfe
+      competition_file:
+        one: Wettkampfdokument
+        other: Wettkampfdokumente
 
   competitions:
     missed_information:
       competition_files: Wettkampfergebnisse als Datei-Upload
-      links: Verlinkungen
-      la_members: Wettkämpfer beim Löschangriff
       fs_members: Wettkämpfer bei der Feuerwehrstafette
       gs_members: Wettkämpfer bei der Gruppenstafette
+      la_members: Wettkämpfer beim Löschangriff
+      links: Verlinkungen
       single_team: Team-Zuordnungen bei Einzeldisziplinen
+
+  t3:
+    backend/competitions:
+      inline_labels:
+        scores_for_bla_badge: Zeiten gelten fürs Bundesleistungsabzeichen

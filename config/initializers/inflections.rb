@@ -15,10 +15,11 @@
 #   inflect.acronym 'RESTful'
 # end
 
-multilingual_inflections = lambda do |inflect|
+multilingual_inflections = ->(inflect) do
   inflect.acronym 'API'
+  inflect.acronym 'BLA'
 end
 
-for language in %i[en de] do
+%i[en de].each do |language|
   ActiveSupport::Inflector.inflections(language, &multilingual_inflections)
 end

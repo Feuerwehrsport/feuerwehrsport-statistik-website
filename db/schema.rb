@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171029102416) do
+ActiveRecord::Schema.define(version: 20171030160309) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,18 @@ ActiveRecord::Schema.define(version: 20171029102416) do
     t.datetime "updated_at",   :null=>false
     t.integer  "creator_id"
     t.string   "creator_type"
+  end
+
+  create_table "bla_badges", force: :cascade do |t|
+    t.integer  "person_id",   :null=>false, :index=>{:name=>"index_bla_badges_on_person_id", :unique=>true, :using=>:btree}
+    t.string   "status",      :limit=>200, :null=>false
+    t.integer  "year",        :null=>false
+    t.integer  "hl_time"
+    t.integer  "hl_score_id", :index=>{:name=>"index_bla_badges_on_hl_score_id", :using=>:btree}
+    t.integer  "hb_time",     :null=>false
+    t.integer  "hb_score_id", :index=>{:name=>"index_bla_badges_on_hb_score_id", :using=>:btree}
+    t.datetime "created_at",  :null=>false
+    t.datetime "updated_at",  :null=>false
   end
 
   create_table "change_logs", force: :cascade do |t|
@@ -138,26 +150,27 @@ UNION
   END_VIEW_COMPETITION_TEAM_NUMBERS
 
   create_table "competitions", force: :cascade do |t|
-    t.string   "name",          :limit=>200, :default=>"", :null=>false
-    t.integer  "place_id",      :null=>false, :index=>{:name=>"index_competitions_on_place_id", :using=>:btree}
-    t.integer  "event_id",      :null=>false, :index=>{:name=>"index_competitions_on_event_id", :using=>:btree}
-    t.integer  "score_type_id", :index=>{:name=>"index_competitions_on_score_type_id", :using=>:btree}
-    t.date     "date",          :null=>false
+    t.string   "name",                 :limit=>200, :default=>"", :null=>false
+    t.integer  "place_id",             :null=>false, :index=>{:name=>"index_competitions_on_place_id", :using=>:btree}
+    t.integer  "event_id",             :null=>false, :index=>{:name=>"index_competitions_on_event_id", :using=>:btree}
+    t.integer  "score_type_id",        :index=>{:name=>"index_competitions_on_score_type_id", :using=>:btree}
+    t.date     "date",                 :null=>false
     t.datetime "published_at"
-    t.datetime "created_at",    :null=>false
-    t.datetime "updated_at",    :null=>false
-    t.text     "hint_content",  :default=>"", :null=>false
-    t.integer  "hl_female",     :default=>0, :null=>false
-    t.integer  "hl_male",       :default=>0, :null=>false
-    t.integer  "hb_female",     :default=>0, :null=>false
-    t.integer  "hb_male",       :default=>0, :null=>false
-    t.integer  "gs",            :default=>0, :null=>false
-    t.integer  "fs_female",     :default=>0, :null=>false
-    t.integer  "fs_male",       :default=>0, :null=>false
-    t.integer  "la_female",     :default=>0, :null=>false
-    t.integer  "la_male",       :default=>0, :null=>false
-    t.integer  "teams_count",   :default=>0, :null=>false
-    t.integer  "people_count",  :default=>0, :null=>false
+    t.datetime "created_at",           :null=>false
+    t.datetime "updated_at",           :null=>false
+    t.text     "hint_content",         :default=>"", :null=>false
+    t.integer  "hl_female",            :default=>0, :null=>false
+    t.integer  "hl_male",              :default=>0, :null=>false
+    t.integer  "hb_female",            :default=>0, :null=>false
+    t.integer  "hb_male",              :default=>0, :null=>false
+    t.integer  "gs",                   :default=>0, :null=>false
+    t.integer  "fs_female",            :default=>0, :null=>false
+    t.integer  "fs_male",              :default=>0, :null=>false
+    t.integer  "la_female",            :default=>0, :null=>false
+    t.integer  "la_male",              :default=>0, :null=>false
+    t.integer  "teams_count",          :default=>0, :null=>false
+    t.integer  "people_count",         :default=>0, :null=>false
+    t.boolean  "scores_for_bla_badge", :default=>false, :null=>false
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -579,6 +592,9 @@ SELECT date_part('year'::text, competitions.date) AS year
   add_foreign_key "admin_users", "m3_logins", column: "login_id"
   add_foreign_key "appointments", "events"
   add_foreign_key "appointments", "places"
+  add_foreign_key "bla_badges", "people"
+  add_foreign_key "bla_badges", "scores", column: "hb_score_id"
+  add_foreign_key "bla_badges", "scores", column: "hl_score_id"
   add_foreign_key "change_logs", "admin_users"
   add_foreign_key "change_logs", "api_users"
   add_foreign_key "change_requests", "admin_users"

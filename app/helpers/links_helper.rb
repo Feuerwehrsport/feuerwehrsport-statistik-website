@@ -37,4 +37,8 @@ module LinksHelper
     type = options.delete(:type) || :to_s
     object.send(type).blank? ? '' : link_to(object.send(type), object, options)
   end
+
+  def current_wko_link(label)
+    link_to(label, "#{root_path}dfv-wko-2016.pdf", title: 'Aktuelle Wettkampfordnung vom Jahr 2016')
+  end
 end

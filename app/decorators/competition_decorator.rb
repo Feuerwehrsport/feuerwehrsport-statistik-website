@@ -6,6 +6,7 @@ class CompetitionDecorator < AppDecorator
   decorates_association :teams
 
   localizes :date
+  localizes_boolean :scores_for_bla_badge
 
   def to_s
     full_name

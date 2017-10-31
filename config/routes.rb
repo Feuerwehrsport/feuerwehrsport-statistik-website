@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   # backend: area for admin users
   namespace :backend do
     root to: 'dashboards#index'
+    namespace :bla do
+      resources :badges
+      resource :badge_generator, only: %i[new create]
+    end
     resources :dashboards, only: [] do
       collection do
         get :administration
@@ -146,6 +150,10 @@ Rails.application.routes.draw do
   get :records, to: 'pages#records'
   get :best_of, to: 'pages#best_of'
   root to: 'pages#dashboard'
+
+  namespace :bla do
+    resources :badges, only: %i[index]
+  end
 
   resource :session, controller: 'm3/login/sessions', only: %i[new create show destroy] do
     collection do

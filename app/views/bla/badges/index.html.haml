@@ -1,0 +1,16 @@
+.section
+  .container
+    .col-md-1= image_tag('bla/dfv.png', class: 'img-responsive')
+    .col-md-8
+      %h1 Bundesleistungsabzeichen
+      %p Durch diesen Leistungswettbewerb sollen das Leistungsvermögens der Feuerwehrangehörigen, verbunden mit sportlichem Ehrgeiz, körperlicher Fitness sowie die Pflege der kamerad-schaftlichen Kontakte unter den Feuerwehren in Deutschland und den Mitgliedsnationen des Internationalen Technischen Komitees für vorbeugenden Brandschutz und Feuerlöschwe- sen (CTIF) gefördert werden. Grundlage zur Durchführung des Wettbewerbes und damit zum Erwerb des BLA des Deutschen Feuerwehrverbandes ist die #{current_wko_link('DFV-Wettkampfordnung')} für Feuerwehrsportwettkämpfe in der jeweils gültigen Fassung.
+      %p Die nachfolgenden Einträge sind vom #{link_to('DFV', 'http://www.feuerwehrverband.de')}  überprüft:
+    .col-md-1= image_tag('bla/badge_bronze.jpg', class: 'img-responsive')
+    .col-md-1= image_tag('bla/badge_silver.jpg', class: 'img-responsive')
+    .col-md-1= image_tag('bla/badge_gold.jpg', class: 'img-responsive')
+
+  .container
+    = count_table(collection, class: 'datatable-bla-badges') do |t|
+      - t.col('Wettkämpfer', class: 'col-md-4') { |row| person_link(row.person) }
+      - t.col('Jahr', :year, class: 'col-md-1')
+      - t.col('Stufe', :status, class: 'col-md-1')
