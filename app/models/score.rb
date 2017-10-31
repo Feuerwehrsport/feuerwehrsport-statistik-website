@@ -92,6 +92,7 @@ class Score < ActiveRecord::Base
   scope :competition, ->(competition_id) { where(competition_id: competition_id) }
   scope :person, ->(person_id) { where(person_id: person_id) }
   scope :team, ->(team_id) { where(team_id: team_id) }
+  scope :where_time_like, ->(search_term) { where('time::TEXT ILIKE ?', "%#{search_term}%") }
 
   def uniq_team_id
     "#{competition_id}-#{team_id}-#{team_number}"
