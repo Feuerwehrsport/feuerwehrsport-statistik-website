@@ -10,7 +10,7 @@ class BLA::Badge < ActiveRecord::Base
     self.hb_time ||= hb_score.try(:time)
   end
   validate :score_matches
-  validates :hl_time, presence: true, if: -> { person&.gender&.to_sym != :female }
+  validates :hl_time, presence: true, if: -> { person&.gender&.to_sym != :female || year > 2015 }
 
   def <=>(other)
     status_as_index <=> other.status_as_index

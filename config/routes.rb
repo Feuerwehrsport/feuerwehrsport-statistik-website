@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     root to: 'dashboards#index'
     namespace :bla do
       resources :badges
-      resource :badge_generator, only: %i[new create]
+      resource :badge_generator, only: %i[new]
     end
     resources :dashboards, only: [] do
       collection do

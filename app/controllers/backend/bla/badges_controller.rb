@@ -1,5 +1,6 @@
 class Backend::BLA::BadgesController < Backend::BackendController
   backend_actions
+  collection_actions :generate, :index, :new
 
   default_form do |f|
     f.association :person, as: :association_select

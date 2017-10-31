@@ -1,0 +1,18 @@
+.section
+  .container
+    %table.table.table-condensed.table-hover.table-bordered
+      - resource.people_with_badges.each do |person, badges|
+        %tr
+          %td= person.decorate
+          - 3.times do |i|
+            - if !badges[i]
+              %td.info Vorhanden
+            - else
+              %td{ class: badges[i].valid? ? 'success' : 'warning' }
+                = badges[i].valid? ? 'OK' : 'Nein'
+                - if badges[i].hl_score
+                  %br
+                  = link_to(badges[i].hl_score.decorate.with_competition ,badges[i].hl_score.competition)
+                - if badges[i].hb_score
+                  %br
+                  = link_to(badges[i].hb_score.decorate.with_competition,badges[i].hb_score.competition)

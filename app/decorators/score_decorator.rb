@@ -11,6 +11,10 @@ class ScoreDecorator < AppDecorator
     "#{person} - #{second_time}"
   end
 
+  def with_competition
+    "#{competition} - #{discipline_name_short(discipline)}: #{second_time}"
+  end
+
   def second_time
     calculate_second_time(time)
   end

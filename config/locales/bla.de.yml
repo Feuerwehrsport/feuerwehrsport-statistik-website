@@ -24,3 +24,9 @@ de:
         year: Jahr
     models:
       bla/badge_generator: BLA-Generator
+
+  t3:
+    backend/bla/badges:
+      views:
+        actions:
+          generate: Generieren
