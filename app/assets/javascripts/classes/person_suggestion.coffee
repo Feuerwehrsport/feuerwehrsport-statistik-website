@@ -45,5 +45,5 @@ class PersonSuggestion
       $('#comp_reg_person_person_id').val(entry.id)
       $('#comp_reg_person_team_name').val(entry.teams[0])
 
-$ () ->
+M3.ready ->
   new PersonSuggestion

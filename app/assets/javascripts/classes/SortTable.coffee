@@ -1,3 +1,8 @@
+#= require dataTables/jquery.dataTables
+#= require dataTables/jquery.dataTables.bootstrap
+#= require dataTables/jquery.dataTables.german
+#= require dataTables/jquery.dataTables.timeSorting
+
 class @SortTable
   @options: 
     selector: '.datatable'

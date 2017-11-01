@@ -51,6 +51,12 @@ class @Fss
   @loginStatus: false
   @loginUser: null
 
+
+  @ready: (path, callback) ->
+    M3.ready ->
+      if window.location.pathname.indexOf("/#{path}") isnt -1
+        callback()
+
   @logoutWindow: () ->
     new ConfirmFssWindow "Benutzer abmelden?", "Wollen Sie sich abmelden?", () ->
       Fss.post "api_users/logout", {}, () ->

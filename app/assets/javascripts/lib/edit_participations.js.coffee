@@ -23,7 +23,7 @@ resetHandler = () ->
 
 
 
-$ () ->
+M3.ready ->
   $(document).on 'modal.ready hidden.bs.modal', ->
     resetHandler()
   resetHandler()

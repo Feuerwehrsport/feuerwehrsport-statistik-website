@@ -1,6 +1,7 @@
 #= require classes/InputLine
 #= require classes/TestScoreResult
 #= require classes/MissingTeam
+#= require classes/EventHandler
 
 class @Discipline extends EventHandler
   constructor: (@discipline, @gender) ->
