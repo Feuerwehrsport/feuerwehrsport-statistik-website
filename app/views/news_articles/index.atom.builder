@@ -1,9 +1,9 @@
 atom_feed do |feed|
   feed.title('Feuerwehrsport-Statistik-Neuigkeiten')
-  feed.updated(@news.map(&:published_at).max)
+  feed.updated(collection.object.map(&:published_at).max)
 
-  @news.each do |news|
-    feed.entry(news, published: news.published_at) do |entry|
+  collection.each do |news|
+    feed.entry(news.object, published: news.object.published_at) do |entry|
       entry.title(news.title)
       entry.content(news.content, type: 'html')
       entry.author do |author|

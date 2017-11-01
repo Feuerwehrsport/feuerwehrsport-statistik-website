@@ -1,4 +1,7 @@
 class ChangeLogDecorator < AppDecorator
+  include M3::URLSupport
+  delegate :link_to, to: :h
+
   decorates_association :admin_user
   decorates_association :api_user
 
@@ -27,7 +30,7 @@ class ChangeLogDecorator < AppDecorator
     if model_class == 'Link' && log_action == 'add-link'
       link = build_after_model.decorate
       "Link #{link_to(link.label, link.url)} bei #{link_to(link.linkable, link.linkable)}".html_safe
-    elsif model_class == 'News' && object.action_name == 'create'
+    elsif model_class == 'News' && action_name == 'create'
       news = build_after_model.decorate
       link_to(news, news_path(news))
     elsif model_class == 'Team' && log_action == 'update-state'
@@ -38,9 +41,11 @@ class ChangeLogDecorator < AppDecorator
     elsif model_class == 'Team' && log_action.in?(['add-team', 'update-geo-position'])
       team = build_after_model.decorate
       link_to(team, team_path(team))
-    elsif model_class == 'Competition' && log_action.in?(['add-competition', 'create'])
+    elsif model_class == 'Competition' && log_action.in?(['add-competition', 'create']) || action_name == 'create'
       competition = build_after_model.decorate
       link_to(competition, competition_path(competition))
+    elsif model_class == 'Competition' && action_name == 'destroy'
+      build_before_model.decorate
     elsif model_class == 'Appointment' && log_action.in?(['add-appointment', 'create'])
       appointment = build_after_model.decorate
       link_to("#{appointment.dated_at} - #{appointment.place}", appointment_path(appointment))

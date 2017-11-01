@@ -6,6 +6,8 @@ de:
       update: Termin bearbeiten
     competition:
       add_competition: Wettkampf hinzufügen
+      create: Wettkampf hinzufügen
+      destroy: Wettkampf löschen
       update: Wettkampf aktualisieren
       update_score_type: Mannschaftswertung eines Wettkampfes anpassen
     link:

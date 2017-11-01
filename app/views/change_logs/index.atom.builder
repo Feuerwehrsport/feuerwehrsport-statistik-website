@@ -1,9 +1,9 @@
 atom_feed do |feed|
   feed.title('Feuerwehrsport-Statistik-Veränderungen')
-  feed.updated(@change_logs.map(&:created_at).max)
+  feed.updated(collection.object.map(&:created_at).max)
 
-  @change_logs.each do |change_log|
-    feed.entry(change_log, published: change_log.created_at) do |entry|
+  collection.each do |change_log|
+    feed.entry(change_log.object, published: change_log.object.created_at) do |entry|
       entry.title(change_log.translated_action)
       entry.content(change_log.readable_content, type: 'html')
       entry.author do |author|
