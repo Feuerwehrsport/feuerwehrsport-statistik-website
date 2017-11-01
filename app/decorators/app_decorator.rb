@@ -25,7 +25,7 @@ class AppDecorator < ApplicationDecorator
   end
 
   def self.calculate_second_time(time)
-    return 'D' if time.present? && time >= TimeInvalid::INVALID
+    return 'D' if time.blank? || time >= TimeInvalid::INVALID
     seconds = time.to_i / 100
     millis = time.to_i % 100
     "#{seconds},#{format('%02d', millis)}"
