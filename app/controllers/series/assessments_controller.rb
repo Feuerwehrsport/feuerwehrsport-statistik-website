@@ -3,7 +3,6 @@ class Series::AssessmentsController < ResourceController
 
   def show
     @person_assessments = Series::PersonAssessment.where(round: resource.round).where.not(id: resource.id).decorate
-    @page_title = "#{resource.round} #{resource} - Wettkampfserie"
 
     if request.format.pdf?
       configure_prawn(title: @page_title, page_layout: :landscape)

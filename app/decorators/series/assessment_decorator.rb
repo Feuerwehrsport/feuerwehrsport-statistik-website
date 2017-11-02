@@ -8,6 +8,10 @@ class Series::AssessmentDecorator < AppDecorator
     [discipline_name(discipline), name, gender_translated].select(&:present?).join(' - ')
   end
 
+  def page_title
+    "#{round} #{self} - Wettkampfserie"
+  end
+
   def rows
     object.rows.map(&:decorate)
   end

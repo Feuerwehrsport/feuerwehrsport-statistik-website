@@ -1,16 +1,20 @@
-.row.page-header
-  .col-md-1.hidden-xs.hidden-sm= discipline_image(@assessment.discipline, width: "100%")
-  .col-md-7
-    %h1
-      = @assessment.round
-      %br
-      %small= @assessment
-    %ul
-      %li= link_to("Zurück zur Übersicht", @assessment.round)
-      - @person_assessments.each do |assessment|
-        %li= link_to(assessment, assessment)
-      %li= link_to('Als PDF', format: :pdf)
-  .col-md-4= render("series/cups_overview", cups: @assessment.cups)
-= render('show_assessment_table', rows: @assessment.rows, cups: @assessment.cups)
-= render("aggregate_type_#{@assessment.round.aggregate_type.underscore}") rescue ""
-= render('series/round_footer', official: @assessment.round.official?, pdf: true)
+.section
+  .container.page-header
+    .col-md-1.hidden-xs.hidden-sm= discipline_image(resource.discipline, width: "100%")
+    .col-md-7
+      %h1
+        = resource.round
+        %br
+        %small= resource
+      %ul
+        %li= link_to("Zurück zur Übersicht", resource.round)
+        - @person_assessments.each do |assessment|
+          %li= link_to(assessment, assessment)
+        %li= link_to('Als PDF', format: :pdf)
+    .col-md-4= render("series/cups_overview", cups: resource.cups)
+  .container
+    = render('show_assessment_table', rows: resource.rows, cups: resource.cups)
+  .container
+    = render("aggregate_type_#{resource.round.aggregate_type.underscore}") rescue ""
+  .container
+    = render('series/round_footer', official: resource.round.official?, pdf: true)
