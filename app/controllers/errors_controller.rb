@@ -32,6 +32,7 @@ class ErrorsController < ApplicationController
     [/^\/page\/years\.html$/, '/years'],
     [/^\/news\/(\d+)$/, '/news_articles/%1%'],
     [/^\/news\/?$/, '/news_articles'],
+    [/^\/news\.atom$/, '/news_articles.atom'],
   ].freeze
 
   def not_found
