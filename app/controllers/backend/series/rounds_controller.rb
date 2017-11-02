@@ -5,7 +5,7 @@ class Backend::Series::RoundsController < Backend::BackendController
   default_form do |f|
     f.input :name
     f.input :year
-    f.input :aggregate_type, collection: Firesport::Series::Handler.team_class_names
+    f.input :aggregate_type, collection: Firesport::Series::Handler.class_names
     f.input :official
     f.input :full_cup_count
   end
