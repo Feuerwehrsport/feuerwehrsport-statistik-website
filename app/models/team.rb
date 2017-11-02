@@ -28,7 +28,7 @@ class Team < ActiveRecord::Base
 
   validates :name, :shortcut, presence: true
 
-  scope(:with_members_and_competitions_count, lambda do
+  scope(:with_members_and_competitions_count, -> do
     select("
       teams.*,
       (#{TeamMember.select('COUNT(*)').where('team_id = teams.id').to_sql}) AS members_count,
@@ -38,7 +38,7 @@ class Team < ActiveRecord::Base
   scope :status, ->(status) { where(status: STATUS[status.to_sym]) }
   scope :index_order, -> { order(:name) }
   scope :search, ->(team_name) { where('name ILIKE ? OR shortcut ILIKE ?', team_name, team_name) }
-  scope(:where_name_like, lambda do |name|
+  scope(:where_name_like, ->(name) do
     name = name.strip.gsub(/^FF\s/i, '').gsub(/^Team\s/i, '').strip
 
     in_names = Team.select(:id).like_name_or_shortcut(name).to_sql
@@ -145,7 +145,7 @@ class Team < ActiveRecord::Base
     end
 
     def average_time
-      AppDecorator.calculate_second_time(valid_scores.map(&:time).sum.to_f / valid_scores.size)
+      Firesport::Time.second_time(valid_scores.map(&:time).sum.to_f / valid_scores.size)
     end
   end
 

@@ -14,7 +14,7 @@ class GroupScoreDecorator < AppDecorator
   end
 
   def second_time
-    calculate_second_time(time)
+    Firesport::Time.second_time(time)
   end
 
   def translated_discipline_name

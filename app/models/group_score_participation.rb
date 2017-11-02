@@ -1,5 +1,5 @@
 class GroupScoreParticipation < ActiveRecord::View
-  include TimeInvalid
+  include Firesport::TimeInvalid
 
   belongs_to :person
   belongs_to :team

@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Calculation::PerformanceOfYear::Team do
   describe 'calculation of single performance for one year' do
     let!(:group_score1) { create(:group_score, :double) }
-    let!(:group_score2) { create(:group_score, :double, time: TimeInvalid::INVALID) }
+    let!(:group_score2) { create(:group_score, :double, time: Firesport::INVALID_TIME) }
     it 'returns entries' do
       la_male = Calculation::PerformanceOfYear::Team.entries(group_score1.competition.date.year, :la, :male)
       expect(la_male.count).to eq 1

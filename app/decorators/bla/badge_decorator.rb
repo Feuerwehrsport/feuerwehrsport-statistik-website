@@ -9,14 +9,14 @@ class BLA::BadgeDecorator < AppDecorator
   end
 
   def second_time
-    calculate_second_time(time)
+    Firesport::Time.second_time(time)
   end
 
   def second_hl_time
-    calculate_second_time(hl_time)
+    Firesport::Time.second_time(hl_time)
   end
 
   def second_hb_time
-    calculate_second_time(hb_time)
+    Firesport::Time.second_time(hb_time)
   end
 end

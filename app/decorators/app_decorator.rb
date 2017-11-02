@@ -24,13 +24,6 @@ class AppDecorator < ApplicationDecorator
     end
   end
 
-  def self.calculate_second_time(time)
-    return 'D' if time.blank? || time >= TimeInvalid::INVALID
-    seconds = time.to_i / 100
-    millis = time.to_i % 100
-    "#{seconds},#{format('%02d', millis)}"
-  end
-
   def self.localizes(*fields)
     super
     fields.each do |field|
@@ -46,11 +39,5 @@ class AppDecorator < ApplicationDecorator
 
   def to_serializer
     object.to_serializer(self)
-  end
-
-  protected
-
-  def calculate_second_time(time)
-    self.class.calculate_second_time(time)
   end
 end

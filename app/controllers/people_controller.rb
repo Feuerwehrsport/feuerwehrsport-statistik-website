@@ -123,6 +123,6 @@ class PeopleController < ResourceController
   end
 
   def average_time(valid_scores)
-    AppDecorator.calculate_second_time(valid_scores.map(&:time).sum.to_f / valid_scores.size)
+    Firesport::Time.second_time(valid_scores.map(&:time).sum.to_f / valid_scores.size)
   end
 end

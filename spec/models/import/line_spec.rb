@@ -52,36 +52,36 @@ describe Import::Line do
   describe '.normalize_time' do
     it 'checks return values of normalize_time' do
       expect(line.send(:normalize_time, '')).to be false
-      expect(line.send(:normalize_time, 'D')).to be TimeInvalid::INVALID
+      expect(line.send(:normalize_time, 'D')).to be Firesport::INVALID_TIME
 
       expect(line.send(:normalize_time, 'N')).to be false
       expect(line.send(:normalize_time, 'asdf')).to be false
-      expect(line.send(:normalize_time, 'D')).to be TimeInvalid::INVALID
-      expect(line.send(:normalize_time, '999')).to be TimeInvalid::INVALID
+      expect(line.send(:normalize_time, 'D')).to be Firesport::INVALID_TIME
+      expect(line.send(:normalize_time, '999')).to be Firesport::INVALID_TIME
 
-      expect(line.send(:normalize_time, '4,10')).to be TimeInvalid::INVALID
+      expect(line.send(:normalize_time, '4,10')).to be Firesport::INVALID_TIME
       expect(line.send(:normalize_time, '12,30')).to be 1230
       expect(line.send(:normalize_time, '61,60')).to be 6160
       expect(line.send(:normalize_time, '99,99')).to be 9999
-      expect(line.send(:normalize_time, '999,99')).to be TimeInvalid::INVALID
+      expect(line.send(:normalize_time, '999,99')).to be Firesport::INVALID_TIME
 
-      expect(line.send(:normalize_time, '4:10')).to be TimeInvalid::INVALID
+      expect(line.send(:normalize_time, '4:10')).to be Firesport::INVALID_TIME
       expect(line.send(:normalize_time, '12:30')).to be 1230
       expect(line.send(:normalize_time, '61:60')).to be 6160
       expect(line.send(:normalize_time, '99:99')).to be 9999
-      expect(line.send(:normalize_time, '999:99')).to be TimeInvalid::INVALID
+      expect(line.send(:normalize_time, '999:99')).to be Firesport::INVALID_TIME
 
-      expect(line.send(:normalize_time, '4;10')).to be TimeInvalid::INVALID
+      expect(line.send(:normalize_time, '4;10')).to be Firesport::INVALID_TIME
       expect(line.send(:normalize_time, '12;30')).to be 1230
       expect(line.send(:normalize_time, '61;60')).to be 6160
       expect(line.send(:normalize_time, '99;99')).to be 9999
-      expect(line.send(:normalize_time, '999;99')).to be TimeInvalid::INVALID
+      expect(line.send(:normalize_time, '999;99')).to be Firesport::INVALID_TIME
 
-      expect(line.send(:normalize_time, '4.10')).to be TimeInvalid::INVALID
+      expect(line.send(:normalize_time, '4.10')).to be Firesport::INVALID_TIME
       expect(line.send(:normalize_time, '12.30')).to be 1230
       expect(line.send(:normalize_time, '61.60')).to be 6160
       expect(line.send(:normalize_time, '99.99')).to be 9999
-      expect(line.send(:normalize_time, '999.99')).to be TimeInvalid::INVALID
+      expect(line.send(:normalize_time, '999.99')).to be Firesport::INVALID_TIME
 
       expect(line.send(:normalize_time, '1:31:12')).to be 9112
       expect(line.send(:normalize_time, '1:31,12')).to be 9112

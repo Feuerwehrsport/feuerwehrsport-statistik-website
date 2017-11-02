@@ -3,15 +3,15 @@ class ScoreDoubleEventDecorator < AppDecorator
   decorates_association :person
 
   def second_time
-    calculate_second_time(time)
+    Firesport::Time.second_time(time)
   end
 
   def second_hb
-    calculate_second_time(hb)
+    Firesport::Time.second_time(hb)
   end
 
   def second_hl
-    calculate_second_time(hl)
+    Firesport::Time.second_time(hl)
   end
 
   delegate :<=>, to: :object

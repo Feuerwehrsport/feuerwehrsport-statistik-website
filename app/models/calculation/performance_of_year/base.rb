@@ -27,7 +27,7 @@ module Calculation
       end
 
       def valid_time_average
-        @valid_time_average ||= valid_time_count > 0 ? valid_time_sum / valid_time_count : TimeInvalid::INVALID
+        @valid_time_average ||= valid_time_count > 0 ? valid_time_sum / valid_time_count : Firesport::INVALID_TIME
       end
 
       def points

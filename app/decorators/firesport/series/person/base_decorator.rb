@@ -7,10 +7,10 @@ class Firesport::Series::Person::BaseDecorator < AppDecorator
   end
 
   def second_best_time
-    calculate_second_time(best_time)
+    Firesport::Time.second_time(best_time)
   end
 
   def second_sum_time
-    calculate_second_time(sum_time)
+    Firesport::Time.second_time(sum_time)
   end
 end

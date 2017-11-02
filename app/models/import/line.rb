@@ -112,7 +112,7 @@ module Import
     def normalize_time(time)
       time = time.downcase
       return false if time == 'n'
-      return TimeInvalid::INVALID if time.in?(['d', 'o.w.', 'o. w.'])
+      return Firesport::INVALID_TIME if time.in?(['d', 'o.w.', 'o. w.'])
 
       time = time.gsub(/^(.+)\s*s\s*\.?$/, '\\1').strip
       time = time.gsub(/^(.+)\s*sekunden$/, '\\1').strip
@@ -148,7 +148,7 @@ module Import
       time = seconds * 100 + millis if seconds > 0
 
       if time.to_i.to_s == time.to_s
-        return TimeInvalid::INVALID if time.to_i < 500 || time.to_i > 99_800
+        return Firesport::INVALID_TIME if time.to_i < 500 || time.to_i > 99_800
         return time.to_i
       end
       false

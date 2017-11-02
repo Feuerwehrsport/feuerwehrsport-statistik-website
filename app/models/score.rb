@@ -1,4 +1,6 @@
 class Score < ActiveRecord::Base
+  include Firesport::TimeInvalid
+
   # 4  = Mannschaft 4
   # 3  = Mannschaft 3
   # 2  = Mannschaft 2
@@ -9,8 +11,6 @@ class Score < ActiveRecord::Base
   # -3 = Viertelfinale
   # -4 = Achtelfinale
   # -5 = Außer der Wertung
-
-  include TimeInvalid
 
   belongs_to :person
   belongs_to :competition

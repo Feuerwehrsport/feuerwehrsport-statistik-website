@@ -35,7 +35,7 @@
                 %table.table
                   %tr
                     %th.col-md-1 Durchschnitt
-                    %td.col-md-1= "#{AppDecorator.calculate_second_time(type.average)} s"
+                    %td.col-md-1= "#{Firesport::Time.second_time(type.average)} s"
                   %tr
                     %th.col-md-1 Anzahl
                     %td.col-md-1= type.count

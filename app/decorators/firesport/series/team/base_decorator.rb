@@ -6,6 +6,6 @@ class Firesport::Series::Team::BaseDecorator < AppDecorator
   end
 
   def second_best_time
-    calculate_second_time(best_time)
+    Firesport::Time.second_time(best_time)
   end
 end

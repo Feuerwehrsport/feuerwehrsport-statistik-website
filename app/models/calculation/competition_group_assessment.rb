@@ -41,7 +41,7 @@ class Calculation::CompetitionGroupAssessment < Struct.new(:team, :team_number, 
 
   def calculate_time(score_count)
     if score_in_assessment(score_count).reject(&:time_invalid?).count < score_count
-      TimeInvalid::INVALID
+      Firesport::INVALID_TIME
     else
       score_in_assessment(score_count).map(&:time).sum
     end

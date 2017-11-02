@@ -1,5 +1,5 @@
 class GroupScore < ActiveRecord::Base
-  include TimeInvalid
+  include Firesport::TimeInvalid
 
   belongs_to :team
   belongs_to :group_score_category
