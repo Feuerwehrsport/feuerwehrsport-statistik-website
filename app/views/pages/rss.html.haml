@@ -1,16 +1,17 @@
-.row
-  .col-md-2
-    = design_image('application-rss', width: '100%')
-  .col-md-10
-    %h1 RSS-Feeds
-    %p Diese Website stellt mehrere Feeds zur Verfügung. Dabei sind alle Feeds in mehreren Formaten verfügbar.
-    %table.table
-      %tr
-        %th Neuigkeiten
-        %td= link_to('Atom', news_articles_path(format: :atom))
-      %tr
-        %th Veränderungen
-        %td= link_to('Atom', change_logs_path(format: :atom))
-      %tr
-        %th Veränderungen der Programmdateien
-        %td= link_to('Atom', 'https://github.com/Feuerwehrsport/feuerwehrsport-statistik-website/commits/master.atom')
+.section
+  .container
+    .col-md-2
+      = design_image('application-rss', width: '100%')
+    .col-md-10
+      %h1 RSS-Feeds
+      %p Diese Website stellt mehrere Feeds zur Verfügung. Dabei sind alle Feeds in mehreren Formaten verfügbar.
+      %table.table
+        %tr
+          %th Neuigkeiten
+          %td= link_to('Atom', news_articles_path(format: :atom))
+        %tr
+          %th Veränderungen
+          %td= link_to('Atom', change_logs_path(format: :atom))
+        %tr
+          %th Veränderungen der Programmdateien
+          %td= link_to('Atom', 'https://github.com/Feuerwehrsport/feuerwehrsport-statistik-website/commits/master.atom')
