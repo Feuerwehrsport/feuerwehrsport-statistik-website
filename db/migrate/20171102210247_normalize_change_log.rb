@@ -34,7 +34,8 @@ class NormalizeChangeLog < ActiveRecord::Migration
       change_log.update_column(:log_action, nil)
     end
     ChangeLog.where(model_class: 'News').each do |change_log|
-      change_log.update_column(:action, "#{change_log.action_name}-#{'NewsArticle'.parameterize}", model_class: 'NewsArticle')
+      change_log.update_column(:action, "#{change_log.action_name}-#{'NewsArticle'.parameterize}")
+      change_log.update_column(:model_class, 'NewsArticle')
     end
     change_column_null :change_logs, :action, false
     remove_column :change_logs, :log_action
