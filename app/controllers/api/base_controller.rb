@@ -24,7 +24,7 @@ class API::BaseController < ApplicationController
     include API::Actions::Update           if action_names.include?(:update)
     include API::Actions::Destroy          if action_names.include?(:destroy)
     include API::Actions::Move             if action_names.include?(:move)
-    include API::Actions::ChangeLogSupport if change_log
+    include ChangeLogSupport if change_log
 
     if create_form.present?
       form_for :create { |f| create_form.each { |field| f.input field } }

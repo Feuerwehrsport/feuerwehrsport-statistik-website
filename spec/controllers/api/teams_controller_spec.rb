@@ -22,6 +22,7 @@ RSpec.describe API::TeamsController, type: :controller do
         subject.call
         expect_api_login_response
       end.to change(Team, :count).by(1)
+      expect_change_log(after: { name: 'Mannschaft1' }, log: 'create-team')
     end
   end
 
@@ -73,6 +74,7 @@ RSpec.describe API::TeamsController, type: :controller do
       it 'success', login: :sub_admin do
         subject.call
         expect(json_body[:team]).to eq(team_attributes.merge(changed_attributes))
+        expect_change_log(before: { name: 'FF Warin' }, after: { name: 'FF Hanswurst' }, log: 'update-team')
       end
     end
   end

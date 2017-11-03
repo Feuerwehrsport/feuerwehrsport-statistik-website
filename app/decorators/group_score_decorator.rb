@@ -7,7 +7,7 @@ class GroupScoreDecorator < AppDecorator
     team
   end
 
-  delegate :discipline, to: :group_score_category
+  delegate :discipline, to: :group_score_category, allow_nil: true
 
   def to_s
     "#{team} #{team_number} - #{second_time}"

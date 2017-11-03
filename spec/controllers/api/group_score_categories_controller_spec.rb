@@ -56,6 +56,7 @@ RSpec.describe API::GroupScoreCategoriesController, type: :controller do
         expect_api_login_response
       end.to change(GroupScoreCategory, :count).by(1)
       expect(GroupScoreCategory.last.name).to eq 'FooBar'
+      expect_change_log(after: { name: 'FooBar' }, log: 'create-groupscorecategory')
     end
     it_behaves_like 'api user get permission error'
   end

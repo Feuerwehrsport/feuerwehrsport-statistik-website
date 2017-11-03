@@ -12,6 +12,7 @@ RSpec.describe API::CompetitionFilesController, type: :controller do
       expect(response).to redirect_to competition_path(1, anchor: 'toc-dateien')
       expect(CompetitionFile.last.keys).to match_array %w[hl_male hb_female]
       expect(CompetitionFile.last.competition_id).to eq competition.id
+      expect_change_log(after: { competition_id: competition.id }, log: 'create-competitionfile')
     end
   end
 end

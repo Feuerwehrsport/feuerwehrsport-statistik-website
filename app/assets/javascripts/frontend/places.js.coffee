@@ -33,7 +33,7 @@ loadMap = (draggableMarker=false) ->
           place:
             latitude: marker.getLatLng().lat
             longitude: marker.getLatLng().lng
-          log_action: "update-geo-position"
+          log_action: 'update-place:geo-position'
 
 Fss.ready 'place', ->
   new SortTable(selector: ".datatable-places", direction: 'asc')

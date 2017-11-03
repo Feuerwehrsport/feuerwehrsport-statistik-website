@@ -241,7 +241,7 @@ class @Fss
               Fss.reloadOnArrayReady data.scores, (score, success) ->
                 params = 
                   group_score: score
-                  log_action: "update-participation"
+                  log_action: 'update-groupscore:participation'
                 Fss.put("group_scores/#{score.id}/person_participation", params, success)
             )
             .open()

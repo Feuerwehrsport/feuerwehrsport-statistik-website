@@ -16,4 +16,8 @@ class AppointmentDecorator < AppDecorator
   def page_title
     "#{dated_at} #{name} - Wettkampftermin"
   end
+
+  def change_log_to_s
+    "#{dated_at} - #{place}"
+  end
 end

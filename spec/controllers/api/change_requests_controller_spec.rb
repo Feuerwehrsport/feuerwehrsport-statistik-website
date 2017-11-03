@@ -11,6 +11,7 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
         expect_api_login_response
       end.to change(ChangeRequest, :count).by(1)
       expect(ChangeRequest.last.content).to eq foo: { bar: '1' }
+      expect_change_log(after: { done_at: nil }, log: 'create-changerequest')
     end
 
     it 'sends notification', login: :api do
@@ -66,6 +67,7 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
       subject.call
       expect_json_response
       expect(change_request.reload.done_at).to_not be nil
+      expect_change_log(before: { done_at: nil }, after: {}, log: 'update-changerequest')
     end
     it_behaves_like 'api user get permission error'
   end

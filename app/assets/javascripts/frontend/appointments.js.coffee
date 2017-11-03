@@ -62,7 +62,7 @@ Fss.ready 'appointment', ->
       Fss.getResources "places", (places) ->
         Fss.getResources "events", (events) ->
           editAppointment "Termin hinzufügen",  places, events, {}, (appointmentData) ->
-            Fss.ajaxReload 'POST', 'appointments', appointment: appointmentData, log_action: "add-appointment"
+            Fss.ajaxReload 'POST', 'appointments', appointment: appointmentData
 
   $('#edit-appointment').click () ->
     appointmentId = $(this).data('appointment-id')
@@ -72,6 +72,6 @@ Fss.ready 'appointment', ->
           Fss.getResource "appointments", appointmentId, (appointment) ->
             editAppointment "Termin bearbeiten", places, events, appointment, (appointmentData) ->
               if appointment.updateable
-                Fss.ajaxReload 'PUT', "appointments/#{appointmentId}", appointment: appointmentData, log_action: "edit-appointment"
+                Fss.ajaxReload 'PUT', "appointments/#{appointmentId}", appointment: appointmentData
               else
                 Fss.changeRequest 'appointment-edit', appointment_id: appointmentId, appointment: appointmentData

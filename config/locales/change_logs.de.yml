@@ -1,37 +1,84 @@
 de:
   change_logs:
+    admin_user:
+      update_adminuser: Verwalter bearbeiten
     appointment:
-      add_appointment: Termin hinzufügen
-      edit_appointment: Termin bearbeiten
-      update: Termin bearbeiten
+      create_appointment: Termin hinzufügen
+      destroy_appointment: Termin löschen
+      update_appointment: Termin bearbeiten
+    change_request:
+      create_changerequest: Fehler erstellen
+      update_changerequest: Fehler bearbeiten
     competition:
-      add_competition: Wettkampf hinzufügen
-      create: Wettkampf hinzufügen
-      destroy: Wettkampf löschen
-      update: Wettkampf aktualisieren
-      update_score_type: Mannschaftswertung eines Wettkampfes anpassen
+      create_competition: Wettkampf hinzufügen
+      destroy_competition: Wettkampf löschen
+      update_competition: Wettkampf bearbeiten
+      update_competition:name: Name des Wettkampfes anpassen
+      update_competition:score_type: Mannschaftswertung des Wettkampfes anpassen
+    competition_file:
+      files_competitionfile: Datei zu einem Wettkampf hochladen
+    event:
+      create_event: Wettkampftyp hinzufügen
+    group_score:
+      destroy_groupscore: Mannschaftszeit löschen
+      update_groupscore: Mannschaftszeit bearbeiten
+      update_groupscore:participation: Wettkämpfer bei Mannschaftszeit hinterlegen
+      update_groupscore:team: Mannschaft der Mannschaftszeit ändern
+    group_score_category:
+      create_groupscorecategory: Zeitenkategorie hinzufügen
+      destroy_groupscorecategory: Zeitenkategorie löschen
+      update_groupscorecategory: Zeitenkategorie bearbeiten
+    group_score_type:
+      create_groupscoretype: Wertungstyp hinzufügen
+    import/scores:
+      scores_import_scores: Zeiten importieren
+    import_request:
+      create_importrequest: Import-Anfrage hinzufügen
+      destroy_importrequest: Import-Anfrage löschen
+      update_importrequest: Import-Anfrage bearbeiten
     link:
-      add_link: Link hinzufügen
-      destroy: Link entfernen
-      update: Link aktualisieren
-    news:
-      create: Neuigkeit hinzufügen
-      update: Neuigkeit aktualisieren
+      create_link: Link hinzufügen
+      destroy_link: Link löschen
+      update_link: Link bearbeiten
+    nation:
+      create_nation: Nation hinzufügen
+      update_nation: Nation bearbeiten
+    news_article:
+      create_news_article: Neuigkeit hinzufügen
+      update_news_article: Neuigkeit bearbeiten
     person:
-      add_person: Wettkämpfer hinzufügen
-      create: Wettkämpfer hinzufügen
+      create_person: Wettkämpfer hinzufügen
+      destroy_person: Wettkämpfer löschen
       merge: Wettkämpfer zusammenführen
-      update: Wettkämpfer aktualisieren
+      update_person: Wettkämpfer bearbeiten
+      update_person:name: Names des Wettkämpfer anpassen
+      update_person:nation: Nation des Wettkämpfers anpassen
+    person_spelling:
+      create_personspelling: Wettkämpferschreibweise hinzufügen
+      update_personspelling: Wettkämpferschreibweise bearbeiten
     place:
-      add_place: Ort hinzufügen
-      update: Ort aktualisieren
-      update_geo_position: Geo-Position eines Ortes aktualisieren
+      create_place: Ort hinzufügen
+      update_place: Ort bearbeiten
+      update_place:geo_position: Geo-Position des Ortes bearbeiten
+    score:
+      destroy_score: Einzelzeit löschen
+      update_score: Einzelzeit bearbeiten
+      update_score:team: Mannschaft der Einzelzeit ändern
+    score_type:
+      create_scoretype: Mannschaftswertung hinzufügen
+    series/participation:
+      destroy_series_participation: Serienteilnahme löschen
+      update_series_participation: Serienteilnahme bearbeiten
+    series/person_participation:
+      create_series_personparticipation: Serienteilnahme hinzufügen
+    series/team_participation:
+      create_series_teamparticipation: Serienteilnahme hinzufügen
     team:
-      add_team: Mannschaft hinzufügen
-      destroy: Mannschaft entfernen
+      create_team: Mannschaft hinzufügen
+      destroy_team: Mannschaft löschen
       merge: Mannschaften zusammenführen
-      update: Mannschaft aktualisieren
-      update_geo_position: Geo-Position einer Mannschaft aktualisieren
-      update_logo: Mannschaftlogo aktualisieren
-      update_name: Name einer Mannschaft aktualisieren
-      update_state: Land einer Mannschaft aktualisieren
+      update_team: Mannschaft bearbeiten
+      update_team:geo_position: Geo-Position der Mannschaft ändern
+      update_team:image: Logo der Mannschaft ändern
+      update_team:name: Name der Mannschaft ändern
+      update_team:state: Land der Mannschaft ändern

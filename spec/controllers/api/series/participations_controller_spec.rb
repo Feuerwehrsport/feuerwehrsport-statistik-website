@@ -15,6 +15,7 @@ RSpec.describe API::Series::ParticipationsController, type: :controller do
         subject.call
         expect_api_login_response
       end.to change(Series::Participation, :count).by(1)
+      expect_change_log(after: { points: 22 }, log: 'create-series-participation')
     end
     it_behaves_like 'api user get permission error'
     it_behaves_like 'sub_admin get permission error'
@@ -70,6 +71,7 @@ RSpec.describe API::Series::ParticipationsController, type: :controller do
     it 'updates participation', login: :admin do
       subject.call
       expect(json_body[:series_participation]).to include attributes
+      expect_change_log(before: { points: 15 }, after: { points: 22 }, log: 'update-series-participation')
     end
     it_behaves_like 'api user get permission error'
     it_behaves_like 'sub_admin get permission error'
@@ -83,6 +85,7 @@ RSpec.describe API::Series::ParticipationsController, type: :controller do
         subject.call
         expect_json_response
       end.to change(Series::Participation, :count).by(-1)
+      expect_change_log(before: { points: 15 }, log: 'destroy-series-participation')
     end
     it_behaves_like 'api user get permission error'
     it_behaves_like 'sub_admin get permission error'

@@ -25,6 +25,7 @@ RSpec.shared_examples 'a backend resource controller' do |options|
           id = described_class.new.resource_class.order(id: :desc).pluck(:id).first
           expect(response).to redirect_to(action: :show, id: id), -> { controller.form_resource.errors.inspect }
         end.to change(resource_class, :count).by(1)
+        expect_change_log(after: {}, log: "create-#{resource_class.name.parameterize}")
       end
     end
   end
@@ -53,6 +54,7 @@ RSpec.shared_examples 'a backend resource controller' do |options|
       it 'update resource' do
         subject.call
         expect(response).to redirect_to(action: :show, id: resource.id), -> { controller.form_resource.errors.inspect }
+        expect_change_log(before: {}, after: {}, log: "update-#{resource_class.name.parameterize}")
       end
     end
   end
@@ -75,6 +77,7 @@ RSpec.shared_examples 'a backend resource controller' do |options|
           delete :destroy, id: resource.id
           expect(response).to redirect_to action: :index
         end.to change(resource_class, :count).by(-1)
+        expect_change_log(before: {}, log: "destroy-#{resource_class.name.parameterize}")
       end
     end
   end

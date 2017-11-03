@@ -6,6 +6,8 @@ class Backend::BackendController < ApplicationController
     for_class = options.delete(:for_class) || controller_path.classify.gsub(/^Backend::/, '').constantize
     options[:for_class] = for_class
     default_actions(*action_names, options)
+    include SerializerSupport
+    include ChangeLogSupport unless for_class < M3::FormObject
   end
 
   def self.default_show(&block)

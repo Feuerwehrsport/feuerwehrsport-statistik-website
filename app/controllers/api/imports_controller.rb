@@ -1,5 +1,5 @@
 class API::ImportsController < API::BaseController
-  include API::Actions::ChangeLogSupport
+  include ChangeLogSupport
   before_action :authorize_action
 
   def check_lines

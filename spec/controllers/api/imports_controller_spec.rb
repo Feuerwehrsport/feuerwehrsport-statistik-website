@@ -97,7 +97,10 @@ RSpec.describe API::ImportsController, type: :controller do
         context 'when attributes are valid' do
           let(:attributes) { { group_score_category_id: group_score_category.id } }
           let(:scores) { [team_id: team.id, team_number: 1, times: ['2200']] }
-          it { expect { subject.call }.to change(GroupScore, :count).by(1) }
+          it do
+            expect { subject.call }.to change(GroupScore, :count).by(1)
+            expect_change_log(klass: Import::Scores, after: { gender: 'male' }, log: 'scores-import-scores')
+          end
         end
       end
     end

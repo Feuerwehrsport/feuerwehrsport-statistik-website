@@ -40,7 +40,7 @@ M3.ready ->
         data.url = "http://#{data.url}" unless data.url.match(/^https?:\/\//)
         data.linkable_id = element.data('linkable-id')
         data.linkable_type = element.data('linkable-type')
-        Fss.ajaxReload 'POST', 'links', link: data, log_action: 'add-link'
+        Fss.ajaxReload 'POST', 'links', link: data
       )
       .open()
 
@@ -93,7 +93,7 @@ M3.ready ->
                 scoreData = 
                   team_id: data.team_id
                   team_number: data["score_#{score.id}"]
-                Fss.put "scores/#{score.id}", score: scoreData, log_action: "update-team", success
+                Fss.put "scores/#{score.id}", score: scoreData, log_action: 'update-score:team', success
             ).open()
   , 1500)
 

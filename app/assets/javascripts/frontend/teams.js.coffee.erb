@@ -60,7 +60,7 @@ loadMap = (draggableMarker=false) ->
           team:
             latitude: marker.getLatLng().lat
             longitude: marker.getLatLng().lng
-          log_action: "update-geo-position"
+          log_action: 'update-team:geo-position'
 
 Fss.ready 'team', ->
   new SortTable(selector: ".datatable-teams", noSorting: 0, sortCol: 1, direction: 'asc')
@@ -74,7 +74,7 @@ Fss.ready 'team', ->
   $('#add-team').click () ->
     Fss.checkLogin () ->
       teamEditWindow 'Mannschaft anlegen', {}, (data) ->
-        Fss.ajaxReload 'POST', 'teams', team: data, log_action: "add-team"
+        Fss.ajaxReload 'POST', 'teams', team: data
 
   $('#edit-state').click () ->
     teamId = $(this).data('team-id')
@@ -89,7 +89,7 @@ Fss.ready 'team', ->
         FssWindow.build('Bundesland auswählen')
         .add(new FssFormRowSelect('state', 'Land', current, states))
         .on('submit', (data) ->
-          Fss.ajaxReload 'PUT', "teams/#{teamId}", team: data, log_action: "update-state"
+          Fss.ajaxReload 'PUT', "teams/#{teamId}", team: data, log_action: 'update-team:state'
         )
         .open()
 

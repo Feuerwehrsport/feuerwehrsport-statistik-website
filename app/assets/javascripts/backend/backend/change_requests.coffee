@@ -108,7 +108,7 @@ class Error
             .add(new FssFormRowText('name', 'Name', @data.name))
             .on('submit', (data) =>
               @confirmAction () =>
-                Fss.put "competitions/#{@data.competition_id}", competition: data, log_action: "update-name", () => @confirmDone()
+                Fss.put "competitions/#{@data.competition_id}", competition: data, log_action: 'update-competition:name', () => @confirmDone()
             )
             .open()
       when "competition-add-hint"
@@ -145,7 +145,7 @@ class Error
             .append($('<h4/>').text("Korrektur"))
             .append("Vorname: #{@data.person.first_name}<br/>Nachname: #{@data.person.last_name}")
           @getActionBox div, () =>
-            Fss.put "people/#{@data.person_id}", person: @data.person, log_action: "update-name", () => @confirmDone()
+            Fss.put "people/#{@data.person_id}", person: @data.person, log_action: 'update-person:name', () => @confirmDone()
 
       when "person-merge"
         @headline += " - Zusammenführen"
@@ -183,7 +183,7 @@ class Error
             .append($('<h4/>').text("neue Nation"))
             .append(nation.name)
           @getActionBox div, () =>
-            Fss.put "people/#{@data.person_id}", person: { nation_id: @data.nation_id }, log_action: "update-nation", () => @confirmDone()
+            Fss.put "people/#{@data.person_id}", person: { nation_id: @data.nation_id }, log_action: 'update-person:nation', () => @confirmDone()
       else
         @openType = (div) =>
           @getActionBox(div)
@@ -209,7 +209,7 @@ class Error
             .append($('<h4/>').text("Korrektur"))
             .append("Name: #{@data.team.name}<br/>Kurz: #{@data.team.shortcut}<br/>Typ: #{@data.team.status}")
           @getActionBox div, () =>
-            Fss.put "teams/#{@data.team_id}", team: @data.team, log_action: "update-name", () => @confirmDone()
+            Fss.put "teams/#{@data.team_id}", team: @data.team, log_action: 'update-team:name', () => @confirmDone()
 
       when "team-merge"
         @headline += " - Zusammenführen"
@@ -241,7 +241,7 @@ class Error
                 selectButton.show()
             selectButton = $('<div/>').hide().addClass("btn btn-success").text('Auswählen').click () => 
               @confirmAction () =>
-                Fss.put "teams/#{@data.team_id}", team: { image_change_request: "#{@id}-#{i}" }, log_action: "update-logo", () => @confirmDone()
+                Fss.put "teams/#{@data.team_id}", team: { image_change_request: "#{@id}-#{i}" }, log_action: 'update-team:image', () => @confirmDone()
             imageBox = $("<div/>")
             .append(file.filename)
             .append('<br/>')
@@ -303,7 +303,7 @@ class Error
           else
             @data.appointment.event_id = null
           @getActionBox(div, () =>
-            Fss.put "appointments/#{@data.appointment_id}", appointment: @data.appointment, log_action: "update", () => @confirmDone()
+            Fss.put "appointments/#{@data.appointment_id}", appointment: @data.appointment, () => @confirmDone()
           , 2)
       else
         @openType = (div) =>

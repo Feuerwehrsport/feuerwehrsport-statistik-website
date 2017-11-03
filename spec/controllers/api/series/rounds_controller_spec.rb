@@ -10,6 +10,7 @@ RSpec.describe API::Series::RoundsController, type: :controller do
         subject.call
         expect_api_login_response
       end.to change(Series::Round, :count).by(1)
+      expect_change_log(after: { year: 2017 }, log: 'create-series-round')
     end
     it_behaves_like 'api user get permission error'
     it_behaves_like 'sub_admin get permission error'
@@ -21,6 +22,7 @@ RSpec.describe API::Series::RoundsController, type: :controller do
       subject.call
       expect_json_response
       expect(Series::Round.first.official).to eq true
+      expect_change_log(before: { year: 2016 }, after: { year: 2017 }, log: 'update-series-round')
     end
     it_behaves_like 'api user get permission error'
     it_behaves_like 'sub_admin get permission error'

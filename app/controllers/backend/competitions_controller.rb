@@ -1,5 +1,5 @@
 class Backend::CompetitionsController < Backend::BackendController
-  default_actions for_class: Competition
+  backend_actions
 
   default_form do |f|
     f.input :name

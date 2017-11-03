@@ -24,7 +24,7 @@ class @FssImport
           competitionId = @selectCompetition.find('option:selected').val()
           params = 
             competition: data
-            log_action: "update-score-type"
+            log_action: "update-competition:score-type"
           Fss.put("competitions/#{competitionId}", params, () => @addSuccess( () => @changeCompetition() ) )
         )
         .open()
@@ -35,14 +35,14 @@ class @FssImport
       Fss.checkLogin () =>
         FssWindow.build("Ort hinzufügen")
         .add(new FssFormRowText('name', 'Name'))
-        .on('submit', (data) => Fss.post('places', place: data, log_action: "add-place", () => @addSuccess() ) )
+        .on('submit', (data) => Fss.post('places', place: data, () => @addSuccess() ) )
         .open()
 
     $(".add-event").click () =>
       Fss.checkLogin () =>
         FssWindow.build("Typ hinzufügen")
         .add(new FssFormRowText('name', 'Name'))
-        .on('submit', (data) => Fss.post('events', event: data, log_action: "add-event", () => @addSuccess() ) )
+        .on('submit', (data) => Fss.post('events', event: data, () => @addSuccess() ) )
         .open()
 
     $(".add-group-score-type").click () =>
@@ -55,7 +55,7 @@ class @FssImport
         FssWindow.build("Gruppen-Typ hinzufügen")
         .add(new FssFormRowText('name', 'Name'))
         .add(new FssFormRowRadio('discipline', 'Disziplin', null, options))
-        .on('submit', (data) => Fss.post('group_score_types', group_score_type: data, log_action: "add-group-score-type", () => @addSuccess() ) )
+        .on('submit', (data) => Fss.post('group_score_types', group_score_type: data, () => @addSuccess() ) )
         .open()
 
     $(".add-competition").click () =>
@@ -72,7 +72,7 @@ class @FssImport
             .add(new FssFormRowSelect('place_id', 'Ort', null, placeOptions))
             .add(new FssFormRowSelect('event_id', 'Typ', null, eventOptions))
             .add(new FssFormRowDate('date', 'Datum'))
-            .on('submit', (data) => Fss.post 'competitions', competition: data, log_action: "add-competition", () =>
+            .on('submit', (data) => Fss.post 'competitions', competition: data, () =>
               @addSuccess () ->
                 $("input[name='competition-type'][value='latest']").prop('checked', true).trigger('change')
             )

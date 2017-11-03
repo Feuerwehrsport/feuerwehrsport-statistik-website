@@ -9,6 +9,7 @@ RSpec.describe API::PeopleController, type: :controller do
         post :create, person: { first_name: 'Alfred', last_name: 'Meier', gender: 'male', nation_id: nation.id }
         expect_api_login_response
       end.to change(Person, :count).by(1)
+      expect_change_log(after: { gender: 'male' }, log: 'create-person')
     end
   end
 
@@ -81,6 +82,7 @@ RSpec.describe API::PeopleController, type: :controller do
         nation_id: 1,
         gender_translated: 'männlich',
       )
+      expect_change_log(before: { gender: 'male' }, after: { first_name: 'Vorname' }, log: 'update-person')
     end
     it_behaves_like 'api user get permission error'
   end
@@ -103,6 +105,7 @@ RSpec.describe API::PeopleController, type: :controller do
         nation_id: 1,
         gender_translated: 'männlich',
       )
+      expect_change_log(before: { gender: 'male' }, after: { first_name: 'Alfredo' }, log: 'merge-person')
     end
 
     it 'creates entity_merge', login: :sub_admin do

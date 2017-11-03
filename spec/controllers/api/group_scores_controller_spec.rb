@@ -55,6 +55,7 @@ RSpec.describe API::GroupScoresController, type: :controller do
       expect_json_response
       expect(json_body[:group_score]).to include(team_id: team.id)
       expect(GroupScore.find(group_score.id).team_id).to eq team.id
+      expect_change_log(before: { time: 2287 }, after: { team_id: team.id }, log: 'update-groupscore')
     end
     it_behaves_like 'api user get permission error'
   end
@@ -69,7 +70,7 @@ RSpec.describe API::GroupScoresController, type: :controller do
     let(:persons_out) { { person_1: p1.id, person_2: p2.id, person_3: p3.id, person_4: p4.id, person_5: nil, person_6: p6.id, person_7: nil } }
 
     it 'updates person_participations', login: :api do
-      put :person_participation, id: group_score.id, group_score: persons_in
+      put :person_participation, id: group_score.id, group_score: persons_in, log_action: 'update-groupscore:participation'
       expect_json_response
       expect(json_body[:group_score]).to include(
         similar_scores: [
@@ -88,6 +89,7 @@ RSpec.describe API::GroupScoresController, type: :controller do
           },
         ],
       )
+      expect_change_log(after: { time: 2287 }, log: 'update-groupscore:participation')
     end
   end
 end

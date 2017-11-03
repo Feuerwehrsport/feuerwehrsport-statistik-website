@@ -17,6 +17,6 @@ class ScoreSerializer < ActiveModel::Serializer
   end
 
   def person
-    object.person.full_name
+    object.person&.full_name
   end
 end

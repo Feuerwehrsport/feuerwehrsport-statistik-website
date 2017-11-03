@@ -58,6 +58,7 @@ RSpec.describe API::ScoresController, type: :controller do
       expect_json_response
       expect(json_body[:score]).to include(team_id: mv.id, team_number: -2)
       expect(Score.find(score.id).team_id).to eq mv.id
+      expect_change_log(before: { team_id: score.team_id }, after: { team_id: mv.id }, log: 'update-score')
     end
   end
 end

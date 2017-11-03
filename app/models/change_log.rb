@@ -16,8 +16,6 @@ class ChangeLog < ActiveRecord::Base
 
   scope :free_access, -> { where(model_class: FREE_ACCESS_CLASSES) }
 
-  validates :model_class, :action_name, :content, presence: true
-
   def content
     (super || {}).deep_symbolize_keys
   end

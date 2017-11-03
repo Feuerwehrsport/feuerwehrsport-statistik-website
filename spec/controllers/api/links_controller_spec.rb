@@ -9,6 +9,7 @@ RSpec.describe API::LinksController, type: :controller do
         post :create, link: { label: 'Linkname', url: 'http://foobar', linkable_id: team.id, linkable_type: 'Team' }
         expect_api_login_response
       end.to change(Link, :count).by(1)
+      expect_change_log(after: { label: 'Linkname' }, log: 'create-link')
     end
   end
 
@@ -35,6 +36,7 @@ RSpec.describe API::LinksController, type: :controller do
         subject.call
         expect_json_response
       end.to change(Link, :count).by(-1)
+      expect_change_log(before: {}, log: 'destroy-link')
     end
     it_behaves_like 'api user get permission error'
   end

@@ -9,6 +9,7 @@ RSpec.describe API::GroupScoreTypesController, type: :controller do
         subject.call
         expect_api_login_response
       end.to change(GroupScoreType, :count).by(1)
+      expect_change_log(after: { name: 'Extrapokal' }, log: 'create-groupscoretype')
     end
     it_behaves_like 'api user get permission error'
   end

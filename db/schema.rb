@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171030160309) do
+ActiveRecord::Schema.define(version: 20171102210247) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,11 +62,10 @@ ActiveRecord::Schema.define(version: 20171030160309) do
     t.integer  "admin_user_id", :index=>{:name=>"index_change_logs_on_admin_user_id", :using=>:btree}
     t.integer  "api_user_id",   :index=>{:name=>"index_change_logs_on_api_user_id", :using=>:btree}
     t.string   "model_class",   :null=>false
-    t.string   "action_name",   :null=>false
-    t.string   "log_action"
     t.json     "content",       :null=>false
     t.datetime "created_at",    :null=>false
     t.datetime "updated_at",    :null=>false
+    t.string   "action",        :null=>false
   end
 
   create_table "change_requests", force: :cascade do |t|

@@ -23,7 +23,7 @@ Fss.ready 'pe', ->
         .add(new FssFormRowSelect('gender', 'Geschlecht', null, genderOptions))
         .add(new FssFormRowSelect('nation_id', 'Nation', null, nationOptions))
         .on('submit', (personData) ->
-          Fss.ajaxReload 'POST', 'people', person: personData, log_action: "add-person"
+          Fss.ajaxReload 'POST', 'people', person: personData
         )
         .open()
 

@@ -1,5 +1,5 @@
 class Backend::AppointmentsController < Backend::BackendController
-  default_actions for_class: Appointment
+  backend_actions
 
   default_form do |f|
     f.input :name

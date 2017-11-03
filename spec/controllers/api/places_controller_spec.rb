@@ -9,6 +9,7 @@ RSpec.describe API::PlacesController, type: :controller do
         subject.call
         expect_api_login_response
       end.to change(Place, :count).by(1)
+      expect_change_log(after: { name: 'Wurstort' }, log: 'create-place')
     end
     it_behaves_like 'api user get permission error'
   end
@@ -44,6 +45,7 @@ RSpec.describe API::PlacesController, type: :controller do
       )
       expect(Place.find(place.id).latitude).to eq 123
       expect(Place.find(place.id).longitude).to eq 456
+      expect_change_log(before: {}, after: {}, log: 'update-place')
     end
   end
 end

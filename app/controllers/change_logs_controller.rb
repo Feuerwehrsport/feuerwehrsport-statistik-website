@@ -8,6 +8,6 @@ class ChangeLogsController < ResourceController
   protected
 
   def find_collection
-    super.free_access.reorder(created_at: :desc).limit(1000)
+    super.reorder(created_at: :desc).limit(1000)
   end
 end

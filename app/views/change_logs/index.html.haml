@@ -7,6 +7,6 @@
     %h1 Veränderungen
   .container
     = count_table(collection, class: 'datatable-change-logs') do |t|
-      - t.col('Zeitpunkt', :created_at)
-      - t.col('Beschreibung', :translated_action)
-      - t.col('Inhalt', :readable_content)
+      - t.col('Zeitpunkt', :created_at, class: 'col-15')
+      - t.col('Beschreibung', :translated_action, class: 'col-15')
+      - t.col('Inhalt', :readable_content, class: 'col-70')

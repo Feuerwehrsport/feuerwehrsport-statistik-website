@@ -2,8 +2,7 @@ FactoryGirl.define do
   factory :change_log do
     admin_user { AdminUser.first || build(:admin_user) }
     model_class 'Person'
-    action_name 'create'
-    log_action 'add-person'
+    action 'create-person'
     content('after_hash' => {
               'id' => 2953,
               'last_name' => 'Sommer',
