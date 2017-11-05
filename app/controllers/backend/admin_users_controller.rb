@@ -1,6 +1,11 @@
 class Backend::AdminUsersController < Backend::BackendController
   backend_actions :show, :edit, :update, :index, :destroy, clean_cache_disabled: true
 
+  filter_index do |by|
+    by.string :name
+    by.string :email_address, columns: { login: :email_address }
+  end
+
   default_form do |f|
     f.fields_for :login do
       f.input :name
