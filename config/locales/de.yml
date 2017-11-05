@@ -305,3 +305,8 @@ de:
      submit:
        create: "%{model} anlegen"
        update: "%{model} speichern"
+
+  t3:
+    m3/login/sessions:
+      views:
+        page_title: Login

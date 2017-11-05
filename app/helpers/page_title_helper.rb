@@ -4,7 +4,11 @@ module PageTitleHelper
     if @page_title.present?
       @page_title
     elsif resource.present?
-      resource.try(:decorate).try(:page_title).presence || resource_class.model_name.human
+      begin
+        resource.try(:decorate).try(:page_title).presence || resource_class.model_name.human
+      rescue Draper::UninferrableDecoratorError
+        resource_class.model_name.human
+      end
     elsif collection.present?
       resource_class.model_name.human(count: :many)
     end

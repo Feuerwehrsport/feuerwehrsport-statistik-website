@@ -3,6 +3,8 @@ require 'rails_helper'
 describe 'places features', type: :feature, js: true do
   let(:place) { create(:place) }
 
+  before { page.driver.browser.url_blacklist = ['openstreetmap'] }
+
   context 'index' do
     it 'shows an overview' do
       13.times { create(:competition, place: create(:place)) }

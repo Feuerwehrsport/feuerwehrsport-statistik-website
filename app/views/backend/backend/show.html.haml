@@ -13,7 +13,7 @@
             - else
               = field.value(resource)
 
-- if current_admin_user.role.in?([:sub_admin, :admin])
+- if current_admin_user.try(:role).in?([:sub_admin, :admin])
   .section
     .container
       = nav_tab do |nv|

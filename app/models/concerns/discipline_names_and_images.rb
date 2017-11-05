@@ -19,7 +19,7 @@ module DisciplineNamesAndImages
     discipline = :hb if discipline.to_sym == :hw
     discipline = :zk if discipline.to_sym == :zw
     options = { width: 20, title: discipline_name(discipline) }.merge(options)
-    h.image_tag(h.asset_path("disciplines/#{discipline}.png"), options)
+    h.image_tag("disciplines/#{discipline}.png", options)
   end
 
   def discipline_color(discipline)

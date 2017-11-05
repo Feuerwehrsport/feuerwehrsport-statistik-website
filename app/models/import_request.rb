@@ -7,11 +7,12 @@ class ImportRequest < ActiveRecord::Base
   mount_uploader :file, ImportRequestUploader
 
   default_scope -> { order('finished_at DESC, created_at ASC') }
+  scope :open, -> { where(finished_at: nil) }
 
   def edit_user_id=(id)
     super
     if edit_user_id_changed?
-      self.edited_at = Time.now if id.present?
+      self.edited_at = Time.current if id.present?
       self.edited_at = nil if id.blank?
     end
   end
@@ -21,10 +22,6 @@ class ImportRequest < ActiveRecord::Base
   end
 
   def finished=(value)
-    self.finished_at = if value == '0'
-                         nil
-                       else
-                         Time.now
-                       end
+    self.finished_at = value == '0' ? nil : Time.current
   end
 end

@@ -7,7 +7,7 @@ describe 'registration process', type: :feature do
   it 'registers' do
     clear_emails
     visit backend_root_path
-    click_on 'Registrieren'
+    click_on 'Konto erstellen', match: :first
     fill_in 'Name', with: 'Testnutzer'
     fill_in 'E-Mail-Adresse', with: email_address
     fill_in 'Passwort', with: password

@@ -1,0 +1,11 @@
+.section
+  .container
+    %h1 Sie sind angemeldet
+  .container  
+    .col-md-4
+      %h4 Allgemeine Funktionen
+      %ul.nav.nav-pills.nav-stacked.backend-nav
+        %li= link_to 'Wettkampfanmeldungen', registrations_competitions_path
+        %li= link_to('Import-Anfragen', backend_import_requests_path)
+        %li= link_to 'Mein Profil', edit_backend_admin_user_path(current_admin_user)
+        %li= link_to 'Abmelden', session_path, method: :delete, data: { confirm: 'Möchtest du dich abmelden?' }

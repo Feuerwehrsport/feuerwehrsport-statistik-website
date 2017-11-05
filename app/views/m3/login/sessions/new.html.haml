@@ -1,0 +1,20 @@
+= render 'hero', actions: false
+.section
+  .container
+    .col-md-7
+      = render 'form'
+    .col-md-5
+      %ul
+        %li= link_to 'Konto erstellen', new_backend_registration_path
+        %li= link_to 'Wettkampfanmeldungen', registrations_competitions_path
+        %li= link_to('Import-Anfragen', backend_import_requests_path)
+  .container
+    .col-md-7
+      %h3 Was habe ich von einem Konto?
+      %p Wenn Sie sich ein #{link_to('Konto erstellen', new_backend_registration_path)}, können Sie im Anschluss weitere Funktionen der #{link_to('Feuerwehrsport-Statistik', root_url)} nutzen. Dazu gehören:
+      %h4 Wettkampfanmeldungen
+      %p Mit einfachen Vorlagen können Sie Ihren Wettkampf publik machen und potentielle Wettkämpfer oder Mannschaften können sich einfach anmelden. Gerade für Wettkämpfe mit Einzeldisziplinen spart eine solche Erfassung im Vorfeld viel Zeit.
+      %h4 Import-Anfragen
+      %p Sie haben Ergebnisse, die Sie gerne hier veröffentlichen möchten? Dann erstellen Sie eine #{link_to('Import-Anfrage', new_backend_import_request_path)} und werden über den erfolgreichen Import informiert.
+      %h4 Datenänderungen ohne Captcha
+      %p Die vielen direkten Mitarbeitsfunktionen der Webseite können nach dem Anmelden ohne Eingabe von Captchas erledigt werden. Außerdem werden erstellte Termine mit Ihrem Account verknüpft und können somit auch später wieder verändert werden.
