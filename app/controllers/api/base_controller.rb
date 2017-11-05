@@ -29,13 +29,13 @@ class API::BaseController < ApplicationController
     include CleanCacheSupport unless clean_cache_disabled
 
     if create_form.present?
-      form_for :create { |f| create_form.each { |field| f.input field } }
+      form_for :create { |f| create_form.each { |field| f.permit field } }
     end
     if update_form.present?
-      form_for :update { |f| update_form.each { |field| f.input field } }
+      form_for :update { |f| update_form.each { |field| f.permit field } }
     end
     if default_form.present?
-      default_form { |f| default_form.each { |field| f.input field } }
+      default_form { |f| default_form.each { |field| f.permit field } }
     end
 
   end
