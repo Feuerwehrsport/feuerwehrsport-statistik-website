@@ -3,7 +3,7 @@ class Backend::NewsArticlesController < Backend::BackendController
 
   default_form do |f|
     f.input :title
-    f.input :content # as: :wysiwyg # TODO
+    f.input :content, as: :wysiwyg
     f.association :admin_user
     f.input :published_at
   end

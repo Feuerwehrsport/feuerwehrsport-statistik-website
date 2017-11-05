@@ -1,10 +1,20 @@
-/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
- */
-
 CKEDITOR.editorConfig = function( config ) {
-	// Define changes to default configuration here. For example:
-	// config.language = 'fr';
-	// config.uiColor = '#AADC6E';
+  config.language = 'de';
+  config.allowedContent = 'a[!href,target]; ul; li; ol; h2; h3; strong; b; i; em; br; img[alt,!src]{width,height}; table[align](*); tr; th[colspan,rowspan]{text-align}; td[colspan,rowspan]{text-align}';
+
+  config.toolbar = [
+    { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', '-', 'RemoveFormat' ] },
+    { name: 'styles', items: [ 'Format', 'Styles' ] },
+    { name: 'insert', items: [ 'Image', 'Table' ] },
+    { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList' ] },
+    { name: 'links', items: [ 'Link', 'Unlink' ] }
+  ];
+
+  config.format_tags = 'p;h2;h3';
+
+  config.filebrowserBrowseUrl = '/assets/';
+  config.filebrowserImageBrowseUrl = '/image_assets/';
+
+  config.toolbar_mini = config.toolbar;
+
 };

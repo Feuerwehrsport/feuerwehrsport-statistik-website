@@ -22,23 +22,24 @@ class Ability
     can :manage, Competition
     can :manage, CompetitionFile
     can :manage, Event
+    can :manage, GroupScore
     can :manage, GroupScoreCategory
     can :manage, GroupScoreType
-    can :manage, GroupScore
-    can :manage, Link
-    can :manage, Person
-    can :manage, Place
-    can :manage, ScoreType
-    can :manage, Score
-    can :manage, Team
     can :manage, Import::Scores
-    can :manage, Link
-    can :manage, Nation
-    can :manage, Repairs::TeamScoreMove
-    can :manage, PersonSpelling
-    can :manage, PersonParticipation
-
     can :manage, ImportRequest
+    can :manage, Link
+    can :manage, Link
+    can :manage, M3::Asset
+    can :manage, M3::ImageAsset
+    can :manage, Nation
+    can :manage, Person
+    can :manage, PersonParticipation
+    can :manage, PersonSpelling
+    can :manage, Place
+    can :manage, Repairs::TeamScoreMove
+    can :manage, Score
+    can :manage, ScoreType
+    can :manage, Team
   end
 
   def user_abilities

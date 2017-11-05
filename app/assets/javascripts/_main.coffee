@@ -1,4 +1,5 @@
 #= require m3/application
+#= require m3/i18n_de
 
 #= require lib/js_cookie
 

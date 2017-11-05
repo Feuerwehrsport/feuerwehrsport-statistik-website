@@ -7,7 +7,7 @@ class Backend::CompetitionsController < Backend::BackendController
     f.association :place
     f.association :event
     f.association :score_type
-    f.input :hint_content # , as: :ckeditor TODO
+    f.input :hint_content, as: :wysiwyg
     f.input :scores_for_bla_badge
   end
 

@@ -166,6 +166,9 @@ Rails.application.routes.draw do
 
   get 'association_select/:association', as: :association_select, to: 'association_select#show'
 
+  resources :assets, controller: 'm3/assets', only: %i[index new create edit update destroy]
+  resources :image_assets, controller: 'm3/image_assets', only: %i[index new create edit update destroy]
+
   # error handling
   get '/404' => 'errors#not_found'
   get '/500' => 'errors#internal_server_error'
