@@ -4,7 +4,7 @@ module PageTitleHelper
     if @page_title.present?
       @page_title
     elsif resource.present?
-      resource.respond_to?(:page_title) ? resource.page_title : resource_class.model_name.human
+      resource.try(:decorate).try(:page_title).presence || resource_class.model_name.human
     elsif collection.present?
       resource_class.model_name.human(count: :many)
     end

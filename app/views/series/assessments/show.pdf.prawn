@@ -1,6 +1,6 @@
-pdf_header(pdf, @assessment.to_s, @assessment.round.to_s, discipline: @assessment.discipline)
+pdf_header(pdf, resource.to_s, resource.round.to_s, discipline: resource.discipline)
 
-cups = @assessment.cups
+cups = resource.cups
 lines = []
 headline = ['Platz', 'Name']
 cups.each do |cup|
@@ -9,7 +9,7 @@ end
 headline.push('Bestzeit', 'Summe', 'Teil.', 'Punkte')
 
 lines.push(headline)
-@assessment.rows.each do |row|
+resource.rows.each do |row|
   line = [row.rank, "#{row.entity.last_name}, #{row.entity.first_name}"]
   cups.each do |cup|
     line.push(series_assessment_cup_participation(cup, row, html: false))
@@ -30,4 +30,4 @@ pdf.table(lines,
   end
 end
 
-pdf_footer(pdf, @assessment.to_s, @assessment.round.to_s)
+pdf_footer(pdf, resource.to_s, resource.round.to_s)

@@ -3,7 +3,7 @@ class Series::RoundsController < ResourceController
 
   def index
     @rounds = {}
-    Series::Round.pluck(:name).uniq.sort.each do |name|
+    Series::Round.uniq.reorder(:name).pluck(:name).each do |name|
       @rounds[name] = Series::Round.cup_count.where(name: name).decorate
     end
     @page_title = 'Wettkampfserien'
@@ -13,8 +13,6 @@ class Series::RoundsController < ResourceController
     @person_assessments = Series::PersonAssessment.where(round: resource).decorate
     @team_assessments_exists = Series::TeamAssessment.where(round: resource).present?
 
-    if request.format.pdf?
-      configure_prawn(title: @page_title, page_layout: :landscape)
-    end
+    configure_prawn(page_layout: :landscape) if request.format.pdf?
   end
 end

@@ -1,12 +1,12 @@
 module PDFSupport
   def configure_prawn(options = {})
-    title = options.delete(:title)
+    title = options.delete(:title) || page_title
     filename = options.delete(:filename) || "#{title.parameterize}.pdf"
     info = {
       Title: title,
       Author: 'Feuerwehrsport-Statistik.de',
       Creator: 'Feuerwehrsport-Statistik.de',
-      CreationDate: options.delete(:created_at) || Time.now,
+      CreationDate: options.delete(:created_at) || Time.current,
     }
     prawn_options = {
       page_size: 'A4',
