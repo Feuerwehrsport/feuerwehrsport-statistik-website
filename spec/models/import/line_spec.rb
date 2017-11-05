@@ -14,12 +14,13 @@ describe Import::Line do
       raw_lines: raw_lines,
     )
   end
-  let(:line) { Import::Line.new(check, []) }
+  let(:line) { described_class.new(check, []) }
 
   describe '.initialize' do
     let(:raw_lines) { 'Meier;Alfred;FF Warin;19,22;18,99' }
     let(:raw_headline_columns) { 'last_name;first_name;team;time;time' }
-    let(:line) { Import::Line.new(check, check.lines.first) }
+    let(:line) { described_class.new(check, check.lines.first) }
+
     before { check.valid? }
 
     it 'generates out-hash' do
@@ -128,6 +129,7 @@ describe Import::Line do
 
   describe '.find_people' do
     let(:female_person) { create(:person, :female) }
+
     it 'checks return values of find_people' do
       line.out.last_name = 'Meier'
       line.out.first_name = 'Alfred'

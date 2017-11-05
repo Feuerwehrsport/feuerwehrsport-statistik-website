@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe API::PersonSpellingsController, type: :controller do
   let!(:person_spelling) { create(:person_spelling) }
+
   describe 'GET index' do
     it 'returns person_spellings' do
       get :index

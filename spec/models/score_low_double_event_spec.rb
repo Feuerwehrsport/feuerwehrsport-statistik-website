@@ -9,6 +9,7 @@ RSpec.describe ScoreLowDoubleEvent, type: :model do
   let(:female) { described_class.new(time: 10, person: female_person, hb: 5, hl: 5) }
   let(:female_slow) { described_class.new(time: 11, person: female_person, hb: 5, hl: 6) }
   let(:female_hb_slow) { described_class.new(time: 10, person: female_person, hb: 6, hl: 4) }
+
   it 'sorts' do
     expect(male.person.gender).to eq 'male'
     expect(male <=> male.dup).to eq 0

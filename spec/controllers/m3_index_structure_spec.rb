@@ -6,6 +6,7 @@ RSpec.describe 'm3_index_structure' do
       # Billing::CoursesController => create(:teacher),
     }
   end
+
   # let(:exclude_controllers) { [Billing::CoursesController] }
   # let(:m3_index_structure_debug) { true }
   include_examples 'orders all index fields'

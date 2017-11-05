@@ -2,8 +2,10 @@ require 'rails_helper'
 
 RSpec.describe API::EventsController, type: :controller do
   let(:event) { create(:event) }
+
   describe 'POST create' do
     subject { -> { post :create, event: { name: 'Wurstevent' } } }
+
     it 'creates new event', login: :sub_admin do
       expect do
         subject.call

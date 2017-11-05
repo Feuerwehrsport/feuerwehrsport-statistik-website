@@ -39,8 +39,8 @@ describe 'places features', type: :feature, js: true do
         find('#change-geo-position').click
         find('.btn.btn-primary').click
       end
-      expect(page).to_not have_content('Bitte warten')
-      expect(page).to_not have_content('Geoposition hinzufügen')
+      expect(page).not_to have_content('Bitte warten')
+      expect(page).not_to have_content('Geoposition hinzufügen')
 
       place = Place.last
       expect(place.latitude).to eq 51

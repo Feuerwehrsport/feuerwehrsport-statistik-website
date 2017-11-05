@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe API::NationsController, type: :controller do
   let!(:nation) { create(:nation) }
+
   describe 'GET show' do
     it 'returns nation' do
       get :show, id: 1

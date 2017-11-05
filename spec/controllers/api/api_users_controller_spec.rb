@@ -11,6 +11,7 @@ RSpec.describe API::APIUsersController, type: :controller do
 
     context 'when session user id is set' do
       let(:login_user) { APIUser.new(name: 'hans') }
+
       it 'returns login true' do
         expect(APIUser).to receive(:find_by).with(id: 99).and_return(login_user)
         get :status, {}, api_user_id: 99
@@ -21,6 +22,7 @@ RSpec.describe API::APIUsersController, type: :controller do
 
   describe 'POST create' do
     let(:login_user) { APIUser.new(name: 'hans') }
+
     it 'creates new user and sign in' do
       expect do
         post :create, api_user: { name: 'hans', email_address: 'email-address@foo.de' }

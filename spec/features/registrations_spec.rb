@@ -25,7 +25,7 @@ describe 'create competition', type: :feature, js: true do
     check 'Veröffentlichen'
     click_on 'Wettkampf speichern'
 
-    expect(page).to_not have_content('Wettkampf ist noch nicht öffentlich')
+    expect(page).not_to have_content('Wettkampf ist noch nicht öffentlich')
     expect(page).to have_content('Wettkampf bearbeiten')
 
     first(:link, 'Mannschaft anmelden').click

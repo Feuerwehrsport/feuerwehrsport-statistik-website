@@ -22,7 +22,7 @@ describe 'appointments', type: :feature, js: true do
       save_review_screenshot
       click_on('OK')
     end
-    expect(page).to_not have_content('Bitte warten')
+    expect(page).not_to have_content('Bitte warten')
     expect(page).to have_content('Wintertraining_xyz')
 
     appointments = Appointment.where(name: 'Wintertraining_xyz')
@@ -52,7 +52,7 @@ describe 'appointments', type: :feature, js: true do
       check('Hakenleitersteigen')
       click_on('OK')
     end
-    expect(page).to_not have_content('Bitte warten')
+    expect(page).not_to have_content('Bitte warten')
     expect(page).to have_content('Der Fehlerbericht wurde gespeichert')
 
     change_request_content = ChangeRequest.last.content

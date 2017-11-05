@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Backend::Series::CupsController, type: :controller, login: :admin do
   let(:cup) { create(:series_cup) }
+
   describe 'DELETE destroy' do
     before { cup }
     it 'deletes cup' do

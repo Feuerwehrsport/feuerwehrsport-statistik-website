@@ -3,8 +3,10 @@ require 'rails_helper'
 RSpec.describe API::Series::RoundsController, type: :controller do
   let(:round) { create(:series_round) }
   let(:attributes) { { name: 'Cup', year: 2017, official: true, aggregate_type: 'LaCup', full_cup_count: 4 } }
+
   describe 'POST create' do
     subject { -> { post :create, series_round: attributes } }
+
     it 'creates new round', login: :admin do
       expect do
         subject.call
@@ -18,6 +20,7 @@ RSpec.describe API::Series::RoundsController, type: :controller do
 
   describe 'PUT update' do
     subject { -> { put :update, id: round.id, series_round: attributes } }
+
     it 'update round', login: :admin do
       subject.call
       expect_json_response

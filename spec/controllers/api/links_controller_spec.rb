@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe API::LinksController, type: :controller do
   let(:link) { create(:link) }
   let(:team) { create(:team) }
+
   describe 'POST create' do
     it 'creates new link', login: :api do
       expect do
@@ -31,6 +32,7 @@ RSpec.describe API::LinksController, type: :controller do
   describe 'DELETE destroy' do
     before { link }
     subject { -> { delete :destroy, id: link.id } }
+
     it 'destroys link', login: :sub_admin do
       expect do
         subject.call

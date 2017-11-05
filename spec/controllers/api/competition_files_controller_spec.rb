@@ -5,6 +5,7 @@ RSpec.describe API::CompetitionFilesController, type: :controller do
 
   describe 'POST files' do
     let(:testfile) { fixture_file_upload('testfile.pdf', 'application/pdf') }
+
     it 'creates files', login: :api do
       expect do
         post :create, competition_id: competition.id, competition_file: { '0' => { file: testfile, hl_male: '1', hb_female: '1' } }

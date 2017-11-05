@@ -4,12 +4,14 @@ RSpec.describe API::Series::ParticipationsController, type: :controller do
   let(:participation) { create(:series_person_participation) }
 
   describe 'POST create' do
+    subject { -> { post :create, series_participation: attributes } }
+
     let(:cup) { create(:series_cup) }
     let(:assessment) { create(:series_person_assessment) }
     let(:person) { create(:person) }
 
     let(:attributes) { { cup_id: cup.id, assessment_id: assessment.id, person_id: person.id, time: '1234', rank: '22', points: '22' } }
-    subject { -> { post :create, series_participation: attributes } }
+
     it 'creates new participation', login: :admin do
       expect do
         subject.call
@@ -23,6 +25,7 @@ RSpec.describe API::Series::ParticipationsController, type: :controller do
 
   describe 'GET show' do
     subject { -> { get :show, id: participation.id } }
+
     it 'returns participation', login: :admin do
       subject.call
       expect_json_response
@@ -66,8 +69,10 @@ RSpec.describe API::Series::ParticipationsController, type: :controller do
   end
 
   describe 'PUT update' do
-    let(:attributes) { { person_id: create(:person).id, time: 1234, rank: 22, points: 22 } }
     subject { -> { put :update, id: participation.id, series_participation: attributes } }
+
+    let(:attributes) { { person_id: create(:person).id, time: 1234, rank: 22, points: 22 } }
+
     it 'updates participation', login: :admin do
       subject.call
       expect(json_body[:series_participation]).to include attributes
@@ -80,6 +85,7 @@ RSpec.describe API::Series::ParticipationsController, type: :controller do
   describe 'DELETE destroy' do
     before { participation }
     subject { -> { delete :destroy, id: participation.id } }
+
     it 'destroys participation', login: :admin do
       expect do
         subject.call

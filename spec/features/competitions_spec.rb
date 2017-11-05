@@ -22,10 +22,10 @@ describe 'competitions features', type: :feature, js: true do
       expect(page).to have_content '1 bis 10 von 13 Einträgen'
 
       expect(page).to have_link 'Alfred Meier'
-      expect(page).to_not have_content 'FF Warin'
+      expect(page).not_to have_content 'FF Warin'
       find('img[alt=La]').click
       expect(page).to have_link 'FF Warin'
-      expect(page).to_not have_content 'Alfred Meier'
+      expect(page).not_to have_content 'Alfred Meier'
     end
   end
 
@@ -33,8 +33,8 @@ describe 'competitions features', type: :feature, js: true do
     it 'shows the competition' do
       visit competition_path(competition)
 
-      expect(page).to_not have_content('Hindernisbahn weiblich')
-      expect(page).to_not have_content('Hindernisbahn weiblich Mannschaftswertung')
+      expect(page).not_to have_content('Hindernisbahn weiblich')
+      expect(page).not_to have_content('Hindernisbahn weiblich Mannschaftswertung')
 
       save_review_screenshot
 
@@ -42,16 +42,16 @@ describe 'competitions features', type: :feature, js: true do
       expect(page).to have_content('1 bis 1 von 1 Einträgen')
       expect(page).to have_content('Hindernisbahn männlich Mannschaftswertung')
 
-      expect(page).to_not have_content('Hakenleitersteigen weiblich')
-      expect(page).to_not have_content('Hakenleitersteigen weiblich Mannschaftswertung')
+      expect(page).not_to have_content('Hakenleitersteigen weiblich')
+      expect(page).not_to have_content('Hakenleitersteigen weiblich Mannschaftswertung')
 
       expect(page).to have_content('Hakenleitersteigen männlich')
       expect(page).to have_content('Hakenleitersteigen männlich Mannschaftswertung')
 
-      expect(page).to_not have_content('Zweikampf weiblich')
+      expect(page).not_to have_content('Zweikampf weiblich')
       expect(page).to have_content('Zweikampf männlich')
 
-      expect(page).to_not have_content('Löschangriff nass weiblich')
+      expect(page).not_to have_content('Löschangriff nass weiblich')
       expect(page).to have_content('Löschangriff nass männlich')
       expect(page).to have_content('Standardwertung WKO')
 

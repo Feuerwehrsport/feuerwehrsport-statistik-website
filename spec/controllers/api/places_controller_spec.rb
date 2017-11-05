@@ -2,8 +2,10 @@ require 'rails_helper'
 
 RSpec.describe API::PlacesController, type: :controller do
   let(:place) { create(:place) }
+
   describe 'POST create' do
     subject { -> { post :create, place: { name: 'Wurstort' } } }
+
     it 'creates new place', login: :sub_admin do
       expect do
         subject.call
@@ -36,6 +38,7 @@ RSpec.describe API::PlacesController, type: :controller do
 
   describe 'PUT update' do
     subject { -> { put :update, id: place.id, place: { latitude: '123', longitude: '456' } } }
+
     it 'update place', login: :api do
       subject.call
       expect_json_response

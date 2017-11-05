@@ -3,6 +3,7 @@ require 'rails_helper'
 describe 'registration process', type: :feature do
   let(:email_address) { 'test@foobar.de' }
   let(:password) { '12345678asdf' }
+
   it 'registers' do
     clear_emails
     visit backend_root_path

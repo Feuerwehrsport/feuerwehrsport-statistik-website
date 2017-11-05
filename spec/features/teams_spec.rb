@@ -74,8 +74,8 @@ describe 'teams features' do
         find('#add-geo-position').click
         find('.btn.btn-primary').click
       end
-      expect(page).to_not have_content('Bitte warten')
-      expect(page).to_not have_content('Geoposition hinzufügen')
+      expect(page).not_to have_content('Bitte warten')
+      expect(page).not_to have_content('Geoposition hinzufügen')
 
       team = Team.find(team_without_geo_location.id)
       expect(team.latitude).to eq 51

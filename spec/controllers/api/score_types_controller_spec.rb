@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe API::ScoreTypesController, type: :controller do
   let!(:score_type) { create(:score_type) }
+
   describe 'GET index' do
     it 'returns score_types' do
       get :index

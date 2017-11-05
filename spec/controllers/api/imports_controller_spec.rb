@@ -2,10 +2,12 @@ require 'rails_helper'
 
 RSpec.describe API::ImportsController, type: :controller do
   describe 'POST check_lines' do
+    subject { -> { post :check_lines, import: import } }
+
     let!(:warin) { create(:team) }
     let(:raw_lines) { "Warin;foo;22\nFF Wurststadt;bla;44\nFC Hansa Rostock;blub;D" }
     let(:import) { { discipline: 'la', gender: 'male', separator: ';', raw_headline_columns: 'team;col;time', raw_lines: raw_lines } }
-    subject { -> { post :check_lines, import: import } }
+
     it 'returns group_score', login: :sub_admin do
       subject.call
       expect_api_login_response(
@@ -52,6 +54,7 @@ RSpec.describe API::ImportsController, type: :controller do
 
     context 'when params are not valid', login: :sub_admin do
       let(:import) { { discipline: 'foo', gender: 'male', raw_headline_columns: 'team', raw_lines: 'Warin' } }
+
       it 'returns failed' do
         subject.call
         expect_json_response
@@ -64,6 +67,8 @@ RSpec.describe API::ImportsController, type: :controller do
   end
 
   describe 'POST scores' do
+    subject { -> { post :scores, import: { discipline: discipline, gender: 'male', scores: scores }.merge(attributes) } }
+
     let(:competition) { create(:competition) }
     let(:team) { create(:team) }
     let(:group_score_category) { create(:group_score_category, competition: competition) }
@@ -71,7 +76,7 @@ RSpec.describe API::ImportsController, type: :controller do
     let(:discipline) { 'hb' }
     let(:attributes) { { competition_id: competition.id } }
     let(:scores) { [person_id: person.id, times: ['2200']] }
-    subject { -> { post :scores, import: { discipline: discipline, gender: 'male', scores: scores }.merge(attributes) } }
+
     it_behaves_like 'api user get permission error'
 
     context 'as valid user', login: :sub_admin do
@@ -82,6 +87,7 @@ RSpec.describe API::ImportsController, type: :controller do
 
       context 'when person does not exists' do
         let(:scores) { [first_name: 'Hans', last_name: 'Wurst', times: %w[2200 2300]] }
+
         it { expect { subject.call }.to change(Score, :count).by(2) }
         it { expect { subject.call }.to change(Person, :count).by(1) }
       end
@@ -91,12 +97,14 @@ RSpec.describe API::ImportsController, type: :controller do
 
         context 'when group_score_category_id is not set' do
           let(:scores) { [team_id: team.id, team_number: 1, times: ['2200']] }
+
           it { expect { subject.call }.to change(GroupScore, :count).by(0) }
         end
 
         context 'when attributes are valid' do
           let(:attributes) { { group_score_category_id: group_score_category.id } }
           let(:scores) { [team_id: team.id, team_number: 1, times: ['2200']] }
+
           it do
             expect { subject.call }.to change(GroupScore, :count).by(1)
             expect_change_log(klass: Import::Scores, after: { gender: 'male' }, log: 'scores-import-scores')

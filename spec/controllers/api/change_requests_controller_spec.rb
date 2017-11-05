@@ -3,8 +3,10 @@ require 'rails_helper'
 RSpec.describe API::ChangeRequestsController, type: :controller do
   let(:files_data) { {} }
   let!(:change_request) { ChangeRequest.create!(content: { key: 'person-nation-changed', data: { person_id: 1 } }, files_data: files_data) }
+
   describe 'POST create' do
     subject { -> { post :create, change_request: { content: { foo: { bar: '1' } } } } }
+
     it 'creates new change request', login: :api do
       expect do
         subject.call
@@ -25,6 +27,7 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
 
   describe 'GET index' do
     subject { -> { get :index } }
+
     it 'returns change_requests', login: :sub_admin do
       subject.call
       expect_json_response
@@ -40,6 +43,7 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
 
   describe 'GET files' do
     subject { -> { get :files, change_request_id: change_request.id, id: 0 } }
+
     let(:files_data) do
       {
         files: [
@@ -49,6 +53,7 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
         ],
       }
     end
+
     it 'returns change_request file', login: :sub_admin do
       subject.call
       expect_json_response
@@ -63,10 +68,11 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
 
   describe 'PUT update' do
     subject { -> { put :update, id: change_request.id, change_request: { done: '1' } } }
+
     it 'update change_request', login: :sub_admin do
       subject.call
       expect_json_response
-      expect(change_request.reload.done_at).to_not be nil
+      expect(change_request.reload.done_at).not_to be nil
       expect_change_log(before: { done_at: nil }, after: {}, log: 'update-changerequest')
     end
     it_behaves_like 'api user get permission error'

@@ -51,6 +51,7 @@ RSpec.shared_examples 'a backend resource controller' do |options|
   if only.include?(:update)
     describe 'PUT update' do
       subject { -> { put :update, :id => resource.id, resource_name => resource_update_attributes } }
+
       it 'update resource' do
         subject.call
         expect(response).to redirect_to(action: :show, id: resource.id), -> { controller.form_resource.errors.inspect }

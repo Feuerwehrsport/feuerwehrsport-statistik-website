@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe API::Series::TeamAssessmentsController, type: :controller do
   let!(:assessment) { create(:series_team_assessment) }
+
   describe 'GET index' do
     it 'returns assessments', login: :admin do
       get :index

@@ -2,8 +2,10 @@ require 'rails_helper'
 
 RSpec.describe API::GroupScoreTypesController, type: :controller do
   let(:group_score_type) { create(:group_score_type) }
+
   describe 'POST create' do
     subject { -> { post :create, group_score_type: { name: 'Extrapokal', discipline: 'la' } } }
+
     it 'creates new group_score_type', login: :sub_admin do
       expect do
         subject.call
@@ -29,6 +31,7 @@ RSpec.describe API::GroupScoreTypesController, type: :controller do
 
     context 'when discipline given' do
       let(:group_score_type) { create(:group_score_type, discipline: :gs) }
+
       it 'returns group_score_categories' do
         get :index, discipline: 'gs'
         expect_json_response

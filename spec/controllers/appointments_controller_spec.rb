@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AppointmentsController, type: :controller do
   let!(:appointment) { create(:appointment) }
+
   describe 'GET index' do
     it 'assigns rows' do
       Timecop.freeze(Date.parse('2013-01-01')) do

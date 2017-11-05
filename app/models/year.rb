@@ -1,6 +1,6 @@
 class Year < ActiveRecord::View
   scope :with_competitions, -> { joins('INNER JOIN competitions on EXTRACT(YEAR FROM DATE(competitions.date)) = year') }
-  scope(:competition_count, lambda do
+  scope(:competition_count, -> do
     select("#{table_name}.*, COUNT(#{Competition.table_name}.id) AS count")
       .with_competitions
       .group("#{table_name}.year")

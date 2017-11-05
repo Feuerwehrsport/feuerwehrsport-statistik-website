@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe API::TeamMembersController, type: :controller do
   describe 'GET index' do
     let!(:score) { create(:score) }
+
     it 'returns team_members' do
       get :index
       expect_json_response

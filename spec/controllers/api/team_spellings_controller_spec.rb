@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe API::TeamSpellingsController, type: :controller do
   describe 'GET index' do
     let!(:ts) { create(:team_spelling) }
+
     it 'returns team_spellings' do
       get :index
       expect_json_response

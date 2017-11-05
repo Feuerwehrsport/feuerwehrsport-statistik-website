@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe API::PeopleController, type: :controller do
   let!(:nation) { create(:nation) }
   let(:person) { create(:person) }
+
   describe 'POST create' do
     it 'creates new person', login: :api do
       expect do
@@ -31,6 +32,7 @@ RSpec.describe API::PeopleController, type: :controller do
   describe 'GET index' do
     before { person }
     let!(:female_person) { create(:person, :female) }
+
     it 'returns people' do
       get :index
       expect_json_response
@@ -71,6 +73,7 @@ RSpec.describe API::PeopleController, type: :controller do
 
   describe 'PUT update' do
     subject { -> { put :update, id: person.id, person: { first_name: 'Vorname', last_name: 'Nachname', nation_id: nation.id } } }
+
     it 'update person', login: :sub_admin do
       subject.call
       expect_json_response
@@ -88,8 +91,10 @@ RSpec.describe API::PeopleController, type: :controller do
   end
 
   describe 'POST merge' do
-    let!(:correct_person) { create(:person, first_name: 'Alfredo', last_name: 'Mayer') }
     subject { -> { put :merge, id: person.id, correct_person_id: correct_person.id, always: 1 } }
+
+    let!(:correct_person) { create(:person, first_name: 'Alfredo', last_name: 'Mayer') }
+
     it 'merge two people', login: :sub_admin do
       expect_any_instance_of(Person).to receive(:merge_to).and_call_original
       expect do

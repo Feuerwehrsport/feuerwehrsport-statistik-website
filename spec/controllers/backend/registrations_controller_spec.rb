@@ -10,6 +10,7 @@ RSpec.describe Backend::RegistrationsController, type: :controller do
 
   describe 'POST create' do
     let(:attributes) { { name: 'Test user', email_address: 'test@user.de', password: 'a', password_confirmation: 'a' } }
+
     it 'creates new admin user' do
       expect do
         post :create, admin_users_registration: { login_attributes: attributes }

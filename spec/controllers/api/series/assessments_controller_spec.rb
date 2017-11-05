@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe API::Series::AssessmentsController, type: :controller do
   let!(:assessment) { create(:series_person_assessment) }
+
   describe 'GET index' do
     it 'returns assessments' do
       get :index

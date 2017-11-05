@@ -55,6 +55,7 @@ describe 'people', type: :feature, js: true do
   context 'add change request' do
     let!(:alfredo) { create(:person, first_name: 'Alfredo') }
     let!(:ungarn) { create(:nation, :ungarn) }
+
     it 'can put people merge' do
       api_sign_in
 

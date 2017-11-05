@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe API::SuggestionsController, type: :controller do
   describe 'POST people' do
+    subject { -> { post :people, attributes; expect_json_response } }
+
     let!(:person1) { create(:person) }
     let!(:score1) { create(:score, person: person1) }
     let(:person1_hash) do
@@ -53,7 +55,7 @@ RSpec.describe API::SuggestionsController, type: :controller do
     end
 
     let(:attributes) { {} }
-    subject { -> { post :people, attributes; expect_json_response } }
+
     context 'when attributes empty' do
       it 'returns people' do
         subject.call
@@ -62,12 +64,14 @@ RSpec.describe API::SuggestionsController, type: :controller do
     end
     context 'when name given' do
       let(:attributes) { { name: 'oromeier' } }
+
       it 'returns people' do
         subject.call
         expect(json_body[:people]).to eq [person3_hash, person4_hash]
       end
       context 'when order by gender' do
         let(:attributes) { { name: 'oromeier', gender: 'female' } }
+
         it 'returns people' do
           subject.call
           expect(json_body[:people]).to eq [person4_hash, person3_hash]
@@ -75,6 +79,7 @@ RSpec.describe API::SuggestionsController, type: :controller do
       end
       context 'when order by team name' do
         let(:attributes) { { name: 'alfmeier', team_name: 'warin' } }
+
         it 'returns people' do
           subject.call
           expect(json_body[:people]).to eq [person1_hash, person3_hash, person2_hash]
@@ -83,6 +88,7 @@ RSpec.describe API::SuggestionsController, type: :controller do
     end
     context 'when gender given' do
       let(:attributes) { { real_gender: 'female' } }
+
       it 'returns people' do
         subject.call
         expect(json_body[:people]).to eq [person4_hash]
@@ -91,13 +97,15 @@ RSpec.describe API::SuggestionsController, type: :controller do
   end
 
   describe 'POST teams' do
+    subject { -> { post :teams, attributes; expect_json_response } }
+
     let!(:team1) { create(:team) }
     let(:team1_hash) { { id: team1.id, name: 'FF Warin', shortcut: 'Warin' } }
     let!(:team2) { create(:team, :mv) }
     let(:team2_hash) { { id: team2.id, name: 'Team Mecklenburg-Vorpommern', shortcut: 'Team MV' } }
 
     let(:attributes) { {} }
-    subject { -> { post :teams, attributes; expect_json_response } }
+
     context 'when attributes empty' do
       it 'returns teams' do
         subject.call
@@ -106,6 +114,7 @@ RSpec.describe API::SuggestionsController, type: :controller do
     end
     context 'when name given' do
       let(:attributes) { { name: 'arin' } }
+
       it 'returns people' do
         subject.call
         expect(json_body[:teams]).to eq [team1_hash]

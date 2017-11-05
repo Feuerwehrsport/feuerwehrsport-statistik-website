@@ -3,6 +3,6 @@ FactoryGirl.define do
     title 'Neuigkeiten von heute'
     content 'Inhalt'
     admin_user { AdminUser.first || build(:admin_user) }
-    published_at Date.parse('2017-01-01')
+    published_at { Date.parse('2017-01-01') }
   end
 end

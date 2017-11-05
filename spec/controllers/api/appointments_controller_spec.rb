@@ -21,6 +21,7 @@ RSpec.describe API::AppointmentsController, type: :controller do
 
   describe 'POST create' do
     let(:attributes) { { name: 'Termin1', description: 'Beschreibung', dated_at: '2016-02-29' } }
+
     it 'creates new appointment', login: :api do
       expect do
         post :create, appointment: attributes
@@ -38,6 +39,7 @@ RSpec.describe API::AppointmentsController, type: :controller do
 
     context 'when creator is api user', login: :api do
       let(:creator) { login_user }
+
       it 'returns appointment' do
         get :show, id: appointment.id
         expect_api_login_response resource_name: 'appointment', appointment: expected_attributes.merge(
@@ -48,8 +50,10 @@ RSpec.describe API::AppointmentsController, type: :controller do
   end
 
   describe 'PUT update' do
-    let(:appointment_changes) { { name: 'Termin1', description: 'Beschreibung', dated_at: '2016-02-29' } }
     subject { -> { put :update, id: appointment.id, appointment: appointment_changes } }
+
+    let(:appointment_changes) { { name: 'Termin1', description: 'Beschreibung', dated_at: '2016-02-29' } }
+
     it 'update appointment', login: :sub_admin do
       subject.call
       expect_api_login_response(

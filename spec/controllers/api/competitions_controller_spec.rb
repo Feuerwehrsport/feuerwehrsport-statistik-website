@@ -2,10 +2,13 @@ require 'rails_helper'
 
 RSpec.describe API::CompetitionsController, type: :controller do
   let(:competition) { create(:competition, :score_type, :fake_count) }
+
   describe 'POST create' do
+    subject { -> { post :create, competition: { name: 'Extrapokal', place_id: place.id, event_id: event.id, date: '2014-01-29' } } }
+
     let(:place) { create(:place) }
     let(:event) { create(:event) }
-    subject { -> { post :create, competition: { name: 'Extrapokal', place_id: place.id, event_id: event.id, date: '2014-01-29' } } }
+
     it 'creates new competition', login: :sub_admin do
       expect do
         subject.call
@@ -59,6 +62,7 @@ RSpec.describe API::CompetitionsController, type: :controller do
 
   describe 'PUT update' do
     subject { -> { put :update, id: competition.id, competition: { name: 'toller Wettkampf' } } }
+
     it 'update competition', login: :sub_admin do
       subject.call
       expect_json_response

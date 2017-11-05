@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe API::GroupScoresController, type: :controller do
   let(:group_score) { create(:group_score, :double) }
+
   describe 'GET show' do
     it 'returns group_score' do
       get :show, id: group_score.id
@@ -48,8 +49,10 @@ RSpec.describe API::GroupScoresController, type: :controller do
   end
 
   describe 'PUT update' do
-    let(:team) { create(:team) }
     subject { -> { put :update, id: group_score.id, group_score: { team_id: team.id } } }
+
+    let(:team) { create(:team) }
+
     it 'update group_score', login: :sub_admin do
       subject.call
       expect_json_response

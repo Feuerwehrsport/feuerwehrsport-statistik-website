@@ -17,6 +17,7 @@ RSpec.describe API::TeamsController, type: :controller do
 
   describe 'POST create' do
     subject { -> { post :create, team: { name: 'Mannschaft1', shortcut: 'Mann1', status: 'fire_station' } } }
+
     it 'creates new team', login: :api do
       expect do
         subject.call
@@ -35,6 +36,7 @@ RSpec.describe API::TeamsController, type: :controller do
     context 'when extended' do
       let!(:score) { create(:score, team: team) }
       let!(:group_score) { create(:group_score, team: team) }
+
       it 'returns team' do
         get :show, id: team.id, extended: 1
         expect(json_body[:team]).to include(team_attributes)
@@ -56,8 +58,10 @@ RSpec.describe API::TeamsController, type: :controller do
   end
 
   describe 'PUT update' do
-    let(:changed_attributes) { { latitude: '12.0', longitude: '34.0' } }
     subject { -> { put :update, id: team.id, team: changed_attributes } }
+
+    let(:changed_attributes) { { latitude: '12.0', longitude: '34.0' } }
+
     it 'updates team', login: :api do
       subject.call
       expect(json_body[:team]).to eq(team_attributes.merge(changed_attributes))
@@ -65,6 +69,7 @@ RSpec.describe API::TeamsController, type: :controller do
 
     context 'when updating extended attributes' do
       let(:changed_attributes) { { name: 'FF Hanswurst', shortcut: 'Hanswurst', status: 'team' } }
+
       context 'when user have not enough permissions', login: :api do
         it 'failes to update' do
           subject.call
@@ -80,8 +85,10 @@ RSpec.describe API::TeamsController, type: :controller do
   end
 
   describe 'POST merge' do
-    let(:bad_team) { create(:team, :mv) }
     subject { -> { put :merge, id: bad_team.id, correct_team_id: team.id, always: 1 } }
+
+    let(:bad_team) { create(:team, :mv) }
+
     it 'merge two teams', login: :sub_admin do
       expect_any_instance_of(Team).to receive(:merge_to).and_call_original
       expect do

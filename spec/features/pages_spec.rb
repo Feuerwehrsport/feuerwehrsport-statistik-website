@@ -4,6 +4,7 @@ describe 'pages features', type: :feature do
   context 'dashboard' do
     let!(:score) { create(:score, :double) }
     let!(:news_article) { create(:news_article) }
+
     it 'shows a lot of information' do
       visit root_path
       expect(page.find('h1')).to have_content 'Feuerwehrsport - die große Auswertung'
@@ -34,6 +35,7 @@ describe 'pages features', type: :feature do
 
   context 'last_competitions_overview' do
     let!(:score) { create(:score, :double) }
+
     it 'shows list of the last inserted competitions' do
       visit last_competitions_path
       expect(page).to have_content 'Neu eingetragene Wettkämpfe'
@@ -67,6 +69,7 @@ describe 'pages features', type: :feature do
 
   context 'best_of' do
     let!(:score) { create(:score, :double, person: create(:person, :female)) }
+
     it 'shows best_of' do
       visit best_of_path
       expect(page).to have_content 'Die 100 schnellsten Zeiten'

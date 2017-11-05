@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ChangeLogsController, type: :controller do
   let!(:change_logs) { create_list(:change_log, 3) }
+
   describe 'GET index' do
     it 'assigns rows' do
       get :index
