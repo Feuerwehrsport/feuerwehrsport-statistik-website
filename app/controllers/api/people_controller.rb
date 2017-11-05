@@ -1,7 +1,8 @@
 class API::PeopleController < API::BaseController
-  api_actions :create, :show, :index, :update, change_log: true,
-                                               create_form: %i[first_name last_name gender nation_id],
-                                               update_form: %i[first_name last_name nation_id]
+  api_actions :create, :show, :index, :update,
+              change_log: true,
+              create_form: %i[first_name last_name gender nation_id],
+              update_form: %i[first_name last_name nation_id]
   include MergeAction
 
   protected

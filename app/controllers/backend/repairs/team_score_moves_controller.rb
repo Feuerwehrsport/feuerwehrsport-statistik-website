@@ -1,5 +1,5 @@
 class Backend::Repairs::TeamScoreMovesController < Backend::BackendController
-  backend_actions :new, :create
+  backend_actions :new, :create, clean_cache_disabled: true
 
   default_form do |f|
     f.association :source_team, as: :association_select

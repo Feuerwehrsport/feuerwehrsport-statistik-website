@@ -1,5 +1,5 @@
 class Backend::AppointmentsController < Backend::BackendController
-  backend_actions
+  backend_actions clean_cache_disabled: true
 
   default_form do |f|
     f.input :name

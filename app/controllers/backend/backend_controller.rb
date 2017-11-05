@@ -2,12 +2,14 @@ class Backend::BackendController < ApplicationController
   helper_method :has_many_associations, :belongs_to_associations
 
   def self.backend_actions(*action_names)
-    options   = action_names.extract_options!
-    for_class = options.delete(:for_class) || controller_path.classify.gsub(/^Backend::/, '').constantize
-    options[:for_class] = for_class
+    options              = action_names.extract_options!
+    for_class            = options.delete(:for_class) || controller_path.classify.gsub(/^Backend::/, '').constantize
+    clean_cache_disabled = options.delete(:clean_cache_disabled)
+    options[:for_class]  = for_class
     default_actions(*action_names, options)
     include SerializerSupport
     include ChangeLogSupport unless for_class < M3::FormObject
+    include CleanCacheSupport unless clean_cache_disabled
   end
 
   def self.default_show(&block)
@@ -37,7 +39,7 @@ class Backend::BackendController < ApplicationController
             { "#{association.options[:as]}_type_scope": resource_class, "#{association.options[:as]}_id_scope": resource.id }
           else
             { "#{resource_name}_scope": resource.id }
-      end
+          end
       url = (begin
                url_for(controller: "backend/#{association.name}", action: :index, q: q)
              rescue

@@ -7,12 +7,13 @@ class API::BaseController < ApplicationController
   respond_to :json
 
   def self.api_actions(*action_names)
-    options      = action_names.extract_options!
-    change_log   = options.delete(:change_log)
-    for_class    = options.delete(:for_class) || controller_path.classify.gsub(/^API::/, '').constantize
-    create_form  = options.delete(:create_form)
-    update_form  = options.delete(:update_form)
-    default_form = options.delete(:default_form)
+    options              = action_names.extract_options!
+    change_log           = options.delete(:change_log)
+    clean_cache_disabled = options.delete(:clean_cache_disabled)
+    for_class            = options.delete(:for_class) || controller_path.classify.gsub(/^API::/, '').constantize
+    create_form          = options.delete(:create_form)
+    update_form          = options.delete(:update_form)
+    default_form         = options.delete(:default_form)
 
     options[:for_class] = for_class
     default_actions(*action_names, options)
@@ -25,6 +26,7 @@ class API::BaseController < ApplicationController
     include API::Actions::Destroy          if action_names.include?(:destroy)
     include API::Actions::Move             if action_names.include?(:move)
     include ChangeLogSupport if change_log
+    include CleanCacheSupport unless clean_cache_disabled
 
     if create_form.present?
       form_for :create { |f| create_form.each { |field| f.input field } }

@@ -1,5 +1,5 @@
 class Backend::AdminUsersController < Backend::BackendController
-  backend_actions :show, :edit, :update, :index, :destroy
+  backend_actions :show, :edit, :update, :index, :destroy, clean_cache_disabled: true
 
   default_form do |f|
     f.fields_for :login do

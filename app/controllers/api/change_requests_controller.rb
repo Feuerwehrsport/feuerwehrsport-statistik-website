@@ -1,6 +1,7 @@
 class API::ChangeRequestsController < API::BaseController
-  api_actions :create, :index, :update, change_log: true,
-                                        update_form: [:done]
+  api_actions :create, :index, :update,
+              change_log: true, clean_cache_disabled: true,
+              update_form: [:done]
   before_action :assign_instance_for_show_file, only: :files
 
   def files

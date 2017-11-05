@@ -1,5 +1,6 @@
 class API::APIUsersController < API::BaseController
   api_actions :create,
+              clean_cache_disabled: true,
               default_form: %i[name email_address]
 
   def status

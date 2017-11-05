@@ -1,6 +1,7 @@
 class API::GroupScoreCategoriesController < API::BaseController
-  api_actions :create, :index, change_log: true,
-                               default_form: %i[name group_score_type_id competition_id]
+  api_actions :create, :index,
+              change_log: true,
+              default_form: %i[name group_score_type_id competition_id]
 
   protected
 
