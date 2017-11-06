@@ -17,7 +17,7 @@ class People::LAPositionsImage
 
         convert.draw(
           'fill #68F53F ' \
-          "opacity #{opacity} " \
+          "fill-opacity #{opacity} " \
           "circle #{center.first},#{center.last} #{center.first + size},#{center.last + size}",
         )
       end
