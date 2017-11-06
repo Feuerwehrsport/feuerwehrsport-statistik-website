@@ -8,7 +8,7 @@ module Helper::NationHelper
       name = nation
     end
     options = { title: name, width: 16 }.merge(options)
-    image_tag(asset_path("flags-iso/#{iso}.png"), options)
+    image_tag("flags-iso/#{iso}.png", options)
   end
 
   def nation_flag_with_iso(nation)
