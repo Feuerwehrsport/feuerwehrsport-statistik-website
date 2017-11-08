@@ -8,7 +8,7 @@
         .row
           .col-md-9
             = count_table(collection, class: 'datatable-appointments') do |t|
-              - t.col('Datum', class: 'col-10') { |row| row.dated_at }
+              - t.col('Datum', class: 'col-10') { |row| row.dated_at_iso }
               - t.col('Veranstaltung', class: 'col-20 info-link') { |row| link_to(row.name, row) }
               - t.col('Ort', class: 'col-20 small') { |row| place_link(row.place) }
               - t.col('Typ', class: 'col-20 small') { |row| event_link(row.event) }
