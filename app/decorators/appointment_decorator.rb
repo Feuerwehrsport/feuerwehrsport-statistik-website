@@ -20,4 +20,8 @@ class AppointmentDecorator < AppDecorator
   def change_log_to_s
     "#{dated_at} - #{place}"
   end
+
+  def url
+    h.appointment_url(self)
+  end
 end

@@ -2,6 +2,15 @@ class AppointmentsController < ResourceController
   resource_actions :show, :index, cache: :show
   decorates_assigned :comp_reg_competitions
 
+  export_index :xlsx do |t|
+    t.col :dated_at
+    t.col :name
+    t.col :place
+    t.col :event
+    t.col :disciplines
+    t.col :url
+  end
+
   def index
     @comp_reg_competitions = Registrations::Competition.published.overview
 

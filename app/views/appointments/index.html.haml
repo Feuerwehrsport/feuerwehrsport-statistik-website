@@ -15,7 +15,8 @@
               - t.col('Disziplinen', :discipline_images, class: 'col-20')
           .col-md-3
             %p
-              = image_link_to("calendar", "iCalendar-Datei aller Termine", url_for(format: :ics), image: { width: '18px' }, class: 'btn btn-default btn-sm btn-block')
+              = image_link_to('calendar', "iCalendar-Datei aller Termine", url_for(format: :ics), image: { width: '18px' }, class: 'btn btn-default btn-sm btn-block')
+              = image_link_to('export', 'Excel-Datei aller Termine', url_for(format: :xlsx), image: { width: '18px' }, class: 'btn btn-default btn-sm btn-block')
               #add-appointment.btn.btn-default.btn-sm.btn-block
                 = design_image('appointment-new', width: '18px')
                 Neuen Termin hinzufügen

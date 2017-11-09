@@ -8,5 +8,7 @@ de:
       appointment:
         creator: Ersteller
         dated_at: Datum
+        disciplines: Disziplinen
         event: Art
         place: Ort
+        url: URL
