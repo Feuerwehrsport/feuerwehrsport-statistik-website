@@ -58,6 +58,7 @@ de:
       update_personspelling: Wettkämpferschreibweise bearbeiten
     place:
       create_place: Ort hinzufügen
+      destroy_place: Ort löschen
       update_place: Ort bearbeiten
       update_place:geo_position: Geo-Position des Ortes bearbeiten
     score:
