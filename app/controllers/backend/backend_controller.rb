@@ -10,6 +10,9 @@ class Backend::BackendController < ApplicationController
     include SerializerSupport
     include ChangeLogSupport unless for_class < M3::FormObject
     include CleanCacheSupport unless clean_cache_disabled
+
+    collection_actions :live_resource, :index, :new, check_existence: true
+    member_actions :live_resource, :show, :edit, :destroy, check_existence: true
   end
 
   def self.default_show(&block)

@@ -4,6 +4,8 @@ describe 'teams features' do
   let(:team) { create(:team) }
   let(:team_without_geo_location) { create(:team, :without_geo_location) }
 
+  before { page.driver.browser.url_blacklist = ['openstreetmap'] }
+
   context 'index' do
     it 'can step pages' do
       create_list(:team, 13)

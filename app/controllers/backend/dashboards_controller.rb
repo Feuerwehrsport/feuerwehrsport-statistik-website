@@ -1,5 +1,7 @@
 class Backend::DashboardsController < Backend::BackendController
   RESOURCE_MODELS = [
+    ::BLA::Badge,
+    ::Series::Round,
     AdminUser,
     Appointment,
     Competition,
@@ -18,7 +20,6 @@ class Backend::DashboardsController < Backend::BackendController
     Score,
     ScoreType,
     Team,
-    ::Series::Round,
   ].freeze
 
   def index

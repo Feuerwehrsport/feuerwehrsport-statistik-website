@@ -1,5 +1,9 @@
 de:
   t3:
+    application:
+      views:
+        actions:
+          live_resource: Live-Ansicht
     backend/change_requests:
       views:
         page_title: Fehler bearbeiten
