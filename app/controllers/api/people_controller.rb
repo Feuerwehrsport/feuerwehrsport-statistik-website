@@ -9,7 +9,7 @@ class API::PeopleController < API::BaseController
 
   def base_collection
     if params[:gender].present?
-      super.gender(params[:gender])
+      super.reorder(:last_name, :first_name).gender(params[:gender])
     else
       super
     end

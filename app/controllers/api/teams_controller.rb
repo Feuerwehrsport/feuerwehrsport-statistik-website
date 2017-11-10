@@ -19,6 +19,10 @@ class API::TeamsController < API::BaseController
 
   protected
 
+  def base_collection
+    super.reorder(:name)
+  end
+
   def resource_show_object
     params[:extended].present? ? ExtendedTeamSerializer.new(resource.decorate) : super
   end

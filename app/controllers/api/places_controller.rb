@@ -3,4 +3,10 @@ class API::PlacesController < API::BaseController
               change_log: true,
               create_form: [:name],
               update_form: %i[latitude longitude]
+
+  protected
+
+  def base_collection
+    super.reorder(:name)
+  end
 end
