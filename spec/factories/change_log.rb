@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :change_log do
     admin_user { AdminUser.first || build(:admin_user) }
     model_class 'Person'

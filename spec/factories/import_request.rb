@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :import_request do
     file { Rack::Test::UploadedFile.new(File.open(File.join(Rails.root, '/spec/fixtures/testfile.pdf'))) }
     url 'http://foobar.com/test'

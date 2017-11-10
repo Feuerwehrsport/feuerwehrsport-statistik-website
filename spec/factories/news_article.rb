@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :news_article do
     title 'Neuigkeiten von heute'
     content 'Inhalt'

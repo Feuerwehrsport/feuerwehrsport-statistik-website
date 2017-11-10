@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :group_score do
     team { Team.first || build(:team) }
     team_number 1

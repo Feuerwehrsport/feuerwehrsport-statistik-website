@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :appointment do
     name 'Finale D-Cup in Charlottenthal'
     place { Place.first || build(:place) }

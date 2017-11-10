@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :competition do
     event { Event.first || build(:event) }
     place { Place.first || build(:place) }

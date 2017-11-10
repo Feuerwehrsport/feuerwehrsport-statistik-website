@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :registrations_competition, class: Registrations::Competition do
     name 'D-Cup'
     date { Date.today }

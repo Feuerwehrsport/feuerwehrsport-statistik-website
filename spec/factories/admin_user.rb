@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :admin_user do
     role :user
     login { build(:m3_login, email_address: 'admin_user@example.com', name: 'admin user') }

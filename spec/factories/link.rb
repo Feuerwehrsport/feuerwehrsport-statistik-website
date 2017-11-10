@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :link do
     label 'Bericht auf Feuerwehrsport Team-MV'
     linkable { build(:competition) }
