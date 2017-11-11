@@ -2,7 +2,7 @@ class Backend::AdminUsersController < Backend::BackendController
   backend_actions :show, :edit, :update, :index, :destroy, clean_cache_disabled: true
 
   filter_index do |by|
-    by.string :name
+    by.string :name, columns: { login: :name }
     by.string :email_address, columns: { login: :email_address }
   end
 
