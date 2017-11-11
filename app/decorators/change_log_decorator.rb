@@ -128,7 +128,7 @@ class ChangeLogDecorator < AppDecorator
   end
 
   def readable_changerequest
-    translated_diff_hash(:content, :done_at, :id)
+    translated_diff_hash(:done_at, :id)
   end
 
   def after_model
