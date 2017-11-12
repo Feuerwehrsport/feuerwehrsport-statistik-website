@@ -24,3 +24,7 @@ def expect_change_log(before: nil, after: nil, klass: nil, log: nil)
 
   expect(change_log.action).to eq log
 end
+
+def expect_no_change_log
+  expect(ChangeLog.count).to eq 0
+end

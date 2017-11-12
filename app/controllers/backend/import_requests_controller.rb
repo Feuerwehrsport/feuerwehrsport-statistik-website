@@ -14,11 +14,15 @@ class Backend::ImportRequestsController < Backend::BackendController
     end
   end
 
-  protected
+  # default_index do |i|
+  #   i.col :date
+  #   i.col :place
+  #   i.col :event
+  #   i.col :description
+  #   i.col :finished
+  # end
 
-  def clean_cache?(_action_name)
-    false
-  end
+  protected
 
   def build_resource
     super.tap { |r| r.admin_user = current_admin_user }

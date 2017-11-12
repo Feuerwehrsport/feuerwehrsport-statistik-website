@@ -34,6 +34,7 @@
         - if can?(:create, Series::Round)
           %li= link_to 'Serienwettkampf hinzufügen', new_backend_series_round_path
           %li= link_to 'Serienübersicht', backend_series_rounds_path
+        %li= link_to 'Cache löschen', new_backend_caching_cleaner_path
         
     .col-md-4
       %h4 Direkte Bearbeitung
@@ -47,4 +48,3 @@
       %ul
         %li Ungenutze Logos löschen
         %li Personen ohne Zuordnung
-        %li Cache löschen

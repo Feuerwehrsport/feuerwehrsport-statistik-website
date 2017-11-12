@@ -1,6 +1,3 @@
-require 'fileutils'
-require 'singleton'
-
 class Caching::Cache < ActiveSupport::Cache::FileStore
   include Singleton
   class_attribute :caching
@@ -20,7 +17,7 @@ class Caching::Cache < ActiveSupport::Cache::FileStore
   end
 
   def cache_path
-    File.join(Rails.root, 'tmp', 'file-cache')
+    Rails.root.join('tmp', 'file-cache')
   end
 
   def self.method_missing(m, *args, &block)

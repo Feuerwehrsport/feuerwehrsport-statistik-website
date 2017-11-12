@@ -14,6 +14,9 @@ Rails.application.routes.draw do
     resources :admin_users, only: %i[show edit update index destroy]
     resources :appointments
     resources :change_requests, only: [:index]
+    namespace :caching do
+      resource :cleaner, only: %i[new create]
+    end
     resources :competitions
     resources :competition_files
     resources :events

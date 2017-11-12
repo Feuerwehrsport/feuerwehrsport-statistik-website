@@ -18,6 +18,7 @@ class Ability
     user_abilities
 
     can :manage, Appointment
+    can :manage, Caching::Cleaner
     can :manage, ChangeRequest
     can :manage, Competition
     can :manage, CompetitionFile

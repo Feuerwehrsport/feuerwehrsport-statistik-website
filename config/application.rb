@@ -27,7 +27,6 @@ module FeuerwehrsportStatistik
     config.active_record.raise_in_transactional_callbacks = true
 
     config.active_job.queue_adapter = :delayed_job
-    config.base_url = 'http://localhost:5060'
     config.caching = true
 
     # dynamic error handling

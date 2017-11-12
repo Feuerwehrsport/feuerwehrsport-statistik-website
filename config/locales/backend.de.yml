@@ -4,6 +4,12 @@ de:
       views:
         actions:
           live_resource: Live-Ansicht
+    backend/caching/cleaners:
+      form_actions:
+        create: Jetzt löschen
+      views:
+        page_title: Cache löschen
+        title: Cache löschen
     backend/change_requests:
       views:
         page_title: Fehler bearbeiten

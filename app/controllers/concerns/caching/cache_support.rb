@@ -26,28 +26,18 @@ module Caching::CacheSupport
   end
 
   def save_html_cache
-    if save_html_cache?(content_type: response.content_type)
-      uri = URI.parse(request.url).path
-      path = File.join(Rails.root, 'public', 'cache', File.dirname(uri))
-      FileUtils.mkdir_p(path)
-      basename = File.basename(uri)
-      basename += '_index' if basename.ends_with?('/')
-      file_path = File.join(path, "#{basename}.html")
-      logger.debug("CACHING: #{file_path}")
-      File.open(file_path, 'w+') do |f|
-        f.write(response.body)
-      end
-    end
-  end
-
-  def clean_cache?(_action_name)
-    true
+    return unless save_html_cache?(content_type: response.content_type)
+    uri = URI.parse(request.url).path
+    path = Rails.root.join('public', 'cache', File.dirname(uri).gsub(%r{^/}, ''))
+    FileUtils.mkdir_p(path)
+    basename = File.basename(uri)
+    basename += '_index' if basename.ends_with?('/')
+    file_path = File.join(path, "#{basename}.html")
+    logger.debug("CACHING: #{file_path}")
+    File.write(file_path, response.body)
   end
 
   def clean_cache_and_build_new
-    if clean_cache?(action_name)
-      Caching::Cleaner.new.perform
-      Caching::Builder.enqueue_with_options(run_at: Time.now + 5.minutes)
-    end
+    Caching::Cleaner.new.save
   end
 end
