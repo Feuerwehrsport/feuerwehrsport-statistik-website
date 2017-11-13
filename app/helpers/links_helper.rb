@@ -39,6 +39,14 @@ module LinksHelper
   end
 
   def current_wko_link(label)
-    link_to(label, "#{root_path}dfv-wko-2016.pdf", title: 'Aktuelle Wettkampfordnung vom Jahr 2016')
+    wko_2016_link(label, title: 'Aktuelle Wettkampfordnung vom Jahr 2016')
+  end
+
+  def wko_2016_link(label, options={})
+    link_to(label, "#{root_path}dfv-wko-2016.pdf", options.reverse_merge(title: 'Wettkampfordnung vom Jahr 2016'))
+  end
+
+  def wko_2012_link(label, options={})
+    link_to(label, "#{root_path}dfv-wko-2012.pdf", options.reverse_merge(title: 'Wettkampfordnung vom Jahr 2012'))
   end
 end

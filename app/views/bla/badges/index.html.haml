@@ -4,6 +4,69 @@
     .col-md-8
       %h1 Bundesleistungsabzeichen
       %p Durch diesen Leistungswettbewerb sollen das Leistungsvermögens der Feuerwehrangehörigen, verbunden mit sportlichem Ehrgeiz, körperlicher Fitness sowie die Pflege der kamerad-schaftlichen Kontakte unter den Feuerwehren in Deutschland und den Mitgliedsnationen des Internationalen Technischen Komitees für vorbeugenden Brandschutz und Feuerlöschwe- sen (CTIF) gefördert werden. Grundlage zur Durchführung des Wettbewerbes und damit zum Erwerb des BLA des Deutschen Feuerwehrverbandes ist die #{current_wko_link('DFV-Wettkampfordnung')} für Feuerwehrsportwettkämpfe in der jeweils gültigen Fassung.
+      = nav_tab do |t|
+        - t.tab 'WKO 2016' do
+          %table.table.table-bordered.table-condensed
+            %tr
+              %td
+              %th{ colspan: 2 } Frauen
+              %th{ colspan: 2 } Männer
+            %tr
+              %td
+              %th= discipline_image_name_short(:hb)
+              %th= discipline_image_name_short(:hl)
+              %th= discipline_image_name_short(:hb)
+              %th= discipline_image_name_short(:hl)
+            %tr
+              %th Bronze
+              %td 21,5 s
+              %td 9,5 s
+              %td 19,5 s
+              %td 18,5 s
+            %tr
+              %th Silber
+              %td 20,5 s
+              %td 9,0 s
+              %td 18,5 s
+              %td 17,0 s
+            %tr
+              %th Gold
+              %td 19,5 s
+              %td 8,5 s
+              %td 17,5 s
+              %td 15,5 s
+        - t.tab 'WKO 2012' do
+          %p Bis zum Jahr 2016 galt die alte Regelung zum Bundesleistungsabzeichen in der #{wko_2012_link('WKO 2012')}. Dabei wurden bei elektronischer Zeitnahme 0,3 Sekunden von der erreichten Zeit abgezogen. Daraus ergeben sich die zu erreichenden Zeiten in Klammern.
+          %table.table.table-bordered.table-condensed
+            %tr
+              %td
+              %th{ colspan: 2 } Frauen
+              %th{ colspan: 2 } Männer
+            %tr
+              %td
+              %th= discipline_image_name_short(:hb)
+              %th= discipline_image_name_short(:hl)
+              %th= discipline_image_name_short(:hb)
+              %th= discipline_image_name_short(:hl)
+            %tr
+              %th Bronze
+              %td 21,5 s (21,8 s)
+              %td
+              %td 19,5 s (19,8 s)
+              %td 18,5 s (18,8 s)
+            %tr
+              %th Silber
+              %td 20,5 s (20,8 s)
+              %td
+              %td 18,5 s (18,8 s)
+              %td 17,0 s (17,3 s)
+            %tr
+              %th Gold
+              %td 19,5 s (19,8 s)
+              %td
+              %td 17,5 s (17,8 s)
+              %td 15,5 s (15,8 s)
+
       %p Die nachfolgenden Einträge sind vom #{link_to('DFV', 'http://www.feuerwehrverband.de')}  überprüft:
     .col-md-1= image_tag('bla/badge_bronze.jpg', class: 'img-responsive')
     .col-md-1= image_tag('bla/badge_silver.jpg', class: 'img-responsive')
