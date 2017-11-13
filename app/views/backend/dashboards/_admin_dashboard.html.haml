@@ -35,6 +35,7 @@
           %li= link_to 'Serienwettkampf hinzufügen', new_backend_series_round_path
           %li= link_to 'Serienübersicht', backend_series_rounds_path
         %li= link_to 'Cache löschen', new_backend_caching_cleaner_path
+        %li= link_to 'Ungenutzte Wettkämpfer löschen', backend_people_cleaner_path
         
     .col-md-4
       %h4 Direkte Bearbeitung
@@ -42,9 +43,3 @@
         - @models.each do |model|
           - if can?(:index, model)
             %li= link_to(model.model_name.human(count: 0), [:backend, model])
-
-    .col-md-4
-      %h3 TODO
-      %ul
-        %li Ungenutze Logos löschen
-        %li Personen ohne Zuordnung

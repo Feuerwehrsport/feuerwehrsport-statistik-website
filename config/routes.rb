@@ -28,6 +28,9 @@ Rails.application.routes.draw do
     resources :links
     resources :nations
     resources :news_articles
+    namespace :people do
+      resource :cleaner, only: %i[show]
+    end
     resources :people
     resources :person_participations
     resources :person_spellings

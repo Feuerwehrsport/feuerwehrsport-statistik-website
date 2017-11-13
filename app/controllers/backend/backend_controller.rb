@@ -26,6 +26,7 @@ class Backend::BackendController < ApplicationController
   end
 
   def has_many_associations
+    return {} unless resource_class.respond_to?(:reflect_on_all_associations)
     associations = {}
     resource_class.reflect_on_all_associations.select { |a| a.macro == :has_many }.map do |association|
       collection = resource.send(association.name)
@@ -54,6 +55,7 @@ class Backend::BackendController < ApplicationController
   end
 
   def belongs_to_associations
+    return {} unless resource_class.respond_to?(:reflect_on_all_associations)
     associations = {}
     resource_class.reflect_on_all_associations.select { |a| a.macro == :belongs_to }.map do |association|
       associations[association.name] = resource.send(association.name)

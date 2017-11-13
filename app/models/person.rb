@@ -40,6 +40,11 @@ class Person < ActiveRecord::Base
   scope :nation, ->(nation_id) { where(nation_id: nation_id) }
   scope :team, ->(team_id) { joins(:team_members).where(team_members: { team_id: team_id }) }
   scope :filter_collection, -> { order(:last_name, :first_name) }
+  scope :unused, -> do
+    ids = [BLA::Badge, PersonParticipation, Score, Series::PersonParticipation]
+          .map { |k| k.select(:person_id).to_sql }.join(' UNION ')
+    where(arel_table[:id].not_in(Arel.sql(ids)))
+  end
 
   validates :last_name, :gender, :nation, presence: true
 

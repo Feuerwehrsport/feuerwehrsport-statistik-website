@@ -90,7 +90,6 @@ de:
       nation:
         one: Nation
         other: Nationen
-      person: Wettkämpfer
       person_participation:
         one: Wettkämpferteilnahme
         other: Wettkämpferteilnahmen
@@ -157,12 +156,6 @@ de:
         group_score_type_id: Wertungstyp 
       group_score_type:
         regular: nach WKO
-      person:
-        first_name: Vorname
-        group_scores: Mannschaftszeiten
-        last_name: Nachname
-        scores: Einzelzeiten
-        teams: Mannschaften
       person_participation:
         group_score: Mannschaftszeit
         group_score_id: Mannschaftszeit

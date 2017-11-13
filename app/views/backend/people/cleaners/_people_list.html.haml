@@ -1,0 +1,5 @@
+%table.table
+  - people.each do |person|
+    %tr
+      %td= person_link(person)
+      %td= link_to('Löschen', backend_person_path(id: person, rtp: url_for), method: :delete, data: { confirm: 'Wirklich löschen?' }, class: 'btn btn-default btn-xs')

@@ -33,6 +33,7 @@ class Ability
     can :manage, M3::Asset
     can :manage, M3::ImageAsset
     can :manage, Nation
+    can :manage, People::Cleaner
     can :manage, Person
     can :manage, PersonParticipation
     can :manage, PersonSpelling

@@ -1,0 +1,21 @@
+de:
+  activerecord:
+    models:
+      person: Wettkämpfer
+    attributes:
+      person:
+        first_name: Vorname
+        group_scores: Mannschaftszeiten
+        last_name: Nachname
+        scores: Einzelzeiten
+        teams: Mannschaften
+
+  activemodel:
+    attributes:
+      people/cleaner:
+        people: Wettkämpfer
+  t3:
+    backend/people/cleaners:
+      views:
+        page_title: Ungenutzte Wettkämpfer löschen
+        title: Ungenutzte Wettkämpfer löschen
