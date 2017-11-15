@@ -30,7 +30,7 @@ class Registrations::TeamDecorator < AppDecorator
                   { image: "#{Rails.root}/app/assets/images/disciplines/la.png", image_height: 50, image_width: 50 },
                 ],
                 [
-                  { content: h.l(competition.date, format: :german), size: 14, align: :center },
+                  { content: h.l(competition.date), size: 14, align: :center },
                   { content: "in #{competition.place}", size: 14, align: :center, colspan: 4 },
                 ],
                 [
@@ -84,7 +84,7 @@ class Registrations::TeamDecorator < AppDecorator
                     { image: "#{Rails.root}/app/assets/images/disciplines/la.png", image_height: 50, image_width: 50 },
                   ],
                   [
-                    { content: h.l(competition.date, format: :german), size: 14, align: :center },
+                    { content: h.l(competition.date), size: 14, align: :center },
                     { content: "in #{competition.place}", size: 14, align: :center, colspan: 4 },
                   ],
                   [

@@ -291,8 +291,7 @@ de:
       - :year
   time:
     formats:
-      default: '%Y-%m-%d %H:%M Uhr'
-      german: '%d.%m.%Y %H:%M Uhr'
+      default: '%d.%m.%Y %H:%M Uhr'
       only_date: '%d.%m.%Y'
   helpers:
      submit:

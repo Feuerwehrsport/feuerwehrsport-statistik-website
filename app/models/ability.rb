@@ -62,8 +62,8 @@ class Ability
         (person.admin_user_id == user.id || person.competition.admin_user_id == user.id)
     end
 
-    can %i[index show], ImportRequest, admin_user_id: user.id
-    can :create, ImportRequest
+    can :read, ImportRequest, admin_user_id: user.id
+    can %i[create index], ImportRequest
 
     can %i[logout show update], AdminUser, id: user.id
   end

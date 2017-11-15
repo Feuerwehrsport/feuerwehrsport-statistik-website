@@ -11,4 +11,8 @@ class Event < ActiveRecord::Base
   end
   scope :index_order, -> { order(:name) }
   scope :filter_collection, -> { order(:name) }
+  scope :search, ->(value) do
+    search_value = "%#{value}%"
+    where('name ILIKE ?', search_value)
+  end
 end

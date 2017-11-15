@@ -77,7 +77,7 @@
                     %span.label.label-info= number_to_human_size(target.size)
               .pull-right
                 - if version.database_changed
-                  .label.label-info{ title: "Integrierte Datenbank wurde #{l(version.database_changed, format: :german)} aktualisiert" }= l(version.database_changed, format: :german)
+                  .label.label-info{ title: "Integrierte Datenbank wurde #{l(version.database_changed)} aktualisiert" }= l(version.database_changed)
                 %a.btn.btn-default.btn-xs{href: "https://github.com/Feuerwehrsport/wettkampf-manager/tree/#{version.commit_id}", title: 'Commit-ID' }
                   %span.glyphicon.glyphicon-paperclip{'aria-hidden' => 'true' }
                   = version.commit_id.first(7)

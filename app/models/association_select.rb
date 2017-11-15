@@ -17,6 +17,20 @@ class AssociationSelect
     rel.decorate.map { |c| [c.id, c.to_s, c.full_state, nil] }
   end
 
+  def place(search_term, ids, limit: 10)
+    rel = Place.all.limit(limit).accessible_by(@ability, :index)
+    rel = rel.search(search_term) if search_term.present?
+    rel = rel.where(id: ids) if ids
+    rel.decorate.map { |c| [c.id, c.to_s, nil, nil] }
+  end
+
+  def event(search_term, ids, limit: 10)
+    rel = Event.all.limit(limit).accessible_by(@ability, :index)
+    rel = rel.search(search_term) if search_term.present?
+    rel = rel.where(id: ids) if ids
+    rel.decorate.map { |c| [c.id, c.to_s, nil, nil] }
+  end
+
   def score(search_term, ids, limit: 10)
     rel = Score.all.limit(limit * 2).accessible_by(@ability, :index)
     name_search_team = search_term.try(:gsub, /\d/, '')

@@ -1,18 +1,32 @@
 de:
   activerecord:
-    models:
-      import_request:
-        one: Importanfrage
-        other: Importanfragen
     attributes:
       import_request:
         date: Datum des Wettkampfes
         description: Zusätzliche Beschreibung
+        edit_user: Bearbeiter
         event: Typ
         file: Datei
+        file_with_link: Datei
+        finished_at: Abgeschlossen
+        finished: Abgeschlossen
+        german_created_at: Erstellt am
         place: Ort
         remove_file: Datei entfernen
-        finished_label: Status
         url: Link
-        german_created_at: Erstellt am
-        edit_user: Bearbeiter
+        url_with_link: Link
+    models:
+      import_request:
+        one: Importanfrage
+        other: Importanfragen
+  t3:
+    backend/import_requests:
+      hints:
+        file: Fall vorhanden, am liebsten Excel-Tabellen der Ergebnisse.
+        url: Link zu den Ergebnissen, Bildern oder Berichten
+      views:
+        header_html: Mittels Importanfragen können Dateien oder Weblinks hinterlegt
+          werden. Die Administratoren der Seite werden diese dann schnellstmöglich
+          abarbeiten.
+      inline_labels:
+        finished: Bearbeitung abgeschlossen

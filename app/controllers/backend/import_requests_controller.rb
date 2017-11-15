@@ -2,25 +2,36 @@ class Backend::ImportRequestsController < Backend::BackendController
   backend_actions clean_cache_disabled: true
 
   default_form do |f|
-    f.input :file
+    f.input :file, as: :file_preview
     f.input :url
     f.input :date
-    f.association :place, collection: Place.filter_collection
-    f.association :event, collection: Event.filter_collection
+    f.association :place, as: :association_select
+    f.association :event, as: :association_select
     f.input :description
     if can?(:update, resource)
-      f.association :edit_user
+      f.association :edit_user, collection: AdminUser.admins.filter_collection
       f.input :finished, as: :boolean
     end
   end
 
-  # default_index do |i|
-  #   i.col :date
-  #   i.col :place
-  #   i.col :event
-  #   i.col :description
-  #   i.col :finished
-  # end
+  default_index do |i|
+    i.col :date
+    i.col :place, sortable: { place: :name }
+    i.col :event, sortable: { event: :name }
+    i.col :description
+    i.col :finished_at
+  end
+
+  default_show do |i|
+    i.col :file_with_link
+    i.col :url_with_link
+    i.col :date
+    i.col :place, sortable: { place: :name }
+    i.col :event, sortable: { event: :name }
+    i.col :description
+    i.col :edit_user
+    i.col :finished_at
+  end
 
   protected
 

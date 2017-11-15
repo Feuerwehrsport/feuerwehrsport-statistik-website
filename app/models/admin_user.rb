@@ -10,7 +10,8 @@ class AdminUser < ActiveRecord::Base
 
   has_many :news_articles, dependent: :restrict_with_exception
 
-  scope :change_request_notification_receiver, -> { where(role: %i[sub_admin admin]) }
+  scope :admins, -> { where(role: %i[sub_admin admin]) }
+  scope :change_request_notification_receiver, -> { admins }
   scope :filter_collection, -> { joins(:login).order('admin_users.role, m3_logins.name') }
 
   validates :role, inclusion: { in: ROLES }
