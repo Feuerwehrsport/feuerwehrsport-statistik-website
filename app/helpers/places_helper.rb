@@ -22,7 +22,7 @@ module PlacesHelper
                    .joins(:group_score_category)
                    .where(group_score_categories: { competition_id: competition_ids, group_score_type_id: group_score_type.id })
           OpenStruct.new(type: group_score_type, calculation: calculation(scores))
-        end.reject { |c| c.calculation.count == 0 }
+        end.reject { |c| c.calculation.count.zero? }
       else
         scores = Score.where(competition: competition_ids).german.discipline(discipline)
         [OpenStruct.new(type: nil, calculation: calculation(scores))]

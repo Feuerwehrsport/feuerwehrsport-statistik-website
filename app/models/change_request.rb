@@ -52,8 +52,8 @@ class ChangeRequest < ActiveRecord::Base
 
   def done=(done_status)
     if done_status.to_i == 1 && done_at.nil?
-      self.done_at = Time.now
-    elsif done_status.to_i == 0
+      self.done_at = Time.current
+    elsif done_status.to_i.zero?
       self.done_at = nil
     end
   end
