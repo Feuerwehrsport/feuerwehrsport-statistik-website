@@ -76,6 +76,11 @@ class PagesController < ResourceController
     @comp_reg_competitions = Registrations::Competition.open.decorate
   end
 
+  def about
+    @page_title = 'Hinweise zu Online-Anmeldungen'
+    @charts = Chart::About.new(context: view_context)
+  end
+
   protected
 
   def last_competitions(limit)

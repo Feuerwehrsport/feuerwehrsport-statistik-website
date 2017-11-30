@@ -21,6 +21,14 @@ RSpec.describe PagesController, type: :controller do
     end
   end
 
+  describe 'GET about' do
+    it 'assigns information' do
+      get :about
+      expect(assigns(:charts)).to be_instance_of Chart::About
+      expect(response).to be_success
+    end
+  end
+
   describe 'GET last_competitions' do
     it 'assigns the 100 last competitions' do
       get :last_competitions_overview

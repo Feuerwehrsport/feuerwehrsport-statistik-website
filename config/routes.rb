@@ -155,6 +155,7 @@ Rails.application.routes.draw do
   get :last_competitions, to: 'pages#last_competitions_overview'
   get :records, to: 'pages#records'
   get :best_of, to: 'pages#best_of'
+  get :about, to: 'pages#about'
   root to: 'pages#dashboard'
 
   namespace :bla do
