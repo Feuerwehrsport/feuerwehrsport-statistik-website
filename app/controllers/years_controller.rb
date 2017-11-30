@@ -3,12 +3,12 @@ class YearsController < ResourceController
 
   def index
     super
-    @chart = Chart::YearIndex.new(years: collection.decorate)
+    @chart = Chart::YearIndex.new(years: collection.decorate, context: view_context)
   end
 
   def show
     competitions = @year.competitions.includes(:place, :event)
-    @chart = Chart::CompetitionsScoreOverview.new(competitions: competitions)
+    @chart = Chart::CompetitionsScoreOverview.new(competitions: competitions, context: view_context)
     @competitions_discipline_overview = Calculation::CompetitionsScoreOverview.new(competitions.map(&:id)).disciplines
     @competitions = competitions.decorate
   end

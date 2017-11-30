@@ -1,9 +1,9 @@
 module Calculation
-  class Competition < Struct.new(:competition)
+  class Competition < Struct.new(:competition, :context)
     attr_accessor :single_score_count
     attr_reader :disciplines, :single_categories, :group_categories
 
-    class Discipline < Struct.new(:calculation, :discipline, :gender, :category)
+    class Discipline < Struct.new(:calculation, :discipline, :gender, :category, :context)
       attr_reader :count, :scores, :all_scores
 
       def initialize(*args)
@@ -16,7 +16,7 @@ module Calculation
       end
 
       def chart
-        @chart ||= Chart::CompetitionDisciplineCategoryOverview.new(discipline: self)
+        @chart ||= Chart::CompetitionDisciplineCategoryOverview.new(discipline: self, context: context)
       end
     end
 
@@ -70,7 +70,7 @@ module Calculation
       %i[hb hw hl].each do |discipline|
         %i[female male].each do |gender|
           [false, -1, -2, -3, -4].each do |final|
-            single = SingleDiscipline.new(self, discipline, gender, final)
+            single = SingleDiscipline.new(self, discipline, gender, final, context)
             next unless single.count > 0
             @single_categories[discipline] ||= Set.new
             @single_categories[discipline].add(final)
@@ -80,16 +80,16 @@ module Calculation
       end
 
       %i[female male].each do |gender|
-        double_event = DoubleEventDiscipline.new(self, :zk, gender)
+        double_event = DoubleEventDiscipline.new(self, :zk, gender, nil, context)
         @disciplines.push(double_event) if double_event.count > 0
-        low_double_event = LowDoubleEventDiscipline.new(self, :zk, gender)
+        low_double_event = LowDoubleEventDiscipline.new(self, :zk, gender, nil, context)
         @disciplines.push(low_double_event) if low_double_event.count > 0
       end
 
       %i[gs fs la].each do |discipline|
         %i[female male].each do |gender|
           competition.group_score_categories.discipline(discipline).decorate.each do |category|
-            group = GroupDiscipline.new(self, discipline, gender, category)
+            group = GroupDiscipline.new(self, discipline, gender, category, context)
             next unless group.count > 0
             @group_categories[discipline] ||= Set.new
             @group_categories[discipline].add(category)

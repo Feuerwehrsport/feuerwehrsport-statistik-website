@@ -3,12 +3,12 @@ class CompetitionsController < ResourceController
 
   def index
     super
-    @chart = Chart::CompetitionsScoreOverview.new(competitions: collection)
+    @chart = Chart::CompetitionsScoreOverview.new(competitions: collection, context: view_context)
     @competitions_discipline_overview = Calculation::CompetitionsScoreOverview.new(collection.map(&:id)).disciplines
   end
 
   def show
-    @calc = Calculation::Competition.new(resource)
+    @calc = Calculation::Competition.new(resource, view_context)
   end
 
   protected

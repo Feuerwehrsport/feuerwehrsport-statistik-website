@@ -3,12 +3,12 @@ class TeamsController < ResourceController
 
   def index
     super
-    @charts = Chart::TeamOverview.new
+    @charts = Chart::TeamOverview.new(context: view_context)
   end
 
   def show
     super
-    @chart = Chart::TeamShow.new(team: resource.decorate)
+    @chart = Chart::TeamShow.new(team: resource.decorate, context: view_context)
     @team_members = resource.members_with_discipline_count.map(&:decorate)
     @team_competitions = resource.competitions_with_discipline_count.map(&:decorate)
     @group_assessments = resource.group_assessments

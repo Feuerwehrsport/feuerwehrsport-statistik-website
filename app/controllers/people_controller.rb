@@ -7,7 +7,7 @@ class PeopleController < ResourceController
     %i[female male].each do |gender|
       @gendered_people[gender] = collection.gender(gender).decorate.to_a
     end
-    @chart = Chart::PersonIndex.new(people: @gendered_people)
+    @chart = Chart::PersonIndex.new(people: @gendered_people, context: view_context)
   end
 
   def show
@@ -25,7 +25,7 @@ class PeopleController < ResourceController
         la:  team.group_score_participations.la.where(person: resource).count,
       )
     end
-    @chart = Chart::PersonShow.new(person: resource, team_structs: @team_structs)
+    @chart = Chart::PersonShow.new(person: resource, team_structs: @team_structs, context: view_context)
     @series_structs = Series::PersonAssessment.for(resource.id)
     @max_series_cups = @series_structs.values.flatten.map(&:values).flatten.map(&:cups).map(&:count).max
     @person_spellings = resource.person_spellings.official.decorate.to_a

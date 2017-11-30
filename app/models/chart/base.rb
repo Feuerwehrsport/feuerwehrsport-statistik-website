@@ -5,6 +5,9 @@ module Chart
     include ApplicationHelper
     include LazyHighCharts::LayoutHelper
     include ActionView::Helpers::TranslationHelper
+    attr_accessor :context
+
+    delegate :request, to: :context
 
     GENDER_COLORS = {
       female: '#FEAE97',
