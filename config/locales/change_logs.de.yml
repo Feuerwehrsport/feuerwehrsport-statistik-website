@@ -2,6 +2,7 @@ de:
   change_logs:
     admin_user:
       update_adminuser: Verwalter bearbeiten
+      destroy_adminuser: Verwalter löschen
     appointment:
       create_appointment: Termin hinzufügen
       destroy_appointment: Termin löschen
@@ -16,6 +17,7 @@ de:
       update_competition:name: Name des Wettkampfes anpassen
       update_competition:score_type: Mannschaftswertung des Wettkampfes anpassen
     competition_file:
+      create_competitionfile: Datei zu einem Wettkampf hochladen
       files_competitionfile: Datei zu einem Wettkampf hochladen
     event:
       create_event: Wettkampftyp hinzufügen
@@ -44,8 +46,8 @@ de:
       create_nation: Nation hinzufügen
       update_nation: Nation bearbeiten
     news_article:
-      create_news_article: Neuigkeit hinzufügen
-      update_news_article: Neuigkeit bearbeiten
+      create_newsarticle: Neuigkeit hinzufügen
+      update_newsarticle: Neuigkeit bearbeiten
     person:
       create_person: Wettkämpfer hinzufügen
       destroy_person: Wettkämpfer löschen

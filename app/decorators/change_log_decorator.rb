@@ -4,7 +4,6 @@ class ChangeLogDecorator < AppDecorator
     'AdminUser',
     'Appointment',
     'Competition',
-    'CompetitionFile',
     'Event',
     'GroupScore',
     'GroupScoreCategory',
@@ -99,6 +98,14 @@ class ChangeLogDecorator < AppDecorator
       "#{link_to(before_model.linkable, before_model.linkable)}".html_safe
     else
       translated_diff_hash
+    end
+  end
+
+  def readable_competitionfile
+    if action.in?(['create-competitionfile', 'files-competitionfile'])
+      link_to(diff_hash[:file].second[:url], competition_url(after_model.competition_id))
+    else
+      default_readable_link || translated_diff_hash
     end
   end
 
