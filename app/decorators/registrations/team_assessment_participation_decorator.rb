@@ -1,3 +1,3 @@
 class Registrations::TeamAssessmentParticipationDecorator < AppDecorator
-  decorates_association :competition_assessment
+  decorates_association :assessment
 end

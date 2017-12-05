@@ -1,21 +1,24 @@
-%h1 Vorlage für Wettkämpf wählen
-#template-select.row
-  - @types.each do |type|
-    .col-md-5.template
-      = simple_form_for(type) do |f|
-        = f.input :name, as: :hidden
-        = f.input :person_tags, as: :hidden
-        %h3= type.name
-        %table.table.table-condensed
-          = f.simple_fields_for :competition_assessments do |competition_assessment|
-            %tr
-              %td
-                = discipline_name(competition_assessment.object.discipline)
-                = competition_assessment.object.name
-              %td
-                = g(competition_assessment.object.gender)
-                = competition_assessment.input :discipline, as: :hidden
-                = competition_assessment.input :gender, as: :hidden
-                = competition_assessment.input :name, as: :hidden
-        .pull-right
-          = f.submit "Als Vorlage wählen", class: "btn btn-primary"
+.section
+  .container
+    %h1 Vorlage für Wettkämpf wählen
+    #template-select.row
+      - @types.each do |type|
+        .col-md-5.template
+          = simple_form_for(type) do |f|
+            = f.input :name, as: :hidden
+            = f.input :person_tags, as: :hidden
+            %h3= type.name
+            %table.table.table-condensed
+              = f.simple_fields_for :assessments do |assessment|
+                %tr
+                  %td
+                    = discipline_image(assessment.object.discipline)
+                    = discipline_name(assessment.object.discipline)
+                    = assessment.object.name
+                  %td
+                    = g(assessment.object.gender)
+                    = assessment.input :discipline, as: :hidden
+                    = assessment.input :gender, as: :hidden
+                    = assessment.input :name, as: :hidden
+            .pull-right
+              = f.submit "Als Vorlage wählen", class: "btn btn-primary"

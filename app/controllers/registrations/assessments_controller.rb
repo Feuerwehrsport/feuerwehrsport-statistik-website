@@ -1,0 +1,14 @@
+class Registrations::AssessmentsController < Registrations::BaseController
+  default_actions :new, :create, :index, :edit, :update, :destroy
+  belongs_to Registrations::Competition, url: -> { url_for(parent_resource) }
+
+  default_form do |f|
+    f.input :discipline, as: :radio_buttons
+    f.input :gender, as: :radio_buttons
+    f.input :name
+  end
+
+  def paginate?
+    false
+  end
+end

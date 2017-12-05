@@ -1,4 +1,4 @@
-class Registrations::CompetitionAssessmentDecorator < AppDecorator
+class Registrations::AssessmentDecorator < AppDecorator
   def to_s
     [name, discipline_name(discipline)].reject(&:blank?).join(' - ')
   end

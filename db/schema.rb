@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171102210247) do
+ActiveRecord::Schema.define(version: 20171120163010) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -362,18 +362,18 @@ SELECT person_participations.person_id,
   end
 
   create_table "registrations_assessment_participations", force: :cascade do |t|
-    t.string   "type",                      :null=>false
-    t.integer  "competition_assessment_id", :null=>false
+    t.string   "type",                    :null=>false
+    t.integer  "assessment_id",           :null=>false
     t.integer  "team_id"
     t.integer  "person_id"
-    t.integer  "assessment_type",           :default=>0, :null=>false
-    t.integer  "single_competitor_order",   :default=>0, :null=>false
-    t.integer  "group_competitor_order",    :default=>0, :null=>false
-    t.datetime "created_at",                :null=>false
-    t.datetime "updated_at",                :null=>false
+    t.integer  "assessment_type",         :default=>0, :null=>false
+    t.integer  "single_competitor_order", :default=>0, :null=>false
+    t.integer  "group_competitor_order",  :default=>0, :null=>false
+    t.datetime "created_at",              :null=>false
+    t.datetime "updated_at",              :null=>false
   end
 
-  create_table "registrations_competition_assessments", force: :cascade do |t|
+  create_table "registrations_assessments", force: :cascade do |t|
     t.integer  "competition_id", :null=>false
     t.string   "discipline",     :null=>false
     t.string   "name",           :default=>"", :null=>false
@@ -614,10 +614,10 @@ SELECT date_part('year'::text, competitions.date) AS year
   add_foreign_key "person_participations", "group_scores"
   add_foreign_key "person_participations", "people"
   add_foreign_key "person_spellings", "people"
-  add_foreign_key "registrations_assessment_participations", "registrations_competition_assessments", column: "competition_assessment_id"
+  add_foreign_key "registrations_assessment_participations", "registrations_assessments", column: "assessment_id"
   add_foreign_key "registrations_assessment_participations", "registrations_people", column: "person_id"
   add_foreign_key "registrations_assessment_participations", "registrations_teams", column: "team_id"
-  add_foreign_key "registrations_competition_assessments", "registrations_competitions", column: "competition_id"
+  add_foreign_key "registrations_assessments", "registrations_competitions", column: "competition_id"
   add_foreign_key "registrations_competitions", "admin_users"
   add_foreign_key "registrations_competitions_mails", "admin_users"
   add_foreign_key "registrations_competitions_mails", "registrations_competitions", column: "competition_id"

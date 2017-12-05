@@ -107,10 +107,14 @@ Rails.application.routes.draw do
   end
 
   namespace :registrations do
+    root to: redirect('/registrations/competitions')
     resources :competitions do
       collection { get :new_select_template }
-      resources :teams, only: %i[new create show edit update destroy]
-      resources :people, only: %i[new create edit update destroy] do
+      resource :registration_times, only: %i[edit update]
+      resource :publishings, only: %i[edit update]
+      resources :assessments, only: %i[new create index edit update destroy]
+      resources :teams
+      resources :people do
         member do
           get :participations
         end
@@ -119,7 +123,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'wa/:slug', to: 'comp_reg/competitions#slug_handle', as: :comp_reg_slug
+  get 'wa/:slug', to: 'registrations/competitions#slug_handle', as: :registrations_slug
 
   # following controllers will write html cache
   resources :change_logs, only: %i[index show]

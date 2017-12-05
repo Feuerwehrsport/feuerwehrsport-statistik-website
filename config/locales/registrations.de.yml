@@ -1,19 +1,57 @@
 de:
   activerecord:
-    models:
-      registrations/competition:
-        one: Wettkampfanmeldung
-        other: Wettkampfanmeldungen
     attributes:
       registrations/competition:
+        close_at: Anmeldung schließen
         date: Datum
-        place: Ort
         description: Beschreibung
         open_at: Anmeldung öffnen
-        close_at: Anmeldung schließen
+        place: Ort
+        published: Veröffentlichen
+        slug: Kurzname
+        slug_info: ''
+    collections:
+      registrations/assessment:
+        discipline:
+          fs: Feuerwehrstafette
+          gs: Gruppenstafette
+          hb: Hindernisbahn
+          hl: Hakenleitersteigen
+          la: Löschangriff nass
+        gender:
+          female: weiblich
+          male: männlich
+      registrations/team:
+        gender:
+          female: weiblich
+          male: männlich
+    models:
+      registrations/assessment:
+        one: Wertung
+        other: Wertungen
+      registrations/competition:
+        one: Wettkampf
+        other: Wettkämpfe
   t3:
+    registrations/assessments:
+      hints:
+        name: 'kann in den meisten Fällen weggelassen werden, z. B.: Ü40-Wertung'
+      views:
+        page_title: Wertungen für Wettkampf verwalten
+    registrations/assessments#create:
+      views:
+        title: Wertungen hinzufügen
+    registrations/assessments#new:
+      views:
+        title: Wertungen hinzufügen
     registrations/competitions:
       views:
         actions:
-          add_team: Mannschaft anmelden
           add_person: Einzelstarter anmelden
+          add_team: Mannschaft anmelden
+    registrations/publishings:
+      hints:
+        slug: Der Kurzname darf nur aus Zahlen, Buchstaben, Binde-, Unterstrich und
+          Pluszeichen bestehen
+      inline_labels:
+        published: Wettkampf für alle sichtbar schalten

@@ -12,6 +12,10 @@ class Registrations::TeamDecorator < AppDecorator
     "#{name} #{team_number}"
   end
 
+  def dicipline_image_path(discipline)
+    Rails.root.join('app', 'assets', 'images', 'disciplines', "#{discipline}.png")
+  end
+
   def team_pdf_overview(pdf, footer: false)
     pdf.text 'Mannschaftsanmeldung', align: :center, size: 18, style: :bold
     pdf.move_down 12
@@ -24,10 +28,10 @@ class Registrations::TeamDecorator < AppDecorator
     pdf.table([
                 [
                   { content: competition.name, size: 14, align: :center, font_style: :bold },
-                  { image: "#{Rails.root}/app/assets/images/disciplines/hb.png", image_height: 50, image_width: 50 },
-                  { image: "#{Rails.root}/app/assets/images/disciplines/fs.png", image_height: 50, image_width: 50 },
-                  { image: "#{Rails.root}/app/assets/images/disciplines/hl.png", image_height: 50, image_width: 50 },
-                  { image: "#{Rails.root}/app/assets/images/disciplines/la.png", image_height: 50, image_width: 50 },
+                  { image: dicipline_image_path(:hb), image_height: 50, image_width: 50 },
+                  { image: dicipline_image_path(:fs), image_height: 50, image_width: 50 },
+                  { image: dicipline_image_path(:hl), image_height: 50, image_width: 50 },
+                  { image: dicipline_image_path(:la), image_height: 50, image_width: 50 },
                 ],
                 [
                   { content: h.l(competition.date), size: 14, align: :center },
@@ -63,11 +67,11 @@ class Registrations::TeamDecorator < AppDecorator
                 ],
                 [
                   { content: 'Wertungen:', size: 12, align: :right },
-                  { content: team_assessment_participations.map(&:competition_assessment).join(', '), size: 11, align: :left, colspan: 4, font_style: :italic },
+                  { content: team_assessment_participations.map(&:assessment).join(', '), size: 11, align: :left, colspan: 4, font_style: :italic },
                 ],
               ], cell_style: { borders: [] }, column_widths: [200, 60, 60, 60, 120])
 
-    if competition.competition_assessments.for_people.present?
+    if competition.assessments.for_people.present?
       pdf.start_new_page
 
       pdf.text 'Namensliste', align: :center, size: 18, style: :bold
@@ -78,10 +82,10 @@ class Registrations::TeamDecorator < AppDecorator
       pdf.table([
                   [
                     { content: competition.name, size: 14, align: :center, font_style: :bold },
-                    { image: "#{Rails.root}/app/assets/images/disciplines/hb.png", image_height: 50, image_width: 50 },
-                    { image: "#{Rails.root}/app/assets/images/disciplines/fs.png", image_height: 50, image_width: 50 },
-                    { image: "#{Rails.root}/app/assets/images/disciplines/hl.png", image_height: 50, image_width: 50 },
-                    { image: "#{Rails.root}/app/assets/images/disciplines/la.png", image_height: 50, image_width: 50 },
+                    { image: dicipline_image_path(:hb), image_height: 50, image_width: 50 },
+                    { image: dicipline_image_path(:fs), image_height: 50, image_width: 50 },
+                    { image: dicipline_image_path(:hl), image_height: 50, image_width: 50 },
+                    { image: dicipline_image_path(:la), image_height: 50, image_width: 50 },
                   ],
                   [
                     { content: h.l(competition.date), size: 14, align: :center },
@@ -113,7 +117,7 @@ class Registrations::TeamDecorator < AppDecorator
         line.push(person.last_name)
         line.push(person.tag_names.join(', '))
         Registrations::CompetitionAssessment.requestable_for_person(object).each do |assessment|
-          line.push(person.person_assessment_participations.find_by(competition_assessment: assessment).try(:decorate).try(:short_type))
+          line.push(person.person_assessment_participations.find_by(assessment: assessment)&.decorate&.short_type)
         end
         people_list.push(line)
       end

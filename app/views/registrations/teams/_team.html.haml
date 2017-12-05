@@ -1,8 +1,7 @@
 .pull-right
-  - if can?(:edit, resource_instance)
+  - if can?(:edit, resource)
     = image_link_to("configure", "Mannschaft bearbeiten", { action: :edit}, image: { width: "18px" }, class: "btn btn-default btn-sm")
-    = image_link_to("person-add", "Wettkämpfer hinzufügen", { controller: :people, action: :new, competition_id: resource_instance.competition_id, team_id: resource_instance.id }, image: { width: "18px" }, class: "btn btn-default btn-sm", remote: true)
-= breadcrum
+    = image_link_to("person-add", "Wettkämpfer hinzufügen", { controller: :people, action: :new, competition_id: resource.competition_id, team_id: resource.id }, image: { width: "18px" }, class: "btn btn-default btn-sm", remote: true)
 
 %table.table.table-bordered
   %tr
@@ -11,7 +10,7 @@
       %h4 - Teilnehmerliste A -
   %tr
     %td{ colspan: 2, class: "text-center col-md-5" }
-      %h3= resource_instance.competition.name
+      %h3= resource.competition.name
     %td{ class: "text-center col-md-7" }
       = discipline_image(:hb, width: 85)
       = discipline_image(:fs, width: 85)
@@ -19,65 +18,65 @@
       = discipline_image(:la, width: 85)
   %tr
     %th{ colspan: 2, class: "text-center col-md-5" }
-      %h4= l(resource_instance.competition.date)
+      %h4= resource.competition.date
     %th{ class: "text-center col-md-7" }
-      %h4= "in #{resource_instance.competition.place}"
+      %h4= "in #{resource.competition.place}"
   %tr
     %th{ class: "col-md-3" } Name:
-    %td{colspan: 2}= resource_instance.with_number
+    %td{colspan: 2}= resource.with_number
   %tr
     %th{ class: "col-md-3" } Wertungsgruppe:
-    %td{colspan: 2}= ([g(resource_instance.gender)] + resource_instance.tag_names).join(", ")
+    %td{colspan: 2}= ([g(resource.gender)] + resource.tag_names).join(", ")
   %tr
     %th Mannschaftsleiter:
-    %td{colspan: 2}= resource_instance.team_leader
+    %td{colspan: 2}= resource.team_leader
   %tr
     %th Straße, Nr.:
-    %td{colspan: 2}= resource_instance.street_with_house_number
+    %td{colspan: 2}= resource.street_with_house_number
   %tr
     %th PLZ, Ort:
     %td{colspan: 2}
-      = "#{resource_instance.postal_code} #{resource_instance.locality}"
-      - if resource_instance.federal_state.present?
-        = "/ #{resource_instance.federal_state}"
+      = "#{resource.postal_code} #{resource.locality}"
+      - if resource.federal_state.present?
+        = "/ #{resource.federal_state}"
   %tr
     %th Telefon:
-    %td{colspan: 2}= resource_instance.phone_number
+    %td{colspan: 2}= resource.phone_number
   %tr
     %th E-Mail-Adresse:
-    %td{colspan: 2}= resource_instance.email_address
+    %td{colspan: 2}= resource.email_address
   %tr
     %th Wertungen:
     %td{colspan: 2}
-      = resource_instance.team_assessment_participations.map(&:competition_assessment).join(", ")
-  - if resource_instance.competition.competition_assessments.for_people.present?
+      = resource.team_assessment_participations.map(&:assessment).join(", ")
+  - if form_resource.competition.assessments.for_people.present?
     %tr
       %th{ colspan: 3, class: "text-center"}
         %h2 Namensliste
         %h4 - Teilnehmerliste B -
         .pull-right
-          = image_link_to("person-add", "Wettkämpfer hinzufügen", { controller: :people, action: :new, competition_id: resource_instance.competition_id, team_id: resource_instance.id }, image: { width: "18px" }, class: "btn btn-default btn-sm", remote: true)
+          = image_link_to("person-add", "Wettkämpfer hinzufügen", { controller: :people, action: :new, competition_id: resource.competition_id, team_id: resource.id }, image: { width: "18px" }, class: "btn btn-default btn-sm", remote: true)
 
-- if resource_instance.competition.competition_assessments.for_people.present?
+- if form_resource.competition.assessments.for_people.present?
 
   #competitors.refreshable
-    - if resource_instance.people.present?
+    - if resource.people.present?
       %h3 Wettkämpfer
-      = count_table(resource_instance.people, class: "people-sortable-table") do |ct|
+      = count_table(resource.people, class: "people-sortable-table") do |ct|
         - ct.col("Vorname", :first_name)
         - ct.col("Nachname", :last_name)
-        - if resource_instance.competition.person_tag_list.present?
+        - if resource.competition.person_tag_list.present?
           - ct.col("Attribute") { |person| person.tag_names.join(", ") }
         - ct.col("", haml: true) do |row| 
           = link_to("Bearbeiten", action: :edit, controller: :people, id: row.id)
           = simple_form_for row, html: { class: "hide registration-form" } do |f|
             = f.input :registration_order, as: :hidden
-        - assessments = Registrations::CompetitionAssessment.requestable_for_person(resource_instance).decorate.each do |assessment|
+        - assessments = Registrations::CompetitionAssessment.requestable_for_person(resource).decorate.each do |assessment|
           - ct.col(assessment) { |row| edit_participation(row, assessment) }
         - ct.footer(class: "placeholder" ) { "" }
 
 %hr
-  - if can?(:export, resource_instance)
+  - if can?(:export, resource)
     .col-md-4.pull-right
       .panel.panel-default
         .panel-heading

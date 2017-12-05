@@ -7,7 +7,7 @@ class Registrations::TeamSerializer < ActiveModel::Serializer
   end
 
   def assessments
-    object.competition_assessments.map(&:id)
+    object.assessments.map(&:id)
   end
 
   def federal_state

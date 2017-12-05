@@ -2,6 +2,10 @@ class Registrations::CompetitionsController < Registrations::BaseController
   default_actions
   member_actions :add_team, :add_person, :show, :edit, :destroy
 
+  filter_index do |by|
+    by.scope :past_records
+  end
+
   default_index do |t|
     t.col :date
     t.col :name
@@ -16,68 +20,49 @@ class Registrations::CompetitionsController < Registrations::BaseController
       f.input :description, as: :wysiwyg
       f.association :admin_user if can?(:manage, AdminUser)
     end
-    f.inputs 'Anmeldeinformationen' do
-      f.input :open_at
-      f.input :close_at
-    end
-    f.inputs 'Zusätzliche Angaben für Anmeldende' do
-      f.input :person_tags
-      f.input :team_tags
-    end
-    f.input :slug
-    f.input :published
-    f.input :group_score
-
-    f.fields_for :competition_assessments do
-      f.input :id
-      f.input :discipline
-      f.input :gender
-      f.input :name
-      f.input :_destroy
-    end
   end
 
-  def publishing
-    resource_instance.slug = resource_instance.to_s.parameterize if resource_instance.slug.blank?
+  def new
+    redirect_to action: :new_select_template
   end
 
   def new_select_template
-    la = build_resource.decorate
+    la = build_resource
     la.name = 'Löschangriff-Wettkampf'
-    la.competition_assessments.build(discipline: :la, gender: :male)
-    la.competition_assessments.build(discipline: :la, gender: :female)
+    la.assessments.build(discipline: :la, gender: :male)
+    la.assessments.build(discipline: :la, gender: :female)
 
-    la_youth = build_resource.decorate
+    la_youth = build_resource
     la_youth.name = 'Löschangriff-Wettkampf mit Jugend'
-    la_youth.competition_assessments.build(discipline: :la, gender: :male)
-    la_youth.competition_assessments.build(discipline: :la, gender: :female)
-    la_youth.competition_assessments.build(discipline: :la, gender: :male, name: 'Jugend')
-    la_youth.competition_assessments.build(discipline: :la, gender: :female, name: 'Jugend')
+    la_youth.assessments.build(discipline: :la, gender: :male)
+    la_youth.assessments.build(discipline: :la, gender: :female)
+    la_youth.assessments.build(discipline: :la, gender: :male, name: 'Jugend')
+    la_youth.assessments.build(discipline: :la, gender: :female, name: 'Jugend')
 
-    hb = build_resource.decorate
+    hb = build_resource
     hb.name = 'Hindernisbahn-Wettkampf'
-    hb.competition_assessments.build(discipline: :hb, gender: :male)
-    hb.competition_assessments.build(discipline: :hb, gender: :female)
+    hb.assessments.build(discipline: :hb, gender: :male)
+    hb.assessments.build(discipline: :hb, gender: :female)
 
-    hl = build_resource.decorate
+    hl = build_resource
     hl.name = 'Hakenleitersteigen-Wettkampf'
-    hl.competition_assessments.build(discipline: :hl, gender: :male)
-    hl.competition_assessments.build(discipline: :hl, gender: :female)
+    hl.assessments.build(discipline: :hl, gender: :male)
+    hl.assessments.build(discipline: :hl, gender: :female)
 
-    dcup = build_resource.decorate
+    dcup = build_resource
     dcup.name = 'Deutschland-Cup'
     dcup.person_tags = 'U20'
-    dcup.competition_assessments.build(discipline: :la, gender: :male)
-    dcup.competition_assessments.build(discipline: :la, gender: :female)
-    dcup.competition_assessments.build(discipline: :fs, gender: :male)
-    dcup.competition_assessments.build(discipline: :fs, gender: :female)
-    dcup.competition_assessments.build(discipline: :hb, gender: :male)
-    dcup.competition_assessments.build(discipline: :hb, gender: :female)
-    dcup.competition_assessments.build(discipline: :hl, gender: :male)
-    dcup.competition_assessments.build(discipline: :hl, gender: :female)
-    dcup.competition_assessments.build(discipline: :gs, gender: :female)
+    dcup.assessments.build(discipline: :la, gender: :male)
+    dcup.assessments.build(discipline: :la, gender: :female)
+    dcup.assessments.build(discipline: :fs, gender: :male)
+    dcup.assessments.build(discipline: :fs, gender: :female)
+    dcup.assessments.build(discipline: :hb, gender: :male)
+    dcup.assessments.build(discipline: :hb, gender: :female)
+    dcup.assessments.build(discipline: :hl, gender: :male)
+    dcup.assessments.build(discipline: :hl, gender: :female)
+    dcup.assessments.build(discipline: :gs, gender: :female)
 
-    empty = build_resource.decorate
+    empty = build_resource
     empty.name = 'Leere Vorlage'
     @types = [la, la_youth, hb, hl, dcup, empty]
   end
@@ -109,12 +94,11 @@ class Registrations::CompetitionsController < Registrations::BaseController
     redirect_to action: :show, id: competition.id
   end
 
-  def update
-    @publishing_form = params[:publishing].present?
-    super
-  end
-
   protected
+
+  def find_collection
+    super.future_records.published
+  end
 
   def build_resource
     resource_class.new(admin_user: current_admin_user)

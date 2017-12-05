@@ -1,5 +1,5 @@
 class Registrations::AssessmentParticipation < ActiveRecord::Base
-  belongs_to :competition_assessment, class_name: 'Registrations::CompetitionAssessment'
+  belongs_to :assessment, class_name: 'Registrations::Assessment'
 
-  validates :competition_assessment, presence: true
+  validates :assessment, presence: true
 end

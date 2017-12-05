@@ -19,7 +19,7 @@ class Registrations::PeopleController < Registrations::BaseController
     f.fields_for :person_assessment_participations do
       f.input :id
       f.input :single_competitor_order
-      f.input :competition_assessment_id
+      f.input :assessment_id
       f.input :assessment_type
       f.input :group_competitor_order
       f.input :_destroy

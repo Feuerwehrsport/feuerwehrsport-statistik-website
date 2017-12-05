@@ -10,6 +10,6 @@ class Registrations::CompetitionSerializer < ActiveModel::Serializer
   end
 
   def assessments
-    object.competition_assessments.map(&:to_serializer)
+    object.assessments.map(&:to_serializer)
   end
 end

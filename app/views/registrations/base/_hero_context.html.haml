@@ -1,0 +1,13 @@
+%h2.kicker
+  = link_to('Backend', backend_root_url)
+  »
+  = link_to('Wettkampfanmeldungen', registrations_root_path)
+  - if collection_action(:index).link_to?
+    »
+    = link_to resource_class.model_name.human(count: :many), url_for(action: :index)
+  - elsif parent_resource?
+    »
+    - if parent_url
+      = link_to parent_resource, parent_url
+    - else
+      %span= parent_resource
