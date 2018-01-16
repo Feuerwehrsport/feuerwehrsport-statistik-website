@@ -1,5 +1,7 @@
 #= require classes/Fss
 #= require classes/SortTable
+#= require lib/map_utils
+#= require lib/team_state_selector
 
 teamEditWindow = (title, data, submit) ->
   options = [
@@ -28,40 +30,6 @@ addLogo = (teamId) ->
     )
     .open()
 
-marker = null
-mapLoaded = false
-loadMap = (draggableMarker=false) ->
-  return if $('#team-map').length is 0
-
-  elem = $('#team-map').hide()
-  red = elem.data('map').red
-  if red || draggableMarker
-    elem.show()
-    w = new WaitFssWindow() if draggableMarker
-    FssMap.loadStyle () ->
-      w.close() if draggableMarker
-      
-      latlon = [FssMap.lat, FssMap.lon]
-      latlon = red.latlon if red
-
-      map = FssMap.getMap('team-map', latlon) unless mapLoaded
-      mapLoaded = true
-
-      marker = L.marker(latlon, icon: FssMap.redIcon()).addTo(map) if marker is null
-      marker.bindPopup(red.popup) if red
-      marker.dragging.enable() if draggableMarker
-
-  if draggableMarker
-    actions = $('.team-map-actions')
-    actions.children().remove()
-    $('<div/>').addClass('btn btn-primary').text("Speichern").appendTo(actions).click () ->
-      Fss.checkLogin () ->
-        Fss.ajaxReload 'PUT', "teams/#{elem.data('team-id')}", 
-          team:
-            latitude: marker.getLatLng().lat
-            longitude: marker.getLatLng().lng
-          log_action: 'update-team:geo-position'
-
 Fss.ready 'team', ->
   new SortTable(selector: ".datatable-teams", noSorting: 0, sortCol: 1, direction: 'asc')
   new SortTable(selector: ".datatable-team-members", direction: 'asc')
@@ -76,22 +44,7 @@ Fss.ready 'team', ->
       teamEditWindow 'Mannschaft anlegen', {}, (data) ->
         Fss.ajaxReload 'POST', 'teams', team: data
 
-  $('#edit-state').click () ->
-    teamId = $(this).data('team-id')
-    current = $(this).data('state')
-    Fss.checkLogin () ->      
-      states = [
-        {value:'',display:'unbekannt'},
-        <%= State::ALL.map { |key, state| "{value:'#{key}', display:'#{state}'}" }.join(",") %>
-      ]
-
-      Fss.checkLogin () ->
-        FssWindow.build('Bundesland auswählen')
-        .add(new FssFormRowSelect('state', 'Land', current, states))
-        .on('submit', (data) ->
-          Fss.ajaxReload 'PUT', "teams/#{teamId}", team: data, log_action: 'update-team:state'
-        )
-        .open()
+  teamStateSelector()
 
   $('.upload-logo').click () ->
     addLogo($(this).data('team-id'))

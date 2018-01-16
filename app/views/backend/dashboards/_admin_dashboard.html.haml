@@ -36,7 +36,11 @@
           %li= link_to 'Serienübersicht', backend_series_rounds_path
         %li= link_to 'Cache löschen', new_backend_caching_cleaner_path
         %li= link_to 'Ungenutzte Wettkämpfer löschen', backend_people_cleaner_path
-        
+        %li
+          = link_to backend_unchecked_teams_path do
+            Neue Mannschaften
+            %span.badge= Team.unchecked.count
+
     .col-md-4
       %h4 Direkte Bearbeitung
       %ul.nav.nav-pills.nav-stacked.backend-nav

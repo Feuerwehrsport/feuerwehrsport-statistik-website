@@ -48,6 +48,7 @@ Rails.application.routes.draw do
       resources :cups, only: [:destroy]
     end
     resources :teams
+    resources :unchecked_teams
   end
 
   # api for interacting with ajax requests

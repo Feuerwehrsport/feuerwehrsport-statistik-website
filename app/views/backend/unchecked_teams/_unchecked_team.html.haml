@@ -1,0 +1,27 @@
+.section
+  .container
+    - if resource.similar_teams.present?
+      %h3 Ähnlich geschriebene Mannschaften
+      %table.table
+        - resource.similar_teams.decorate.each do |team|
+          %tr
+            %td= team_link(team)
+            %td
+              .merge-team.btn.btn-default.btn-sm{ data: { id: resource.id, correct_id: team.id } } Zusammenführen
+              .always-merge-team.btn.btn-default.btn-sm{ data: { id: resource.id, correct_id: team.id } } Immer zusammenführen
+  .container
+    %h3 Land/Bundesland
+    = resource.full_state
+    #edit-state.btn.btn-xs.btn-default.glyphicon.glyphicon-pencil{ data: { team_id: resource.id, state: resource.state }, title: "Bundesland bearbeiten" }
+
+  - unless resource.positioned?
+    .container.geo-position{ data: { name: resource.shortcut, id: resource.id } }
+      .col-md-12
+        %h3 Geo-Position suchen
+      .col-md-9
+        %table.table
+        = map(id: 'team-map', red: resource, data: { team_id: resource.id })
+      .col-md-3.team-map-actions
+  .container
+    %h3 Abgearbeitet
+    = button_to('Fertigstellen',{}, params: { 'unchecked_team[checked_at]' => Time.current }, method: :put, confirm: 'hallp?', class: 'btn btn-info')

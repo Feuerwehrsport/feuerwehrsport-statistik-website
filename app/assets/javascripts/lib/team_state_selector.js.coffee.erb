@@ -1,0 +1,17 @@
+@.teamStateSelector = ->
+  $('#edit-state').click () ->
+    teamId = $(this).data('team-id')
+    current = $(this).data('state')
+    Fss.checkLogin () ->      
+      states = [
+        {value:'',display:'unbekannt'},
+        <%= State::ALL.map { |key, state| "{value:'#{key}', display:'#{state}'}" }.join(",") %>
+      ]
+
+      Fss.checkLogin () ->
+        FssWindow.build('Bundesland auswählen')
+        .add(new FssFormRowSelect('state', 'Land', current, states))
+        .on('submit', (data) ->
+          Fss.ajaxReload 'PUT', "teams/#{teamId}", team: data, log_action: 'update-team:state'
+        )
+        .open()

@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171120163010) do
+ActiveRecord::Schema.define(version: 20180109224224) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "fuzzystrmatch"
 
   create_table "admin_users", force: :cascade do |t|
     t.string   "role",       :limit=>200, :default=>"user", :null=>false
@@ -579,6 +580,7 @@ UNION
     t.string   "state",      :limit=>200, :default=>"", :null=>false
     t.datetime "created_at", :null=>false
     t.datetime "updated_at", :null=>false
+    t.datetime "checked_at"
   end
 
   create_view "years", <<-'END_VIEW_YEARS', :force => true

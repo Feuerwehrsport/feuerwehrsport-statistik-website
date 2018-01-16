@@ -48,6 +48,7 @@ class Team < ActiveRecord::Base
   scope :person, ->(person_id) { joins(:team_members).where(team_members: { person_id: person_id }) }
   scope :competition, ->(cid) { joins(:team_competitions).where(team_competitions: { competition_id: cid }) }
   scope :filter_collection, -> { order(:name) }
+  scope :unchecked, -> { where(checked_at: nil) }
 
   def person_scores_count(person)
     scores.where(person: person).count + person_participations.where(person: person).count
