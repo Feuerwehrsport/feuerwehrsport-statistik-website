@@ -19,8 +19,8 @@ class Registrations::Competition < ActiveRecord::Base
   scope :open, -> do
     published
       .where(arel_table[:date].gteq(Date.current))
-      .where(arel_table[:open_at].is(nil).or(arel_table[:open_at].lteq(Time.current)))
-      .where(arel_table[:close_at].is(nil).or(arel_table[:close_at].gteq(Time.current)))
+      .where(arel_table[:open_at].eq(nil).or(arel_table[:open_at].lteq(Time.current)))
+      .where(arel_table[:close_at].eq(nil).or(arel_table[:close_at].gteq(Time.current)))
   end
 
   def person_tag_list
