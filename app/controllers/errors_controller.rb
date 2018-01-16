@@ -45,6 +45,11 @@ class ErrorsController < ApplicationController
     render(status: 500)
   end
 
+  def unacceptable
+    @page_title = '422 - Nicht verarbeitbare Werte'
+    render(status: 422)
+  end
+
   protected
 
   def original_fullpath

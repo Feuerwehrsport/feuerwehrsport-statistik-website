@@ -181,7 +181,7 @@ Rails.application.routes.draw do
   resources :image_assets, controller: 'm3/image_assets', only: %i[index new create edit update destroy]
 
   # error handling
-  match '/404' => 'm3/errors#not_found', via: :all
-  match '/422' => 'm3/errors#unacceptable', via: :all
-  match '/500' => 'm3/errors#internal_server_error', via: :all
+  match '/404' => 'errors#not_found', via: :all
+  match '/422' => 'errors#unacceptable', via: :all
+  match '/500' => 'errors#internal_server_error', via: :all
 end

@@ -8,6 +8,13 @@ RSpec.describe ErrorsController, type: :controller do
     end
   end
 
+  describe 'GET #unacceptable' do
+    it 'returns http success' do
+      get :unacceptable
+      expect(response).to have_http_status(422)
+    end
+  end
+
   describe 'GET #internal_server_error' do
     it 'returns http success' do
       get :internal_server_error
