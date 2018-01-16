@@ -28,4 +28,4 @@ Fss.ready 'backend/unchecked_teams', ->
         )
 
 
-    $.getScript("http://nominatim.openstreetmap.org/search?q=#{name}&format=json&json_callback=geoPositionResult")
+    $.getScript("https://nominatim.openstreetmap.org/search?q=#{name}&format=json&json_callback=geoPositionResult")
