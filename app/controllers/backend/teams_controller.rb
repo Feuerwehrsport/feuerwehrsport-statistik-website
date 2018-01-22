@@ -4,7 +4,7 @@ class Backend::TeamsController < Backend::BackendController
   default_form do |f|
     f.input :name
     f.input :shortcut
-    f.input :status
+    f.input :status, as: :radio_buttons, collection: { 'Team' => 'team', 'Feuerwehr' => 'fire_station' }
     f.input :latitude
     f.input :longitude
     f.input :image
