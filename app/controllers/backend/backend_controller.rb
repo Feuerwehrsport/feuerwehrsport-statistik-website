@@ -1,5 +1,5 @@
 class Backend::BackendController < ApplicationController
-  helper_method :has_many_associations, :belongs_to_associations
+  helper_method :has_many_associations, :belongs_to_associations, :show_associations?
 
   def self.backend_actions(*action_names)
     options              = action_names.extract_options!
@@ -23,6 +23,10 @@ class Backend::BackendController < ApplicationController
         f.structure.decorate
       end
     end
+  end
+
+  def show_associations?
+    true
   end
 
   def has_many_associations

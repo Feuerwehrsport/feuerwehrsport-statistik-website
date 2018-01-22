@@ -10,6 +10,10 @@ class Backend::UncheckedTeamsController < Backend::BackendController
     t.col :name
   end
 
+  def show_associations?
+    false
+  end
+
   protected
 
   def after_update
