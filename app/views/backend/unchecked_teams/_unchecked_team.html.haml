@@ -1,5 +1,7 @@
 .section
   .container
+    = link_to("Liveansicht: #{resource}", team_path(resource), class: 'btn btn-default btn-xs')
+    = link_to("Backend: #{resource}", backend_team_path(resource), class: 'btn btn-default btn-xs')
     - if resource.similar_teams.present?
       %h3 Ähnlich geschriebene Mannschaften
       %table.table
