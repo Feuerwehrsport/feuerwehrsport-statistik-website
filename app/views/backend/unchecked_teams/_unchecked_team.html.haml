@@ -1,16 +1,21 @@
 .section
   .container
-    = link_to("Liveansicht: #{resource}", team_path(resource), class: 'btn btn-default btn-xs')
-    = link_to("Backend: #{resource}", backend_team_path(resource), class: 'btn btn-default btn-xs')
+    = link_to("Liveansicht: #{resource}", team_path(resource), class: 'btn btn-default btn-xs', target: :_blank)
+    = link_to("Backend: #{resource}", backend_team_path(resource), class: 'btn btn-default btn-xs', target: :_blank)
     - if resource.similar_teams.present?
       %h3 Ähnlich geschriebene Mannschaften
       %table.table
         - resource.similar_teams.decorate.each do |team|
           %tr
-            %td= team_link(team)
+            %td= team_link(team, target: :_blank)
             %td
               .merge-team.btn.btn-default.btn-sm{ data: { id: resource.id, correct_id: team.id } } Zusammenführen
               .always-merge-team.btn.btn-default.btn-sm{ data: { id: resource.id, correct_id: team.id } } Immer zusammenführen
+  .container.wiki-search{ data: { name: resource.shortcut } }
+    %h3 Infos auf Wikipedia
+    %table.table
+      %tr
+        %th Nichts gefunden
   .container
     %h3 Land/Bundesland
     = resource.full_state
@@ -18,12 +23,12 @@
 
   - unless resource.positioned?
     .container.geo-position{ data: { name: resource.shortcut, id: resource.id } }
-      .col-md-12
-        %h3 Geo-Position suchen
-      .col-md-9
-        %table.table
-        = map(id: 'team-map', red: resource, data: { team_id: resource.id })
-      .col-md-3.team-map-actions
+      %h3 Geo-Position suchen
+      %table.table
+        %tr
+          %th Nichts gefunden
+      = map(id: 'team-map', red: resource, data: { team_id: resource.id })
+      .team-map-actions
   .container
     %h3 Abgearbeitet
     = button_to('Fertigstellen',{}, params: { 'unchecked_team[checked_at]' => Time.current }, method: :put, confirm: 'hallp?', class: 'btn btn-info')
