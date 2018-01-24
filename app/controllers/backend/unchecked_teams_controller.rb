@@ -3,6 +3,8 @@ class Backend::UncheckedTeamsController < Backend::BackendController
 
   default_form do |f|
     f.input :name
+    f.input :shortcut
+    f.input :status, as: :radio_buttons, collection: { 'Team' => 'team', 'Feuerwehr' => 'fire_station' }
     f.input :checked_at
   end
 
