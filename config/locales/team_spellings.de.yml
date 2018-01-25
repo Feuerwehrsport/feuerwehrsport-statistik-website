@@ -1,0 +1,11 @@
+de:
+  activerecord:
+    attributes:
+      team_spelling:
+        name: Name
+        shortcut: Abkürzung
+        team: Mannschaft
+    models:
+      team_spelling:
+        one: Mannschaftsschreibweise
+        other: Mannschaftsschreibweisen

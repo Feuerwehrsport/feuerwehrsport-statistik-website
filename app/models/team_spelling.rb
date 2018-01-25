@@ -3,6 +3,7 @@ class TeamSpelling < ActiveRecord::Base
   belongs_to :team
 
   scope :search, ->(team_name) { where('name ILIKE ? OR shortcut ILIKE ?', team_name, team_name) }
+  scope :team, ->(team_id) { where(team_id: team_id) }
 
   validates :team, :name, :shortcut, presence: true
 

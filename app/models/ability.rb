@@ -42,6 +42,7 @@ class Ability
     can :manage, Score
     can :manage, ScoreType
     can :manage, Team
+    can :manage, TeamSpelling
   end
 
   def user_abilities

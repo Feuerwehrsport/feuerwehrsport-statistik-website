@@ -20,6 +20,7 @@ class Backend::DashboardsController < Backend::BackendController
     Score,
     ScoreType,
     Team,
+    TeamSpelling,
   ].freeze
 
   def index

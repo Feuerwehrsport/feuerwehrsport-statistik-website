@@ -14,6 +14,7 @@ class Backend::TeamsController < Backend::BackendController
   filter_index do |by|
     by.scope :person, collection: Person.filter_collection, label_method: :searchable_name
     by.scope :competition, collection: Competition.filter_collection
+    by.string :name
   end
 
   default_index do |t|
