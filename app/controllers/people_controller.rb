@@ -65,7 +65,7 @@ class PeopleController < ResourceController
     %i[hb hw hl].each do |discipline|
       scores = resource.scores.where(discipline: discipline)
       next unless scores.count > 0
-      chart_scores = scores.valid.best_of_competition.includes(:competition).decorate.sort_by { |s| s.competition.date }
+      chart_scores = scores.valid.best_of_competition.includes(:competition).sort_by { |s| s.competition.date }.map(&:decorate)
       scores = scores.includes(competition: %i[place event]).decorate
       valid_scores = scores.reject(&:time_invalid?)
 
@@ -82,7 +82,7 @@ class PeopleController < ResourceController
 
     { zk: resource.score_double_events, zw: resource.score_low_double_events }.each do |discipline, scores|
       next unless scores.count > 0
-      chart_scores = scores.includes(:competition).decorate.sort_by { |s| s.competition.date }
+      chart_scores = scores.includes(:competition).sort_by { |s| s.competition.date }.map(&:decorate)
       scores = scores.includes(competition: %i[place event]).decorate
       valid_scores = scores.reject(&:time_invalid?)
 
@@ -100,7 +100,7 @@ class PeopleController < ResourceController
     %i[gs fs la].each do |discipline|
       scores = resource.group_score_participations.where(discipline: discipline)
       next unless scores.count > 0
-      chart_scores = scores.valid.best_of_competition.includes(:competition).decorate.sort_by { |s| s.competition.date }
+      chart_scores = scores.valid.best_of_competition.includes(:competition).sort_by { |s| s.competition.date }.map(&:decorate)
       scores = scores.includes(competition: %i[place event]).includes(:group_score_type).decorate
       valid_scores = scores.reject(&:time_invalid?)
 

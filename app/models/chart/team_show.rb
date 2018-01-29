@@ -14,7 +14,7 @@ module Chart
     end
 
     def group_discipline_scores(scores)
-      scores = scores.sort_by { |s| s.competition.date }
+      scores = scores.sort_by { |s| s.object.competition.date }
       hc = lazy_high_chart
       hc.xAxis(categories: scores.map(&:competition).map(&:date), labels: { enabled: false, rotation: 270, style: { fontSize: '8px' } })
       hc.series(name: 'Sekunden', yAxis: 0, data: scores.map { |s| s.time.to_f / 100 }, lineWidth: 1)
