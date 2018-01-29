@@ -56,7 +56,7 @@ class Score
     @move = !@move
     @setMoveStatus()
 
-Fss.ready 'backend/team_score_move', ->
+Fss.ready 'backend/repairs/team_score_move', ->
   scores = []
   scoreTable = $('#score-table')
   if scoreTable.length > 0
