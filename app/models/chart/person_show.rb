@@ -6,8 +6,9 @@ module Chart
       return '' if person.scores.valid.blank?
 
       hc = lazy_high_chart
-      hc.xAxis(categories: year_overview_data.map(&:third), labels: { rotation: 270, style: { fontSize: '8px' } })
+      hc.xAxis(categories: year_overview_data.map(&:fourth), labels: { rotation: 270, style: { fontSize: '8px' } })
       hc.series(name: 'HB', yAxis: 0, data: year_overview_data.map(&:first), lineWidth: 1, color: discipline_color(:hb))
+      hc.series(name: 'HB flach', yAxis: 0, data: year_overview_data.map(&:third), lineWidth: 1, color: discipline_color(:hb))
       hc.series(name: 'HL', yAxis: 0, data: year_overview_data.map(&:second), lineWidth: 1, color: discipline_color(:hl))
       hc.yAxis [title: { text: 'Sekunden', margin: 20 }, endOnTick: false]
       hc.legend(enabled: false)
@@ -87,7 +88,7 @@ module Chart
                       .map(&:year)
                       .map(&:to_i)
         (years.min..years.max).map do |year|
-          %i[hb hl].map do |discipline|
+          %i[hb hl hw].map do |discipline|
             times = person.scores
                           .where(discipline: discipline)
                           .valid
