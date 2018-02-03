@@ -22,6 +22,9 @@
       = @charts.activities_for_years
 
   .container
+    %h2 Karte der Mannschaften
+    = map(id: 'teams-map', markers: collection, class: 'big-map') { |m| { count: m.competitions_count } }
+  .container
     %h2 Neue Mannschaft anlegen
   .container
     .col-md-4
