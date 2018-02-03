@@ -77,7 +77,7 @@ class PagesController < ResourceController
   end
 
   def about
-    @page_title = 'Hinweise zu Online-Anmeldungen'
+    @page_title = 'Statistiken über diese Seite'
     @charts = Chart::About.new(context: view_context)
   end
 
