@@ -4,7 +4,7 @@ server 'stadthafen-rails', :app, :web, :db, primary: true
 ssh_options[:port] = 1322
 
 set :nginx_server_name, 'www.feuerwehrsport-statistik.de'
-set :unicorn_workers, 2
+set :unicorn_workers, 4
 # set :nginx_default_server, true
 set :nginx_other_server_names, 'feuerwehrsport-statistik.de'
 # set :nginx_other_server_names, "_" # for all names
