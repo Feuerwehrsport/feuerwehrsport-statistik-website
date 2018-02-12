@@ -74,7 +74,7 @@ class Ipo::RegistrationsController < ApplicationController
   protected
 
   def registration_open?
-    resource_class::REGISTRATION_OPEN > Time.current && resource_class::REGISTRATION_CLOSE < Time.current
+    resource_class::REGISTRATION_OPEN < Time.current && resource_class::REGISTRATION_CLOSE > Time.current
   end
 
   def after_create
