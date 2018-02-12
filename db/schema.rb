@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180109224224) do
+ActiveRecord::Schema.define(version: 20180211164414) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -253,6 +253,20 @@ SELECT person_participations.person_id,
     t.datetime "finished_at"
     t.datetime "created_at",    :null=>false
     t.datetime "updated_at",    :null=>false
+  end
+
+  create_table "ipo_registrations", force: :cascade do |t|
+    t.string   "team_name",        :limit=>200, :null=>false
+    t.string   "name",             :limit=>200, :null=>false
+    t.string   "locality",         :limit=>200, :null=>false
+    t.string   "phone_number",     :limit=>200, :null=>false
+    t.string   "email_address",    :limit=>200, :null=>false
+    t.boolean  "youth_team",       :default=>false, :null=>false
+    t.boolean  "female_team",      :default=>false, :null=>false
+    t.boolean  "male_team",        :default=>false, :null=>false
+    t.boolean  "terms_of_service", :default=>false, :null=>false
+    t.datetime "created_at",       :null=>false
+    t.datetime "updated_at",       :null=>false
   end
 
   create_table "links", force: :cascade do |t|

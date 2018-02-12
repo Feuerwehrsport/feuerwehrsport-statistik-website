@@ -3,10 +3,11 @@ RSpec.shared_examples 'a backend resource controller' do |options|
   only = options.delete(:only) || %i[new create show edit update index destroy]
 
   let(:resource_name) { described_class.new.send(:resource_name) }
-  let(:resource_class) { described_class.new.resource_class }
+  let(:resource_class) { described_class.new.send(:resource_class) }
   let(:resource) { create(resource_name) }
   let(:resource_create_attributes) { resource_attributes }
   let(:resource_update_attributes) { resource_attributes }
+  let(:change_log_enabled) { true }
 
   if only.include?(:new)
     describe 'GET new' do
@@ -22,10 +23,10 @@ RSpec.shared_examples 'a backend resource controller' do |options|
       it 'creates new resource' do
         expect do
           post :create, resource_name => resource_create_attributes
-          id = described_class.new.resource_class.order(id: :desc).pluck(:id).first
+          id = resource_class.order(id: :desc).pluck(:id).first
           expect(response).to redirect_to(action: :show, id: id), -> { controller.form_resource.errors.inspect }
         end.to change(resource_class, :count).by(1)
-        expect_change_log(after: {}, log: "create-#{resource_class.name.parameterize}")
+        expect_change_log(after: {}, log: "create-#{resource_class.name.parameterize}") if change_log_enabled
       end
     end
   end
@@ -55,7 +56,9 @@ RSpec.shared_examples 'a backend resource controller' do |options|
       it 'update resource' do
         subject.call
         expect(response).to redirect_to(action: :show, id: resource.id), -> { controller.form_resource.errors.inspect }
-        expect_change_log(before: {}, after: {}, log: "update-#{resource_class.name.parameterize}")
+        if change_log_enabled
+          expect_change_log(before: {}, after: {}, log: "update-#{resource_class.name.parameterize}")
+        end
       end
     end
   end
@@ -78,7 +81,7 @@ RSpec.shared_examples 'a backend resource controller' do |options|
           delete :destroy, id: resource.id
           expect(response).to redirect_to action: :index
         end.to change(resource_class, :count).by(-1)
-        expect_change_log(before: {}, log: "destroy-#{resource_class.name.parameterize}")
+        expect_change_log(before: {}, log: "destroy-#{resource_class.name.parameterize}") if change_log_enabled
       end
     end
   end

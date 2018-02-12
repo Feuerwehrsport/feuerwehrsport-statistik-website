@@ -5,7 +5,7 @@ class Ability
   def initialize(user, _login)
     @user = user
     all_users
-    send(:"#{user.role}_abilities") if user.try(:role).in?(%i[admin sub_admin user api_user])
+    send(:"#{user.role}_abilities") if user.try(:role).in?(%i[admin sub_admin user api_user ipo_admin])
   end
 
   private
@@ -115,5 +115,10 @@ class Ability
     can(:manage, M3::Login::PasswordReset)
     can(:manage, M3::Login::ChangedEmailAddress)
     can(:create, AdminUsers::Registration)
+    can(%i[create finish], Ipo::Registration)
+  end
+
+  def ipo_admin_abilities
+    can(:manage, Ipo::Registration)
   end
 end

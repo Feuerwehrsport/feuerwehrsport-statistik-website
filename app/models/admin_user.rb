@@ -4,6 +4,7 @@ class AdminUser < ActiveRecord::Base
 
   ROLES = %i[
     user
+    ipo_admin
     sub_admin
     admin
   ].freeze

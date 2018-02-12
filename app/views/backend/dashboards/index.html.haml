@@ -1,4 +1,4 @@
-- if current_admin_user.try(:role) == :user
+- if current_admin_user.try(:role).in?(%i[user ipo_admin])
   = render 'user_dashboard'
 - elsif current_admin_user.try(:role).in?(%i[sub_admin admin])
   = render 'admin_dashboard'

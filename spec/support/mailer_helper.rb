@@ -7,3 +7,7 @@ def mailer_signature
     "E-Mail. Bei Fragen, Anregungen und Kritik nutzen Sie die\n" \
     'Kontaktdaten, die im Impressum der Seite hinterlegt sind.'
 end
+
+def expect_with_mailer_signature(body)
+  expect(mail.body.raw_source).to eq(body + mailer_signature)
+end

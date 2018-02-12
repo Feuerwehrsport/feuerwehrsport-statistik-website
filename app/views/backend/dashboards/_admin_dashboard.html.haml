@@ -41,6 +41,11 @@
             Neue Mannschaften
             %span.badge= Team.unchecked.count
 
+        - if can?(:manage, Ipo::Registration)
+          %li
+            = link_to ipo_registrations_path do
+              Inselpokal-Anmeldungen
+              %span.badge= Ipo::Registration.count
     .col-md-4
       %h4 Direkte Bearbeitung
       %ul.nav.nav-pills.nav-stacked.backend-nav

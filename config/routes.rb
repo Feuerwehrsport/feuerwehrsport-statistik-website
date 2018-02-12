@@ -182,6 +182,12 @@ Rails.application.routes.draw do
   resources :assets, controller: 'm3/assets', only: %i[index new create edit update destroy]
   resources :image_assets, controller: 'm3/image_assets', only: %i[index new create edit update destroy]
 
+  namespace :ipo do
+    resources :registrations do
+      collection { get :finish }
+    end
+  end
+
   # error handling
   match '/404' => 'errors#not_found', via: :all
   match '/422' => 'errors#unacceptable', via: :all

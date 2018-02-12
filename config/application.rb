@@ -36,10 +36,21 @@ module FeuerwehrsportStatistik
 
     logdir_path = '/srv/feuerwehrsport-statistik/shared/log'
     config.log_file_parser = OpenStruct.new(
-      run_before: -> { `cd "#{logdir_path}" ; find -name "production.log-*" ! -name "*.gz" -exec ln -sf {} production.yesterday \\;` },
+      run_before: -> do
+        `cd "#{logdir_path}" ; find -name "production.log-*" ! -name "*.gz" -exec ln -sf {} production.yesterday \\;`
+      end,
       log_path: "#{logdir_path}/production.yesterday",
-      output_if: ->(parser) { [parser.fatal_errors.present?, parser.error_requests.present?, parser.warn_requests.present?].any? },
+
+      output_if: ->(parser) do
+                   [parser.fatal_errors.present?, parser.error_requests.present?, parser.warn_requests.present?].any?
+                 end,
     )
     config.m3.session.login_redirect_url = { controller: '/backend/dashboards', action: :index }
+
+    config.ipo = OpenStruct.new(
+      date: Date.new(2018, 9, 22),
+      registration_open: Time.local(2018, 3, 3, 12, 0, 0),
+      registration_close: Time.local(2018, 3, 17, 12, 0, 0),
+    )
   end
 end
