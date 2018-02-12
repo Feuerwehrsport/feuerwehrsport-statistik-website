@@ -46,11 +46,5 @@ module FeuerwehrsportStatistik
                  end,
     )
     config.m3.session.login_redirect_url = { controller: '/backend/dashboards', action: :index }
-
-    config.ipo = OpenStruct.new(
-      date: Date.new(2018, 9, 22),
-      registration_open: Time.local(2018, 3, 3, 12, 0, 0),
-      registration_close: Time.local(2018, 3, 17, 12, 0, 0),
-    )
   end
 end

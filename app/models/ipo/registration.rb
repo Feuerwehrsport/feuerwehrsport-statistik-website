@@ -1,4 +1,8 @@
 class Ipo::Registration < ActiveRecord::Base
+  DATE = Date.new(2018, 9, 22)
+  REGISTRATION_OPEN = Time.zone.local(2018, 3, 3, 12, 0, 0)
+  REGISTRATION_CLOSE = Time.zone.local(2018, 3, 17, 12, 0, 0)
+
   attr_accessor :confirm_inform_consent
   validates :email_address, email_format: true
   validates :terms_of_service, acceptance: { accept: true }
