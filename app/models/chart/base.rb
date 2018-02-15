@@ -36,5 +36,28 @@ module Chart
       hc.series(name: 'Geschlecht', data: data)
       render(hc)
     end
+
+    private
+
+    def encapsulate_js(core_js)
+      js_output = if request_is_xhr?
+                    "#{js_start} #{core_js} #{js_end}"
+                  # Turbolinks.version < 5
+                  else
+                    <<-EOJS
+        #{js_start}
+          M3.ready(function(){
+            #{core_js}
+          });
+        #{js_end}
+        EOJS
+                  end
+
+      if defined?(raw)
+        return raw(js_output)
+      else
+        return js_output
+      end
+    end
   end
 end
