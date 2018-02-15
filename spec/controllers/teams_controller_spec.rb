@@ -7,7 +7,7 @@ RSpec.describe TeamsController, type: :controller do
     it 'assigns collection' do
       get :index
       expect(response).to be_success
-      expect(controller.send(:collection).length).to eq 1
+      expect(assigns(:charts)).to be_instance_of(Chart::TeamOverview)
     end
   end
 

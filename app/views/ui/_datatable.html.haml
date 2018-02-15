@@ -1,0 +1,7 @@
+%table.datatable.datatable-serverside.table.table-striped.table-bordered.table-condensed{ data: { datatable_options: data.to_json } }
+  %thead
+    %tr
+      - structure.each do |field|
+        - label = field.options[:label] || ca_t(field.name, scope: :index_table_headers, default: structure.klass.human_attribute_name(field.name)).html_safe
+        %th{ class: field.options[:th_class] }= label
+  %tbody

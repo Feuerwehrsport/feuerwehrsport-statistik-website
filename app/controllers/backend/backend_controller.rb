@@ -18,9 +18,7 @@ class Backend::BackendController < ApplicationController
   def self.default_show(&block)
     define_method(:m3_show_structure) do
       @m3_show_structure ||= begin
-        f = M3::Index::Structure::Builder.new(field_options: { truncate: false })
-        instance_exec(f, &block)
-        f.structure.decorate
+        M3::Index::Structure.build(&block).decorate
       end
     end
   end

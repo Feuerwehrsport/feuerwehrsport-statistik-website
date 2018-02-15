@@ -112,6 +112,7 @@ class Ability
     can :read, Registrations::Competition, published: true
 
     can(:manage, M3::Login::Session)
+    can(:verify, M3::Login::Base)
     can(:manage, M3::Login::PasswordReset)
     can(:manage, M3::Login::ChangedEmailAddress)
     can(:create, AdminUsers::Registration)

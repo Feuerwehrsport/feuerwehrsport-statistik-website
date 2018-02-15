@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180211164414) do
+ActiveRecord::Schema.define(version: 20180212124733) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -585,16 +585,18 @@ UNION
   end
 
   create_table "teams", force: :cascade do |t|
-    t.string   "name",       :limit=>200, :null=>false
-    t.string   "shortcut",   :limit=>200, :null=>false
-    t.integer  "status",     :null=>false
-    t.decimal  "latitude",   :precision=>15, :scale=>10
-    t.decimal  "longitude",  :precision=>15, :scale=>10
+    t.string   "name",               :limit=>200, :null=>false
+    t.string   "shortcut",           :limit=>200, :null=>false
+    t.integer  "status",             :null=>false
+    t.decimal  "latitude",           :precision=>15, :scale=>10
+    t.decimal  "longitude",          :precision=>15, :scale=>10
     t.string   "image"
-    t.string   "state",      :limit=>200, :default=>"", :null=>false
-    t.datetime "created_at", :null=>false
-    t.datetime "updated_at", :null=>false
+    t.string   "state",              :limit=>200, :default=>"", :null=>false
+    t.datetime "created_at",         :null=>false
+    t.datetime "updated_at",         :null=>false
     t.datetime "checked_at"
+    t.integer  "members_count",      :default=>0, :null=>false
+    t.integer  "competitions_count", :default=>0, :null=>false
   end
 
   create_view "years", <<-'END_VIEW_YEARS', :force => true

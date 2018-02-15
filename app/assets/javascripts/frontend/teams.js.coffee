@@ -31,7 +31,6 @@ addLogo = (teamId) ->
     .open()
 
 Fss.ready 'team', ->
-  new SortTable(selector: ".datatable-teams", noSorting: 0, sortCol: 1, direction: 'asc')
   new SortTable(selector: ".datatable-team-members", direction: 'asc')
   new SortTable(selector: ".datatable-team-competitions")
   new SortTable(selector: ".datatable-group-assessments", noSorting: [5, 6])

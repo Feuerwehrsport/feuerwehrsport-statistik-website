@@ -16,4 +16,12 @@ class TeamDecorator < AppDecorator
   def human_status
     t("activerecord.attributes.team.status_#{status}")
   end
+
+  def image_thumb
+    object.image.present? ? h.image_tag(object.image.thumb) : ''
+  end
+
+  def link
+    h.team_link(self)
+  end
 end

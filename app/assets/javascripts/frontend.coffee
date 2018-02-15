@@ -1,5 +1,6 @@
 #= require _main
 
+#= require _datatable_serverside
 #= require highcharts/highcharts
 #= require highcharts/highcharts-more
 #= require classes/SortTable

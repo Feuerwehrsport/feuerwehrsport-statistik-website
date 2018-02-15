@@ -168,11 +168,8 @@ Rails.application.routes.draw do
     resources :badges, only: %i[index]
   end
 
-  resource :session, controller: 'm3/login/sessions', only: %i[new create show destroy] do
-    collection do
-      get 'verify/:verify_token', action: :verify
-    end
-  end
+  resource :session, controller: 'm3/login/sessions', only: %i[new create show destroy]
+  get 'verify_login/:token', to: 'm3/login/verifications#verify', as: :verify_login
   resources :password_reset, controller: 'm3/login/password_resets', only: %i[new create index edit update]
   resources :expired_login, controller: 'm3/login/expired_logins', only: %i[new create index]
   resources :changed_email_addresses, controller: 'm3/login/changed_email_addresses', only: %i[edit update]

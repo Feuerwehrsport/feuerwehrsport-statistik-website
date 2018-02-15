@@ -28,13 +28,6 @@ class Team < ActiveRecord::Base
 
   validates :name, :shortcut, presence: true
 
-  scope(:with_members_and_competitions_count, -> do
-    select("
-      teams.*,
-      (#{TeamMember.select('COUNT(*)').where('team_id = teams.id').to_sql}) AS members_count,
-      (#{TeamCompetition.select('COUNT(*)').where('team_id = teams.id').to_sql}) AS competitions_count
-    ")
-  end)
   scope :status, ->(status) { where(status: STATUS[status.to_sym]) }
   scope :index_order, -> { order(:name) }
   scope :search, ->(team_name) { where('name ILIKE ? OR shortcut ILIKE ?', team_name, team_name) }
@@ -49,6 +42,13 @@ class Team < ActiveRecord::Base
   scope :competition, ->(cid) { joins(:team_competitions).where(team_competitions: { competition_id: cid }) }
   scope :filter_collection, -> { order(:name) }
   scope :unchecked, -> { where(checked_at: nil) }
+
+  def self.update_members_and_competitions_count
+    update_all("
+      members_count = (#{TeamMember.select('COUNT(*)').where('team_id = teams.id').to_sql}),
+      competitions_count = (#{TeamCompetition.select('COUNT(*)').where('team_id = teams.id').to_sql})
+    ")
+  end
 
   def person_scores_count(person)
     scores.where(person: person).count + person_participations.where(person: person).count

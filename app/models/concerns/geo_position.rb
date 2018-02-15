@@ -1,6 +1,7 @@
 module GeoPosition
   extend ActiveSupport::Concern
   included do
+    scope :positioned, -> { where.not(latitude: nil, longitude: nil) }
   end
 
   def positioned?

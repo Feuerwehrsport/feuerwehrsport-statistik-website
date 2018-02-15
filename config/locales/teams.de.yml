@@ -1,0 +1,24 @@
+de:
+  activerecord:
+    attributes:
+      team:
+        competitions_count: Wettkämpfe
+        human_status: Typ
+        link: Name
+        members_count: Mitglieder
+        shortcut: Abkürzung
+        state: Land
+        status: Status
+        status_0: Team
+        status_1: Feuerwehr
+        status_fire_station: Feuerwehr
+        status_team: Team
+    models:
+      team:
+        one: Mannschaft
+        other: Mannschaften
+
+  t3:
+    teams:
+      views:
+        page_title: Mannschaften

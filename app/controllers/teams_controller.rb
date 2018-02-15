@@ -1,8 +1,18 @@
 class TeamsController < ResourceController
-  resource_actions :show, :index, cache: %i[show index]
+  include DatatableSupport
+  resource_actions :show, cache: %i[show index]
+
+  datatable(:index, :teams, Team) do |t|
+    t.col :image_thumb, label: '', sortable: false, th_class: 'col-5'
+    t.col :link, sortable: :name, th_class: 'col-40', searchable: :name
+    t.col :shortcut, th_class: 'col-30', searchable: :shortcut
+    t.col :human_status, sortable: :status, th_class: 'col-10 small', class: 'small'
+    t.col :state, th_class: 'col-10 small'
+    t.col :members_count, th_class: 'col-15 small'
+    t.col :competitions_count, th_class: 'col-15 small'
+  end
 
   def index
-    super
     @charts = Chart::TeamOverview.new(context: view_context)
   end
 
@@ -19,11 +29,5 @@ class TeamsController < ResourceController
       @series_round_structs[gender] = Series::Round.for_team(resource.id, gender)
       @max_cup_count[gender] = @series_round_structs[gender].values.flatten.map(&:cups).map(&:count).max
     end
-  end
-
-  protected
-
-  def find_collection
-    super.with_members_and_competitions_count
   end
 end

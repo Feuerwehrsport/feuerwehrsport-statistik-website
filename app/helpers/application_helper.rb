@@ -8,6 +8,7 @@ module ApplicationHelper
   include Helper::PrawnHelper
   include DisciplineNamesAndImages
   include GenderNames
+  include DatatableHelper
 
   def h
     self
