@@ -25,6 +25,7 @@ gem 'prawn'
 gem 'prawn-table'
 gem 'prawnto'
 gem 'rqrcode_png'
+gem 'axlsx', '~> 3.0.0.pre'
 
 # markdown
 gem 'redcarpet'
