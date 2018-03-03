@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe 'pages features', type: :feature do
+  before { page.driver.browser.url_blacklist = ['https://i.ytimg.com'] }
+
   context 'dashboard' do
     let!(:score) { create(:score, :double) }
     let!(:news_article) { create(:news_article) }
