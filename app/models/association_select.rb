@@ -11,7 +11,7 @@ class AssociationSelect
   end
 
   def team(search_term, ids, limit: 10)
-    rel = Team.all.limit(limit).accessible_by(@ability, :index)
+    rel = Team.index_order.limit(limit).accessible_by(@ability, :index)
     rel = rel.where_name_like(search_term) if search_term.present?
     rel = rel.where(id: ids) if ids
     rel.decorate.map { |c| [c.id, c.to_s, c.full_state, nil] }
@@ -49,5 +49,15 @@ class AssociationSelect
     rel = rel.where_name_like(search_term) if search_term.present?
     rel = rel.where(id: ids) if ids
     rel.decorate.map { |c| [c.id, c.to_s, c.gender_translated, nil] }
+  end
+
+  def group_score_category(search_term, ids, limit: 10)
+    rel = GroupScoreCategory.limit(limit).accessible_by(@ability, :index)
+    if search_term.present?
+      competitions = Competition.all.accessible_by(@ability, :index).search(search_term)
+      rel = rel.where(competition_id: competitions.select(:id))
+    end
+    rel = rel.where(id: ids) if ids
+    rel.decorate.map { |c| [c.id, c.with_competition, c.discipline, nil] }
   end
 end

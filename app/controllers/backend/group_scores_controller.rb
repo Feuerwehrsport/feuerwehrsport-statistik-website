@@ -2,11 +2,11 @@ class Backend::GroupScoresController < Backend::BackendController
   backend_actions
 
   default_form do |f|
-    f.association :team
+    f.association :team, as: :association_select
     f.input :team_number
     f.input :gender, collection: %i[male female]
     f.input :time
-    f.association :group_score_category, label_method: :with_competition
+    f.association :group_score_category, as: :association_select
     f.input :run, collection: %w[A B C]
   end
 
