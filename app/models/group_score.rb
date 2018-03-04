@@ -88,6 +88,7 @@ class GroupScore < ActiveRecord::Base
   scope :group_score_category, ->(group_score_category_id) { where(group_score_category_id: group_score_category_id) }
   scope :person, ->(person_id) { joins(:person_participations).where(person_participations: { person_id: person_id }) }
   scope :team, ->(team_id) { where(team_id: team_id) }
+  scope :where_time_like, ->(search_term) { where('time::TEXT ILIKE ?', "%#{search_term}%") }
 
   validates :team, :group_score_category, :team_number, :gender, :time, presence: true
 

@@ -5,7 +5,7 @@ class Backend::PersonSpellingsController < Backend::BackendController
     f.input :first_name
     f.input :last_name
     f.input :gender, collection: %i[male female]
-    f.association :person
+    f.association :person, as: :association_select
     f.input :official
   end
 

@@ -5,8 +5,8 @@ class Backend::AppointmentsController < Backend::BackendController
     f.input :name
     f.input :dated_at
     f.input :description
-    f.association :place
-    f.association :event
+    f.association :place, as: :association_select
+    f.association :event, as: :association_select
     f.input :disciplines
   end
 

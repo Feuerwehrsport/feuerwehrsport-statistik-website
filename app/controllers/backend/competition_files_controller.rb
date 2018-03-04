@@ -2,7 +2,7 @@ class Backend::CompetitionFilesController < Backend::BackendController
   backend_actions
 
   default_form do |f|
-    f.association :competition
+    f.association :competition, as: :association_select
     f.input :file
     f.input :keys_string
   end

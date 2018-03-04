@@ -4,8 +4,8 @@ class Backend::CompetitionsController < Backend::BackendController
   default_form do |f|
     f.input :name
     f.input :date
-    f.association :place
-    f.association :event
+    f.association :place, as: :association_select
+    f.association :event, as: :association_select
     f.association :score_type
     f.input :hint_content, as: :wysiwyg
     f.input :scores_for_bla_badge

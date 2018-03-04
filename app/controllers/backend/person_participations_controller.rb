@@ -2,8 +2,8 @@ class Backend::PersonParticipationsController < Backend::BackendController
   backend_actions
 
   default_form do |f|
-    f.association :person, label_method: :full_name
-    f.association :group_score
+    f.association :person, as: :association_select
+    f.association :group_score, as: :association_select
     f.input :position
   end
 

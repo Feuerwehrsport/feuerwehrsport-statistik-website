@@ -2,12 +2,12 @@ class Backend::ScoresController < Backend::BackendController
   backend_actions
 
   default_form do |f|
-    f.association :person
-    f.association :team
+    f.association :person, as: :association_select
+    f.association :team, as: :association_select
     f.input :team_number
     f.input :time
     f.input :discipline
-    f.association :competition
+    f.association :competition, as: :association_select
   end
 
   filter_index do |by|
