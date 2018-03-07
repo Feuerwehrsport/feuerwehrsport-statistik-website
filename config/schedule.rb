@@ -23,8 +23,8 @@ job_type :ensure_delayed_job_running, ':path/etc/ensure_delayed_job_running.sh :
 job_type :ensure_unicorn_running, ':path/etc/ensure_unicorn_running.sh :task'
 
 every :reboot do
-  command '/etc/init.d/unicorn_feuerwehrsport-statistik restart'
-  command "#{base_command}delayed_job restart"
+  ensure_delayed_job_running 'feuerwehrsport-statistik'
+  ensure_unicorn_running 'feuerwehrsport-statistik'
 end
 
 every :day, at: '5:12 am' do
