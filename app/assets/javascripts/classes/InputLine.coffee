@@ -4,26 +4,26 @@ class @InputLine
   constructor: (discipline) ->
     @fields = []
     start = []
-    if $.inArray(discipline, ['hl', 'hb', 'hw']) != -1
+    if $.inArray(discipline, ['hl', 'hb', 'hw']) isnt -1
       start = ['last_name', 'first_name', 'team', 'time', 'time']
-    else if discipline == 'la'
+    else if discipline is 'la'
       start = ['team', 'time', 'time']
-    else if discipline == 'gs'
+    else if discipline is 'gs'
       start = ['team', 'time']
-    else if discipline == 'fs'
+    else if discipline is 'fs'
       start = ['team', 'time', 'run']
     
     for s in start
-      @fields.push(new InputLineField(@, s))
+      @fields.push(new InputLineField(this, s))
 
-  get: () =>
+  get: =>
     container = $('<div/>').addClass('input-line')
 
     for field in @fields
       container.append(field.get())
     
-    addButton = $('<button/>').text('+').click () =>
-      newField = new InputLineField(@, 'time')
+    addButton = $('<button/>').text('+').click =>
+      newField = new InputLineField(this, 'time')
       @fields.push(newField)
       newField.get().insertBefore(addButton)
 

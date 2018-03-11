@@ -6,30 +6,30 @@ class @FssWindow extends EventHandler
     new FssWindow(title)
 
   constructor: (@title) ->
-    super
+    super()
     @rows = []
     @rendered = false
-    @on('after-open', () =>
+    @on('after-open', =>
       window.fssWindows = [] unless window.fssWindows?
-      window.fssWindows.push(@)
+      window.fssWindows.push(this)
     )
-    @on('after-close', () =>
-      window.fssWindows.splice( $.inArray(@, window.fssWindows), 1 )
+    @on('after-close', =>
+      window.fssWindows.splice($.inArray(this, window.fssWindows), 1)
     )
-    @on('pre-submit', () =>
+    @on('pre-submit', =>
       @close()
       @fire('submit', @data())
     )
 
-  render: () =>
+  render: =>
     title = $('<div/>').addClass('fss-window-title').append(@title)
     if Fss.loginStatus
       title.append($('<div/>').addClass("fss-window-sign-out login-#{Fss.loginUser.type}")
         .append($('<div/>').addClass('glyphicon glyphicon-user'))
         .append(Fss.loginUser.name)
         .attr('title', "Ausloggen (#{Fss.loginUser.type}: #{Fss.loginUser.name})")
-        .click( () =>
-          fssWindow.close() for fssWindow in window.fssWindows
+        .click( ->
+          fssWindow.closefor(fssWindow) in window.fssWindows
           Fss.logoutWindow()
         )
       )
@@ -38,38 +38,38 @@ class @FssWindow extends EventHandler
     @darkroom = $('<div/>').addClass('darkroom')
 
     if @handlers['submit']? and @handlers['submit'].length > 0
-      submit = $('<button/>').text('OK').on('click', (e) => 
+      submit = $('<button/>').text('OK').on('click', (e) =>
         e.preventDefault()
         @fire('pre-submit')
       )
-      cancel = $('<button/>').text('Abbrechen').on('click', (e) => 
+      cancel = $('<button/>').text('Abbrechen').on('click', (e) =>
         e.preventDefault()
         @close()
         @fire('cancel')
       )
       @add((new FssFormRow(submit, cancel)).addClass('submit-row'))
 
-    form = $('<form/>').on('submit', (e) => 
+    form = $('<form/>').on('submit', (e) =>
       e.preventDefault()
       @fire('pre-submit')
     )
     form.append(row.content()) for row in @rows
     @container.append(form)
     @rendered = true
-    @
+    this
 
   add: (row) =>
     @rows.push(row)
-    row.fire('after-add', @)
-    @
+    row.fire('after-add', this)
+    this
 
-  open: () =>
+  open: =>
     @render() unless @rendered
 
     $('body').append(@darkroom).append(@container)
 
-    left = (window.innerWidth/2 - parseInt(@container.css('width'))/2)
-    top = (window.innerHeight/2 - parseInt(@container.css('height'))/2)
+    left = (window.innerWidth / 2 - parseInt(@container.css('width')) / 2)
+    top = (window.innerHeight / 2 - parseInt(@container.css('height')) / 2)
 
     left = 10 if left < 10
     top = 10  if top < 10
@@ -78,18 +78,18 @@ class @FssWindow extends EventHandler
     @container.css('top', top).css('left', left)
 
     for row in @rows
-      break if row.focus() 
+      break if row.focus
     @fire('after-open')
-    @
+    this
 
-  close: () =>
+  close: =>
     @container.remove()
     @darkroom.remove()
     @fire('after-close')
-    @
+    this
 
-  data: () =>
+  data: =>
     data = {}
     for row in @rows
-      data = row.appendData(data) 
+      data = row.appendData(data)
     data

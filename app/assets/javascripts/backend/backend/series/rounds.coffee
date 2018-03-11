@@ -6,9 +6,10 @@ Fss.ready 'backend/series/round', ->
     Fss.getResources 'people', (people) ->
       options = []
       for person in people
-        options.push
+        options.push({
           value: person.id
           display: "#{person.last_name}, #{person.first_name} (#{person.gender_translated})"
+        })
       FssWindow.build(title)
       .add(new FssFormRowSelect('person_id', 'Person', participation.person_id, options))
       .add(new FssFormRowText('rank', 'Platz', participation.rank))
@@ -22,14 +23,10 @@ Fss.ready 'backend/series/round', ->
       Fss.getResources 'teams', (teams) ->
         personOptions = []
         for team in teams
-          personOptions.push
-            value: team.id
-            display: "#{team.name}"
+          personOptions.push({ value: team.id, display: "#{team.name}" })
         assessmentOptions = []
         for assessment in assessments
-          assessmentOptions.push
-            value: assessment.id
-            display: "#{assessment.name}"
+          assessmentOptions.push({ value: assessment.id, display: "#{assessment.name}" })
         FssWindow.build(title)
         .add(new FssFormRowSelect('team_id', 'Mannschaft', participation.team_id, personOptions))
         .add(new FssFormRowSelect('assessment_id', 'Wertung', participation.assessment_id, assessmentOptions))
@@ -41,64 +38,66 @@ Fss.ready 'backend/series/round', ->
         .open()
 
   upDown = (id, data) ->
-    new ConfirmFssWindow 'Ändern?', "Points: #{data.points}; Rank: #{data.rank}", () ->
-      Fss.ajaxReload("PUT", "series/participations/#{id}", series_participation: data)
+    new ConfirmFssWindow 'Ändern?', "Points: #{data.points}; Rank: #{data.rank}", ->
+      Fss.ajaxReload('PUT', "series/participations/#{id}", { series_participation: data })
 
   roundId = $('#edit-series-participations').data('round-id')
-  $('#edit-series-participations .series-participation').each () ->
-    $(@).addClass("btn btn-default btn-xs")
+  $('#edit-series-participations .series-participation').each ->
+    $(this).addClass('btn btn-default btn-xs')
 
-  $('.add-person-participation').click () ->
-    assessmentId = $(@).data('assessment-id')
-    cupId = $(@).data('cup-id')
+  $('.add-person-participation').click ->
+    assessmentId = $(this).data('assessment-id')
+    cupId = $(this).data('cup-id')
     editPersonParticipation 'Teilnahme hinzufügen', {}, (data) ->
       data.assessment_id = assessmentId
       data.cup_id = cupId
-      Fss.ajaxReload("POST", "series/participations", series_participation: data)
+      Fss.ajaxReload('POST', 'series/participations', { series_participation: data })
 
-  $('.add-team-participation').click () ->
-    cupId = $(@).data('cup-id')
+  $('.add-team-participation').click ->
+    cupId = $(this).data('cup-id')
     editTeamParticipation 'Teilnahme hinzufügen', {}, (data) ->
       data.cup_id = cupId
-      Fss.ajaxReload("POST", "series/participations", series_participation: data)
+      Fss.ajaxReload('POST', 'series/participations', { series_participation: data })
 
-  $(document).on 'click', '#edit-series-participations .series-participation', () ->
-    id = $(@).data('id')
+  $(document).on 'click', '#edit-series-participations .series-participation', ->
+    id = $(this).data('id')
     Fss.getResource 'series/participations', id, (participation) ->
       w = FssWindow.build('Serienteilnahme')
       change = $('<button/>').text('Ändern').on('click', (e) ->
         e.preventDefault()
         w.close()
-        if participation.participation_type == 'person'
+        if participation.participation_type is 'person'
           editPersonParticipation 'Teilnahme korrigieren', participation, (data) ->
-            Fss.ajaxReload('PUT', "series/participations/#{id}", series_participation: data)
+            Fss.ajaxReload('PUT', "series/participations/#{id}", { series_participation: data })
         else
           editTeamParticipation 'Teilnahme korrigieren', participation, (data) ->
-            Fss.ajaxReload('PUT', "series/participations/#{id}", series_participation: data)
+            Fss.ajaxReload('PUT', "series/participations/#{id}", { series_participation: data })
       )
       up = $('<button/>').text('↑').on('click', (e) ->
         e.preventDefault()
         w.close()
-        data =
+        data = {
           rank: participation.rank - 1
           points: participation.points + 1
+        }
         data.rank = 1 if data.rank < 1
         upDown(id, data)
       )
       down = $('<button/>').text('↓').on('click', (e) ->
         e.preventDefault()
         w.close()
-        data =
+        data = {
           rank: participation.rank + 1
           points: participation.points - 1
+        }
         data.points = 0 if data.points < 0
         upDown(id, data)
       )
       destroy = $('<button/>').text('Löschen').on('click', (e) ->
         e.preventDefault()
         w.close()
-        new ConfirmFssWindow "Löschen?", "Diesen Eintrag wirklich löschen?", () ->
-          Fss.ajaxReload("DELETE", "series/participations/#{id}", {})
+        new ConfirmFssWindow 'Löschen?', 'Diesen Eintrag wirklich löschen?', ->
+          Fss.ajaxReload('DELETE', "series/participations/#{id}", {})
       )
       cancel = $('<button/>').text('Abbrechen').on('click', (e) ->
         e.preventDefault()
@@ -107,16 +106,13 @@ Fss.ready 'backend/series/round', ->
       w.add((new FssFormRow(change, up, down, destroy, cancel)).addClass('submit-row'))
       w.open()
 
-  new SortTable(selector: ".datatable-scores", direction: 'asc')
-
+  new SortTable({ selector: '.datatable-scores', direction: 'asc' })
 
   classNameOptions = ->
     teamClassNames = $('#create-round').data('class-names')
     options = []
     for teamClassName in teamClassNames
-      options.push
-        value: teamClassName
-        display: teamClassName
+      options.push({ value: teamClassName, display: teamClassName })
     options
 
   $('#create-round').click ->
@@ -127,12 +123,12 @@ Fss.ready 'backend/series/round', ->
     .add(new FssFormRowCheckbox('official', 'Offiziell'))
     .add(new FssFormRowText('full_cup_count', 'Komplett', round.full_cup_count))
     .on('submit', (data) ->
-      Fss.ajaxReload('POST', 'series/rounds', series_round: data))
+      Fss.ajaxReload('POST', 'series/rounds', { series_round: data }))
     .open()
 
   $('a[data-round-id]').each ->
-    id = $(@).data('round-id')
-    $('<button>').insertAfter($(@)).addClass('btn btn-default btn-xs').text('Edit').click ->
+    id = $(this).data('round-id')
+    $('<button>').insertAfter($(this)).addClass('btn btn-default btn-xs').text('Edit').click ->
       Fss.getResource 'series/rounds', id, (round) ->
         FssWindow.build('Wettkampfserie bearbeiten')
         .add(new FssFormRowText('name', 'Name', round.name))
@@ -141,5 +137,5 @@ Fss.ready 'backend/series/round', ->
         .add(new FssFormRowCheckbox('official', 'Offiziell', round.official))
         .add(new FssFormRowText('full_cup_count', 'Komplett', round.full_cup_count))
         .on('submit', (data) ->
-          Fss.ajaxReload('PUT', "series/rounds/#{id}", series_round: data))
+          Fss.ajaxReload('PUT', "series/rounds/#{id}", { series_round: data }))
         .open()

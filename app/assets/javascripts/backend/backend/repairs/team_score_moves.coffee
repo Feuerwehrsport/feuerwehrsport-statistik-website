@@ -1,7 +1,7 @@
 #= require classes/Fss
 
 disciplineRow = (title) ->
-  title = Fss.disciplines[title] || 'Einzeldisziplin'
+  title = Fss.disciplines[title] or 'Einzeldisziplin'
   $('<tr/>').append($('<th/>').attr('colspan', 4).text(title).addClass('text-center'))
 
 class Score
@@ -10,7 +10,7 @@ class Score
     table.append(@row())
     @setMoveStatus()
 
-  setMoveStatus: () =>
+  setMoveStatus: =>
     if @move
       @ownTd.text('')
       @moveTd.text('X')
@@ -20,22 +20,22 @@ class Score
       @moveTd.text('')
       @tr.removeClass('danger').addClass('warning')
 
-  competitionLink: () =>
+  competitionLink: =>
     $('<a/>')
     .attr('href', "/competitions/#{@data.competition_id}")
     .text(@data.competition)
 
   doMove: (teamId, callback) =>
     if @move
-      data = team_id: teamId
+      data = { team_id: teamId }
       if @discipline is 'single'
-        Fss.put "scores/#{@data.id}", score: data, log_action: 'update-score:team', callback
+        Fss.put("scores/#{@data.id}", { score: data, log_action: 'update-score:team' }, callback)
       else
-        Fss.put "group_scores/#{@data.id}", group_score: data, log_action: 'update-group-score:team', callback
+        Fss.put("group_scores/#{@data.id}", { group_score: data, log_action: 'update-group-score:team' }, callback)
     else
       callback()
 
-  row: () =>
+  row: =>
     @ownTd = $('<td/>')
     @moveTd = $('<td/>')
     @tr = $('<tr/>')
@@ -44,16 +44,16 @@ class Score
     .append($('<td/>').text(@data.team_number))
     .append($('<td/>').append(@competitionLink()))
     .append(@moveTd)
-    .click () => @toggleStatus()
+    .click( => @toggleStatus())
 
-  shortRow: () =>
+  shortRow: =>
     $('<tr/>')
     .append($('<td/>').text(@data.id))
     .append($('<td/>').append(@competitionLink()))
     .append($('<td/>').text(@data.date))
 
-  toggleStatus: () =>
-    @move = !@move
+  toggleStatus: =>
+    @move = not @move
     @setMoveStatus()
 
 Fss.ready 'backend/repairs/team_score_move', ->
@@ -63,7 +63,7 @@ Fss.ready 'backend/repairs/team_score_move', ->
     scoreTable.find('tr').not($('#headline')).remove()
     sourceId = scoreTable.data('source-team')
     destinationId = scoreTable.data('destination-team')
-    Fss.getResource 'teams', sourceId, extended: 1, (result) ->      
+    Fss.getResource 'teams', sourceId, { extended: 1 }, (result) ->
       scores = []
       for discipline in ['la', 'fs', 'gs', 'single']
         discipline_scores = result["#{discipline}_scores"]
@@ -73,10 +73,10 @@ Fss.ready 'backend/repairs/team_score_move', ->
         for score in discipline_scores
           scores.push(new Score(discipline, score, scoreTable))
 
-    $('#do-move').click () ->
+    $('#do-move').click ->
       count = 0
       for score in scores
-        count++ if score.move 
+        count++ if score.move
       return new WarningFssWindow('Keine Zeiten ausgewählt.') if count is 0
 
       Fss.getResource 'teams', sourceId, (sourceTeam) ->
@@ -107,18 +107,17 @@ Fss.ready 'backend/repairs/team_score_move', ->
           (new FssWindow('Wirklich Zeiten verschieben?'))
           .add(new FssFormRow(infoTable))
           .add(new FssFormRow(relevantScoresTable))
-          .on('submit', () ->
+          .on('submit', ->
             currentIndex = 0
 
-            moveIt = () ->
-              scores[currentIndex].doMove destinationTeam.id, () ->
+            moveIt = ->
+              scores[currentIndex].doMove destinationTeam.id, ->
                 currentIndex++
                 if currentIndex < scores.length
                   moveIt()
                 else
-                  new AlertFssWindow 'Zeiten verschoben', "Die #{count} Zeiten wurden verschoben.", () ->
+                  new AlertFssWindow 'Zeiten verschoben', "Die #{count} Zeiten wurden verschoben.", ->
                     location.reload()
             moveIt()
           ).open()
       false
-      

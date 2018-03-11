@@ -5,11 +5,12 @@
 
 M3.ready ->
   $('.datatable-serverside').each ->
-    dataTableOptions =
+    dataTableOptions = {
       bAutoWidth: false
       bPaginate: true
       iDisplayLength: 10
       serverSide: true
-    table = $(@)
-    dataTableOptions = $.extend({}, dataTableOptions, table.data('datatable-options'));
+    }
+    table = $(this)
+    dataTableOptions = $.extend({}, dataTableOptions, table.data('datatable-options'))
     table.dataTable(dataTableOptions)

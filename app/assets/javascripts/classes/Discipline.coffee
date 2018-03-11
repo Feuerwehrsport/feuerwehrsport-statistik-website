@@ -5,7 +5,7 @@
 
 class @Discipline extends EventHandler
   constructor: (@discipline, @gender) ->
-    super
+    super()
     @testScoresContainer = $('<div/>')
     
     @fieldset = $('<fieldset/>')
@@ -15,8 +15,8 @@ class @Discipline extends EventHandler
 
     content = $('<div/>')
     $('<legend/>')
-      .text(Fss.disciplines[@discipline] + " - " + Fss.genders[@gender])
-      .click( () -> content.toggle() )
+      .text(Fss.disciplines[@discipline] + ' - ' + Fss.genders[@gender])
+      .click( -> content.toggle() )
       .appendTo(@fieldset)
 
     $('<button/>')
@@ -31,9 +31,9 @@ class @Discipline extends EventHandler
 
     @textarea = $('<textarea/>')
     @selectSeparator = $('<select/>')
-      .append($('<option/>').text('TAB').val("\t"))
-      .append($('<option/>').text(',').val(","))
-      .append($('<option/>').text('|').val("|"))
+      .append($('<option/>').text('TAB').val('\t'))
+      .append($('<option/>').text(',').val(','))
+      .append($('<option/>').text('|').val('|'))
 
     content = $('<div/>')
       .append(@textarea)
@@ -43,16 +43,17 @@ class @Discipline extends EventHandler
 
     $('#disciplines').append(@fieldset)
 
-  testInput: () =>
-    Fss.post 'imports/check_lines',
-      import:
+  testInput: =>
+    Fss.post 'imports/check_lines', {
+      import: {
         discipline: @discipline
         gender: @gender
         raw_lines: @textarea.val()
         separator: @selectSeparator.val()
         raw_headline_columns: @inputLine.val(@selectSeparator.val())
-    , (data) =>
-      @textarea.animate(height: 90)
+      }
+    }, (data) =>
+      @textarea.animate({ height: 90 })
       @testScoresContainer.children().remove()
       @showMissingTeams(data.missing_teams)
       @showTestScores(data.import_lines)
@@ -73,30 +74,32 @@ class @Discipline extends EventHandler
     @testScoresContainer.append(table).append(button)
 
   getGroupScoreCategories: (callback) =>
-    input =
+    input = {
       competition_id: $('#competitions').val()
       discipline: @discipline
-    Fss.getResources 'group_score_categories', input, callback
+    }
+    Fss.getResources('group_score_categories', input, callback)
 
-  selectCategory: () =>
-    if !@categoryId and $.inArray(@discipline, ['hl', 'hb', 'hw']) is -1
+  selectCategory: =>
+    if not @categoryId and $.inArray(@discipline, ['hl', 'hb', 'hw']) is -1
       @getGroupScoreCategories (categories) =>
         return @addCategory() if categories.length is 0
 
         options = []
         for category in categories
-          options.push
+          options.push {
             display: "#{category.name} - #{category.group_score_type}"
             value: category.id
+          }
 
 
-        addCategoryButton = $('<button/>').text('Neue Kategorie').on('click', (e) => 
+        addCategoryButton = $('<button/>').text('Neue Kategorie').on('click', (e) =>
           e.preventDefault()
           currentWindow.close()
           @addCategory()
         )
 
-        currentWindow = FssWindow.build("Kategorie auswählen")
+        currentWindow = FssWindow.build('Kategorie auswählen')
         .add(new FssFormRowRadio('categoryId', 'Kategorie', categories[0].id, options))
         .add(new FssFormRow(addCategoryButton))
         .on('submit', (data) =>
@@ -107,22 +110,22 @@ class @Discipline extends EventHandler
     else
       @addResultScores()
 
-  addCategory: () =>
-    Fss.getResources 'group_score_types', discipline: @discipline, (groupScoreTypes) =>
+  addCategory: =>
+    Fss.getResources 'group_score_types', { discipline: @discipline }, (groupScoreTypes) =>
       types = []
-      types.push(value: type.id, display: type.name) for type in groupScoreTypes
+      types.push({ value: type.id, display: type.name }) for type in groupScoreTypes
 
-      FssWindow.build("Kategorie hinzufügen")
-      .add(new FssFormRowText('name', 'Name', "default"))
+      FssWindow.build('Kategorie hinzufügen')
+      .add(new FssFormRowText('name', 'Name', 'default'))
       .add(new FssFormRowRadio('group_score_type_id', 'Typ', null, types))
       .on('submit', (data) =>
         data.competition_id = $('#competitions').val()
-        Fss.post 'group_score_categories', group_score_category: data, () =>
+        Fss.post 'group_score_categories', { group_score_category: data }, =>
           @selectCategory()
       )
       .open()
 
-  addResultScores: () =>
+  addResultScores: =>
     scores = []
     for resultScore in @resultScores
       scores.push(resultScore.getObject()) if resultScore.isValid()
@@ -136,24 +139,26 @@ class @Discipline extends EventHandler
         @remove()
         return
 
-      input =
-        import:
+      input = {
+        import: {
           scores: nextScores
           competition_id: $('#competitions').val()
           group_score_category_id: @categoryId
           discipline: @discipline
           gender: @gender
-      Fss.ajaxRequest "POST", 'imports/scores', input, { contentType: 'json'}, () ->
+        }
+      }
+      Fss.ajaxRequest 'POST', 'imports/scores', input, { contentType: 'json' }, ->
         importRows()
     importRows()
 
   showMissingTeams: (missingTeams) =>
-    return unless missingTeams.length 
+    return unless missingTeams.length
     ul = $('<ul/>').addClass('disc').addClass('missing-teams')
     for team in missingTeams
       missingTeam = new MissingTeam(team, @testInput)
       ul.append(missingTeam.get())
     @testScoresContainer.append(ul)
 
-  remove: () =>
+  remove: =>
     @fieldset.remove()

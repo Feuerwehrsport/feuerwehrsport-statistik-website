@@ -12,18 +12,18 @@ class @InputLineField
     for f in InputLineField.multipleFields
       @selectField.append($('<option/>').text(f).val(f))
 
-    removeButton = $('<button/>').text('x').click () => line.removeField(@)
+    removeButton = $('<button/>').text('x').click( => line.removeField(this))
     @container.append(@selectField).append(removeButton)
     @select(name)
 
-  get: () =>
+  get: =>
     @container
 
   select: (name) =>
     @selectField.val(name)
 
-  remove: () =>
+  remove: =>
     @container.remove()
 
-  val: () =>
+  val: =>
     @selectField.val()

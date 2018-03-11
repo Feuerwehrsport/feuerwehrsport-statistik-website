@@ -2,80 +2,83 @@
 #= require classes/PublishStatus
 
 class @FssImport
-  constructor: () ->
+  constructor: ->
     @selectCompetition = $('#competitions').change(@changeCompetition)
     @competitions = []
     @lastValue = null
 
-    Fss.checkLogin () =>
+    Fss.checkLogin =>
       Fss.getResources 'score_types', (@scoreTypes) =>
+        undefined
 
     $('#change-competition-score-type').click (ev) =>
       ev.preventDefault()
 
-      options = [{display: "--", value: ""}]
+      options = [{ display: '--', value: '' }]
       for type in @scoreTypes
-        options.push({display: "#{type.score}/#{type.run}/#{type.people}", value: type.id})
+        options.push({ display: "#{type.score}/#{type.run}/#{type.people}", value: type.id })
 
-      Fss.checkLogin () =>
-        FssWindow.build("Mannschaftswertung")
+      Fss.checkLogin =>
+        FssWindow.build('Mannschaftswertung')
         .add(new FssFormRowSelect('score_type_id', 'Wertung', @competition.score_type_id, options))
         .on('submit', (data) =>
           competitionId = @selectCompetition.find('option:selected').val()
-          params = 
+          params = {
             competition: data
-            log_action: "update-competition:score-type"
-          Fss.put("competitions/#{competitionId}", params, () => @addSuccess( () => @changeCompetition() ) )
+            log_action: 'update-competition:score-type'
+          }
+          Fss.put("competitions/#{competitionId}", params, => @addSuccess( => @changeCompetition) )
         )
         .open()
 
     $("input[name='competition-type']").change(@selectCompetitionType)
 
-    $(".add-place").click () =>
-      Fss.checkLogin () =>
-        FssWindow.build("Ort hinzufügen")
+    $('.add-place').click =>
+      Fss.checkLogin =>
+        FssWindow.build('Ort hinzufügen')
         .add(new FssFormRowText('name', 'Name'))
-        .on('submit', (data) => Fss.post('places', place: data, () => @addSuccess() ) )
+        .on('submit', (data) => Fss.post('places', { place: data }, => @addSuccess) )
         .open()
 
-    $(".add-event").click () =>
-      Fss.checkLogin () =>
-        FssWindow.build("Typ hinzufügen")
+    $('.add-event').click =>
+      Fss.checkLogin =>
+        FssWindow.build('Typ hinzufügen')
         .add(new FssFormRowText('name', 'Name'))
-        .on('submit', (data) => Fss.post('events', event: data, () => @addSuccess() ) )
+        .on('submit', (data) => Fss.post('events', { event: data }, => @addSuccess) )
         .open()
 
-    $(".add-group-score-type").click () =>
-      Fss.checkLogin () =>
+    $('.add-group-score-type').click =>
+      Fss.checkLogin =>
         options = []
         for discipline in ['la', 'fs', 'gs']
-          options.push
+          options.push({
             value: discipline
             display: Fss.disciplines[discipline]
-        FssWindow.build("Gruppen-Typ hinzufügen")
+          })
+        FssWindow.build('Gruppen-Typ hinzufügen')
         .add(new FssFormRowText('name', 'Name'))
         .add(new FssFormRowRadio('discipline', 'Disziplin', null, options))
-        .on('submit', (data) => Fss.post('group_score_types', group_score_type: data, () => @addSuccess() ) )
+        .on('submit', (data) => Fss.post('group_score_types', { group_score_type: data }, => @addSuccess) )
         .open()
 
-    $(".add-competition").click () =>
-      Fss.checkLogin () =>
+    $('.add-competition').click =>
+      Fss.checkLogin =>
         Fss.getResources 'events', (events) =>
           Fss.getResources 'places', (places) =>
             eventOptions = []
-            eventOptions.push({display: event.name, value: event.id}) for event in events
+            eventOptions.push({ display: event.name, value: event.id }) for event in events
             placeOptions = []
-            placeOptions.push({display: place.name, value: place.id}) for place in places
+            placeOptions.push({ display: place.name, value: place.id }) for place in places
             
-            FssWindow.build("Wettkampf hinzufügen")
+            FssWindow.build('Wettkampf hinzufügen')
             .add(new FssFormRowText('name', 'Name'))
             .add(new FssFormRowSelect('place_id', 'Ort', null, placeOptions))
             .add(new FssFormRowSelect('event_id', 'Typ', null, eventOptions))
             .add(new FssFormRowDate('date', 'Datum'))
-            .on('submit', (data) => Fss.post 'competitions', competition: data, () =>
-              @addSuccess () ->
+            .on('submit', (data) => Fss.post('competitions', { competition: data }, =>
+              @addSuccess ->
                 $("input[name='competition-type'][value='latest']").prop('checked', true).trigger('change')
-            )
+            ))
             .open()
 
     $('.add-discipline').click (ev) =>
@@ -83,19 +86,19 @@ class @FssImport
         res = className.match(/^discipline-([a-z]{2})-((?:fe)?male)$/)
         if res
           discipline = new Discipline(res[1], res[2])
-          discipline.on('refresh-results', () => @changeCompetition() )
+          discipline.on('refresh-results', => @changeCompetition)
           return false
 
     @reloadCompetitions(@selectCompetitionType)
 
-  addSuccess: (callback=false) =>
-    new AlertFssWindow 'Eingetragen', '', () =>
-      @reloadCompetitions () =>
+  addSuccess: (callback = false) =>
+    new AlertFssWindow 'Eingetragen', '', =>
+      @reloadCompetitions =>
         @selectCompetitionType()
-        callback() if callback
+        callbackif(callback)
 
 
-  changeCompetition: () =>
+  changeCompetition: =>
     option = @selectCompetition.find('option:selected')
     if option.length
       $('#competition-link')
@@ -112,7 +115,7 @@ class @FssImport
       @loadScores()
       new PublishStatus($('#competition-published'), @competition)
 
-  selectCompetitionType: () =>
+  selectCompetitionType: =>
     value = $("input[name='competition-type']:checked").val()
     return if @lastValue is value
     @lastValue = value
@@ -129,9 +132,9 @@ class @FssImport
     sortedCompetitions = @competitions.slice()
 
     if value is 'sorted'
-      sortedCompetitions.sort (a, b) -> return b.date.localeCompare(a.date)
+      sortedCompetitions.sort((a, b) -> b.date.localeCompare(a.date))
     else if value is 'latest'
-      sortedCompetitions.sort (a, b) -> return b.id - a.id
+      sortedCompetitions.sort((a, b) -> b.id - a.id)
     else
       $('#select-competitions').hide()
       $('#create-competitions').show()
@@ -143,7 +146,7 @@ class @FssImport
       select.append($('<option/>').val(c.id).text("#{c.date} - #{c.event} - #{c.place}"))
     @changeCompetition()
 
-  loadScores: () =>
+  loadScores: =>
     container = $('#competition-scores')
     container.children().remove()
 

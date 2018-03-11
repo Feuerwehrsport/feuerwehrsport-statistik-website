@@ -7,60 +7,61 @@
 
 #= require_tree ./frontend
 
-Highcharts.setOptions(plotOptions: { series: { animation: false }})
+Highcharts.setOptions({ plotOptions: { series: { animation: false } } })
 
 dataTableWrapper = (className, label, callback) ->
-  $("table.#{className}").each () ->
+  $("table.#{className}").each ->
     table = $(this)
     wrapper = table.closest('.dataTables_wrapper')
     buttonWrapper = wrapper.find('.change-table-wrapper')
-    button = $('<div/>').addClass('btn btn-info').text(label).hide().appendTo(buttonWrapper).click () -> 
+    button = $('<div/>').addClass('btn btn-info').text(label).hide().appendTo(buttonWrapper).click ->
       button.hide()
-      table.dataTable().$('tr').each () ->
+      table.dataTable().$('tr').each ->
         tr = $(this)
         text = tr.find('.time-col').text()
         button = $('<div/>').addClass('glyphicon glyphicon-pencil btn btn-default btn-xs').text(" #{text}")
-        tr.find('.time-col').text("").append(button)
+        tr.find('.time-col').text('').append(button)
         button
           .attr('title', label)
-          .click () ->
+          .click ->
             callback(tr.data('score-id'))
     button.fadeIn()
 
 
 M3.ready ->
-  $('.add-link').click () ->
+  $('.add-link').click ->
     element = $(this)
 
-    Fss.checkLogin () ->
+    Fss.checkLogin ->
       FssWindow.build('Link hinzufügen')
       .add(new FssFormRowText('label', 'Name'))
       .add(new FssFormRowText('url', 'Link', 'http://'))
       .on('submit', (data) ->
-        data.url = data.url.replace(/^http:\/\/(https?:\/\/)/, "$1")
+        data.url = data.url.replace(/^http:\/\/(https?:\/\/)/, '$1')
         data.url = "http://#{data.url}" unless data.url.match(/^https?:\/\//)
         data.linkable_id = element.data('linkable-id')
         data.linkable_type = element.data('linkable-type')
-        Fss.ajaxReload 'POST', 'links', link: data
+        Fss.ajaxReload('POST', 'links', { link: data })
       )
       .open()
 
-  $('.report-link').click () ->
+  $('.report-link').click ->
     element = $(this).closest('h4')
 
-    Fss.checkLogin () ->
-      new ConfirmFssWindow('Link melden', "Soll der Link »#{element.find('a').text()}« als defekt gemeldet werden?", (data) ->
-        Fss.changeRequest('report-link', link_id: element.data('link-id'))
+    Fss.checkLogin ->
+      new ConfirmFssWindow('Link melden',
+        "Soll der Link »#{element.find('a').text()}« als defekt gemeldet werden?", (data) ->
+          Fss.changeRequest('report-link', { link_id: element.data('link-id') })
       )
 
-  setTimeout( () ->
-    dataTableWrapper 'change-position', "Positionen bearbeiten", (scoreId) ->
+  setTimeout( ->
+    dataTableWrapper 'change-position', 'Positionen bearbeiten', (scoreId) ->
       Fss.teamMates(scoreId)
-    dataTableWrapper 'change-team', "Mannschaften bearbeiten", (scoreId) ->
-      Fss.checkLogin () ->
+    dataTableWrapper 'change-team', 'Mannschaften bearbeiten', (scoreId) ->
+      Fss.checkLogin ->
         Fss.getResources 'teams', (teams) ->
           Fss.getResource 'scores', scoreId, (score) ->
-            teamOptions = [{value: 'NULL', display: ''}]
+            teamOptions = [{ value: 'NULL', display: '' }]
             for team in teams
               teamOptions.push({ value: team.id, display: team.name })
             numbers = [
@@ -78,7 +79,9 @@ M3.ready ->
             ]
 
             w = FssWindow.build('Wertungszeit zuordnen')
-            .add(new FssFormRowDescription("Sie ordnen der Person <strong>#{score.person}</strong> bei diesem Wettkampf einer Mannschaft zu."))
+            .add(new FssFormRowDescription(
+              "Sie ordnen der Person <strong>#{score.person}</strong> bei diesem Wettkampf einer Mannschaft zu."
+            ))
             .add(new FssFormRowSelect('team_id', 'Mannschaft: ', score.team_id, teamOptions))
 
             for similarScore in score.similar_scores
@@ -91,11 +94,12 @@ M3.ready ->
 
             w.on('submit', (data) ->
               Fss.reloadOnArrayReady score.similar_scores, (score, success) ->
-                scoreData = 
+                scoreData = {
                   team_id: data.team_id
                   team_number: data["score_#{score.id}"]
-                Fss.put "scores/#{score.id}", score: scoreData, log_action: 'update-score:team', success
+                }
+                Fss.put("scores/#{score.id}", { score: scoreData, log_action: 'update-score:team' }, success)
             ).open()
   , 1500)
 
-  new SortTable(selector: ".datatable-unspecified", direction: 'asc')
+  new SortTable({ selector: '.datatable-unspecified', direction: 'asc' })

@@ -3,32 +3,32 @@ class @TestScoreResult
     if @raw.last_name?
       @needField('last_name')
       @needField('person_link')
-    @needField('teams')              if @raw.teams?      
-    @needField('team_ids')           if @raw.team_ids?   
+    @needField('teams')              if @raw.teams?
+    @needField('team_ids')           if @raw.team_ids?
     @needField('team_number')        if @raw.team_number?
-    @needField('run')                if @raw.run?       
+    @needField('run')                if @raw.run?
     @needTimes(@raw['times'].length) if @raw.times?
 
   needField: (field) =>
     @fields[field] = true
   
-  needTimes: (count) => 
+  needTimes: (count) =>
     @fields['times'] = Math.max(@fields['times'], count)
 
-  getFields: () =>
+  getFields: =>
     @fields
 
   get: (fields) =>
-    tr = $('<tr/>').click () =>
+    tr = $('<tr/>').click =>
       tr.toggleClass('valid-row').toggleClass('invalid-row')
-      @raw.valid = !@raw.valid
+      @raw.valid = not @raw.valid
     
     appendTd = (text) -> $('<td/>').text(text).appendTo(tr)
 
     if @raw.valid
       tr.addClass('valid-row')
     else
-      tr.addClass('invalid-row');
+      tr.addClass('invalid-row')
 
     if @raw.last_name?
       if @raw.people? and @raw.people.length > 1
@@ -81,33 +81,33 @@ class @TestScoreResult
     appendTd(@raw['line']).addClass('raw-line')
     tr
 
-  isValid: () =>
+  isValid: =>
     @raw.valid
 
-  getObject: () =>
+  getObject: =>
     obj = {}
     for key in ['team_number', 'team_id', 'run', 'times', 'person_id', 'last_name', 'first_name']
       obj[key] = @raw[key] if @raw[key]?
     obj
 
-  teamSelect: () =>
+  teamSelect: =>
     teamIds = @raw.team_ids
     team_names = @raw.team_names
     select = $('<select/>')
     for team, i in team_names
       $('<option/>').text("#{team} #{teamIds[i]}").val(i).appendTo(select)
-    select.change () =>
+    select.change =>
       @raw.team_id = teamIds[parseInt(select.val())]
       @raw.team = team_names[parseInt(select.val())]
 
-  personSelect: () =>
+  personSelect: =>
     select = $('<select/>')
     for p in @raw.people
       $('<option/>').text("#{p[1]} #{p[2]} #{p[0]}").val(p[0]).appendTo(select)
-    select.change () =>
+    select.change =>
       @raw.person_id = select.val()
 
-  personLinks: () =>
+  personLinks: =>
     span = $('<span/>')
     if @raw.people?
       for p in @raw.people
@@ -115,7 +115,7 @@ class @TestScoreResult
         span.append(' ')
     span
 
-  teamLinks: () =>
+  teamLinks: =>
     span = $('<span/>')
     if @raw.team_ids?
       for t in @raw.team_ids

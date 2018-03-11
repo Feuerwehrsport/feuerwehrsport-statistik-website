@@ -2,17 +2,17 @@
 #= require classes/SortTable
 
 Fss.ready 'pe', ->
-  new SortTable(selector: ".datatable-people", direction: 'asc')
-  new SortTable(selector: ".datatable-person-scores")
-  new SortTable(selector: ".datatable-team-mates", sortCol: 1, noSorting: 'last')
+  new SortTable({ selector: '.datatable-people', direction: 'asc' })
+  new SortTable({ selector: '.datatable-person-scores' })
+  new SortTable({ selector: '.datatable-team-mates', sortCol: 1, noSorting: 'last' })
 
 
-  $('#add-person').click () ->
-    Fss.checkLogin () ->
+  $('#add-person').click ->
+    Fss.checkLogin ->
       Fss.getResources 'nations', (nations) ->
         genderOptions = [
-          { value: 'male', display: 'männlich'}
-          { value: 'female', display: 'weiblich'}
+          { value: 'male', display: 'männlich' }
+          { value: 'female', display: 'weiblich' }
         ]
         nationOptions = nations.map (nation) ->
           { value: nation.id, display: nation.name }
@@ -23,17 +23,17 @@ Fss.ready 'pe', ->
         .add(new FssFormRowSelect('gender', 'Geschlecht', null, genderOptions))
         .add(new FssFormRowSelect('nation_id', 'Nation', null, nationOptions))
         .on('submit', (personData) ->
-          Fss.ajaxReload 'POST', 'people', person: personData
+          Fss.ajaxReload('POST', 'people', { person: personData })
         )
         .open()
 
-  $('#add-change-request').click () ->
+  $('#add-change-request').click ->
     personId = $(this).data('person-id')
-    Fss.checkLogin () ->
+    Fss.checkLogin ->
       options = [
-        { value: 'wrong', display: 'Person ist falsch geschrieben'}
-        { value: 'nation', display: 'Person ist falscher Nation zugeordnet'}
-        { value: 'other', display: 'Etwas anderes'}
+        { value: 'wrong', display: 'Person ist falsch geschrieben' }
+        { value: 'nation', display: 'Person ist falscher Nation zugeordnet' }
+        { value: 'other', display: 'Etwas anderes' }
       ]
       FssWindow.build('Auswahl des Fehlers')
       .add(new FssFormRowDescription('Bitte wählen Sie das Problem aus:'))
@@ -42,8 +42,8 @@ Fss.ready 'pe', ->
         selected = data.what
         if selected is 'wrong'
           options = [
-            { value: 'merge', display: 'Richtige Schreibweise auswählen (für Administrator <i>VIEL</i> einfacher)'}
-            { value: 'correction', display: 'Selbst korrekte Schreibweise hinzufügen'}
+            { value: 'merge', display: 'Richtige Schreibweise auswählen (für Administrator <i>VIEL</i> einfacher)' }
+            { value: 'correction', display: 'Selbst korrekte Schreibweise hinzufügen' }
           ]
           FssWindow.build('Korrektur des Fehlers')
           .add(new FssFormRowDescription('Bitte wählen Sie die Korrekturmethode aus:'))
@@ -57,7 +57,7 @@ Fss.ready 'pe', ->
                 .add(new FssFormRowText('first_name', 'Vorname', person.first_name))
                 .add(new FssFormRowText('last_name', 'Nachname', person.last_name))
                 .on('submit', (data) ->
-                  Fss.changeRequest("person-correction", person_id: personId, person: data)
+                  Fss.changeRequest('person-correction', { person_id: personId, person: data })
                 )
                 .open()
             else if selected is 'merge'
@@ -65,15 +65,15 @@ Fss.ready 'pe', ->
                 options = []
                 for person in people
                   continue if person.id is personId
-                  options.push
+                  options.push {
                     value: person.id
                     display: "#{person.last_name}, #{person.first_name} (#{person.gender_translated})"
-
+                  }
                 FssWindow.build('Namen korrigieren')
                 .add(new FssFormRowDescription('Bitte wählen Sie die korrekte Person aus:'))
                 .add(new FssFormRowSelect('person_id', 'Richtige Person', null, options))
                 .on('submit', (data) ->
-                  Fss.changeRequest("person-merge", person_id: personId, correct_person_id: data.person_id)
+                  Fss.changeRequest('person-merge', { person_id: personId, correct_person_id: data.person_id })
                 )
                 .open()
             )
@@ -83,7 +83,7 @@ Fss.ready 'pe', ->
           .add(new FssFormRowDescription('Bitte beschreiben Sie das Problem:'))
           .add(new FssFormRowTextarea('description', 'Beschreibung', ''))
           .on('submit', (data) ->
-            Fss.changeRequest("person-other", person_id: personId, description: data.description)
+            Fss.changeRequest('person-other', { person_id: personId, description: data.description })
           )
           .open()
         else if selected is 'nation'
@@ -95,7 +95,7 @@ Fss.ready 'pe', ->
               .add(new FssFormRowDescription('Bitte wählen Sie die richtige Nation:'))
               .add(new FssFormRowSelect('nation_id', 'Nation', null, nationOptions))
               .on('submit', (data) ->
-                Fss.changeRequest("person-change-nation", person_id: personId, nation_id: data.nation_id)
+                Fss.changeRequest('person-change-nation', { person_id: personId, nation_id: data.nation_id })
               )
             .open()
       )
