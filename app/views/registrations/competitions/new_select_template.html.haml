@@ -1,10 +1,10 @@
 .section
   .container
     %h1 Vorlage für Wettkämpf wählen
-    #template-select.row
+    .row#template-select
       - @types.each do |type|
         .col-md-5.template
-          = simple_form_for(type) do |f|
+          = simple_form_for(type, url: registrations_competitions_path(from_template: true)) do |f|
             = f.input :name, as: :hidden
             = f.input :person_tags, as: :hidden
             %h3= type.name
@@ -21,4 +21,4 @@
                     = assessment.input :gender, as: :hidden
                     = assessment.input :name, as: :hidden
             .pull-right
-              = f.submit "Als Vorlage wählen", class: "btn btn-primary"
+              = f.submit 'Als Vorlage wählen', class: 'btn btn-primary'

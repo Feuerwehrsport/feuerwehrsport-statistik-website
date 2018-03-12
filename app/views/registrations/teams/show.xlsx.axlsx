@@ -1,33 +1,33 @@
 wb = xlsx_package.workbook
 
-team_assessments = resource_instance.competition.competition_assessments.decorate
-person_assessments = resource_instance.competition.competition_assessments.for_people.decorate
+team_assessments = resource.competition.assessments
+person_assessments = resource.competition.object.assessments.for_people.decorate
 
-wb.add_worksheet(name: "Mannschaft") do |sheet|
-  headline = ["Name", "Abkürzung", "Geschlecht"]
+wb.add_worksheet(name: 'Mannschaft') do |sheet|
+  headline = ['Name', 'Abkürzung', 'Geschlecht']
   team_assessments.each { |assessment| headline.push(assessment.with_gender) }
   sheet.add_row(headline)
 
-  row = [resource_instance.name, resource_instance.shortcut, g(resource_instance.gender)]
+  row = [resource.name, resource.shortcut, g(resource.gender)]
   team_assessments.each do |assessment|
     if Discipline.group?(assessment.discipline)
-      row.push(resource_instance.competition_assessments.include?(assessment) ? "x" : "")
+      row.push(resource.assessments.include?(assessment) ? 'x' : '')
     else
-      row.push(count_or_zero(resource_instance.people.with_assessment(assessment).count))
+      row.push(count_or_zero(resource.people.with_assessment(assessment).count))
     end
   end
   sheet.add_row(row)
 end
 
-wb.add_worksheet(name: "Wettkämpfer") do |sheet|
-  headline = ["Vorname", "Nachname", "Geschlecht"]
+wb.add_worksheet(name: 'Wettkämpfer') do |sheet|
+  headline = ['Vorname', 'Nachname', 'Geschlecht']
   person_assessments.each { |assessment| headline.push(assessment.with_gender) }
   sheet.add_row(headline)
 
-  resource_instance.people.each do |person|
+  resource.people.each do |person|
     row = [person.first_name, person.last_name, g(person.gender)]
     person_assessments.each do |assessment|
-      row.push(person.competition_assessments.include?(assessment) ? "x" : "")
+      row.push(person.assessments.include?(assessment) ? 'x' : '')
     end
     sheet.add_row(row)
   end

@@ -1,2 +1,2 @@
-resource_instance.team_pdf_overview(pdf)
-pdf_footer(pdf, resource_instance.competition.to_s)
+resource.team_pdf_overview(pdf)
+pdf_footer(pdf, resource.competition.to_s)

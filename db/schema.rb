@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180212124733) do
+ActiveRecord::Schema.define(version: 20180313080142) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -414,16 +414,6 @@ SELECT person_participations.person_id,
     t.boolean  "group_score",   :default=>false, :null=>false
   end
 
-  create_table "registrations_competitions_mails", force: :cascade do |t|
-    t.integer  "competition_id",        :index=>{:name=>"index_registrations_competitions_mails_on_competition_id", :using=>:btree}
-    t.integer  "admin_user_id",         :index=>{:name=>"index_registrations_competitions_mails_on_admin_user_id", :using=>:btree}
-    t.boolean  "add_registration_file", :default=>true, :null=>false
-    t.string   "subject"
-    t.text     "text"
-    t.datetime "created_at",            :null=>false
-    t.datetime "updated_at",            :null=>false
-  end
-
   create_table "registrations_people", force: :cascade do |t|
     t.integer  "competition_id",     :null=>false
     t.integer  "team_id"
@@ -637,8 +627,6 @@ SELECT date_part('year'::text, competitions.date) AS year
   add_foreign_key "registrations_assessment_participations", "registrations_teams", column: "team_id"
   add_foreign_key "registrations_assessments", "registrations_competitions", column: "competition_id"
   add_foreign_key "registrations_competitions", "admin_users"
-  add_foreign_key "registrations_competitions_mails", "admin_users"
-  add_foreign_key "registrations_competitions_mails", "registrations_competitions", column: "competition_id"
   add_foreign_key "registrations_people", "admin_users"
   add_foreign_key "registrations_people", "people"
   add_foreign_key "registrations_people", "registrations_competitions", column: "competition_id"

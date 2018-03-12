@@ -4,8 +4,9 @@ class Registrations::Team < ActiveRecord::Base
   belongs_to :competition, class_name: 'Registrations::Competition'
   belongs_to :admin_user
   belongs_to :federal_state
-  has_many :team_assessment_participations, inverse_of: :team, dependent: :destroy, class_name: 'Registrations::TeamAssessmentParticipation'
-  has_many :competition_assessments, through: :team_assessment_participations, class_name: 'Registrations::CompetitionAssessment'
+  has_many :team_assessment_participations, inverse_of: :team, dependent: :destroy,
+                                            class_name: 'Registrations::TeamAssessmentParticipation'
+  has_many :assessments, through: :team_assessment_participations, class_name: 'Registrations::Assessment'
   has_many :people, inverse_of: :team, dependent: :destroy, class_name: 'Registrations::Person'
 
   validates :competition, :name, :gender, :shortcut, :admin_user, presence: true
@@ -16,8 +17,10 @@ class Registrations::Team < ActiveRecord::Base
 
   default_scope -> { order(:name, :team_number) }
   scope :manageable_by, ->(user) do
-    team_sql = Registrations::Team.joins(:competition).merge(Registrations::Competition.open).where(admin_user_id: user.id).select(:id).to_sql
-    competition_sql = Registrations::Team.joins(:competition).where(comp_reg_competitions: { admin_user_id: user.id }).select(:id).to_sql
+    team_sql = Registrations::Team.joins(:competition).merge(Registrations::Competition.open)
+                                  .where(admin_user_id: user.id).select(:id).to_sql
+    competition_sql = Registrations::Team.joins(:competition)
+                                         .where(registrations_competitions: { admin_user_id: user.id }).select(:id).to_sql
     where("id IN ((#{team_sql}) UNION (#{competition_sql}))")
   end
 

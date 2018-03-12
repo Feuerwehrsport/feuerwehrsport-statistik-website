@@ -2,33 +2,40 @@ class Registrations::CompetitionMailer < ApplicationMailer
   def new_team_registered(team)
     @team = team.decorate
     @competition = @team.competition
-    @admin_user = @competition.admin_user
-    # mail(to: @admin_user.named_email_address, subject: "Neue Wettkampfanmeldung für #{@competition}")
+    @receiver = @competition.admin_user
+    mail(
+      to: email_address_format(@receiver.email_address, @receiver),
+      subject: "Neue Wettkampfanmeldung für #{@competition}",
+    )
   end
 
   def new_person_registered(person)
     @person = person.decorate
     @competition = @person.competition
-    @admin_user = @competition.admin_user
-    # mail(to: @admin_user.named_email_address, subject: "Neue Wettkampfanmeldung für #{@competition}")
+    @receiver = @competition.admin_user
+    mail(
+      to: email_address_format(@receiver.email_address, @receiver),
+      subject: "Neue Wettkampfanmeldung für #{@competition}",
+    )
   end
 
-  def team_news(competition_mail, team)
-    @team = team.decorate
-    @competition_mail = competition_mail.decorate
+  def news(resource, competition, subject, text, add_registration_file, sender)
+    @resource = resource.decorate
+    @sender = sender.decorate
+    @competition = competition.decorate
+    @text = text
 
-    if competition_mail.add_registration_file?
+    if add_registration_file
       pdf = Prawn::Document.new(page_size: 'A4')
-      @team.team_pdf_overview(pdf, footer: true)
+      @resource.team_pdf_overview(pdf, footer: true)
       attachments['anmeldung.pdf'] = { mime_type: 'application/pdf', content: pdf.render }
     end
 
-    mail(to: @team.admin_user.named_email_address, subject: @competition_mail.subject)
-  end
-
-  def person_news(competition_mail, person)
-    @person = person.decorate
-    @competition_mail = competition_mail.decorate
-    mail(to: @person.admin_user.named_email_address, subject: @competition_mail.subject)
+    mail(
+      to: email_address_format(resource.admin_user.email_address, resource.admin_user.name),
+      subject: subject,
+      reply_to: email_address_format(sender.email_address, sender.name),
+      cc: email_address_format(sender.email_address, sender.name),
+    )
   end
 end

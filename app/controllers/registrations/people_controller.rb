@@ -1,5 +1,5 @@
 class Registrations::PeopleController < Registrations::BaseController
-  default_actions :new, :create, :edit, :update, :destroy
+  default_actions :edit, :update, :destroy
   belongs_to Registrations::Competition
 
   default_form do |f|
@@ -26,10 +26,6 @@ class Registrations::PeopleController < Registrations::BaseController
     end
   end
 
-  def participations
-    assign_resource
-  end
-
   protected
 
   def build_resource
@@ -39,17 +35,9 @@ class Registrations::PeopleController < Registrations::BaseController
     end
   end
 
-  def after_create
-    if resource.team.nil?
-      deliver_later(Registrations::CompetitionMailer, :new_person_registered, resource)
-      deliver_later(Registrations::PersonMailer, :notification_to_creator, resource)
-    end
-    super
-  end
-
   def collection_redirect_url
     if resource.team.present?
-      url_for(action: :show, controller: 'comp_reg/teams', competition_id: parent_resource, id: resource.team_id)
+      url_for(action: :show, controller: 'registrations/teams', competition_id: parent_resource, id: resource.team_id)
     else
       url_for(action: :participations, id: resource.id)
     end

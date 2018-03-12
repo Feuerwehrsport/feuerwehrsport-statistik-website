@@ -6,13 +6,11 @@ describe Ipo::RegistrationMailer do
     let(:registration) { create(:ipo_registration) }
     let(:mail) { described_class.configure(website, nil, :confirm, registration) }
 
-    it 'renders the header information' do
+    it 'renders the header information and assigns body' do
       expect(mail.subject).to eq 'Deine Anmeldung zum Inselpokal'
       expect(mail.to).to eq ['georf@georf.de']
       expect(mail.from).to eq ['info@kranbauer.de']
-    end
 
-    it 'assigns body' do
       expect_with_mailer_signature(
         "Dies ist eine Bestätigung für deine Anmeldung zum Inselpokal Poel.\n\n" \
         "Ansprechpartner:\n" \

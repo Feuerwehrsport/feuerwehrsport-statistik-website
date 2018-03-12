@@ -24,7 +24,9 @@ describe 'teams features' do
 
       # add one
       visit teams_path
+      expect(page).to have_content('Verteilung der Bundesländer')
       find('#add-team').click
+      expect(page).to have_content('maximal 10 Zeichen')
       within('.fss-window') do
         save_review_screenshot
         expect(page).to have_content('Mannschaft anlegen')

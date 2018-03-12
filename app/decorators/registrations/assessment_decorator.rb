@@ -10,4 +10,8 @@ class Registrations::AssessmentDecorator < AppDecorator
   def with_gender
     "#{self} #{g(gender)}"
   end
+
+  def with_image
+    h.safe_join([discipline_image(discipline), ' ', to_s])
+  end
 end

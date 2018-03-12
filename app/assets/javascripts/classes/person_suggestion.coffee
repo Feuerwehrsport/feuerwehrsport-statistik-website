@@ -1,49 +1,49 @@
 class PersonSuggestion
-  constructor: () ->
-    @lastValue = ""
+  constructor: ->
+    @lastValue = ''
 
-    $(document).on "keyup", '#person_suggestion', () =>
+    $(document).on 'keyup', '#person_suggestion', =>
       newValue = $('#person_suggestion').val()
-      if @lastValue isnt newValue && newValue isnt ""
+      if @lastValue isnt newValue and newValue isnt ''
         @lastValue = newValue
         @updateSuggestions()
 
-        for name, i in newValue.split(" ")
+        for name, i in newValue.split(' ')
           if i is 0
-            $('#comp_reg_person_first_name').val(name)
+            $('#registrations_person_first_name').val(name)
           else
-            $('#comp_reg_person_last_name').val(name)
-    $(document).on 'modal.ready', () ->
+            $('#registrations_person_last_name').val(name)
+    $(document).on 'modal.ready', ->
       $('#person_suggestion').trigger('keyup')
 
-    $(document).on "change", '#comp_reg_person_first_name, #comp_reg_person_last_name', () ->
-      $('#comp_reg_person_person_id').val("")
+    $(document).on 'change', '#registrations_person_first_name, #registrations_person_last_name', ->
+      $('#registrations_person_person_id').val('')
 
-  updateSuggestions: () =>
+  updateSuggestions: =>
     table = $('.suggestions-entries table')
-    params =
+    params = {
       name: @lastValue
       team_name: $('#person_suggestion').data('team-name')
-
-    suggestion_gender = $('#comp_reg_person_gender').val()
+    }
+    suggestion_gender = $('#registrations_person_gender').val()
     params.gender = suggestion_gender if suggestion_gender
 
-    $.post "/api/suggestions/people", params, (result) =>
+    $.post '/api/suggestions/people', params, (result) =>
       table.children().remove()
       for person in result.people
         table.append(@buildTr(person))
 
   buildTr: (entry) ->
     $('<tr/>')
-    .append($('<td/>').text(entry.first_name).addClass("first_name"))
-    .append($('<td/>').text(entry.last_name).addClass("last_name"))
-    .append($('<td/>').text(entry.teams.join(", ")).addClass("team"))
-    .click () ->
-      $('#comp_reg_person_first_name').val(entry.first_name)
-      $('#comp_reg_person_last_name').val(entry.last_name)
-      $('#comp_reg_person_gender').val(entry.gender)
-      $('#comp_reg_person_person_id').val(entry.id)
-      $('#comp_reg_person_team_name').val(entry.teams[0])
+    .append($('<td/>').text(entry.first_name).addClass('first_name'))
+    .append($('<td/>').text(entry.last_name).addClass('last_name'))
+    .append($('<td/>').text(entry.teams.join(', ')).addClass('team'))
+    .click ->
+      $('#registrations_person_first_name').val(entry.first_name)
+      $('#registrations_person_last_name').val(entry.last_name)
+      $('#registrations_person_gender').val(entry.gender)
+      $('#registrations_person_person_id').val(entry.id)
+      $('#registrations_person_team_name').val(entry.teams[0])
 
 M3.ready ->
   new PersonSuggestion

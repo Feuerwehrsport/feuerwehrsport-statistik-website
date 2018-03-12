@@ -7,14 +7,12 @@ describe ChangeRequestMailer do
     let(:admin_user) { create(:admin_user, :sub_admin) }
     let(:mail) { described_class.configure(website, nil, :new_notification, change_request) }
 
-    it 'renders the header information' do
+    it 'renders the header information and render body' do
       expect(mail.subject).to eq 'Fehler bei Feuerwehrsport-Statistik'
-      expect(mail.to).to eq ['admin_user@example.com']
+      expect(mail.to).to eq ['sub_admin@example.com']
       expect(mail.from).to eq ['info@kranbauer.de']
-    end
 
-    it 'assigns body' do
-      expect(mail.body.raw_source).to include(
+      expect_with_mailer_signature(
         "Es wurde ein neuer Hinweis gemeldet:\n" \
         "\n" \
         "Stichpunkt: \n" \

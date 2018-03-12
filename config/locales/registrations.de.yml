@@ -1,15 +1,49 @@
 de:
+  activemodel:
+    attributes:
+      registrations/mail:
+        add_registration_file: Anmeldung als PDF anhängen
+        person_receivers_count: Wettkämpfer
+        subject: Betreff
+        team_receivers_count: Mannschaften
+        text: Inhalt
+    models:
+      registrations/mail:
+        one: E-Mail
+        other: E-Mails
   activerecord:
     attributes:
+      registrations/assessment_participation:
+        group_competitor_order: Reihenfolge
+        single_competitor_order: Reihenfolge
       registrations/competition:
+        assessments_overview: Wertungen
         close_at: Anmeldung schließen
         date: Datum
         description: Beschreibung
+        group_score: Mannschaftswertung für Einzeldisziplinen
         open_at: Anmeldung öffnen
+        person_tags: Anklickbare Werte für Wettkämpfer
         place: Ort
         published: Veröffentlichen
         slug: Kurzname
         slug_info: ''
+        team_tags: Anklickbare Werte für Mannschaften
+      registrations/person:
+        first_name: Vorname
+        last_name: Nachname
+        team_name: Mannschaft
+      registrations/team:
+        assessments: Wertungen
+        email_address: E-Mail-Adresse
+        federal_state: Bundesland
+        locality: Ort
+        phone_number: Telefonnummer
+        postal_code: Postleitzahl
+        shortcut: Abkürzung
+        street_with_house_number: Straße und Hausnummer
+        team_leader: Mannschaftsleiter
+        team_number: Mannschaftsnummer
     collections:
       registrations/assessment:
         discipline:
@@ -32,6 +66,13 @@ de:
       registrations/competition:
         one: Wettkampf
         other: Wettkämpfe
+      registrations/mail:
+        one: E-Mail
+        other: E-Mails
+      registrations/person: Wettkämpfer
+      registrations/team:
+        one: Mannschaft
+        other: Mannschaften
   t3:
     registrations/assessments:
       hints:
@@ -45,13 +86,40 @@ de:
       views:
         title: Wertungen hinzufügen
     registrations/competitions:
+      form_actions:
+        create: Wettkampf anlegen
+      hints:
+        published: Diese Einstellungen kann auch später unter <em>Öffentlichkeitseinstellungen</em>
+          vorgenommen werden
+      inline_labels:
+        published: Wettkampf sofort für alle sichtbar schalten
       views:
         actions:
           add_person: Einzelstarter anmelden
           add_team: Mannschaft anmelden
+    registrations/mails:
+      form_actions:
+        create: E-Mail senden
+      inline_labels:
+        add_registration_file: Teilnehmerliste A und B automatisch als Anhang hinzufügen
+      views:
+        header_html: Mit dieser Funktion senden Sie allen angemeldeten Mannschaften
+          und Einzelstarten eine E-Mail. Sie können die Anmeldung der einzelnen Mannschaft
+          auch als PDF-Datei anhängen (Teilnehmerliste A und B).
     registrations/publishings:
       hints:
         slug: Der Kurzname darf nur aus Zahlen, Buchstaben, Binde-, Unterstrich und
           Pluszeichen bestehen
       inline_labels:
         published: Wettkampf für alle sichtbar schalten
+    registrations/teams:
+      fieldsets:
+        assessments: Wertungen
+      form_actions:
+        create: Mannschaft anlegen
+      hints:
+        name: 'Beispiel: FF Warin'
+        shortcut: 'Kurzer Name der Mannschaft für Listen mit wenig Platz; Beispiel:
+          Warin '
+        team_number: Sollten mehrere Mannschaften mit gleichen Namen antreten, denn
+          hier die Nummer hochzählen.

@@ -1,15 +1,19 @@
 handlers = []
-resetHandler = () ->
-  $('.assessment-participation').each () ->
+resetHandler = ->
+  $('.assessment-participation').each ->
     context = $(this)
-    checkbox = context.find("input[type=checkbox]")
+    checkbox = context.find('input[type=checkbox]')
     if $.inArray(checkbox[0], handlers) < 0
-      checkbox.change(() ->
-        opacity = if checkbox.is(':checked') then 1 else 0.3
-        context.find('.edit-assesment-type').css(opacity: opacity)
+      checkbox.change(->
+        if checkbox.is(':checked')
+          context.find('.edit-assesment-type').css({ opacity: 1 })
+          context.find('.edit-assesment-type').find('select, input').prop('disabled', false)
+        else
+          context.find('.edit-assesment-type').css({ opacity: 0.3 })
+          context.find('.edit-assesment-type').find('select, input').prop('disabled', true)
       ).change()
       handlers.push(checkbox[0])
-      context.find('select').change( () ->
+      context.find('select').change( ->
         if $(this).val() is 'group_competitor'
           context.find('.group-competitor-order').show()
           context.find('.single-competitor-order').hide()
@@ -20,8 +24,6 @@ resetHandler = () ->
           context.find('.single-competitor-order').hide()
           context.find('.group-competitor-order').hide()
       ).change()
-
-
 
 M3.ready ->
   $(document).on 'modal.ready hidden.bs.modal', ->

@@ -1,10 +1,10 @@
-
-def sign_in(role = :admin, name = :first)
+def sign_in(role = :admin)
+  user = create(:admin_user, role)
   visit new_session_path
-  fill_in 'E-Mail-Adresse', with: "#{role}@#{name}.com"
-  fill_in 'Passwort', with: 'asdf1234'
+  fill_in 'E-Mail-Adresse', with: user.email_address
+  fill_in 'Passwort', with: 'secret'
   click_button 'Anmelden'
-  expect(page).to have_content 'Erfolgreich angemeldet'
+  expect(page).to have_content 'Sie sind angemeldet'
 end
 
 def api_sign_in

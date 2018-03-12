@@ -65,16 +65,6 @@ de:
       change_log:
         one: Veränderung
         other: Veränderungen
-      comp_reg/competition:
-        one: Wettkampf
-        other: Wettkämpfe
-      comp_reg/competitions/mail:
-        one: E-Mail
-        other: E-Mails
-      comp_reg/person: Wettkämpfer
-      comp_reg/team:
-        one: Mannschaft
-        other: Mannschaften
       group_score:
         one: Mannschaftszeit
         other: Mannschaftszeiten
@@ -109,38 +99,6 @@ de:
       api_user:
         email_address: E-Mail-Adresse
         name: Name
-      comp_reg/assessment_participation:
-        group_competitor_order: Reihenfolge
-        single_competitor_order: Reihenfolge        
-      comp_reg/competition:
-        close_at: Anmeldung schließen
-        date: Datum
-        description: Beschreibung
-        group_score: Mannschaftswertung für Einzeldisziplinen
-        open_at: Anmeldung öffnen
-        place: Ort
-        published: Veröffentlichen
-        person_tags: Anklickbare Werte für Wettkämpfer
-        slug: Kurzname
-        team_tags: Anklickbare Werte für Mannschaften
-      comp_reg/competitions/mail:
-        subject: Betreff
-        text: Inhalt
-        add_registration_file: Anmeldung als PDF anhängen
-      comp_reg/person:
-        first_name: Vorname
-        last_name: Nachname
-        team_name: Mannschaft
-      comp_reg/team:
-        shortcut: Abkürzung
-        team_leader: Mannschaftsleiter
-        street_with_house_number: Straße und Hausnummer
-        postal_code: Postleitzahl
-        locality: Ort
-        phone_number: Telefonnummer
-        email_address: E-Mail-Adresse
-        team_number: Mannschaftsnummer
-        federal_state: Bundesland
       group_score:
         group_score_category: Kategorie
         group_score_category_id: Kategorie
@@ -188,14 +146,6 @@ de:
       page_title: Fehler bearbeiten
     imports:
       page_title: Wettkämpfe importieren
-
-  comp_reg:
-    competitions:
-      page_title: Wettkampfanmeldungen
-    teams:
-      page_title: Wettkampfanmeldungen - Mannschaften
-    people:
-      page_title: Wettkampfanmeldungen - Wettkämpfer
 
   # basic stuff
 

@@ -9,6 +9,7 @@ module ApplicationHelper
   include DisciplineNamesAndImages
   include GenderNames
   include DatatableHelper
+  include Registrations::RegistrationsHelper
 
   def h
     self
@@ -120,12 +121,6 @@ module ApplicationHelper
       end
     else
       ''
-    end
-  end
-
-  def errors_on?(*attributes)
-    attributes.any? do |attribute|
-      resource_instance.errors[attribute].present?
     end
   end
 

@@ -3,6 +3,7 @@ class Registrations::TeamDecorator < AppDecorator
   decorates_association :team_assessment_participations
   decorates_association :admin_user
   decorates_association :federal_state
+  localizes_gender
 
   def to_s
     name
@@ -34,7 +35,7 @@ class Registrations::TeamDecorator < AppDecorator
                   { image: dicipline_image_path(:la), image_height: 50, image_width: 50 },
                 ],
                 [
-                  { content: h.l(competition.date), size: 14, align: :center },
+                  { content: competition.date, size: 14, align: :center },
                   { content: "in #{competition.place}", size: 14, align: :center, colspan: 4 },
                 ],
                 [
@@ -71,7 +72,7 @@ class Registrations::TeamDecorator < AppDecorator
                 ],
               ], cell_style: { borders: [] }, column_widths: [200, 60, 60, 60, 120])
 
-    if competition.assessments.for_people.present?
+    if competition.object.assessments.for_people.present?
       pdf.start_new_page
 
       pdf.text 'Namensliste', align: :center, size: 18, style: :bold
@@ -88,7 +89,7 @@ class Registrations::TeamDecorator < AppDecorator
                     { image: dicipline_image_path(:la), image_height: 50, image_width: 50 },
                   ],
                   [
-                    { content: h.l(competition.date), size: 14, align: :center },
+                    { content: competition.date, size: 14, align: :center },
                     { content: "in #{competition.place}", size: 14, align: :center, colspan: 4 },
                   ],
                   [
@@ -104,7 +105,7 @@ class Registrations::TeamDecorator < AppDecorator
       line.push('Vorname')
       line.push('Nachname')
       line.push('Attribute')
-      Registrations::CompetitionAssessment.requestable_for_person(object).decorate.each do |assessment|
+      Registrations::Assessment.requestable_for_person(object).decorate.each do |assessment|
         line.push(assessment.shortcut)
       end
       people_list.push(line)
@@ -116,7 +117,7 @@ class Registrations::TeamDecorator < AppDecorator
         line.push(person.first_name)
         line.push(person.last_name)
         line.push(person.tag_names.join(', '))
-        Registrations::CompetitionAssessment.requestable_for_person(object).each do |assessment|
+        Registrations::Assessment.requestable_for_person(object).each do |assessment|
           line.push(person.person_assessment_participations.find_by(assessment: assessment)&.decorate&.short_type)
         end
         people_list.push(line)

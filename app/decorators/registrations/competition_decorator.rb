@@ -2,6 +2,7 @@ class Registrations::CompetitionDecorator < AppDecorator
   decorates_association :people
   decorates_association :admin_user
   decorates_association :assessments
+  decorates_association :teams
 
   localizes :open_at, :close_at, :date
 
@@ -17,5 +18,9 @@ class Registrations::CompetitionDecorator < AppDecorator
 
   def slug_info
     h.render('slug_info')
+  end
+
+  def assessments_overview
+    h.render 'assessments_overview', assessments: assessments
   end
 end

@@ -97,7 +97,7 @@ RSpec.describe AssociationSelect, type: :model do
   describe '.admin_user' do
     let!(:admin_user) { create(:admin_user, :admin) }
     let(:ability) { Ability.new(admin_user, nil) }
-    let(:valid_admin_user) { [admin_user.id, 'admin user', :admin, "##{admin_user.id}"] }
+    let(:valid_admin_user) { [admin_user.id, 'admin', :admin, "##{admin_user.id}"] }
 
     it 'returns admin_users' do
       expect(select.admin_user(nil, nil)).to eq [valid_admin_user]

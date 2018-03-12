@@ -6,7 +6,7 @@ class Registrations::Competition < ActiveRecord::Base
   has_many :people, dependent: :destroy, class_name: 'Registrations::Person'
 
   validates :slug, uniqueness: { case_sensitive: false }, allow_blank: true, format: { with: /\A[a-zA-Z0-9\-_+]*\z/ }
-  before_save { self.slug ||= decorate.to_s.parameterize }
+  before_save :generate_slug
 
   accepts_nested_attributes_for :assessments, reject_if: :all_blank, allow_destroy: true
 
@@ -43,5 +43,20 @@ class Registrations::Competition < ActiveRecord::Base
     keys = Registrations::PersonAssessmentParticipation.assessment_types.keys
     keys.shift unless group_score?
     keys
+  end
+
+  private
+
+  def generate_slug
+    self.slug ||= begin
+      slug =  base_slug = decorate.to_s.parameterize
+      i = 0
+      loop do
+        break if self.class.find_by(slug: slug).blank?
+        i += 1
+        slug = "#{base_slug}-#{i}"
+      end
+      slug
+    end
   end
 end

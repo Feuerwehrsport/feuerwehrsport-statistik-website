@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :registrations_competition, class: Registrations::Competition do
     name 'D-Cup'
-    date { Date.today }
+    date { Time.zone.today }
     place 'Ort'
     admin_user { AdminUser.first }
     published true
@@ -22,5 +22,15 @@ FactoryBot.define do
     last_name 'Meier'
     gender :male
     admin_user { AdminUser.first }
+  end
+
+  factory :registrations_assessment, class: Registrations::Assessment do
+    competition { build(:registrations_competition) }
+    discipline 'hl'
+    gender :male
+
+    trait :la do
+      discipline 'la'
+    end
   end
 end

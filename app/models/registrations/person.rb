@@ -5,7 +5,7 @@ class Registrations::Person < ActiveRecord::Base
   belongs_to :competition, class_name: 'Registrations::Competition'
   belongs_to :team, class_name: 'Registrations::Team'
   has_many :assessments, through: :person_assessment_participations,
-                         class_name: 'Registrations::CompetitionAssessment'
+                         class_name: 'Registrations::Assessment'
   has_many :person_assessment_participations, inverse_of: :person, dependent: :destroy,
                                               class_name: 'Registrations::PersonAssessmentParticipation'
 
@@ -20,10 +20,11 @@ class Registrations::Person < ActiveRecord::Base
                                       .where(admin_user_id: user.id)
                                       .select(:id).to_sql
     competition_sql = Registrations::Person.joins(:competition)
-                                           .where(comp_reg_competitions: { admin_user_id: user.id })
+                                           .where(registrations_competitions: { admin_user_id: user.id })
                                            .select(:id).to_sql
     where("id IN ((#{person_sql}) UNION (#{competition_sql}))")
   end
+  scope :without_team, -> { where(team_id: nil) }
 
   validates :first_name, :last_name, :gender, :competition, :admin_user, presence: true
   validate :validate_team_gender

@@ -73,7 +73,7 @@ class PagesController < ResourceController
 
   def online_anmeldungen
     @page_title = 'Hinweise zu Online-Anmeldungen'
-    @comp_reg_competitions = Registrations::Competition.open.decorate
+    @registrations_competitions = Registrations::Competition.open.decorate
   end
 
   def about

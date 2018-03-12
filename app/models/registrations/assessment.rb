@@ -8,8 +8,8 @@ class Registrations::Assessment < ActiveRecord::Base
   scope :requestable_for, ->(entity) do
     all_disciplines = where(competition_id: entity.competition_id)
     all_disciplines = all_disciplines.gender(entity.gender) if entity.gender.present?
-    all_disciplines = all_disciplines.for_people if entity.is_a?(Person)
-    all_disciplines = all_disciplines.for_teams if entity.is_a?(Team)
+    all_disciplines = all_disciplines.for_people if entity.is_a?(Registrations::Person)
+    all_disciplines = all_disciplines.for_teams if entity.is_a?(Registrations::Team)
     all_disciplines
   end
 

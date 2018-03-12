@@ -1,4 +1,20 @@
 @import main
+@import ./association_select
+
+.hero
+  .hero-actions
+    @extend .pull-right
+    margin-top: $line-height-computed
+
+    .btn
+      @extend .btn-xs
+
+table tr.past
+  opacity: 0.5
+
+  &:hover
+    opacity: 1
+
 
 // noch nicht überprüft:
 

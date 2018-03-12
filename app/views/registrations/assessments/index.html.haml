@@ -16,7 +16,8 @@
               %em Noch keine Anmeldungen für diese Wertung
           .panel-footer
             = link_to 'Bearbeiten', { action: :edit, id: assessment }, class: 'btn btn-default btn-xs'
-            = link_to 'Löschen', { action: :destroy, id: assessment }, class: 'btn btn-danger btn-xs', method: :delete, data: { confirm: h.t3("actions.confirm_destroy") }
+            = link_to 'Löschen', { action: :destroy, id: assessment }, class: 'btn btn-danger btn-xs',
+              method: :delete, data: { confirm: h.t3('actions.confirm_destroy') }
 
 .section
   .container

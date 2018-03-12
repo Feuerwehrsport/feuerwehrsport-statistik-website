@@ -1,5 +1,5 @@
 module Registrations::Competitions
   def self.table_name_prefix
-    'comp_reg_competitions_'
+    'registrations_competitions_'
   end
 end

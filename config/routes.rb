@@ -115,12 +115,12 @@ Rails.application.routes.draw do
       resource :registration_times, only: %i[edit update]
       resource :publishings, only: %i[edit update]
       resources :assessments, only: %i[new create index edit update destroy]
-      resources :teams
-      resources :people do
-        member do
-          get :participations
-        end
+      resources :teams, only: %i[new create show edit update destroy] do
+        collection { get :new_select_gender }
       end
+      resource :person_creation, only: %i[new create]
+      resources :people, only: %i[show edit update destroy]
+      resources :person_participations, only: %i[edit update]
       resource :mail, only: %i[new create]
     end
   end

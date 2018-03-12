@@ -1,6 +1,6 @@
 class AppointmentsController < ResourceController
   resource_actions :show, :index, cache: :show
-  decorates_assigned :comp_reg_competitions
+  decorates_assigned :registrations_competitions
 
   export_index :xlsx do |t|
     t.col :dated_at
@@ -12,7 +12,7 @@ class AppointmentsController < ResourceController
   end
 
   def index
-    @comp_reg_competitions = Registrations::Competition.published.overview
+    @registrations_competitions = Registrations::Competition.published.overview
 
     if request.format.ics?
       calendar_response('feuerwehrsport-statistik-termine', collection.decorate, 'PUBLISH')

@@ -1,18 +1,18 @@
 wb = xlsx_package.workbook
 
-team_assessments = resource_instance.competition_assessments.decorate
-person_assessments = resource_instance.competition_assessments.for_people.decorate
+team_assessments = resource.assessments
+person_assessments = resource.object.assessments.for_people.decorate
 
-wb.add_worksheet(name: "Mannschaften") do |sheet|
-  headline = ["Name", "Abkürzung", "Geschlecht"]
+wb.add_worksheet(name: 'Mannschaften') do |sheet|
+  headline = ['Name', 'Abkürzung', 'Geschlecht']
   team_assessments.each { |assessment| headline.push(assessment.with_gender) }
   sheet.add_row(headline)
 
-  resource_instance.teams.each do |team|
+  resource.teams.each do |team|
     row = [team.name, team.shortcut, g(team.gender)]
     team_assessments.each do |assessment|
       if Discipline.group?(assessment.discipline)
-        row.push(team.competition_assessments.include?(assessment) ? "x" : "")
+        row.push(team.assessments.include?(assessment) ? 'x' : '')
       else
         row.push(count_or_zero(team.people.with_assessment(assessment).count))
       end
@@ -21,16 +21,16 @@ wb.add_worksheet(name: "Mannschaften") do |sheet|
   end
 end
 
-wb.add_worksheet(name: "Wettkämpfer") do |sheet|
-  headline = ["Vorname", "Nachname", "Geschlecht", "Mannschaft"]
+wb.add_worksheet(name: 'Wettkämpfer') do |sheet|
+  headline = ['Vorname', 'Nachname', 'Geschlecht', 'Mannschaft']
   person_assessments.each { |assessment| headline.push(assessment.with_gender) }
   sheet.add_row(headline)
 
-  resource_instance.people.each do |person|
+  resource.people.each do |person|
     row = [person.first_name, person.last_name, g(person.gender), person.team.try(:with_number) || person.team_name]
 
     person_assessments.each do |assessment|
-      row.push(person.person_assessment_participations.find_by(competition_assessment: assessment).try(:decorate).try(:short_type))
+      row.push(person.person_assessment_participations.find_by(assessment: assessment).try(:decorate).try(:short_type))
     end
     sheet.add_row(row)
   end

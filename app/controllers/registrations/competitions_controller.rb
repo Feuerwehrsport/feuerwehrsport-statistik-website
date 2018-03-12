@@ -13,12 +13,26 @@ class Registrations::CompetitionsController < Registrations::BaseController
   end
 
   default_form do |f|
-    f.inputs 'Allgemeine Information' do
-      f.input :name
-      f.input :date
-      f.input :place
-      f.input :description, as: :wysiwyg
-      f.association :admin_user if can?(:manage, AdminUser)
+    f.input :name
+    f.input :date
+    f.input :place
+    f.input :description, as: :wysiwyg
+    f.association :admin_user if can?(:manage, AdminUser)
+    f.fields_for :assessments do
+      f.input :discipline, as: :hidden
+      f.input :gender, as: :hidden
+      f.input :name, as: :hidden
+    end
+    f.value :assessments_overview
+    f.input :published
+  end
+
+  def create
+    if params[:from_template].present?
+      form_resource.assign_attributes(resource_params)
+      render :new
+    else
+      super
     end
   end
 
@@ -27,44 +41,23 @@ class Registrations::CompetitionsController < Registrations::BaseController
   end
 
   def new_select_template
-    la = build_resource
-    la.name = 'Löschangriff-Wettkampf'
-    la.assessments.build(discipline: :la, gender: :male)
-    la.assessments.build(discipline: :la, gender: :female)
-
-    la_youth = build_resource
-    la_youth.name = 'Löschangriff-Wettkampf mit Jugend'
-    la_youth.assessments.build(discipline: :la, gender: :male)
-    la_youth.assessments.build(discipline: :la, gender: :female)
-    la_youth.assessments.build(discipline: :la, gender: :male, name: 'Jugend')
-    la_youth.assessments.build(discipline: :la, gender: :female, name: 'Jugend')
-
-    hb = build_resource
-    hb.name = 'Hindernisbahn-Wettkampf'
-    hb.assessments.build(discipline: :hb, gender: :male)
-    hb.assessments.build(discipline: :hb, gender: :female)
-
-    hl = build_resource
-    hl.name = 'Hakenleitersteigen-Wettkampf'
-    hl.assessments.build(discipline: :hl, gender: :male)
-    hl.assessments.build(discipline: :hl, gender: :female)
-
-    dcup = build_resource
-    dcup.name = 'Deutschland-Cup'
-    dcup.person_tags = 'U20'
-    dcup.assessments.build(discipline: :la, gender: :male)
-    dcup.assessments.build(discipline: :la, gender: :female)
-    dcup.assessments.build(discipline: :fs, gender: :male)
-    dcup.assessments.build(discipline: :fs, gender: :female)
-    dcup.assessments.build(discipline: :hb, gender: :male)
-    dcup.assessments.build(discipline: :hb, gender: :female)
-    dcup.assessments.build(discipline: :hl, gender: :male)
-    dcup.assessments.build(discipline: :hl, gender: :female)
-    dcup.assessments.build(discipline: :gs, gender: :female)
-
-    empty = build_resource
-    empty.name = 'Leere Vorlage'
-    @types = [la, la_youth, hb, hl, dcup, empty]
+    @types = [
+      build_template('Löschangriff-Wettkampf', [%i[la male], %i[la female]]),
+      build_template('Löschangriff-Wettkampf mit Jugend', [
+                       %i[la male], %i[la female],
+                       [:la, :male, 'Jugend'], [:la, :female, 'Jugend']
+                     ]),
+      build_template('Hindernisbahn-Wettkampf', [%i[hb male], %i[hb female]]),
+      build_template('Hakenleitersteigen-Wettkampf', [%i[hl male], %i[hl female]]),
+      build_template('Deutschland-Cup', [
+                       %i[la male], %i[la female],
+                       %i[fs male], %i[fs female],
+                       %i[hb male], %i[hb female],
+                       %i[hl male], %i[hl female],
+                       %i[gs female]
+                     ], person_tags: 'U20'),
+      build_template('Leere Vorlage', []),
+    ]
   end
 
   def show
@@ -80,13 +73,11 @@ class Registrations::CompetitionsController < Registrations::BaseController
     end
 
     format = request.format.to_sym
-    if format.in?(%i[wettkampf_manager_import xlsx pdf])
-      authorize!(:export, resource)
-      response.headers['Content-Disposition'] = "attachment; filename=\"#{resource.to_s.parameterize}.#{format}\""
-      if format == :wettkampf_manager_import
-        render text: resource.to_serializer.to_json
-      end
-    end
+    return unless format.in?(%i[wettkampf_manager_import xlsx pdf])
+    authorize!(:export, resource)
+    response.headers['Content-Disposition'] = "attachment; filename=\"#{resource.to_s.parameterize}.#{format}\""
+    return if format != :wettkampf_manager_import
+    render text: resource.to_serializer.to_json
   end
 
   def slug_handle
@@ -96,11 +87,24 @@ class Registrations::CompetitionsController < Registrations::BaseController
 
   protected
 
-  def find_collection
-    super.future_records.published
+  def page_size
+    15
   end
 
   def build_resource
-    resource_class.new(admin_user: current_admin_user)
+    resource_class.new(admin_user: current_admin_user, published: true)
+  end
+
+  private
+
+  def build_template(name, assessments, options = {})
+    resource = build_resource
+    resource.assign_attributes(options.merge(name: name))
+    assessments.each do |discipline, gender, assessment_name|
+      opts = { discipline: discipline, gender: gender }
+      opts[:name] = assessment_name if assessment_name.present?
+      resource.assessments.build(opts)
+    end
+    resource
   end
 end
