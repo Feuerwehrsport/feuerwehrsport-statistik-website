@@ -4,9 +4,6 @@
   %body
     = render 'navigation'
     - unless save_html_cache?
-      - flash.each do |name, msg|
-        %div{class: "alert alert-#{name.to_s}"}
-          %a.close{href: "#", "data-dismiss" => "alert"} &times;
-          = msg
+      = render 'flash_messages'
     = yield
     = render 'footer'
