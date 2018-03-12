@@ -21,7 +21,8 @@ module Chart
     end
 
     def render(hc)
-      high_chart("high-chart-#{SecureRandom.hex(6)}", hc)
+      @div_id = "high-chart-#{SecureRandom.hex(6)}"
+      high_chart(@div_id, hc)
     end
 
     def gender_color(gender)
@@ -47,6 +48,7 @@ module Chart
                     <<-EOJS
         #{js_start}
           M3.ready(function(){
+            if ($('##{@div_id}').length === 0) return;
             #{core_js}
           });
         #{js_end}
