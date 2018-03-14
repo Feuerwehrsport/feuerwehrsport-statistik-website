@@ -1,0 +1,13 @@
+%h3
+  Mannschaften #{g(gender)}
+  %small= g_symbol(gender)
+= count_table(teams) do |ct|
+  - ct.col('Name', class: 'col-md-4') { |row| can?(:update, row) ? link_to(row.with_number, registrations_competition_team_path(resource, row)) : row.with_number }
+  - if resource.team_tag_list.present?
+    - ct.col('Attribute') { |row| row.tag_names.join(', ') }
+  - form_resource.assessments.gender(gender).each do |assessment|
+    - ct.col(discipline_image_name_short(assessment.discipline, assessment.gender)) do |row|
+      - if Discipline.group?(assessment.discipline)
+        - row.assessments.include?(assessment) ? 'x' : ''
+      - else
+        - count_or_zero(row.people.with_assessment(assessment).uniq.count)

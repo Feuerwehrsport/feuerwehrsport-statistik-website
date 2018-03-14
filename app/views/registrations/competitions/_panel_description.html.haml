@@ -1,0 +1,4 @@
+.panel.panel-default
+  .panel-body.competition-description= resource.description.html_safe
+  - if can?(:edit, resource)
+    .panel-footer= link_to('Bearbeiten', edit_registrations_competition_path(resource), class: 'btn btn-default btn-xs')

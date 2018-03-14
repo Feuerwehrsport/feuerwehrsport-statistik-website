@@ -1,0 +1,6 @@
+.panel.panel-danger
+  .panel-heading
+    %h4.text-center Wettkampf ist noch nicht öffentlich
+  .panel-body
+    = image_link_to('configure', 'Veröffentlichen', edit_registrations_competition_publishings_path(resource),
+      image: { width: '18px' }, class: 'btn btn-default btn-block', remote: true)

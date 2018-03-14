@@ -1,0 +1,13 @@
+.panel.panel-default
+  .panel-heading
+    Zeiten für die Anmeldung
+  .panel-body
+    %table.table.table-condensed
+      %tr
+        %th Anmeldung öffnet am
+        %td= resource.open_at_date.presence || resource.created_at_date
+      %tr
+        %th Anmeldung schließt am
+        %td= resource.close_at.presence || resource.date
+  - if can?(:edit, resource)
+    .panel-footer= link_to('Bearbeiten', edit_registrations_competition_registration_times_path(resource), class: 'btn btn-default btn-xs', remote: true)

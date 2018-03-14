@@ -1,0 +1,11 @@
+.panel.panel-default
+  .panel-heading
+    Wertungen
+  .panel-body
+    %table.table.table-condensed
+      - resource.assessments.each do |assessment|
+        %tr
+          %td= discipline_image(assessment.discipline)
+          %td= assessment.with_gender
+  - if can?(:edit, resource)
+    .panel-footer= link_to('Bearbeiten', registrations_competition_assessments_path(resource), class: 'btn btn-default btn-xs')
