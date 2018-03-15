@@ -41,7 +41,7 @@ end
 
 group :development, :test do
   # Bug in Bundler Version 1.11.2: https://github.com/bundler/bundler/issues/3981
-  gem 'm3_rspec', require: false, git: 'ssh://gitolite3@stadthafen-rails/m3_rspec', ref: 'a58e53d40b8de228667468789279d54d120bc19f'
+  gem 'm3_rspec', require: false, git: 'ssh://gitolite3@stadthafen-rails/m3_rspec'
   # gem 'm3_rspec', path: '../m3_rspec'
   gem 'rubocop-rspec'
   gem 'haml_lint', require: false
