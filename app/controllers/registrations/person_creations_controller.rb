@@ -1,6 +1,6 @@
 class Registrations::PersonCreationsController < Registrations::BaseController
   default_actions :new, :create, for_class: Registrations::Person
-  belongs_to Registrations::Competition
+  belongs_to Registrations::Competition, url: -> { registrations_competition_path(parent_resource) }
 
   default_form do |f|
     f.input :first_name

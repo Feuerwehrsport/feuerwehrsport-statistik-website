@@ -21,7 +21,7 @@ de:
         close_at: Anmeldung schließen
         date: Datum
         description: Beschreibung
-        group_score: Mannschaftswertung für Einzeldisziplinen
+        group_score: Mannschaftswertung
         open_at: Anmeldung öffnen
         person_tags: Anklickbare Werte für Wettkämpfer
         place: Ort
@@ -89,9 +89,16 @@ de:
       form_actions:
         create: Wettkampf anlegen
       hints:
+        group_score: Wird diese Option aktiviert, können Mannschaften eine Reihenfolge
+          ihrer Wettkämpfer vorgeben
+        person_tags: Wettkämpfer können diese Werte bei der Anmeldung anklicken, z.
+          B. <em>U20</em> oder <em>Kreiswertung</em>. Werte mit Komma trennen.
         published: Diese Einstellungen kann auch später unter <em>Öffentlichkeitseinstellungen</em>
           vorgenommen werden
+        team_tags: Mannschaften können diese Werte bei der Anmeldung anklicken, z.
+          B. <em>Ü40</em> oder <em>Kreiswertung</em>. Werte mit Komma trennen.
       inline_labels:
+        group_score: Mannschaftswertung für Einzeldisziplinen
         published: Wettkampf sofort für alle sichtbar schalten
       views:
         actions:
@@ -112,6 +119,16 @@ de:
           Pluszeichen bestehen
       inline_labels:
         published: Wettkampf für alle sichtbar schalten
+    registrations/tags:
+      hints:
+        group_score: Wird diese Option aktiviert, können Mannschaften eine Reihenfolge
+          ihrer Wettkämpfer vorgeben
+        person_tags: Wettkämpfer können diese Werte bei der Anmeldung anklicken, z.
+          B. <em>U20</em> oder <em>Kreiswertung</em>. Werte mit Komma trennen.
+        team_tags: Mannschaften können diese Werte bei der Anmeldung anklicken, z.
+          B. <em>Ü40</em> oder <em>Kreiswertung</em>. Werte mit Komma trennen.
+      inline_labels:
+        group_score: Mannschaftswertung für Einzeldisziplinen
     registrations/teams:
       fieldsets:
         assessments: Wertungen

@@ -1,11 +1,15 @@
-class Registrations::PublishingsController < Registrations::BaseController
+class Registrations::TagsController < Registrations::BaseController
   default_actions :edit, :update, for_class: Registrations::Competition
   belongs_to Registrations::Competition, url: -> { collection_redirect_url }
 
   default_form do |f|
-    f.input :slug
-    f.value :slug_info
-    f.input :published
+    f.inputs 'Markierungen' do
+      f.input :person_tags
+      f.input :team_tags
+    end
+    f.inputs 'Mannschaftswertung' do
+      f.input :group_score
+    end
   end
 
   protected

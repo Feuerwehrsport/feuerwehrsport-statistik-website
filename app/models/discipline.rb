@@ -14,4 +14,8 @@ class Discipline
   def self.participation_count(discipline)
     PARTICIPATION_COUNT[discipline]
   end
+
+  def self.single?(discipline)
+    !group?(discipline)
+  end
 end

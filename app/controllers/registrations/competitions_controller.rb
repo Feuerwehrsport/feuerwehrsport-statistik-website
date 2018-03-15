@@ -12,19 +12,37 @@ class Registrations::CompetitionsController < Registrations::BaseController
     t.col :place
   end
 
-  default_form do |f|
+  form_for :new, :create do |f|
+    f.inputs 'Allgemeine Daten' do
+      f.input :name
+      f.input :date
+      f.input :place
+      f.input :description, as: :wysiwyg
+    end
+
+    f.inputs 'Wertungen' do
+      f.fields_for :assessments do
+        f.input :discipline, as: :hidden
+        f.input :gender, as: :hidden
+        f.input :name, as: :hidden
+      end
+      f.value :assessments_overview
+      f.input :person_tags
+      f.input :team_tags
+      f.input :group_score
+    end
+
+    f.inputs 'Öffentlichkeitseinstellungen' do
+      f.input :published
+    end
+  end
+
+  form_for :edit, :update do |f|
     f.input :name
     f.input :date
     f.input :place
     f.input :description, as: :wysiwyg
     f.association :admin_user if can?(:manage, AdminUser)
-    f.fields_for :assessments do
-      f.input :discipline, as: :hidden
-      f.input :gender, as: :hidden
-      f.input :name, as: :hidden
-    end
-    f.value :assessments_overview
-    f.input :published
   end
 
   def create

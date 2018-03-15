@@ -70,6 +70,18 @@ describe 'registration feature', type: :feature, js: true do
     expect(page).not_to have_content('Ü90 - Hakenleitersteigen weiblich')
     click_on 'Zurück zum Wettkampf'
 
+    click_on 'Markierungen bearbeiten'
+    within('.modal-content') do
+      fill_in 'Anklickbare Werte für Mannschaften', with: 'Kreiswertung'
+      check 'Mannschaftswertung für Einzeldisziplinen'
+      save_review_screenshot
+      click_on 'Speichern'
+    end
+    within('.panel-heading', text: 'Markierungen') do
+      expect(page).to have_content('Markierungen')
+      save_review_screenshot
+    end
+
     click_on 'E-Mail versenden'
     fill_in 'Betreff', with: 'Neue Infos'
     fill_in 'Inhalt', with: 'Text'

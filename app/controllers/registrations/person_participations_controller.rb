@@ -1,6 +1,6 @@
 class Registrations::PersonParticipationsController < Registrations::BaseController
   default_actions :edit, :update, for_class: Registrations::Person
-  belongs_to Registrations::Competition
+  belongs_to Registrations::Competition, url: -> { registrations_competition_path(parent_resource) }
 
   default_form do |f|
     f.fields_for :person_assessment_participations do

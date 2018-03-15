@@ -114,6 +114,7 @@ Rails.application.routes.draw do
       collection { get :new_select_template }
       resource :registration_times, only: %i[edit update]
       resource :publishings, only: %i[edit update]
+      resource :tags, only: %i[edit update]
       resources :assessments, only: %i[new create index edit update destroy]
       resources :teams, only: %i[new create show edit update destroy] do
         collection { get :new_select_gender }
