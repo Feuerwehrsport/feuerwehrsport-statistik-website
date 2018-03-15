@@ -7,6 +7,7 @@
           = simple_form_for(type, url: registrations_competitions_path(from_template: true)) do |f|
             = f.input :name, as: :hidden
             = f.input :person_tags, as: :hidden
+            = f.input :group_score, as: :hidden
             %h3= type.name
             %table.table.table-condensed
               = f.simple_fields_for :assessments do |assessment|

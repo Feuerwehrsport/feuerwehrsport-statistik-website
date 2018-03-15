@@ -32,6 +32,7 @@ de:
       registrations/person:
         first_name: Vorname
         last_name: Nachname
+        tag_names: Markierungen
         team_name: Mannschaft
       registrations/team:
         assessments: Wertungen
@@ -42,6 +43,7 @@ de:
         postal_code: Postleitzahl
         shortcut: Abkürzung
         street_with_house_number: Straße und Hausnummer
+        tag_names: Markierungen
         team_leader: Mannschaftsleiter
         team_number: Mannschaftsnummer
     collections:
@@ -104,6 +106,8 @@ de:
         actions:
           add_person: Einzelstarter anmelden
           add_team: Mannschaft anmelden
+        not_all_people: Es werden eventuell nicht alle Wettkämpfer angezeigt, da du
+          nicht genügend Rechte dafür besitzt.
     registrations/mails:
       form_actions:
         create: E-Mail senden

@@ -22,14 +22,7 @@ class Registrations::TeamsController < Registrations::BaseController
 
     if parent_resource.team_tag_list.present?
       f.inputs :additional_data do
-        parent_resource.team_tag_list.each do |tag|
-          f.fields_for :tags, (f.object.tags.find { |t| t.name == tag } || f.object.tags.new(name: tag)) do
-            f.input :name, as: :hidden
-            f.input :_destroy, as: :boolean, label: tag, input_html: { checked: g.object.persisted? },
-                               checked_value: '0', unchecked_value: '1'
-            f.input :id, as: :hidden
-          end
-        end
+        f.input :tag_names, as: :check_boxes, collection: parent_resource.team_tag_list
       end
     end
 

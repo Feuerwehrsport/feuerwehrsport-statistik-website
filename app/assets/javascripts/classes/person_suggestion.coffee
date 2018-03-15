@@ -34,16 +34,26 @@ class PersonSuggestion
         table.append(@buildTr(person))
 
   buildTr: (entry) ->
-    $('<tr/>')
-    .append($('<td/>').text(entry.first_name).addClass('first_name'))
-    .append($('<td/>').text(entry.last_name).addClass('last_name'))
-    .append($('<td/>').text(entry.teams.join(', ')).addClass('team'))
-    .click ->
+    setValues = (team) ->
       $('#registrations_person_first_name').val(entry.first_name)
       $('#registrations_person_last_name').val(entry.last_name)
       $('#registrations_person_gender').val(entry.gender)
       $('#registrations_person_person_id').val(entry.id)
-      $('#registrations_person_team_name').val(entry.teams[0])
+      $('#registrations_person_team_name').val(team or entry.teams[0])
+
+    teamsTd = $('<td/>')
+    $.each(entry.teams, (index, team) ->
+      $('<span/>').appendTo(teamsTd).text(team).click ->
+        setValues(team)
+        false
+      teamsTd.append(', ') if index < entry.teams.length - 1
+    )
+    $('<tr/>')
+    .append($('<td/>').text(entry.first_name).addClass('first_name'))
+    .append($('<td/>').text(entry.last_name).addClass('last_name'))
+    .append(teamsTd.addClass('team'))
+    .click ->
+      setValues()
 
 M3.ready ->
   new PersonSuggestion

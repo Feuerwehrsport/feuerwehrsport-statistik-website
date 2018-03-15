@@ -73,7 +73,7 @@ class Registrations::CompetitionsController < Registrations::BaseController
                        %i[hb male], %i[hb female],
                        %i[hl male], %i[hl female],
                        %i[gs female]
-                     ], person_tags: 'U20'),
+                     ], person_tags: 'U20', group_score: true),
       build_template('Leere Vorlage', []),
     ]
   end

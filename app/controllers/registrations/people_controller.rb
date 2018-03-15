@@ -7,39 +7,23 @@ class Registrations::PeopleController < Registrations::BaseController
     f.input :last_name
     f.input :gender
     f.input :team_name
-    f.input :competition_id
-    f.input :person_id
-    f.input :team_id
-    f.input :registration_order
-    f.fields_for :tags do
-      f.input :id
-      f.input :name
-      f.input :_destroy
-    end
+    f.input :tag_names
     f.fields_for :person_assessment_participations do
-      f.input :id
-      f.input :single_competitor_order
-      f.input :assessment_id
-      f.input :assessment_type
-      f.input :group_competitor_order
-      f.input :_destroy
+      f.association :assessment
+      f.permit :_destroy
+      f.permit :assessment_type
+      f.permit :group_competitor_order
+      f.permit :single_competitor_order
     end
   end
 
   protected
 
-  def build_resource
-    super.tap do |r|
-      r.admin_user = current_admin_user
-      r.team = Registrations::Team.find_by(id: params[:team_id])
-    end
-  end
-
   def collection_redirect_url
     if resource.team.present?
-      url_for(action: :show, controller: 'registrations/teams', competition_id: parent_resource, id: resource.team_id)
+      registrations_competition_team_path(parent_resource, resource.team)
     else
-      url_for(action: :participations, id: resource.id)
+      registrations_competition_path(parent_resource)
     end
   end
 end

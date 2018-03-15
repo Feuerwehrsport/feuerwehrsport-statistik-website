@@ -3,3 +3,5 @@ linters:
     max: 120
   InstanceVariables:
     enabled: false
+  ConsecutiveSilentScripts:
+    max_consecutive: 5

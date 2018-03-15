@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 describe 'registration feature', type: :feature, js: true do
-  let!(:competition) { create(:registrations_competition, admin_user: create(:admin_user, role: :sub_admin)) }
+  let!(:competition) do
+    create(:registrations_competition, admin_user: create(:admin_user, role: :sub_admin), person_tags: 'U20')
+  end
   let!(:assessment) { create(:registrations_assessment, competition: competition) }
   let!(:peron) { create(:person) }
 
@@ -33,6 +35,16 @@ describe 'registration feature', type: :feature, js: true do
     end
     within('.datatable') do
       expect(page).to have_content('E')
+      click_on 'Bearbeiten'
+    end
+
+    expect(page).to have_content('Zusätzliche Angaben')
+    check 'U20'
+    save_review_screenshot
+    click_on 'Wettkämpfer speichern'
+
+    within('.datatable') do
+      expect(page).to have_content('U20')
     end
   end
 end

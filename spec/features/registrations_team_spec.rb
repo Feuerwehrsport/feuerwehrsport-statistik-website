@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 describe 'registration feature', type: :feature, js: true do
-  let!(:competition) { create(:registrations_competition, admin_user: create(:admin_user, role: :sub_admin)) }
+  let!(:competition) do
+    create(:registrations_competition, admin_user: create(:admin_user, role: :sub_admin), team_tags: 'Kreiswertung')
+  end
   let!(:assessment) { create(:registrations_assessment, :la, competition: competition) }
 
   it 'registers team' do
@@ -32,5 +34,11 @@ describe 'registration feature', type: :feature, js: true do
     expect(page).to have_content('Musterstadt')
     expect(page).to have_content('+1233/234432')
     expect(page).to have_content('foo@bar.de')
+
+    click_on 'Bearbeiten'
+    check 'Kreiswertung'
+    click_on 'Speichern'
+
+    expect(page).to have_content('männlich, Kreiswertung')
   end
 end

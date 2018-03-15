@@ -9,6 +9,7 @@ class Registrations::PersonCreationsController < Registrations::BaseController
     f.input :team_name if resource.team.blank?
     f.permit :team_id
     f.permit :person_id
+    f.input :tag_names
   end
 
   protected
