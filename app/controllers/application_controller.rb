@@ -6,6 +6,11 @@ class ApplicationController < M3::ApplicationController
 
   protected
 
+  def send_pdf(klass, *args)
+    pdf = klass.build(*args)
+    send_data(pdf.bytestream, filename: pdf.filename, type: 'application/pdf', disposition: 'inline')
+  end
+
   def current_admin_user
     @current_admin_user ||= AdminUser.for_login(current_login)
   end

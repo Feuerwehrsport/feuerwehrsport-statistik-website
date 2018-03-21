@@ -21,9 +21,7 @@ gem 'lazy_high_charts'
 gem 'icalendar'
 
 # export
-gem 'prawn'
-gem 'prawn-table'
-gem 'prawnto'
+gem 'prawn-rails'
 gem 'rqrcode_png'
 gem 'axlsx', '~> 3.0.0.pre'
 

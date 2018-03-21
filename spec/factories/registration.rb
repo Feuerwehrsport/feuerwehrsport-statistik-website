@@ -3,7 +3,7 @@ FactoryBot.define do
     name 'D-Cup'
     date { Time.zone.today }
     place 'Ort'
-    admin_user { AdminUser.first }
+    admin_user { AdminUser.first || build(:admin_user) }
     published true
     group_score true
   end
@@ -13,7 +13,7 @@ FactoryBot.define do
     name 'FF Mannschaft'
     shortcut 'Mannschaft'
     gender :male
-    admin_user { AdminUser.first }
+    admin_user { AdminUser.first || build(:admin_user) }
   end
 
   factory :registrations_person, class: Registrations::Person do
@@ -21,7 +21,7 @@ FactoryBot.define do
     first_name 'Alfred'
     last_name 'Meier'
     gender :male
-    admin_user { AdminUser.first }
+    admin_user { AdminUser.first || build(:admin_user) }
   end
 
   factory :registrations_assessment, class: Registrations::Assessment do

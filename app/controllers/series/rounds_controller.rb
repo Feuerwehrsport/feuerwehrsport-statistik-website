@@ -13,6 +13,6 @@ class Series::RoundsController < ResourceController
     @person_assessments = Series::PersonAssessment.where(round: resource).decorate
     @team_assessments_exists = Series::TeamAssessment.where(round: resource).present?
 
-    configure_prawn(page_layout: :landscape) if request.format.pdf?
+    send_pdf(Series::Rounds::Pdf, resource) if request.format.pdf?
   end
 end

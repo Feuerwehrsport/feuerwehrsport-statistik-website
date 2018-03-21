@@ -26,9 +26,10 @@ class Registrations::CompetitionMailer < ApplicationMailer
     @text = text
 
     if add_registration_file
-      pdf = Prawn::Document.new(page_size: 'A4')
-      @resource.team_pdf_overview(pdf, footer: true)
-      attachments['anmeldung.pdf'] = { mime_type: 'application/pdf', content: pdf.render }
+      attachments['anmeldung.pdf'] = {
+        mime_type: 'application/pdf',
+        content: Registrations::Teams::Pdf.build(resource).bytestream,
+      }
     end
 
     mail(

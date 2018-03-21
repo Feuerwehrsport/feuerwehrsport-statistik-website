@@ -5,9 +5,9 @@ module ApplicationHelper
   include MapHelper
   include Helper::PositionSelectorHelper
   include Helper::NationHelper
-  include Helper::PrawnHelper
   include DisciplineNamesAndImages
   include GenderNames
+  include NumberedTeamNames
   include DatatableHelper
   include Registrations::RegistrationsHelper
 
@@ -54,32 +54,6 @@ module ApplicationHelper
 
   def registrations?
     controller.class.name.split('::').first == 'Registrations'
-  end
-
-  def numbered_team_name(score, options = {})
-    return '' if score.team.blank?
-    number_name = begin
-      if score.team_number == 0
-        ' E'
-      elsif score.team_number <= -1 && score.team_number >= -4
-        ' F'
-      elsif score.team_number == -5
-        ' A'
-      else
-        options = {
-          competition_id: score.try(:competition).try(:id),
-          team_id: score.try(:team_id),
-          gender: score.try(:gender) || score.try(:person).try(:gender),
-        }.merge(options)
-        c = CompetitionTeamNumber
-            .gender(options[:gender])
-            .where(competition_id: options[:competition_id], team_id: options[:team_id])
-            .distinct.count(:team_number)
-        c > 1 ? " #{score.team_number}" : ''
-      end
-    end
-    run = score.try(:run).present? ? " #{score.run}" : ''
-    score.team.shortcut + number_name + run
   end
 
   def numbered_team_link(score, options = {})

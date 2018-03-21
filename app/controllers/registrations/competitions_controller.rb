@@ -94,8 +94,12 @@ class Registrations::CompetitionsController < Registrations::BaseController
     return unless format.in?(%i[wettkampf_manager_import xlsx pdf])
     authorize!(:export, resource)
     response.headers['Content-Disposition'] = "attachment; filename=\"#{resource.to_s.parameterize}.#{format}\""
-    return if format != :wettkampf_manager_import
-    render text: resource.to_serializer.to_json
+
+    if format == :pdf
+      send_pdf(Registrations::Competitions::Pdf, resource, current_ability)
+    elsif format == :wettkampf_manager_import
+      render text: resource.to_serializer.to_json
+    end
   end
 
   def slug_handle
