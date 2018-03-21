@@ -44,6 +44,25 @@ RSpec.describe Registrations::CompetitionsController, type: :controller, login: 
     end
   end
 
+  describe 'GET show' do
+    it 'assigns resource' do
+      get :show, id: competition.id
+      expect(controller.send(:resource)).to be_a Registrations::Competition
+      expect(response).to be_success
+      expect(response.content_type).to eq 'text/html'
+    end
+
+    context 'when pdf requested' do
+      it 'sends pdf' do
+        get :show, id: competition.id, format: :pdf
+        expect(controller.send(:resource)).to be_a Registrations::Competition
+        expect(response).to be_success
+        expect(response.content_type).to eq 'application/pdf'
+        expect(response.headers['Content-Disposition']).to eq('inline; filename="d-cup-21-03-2018.pdf"')
+      end
+    end
+  end
+
   describe 'GET edit' do
     it 'renders form' do
       get :edit, id: competition.id

@@ -60,6 +60,7 @@ class Registrations::TeamsController < Registrations::BaseController
     return unless format.in?(%i[xlsx pdf])
     authorize!(:export, resource)
     response.headers['Content-Disposition'] = "attachment; filename=\"#{resource.to_s.parameterize}.#{format}\""
+    send_pdf(Registrations::Teams::Pdf, resource) if format == :pdf
   end
 
   protected

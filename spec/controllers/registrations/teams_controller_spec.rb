@@ -39,6 +39,25 @@ RSpec.describe Registrations::TeamsController, type: :controller, login: :user d
     end
   end
 
+  describe 'GET show' do
+    it 'assigns resource' do
+      get :show, id: team.id, competition_id: competition.id
+      expect(controller.send(:resource)).to be_a Registrations::Team
+      expect(response).to be_success
+      expect(response.content_type).to eq 'text/html'
+    end
+
+    context 'when pdf requested' do
+      it 'sends pdf' do
+        get :show, id: team.id, competition_id: competition.id, format: :pdf
+        expect(controller.send(:resource)).to be_a Registrations::Team
+        expect(response).to be_success
+        expect(response.content_type).to eq 'application/pdf'
+        expect(response.headers['Content-Disposition']).to eq('inline; filename="ff-mannschaft.pdf"')
+      end
+    end
+  end
+
   describe 'GET edit' do
     it 'renders form' do
       get :edit, id: team.id, competition_id: competition.id
