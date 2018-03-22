@@ -15,6 +15,7 @@ class Registrations::PeopleController < Registrations::BaseController
       f.permit :group_competitor_order
       f.permit :single_competitor_order
     end
+    f.permit :registration_order
   end
 
   protected

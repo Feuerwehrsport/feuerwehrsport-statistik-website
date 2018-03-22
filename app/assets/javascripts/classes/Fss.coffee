@@ -55,7 +55,9 @@ class @Fss
 
   @ready: (path, callback) ->
     M3.ready ->
-      if window.location.pathname.indexOf("/#{path}") isnt -1
+      if typeof(path) is 'string' and window.location.pathname.indexOf("/#{path}") isnt -1
+        callback()
+      else if path instanceof RegExp and path.test(window.location.pathname)
         callback()
 
   @logoutWindow: ->

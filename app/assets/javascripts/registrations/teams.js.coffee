@@ -11,7 +11,7 @@ updateOrder = ->
     params = {
       authenticity_token: form.find('input[name=authenticity_token]').val()
       _method: 'patch'
-      comp_reg_person: {
+      registrations_person: {
         registration_order: i
       }
     }
@@ -24,6 +24,5 @@ bindSortedTable = ->
     placeholder: $('.people-sortable-table tr td.placeholder').parent().remove().removeClass('hide')
   }).on('sortupdate', updateOrder)
 
-Fss.ready 'backend/registrations/team', ->
+Fss.ready /^\/registrations\/competitions\/\d+\/teams\/\d+$/, ->
   bindSortedTable()
-  $(document).on('partials-refreshed', bindSortedTable)

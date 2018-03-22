@@ -69,8 +69,9 @@
               - ct.col('Attribute') { |person| person.tag_names.join(', ') }
             - ct.col('', haml: true) do |row|
               = link_to('Bearbeiten', action: :edit, controller: :people, id: row.id)
-              / # = simple_form_for row, html: { class: "hide registration-form" } do |f|
-              / #   = f.input :registration_order, as: :hidden
+              = simple_form_for row, html: { class: 'hide registration-form' },
+                url: registrations_competition_person_path(parent_resource, row) do |f|
+                = f.input :registration_order, as: :hidden
             - Registrations::Assessment.requestable_for_person(resource).decorate.each do |assessment|
               - ct.col(assessment) { |row| edit_participation(row, assessment, parent_resource) }
             - ct.footer(class: 'placeholder') { '' }
