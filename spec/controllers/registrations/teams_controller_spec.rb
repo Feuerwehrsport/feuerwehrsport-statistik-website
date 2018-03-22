@@ -40,6 +40,9 @@ RSpec.describe Registrations::TeamsController, type: :controller, login: :user d
   end
 
   describe 'GET show' do
+    before { Timecop.freeze(Date.parse('2018-03-21')) }
+    after { Timecop.return }
+
     it 'assigns resource' do
       get :show, id: team.id, competition_id: competition.id
       expect(controller.send(:resource)).to be_a Registrations::Team
@@ -54,6 +57,18 @@ RSpec.describe Registrations::TeamsController, type: :controller, login: :user d
         expect(response).to be_success
         expect(response.content_type).to eq 'application/pdf'
         expect(response.headers['Content-Disposition']).to eq('inline; filename="ff-mannschaft.pdf"')
+      end
+    end
+
+    context 'when xlsx requested' do
+      render_views
+      it 'sends xlsx' do
+        get :show, id: team.id, competition_id: competition.id, format: :xlsx
+        expect(controller.send(:resource)).to be_a Registrations::Team
+        expect(response).to be_success
+        expect(response.content_type).to eq 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        expect(response.headers['Content-Disposition']).to eq('attachment; filename="ff-mannschaft.xlsx"')
+        expect(response.body.length).to eq 4514
       end
     end
   end

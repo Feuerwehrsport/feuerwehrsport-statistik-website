@@ -63,7 +63,7 @@ GIT
 
 GIT
   remote: ssh://gitolite3@stadthafen-rails/m3_rspec
-  revision: ee06622038531d49bfc6e1de243f846792ba4516
+  revision: 3f2391ea26e67561a4d818c9e355031130dbba75
   specs:
     m3_rspec (1.0.0)
       capybara
@@ -155,7 +155,7 @@ GEM
     bootstrap3-datetimepicker-rails (4.17.47)
       momentjs-rails (>= 2.8.1)
     builder (3.2.3)
-    byebug (10.0.0)
+    byebug (10.0.1)
     cancancan (1.13.1)
     capistrano (2.15.9)
       highline
@@ -570,7 +570,6 @@ DEPENDENCIES
   redcarpet
   responders
   rqrcode_png
-  rubocop-rspec
   schema_plus_views
   schema_validations
   spring

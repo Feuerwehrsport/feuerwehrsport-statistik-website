@@ -56,11 +56,13 @@ class Registrations::TeamsController < Registrations::BaseController
   def show
     super
 
-    format = request.format.to_sym
-    return unless format.in?(%i[xlsx pdf])
-    authorize!(:export, resource)
-    response.headers['Content-Disposition'] = "attachment; filename=\"#{resource.to_s.parameterize}.#{format}\""
-    send_pdf(Registrations::Teams::Pdf, resource) if format == :pdf
+    if request.format.pdf?
+      authorize!(:export, resource)
+      send_pdf(Registrations::Teams::Pdf, resource)
+    elsif request.format.xlsx?
+      authorize!(:export, resource)
+      response.headers['Content-Disposition'] = "attachment; filename=\"#{resource.decorate.to_s.parameterize}.xlsx\""
+    end
   end
 
   protected

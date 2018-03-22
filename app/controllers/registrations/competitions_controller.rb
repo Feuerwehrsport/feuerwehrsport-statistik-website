@@ -90,15 +90,14 @@ class Registrations::CompetitionsController < Registrations::BaseController
       @people_count[gender] = resource.people.gender(gender).where(team_id: nil).count
     end
 
-    format = request.format.to_sym
-    return unless format.in?(%i[wettkampf_manager_import xlsx pdf])
-    authorize!(:export, resource)
-    response.headers['Content-Disposition'] = "attachment; filename=\"#{resource.to_s.parameterize}.#{format}\""
-
-    if format == :pdf
+    if request.format.pdf?
+      authorize!(:export, resource)
       send_pdf(Registrations::Competitions::Pdf, resource, current_ability)
-    elsif format == :wettkampf_manager_import
-      render text: resource.to_serializer.to_json
+    elsif request.format.wettkampf_manager_import? || request.format.xlsx?
+      authorize!(:export, resource)
+      response.headers['Content-Disposition'] =
+        "attachment; filename=\"#{resource.decorate.to_s.parameterize}.#{request.format.to_sym}\""
+      render text: resource.to_serializer.to_json if request.format.wettkampf_manager_import?
     end
   end
 

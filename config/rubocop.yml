@@ -1,5 +1,2 @@
 inherit_gem:
   m3_rspec: config/rubocop.yml
-Metrics/BlockLength:
-  ExcludedMethods:
-    - new
