@@ -1,0 +1,16 @@
+= simple_form_for(form_resource, url: { action: :create }) do |f|
+  .form-group.string
+    %label.string.control-label{ for: 'team_suggestion' } Schnelleingabe
+    %input.string.form-control{ name: 'team_suggestion', id: 'team_suggestion', type: 'text', autocomplete: 'off' }
+  .suggestions-entries
+    %table.table.table-hover.table-condensed
+  .row
+    .col-md-4
+      = f.input :name
+    .col-md-4
+      = f.input :shortcut
+    .col-md-4
+      = f.input :gender, collection: Genderable::GENDERS.keys.map { |gender| [g(gender), gender] }
+  = f.input :team_id, as: :hidden
+  .pull-right
+    = f.submit class: 'btn btn-primary'

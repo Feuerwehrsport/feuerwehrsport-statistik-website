@@ -4,41 +4,6 @@ RSpec.describe Registrations::TeamsController, type: :controller, login: :user d
   let(:competition) { create(:registrations_competition) }
   let(:team) { create(:registrations_team, competition: competition) }
 
-  describe 'GET new' do
-    it 'redirects' do
-      get :new, competition_id: competition.id
-      expect(response).to redirect_to(action: :new_select_gender)
-    end
-  end
-
-  describe 'GET new_select_gender' do
-    it 'renders gender select' do
-      get :new_select_gender, competition_id: competition.id
-      expect(response).to be_success
-    end
-  end
-
-  describe 'POST create' do
-    context 'when gender selected' do
-      it 'renders new' do
-        expect_any_instance_of(Registrations::Team).not_to receive(:save)
-        post :create, competition_id: competition.id, from_gender_select: true, registrations_team: { gender: :male }
-        expect(response).to be_success
-      end
-    end
-
-    context 'when real save' do
-      it 'saves' do
-        expect do
-          expect_any_instance_of(Registrations::Team).to receive(:save).and_call_original
-          post :create, competition_id: competition.id,
-                        registrations_team: { gender: :male, name: 'Warin', shortcut: 'Warin' }
-          expect(response).to redirect_to(action: :show, id: Registrations::Team.last.id)
-        end.to change(Registrations::Team, :count).by(1)
-      end
-    end
-  end
-
   describe 'GET show' do
     before { Timecop.freeze(Date.parse('2018-03-21')) }
     after { Timecop.return }

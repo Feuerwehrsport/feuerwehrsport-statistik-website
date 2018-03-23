@@ -1,5 +1,6 @@
 #= require classes/Fss
 #= require classes/person_suggestion
+#= require classes/team_suggestion
 #= require lib/edit_participations
 #= require lib/jquery.sortable
 

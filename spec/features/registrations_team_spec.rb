@@ -5,28 +5,37 @@ describe 'registration feature', type: :feature, js: true do
     create(:registrations_competition, admin_user: create(:admin_user, role: :sub_admin), team_tags: 'Kreiswertung')
   end
   let!(:assessment) { create(:registrations_assessment, :la, competition: competition) }
+  let!(:team) { create(:team) }
 
   it 'registers team' do
     sign_in :user
     visit registrations_competition_path(competition)
 
     first(:link, 'Mannschaft anmelden').click
-    expect(page).to have_content('Geschlecht wählen')
-    within('.template', text: 'männlich') do
-      save_review_screenshot
-      click_on 'Wählen'
-    end
-    fill_in 'Name', with: 'Team Mecklenburg-Vorpommern'
-    fill_in 'Abkürzung', with: 'Team MV'
-    fill_in 'Mannschaftsleiter', with: 'Max Mustermann'
-    fill_in 'Straße und Hausnummer', with: 'Musterstraße 123'
-    fill_in 'Postleitzahl', with: '98765'
-    fill_in 'Ort', with: 'Musterstadt'
-    fill_in 'Telefonnummer', with: '+1233/234432'
-    fill_in 'E-Mail-Adresse', with: 'foo@bar.de'
+
+    fill_in 'Schnelleingabe', with: 'FF arin'
+    expect(find_field('registrations_team[name]').value).to eq 'FF arin'
+    expect(find_field('registrations_team[shortcut]').value).to eq 'arin'
+    find('.name').click
+    find('.name').click
+    expect(find_field('registrations_team[name]').value).to eq 'FF Warin'
+    expect(find_field('registrations_team[shortcut]').value).to eq 'Warin'
     save_review_screenshot
-    check 'Löschangriff nass'
-    click_on 'Mannschaft anlegen'
+    expect do
+      select 'männlich', from: 'Geschlecht'
+      click_on('Mannschaft anlegen')
+
+      fill_in 'Mannschaftsleiter', with: 'Max Mustermann'
+      fill_in 'Straße und Hausnummer', with: 'Musterstraße 123'
+      fill_in 'Postleitzahl', with: '98765'
+      fill_in 'Ort', with: 'Musterstadt'
+      fill_in 'Telefonnummer', with: '+1233/234432'
+      fill_in 'E-Mail-Adresse', with: 'foo@bar.de'
+      save_review_screenshot
+      check 'Löschangriff nass'
+      click_on 'Speichern'
+    end.to change(Registrations::Team, :count).by(1)
+    expect(Registrations::Team.last.team_id).to eq team.id
 
     expect(page).to have_content('Max Mustermann')
     expect(page).to have_content('Musterstraße 123')

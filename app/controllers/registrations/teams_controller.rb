@@ -1,5 +1,5 @@
 class Registrations::TeamsController < Registrations::BaseController
-  default_actions :new, :create, :show, :edit, :update, :destroy
+  default_actions :show, :edit, :update, :destroy
   belongs_to Registrations::Competition, url: -> { collection_redirect_url }
 
   default_form do |f|
@@ -33,26 +33,6 @@ class Registrations::TeamsController < Registrations::BaseController
     end
   end
 
-  def new
-    redirect_to action: :new_select_gender
-  end
-
-  def create
-    if params[:from_gender_select].present?
-      form_resource.assign_attributes(resource_params)
-      render :new
-    else
-      super
-    end
-  end
-
-  def new_select_gender
-    @genders = [
-      build_resource.tap { |r| r.gender = :female },
-      build_resource.tap { |r| r.gender = :male },
-    ]
-  end
-
   def show
     super
 
@@ -66,13 +46,6 @@ class Registrations::TeamsController < Registrations::BaseController
   end
 
   protected
-
-  def build_resource
-    super.tap do |resource|
-      resource.admin_user = current_admin_user
-      resource.assessments = requestable_assessments(resource)
-    end
-  end
 
   def collection_redirect_url
     url_for(parent_resource)

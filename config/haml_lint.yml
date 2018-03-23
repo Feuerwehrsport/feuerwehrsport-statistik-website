@@ -1,3 +1,7 @@
+exclude:
+  - tmp/**/*
+  - .rsync_cache/**/*
+  - m3/**/*
 linters:
   LineLength:
     max: 120

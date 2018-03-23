@@ -116,7 +116,8 @@ Rails.application.routes.draw do
       resource :publishings, only: %i[edit update]
       resource :tags, only: %i[edit update]
       resources :assessments, only: %i[new create index edit update destroy]
-      resources :teams, only: %i[new create show edit update destroy] do
+      resource :team_creation, only: %i[new create]
+      resources :teams, only: %i[show edit update destroy] do
         collection { get :new_select_gender }
       end
       resource :person_creation, only: %i[new create]
