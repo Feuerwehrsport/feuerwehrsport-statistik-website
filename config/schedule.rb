@@ -21,6 +21,7 @@
 base_command = '/usr/bin/feuerwehrsport-statistik.'
 job_type :ensure_delayed_job_running, ':path/etc/ensure_delayed_job_running.sh :task'
 job_type :ensure_unicorn_running, ':path/etc/ensure_unicorn_running.sh :task'
+job_type :dump, ':path/etc/store_dump.sh "$(sed \':a;N;$!ba;s/\n/,/g\' :path/config/dump_exclude_tables)" :task'
 
 every :reboot do
   ensure_delayed_job_running 'feuerwehrsport-statistik'
@@ -29,6 +30,10 @@ end
 
 every :day, at: '5:12 am' do
   command "#{base_command}rake m3:log_file_parser"
+end
+
+every :day, at: '3:42 am' do
+  dump 'feuerwehrsport-statistik'
 end
 
 every 5.minutes do

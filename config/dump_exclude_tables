@@ -1,0 +1,17 @@
+admin_users
+api_users
+change_logs
+change_requests
+delayed_jobs
+import_requests
+ipo_registrations
+m3_assets
+m3_delivery_settings
+m3_logins
+m3_websites
+registrations_assessment_participations
+registrations_assessments
+registrations_competitions
+registrations_people
+registrations_teams
+tags
