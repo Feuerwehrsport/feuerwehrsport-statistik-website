@@ -38,8 +38,8 @@ class API::BaseController < ApplicationController
       default_form { |f| default_form.each { |field| f.permit field } }
     end
 
+    define_method :paginate? { false }
   end
-
 
   protected
 
@@ -58,7 +58,6 @@ class API::BaseController < ApplicationController
   def collection_modulized_name
     resource_class.name.underscore.parameterize.pluralize.underscore
   end
-
 
   def resource_modulized_name
     resource_class.name.underscore.parameterize.underscore
