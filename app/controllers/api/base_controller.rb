@@ -1,7 +1,7 @@
 class API::BaseController < ApplicationController
   include API::LoginActions
   include SerializerSupport
-  rescue_from CanCan::AccessDenied do |exception| 
+  rescue_from CanCan::AccessDenied do |exception|
     failed(message: exception.message)
   end
   respond_to :json
@@ -28,30 +28,24 @@ class API::BaseController < ApplicationController
     include ChangeLogSupport if change_log
     include CleanCacheSupport unless clean_cache_disabled
 
-    if create_form.present?
-      form_for :create { |f| create_form.each { |field| f.permit field } }
-    end
-    if update_form.present?
-      form_for :update { |f| update_form.each { |field| f.permit field } }
-    end
-    if default_form.present?
-      default_form { |f| default_form.each { |field| f.permit field } }
-    end
+    form_for(:create) { |f| create_form.each { |field| f.permit field } } if create_form.present?
+    form_for(:update) { |f| update_form.each { |field| f.permit field } } if update_form.present?
+    default_form { |f| default_form.each { |field| f.permit field } } if default_form.present?
 
-    define_method :paginate? { false }
+    define_method(:paginate?) { false }
   end
 
   protected
 
-  def success(hash={})
+  def success(hash = {})
     respond_with(hash)
   end
 
-  def failed(hash={})
-    respond_with({message: failed_message}.merge(hash).merge(success: false))
+  def failed(hash = {})
+    respond_with({ message: failed_message }.merge(hash).merge(success: false))
   end
 
-  def respond_with(hash={})
+  def respond_with(hash = {})
     render json: handle_serializer(respond_defaults.merge(hash))
   end
 
