@@ -73,9 +73,9 @@ class @Fss
       ['mal', (a, b) -> a * b ]
     ]
 
-    i = Math.round(Math.random * 2)
-    a = Math.round(Math.random * 10)
-    b = Math.round(Math.random * 9)
+    i = Math.round(Math.random() * 2)
+    a = Math.round(Math.random() * 10)
+    b = Math.round(Math.random() * 9)
 
     question = "#{a} #{questions[i][0]} #{b}"
     answer = questions[i][1](a, b)
