@@ -89,6 +89,7 @@
               = version.change_log
       .col-md-6
         = toc.anker('Hinweise zur Installation', :h2)
+        %h3 Windows
         %ol
           %li Datei herunterladen und entpacken
           %li
@@ -105,6 +106,13 @@
             = link_to('http://localhost/', 'http://localhost/')
             im Webbrowser eingeben und angezeigten Schritten folgen
         %p Weitere Informationen in der beiliegenden Dokumentation.
+        %h3 Linux (Debian, Ubuntu, Linux Mint, etc.)
+        %p Die einfachste Möglichkeit bietet die Installation mit dem folgenden Bash-Befehl:
+        %code \curl -sSL https://feuerwehrsport-statistik.de/wk-linux-install | bash
+        %p
+          Dieser Befehl setzt ein Linux mit <code>sudo</code>, <code>curl</code> und <code>apt</code> voraus. Es wird 
+          alles automatisch installiert. Am Anfang muss man einmal sein Sudo-Passwort eingeben. Hier werden ein paar 
+          Pakete nachinstalliert.
       .col-md-6
         = toc.anker("Fehler, Probleme, Wünsche", :h2)
         %p Es kann immer mal wieder vorkommen, dass Fehler auftreten. Diese bitte per E-Mail oder als Ticket melden. Vorher könnt ihr einmal nachgucken, ob es für das Problem schon ein Ticket gibt.
