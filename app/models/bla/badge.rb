@@ -1,7 +1,7 @@
 class BLA::Badge < ActiveRecord::Base
   belongs_to :person
-  belongs_to :hl_score, class_name: 'Score'
-  belongs_to :hb_score, class_name: 'Score'
+  belongs_to :hl_score, class_name: 'Score', inverse_of: :hl_bla_badges
+  belongs_to :hb_score, class_name: 'Score', inverse_of: :hb_bla_badges
 
   scope :person, ->(person_id) { where(person_id: person_id) }
 
@@ -23,6 +23,20 @@ class BLA::Badge < ActiveRecord::Base
     when :bronze then 1
     else 0
     end
+  end
+
+  def current_hl_time
+    @current_hl_time ||= next_badge&.hl_score&.time
+  end
+
+  def current_hb_time
+    @current_hb_time ||= next_badge&.hb_score&.time
+  end
+
+  def next_badge
+    @next_badge ||= BLA::BadgeGenerator.new.badge_for(person, :gold,
+                                                      (hl_time || Firesport::INVALID_TIME) - 1,
+                                                      hb_time - 1) { |s| s.reorder(:time) }
   end
 
   private

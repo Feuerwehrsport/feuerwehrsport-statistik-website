@@ -15,8 +15,10 @@ class Score < ActiveRecord::Base
   belongs_to :person
   belongs_to :competition
   belongs_to :team
-  has_many :hl_bla_badges, foreign_key: :hl_score_id, class_name: 'BLA::Badge', dependent: :destroy
-  has_many :hb_bla_badges, foreign_key: :hl_score_id, class_name: 'BLA::Badge', dependent: :destroy
+  has_many :hl_bla_badges, foreign_key: :hl_score_id, class_name: 'BLA::Badge', dependent: :nullify,
+                           inverse_of: :hl_score
+  has_many :hb_bla_badges, foreign_key: :hl_score_id, class_name: 'BLA::Badge', dependent: :nullify,
+                           inverse_of: :hb_score
 
   validates :person, :competition, :discipline, :time, :team_number, presence: true
 

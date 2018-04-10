@@ -1,7 +1,15 @@
 de:
+  activemodel:
+    attributes:
+      bla/badge_generator:
+        year: Jahr
+    models:
+      bla/badge_generator: BLA-Generator
   activerecord:
     attributes:
       bla/badge:
+        current_hb_time: Aktuelle HB-Bestzeit
+        current_hl_time: Aktuelle HL-Bestzeit
         hb_score: HB-Wertung
         hb_time: HB-Zeit
         hl_score: HL-Wertung
@@ -17,14 +25,6 @@ de:
           gold: Gold
     models:
       bla/badge: Bundesleistungsabzeichen
-
-  activemodel:
-    attributes:
-      bla/badge_generator:
-        year: Jahr
-    models:
-      bla/badge_generator: BLA-Generator
-
   t3:
     backend/bla/badges:
       views:

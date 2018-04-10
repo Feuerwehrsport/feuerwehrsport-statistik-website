@@ -1,2 +1,5 @@
 inherit_gem:
   m3_rspec: config/rubocop.yml
+
+RSpec/LetSetup:
+  Enabled: false

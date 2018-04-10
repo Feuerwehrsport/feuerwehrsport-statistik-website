@@ -19,4 +19,12 @@ class BLA::BadgeDecorator < AppDecorator
   def second_hb_time
     Firesport::Time.second_time(hb_time)
   end
+
+  def second_current_hl_time
+    Firesport::Time.second_time(current_hl_time)
+  end
+
+  def second_current_hb_time
+    Firesport::Time.second_time(current_hb_time)
+  end
 end

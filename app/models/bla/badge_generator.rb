@@ -32,6 +32,7 @@ class BLA::BadgeGenerator
              .where(competitions: { scores_for_bla_badge: true })
              .where(Competition.arel_table[:date].gteq(Date.new(2002, 1, 1)))
              .order(Competition.arel_table[:date].asc)
+    scores = yield(scores) if block_given?
 
     badge.hb_score = scores.hb.find_by(Score.arel_table[:time].lteq(hb_max_time))
     badge.hl_score = scores.hl.find_by(Score.arel_table[:time].lteq(hl_max_time))

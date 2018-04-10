@@ -9,5 +9,13 @@ RSpec.describe BLA::BadgesController, type: :controller do
       expect(response).to be_success
       expect(controller.send(:collection).length).to eq 1
     end
+
+    context 'when xlsx requested' do
+      render_views
+      it 'renders' do
+        get :index, format: :xlsx
+        expect(response).to be_success
+      end
+    end
   end
 end
