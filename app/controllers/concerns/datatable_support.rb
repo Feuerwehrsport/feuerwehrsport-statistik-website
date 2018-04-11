@@ -10,7 +10,7 @@ module DatatableSupport
   class_methods do
     def datatable(action_name, key, klass, options = {}, &block)
       datatables[action_name] ||= {}
-      datatables[action_name][key] = structure = Datatables::Structure.build(klass: klass, &block).decorate
+      datatables[action_name][key] = structure = Datatables::Structure.build(self, klass: klass, &block).decorate
 
       before_action(only: action_name) do
         if request.format.json? && params[:datatable].to_sym == key

@@ -46,6 +46,6 @@ module FeuerwehrsportStatistik
                  end,
     )
     config.m3.session.login_redirect_url = { controller: '/backend/dashboards', action: :index }
-    config.m3.compatible_version = '1.0.6'
+    config.m3.compatible_version = '1.0.8'
   end
 end

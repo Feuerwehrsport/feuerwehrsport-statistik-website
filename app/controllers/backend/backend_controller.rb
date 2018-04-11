@@ -18,7 +18,7 @@ class Backend::BackendController < ApplicationController
   def self.default_show(&block)
     define_method(:m3_show_structure) do
       @m3_show_structure ||= begin
-        M3::Index::Structure.build(&block).decorate
+        M3::Index::Structure.build(self, &block).decorate
       end
     end
   end
