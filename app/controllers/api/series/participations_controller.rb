@@ -7,7 +7,11 @@ class API::Series::ParticipationsController < API::BaseController
   protected
 
   def build_resource
-    klass = params[:series_participation][:person_id].present? ? ::Series::PersonParticipation : ::Series::TeamParticipation
+    klass = if params[:series_participation][:person_id].present?
+              ::Series::PersonParticipation
+            else
+              ::Series::TeamParticipation
+            end
     super.becomes(klass).tap { |r| r.type = klass }
   end
 end

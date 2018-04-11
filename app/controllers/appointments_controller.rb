@@ -14,15 +14,11 @@ class AppointmentsController < ResourceController
   def index
     @registrations_competitions = Registrations::Competition.published.overview
 
-    if request.format.ics?
-      calendar_response('feuerwehrsport-statistik-termine', collection.decorate, 'PUBLISH')
-    end
+    calendar_response('feuerwehrsport-statistik-termine', collection.decorate, 'PUBLISH') if request.format.ics?
   end
 
   def show
-    if request.format.ics?
-      calendar_response(resource.decorate.to_s.parameterize, [resource.decorate], 'REQUEST')
-    end
+    calendar_response(resource.decorate.to_s.parameterize, [resource.decorate], 'REQUEST') if request.format.ics?
   end
 
   protected

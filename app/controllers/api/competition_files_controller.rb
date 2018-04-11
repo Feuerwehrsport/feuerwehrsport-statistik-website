@@ -4,7 +4,9 @@ class API::CompetitionFilesController < API::BaseController
 
   def create
     @competition_files = params.require(:competition_file).values.map do |competition_file_params|
-      CompetitionFile.new(competition: parent_resource, file: competition_file_params[:file], keys_params: competition_file_params)
+      CompetitionFile.new(competition: parent_resource,
+                          file: competition_file_params[:file],
+                          keys_params: competition_file_params)
     end
 
     @saved = false

@@ -37,7 +37,7 @@ class Backend::BackendController < ApplicationController
       instance = collection.new
       next if begin
                  instance.is_a?(ActiveRecord::View)
-               rescue
+               rescue StandardError
                  true
                end
       model_name = instance.class.model_name.human(count: :many)
@@ -48,7 +48,7 @@ class Backend::BackendController < ApplicationController
           end
       url = (begin
                url_for(controller: "backend/#{association.name}", action: :index, q: q)
-             rescue
+             rescue StandardError
                nil
              end)
       associations[model_name] = url if url.present?

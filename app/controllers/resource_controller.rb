@@ -6,6 +6,6 @@ class ResourceController < ApplicationController
     cache = [cache] unless cache.is_a?(Array)
     cache_actions(*cache)
 
-    define_method :paginate? { false }
+    define_method(:paginate?) { false }
   end
 end

@@ -23,9 +23,7 @@ module DatatableSupport
           page = (params[:start].to_i / params[:length].to_i) + 1
           structure.each_with_index do |field, index|
             break unless params[:order].is_a?(Hash)
-            if params[:order]['0'][:column].to_i == index
-              params[:order] = "#{field.name}_#{params[:order]['0'][:dir]}"
-            end
+            params[:order] = "#{field.name}_#{params[:order]['0'][:dir]}" if params[:order]['0'][:column].to_i == index
           end
           collection = structure.order_collection(collection, resource_class: klass)
           collection = collection.paginate(page: page, per_page: params[:length].to_i)

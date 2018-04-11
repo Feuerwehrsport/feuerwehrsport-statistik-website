@@ -16,7 +16,8 @@ class Backend::Series::RoundImportsController < Backend::BackendController
 
         @person_assessments = ::Series::PersonAssessment.where(round: form_resource.round).decorate
         @team_assessments_exists = ::Series::TeamAssessment.where(round: form_resource.round).present?
-        @preview_string = render_to_string(partial: 'backend/series/rounds/preview_changes', locals: { round: form_resource.round.decorate })
+        @preview_string = render_to_string(partial: 'backend/series/rounds/preview_changes',
+                                           locals: { round: form_resource.round.decorate })
         raise ActiveRecord::Rollback unless form_resource.import_now?
       end
     end

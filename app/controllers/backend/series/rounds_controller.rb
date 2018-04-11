@@ -11,10 +11,10 @@ class Backend::Series::RoundsController < Backend::BackendController
   end
 
   default_index do |t|
-    t.col :name
-    t.col :year
-    t.col :official { |r| r.official_translated }
-    t.col :full_cup_count
+    t.col(:name)
+    t.col(:year)
+    t.col(:official, &:official_translated)
+    t.col(:full_cup_count)
   end
 
   def show

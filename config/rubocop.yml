@@ -1,5 +1,9 @@
 inherit_gem:
   m3_rspec: config/rubocop.yml
 
+AllCops:
+  TargetRubyVersion: 2.4.0
 RSpec/LetSetup:
+  Enabled: false
+Rails/LexicallyScopedActionFilter:
   Enabled: false

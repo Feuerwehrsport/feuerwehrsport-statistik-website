@@ -59,6 +59,7 @@ class API::ImportsController < API::BaseController
       :first_name,
     ]
 
-    params.require(:import).permit(:discipline, :gender, :competition_id, :group_score_category_id, scores: valid_score_params)
+    params.require(:import).permit(:discipline, :gender, :competition_id, :group_score_category_id,
+                                   scores: valid_score_params)
   end
 end

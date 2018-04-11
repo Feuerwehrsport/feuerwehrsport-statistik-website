@@ -3,36 +3,36 @@ class ErrorsController < ApplicationController
   before_action :entity_merge_redirects
 
   OLD_PATHS = [
-    [/^\/page\/administration\.html$/, '/backend'],
-    [/^\/page\/best-of\.html$/, '/best_of'],
-    [/^\/page\/best-performance-of-year-(\d+)\.html$/, '/years/%1%/best_scores'],
-    [/^\/page\/best-scores-of-year-(\d+)\.html$/, '/years/%1%/best_performance'],
-    [/^\/page\/competition-(\d+)\.html$/, '/competitions/%1%'],
-    [/^\/page\/competitions\.html$/, '/competitions'],
-    [/^\/page\/date-(\d+)\.html$/, '/appointments/%1%'],
-    [/^\/page\/dates\.html$/, '/appointments'],
-    [/^\/page\/event-(\d+)\.html$/, '/events/%1%'],
-    [/^\/page\/events\.html$/, '/events'],
-    [/^\/page\/feeds\.html$/, '/rss'],
-    [/^\/page\/feuerwehrsport\.html$/, '/feuerwehrsport'],
-    [/^\/page\/home\.html$/, '/'],
-    [/^\/page\/last-competitions\.html$/, '/last_competitions'],
-    [/^\/page\/logs\.html$/, '/change_logs'],
-    [/^\/page\/news-(\d+)\.html$/, '/news/%1%'],
-    [/^\/page\/news\.html$/, '/news'],
-    [/^\/page\/person-(\d+)\.html$/, '/people/%1%'],
-    [/^\/page\/persons\.html$/, '/people'],
-    [/^\/page\/place-(\d+)\.html$/, '/places/%1%'],
-    [/^\/page\/places\.html$/, '/places'],
-    [/^\/page\/records\.html$/, '/records'],
-    [/^\/page\/team-(\d+)\.html$/, '/teams/%1%'],
-    [/^\/page\/teams\.html$/, '/teams'],
-    [/^\/page\/wettkampf-manager\.html$/, '/wettkampf_manager'],
-    [/^\/page\/year-(\d+)\.html$/, '/years/%1%'],
-    [/^\/page\/years\.html$/, '/years'],
-    [/^\/news\/(\d+)$/, '/news_articles/%1%'],
-    [/^\/news\/?$/, '/news_articles'],
-    [/^\/news\.atom$/, '/news_articles.atom'],
+    [%r{^/page/administration\.html$}, '/backend'],
+    [%r{^/page/best-of\.html$}, '/best_of'],
+    [%r{^/page/best-performance-of-year-(\d+)\.html$}, '/years/%1%/best_scores'],
+    [%r{^/page/best-scores-of-year-(\d+)\.html$}, '/years/%1%/best_performance'],
+    [%r{^/page/competition-(\d+)\.html$}, '/competitions/%1%'],
+    [%r{^/page/competitions\.html$}, '/competitions'],
+    [%r{^/page/date-(\d+)\.html$}, '/appointments/%1%'],
+    [%r{^/page/dates\.html$}, '/appointments'],
+    [%r{^/page/event-(\d+)\.html$}, '/events/%1%'],
+    [%r{^/page/events\.html$}, '/events'],
+    [%r{^/page/feeds\.html$}, '/rss'],
+    [%r{^/page/feuerwehrsport\.html$}, '/feuerwehrsport'],
+    [%r{^/page/home\.html$}, '/'],
+    [%r{^/page/last-competitions\.html$}, '/last_competitions'],
+    [%r{^/page/logs\.html$}, '/change_logs'],
+    [%r{^/page/news-(\d+)\.html$}, '/news/%1%'],
+    [%r{^/page/news\.html$}, '/news'],
+    [%r{^/page/person-(\d+)\.html$}, '/people/%1%'],
+    [%r{^/page/persons\.html$}, '/people'],
+    [%r{^/page/place-(\d+)\.html$}, '/places/%1%'],
+    [%r{^/page/places\.html$}, '/places'],
+    [%r{^/page/records\.html$}, '/records'],
+    [%r{^/page/team-(\d+)\.html$}, '/teams/%1%'],
+    [%r{^/page/teams\.html$}, '/teams'],
+    [%r{^/page/wettkampf-manager\.html$}, '/wettkampf_manager'],
+    [%r{^/page/year-(\d+)\.html$}, '/years/%1%'],
+    [%r{^/page/years\.html$}, '/years'],
+    [%r{^/news/(\d+)$}, '/news_articles/%1%'],
+    [%r{^/news/?$}, '/news_articles'],
+    [%r{^/news\.atom$}, '/news_articles.atom'],
   ].freeze
 
   def not_found
@@ -63,8 +63,10 @@ class ErrorsController < ApplicationController
 
   def entity_merge_redirects
     current_path = original_fullpath || return
-    match = current_path.match(/^\/(?<table>people|teams)\/(?<id>\d+)$/)
-    entity_merge = EntityMerge.where(source_type: match[:table].singularize.classify, source_id: match[:id]).first if match
+    match = current_path.match(%r{^/(?<table>people|teams)/(?<id>\d+)$})
+    if match
+      entity_merge = EntityMerge.where(source_type: match[:table].singularize.classify, source_id: match[:id]).first
+    end
     redirect_with_log(url_for(entity_merge.target), :entity_merge_redirects) if entity_merge
   end
 
@@ -76,7 +78,7 @@ class ErrorsController < ApplicationController
     end
   end
 
-  class OldPathMatch < Struct.new(:regexp, :new_path, :current_path)
+  OldPathMatch = Struct.new(:regexp, :new_path, :current_path) do
     def match?
       match.present?
     end
