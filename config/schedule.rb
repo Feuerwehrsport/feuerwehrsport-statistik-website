@@ -21,7 +21,7 @@
 base_command = '/usr/bin/feuerwehrsport-statistik.'
 job_type :ensure_delayed_job_running, ':path/etc/ensure_delayed_job_running.sh :task'
 job_type :ensure_unicorn_running, ':path/etc/ensure_unicorn_running.sh :task'
-job_type :dump, ':path/etc/store_dump.sh "$(sed \':a;N;$!ba;s/\n/,/g\' :path/config/dump_exclude_tables)" :task'
+job_type :dump, ':path/etc/store_dump.sh "--exclude-table-data=$(sed \':a;N;$!ba;s/\n/ --exclude-table-data=/g\' :path/config/dump_exclude_tables)" :task'
 
 every :reboot do
   ensure_delayed_job_running 'feuerwehrsport-statistik'
