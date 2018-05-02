@@ -64,6 +64,6 @@ class Person < ActiveRecord::Base
     person_spellings.update_all(person_id: correct_person.id)
     series_participations.update_all(person_id: correct_person.id)
     entity_merges.update_all(target_id: correct_person.id)
-    bla_badge.try(:update_attribute, :target_id, correct_person.id)
+    bla_badge.try(:update_attribute, :person_id, correct_person.id)
   end
 end
