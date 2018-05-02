@@ -11,7 +11,7 @@ class API::PeopleController < API::BaseController
     if params[:gender].present?
       super.reorder(:last_name, :first_name).gender(params[:gender])
     else
-      super
+      super.reorder(:last_name, :first_name)
     end
   end
 end
