@@ -95,7 +95,7 @@ class @FssImport
     new AlertFssWindow 'Eingetragen', '', =>
       @reloadCompetitions =>
         @selectCompetitionType()
-        callbackif(callback)
+        callback if(callback)
 
 
   changeCompetition: =>
