@@ -24,7 +24,9 @@ Rails.application.routes.draw do
     resources :group_score_categories
     resources :group_score_types
     resources :imports, only: [:index]
-    resources :import_requests
+    resources :import_requests do
+      collection { get :decide_login }
+    end
     resources :links
     resources :nations
     resources :news_articles

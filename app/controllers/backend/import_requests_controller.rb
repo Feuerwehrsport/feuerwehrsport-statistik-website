@@ -1,5 +1,6 @@
 class Backend::ImportRequestsController < Backend::BackendController
   backend_actions clean_cache_disabled: true
+  skip_before_action :preauthorize_action, only: :decide_login
 
   default_form do |f|
     f.input :file, as: :file_preview
@@ -31,6 +32,11 @@ class Backend::ImportRequestsController < Backend::BackendController
     i.col :description
     i.col :edit_user
     i.col :finished_at
+  end
+
+  def decide_login
+    redirect_to action: :new if current_login.present?
+    session[:requested_url_before_login] = url_for
   end
 
   protected

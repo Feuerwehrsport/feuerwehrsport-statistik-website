@@ -20,6 +20,9 @@
           - @last_competitions.each do |competition|
             %li= competition_link(competition, type: :overview_name)
           %p.pull-right= link_to('Alle anzeigen', last_competitions_path)
+        %h3 Eigene Ergebnis hochladen
+        %p Haben Sie Ergebnisse, die Sie gerne hier veröffentlicht haben möchten?
+        %p= link_to('Ergebnisse zur Verfügung stellen', decide_login_backend_import_requests_path, class: 'btn btn-default btn-sm')
     .container
       = toc.anker('Überblick', :h2)
     .container

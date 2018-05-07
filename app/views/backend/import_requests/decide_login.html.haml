@@ -1,0 +1,16 @@
+.section
+  .container
+    .row
+      .col-md-6
+        .panel.panel-default
+          .panel-heading
+            Konto vorhanden
+          .panel-body
+            = link_to('Anmelden', new_session_path, class: 'btn btn-default')
+      .col-md-6
+        .panel.panel-default
+          .panel-heading
+            Kein Konto vorhanden
+          .panel-body
+            = link_to('Konto erstellen', new_backend_registration_path, class: 'btn btn-default')
+

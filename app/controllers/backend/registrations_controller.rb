@@ -20,6 +20,10 @@ class Backend::RegistrationsController < Backend::BackendController
     flash[:success] = t3('.registered')
     deliver_later(M3::LoginMailer, :verify, form_resource.login)
     M3::Login::Session.new(session: session, website: m3_website, login: form_resource.login).save(validate: false)
-    redirect_to backend_root_path
+    if session[:requested_url_before_login].present?
+      redirect_to session.delete(:requested_url_before_login)
+    else
+      redirect_to backend_root_path
+    end
   end
 end
