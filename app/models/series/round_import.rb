@@ -130,7 +130,7 @@ class Series::RoundImport
         assessment: assessment,
         cup: cup,
         time: score.time,
-        points: klass.points_for_result(rank, score.time),
+        points: klass.points_for_result(rank, score.time, cup.round),
         rank: rank,
       }
       if score.is_a?(GroupScore) || score.is_a?(Calculation::CompetitionGroupAssessment)
