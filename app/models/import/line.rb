@@ -140,7 +140,7 @@ module Import
       end
       seconds = seconds.to_i
       millis = millis.first(2)
-      millis = if millis =~ /\A\d\z/
+      millis = if millis.match?(/\A\d\z/)
                  millis.to_i * 10
                else
                  millis.to_i

@@ -7,7 +7,7 @@ class Caching::HTMLPreLoader
     urls.each do |url|
       begin
         open(url, read_timeout: 25).read
-      rescue
+      rescue StandardError
         nil
       end
     end

@@ -57,9 +57,7 @@ module Import
     end
 
     def column_count_validation
-      if lines.any? { |line| line.count != headline_columns.count }
-        errors.add(:raw_lines, ' has not enough columns')
-      end
+      errors.add(:raw_lines, ' has not enough columns') if lines.any? { |line| line.count != headline_columns.count }
     end
   end
 end

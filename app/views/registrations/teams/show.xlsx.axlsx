@@ -4,7 +4,7 @@ team_assessments = resource.competition.assessments
 person_assessments = resource.competition.object.assessments.for_people.decorate
 
 wb.add_worksheet(name: 'Mannschaft') do |sheet|
-  headline = ['Name', 'Abkürzung', 'Geschlecht']
+  headline = %w[Name Abkürzung Geschlecht]
   team_assessments.each { |assessment| headline.push(assessment.with_gender) }
   sheet.add_row(headline)
 
@@ -20,7 +20,7 @@ wb.add_worksheet(name: 'Mannschaft') do |sheet|
 end
 
 wb.add_worksheet(name: 'Wettkämpfer') do |sheet|
-  headline = ['Vorname', 'Nachname', 'Geschlecht']
+  headline = %w[Vorname Nachname Geschlecht]
   person_assessments.each { |assessment| headline.push(assessment.with_gender) }
   sheet.add_row(headline)
 

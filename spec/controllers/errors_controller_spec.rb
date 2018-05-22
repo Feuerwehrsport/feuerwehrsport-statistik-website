@@ -11,7 +11,7 @@ RSpec.describe ErrorsController, type: :controller do
   describe 'GET #unacceptable' do
     it 'returns http success' do
       get :unacceptable
-      expect(response).to have_http_status(422)
+      expect(response).to have_http_status(:unprocessable_entity)
     end
   end
 
