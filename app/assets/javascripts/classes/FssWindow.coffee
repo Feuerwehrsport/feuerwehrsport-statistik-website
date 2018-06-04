@@ -82,6 +82,14 @@ class @FssWindow extends EventHandler
     @fire('after-open')
     this
 
+  hide: =>
+    @container.hide()
+    @darkroom.hide()
+
+  unhide: =>
+    @container.show()
+    @darkroom.show()
+
   close: =>
     @container.remove()
     @darkroom.remove()

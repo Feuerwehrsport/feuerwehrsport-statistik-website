@@ -218,40 +218,21 @@ class @Fss
       Fss.getResource 'group_scores', scoreId, (score) ->
         wks = Fss.wks[score.discipline]
         wks = wks[score.gender] if score.discipline is 'fs'
-
-        buildWindow = (withGender) ->
-          options = {}
-          options = { gender: score.gender } if withGender
-          Fss.get 'people', options, (data) ->
-            people = data.people
-            fssWindow = FssWindow.build('Wettkämpfer zuordnen')
-            .add(new FssFormRowDescription("Sie ordnen Personen diesen #{score.translated_discipline_name}-Läufen zu."))
-            try
-              fssWindow.add(new FssFormRowScores('scores', people, score.similar_scores, wks))
-            catch
-              buildWindow(false)
-              return
-
-            if score.gender is 'male' and withGender
-              div = $('<div/>').css({ marginTop: '12px', marginBottom: '10px' })
-              .append($('<span/>').text('Auch Frauen zur Auswahl stellen (für gemischte Mannschaften): '))
-              .append($('<button/>').text('Auswahl erweitern').on('click', (e) ->
-                e.preventDefault()
-                fssWindow.close()
-                buildWindow(false)
-              ))
-              fssWindow.add(new FssFormRow(div))
-            fssWindow.on('submit', (data) ->
-              Fss.reloadOnArrayReady data.scores, (score, success) ->
-                params = {
-                  group_score: score
-                  log_action: 'update-groupscore:participation'
-                }
-                Fss.put("group_scores/#{score.id}/person_participation", params, success)
-            )
-            .open()
-        buildWindow(true)
-
+        
+        fssWindow = FssWindow.build('Wettkämpfer zuordnen')
+        fssWindow
+        .add(new FssFormRowDescription("Sie ordnen Personen diesen #{score.translated_discipline_name}-Läufen zu."))
+        .add(new FssFormRowScores('scores', score.similar_scores, wks, fssWindow, score.team_id, score.gender))
+        .on('submit', (data) ->
+          Fss.reloadOnArrayReady data.scores, (score, success) ->
+            params = {
+              group_score: score
+              log_action: 'update-groupscore:participation'
+            }
+            Fss.put("group_scores/#{score.id}/person_participation", params, success)
+          )
+        .open()
+        
   @tdScoreHandle = (selector, buttonCallback) ->
     button = null
     $(document).on 'mouseenter', selector, ->

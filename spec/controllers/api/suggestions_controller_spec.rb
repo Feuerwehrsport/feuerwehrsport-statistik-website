@@ -55,6 +55,7 @@ RSpec.describe API::SuggestionsController, type: :controller do
     end
 
     let(:attributes) { {} }
+    let(:group_score) { create(:person_participation).group_score }
 
     context 'when attributes empty' do
       it 'returns people' do
@@ -92,6 +93,14 @@ RSpec.describe API::SuggestionsController, type: :controller do
       it 'returns people' do
         subject.call
         expect(json_body[:people]).to eq [person4_hash]
+      end
+    end
+    context 'when score given' do
+      let(:attributes) { { score_id: group_score.id } }
+
+      it 'returns people' do
+        subject.call
+        expect(json_body[:people]).to eq [person1_hash, person3_hash]
       end
     end
   end

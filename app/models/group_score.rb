@@ -5,6 +5,7 @@ class GroupScore < ActiveRecord::Base
   belongs_to :group_score_category
   has_many :person_participations, dependent: :restrict_with_exception
   has_many :persons, through: :person_participations
+  delegate :discipline, to: :group_score_category
 
   enum gender: { female: 0, male: 1 }
 

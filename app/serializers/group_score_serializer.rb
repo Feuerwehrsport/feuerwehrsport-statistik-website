@@ -9,8 +9,14 @@ class GroupScoreSerializer < ActiveModel::Serializer
         time: score.time,
         second_time: score.second_time,
       }
-      positions = score.person_participations.pluck(:position, :person_id).to_h
-      (1..7).each { |position| hash[:"person_#{position}"] = positions[position] }
+
+      participations = score.person_participations.joins(:person).pluck(:position, :person_id, :first_name, :last_name)
+      (1..7).each do |position|
+        participation = participations.find { |part| part.first == position } || [nil, nil, nil, nil]
+        hash[:"person_#{position}"] = participation[1]
+        hash[:"person_#{position}_first_name"] = participation[2]
+        hash[:"person_#{position}_last_name"] = participation[3]
+      end
       hash
     end
   end
