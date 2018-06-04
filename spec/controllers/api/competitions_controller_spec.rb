@@ -12,7 +12,7 @@ RSpec.describe API::CompetitionsController, type: :controller do
     it 'creates new competition', login: :sub_admin do
       expect do
         subject.call
-        expect_api_login_response
+        expect_api_login_response(created_id: Competition.last.id)
       end.to change(Competition, :count).by(1)
       expect_change_log(after: { name: 'Extrapokal' }, log: 'create-competition')
     end

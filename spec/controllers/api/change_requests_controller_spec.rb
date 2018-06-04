@@ -10,7 +10,7 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
     it 'creates new change request', login: :api do
       expect do
         subject.call
-        expect_api_login_response
+        expect_api_login_response(created_id: ChangeRequest.last.id)
       end.to change(ChangeRequest, :count).by(1)
       expect(ChangeRequest.last.content).to eq foo: { bar: '1' }
       expect_change_log(after: { done_at: nil }, log: 'create-changerequest')
@@ -20,7 +20,7 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
       create(:admin_user, :admin)
       expect do
         subject.call
-        expect_api_login_response
+        expect_api_login_response(created_id: ChangeRequest.last.id)
       end.to change(ActionMailer::Base.deliveries, :count).by(1)
     end
   end

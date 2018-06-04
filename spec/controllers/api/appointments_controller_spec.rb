@@ -25,7 +25,7 @@ RSpec.describe API::AppointmentsController, type: :controller do
     it 'creates new appointment', login: :api do
       expect do
         post :create, appointment: attributes
-        expect_api_login_response
+        expect_api_login_response(created_id: Appointment.last.id)
       end.to change(Appointment, :count).by(1)
       expect_change_log(after: attributes, log: 'create-appointment')
     end

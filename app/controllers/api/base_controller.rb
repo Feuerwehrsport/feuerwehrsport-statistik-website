@@ -19,7 +19,6 @@ class API::BaseController < ApplicationController
     options[:for_class] = for_class
     default_actions(*action_names, options)
     include API::Actions::Index            if action_names.include?(:index)
-    include API::Actions::New              if action_names.include?(:new)
     include API::Actions::Create           if action_names.include?(:create)
     include API::Actions::Show             if action_names.include?(:show)
     include API::Actions::Edit             if action_names.include?(:edit)

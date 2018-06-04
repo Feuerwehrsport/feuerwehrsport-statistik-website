@@ -21,7 +21,7 @@ RSpec.describe API::TeamsController, type: :controller do
     it 'creates new team', login: :api do
       expect do
         subject.call
-        expect_api_login_response
+        expect_api_login_response(created_id: Team.last.id)
       end.to change(Team, :count).by(1)
       expect_change_log(after: { name: 'Mannschaft1' }, log: 'create-team')
     end

@@ -9,7 +9,7 @@ RSpec.describe API::GroupScoreTypesController, type: :controller do
     it 'creates new group_score_type', login: :sub_admin do
       expect do
         subject.call
-        expect_api_login_response
+        expect_api_login_response(created_id: GroupScoreType.last.id)
       end.to change(GroupScoreType, :count).by(1)
       expect_change_log(after: { name: 'Extrapokal' }, log: 'create-groupscoretype')
     end

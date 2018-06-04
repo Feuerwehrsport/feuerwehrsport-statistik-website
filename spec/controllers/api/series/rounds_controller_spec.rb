@@ -10,7 +10,7 @@ RSpec.describe API::Series::RoundsController, type: :controller do
     it 'creates new round', login: :admin do
       expect do
         subject.call
-        expect_api_login_response
+        expect_api_login_response(created_id: Series::Round.last.id)
       end.to change(Series::Round, :count).by(1)
       expect_change_log(after: { year: 2017 }, log: 'create-series-round')
     end

@@ -8,7 +8,7 @@ RSpec.describe API::PeopleController, type: :controller do
     it 'creates new person', login: :api do
       expect do
         post :create, person: { first_name: 'Alfred', last_name: 'Meier', gender: 'male', nation_id: nation.id }
-        expect_api_login_response
+        expect_api_login_response(created_id: Person.last.id)
       end.to change(Person, :count).by(1)
       expect_change_log(after: { gender: 'male' }, log: 'create-person')
     end

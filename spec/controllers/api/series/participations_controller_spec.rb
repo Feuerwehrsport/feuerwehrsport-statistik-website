@@ -15,7 +15,7 @@ RSpec.describe API::Series::ParticipationsController, type: :controller do
     it 'creates new participation', login: :admin do
       expect do
         subject.call
-        expect_api_login_response
+        expect_api_login_response(created_id: Series::Participation.last.id)
       end.to change(Series::Participation, :count).by(1)
       expect_change_log(after: { points: 22 }, log: 'create-series-participation')
     end

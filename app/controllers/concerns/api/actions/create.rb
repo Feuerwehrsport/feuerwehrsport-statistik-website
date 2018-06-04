@@ -4,7 +4,7 @@ module API::Actions::Create
   protected
 
   def after_create
-    success
+    success(created_id: form_resource.id)
   end
 
   def after_create_failed

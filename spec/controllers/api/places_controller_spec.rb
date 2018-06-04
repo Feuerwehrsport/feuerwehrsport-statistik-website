@@ -9,7 +9,7 @@ RSpec.describe API::PlacesController, type: :controller do
     it 'creates new place', login: :sub_admin do
       expect do
         subject.call
-        expect_api_login_response
+        expect_api_login_response(created_id: Place.last.id)
       end.to change(Place, :count).by(1)
       expect_change_log(after: { name: 'Wurstort' }, log: 'create-place')
     end

@@ -9,7 +9,7 @@ RSpec.describe API::EventsController, type: :controller do
     it 'creates new event', login: :sub_admin do
       expect do
         subject.call
-        expect_api_login_response
+        expect_api_login_response(created_id: Event.last.id)
       end.to change(Event, :count).by(1)
       expect_change_log(after: { name: 'Wurstevent' }, log: 'create-event')
     end

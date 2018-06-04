@@ -57,7 +57,7 @@ RSpec.describe API::GroupScoreCategoriesController, type: :controller do
     it 'creates new group_score_category', login: :sub_admin do
       expect do
         subject.call
-        expect_api_login_response
+        expect_api_login_response(created_id: GroupScoreCategory.last.id)
       end.to change(GroupScoreCategory, :count).by(1)
       expect(GroupScoreCategory.last.name).to eq 'FooBar'
       expect_change_log(after: { name: 'FooBar' }, log: 'create-groupscorecategory')
