@@ -7,7 +7,7 @@ describe 'places features', type: :feature, js: true do
 
   context 'index' do
     it 'shows an overview' do
-      create_list(:competition, 13, place: create(:place))
+      create_list(:place, 13).each { |place| create(:competition, place: place) }
 
       visit places_path
       expect(page).to have_content '1 bis 10 von 13 Einträgen'

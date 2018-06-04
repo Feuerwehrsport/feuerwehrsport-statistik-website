@@ -5,7 +5,7 @@ describe 'events features', type: :feature, js: true do
 
   context 'index' do
     it 'shows an overview' do
-      create_list(:competition, 13, event: create(:event))
+      create_list(:event, 13).each { |event| create(:competition, event: event) }
 
       visit events_path
       expect(page).to have_content '1 bis 10 von 13 Einträgen'
