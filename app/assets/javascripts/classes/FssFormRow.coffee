@@ -233,6 +233,32 @@ class ScoreParticipation extends EventHandler
         params.real_gender = @gender
       $.post '/api/suggestions/people', params, (result) ->
         buildSuggestions(result.people)
+        add.show()
+
+    add = $('<button/>').text('Neuen Wettkämpfer hinzufügen').on('click', (e) =>
+      popup.close()
+      Fss.getResources 'nations', (nations) =>
+        genderOptions = [
+          { value: 'male', display: 'männlich' }
+          { value: 'female', display: 'weiblich' }
+        ]
+        nationOptions = nations.map (nation) ->
+          { value: nation.id, display: nation.name }
+
+        FssWindow.build('Person hinzufügen')
+        .add(new FssFormRowText('first_name', 'Vorname'))
+        .add(new FssFormRowText('last_name', 'Nachname'))
+        .add(new FssFormRowSelect('gender', 'Geschlecht', null, genderOptions))
+        .add(new FssFormRowSelect('nation_id', 'Nation', null, nationOptions))
+        .on('submit', (personData) =>
+          Fss.post('people', { person: personData }, (result) =>
+            @set(result.created_id, personData.first_name, personData.last_name)
+            @fssWindow.unhide()
+          )
+        )
+        .open()
+    ).hide()
+
     cancel = $('<button/>').text('Abbrechen').on('click', (e) =>
       e.preventDefault()
       popup.fire('cancel').close()
@@ -250,7 +276,7 @@ class ScoreParticipation extends EventHandler
       .click( -> input.keyup() )).append(' Auch Frauen anzeigen'))
     popup.add(new FssFormRowSplit('Suche', searchInput.addClass('search-input-line')))
     .add(new FssFormRowSplit('Vorschläge', table))
-    .add((new FssFormRow(cancel)).addClass('submit-row'))
+    .add((new FssFormRow(add, cancel)).addClass('submit-row'))
     .open()
 
     input.focus()
