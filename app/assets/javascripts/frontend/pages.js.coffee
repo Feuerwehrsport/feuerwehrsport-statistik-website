@@ -10,3 +10,7 @@ Fss.ready 'wettkampf_manager', ->
     
     $this.addClass('active')
     $("div[data-version='#{$this.data('version')}']").removeClass('hide')
+
+  $('#show-older-versions').click ->
+    $(this).hide()
+    $('#older-versions').removeClass('hide')

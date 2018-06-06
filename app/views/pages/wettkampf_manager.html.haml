@@ -38,6 +38,7 @@
               %li Sachsen-Cup
               %li Sachsen-Steiger-Cup
               %li Thüringen-Cup
+              %li TGL-Cup
           %li Losreihenfolge
           %li Startnummern
           %li Online-Anmeldung können einfach importiert werden
@@ -65,28 +66,11 @@
       .col-md-6
         = toc.anker('Download', :h2)
         .list-group
-          - @wettkampf_manager_versions.each_with_index do |version, index|
-            %a.version-select.list-group-item{ data: { version: version.version_number }, href: "#", class: (index == 0 ? "active" : "") }
-              %span.badge= version.date
-              = version.version_number
-            .list-group-item{ data: { version: version.version_number }, class: (index == 0 ? "" : "hide") }
-              %ul
-                - version.targets.each do |target|
-                  %li
-                    %a{ href: "/uploads/wettkampf_manager/#{version.version_number}/#{target.basename}" }= target.basename
-                    %span.label.label-info= number_to_human_size(target.size)
-              .pull-right
-                - if version.database_changed
-                  .label.label-info{ title: "Integrierte Datenbank wurde #{l(version.database_changed)} aktualisiert" }= l(version.database_changed)
-                %a.btn.btn-default.btn-xs{href: "https://github.com/Feuerwehrsport/wettkampf-manager/tree/#{version.commit_id}", title: 'Commit-ID' }
-                  %span.glyphicon.glyphicon-paperclip{'aria-hidden' => 'true' }
-                  = version.commit_id.first(7)
-              - if version.invalid?
-                .alert.alert-danger
-                  %h4 Version nicht funktionsfähig
-                  = version.invalid_message
-              %h4 Veränderungen
-              = version.change_log
+          = render 'wm_version', version: @wettkampf_manager_versions.first, active: true
+        #older-versions.list-group.hide
+          - @wettkampf_manager_versions.drop(1).each do |version|
+            = render 'wm_version', version: version, active: false
+        #show-older-versions.btn.btn-default.btn-sm.pull-right Ältere Versionen anzeigen
       .col-md-6
         = toc.anker('Hinweise zur Installation', :h2)
         %h3 Windows
@@ -127,7 +111,12 @@
         %ul
           %li Automatisches Veröffentlichen auf der Statistikseite
           %li Automatisches Veröffentlichen auf gesonderter Seite
-          %li Viele Verbesserungen bei der Bedienung
       .col-md-6
         = toc.anker("Einführung per Video", :h2)
         = youtube_video("iShzo88TNz8")
+      .col-md-6
+        = toc.anker('Online ausprobieren', :h2)
+        %p Auf der Spielwiese könnt ihr alle Funktionen des Wettkampf-Managers testen. Immer Nachts gegen 3 Uhr wird das System zurückgesetzt. Wenn ihr also merkt, dass am aktuellen Tag das System schon <em>verhuntzt</em> wurde, dann wartet bis morgen und ihr habt ein <em>frisches</em> System.
+        = render('link', target: 'https://spielwiese.feuerwehrsport-statistik.de', label: 'https://spielwiese.feuerwehrsport-statistik.de')
+        %p Passwort: <code>spielwiese</code>
+        %p Viel Spaß beim Testen. Schreibt mir eure Kritiken!
