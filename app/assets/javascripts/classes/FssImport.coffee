@@ -95,7 +95,7 @@ class @FssImport
     new AlertFssWindow 'Eingetragen', '', =>
       @reloadCompetitions =>
         @selectCompetitionType()
-        callback if(callback)
+        callback() if(callback)
 
 
   changeCompetition: =>
@@ -167,5 +167,5 @@ class @FssImport
       for scoreType in @groupScoreTypes
         table.append($('<tr/>').append($('<td/>').text(scoreType.discipline)).append($('<td/>').text(scoreType.name)))
 
-    Fss.getResources 'competitions', (@competitions) =>
-      callback()
+      Fss.getResources 'competitions', (@competitions) =>
+        callback()
