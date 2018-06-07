@@ -10,7 +10,7 @@ class API::ChangeRequestsController < API::BaseController
 
   protected
 
-  def build_instance
+  def build_resource
     resource_class.new(user: current_user)
   end
 
