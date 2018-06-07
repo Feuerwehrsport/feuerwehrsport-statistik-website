@@ -190,7 +190,7 @@ class ScoreParticipation extends EventHandler
     @render()
 
   render: =>
-    if @person_id is null
+    if @person_id is null || @person_id is 'NULL'
       text = 'Hinzufügen'
     else
       text = "#{@person_first_name[0]}. #{@person_last_name}"
@@ -259,6 +259,13 @@ class ScoreParticipation extends EventHandler
         .open()
     ).hide()
 
+    remove = $('<button/>').text('Wettkämpfer entfernen').on('click', (e) =>
+      e.preventDefault()
+      @set('NULL', null, null)
+      popup.fire('cancel').close()
+      @fssWindow.unhide()
+    )
+
     cancel = $('<button/>').text('Abbrechen').on('click', (e) =>
       e.preventDefault()
       popup.fire('cancel').close()
@@ -276,7 +283,7 @@ class ScoreParticipation extends EventHandler
       .click( -> input.keyup() )).append(' Auch Frauen anzeigen'))
     popup.add(new FssFormRowSplit('Suche', searchInput.addClass('search-input-line')))
     .add(new FssFormRowSplit('Vorschläge', table))
-    .add((new FssFormRow(add, cancel)).addClass('submit-row'))
+    .add((new FssFormRow(add, remove, cancel)).addClass('submit-row'))
     .open()
 
     input.focus()
