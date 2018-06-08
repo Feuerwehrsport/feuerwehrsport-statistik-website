@@ -14,6 +14,10 @@ class PagesController < ResourceController
     @page_title = 'RSS-Feeds'
   end
 
+  def datenschutz
+    @page_title = 'Datenschutzerklärung'
+  end
+
   def dashboard
     @page_title = 'Feuerwehrsport - Die große Auswertung'
     @last_competitions = last_competitions(8)

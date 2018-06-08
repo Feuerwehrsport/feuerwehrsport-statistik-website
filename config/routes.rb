@@ -159,6 +159,7 @@ Rails.application.routes.draw do
 
   get :rss, to: 'pages#rss'
   get :impressum, to: 'pages#legal_notice'
+  get :datenschutz, to: 'pages#datenschutz'
   get :feuerwehrsport, to: 'pages#firesport_overview'
   get :wettkampf_manager, to: 'pages#wettkampf_manager'
   get :online_anmeldungen, to: 'pages#online_anmeldungen'
