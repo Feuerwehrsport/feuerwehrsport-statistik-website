@@ -37,7 +37,7 @@ RSpec.describe Registrations::CompetitionsController, type: :controller, login: 
       it 'saves' do
         expect do
           expect_any_instance_of(Registrations::Competition).to receive(:save).and_call_original
-          post :create, registrations_competition: { name: 'foo', place: 'Warin', date: '2018-01-01' }
+          post :create, registrations_competition: { name: 'foo', place: 'Warin', date: '2028-01-01' }
           expect(response).to redirect_to(action: :show, id: Registrations::Competition.last.id)
         end.to change(Registrations::Competition, :count).by(1)
       end

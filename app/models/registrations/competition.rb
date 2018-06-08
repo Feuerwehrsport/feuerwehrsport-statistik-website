@@ -7,12 +7,14 @@ class Registrations::Competition < ActiveRecord::Base
 
   validates :slug, uniqueness: { case_sensitive: false }, allow_blank: true, format: { with: /\A[a-zA-Z0-9\-_+]*\z/ }
   before_save :generate_slug
+  after_create :remove_old_entries
 
   accepts_nested_attributes_for :assessments, reject_if: :all_blank, allow_destroy: true
 
   default_scope -> { order(date: :desc) }
   scope :future_records, -> { where(arel_table[:date].gteq(Date.current)) }
   scope :past_records, -> { unscope(where: :date) }
+  scope :old_entries, -> { where(arel_table[:date].lt(3.months.ago)) }
 
   scope :published, -> { where(published: true) }
   scope :overview, -> { where('date >= ?', Date.current) }
@@ -58,5 +60,9 @@ class Registrations::Competition < ActiveRecord::Base
       end
       slug
     end
+  end
+
+  def remove_old_entries
+    self.class.old_entries.destroy_all
   end
 end

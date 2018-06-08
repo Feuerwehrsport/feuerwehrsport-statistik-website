@@ -1,6 +1,12 @@
 class APIUser < ActiveRecord::Base
+  has_many :change_requests, dependent: :nullify
+  has_many :change_logs, dependent: :nullify
+
+  scope :old_entries, -> { where(arel_table[:created_at].lt(1.month.ago)) }
+
   validates :email_address, email_format: true, allow_blank: true
   validates :name, presence: true
+  after_create :remove_old_entries
 
   def user_agent=(user_agent)
     self.user_agent_meta = user_agent.truncate(10)
@@ -25,5 +31,11 @@ class APIUser < ActiveRecord::Base
     address = Mail::Address.new email_address
     address.display_name = name
     address.format
+  end
+
+  private
+
+  def remove_old_entries
+    self.class.old_entries.destroy_all
   end
 end
