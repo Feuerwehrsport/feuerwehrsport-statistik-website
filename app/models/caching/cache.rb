@@ -10,7 +10,11 @@ class Caching::Cache < ActiveSupport::Cache::FileStore
 
   def fetch(*args, &block)
     if Rails.configuration.caching && caching
-      super(*args, &block)
+      begin
+        super(*args, &block)
+      rescue Errno::ENOENT
+        yield
+      end
     else
       yield
     end
