@@ -16,7 +16,7 @@ RSpec.describe PagesController, type: :controller do
       expect(assigns(:teams_count)).to eq 1
       expect(assigns(:years_count).count).to eq 1
       expect(assigns(:news).count).to eq 0
-      expect(assigns(:performance_overview_disciplines).count).to eq 1
+      expect(assigns(:performance_overview_disciplines).count).to eq 0
       expect(assigns(:charts)).to be_instance_of Chart::Dashboard
     end
   end

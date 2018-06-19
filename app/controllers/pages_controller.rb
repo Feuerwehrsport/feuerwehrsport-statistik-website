@@ -30,7 +30,7 @@ class PagesController < ResourceController
     @teams_count = Team.count
     @years_count = Year.with_competitions.group(:year).count.to_a.map { |y| [y[0].to_i, y[1]] }.sort_by(&:first).reverse
     @news = NewsArticle.first(2).map(&:decorate)
-    @performance_overview_disciplines = Calculation::PerformanceOfYear::Discipline.get(2017, 5).map(&:decorate)
+    @performance_overview_disciplines = Calculation::PerformanceOfYear::Discipline.get(2018, 5).map(&:decorate)
     @charts = Chart::Dashboard.new(context: view_context)
   end
 
