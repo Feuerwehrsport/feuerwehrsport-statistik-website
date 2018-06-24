@@ -3,7 +3,7 @@ class Backend::GroupScoreCategoriesController < Backend::BackendController
 
   default_form do |f|
     f.input :name
-    f.association :competition
+    f.association :competition, as: :association_select
     f.association :group_score_type
   end
 
