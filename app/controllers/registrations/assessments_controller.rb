@@ -6,6 +6,7 @@ class Registrations::AssessmentsController < Registrations::BaseController
     f.input :discipline, as: :radio_buttons
     f.input :gender, as: :radio_buttons
     f.input :name
+    f.input :show_only_name
   end
 
   def paginate?

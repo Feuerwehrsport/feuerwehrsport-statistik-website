@@ -1,4 +1,9 @@
 class Registrations::PersonAssessmentParticipationDecorator < AppDecorator
+  decorates_association :assessment
+  decorates_association :person
+
+  delegate :to_s, to: :person
+
   def type
     t("assessment_types.#{assessment_type}_order", competitor_order: competitor_order)
   end

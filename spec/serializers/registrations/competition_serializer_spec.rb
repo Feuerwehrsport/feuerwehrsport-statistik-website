@@ -36,15 +36,15 @@ RSpec.describe Registrations::CompetitionSerializer, type: :model do
           federal_state: nil,
         }],
         assessments: [{
-          discipline: 'la',
-          gender: 'male',
-          name: '',
-          id: la.id,
-        }, {
           discipline: 'hl',
           gender: 'male',
           name: '',
           id: hl.id,
+        }, {
+          discipline: 'la',
+          gender: 'male',
+          name: '',
+          id: la.id,
         }],
         people: [{
           id: person_1.id,

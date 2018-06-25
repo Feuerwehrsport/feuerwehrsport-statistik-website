@@ -13,6 +13,8 @@ de:
         other: E-Mails
   activerecord:
     attributes:
+      registrations/assessment:
+        show_only_name: Anzeige
       registrations/assessment_participation:
         group_competitor_order: Reihenfolge
         single_competitor_order: Reihenfolge
@@ -79,6 +81,8 @@ de:
     registrations/assessments:
       hints:
         name: 'kann in den meisten Fällen weggelassen werden, z. B.: Ü40-Wertung'
+      inline_labels:
+        show_only_name: In der Anzeige nur den selbst definierten Namen verwenden
       views:
         page_title: Wertungen für Wettkampf verwalten
     registrations/assessments#create:

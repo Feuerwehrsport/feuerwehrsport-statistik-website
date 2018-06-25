@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180313080142) do
+ActiveRecord::Schema.define(version: 20180625080213) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -320,7 +320,6 @@ SELECT person_participations.person_id,
     t.datetime "updated_at",                         :null=>false
     t.datetime "password_reset_requested_at"
     t.string   "password_reset_token",               :index=>{:name=>"index_m3_logins_on_password_reset_token", :unique=>true, :using=>:btree}
-    t.datetime "deleted_at",                         :index=>{:name=>"index_m3_logins_on_deleted_at", :using=>:btree}
     t.datetime "expired_at"
     t.string   "changed_email_address"
     t.string   "changed_email_address_token",        :null=>false, :index=>{:name=>"index_m3_logins_on_changed_email_address_token", :unique=>true, :using=>:btree}
@@ -395,6 +394,7 @@ SELECT person_participations.person_id,
     t.integer  "gender",         :null=>false
     t.datetime "created_at",     :null=>false
     t.datetime "updated_at",     :null=>false
+    t.boolean  "show_only_name", :default=>false, :null=>false
   end
 
   create_table "registrations_competitions", force: :cascade do |t|

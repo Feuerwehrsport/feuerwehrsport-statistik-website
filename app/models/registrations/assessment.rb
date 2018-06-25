@@ -1,10 +1,12 @@
 class Registrations::Assessment < ActiveRecord::Base
   include Genderable
-  belongs_to :competition, class_name: 'Registrations::Competition'
-  has_many :assessment_participations, dependent: :destroy, class_name: 'Registrations::AssessmentParticipation'
+  belongs_to :competition, class_name: 'Registrations::Competition', inverse_of: :assessments
+  has_many :assessment_participations, dependent: :destroy, class_name: 'Registrations::AssessmentParticipation',
+                                       inverse_of: :assessment
 
   validates :competition, :discipline, :gender, presence: true
 
+  default_scope { order(:name, :discipline, :gender) }
   scope :requestable_for, ->(entity) do
     all_disciplines = where(competition_id: entity.competition_id)
     all_disciplines = all_disciplines.gender(entity.gender) if entity.gender.present?
