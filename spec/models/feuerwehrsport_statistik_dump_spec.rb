@@ -22,7 +22,6 @@ RSpec.describe FeuerwehrsportStatistik, type: :model do
       person_participations
       person_spellings
       places
-      registrations_mails
       schema_migrations
       score_types
       scores

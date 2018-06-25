@@ -43,7 +43,7 @@ describe 'pages features', type: :feature do
       expect(page).to have_content 'Neu eingetragene Wettkämpfe'
       save_review_screenshot
       expect(first('td'))
-        .to have_link 'D-Cup - Charlottenthal - 01.05.2018', href: competition_path(score.competition_id)
+        .to have_link 'D-Cup - Charlottenthal - 01.05.2017', href: competition_path(score.competition_id)
     end
   end
 
