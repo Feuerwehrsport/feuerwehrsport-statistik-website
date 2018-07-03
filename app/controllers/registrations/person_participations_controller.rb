@@ -9,6 +9,7 @@ class Registrations::PersonParticipationsController < Registrations::BaseControl
       f.permit :assessment_type
       f.permit :group_competitor_order
       f.permit :single_competitor_order
+      f.permit :competitor_order
     end
   end
 

@@ -2,8 +2,8 @@ class Registrations::Competition < ActiveRecord::Base
   include M3::URLSupport
   belongs_to :admin_user
   has_many :assessments, inverse_of: :competition, dependent: :destroy, class_name: 'Registrations::Assessment'
-  has_many :teams, dependent: :destroy, class_name: 'Registrations::Team'
-  has_many :people, dependent: :destroy, class_name: 'Registrations::Person'
+  has_many :teams, inverse_of: :competition, dependent: :destroy, class_name: 'Registrations::Team'
+  has_many :people, inverse_of: :competition, dependent: :destroy, class_name: 'Registrations::Person'
 
   validates :slug, uniqueness: { case_sensitive: false }, allow_blank: true, format: { with: /\A[a-zA-Z0-9\-_+]*\z/ }
   before_save :generate_slug
@@ -41,8 +41,9 @@ class Registrations::Competition < ActiveRecord::Base
     assessments.pluck(:discipline).uniq
   end
 
-  def possible_assessment_types
-    keys = Registrations::PersonAssessmentParticipation.assessment_types.keys
+  def possible_assessment_types(assessment)
+    return [:competitor] if Discipline.group?(assessment.discipline)
+    keys = %i[group_competitor single_competitor out_of_competition]
     keys.shift unless group_score?
     keys
   end

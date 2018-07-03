@@ -64,8 +64,8 @@ RSpec.describe Registrations::CompetitionSerializer, type: :model do
           last_name: 'Meier',
           statitics_person_id: nil,
           gender: 'male',
-          assessment_participations: [{ assessment_id: hl.id, single_competitor_order: 0,
-                                        group_competitor_order: 0, assessment_type: 'group_competitor' }],
+          assessment_participations: [{ assessment_id: hl.id, single_competitor_order: 0, group_competitor_order: 0,
+                                        competitor_order: 0, assessment_type: 'group_competitor' }],
           tag_names: [],
         }],
         person_tag_list: [], team_tag_list: []

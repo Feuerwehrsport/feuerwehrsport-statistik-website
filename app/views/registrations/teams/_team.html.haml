@@ -72,7 +72,7 @@
               = simple_form_for row, html: { class: 'hide registration-form' },
                 url: registrations_competition_person_path(parent_resource, row) do |f|
                 = f.input :registration_order, as: :hidden
-            - Registrations::Assessment.requestable_for_person(resource).decorate.each do |assessment|
+            - Registrations::Assessment.requestable_for(resource.people.first).decorate.each do |assessment|
               - ct.col(assessment) { |row| edit_participation(row, assessment, parent_resource) }
             - ct.footer(class: 'placeholder') { '' }
 

@@ -123,6 +123,10 @@ de:
         score: In Wertung
 
   assessment_types:
+    competitor: Teilnahme
+    competitor_order: Teilnahme (%{competitor_order})
+    competitor_short: T
+    competitor_short_order: '%{competitor_order}'
     group_competitor: Mannschaftswertung
     group_competitor_order: Mannschaftswertung (%{competitor_order})
     group_competitor_short: M

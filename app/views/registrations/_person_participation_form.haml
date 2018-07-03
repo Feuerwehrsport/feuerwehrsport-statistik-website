@@ -1,4 +1,4 @@
-- Registrations::Assessment.requestable_for_person(form_resource).decorate.each do |assessment|
+- Registrations::Assessment.requestable_for(form_resource).decorate.each do |assessment|
   .assessment-participation
     = f.simple_fields_for :person_assessment_participations,
       form_resource.person_assessment_participations.find_or_initialize_by(assessment: assessment) do |g|
@@ -8,9 +8,16 @@
 
       .row.edit-assesment-type
         .col-md-6
-          = g.input :assessment_type, as: :select, collection: resource.competition.possible_assessment_types,
+          = g.input :assessment_type, as: :select, collection: resource.competition.possible_assessment_types(assessment),
             label: assessment.decorate, label_method: ->(type) { t("assessment_types.#{type}") }, include_blank: false
         .col-md-6.group-competitor-order
           = g.input :group_competitor_order, hint: 'Reihenfolge'
         .col-md-6.single-competitor-order
           = g.input :single_competitor_order, hint: 'Reihenfolge'
+        .col-md-6.competitor-order
+          - if assessment.discipline == 'fs'
+            = g.input :competitor_order, hint: 'Nummer', collection: Registrations::PersonAssessmentParticipationDecorator.fs_names.each_with_index.map { |n, i| [n, i] }, include_blank: false, input_html: { class: 'fs-numbers' }
+          - elsif assessment.discipline == 'la'
+            = g.input :competitor_order, hint: 'Nummer', collection: Registrations::PersonAssessmentParticipationDecorator.la_names.each_with_index.map { |n, i| [n, i] }, include_blank: false, input_html: { class: 'la-numbers' }
+          - else
+            = g.input :competitor_order, hint: 'Nummer'

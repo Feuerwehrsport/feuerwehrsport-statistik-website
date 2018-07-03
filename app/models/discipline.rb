@@ -12,7 +12,7 @@ class Discipline
   end
 
   def self.participation_count(discipline)
-    PARTICIPATION_COUNT[discipline]
+    PARTICIPATION_COUNT[discipline.try(:to_sym)]
   end
 
   def self.single?(discipline)

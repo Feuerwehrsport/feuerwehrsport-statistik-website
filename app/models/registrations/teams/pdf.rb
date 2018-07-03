@@ -86,14 +86,14 @@ Registrations::Teams::Pdf = Struct.new(:team) do
 
     people_list = []
     line = ['Nr.', 'Vorname', 'Nachname', 'Attribute']
-    Registrations::Assessment.requestable_for_person(team).decorate.each do |assessment|
+    Registrations::Assessment.requestable_for(team.people.first).decorate.each do |assessment|
       line.push(assessment.shortcut)
     end
     people_list.push(line)
 
     team.people.each_with_index do |person, index|
       line = [index + 1, person.first_name, person.last_name, person.tag_names.join(', ')]
-      Registrations::Assessment.requestable_for_person(team).each do |assessment|
+      Registrations::Assessment.requestable_for(team.people.first).each do |assessment|
         line.push(person.person_assessment_participations.find_by(assessment: assessment)&.decorate&.short_type)
       end
       people_list.push(line)
