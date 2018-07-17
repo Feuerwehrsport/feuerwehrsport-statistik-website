@@ -1,6 +1,6 @@
 set :application, 'feuerwehrsport_statistik'
 set :user, 'feuerwehrsport_statistik'
-set :repository,  'ssh://gitolite3@stadthafen-rails/feuerwehrsport_statistik'
+set :repository, 'git@github.com:Feuerwehrsport/feuerwehrsport-statistik-website.git'
 set :rvm_ruby_string, '2.4.0'
 
 # set :stages, %w(staging production)
