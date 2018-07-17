@@ -59,6 +59,7 @@ class PagesController < ResourceController
     @discipline_structs = []
     [
       %i[hb female],
+      %i[hw female],
       %i[hb male],
       %i[hl female],
       %i[hl male],
