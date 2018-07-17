@@ -34,17 +34,6 @@ module FeuerwehrsportStatistik
 
     config.wettkampf_manager_path = Rails.root.join('spec', 'fixtures', 'wettkampf_manager')
 
-    logdir_path = '/srv/feuerwehrsport-statistik/shared/log'
-    config.log_file_parser = OpenStruct.new(
-      run_before: -> do
-        `cd "#{logdir_path}" ; find -name "production.log-*" ! -name "*.gz" -exec ln -sf {} production.yesterday \\;`
-      end,
-      log_path: "#{logdir_path}/production.yesterday",
-
-      output_if: ->(parser) do
-                   [parser.fatal_errors.present?, parser.error_requests.present?, parser.warn_requests.present?].any?
-                 end,
-    )
     config.m3.session.login_redirect_url = { controller: '/backend/dashboards', action: :index }
     config.m3.compatible_version = '1.0.8'
   end

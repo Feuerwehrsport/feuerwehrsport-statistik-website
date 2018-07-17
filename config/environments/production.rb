@@ -78,4 +78,10 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.wettkampf_manager_path = '/srv/feuerwehrsport-statistik/shared/uploads/wettkampf_manager'
+
+  config.log_file_parser = OpenStruct.new(
+    file_path: '/srv/feuerwehrsport-statistik/shared/log/',
+    file_pattern: /\Aproduction.log-\d{8}\z/,
+    output_level: :warn,
+  )
 end

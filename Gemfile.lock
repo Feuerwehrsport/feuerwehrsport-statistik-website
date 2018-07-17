@@ -1,8 +1,15 @@
 GIT
-  remote: https://github.com/lichtbit/m3_log_file_parser.git
-  revision: 01d20dab42746584eeee925332ce4b7565bfbe05
+  remote: https://github.com/Lichtbit/capistrano_rsync_with_remote_cache
+  revision: ae8918689c5a4e00718782ec6186965f7842fa3c
   specs:
-    m3_log_file_parser (0.0.1)
+    capistrano_rsync_with_remote_cache (2.4.0)
+      capistrano (~> 2.0)
+
+GIT
+  remote: https://github.com/lichtbit/m3_log_file_parser.git
+  revision: d91944b9db4e99640e5ec26105581ef44311d7c5
+  specs:
+    m3_log_file_parser (0.0.2)
       rails (~> 4.0)
 
 PATH
@@ -52,9 +59,9 @@ PATH
 
 GIT
   remote: ssh://gitolite3@stadthafen-rails/m3_capistrano
-  revision: 4550c8526620dfba9bbb7bd4861322c3f4564a2a
+  revision: 3ea896d367a688a60861c4d10f3cabb5b30fd508
   specs:
-    m3_capistrano (0.0.1)
+    m3_capistrano (0.1.1)
       capistrano (~> 2)
       capistrano-nginx-unicorn
       capistrano_rsync_with_remote_cache
@@ -164,8 +171,6 @@ GEM
       net-ssh-gateway (>= 1.1.0)
     capistrano-nginx-unicorn (0.0.8)
       capistrano (~> 2.0)
-    capistrano_rsync_with_remote_cache (2.4.0)
-      capistrano (>= 2.1.0)
     capybara (2.18.0)
       addressable
       mini_mime (>= 0.1.3)
@@ -267,7 +272,7 @@ GEM
     hash-deep-merge (0.1.1)
     hashdiff (0.3.7)
     hashery (2.1.2)
-    highline (1.7.10)
+    highline (2.0.0)
     html2haml (2.2.0)
       erubis (~> 2.7.0)
       haml (>= 4.0, < 6)
@@ -283,7 +288,7 @@ GEM
       image_size (~> 1.5)
       in_threads (~> 1.3)
       progress (~> 3.0, >= 3.0.1)
-    image_optim_pack (0.5.0.20180401-x86_64-linux)
+    image_optim_pack (0.5.0.20180401)
       fspath (>= 2.1, < 4)
       image_optim (~> 0.19)
     image_size (1.5.0)
@@ -329,7 +334,7 @@ GEM
       net-ssh (>= 2.6.5)
     net-sftp (2.1.2)
       net-ssh (>= 2.6.5)
-    net-ssh (4.2.0)
+    net-ssh (5.0.2)
     net-ssh-gateway (2.0.0)
       net-ssh (>= 4.0.0)
     nokogiri (1.8.2)
@@ -550,6 +555,7 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers
   axlsx (~> 3.0.0.pre)
+  capistrano_rsync_with_remote_cache!
   cocoon
   coffee-rails
   firesport!
@@ -574,4 +580,4 @@ DEPENDENCIES
   unicorn
 
 BUNDLED WITH
-   1.14.6
+   1.16.2
