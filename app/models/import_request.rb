@@ -8,6 +8,9 @@ class ImportRequest < ActiveRecord::Base
 
   default_scope -> { order('finished_at DESC, created_at ASC') }
   scope :open, -> { where(finished_at: nil) }
+  scope :old_entries, -> { where(arel_table[:finished_at].lt(3.months.ago)) }
+
+  after_create :remove_old_entries
 
   def edit_user_id=(id)
     super
@@ -23,5 +26,11 @@ class ImportRequest < ActiveRecord::Base
 
   def finished=(value)
     self.finished_at = value == '0' ? nil : Time.current
+  end
+
+  private
+
+  def remove_old_entries
+    self.class.old_entries.destroy_all
   end
 end
