@@ -192,7 +192,10 @@
           %th Aufgestellt
         %tr
           %td= discipline_image(:hb)
-          %td= discipline_name(:hb)
+          %td
+            = discipline_name(:hb)
+            %br/
+            %small 120cm Balken
           %td= persons(8, type: :full_name)
           %td= image_tag(@team2.image.thumb)
           %td= team_link(@team2)
@@ -222,17 +225,36 @@
           %td= discipline_image(:zk)
           %td
             = discipline_name(:zk)
+            %br/
+            %small 120cm Balken
+          %td= persons(17, type: :full_name)
+          %td= image_tag(@team2.image.thumb)
+          %td= team_link(@team2)
+          %td
+            27,16 s
+            %br/
+            %small 8,13 s/19,03 s
+          %td= competition_find_link(1097)
+        %tr
+          %td= discipline_image(:zk)
+          %td
+            = discipline_name(:zk)
+            %br/
+            %small 80cm Balken
           %td= persons(394, type: :full_name)
           %td= image_tag(@team1869.image.thumb)
           %td= team_link(@team1869)
-          %td 
+          %td
             26,82 s
             %br/
             %small 8,55 s/18,27 s
           %td= competition_find_link(1210)
         %tr
           %td= discipline_image(:fs)
-          %td= discipline_name(:fs)
+          %td
+            = discipline_name(:fs)
+            %br/
+            %small Leiterwand/120cm Balken
           %td
             %small= persons([8, 251, 282, 116], type: :short_name)
           %td= image_tag(@team2.image.thumb)
