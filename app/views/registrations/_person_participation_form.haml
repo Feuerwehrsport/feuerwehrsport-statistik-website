@@ -19,5 +19,7 @@
             = g.input :competitor_order, hint: 'Nummer', collection: Registrations::PersonAssessmentParticipationDecorator.fs_names.each_with_index.map { |n, i| [n, i] }, include_blank: false, input_html: { class: 'fs-numbers' }
           - elsif assessment.discipline == 'la'
             = g.input :competitor_order, hint: 'Nummer', collection: Registrations::PersonAssessmentParticipationDecorator.la_names.each_with_index.map { |n, i| [n, i] }, include_blank: false, input_html: { class: 'la-numbers' }
+          - elsif assessment.discipline == 'gs'
+            = g.input :competitor_order, hint: 'Nummer', collection: Registrations::PersonAssessmentParticipationDecorator.gs_names.each_with_index.map { |n, i| [n, i] }, include_blank: false, input_html: { class: 'gs-numbers' }
           - else
             = g.input :competitor_order, hint: 'Nummer'
