@@ -6,7 +6,7 @@ class Series::Round < ActiveRecord::Base
   has_many :assessments, class_name: 'Series::Assessment'
   has_many :participations, through: :assessments, class_name: 'Series::Participation'
 
-  validates :name, :year, :aggregate_type, presence: true
+  validates :name, :slug, :year, :aggregate_type, presence: true
 
   default_scope -> { order(year: :desc, name: :asc) }
   scope :cup_count, -> do

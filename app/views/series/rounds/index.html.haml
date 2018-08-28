@@ -1,7 +1,17 @@
-= table_of_contents do |toc|
+- if single_round?
+  = table_of_contents do |toc|
+    .section
+      .container
+        .col-md-9
+          %h1 Wettkampfserien
+        .col-md-3= toc.index
+    
+      = render('index_overview', toc: toc, round_link_prefix: [])
+    - if lookup_context.find_all("series/rounds/aggregate_type_#{@aggregate_type.underscore}",[],true).any?
+      .container= render("series/rounds/aggregate_type_#{@aggregate_type.underscore}", toc: toc)
+- else
   .section
     .container
       .col-md-9
         %h1 Wettkampfserien
-      .col-md-3= toc.index
-    = render('index_overview', toc: toc, round_link_prefix: [])
+    = render('overview')

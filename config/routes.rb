@@ -150,6 +150,7 @@ Rails.application.routes.draw do
   end
   resources :events, only: %i[index show]
   namespace :series do
+    get ':slug', to: 'rounds#index'
     resources :rounds, only: %i[index show]
     resources :assessments, only: [:show]
   end

@@ -4,6 +4,7 @@ class Backend::Series::RoundsController < Backend::BackendController
 
   default_form do |f|
     f.input :name
+    f.input :slug
     f.input :year
     f.input :aggregate_type, collection: Firesport::Series::Handler.class_names
     f.input :official
@@ -12,6 +13,7 @@ class Backend::Series::RoundsController < Backend::BackendController
 
   default_index do |t|
     t.col(:name)
+    t.col(:slug)
     t.col(:year)
     t.col(:official, &:official_translated)
     t.col(:full_cup_count)

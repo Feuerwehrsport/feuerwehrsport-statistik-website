@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe API::Series::RoundsController, type: :controller do
   let(:round) { create(:series_round) }
-  let(:attributes) { { name: 'Cup', year: 2017, official: true, aggregate_type: 'LaCup', full_cup_count: 4 } }
+  let(:attributes) { { name: 'Cup', slug: 'cup', year: 2017, official: true, aggregate_type: 'LaCup', full_cup_count: 4 } }
 
   describe 'POST create' do
     subject { -> { post :create, series_round: attributes } }

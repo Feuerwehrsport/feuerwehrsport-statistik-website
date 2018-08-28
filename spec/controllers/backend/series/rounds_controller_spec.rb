@@ -6,6 +6,7 @@ RSpec.describe Backend::Series::RoundsController, type: :controller, login: :adm
     let(:resource_attributes) do
       {
         name: 'D-Cup',
+        slug: 'd-cup',
         year: 2016,
         aggregate_type: 'DCup',
       }
