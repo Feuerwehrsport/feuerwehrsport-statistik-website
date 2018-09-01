@@ -21,8 +21,9 @@ class YearsController < ResourceController
   def best_scores
     assign_resource
     @discipline_structs = []
+    hb_female_discipline = resource.to_i < 2017 ? %i[hb female] : %i[hw female]
     [
-      %i[hb female],
+      hb_female_discipline,
       %i[hb male],
       %i[hl female],
       %i[hl male],

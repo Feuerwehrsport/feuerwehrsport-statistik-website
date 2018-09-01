@@ -1,4 +1,4 @@
-class Years::InprovementItem < Struct.new(:person)
+Years::InprovementItem = Struct.new(:person) do
   include Draper::Decoratable
 
   def current_scores
@@ -18,10 +18,16 @@ class Years::InprovementItem < Struct.new(:person)
   end
 
   def last_average
-    last_scores.count >= 3 ? last_scores.sort_by!(&:time).first(3).map(&:time).sum / 3 : Firesport::INVALID_TIME
+    @last_average ||= best_3_average(last_scores)
   end
 
   def current_average
-    current_scores.count >= 3 ? current_scores.sort_by!(&:time).first(3).map(&:time).sum / 3 : Firesport::INVALID_TIME
+    @current_average ||= best_3_average(current_scores)
+  end
+
+  protected
+
+  def best_3_average(scores)
+    scores.count >= 3 ? scores.sort_by!(&:time).first(3).map(&:time).sum / 3 : Firesport::INVALID_TIME
   end
 end
