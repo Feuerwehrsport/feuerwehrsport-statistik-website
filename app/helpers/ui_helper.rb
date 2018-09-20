@@ -22,6 +22,6 @@ module UIHelper
   end
 
   def badge_count(scope)
-    content_tag(:span, scope.count, class: 'badge') if scope.present?
+    content_tag(:span, scope.count, class: 'badge') if scope.all.present?
   end
 end
