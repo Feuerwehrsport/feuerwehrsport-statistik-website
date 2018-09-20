@@ -3,6 +3,8 @@ class ChangeRequest < ActiveRecord::Base
   belongs_to :admin_user
 
   scope :open, -> { where(done_at: nil) }
+  scope :old_entries, -> { where(arel_table[:done_at].lt(3.months.ago)) }
+  after_create :remove_old_entries
 
   validates :content, presence: true
 
@@ -76,5 +78,11 @@ class ChangeRequest < ActiveRecord::Base
         binary: binary,
       }
     end
+  end
+
+  private
+
+  def remove_old_entries
+    self.class.old_entries.destroy_all
   end
 end
