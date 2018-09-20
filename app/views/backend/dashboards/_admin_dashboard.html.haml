@@ -22,12 +22,12 @@
           %li
             = link_to backend_change_requests_path do
               Fehler bearbeiten
-              %span.badge= ChangeRequest.open.count
+              = badge_count(ChangeRequest.open)
         - if can?(:index, ImportRequest)
           %li
             = link_to backend_import_requests_path do
               Import-Anfragen
-              %span.badge= ImportRequest.open.count
+              = badge_count(ImportRequest.open)
         - if can?(:create, Import::Scores)
           %li= link_to 'Import', backend_imports_path
           %li= link_to 'Team auseinanderziehen', new_backend_repairs_team_score_move_path
@@ -39,13 +39,13 @@
         %li
           = link_to backend_unchecked_teams_path do
             Neue Mannschaften
-            %span.badge= Team.unchecked.count
+            = badge_count(Team.unchecked)
 
         - if can?(:manage, Ipo::Registration)
           %li
             = link_to ipo_registrations_path do
               Inselpokal-Anmeldungen
-              %span.badge= Ipo::Registration.count
+              = badge_count(Ipo::Registration)
     .col-md-4
       %h4 Direkte Bearbeitung
       %ul.nav.nav-pills.nav-stacked.backend-nav

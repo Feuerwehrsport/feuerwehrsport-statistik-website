@@ -20,4 +20,8 @@ module UIHelper
     options[:src] = "https://www.youtube-nocookie.com/embed/#{id}"
     content_tag(:iframe, '', options)
   end
+
+  def badge_count(scope)
+    content_tag(:span, scope.count, class: 'badge') if scope.present?
+  end
 end

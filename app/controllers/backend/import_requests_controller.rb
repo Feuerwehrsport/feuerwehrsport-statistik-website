@@ -39,4 +39,8 @@ class Backend::ImportRequestsController < Backend::BackendController
     deliver_later(ImportRequestMailer, :new_request, resource)
     super
   end
+
+  def show_associations?
+    false
+  end
 end
