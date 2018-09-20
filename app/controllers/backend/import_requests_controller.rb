@@ -21,17 +21,7 @@ class Backend::ImportRequestsController < Backend::BackendController
     i.col :event, sortable: { event: :name }
     i.col :description
     i.col :finished_at
-  end
-
-  default_show do |i|
-    i.col :file_with_link
-    i.col :url_with_link
-    i.col :date
-    i.col :place, sortable: { place: :name }
-    i.col :event, sortable: { event: :name }
-    i.col :description
-    i.col :edit_user
-    i.col :finished_at
+    i.col :created_at
   end
 
   def decide_login

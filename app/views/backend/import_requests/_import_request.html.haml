@@ -1,0 +1,50 @@
+.section
+  .container
+    .row
+      .col-md-6
+        .panel.panel-default
+          .panel-heading Antragsteller
+          .panel-body
+            %dl
+              %dt Name
+              %dd= resource.admin_user
+            
+              %dt E-Mail-Adresse
+              %dd= resource.admin_user.email_address
+
+              %dt E-Mail-Link
+              %dd= mail_to(resource.admin_user.email_address_format, nil, subject: "Import-Anfrage vom #{resource.created_at_date}")
+
+
+      .col-md-6
+        .panel.panel-default
+          .panel-heading Bearbeitung
+          .panel-body
+            - if resource.edited_at.present?
+              %dl
+                %dt Name
+                %dd= resource.edit_user
+
+                %dt Bearbeitung seit
+                %dd= resource.edited_at
+              = button_to 'Bearbeitung abgeben', { action: :update }, method: :patch, params: { 'import_request[edit_user_id]' => '' }, class: 'btn btn-default'
+
+              - if resource.finished_at.present?
+                %dl
+                  %dt Abgearbeited seit
+                  %dd= resource.finished_at
+              - else
+                = button_to 'Bearbeitung abschließen', { action: :update }, method: :patch, params: { 'import_request[finished]' => '1' }, class: 'btn btn-default'
+            - else
+              = button_to 'Bearbeitung übernehmen', { action: :update }, method: :patch, params: { 'import_request[edit_user_id]' => current_admin_user.id }, class: 'btn btn-default'
+    
+      .col-md-12
+        .panel.panel-default
+          .panel-heading Wettkampf
+          .panel-body
+            %dl
+              - %i[file_with_link url_with_link date place event description].each do |field|
+                - if resource.send(field).present?
+                  %dt= resource_class.human_attribute_name(field)
+                  %dd
+                    = resource.send(field)

@@ -4,7 +4,7 @@ class ImportRequestDecorator < AppDecorator
   decorates_association :place
   decorates_association :event
   localizes_boolean :finished
-  localizes :date, :finished_at
+  localizes :date, :finished_at, :edited_at
 
   def to_s
     [date, place, event, file&.file&.basename].reject(&:blank?).join(' - ')
