@@ -1,6 +1,6 @@
 class Backend::Pdf2Table::EntriesController < Backend::BackendController
   backend_actions :new, :create, :show, :index, :destroy,
-                  clean_cache_disabled: true, disable_show_associations: true
+                  clean_cache_disabled: true, disable_show_associations: true, disable_logging: true
 
   default_form do |f|
     f.input :pdf

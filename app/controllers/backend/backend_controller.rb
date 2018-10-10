@@ -5,11 +5,12 @@ class Backend::BackendController < ApplicationController
     options              = action_names.extract_options!
     for_class            = options.delete(:for_class) || controller_path.classify.gsub(/^Backend::/, '').constantize
     clean_cache_disabled = options.delete(:clean_cache_disabled)
-    options[:for_class]  = for_class
+    disable_logging = options.delete(:disable_logging)
+    options[:for_class] = for_class
     define_method(:show_associations?) { false } if options.delete(:disable_show_associations)
     default_actions(*action_names, options)
     include SerializerSupport
-    include ChangeLogSupport unless for_class < M3::FormObject
+    include ChangeLogSupport unless for_class < M3::FormObject || disable_logging
     include CleanCacheSupport unless clean_cache_disabled
 
     collection_actions :live_resource, :index, :new, check_existence: true
