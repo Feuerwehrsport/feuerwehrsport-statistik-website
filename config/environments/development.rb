@@ -40,4 +40,6 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.caching = false
+
+  config.pdf2table_path = '/home/georf/eclipse-workspace/pdf2table/target/pdf2table-current.jar'
 end

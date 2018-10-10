@@ -1,0 +1,62 @@
+.section
+  .container
+    .row
+      .col-md-6
+        .panel.panel-default
+          .panel-heading
+            Eingabe-PDF
+          .panel-body
+            %p
+              = link_to(resource.pdf.file.filename, resource.pdf.to_s)
+              (#{number_to_human_size(File.size(resource.pdf.file.path))})
+      .col-md-6
+        - if resource.locked_at.nil?
+          .panel.panel-info
+            .panel-heading
+              Ausgabe
+            .panel-body
+              %p
+                %em Warte auf Verarbeitung
+              %p.small
+                Seite aktualisiert sich automatisch:
+                %span.reload-counter 10
+        - elsif resource.finished_at.nil?
+          .panel.panel-warning
+            .panel-heading
+              Ausgabe
+            .panel-body
+              %p
+                %em Verarbeitung läuft
+              %p.small
+                Seite aktualisiert sich automatisch:
+                %span.reload-counter 10
+        - elsif !resource.success?
+          .panel.panel-danger
+            .panel-heading
+              Ausgabe
+            .panel-body
+              %p Es gab einen Fehler bei der Verarbeitung:
+              %pre= resource.log
+
+        - else
+          .panel.panel-success
+            .panel-heading
+              Ausgabe
+            .panel-body
+              - if resource.ods.present?
+                %p
+                  = link_to(resource.ods.file.filename, resource.ods.to_s)
+                  (#{number_to_human_size(File.size(resource.ods.file.path))})
+              - if resource.csv.present?
+                %p
+                  = link_to(resource.csv.file.filename, resource.csv.to_s)
+                  (#{number_to_human_size(File.size(resource.csv.file.path))})
+
+- if resource.success?
+  .section
+    .container
+      .panel.panel-default
+        .panel-heading
+          Direkte Ausgabe zum Kopieren für Excel/OpenOffice/LibreOffice
+        .panel-body
+          %pre= resource.csv_to_copy

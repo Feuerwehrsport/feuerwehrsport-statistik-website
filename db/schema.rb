@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180828080044) do
+ActiveRecord::Schema.define(version: 20181010094946) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -357,6 +357,21 @@ SELECT person_participations.person_id,
     t.datetime "updated_at",    :null=>false
   end
 
+  create_table "pdf2_table_entries", force: :cascade do |t|
+    t.string   "pdf",           :null=>false
+    t.string   "ods"
+    t.string   "csv"
+    t.text     "csv_to_copy"
+    t.text     "log"
+    t.integer  "api_user_id",   :index=>{:name=>"index_pdf2_table_entries_on_api_user_id", :using=>:btree}
+    t.integer  "admin_user_id", :index=>{:name=>"index_pdf2_table_entries_on_admin_user_id", :using=>:btree}
+    t.datetime "locked_at"
+    t.datetime "finished_at"
+    t.boolean  "success"
+    t.datetime "created_at",    :null=>false
+    t.datetime "updated_at",    :null=>false
+  end
+
   create_table "person_spellings", force: :cascade do |t|
     t.integer  "person_id",  :null=>false, :index=>{:name=>"index_person_spellings_on_person_id", :using=>:btree}
     t.string   "last_name",  :limit=>200, :null=>false
@@ -620,6 +635,8 @@ SELECT date_part('year'::text, competitions.date) AS year
   add_foreign_key "m3_delivery_settings", "m3_websites", column: "website_id"
   add_foreign_key "m3_logins", "m3_websites", column: "website_id"
   add_foreign_key "news_articles", "admin_users"
+  add_foreign_key "pdf2_table_entries", "admin_users"
+  add_foreign_key "pdf2_table_entries", "api_users"
   add_foreign_key "people", "nations"
   add_foreign_key "person_participations", "group_scores"
   add_foreign_key "person_participations", "people"

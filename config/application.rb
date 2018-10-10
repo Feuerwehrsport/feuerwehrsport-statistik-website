@@ -33,6 +33,7 @@ module FeuerwehrsportStatistik
     config.exceptions_app = routes
 
     config.wettkampf_manager_path = Rails.root.join('spec', 'fixtures', 'wettkampf_manager')
+    config.pdf2table_path = '/opt/pdf2table.jar'
 
     config.m3.session.login_redirect_url = { controller: '/backend/dashboards', action: :index }
     config.m3.compatible_version = '1.0.8'

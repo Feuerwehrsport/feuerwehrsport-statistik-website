@@ -131,6 +131,10 @@ Rails.application.routes.draw do
 
   get 'wa/:slug', to: 'registrations/competitions#slug_handle', as: :registrations_slug
 
+  namespace :pdf2_table do
+    resources :entries, controller: '/backend/pdf2_table/entries', only: %i[new create show index destroy]
+  end
+
   # following controllers will write html cache
   resources :change_logs, only: %i[index show]
   resources :appointments, only: %i[index show]

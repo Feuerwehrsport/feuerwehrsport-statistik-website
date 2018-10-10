@@ -1,0 +1,20 @@
+de:
+  activerecord:
+    attributes:
+      pdf2_table/entry:
+        finished_at: Fertiggestellt
+        pdf: PDF-Datei
+        success_translated: Erfolgreich
+    models:
+      pdf2_table/entry:
+        one: PDF-Umwandlung
+        other: PDF-Umwandlungen
+  t3:
+    backend/pdf2_table/entries:
+      form_actions:
+        create: Umwandeln
+      hints:
+        pdf: Bitte benutzen Sie nur Dateien, die auch öffentlichen einsehbar sein können. Die Betreiber der Seite nutzen die
+          eingegebnen Daten eventuell für weitere Tests.
+      views:
+        header_html: <p>Mit diesem Tool können Tabellen aus PDF-Dateien in Kalkulationstabellen (ODS, CSV) umgewandelt werden.</p>

@@ -19,6 +19,7 @@ class AppDecorator < ApplicationDecorator
   def self.localizes_boolean(*fields)
     fields.each do |field|
       define_method("#{field}_translated") do
+        return '' if object.send(field).nil?
         object.send(field) ? 'Ja' : 'Nein'
       end
     end
