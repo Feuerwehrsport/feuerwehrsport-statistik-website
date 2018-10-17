@@ -38,6 +38,7 @@ module Import
 
     def import_lines!
       return unless valid?
+
       self.missing_teams = []
       self.import_lines = lines.map { |line| Line.new(self, line).out.to_h }
     end

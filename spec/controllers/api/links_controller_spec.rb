@@ -30,8 +30,9 @@ RSpec.describe API::LinksController, type: :controller do
   end
 
   describe 'DELETE destroy' do
-    before { link }
     subject { -> { delete :destroy, id: link.id } }
+
+    before { link }
 
     it 'destroys link', login: :sub_admin do
       expect do

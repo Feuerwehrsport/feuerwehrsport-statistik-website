@@ -24,6 +24,7 @@ class Series::RoundImport
           %i[female male].each do |gender|
             scores = series_participations(type, gender, discipline)
             next if scores.blank?
+
             scores = exclude_scores(scores, type, gender, name)
             if scores.present?
               assessment = create_or_find_assessment(type, discipline, gender, name)

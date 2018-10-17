@@ -4,12 +4,11 @@ class Caching::HTMLPreLoader
 
   def perform
     return unless Rails.configuration.caching
+
     urls.each do |url|
-      begin
-        open(url, read_timeout: 25).read
-      rescue StandardError
-        nil
-      end
+      open(url, read_timeout: 25).read
+    rescue StandardError
+      nil
     end
   end
 

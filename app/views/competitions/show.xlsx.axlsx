@@ -17,12 +17,15 @@ wb.add_worksheet(name: 'Übersicht') do |sheet|
     finals.each do |final|
       name = discipline_name_short(discipline)
       name += " #{final_name(final)}" if final
-      sheet.add_row([name, count_or_zero(@calc.discipline(discipline, :female, final).try(:count)), count_or_zero(@calc.discipline(discipline, :male, final).try(:count))])
+      sheet.add_row([name, count_or_zero(@calc.discipline(discipline, :female, final).try(:count)),
+                     count_or_zero(@calc.discipline(discipline, :male, final).try(:count))])
     end
   end
   @calc.group_categories.each do |discipline, types|
     types.each do |type|
-      sheet.add_row([discipline_name_short(discipline), count_or_zero(@calc.discipline(discipline, :female, type).try(:count)), count_or_zero(@calc.discipline(discipline, :male, type).try(:count))])
+      sheet.add_row([discipline_name_short(discipline),
+                     count_or_zero(@calc.discipline(discipline, :female, type).try(:count)),
+                     count_or_zero(@calc.discipline(discipline, :male, type).try(:count))])
     end
   end
 end

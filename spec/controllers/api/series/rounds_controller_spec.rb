@@ -48,6 +48,7 @@ RSpec.describe API::Series::RoundsController, type: :controller do
 
   describe 'GET index' do
     before { round }
+
     it 'returns rounds' do
       get :index
       expect_json_response

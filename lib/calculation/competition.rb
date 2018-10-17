@@ -72,6 +72,7 @@ module Calculation
           [false, -1, -2, -3, -4].each do |final|
             single = SingleDiscipline.new(self, discipline, gender, final, context)
             next unless single.count > 0
+
             @single_categories[discipline] ||= Set.new
             @single_categories[discipline].add(final)
             @disciplines.push(single)
@@ -91,6 +92,7 @@ module Calculation
           competition.group_score_categories.discipline(discipline).decorate.each do |category|
             group = GroupDiscipline.new(self, discipline, gender, category, context)
             next unless group.count > 0
+
             @group_categories[discipline] ||= Set.new
             @group_categories[discipline].add(category)
             @disciplines.push(group)

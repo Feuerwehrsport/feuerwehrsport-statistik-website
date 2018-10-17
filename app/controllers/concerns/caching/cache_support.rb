@@ -27,6 +27,7 @@ module Caching::CacheSupport
 
   def save_html_cache
     return unless save_html_cache?(content_type: response.content_type)
+
     uri = URI.parse(request.url).path
     path = Rails.root.join('public', 'cache', File.dirname(uri).gsub(%r{^/}, ''))
     FileUtils.mkdir_p(path)

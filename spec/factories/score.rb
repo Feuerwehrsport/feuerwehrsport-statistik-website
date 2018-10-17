@@ -2,9 +2,9 @@ FactoryBot.define do
   factory :score do
     person { Person.first || build(:person) }
     team { Team.first || build(:team) }
-    team_number 1
-    time 1976
-    discipline 'hb'
+    team_number { 1 }
+    time { 1976 }
+    discipline { 'hb' }
     competition { Competition.first || build(:competition) }
 
     trait :double do
@@ -14,11 +14,11 @@ FactoryBot.define do
     end
 
     trait :hl do
-      discipline :hl
+      discipline { :hl }
     end
 
     trait :hb do
-      discipline :hb
+      discipline { :hb }
     end
   end
 end

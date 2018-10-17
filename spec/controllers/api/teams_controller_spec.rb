@@ -50,6 +50,7 @@ RSpec.describe API::TeamsController, type: :controller do
 
   describe 'GET index' do
     before { team }
+
     it 'returns teams' do
       get :index
       expect_json_response
@@ -76,6 +77,7 @@ RSpec.describe API::TeamsController, type: :controller do
           expect(json_body[:team]).to eq(team_attributes)
         end
       end
+
       it 'success', login: :sub_admin do
         subject.call
         expect(json_body[:team]).to eq(team_attributes.merge(changed_attributes))

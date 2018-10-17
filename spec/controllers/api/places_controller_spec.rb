@@ -29,6 +29,7 @@ RSpec.describe API::PlacesController, type: :controller do
 
   describe 'GET index' do
     before { place }
+
     it 'returns places' do
       get :index
       expect_json_response

@@ -26,6 +26,7 @@ Registrations::Competitions::Pdf = Struct.new(:competition, :ability) do
 
   def build_people_table(gender, people)
     return if people.blank?
+
     prawn.move_down 12
     prawn.text "Einzelstarter #{g(gender)}", size: 14, style: :bold
     lines = [people_table_headline(gender)]
@@ -40,6 +41,7 @@ Registrations::Competitions::Pdf = Struct.new(:competition, :ability) do
       lines.push(line)
     end
     return if lines.count.zero?
+
     prawn.table(lines,
                 header: true,
                 width: prawn.bounds.width) do

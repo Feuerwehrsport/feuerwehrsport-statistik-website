@@ -59,7 +59,7 @@ class Team < ActiveRecord::Base
     scores.group(:person_id, :discipline).count.each do |keys, count|
       all_members[keys.first].increment(keys.last, count)
     end
-    person_participations.includes(group_score: { group_score_category: :group_score_type }).each do |participation|
+    person_participations.includes(group_score: { group_score_category: :group_score_type }).find_each do |participation|
       discipline = participation.group_score.group_score_category.group_score_type.discipline
       all_members[participation.person_id].increment(discipline)
     end
@@ -71,7 +71,7 @@ class Team < ActiveRecord::Base
     scores.group(:competition_id, :discipline).count.each do |keys, count|
       all_competitions[keys.first].increment(keys.last, count)
     end
-    group_scores.includes(group_score_category: :group_score_type).each do |group_score|
+    group_scores.includes(group_score_category: :group_score_type).find_each do |group_score|
       discipline = group_score.group_score_category.group_score_type.discipline
       all_competitions[group_score.group_score_category.competition_id].increment(discipline)
     end
@@ -91,6 +91,7 @@ class Team < ActiveRecord::Base
           .includes(:competition)
           .each do |score|
           next if score.team_number < 1 || score.team_id.nil?
+
           team_scores[score.uniq_team_id] ||= Calculation::CompetitionGroupAssessment.new(
             self,
             score.team_number,
@@ -142,7 +143,7 @@ class Team < ActiveRecord::Base
     end
 
     def best_time
-      @best_time ||= scores.sort_by(&:time).first.try(:second_time)
+      @best_time ||= scores.min_by(&:time).try(:second_time)
     end
 
     def average_time

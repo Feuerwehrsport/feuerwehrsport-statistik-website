@@ -34,7 +34,7 @@ class Registrations::Team < ActiveRecord::Base
                           'locality',
                           'phone_number',
                           'email_address',
-      ))
+                        ))
     end
     new(attributes)
   end

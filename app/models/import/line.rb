@@ -75,6 +75,7 @@ module Import
       return 3 if team_name =~ /\s(3|(III))$/
       return 4 if team_name =~ /\s(4|(IV))$/
       return 0 if team_name =~ /\sE$/
+
       default
     end
 
@@ -83,6 +84,7 @@ module Import
       return 'B' if team_name =~ /\sB$/
       return 'C' if team_name =~ /\sC$/
       return 'D' if team_name =~ /\sD$/
+
       default
     end
 
@@ -149,6 +151,7 @@ module Import
 
       if time.to_i.to_s == time.to_s
         return Firesport::INVALID_TIME if time.to_i < 500 || time.to_i > 99_800
+
         return time.to_i
       end
       false

@@ -3,8 +3,8 @@ FactoryBot.define do
     assessment { Series::PersonAssessment.first || build(:series_person_assessment) }
     cup { Series::Cup.first || build(:series_cup) }
     person { Person.first || build(:person) }
-    time 1899
-    points 15
-    rank 2
+    time { 1899 }
+    points { 15 }
+    rank { 2 }
   end
 end

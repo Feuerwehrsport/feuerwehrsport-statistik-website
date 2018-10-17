@@ -4,6 +4,7 @@ class LinkSerializer < ActiveModel::Serializer
 
   def linkable_url
     return if object.linkable.blank?
+
     url_for(object.linkable)
   rescue ActionController::UrlGenerationError
     root_path

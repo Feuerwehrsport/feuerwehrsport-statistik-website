@@ -66,6 +66,7 @@ Registrations::Teams::Pdf = Struct.new(:team) do
 
   def people_line
     return 'Keine Einzelwertungen' if competition.assessments.for_people.blank?
+
     team.people.present? ? team.people.count.to_s : 'Keine Wettkämpfer'
   end
 

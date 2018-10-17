@@ -66,6 +66,7 @@ RSpec.shared_examples 'a backend resource controller' do |options|
   if only.include?(:index)
     describe 'GET index' do
       before { resource }
+
       it 'returns resources' do
         get :index
         expect(response).to be_success
@@ -76,6 +77,7 @@ RSpec.shared_examples 'a backend resource controller' do |options|
   if only.include?(:destroy)
     describe 'DELETE destroy' do
       before { resource }
+
       it 'deletes resource' do
         expect do
           delete :destroy, id: resource.id

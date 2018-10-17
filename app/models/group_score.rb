@@ -124,6 +124,7 @@ class GroupScore < ActiveRecord::Base
     (0..(both.min - 1)).each do |i|
       compare = send(method)[i].time <=> other.send(method)[i].time
       next if compare == 0
+
       return compare
     end
     both.last <=> both.first

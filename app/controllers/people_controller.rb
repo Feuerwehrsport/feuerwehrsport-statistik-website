@@ -50,6 +50,7 @@ class PeopleController < ResourceController
       .each do |score|
       score.person_participations.each do |person_participation|
         next if person_participation.person_id == resource.id
+
         team_mates[person_participation.person_id] ||= []
         team_mates[person_participation.person_id].push(score)
       end
@@ -65,6 +66,7 @@ class PeopleController < ResourceController
     %i[hb hw hl].each do |discipline|
       scores = resource.scores.where(discipline: discipline)
       next if scores.blank?
+
       chart_scores = scores.valid.best_of_competition.includes(:competition).sort_by { |s| s.competition.date }
                            .map(&:decorate)
       scores = scores.includes(competition: %i[place event]).decorate
@@ -78,11 +80,12 @@ class PeopleController < ResourceController
                          average_time: average_time(valid_scores),
                          count: scores.size,
                          valid_scores: valid_scores,
-      ))
+                       ))
     end
 
     { zk: resource.score_double_events, zw: resource.score_low_double_events }.each do |discipline, scores|
       next if scores.blank?
+
       chart_scores = scores.includes(:competition).sort_by { |s| s.competition.date }.map(&:decorate)
       scores = scores.includes(competition: %i[place event]).decorate
       valid_scores = scores.reject(&:time_invalid?)
@@ -95,12 +98,13 @@ class PeopleController < ResourceController
                          average_time: average_time(valid_scores),
                          count: scores.size,
                          valid_scores: valid_scores,
-      ))
+                       ))
     end
 
     %i[gs fs la].each do |discipline|
       scores = resource.group_score_participations.where(discipline: discipline)
       next if scores.blank?
+
       chart_scores = scores.valid.best_of_competition.includes(:competition).sort_by { |s| s.competition.date }
                            .map(&:decorate)
       scores = scores.includes(competition: %i[place event]).includes(:group_score_type).decorate
@@ -115,13 +119,13 @@ class PeopleController < ResourceController
                          count: scores.size,
                          valid_scores: valid_scores,
                          team_mates: team_mates(discipline),
-      ))
+                       ))
     end
     disciplines
   end
 
   def best_time(scores)
-    scores.sort_by(&:time).first.try(:second_time)
+    scores.min_by(&:time).try(:second_time)
   end
 
   def average_time(valid_scores)

@@ -59,6 +59,7 @@ class ChangeLogDecorator < AppDecorator
   def readable_content
     return send(model_class_readable_method) if respond_to?(model_class_readable_method)
     return translated_diff_hash unless model_class.in?(LINKABLE_CLASSES)
+
     default_readable_link || translated_diff_hash
   rescue NameError, ActionController::UrlGenerationError => e
     "NameError: #{e.message} #{translated_diff_hash}"

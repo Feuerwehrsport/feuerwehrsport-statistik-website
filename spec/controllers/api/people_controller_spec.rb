@@ -31,6 +31,7 @@ RSpec.describe API::PeopleController, type: :controller do
 
   describe 'GET index' do
     before { person }
+
     let!(:female_person) { create(:person, :female) }
 
     it 'returns people' do

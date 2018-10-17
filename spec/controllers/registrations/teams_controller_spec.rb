@@ -6,6 +6,7 @@ RSpec.describe Registrations::TeamsController, type: :controller, login: :user d
 
   describe 'GET show' do
     before { Timecop.freeze(Date.parse('2018-03-21')) }
+
     after { Timecop.return }
 
     it 'assigns resource' do

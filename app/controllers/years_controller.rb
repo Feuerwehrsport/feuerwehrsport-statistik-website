@@ -34,6 +34,7 @@ class YearsController < ResourceController
       klass = Discipline.group?(discipline) ? GroupScore.regular : Score
       scores = klass.best_of_year(resource, discipline, gender).order(:time).decorate
       next if scores.to_a.blank?
+
       @discipline_structs.push OpenStruct.new(
         discipline: discipline,
         gender: gender,

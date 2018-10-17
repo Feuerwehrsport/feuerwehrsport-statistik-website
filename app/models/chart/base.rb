@@ -52,7 +52,7 @@ module Chart
             #{core_js}
           });
         #{js_end}
-        EOJS
+                    EOJS
                   end
 
       if defined?(raw)

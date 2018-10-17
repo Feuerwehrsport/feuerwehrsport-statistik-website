@@ -31,20 +31,24 @@ class Backend::BackendController < ApplicationController
 
   def has_many_associations
     return {} unless resource_class.respond_to?(:reflect_on_all_associations)
+
     associations = {}
     resource_class.reflect_on_all_associations.select { |a| a.macro == :has_many }.map do |association|
       collection = resource.send(association.name)
       collection = collection.is_a?(ApplicationCollectionDecorator) ? collection.object : collection
       next if association.nested?
+
       instance = collection.new
       next if begin
-                 instance.is_a?(ActiveRecord::View)
-               rescue StandardError
-                 true
-               end
+                instance.is_a?(ActiveRecord::View)
+              rescue StandardError
+                true
+              end
+
       model_name = instance.class.model_name.human(count: :many)
       q = if association.options[:as].present?
-            { "#{association.options[:as]}_type_scope": resource_class, "#{association.options[:as]}_id_scope": resource.id }
+            { "#{association.options[:as]}_type_scope": resource_class,
+              "#{association.options[:as]}_id_scope": resource.id }
           else
             { "#{resource_name}_scope": resource.id }
           end
@@ -60,6 +64,7 @@ class Backend::BackendController < ApplicationController
 
   def belongs_to_associations
     return {} unless resource_class.respond_to?(:reflect_on_all_associations)
+
     associations = {}
     resource_class.reflect_on_all_associations.select { |a| a.macro == :belongs_to }.map do |association|
       associations[association.name] = resource.send(association.name)

@@ -10,6 +10,7 @@ Series::Rounds::Pdf = Struct.new(:round) do
     first_page = true
     %i[female male].each do |gender|
       next if round.team_assessment_rows(gender, true).blank?
+
       prawn.start_new_page unless first_page
       first_page = false
 

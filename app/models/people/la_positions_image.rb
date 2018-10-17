@@ -11,6 +11,7 @@ class People::LAPositionsImage
       circle_centers.each_with_index do |center, position|
         position_count = position_counts[position + 1]
         next if position_count.blank?
+
         relation = position_count / sum.to_f
         size = 30 * relation + 8
         opacity = (2 * relation + 7) / 10.0

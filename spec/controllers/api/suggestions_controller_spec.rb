@@ -63,6 +63,7 @@ RSpec.describe API::SuggestionsController, type: :controller do
         expect(json_body[:people]).to eq [person1_hash, person2_hash, person3_hash, person4_hash]
       end
     end
+
     context 'when name given' do
       let(:attributes) { { name: 'oromeier' } }
 
@@ -78,6 +79,7 @@ RSpec.describe API::SuggestionsController, type: :controller do
           expect(json_body[:people]).to eq [person4_hash, person3_hash]
         end
       end
+
       context 'when order by team name' do
         let(:attributes) { { name: 'alfmeier', team_name: 'warin' } }
 
@@ -87,6 +89,7 @@ RSpec.describe API::SuggestionsController, type: :controller do
         end
       end
     end
+
     context 'when gender given' do
       let(:attributes) { { real_gender: 'female' } }
 
@@ -95,6 +98,7 @@ RSpec.describe API::SuggestionsController, type: :controller do
         expect(json_body[:people]).to eq [person4_hash]
       end
     end
+
     context 'when score given' do
       let(:attributes) { { score_id: group_score.id } }
 
@@ -121,6 +125,7 @@ RSpec.describe API::SuggestionsController, type: :controller do
         expect(json_body[:teams]).to eq [team1_hash, team2_hash]
       end
     end
+
     context 'when name given' do
       let(:attributes) { { name: 'arin' } }
 

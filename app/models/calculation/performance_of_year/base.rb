@@ -37,6 +37,7 @@ module Calculation
           (0..valid_time_count - 1).each do |z|
             subtotal = -1.0 / 23.0 * (z**2) + 10
             break if subtotal < 0
+
             sum += subtotal
           end
 

@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :place do
-    name 'Charlottenthal'
+    name { 'Charlottenthal' }
   end
 end

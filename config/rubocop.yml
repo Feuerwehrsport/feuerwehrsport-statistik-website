@@ -2,8 +2,14 @@ inherit_gem:
   m3_rspec: config/rubocop.yml
 
 AllCops:
-  TargetRubyVersion: 2.4.0
+  TargetRubyVersion: 2.5.1
+Naming/FileName:
+  Exclude:
+  - firesport-series/lib/firesport-series.rb
 RSpec/LetSetup:
   Enabled: false
 Rails/LexicallyScopedActionFilter:
   Enabled: false
+Style/ClassAndModuleChildren:
+  Exclude:
+  - firesport-series/lib/firesport-series.rb

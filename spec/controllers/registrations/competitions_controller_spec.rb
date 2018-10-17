@@ -46,6 +46,7 @@ RSpec.describe Registrations::CompetitionsController, type: :controller, login: 
 
   describe 'GET show' do
     before { Timecop.freeze(Date.parse('2018-03-21')) }
+
     after { Timecop.return }
 
     it 'assigns resource' do

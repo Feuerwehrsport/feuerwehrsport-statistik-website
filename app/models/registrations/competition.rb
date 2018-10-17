@@ -43,6 +43,7 @@ class Registrations::Competition < ActiveRecord::Base
 
   def possible_assessment_types(assessment)
     return [:competitor] if Discipline.group?(assessment.discipline)
+
     keys = %i[group_competitor single_competitor out_of_competition]
     keys.shift unless group_score?
     keys
@@ -56,6 +57,7 @@ class Registrations::Competition < ActiveRecord::Base
       i = 0
       loop do
         break if self.class.find_by(slug: slug).blank?
+
         i += 1
         slug = "#{base_slug}-#{i}"
       end

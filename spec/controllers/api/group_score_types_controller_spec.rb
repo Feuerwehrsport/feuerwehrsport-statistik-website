@@ -18,6 +18,7 @@ RSpec.describe API::GroupScoreTypesController, type: :controller do
 
   describe 'GET index' do
     before { group_score_type }
+
     it 'returns group_score_types' do
       get :index
       expect_json_response

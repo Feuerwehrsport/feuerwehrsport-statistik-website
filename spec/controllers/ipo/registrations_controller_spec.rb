@@ -23,6 +23,7 @@ RSpec.describe Ipo::RegistrationsController, type: :controller do
       let(:resource_attributes) { resource_attrs }
     end
   end
+
   context 'when nobody logged in' do
     describe 'GET new' do
       it 'shows new form' do

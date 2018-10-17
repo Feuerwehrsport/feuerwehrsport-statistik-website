@@ -48,6 +48,7 @@ RSpec.describe API::Series::ParticipationsController, type: :controller do
 
   describe 'GET index' do
     before { participation }
+
     it 'returns participations' do
       get :index
       expect_json_response
@@ -83,8 +84,9 @@ RSpec.describe API::Series::ParticipationsController, type: :controller do
   end
 
   describe 'DELETE destroy' do
-    before { participation }
     subject { -> { delete :destroy, id: participation.id } }
+
+    before { participation }
 
     it 'destroys participation', login: :admin do
       expect do

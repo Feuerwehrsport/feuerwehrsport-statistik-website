@@ -39,7 +39,7 @@ end
 
 group :development, :test do
   # Bug in Bundler Version 1.11.2: https://github.com/bundler/bundler/issues/3981
-  gem 'm3_rspec', require: false, git: 'ssh://gitolite3@stadthafen-rails/m3_rspec'
+  gem 'm3_rspec', require: false, path: 'm3_rspec'
   # gem 'm3_rspec', path: '../m3_rspec'
   gem 'haml_lint', require: false
 end

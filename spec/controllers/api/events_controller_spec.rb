@@ -26,6 +26,7 @@ RSpec.describe API::EventsController, type: :controller do
 
   describe 'GET index' do
     before { event }
+
     it 'returns events' do
       get :index
       expect_json_response

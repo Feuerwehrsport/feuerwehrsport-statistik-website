@@ -33,6 +33,7 @@ describe 'ipo', type: :feature do
       expect(current_email).to have_content 'Dies ist eine Bestätigung für deine Anmeldung zum Inselpokal Poel.'
     end
   end
+
   context 'when registration is closed' do
     before do
       allow_any_instance_of(Ipo::RegistrationsController).to receive(:registration_open?).and_return(false)

@@ -105,6 +105,7 @@ class Score < ActiveRecord::Base
     (0..(both.min - 1)).each do |i|
       compare = similar_scores[i].time <=> other.similar_scores[i].time
       next if compare.zero?
+
       return compare
     end
     both.last <=> both.first

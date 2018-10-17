@@ -44,6 +44,7 @@ RSpec.describe API::ScoresController, type: :controller do
 
   describe 'GET index' do
     before { score }
+
     it 'returns scores' do
       get :index
       expect_json_response

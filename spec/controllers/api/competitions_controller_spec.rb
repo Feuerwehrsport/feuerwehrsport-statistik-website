@@ -46,6 +46,7 @@ RSpec.describe API::CompetitionsController, type: :controller do
 
   describe 'GET index' do
     before { competition }
+
     it 'returns competitions' do
       get :index
       expect_json_response

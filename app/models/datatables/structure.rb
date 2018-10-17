@@ -9,6 +9,7 @@ class Datatables::Structure < M3::Index::Structure
 
   def search(collection, search_string)
     return collection if search_string.strip.blank?
+
     search_string = "%#{search_string.strip}%"
 
     query = []

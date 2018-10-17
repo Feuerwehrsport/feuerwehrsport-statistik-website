@@ -67,6 +67,7 @@ class Ipo::RegistrationsController < ApplicationController
 
   def finish
     return if cookies[:ipo_registration].blank?
+
     @registration = base_collection.find(cookies[:ipo_registration])
     cookies.delete(:ipo_registration)
   end

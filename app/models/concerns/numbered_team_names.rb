@@ -1,6 +1,7 @@
 module NumberedTeamNames
   def numbered_team_name(score, options = {})
     return '' if score.team.blank?
+
     number_name = begin
       if score.team_number.zero?
         ' E'

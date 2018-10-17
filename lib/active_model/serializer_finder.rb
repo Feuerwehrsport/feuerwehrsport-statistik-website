@@ -5,10 +5,8 @@ module ActiveModel
       def serializer_class
         classes = ancestors - included_modules
         classes.each do |klass|
-          begin
-            return "#{klass.name}Serializer".constantize
-          rescue NameError
-          end
+          return "#{klass.name}Serializer".constantize
+        rescue NameError
         end
         nil
       end

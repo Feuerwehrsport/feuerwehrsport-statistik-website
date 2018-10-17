@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :group_score do
     team { Team.first || build(:team) }
-    team_number 1
-    gender :male
-    time 2287
+    team_number { 1 }
+    gender { :male }
+    time { 2287 }
     group_score_category { GroupScoreCategory.first || build(:group_score_category) }
 
     trait :double do

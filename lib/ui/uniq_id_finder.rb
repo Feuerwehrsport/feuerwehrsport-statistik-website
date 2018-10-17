@@ -3,6 +3,7 @@ module UI
     def available_id(name)
       regular = name.to_s.parameterize.first(50)
       return regular if id_available?(regular)
+
       i = 1
       i += 1 until id_available?("#{regular}-#{i}")
       "#{regular}-#{i}"

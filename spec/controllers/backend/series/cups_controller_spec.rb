@@ -5,6 +5,7 @@ RSpec.describe Backend::Series::CupsController, type: :controller, login: :admin
 
   describe 'DELETE destroy' do
     before { cup }
+
     it 'deletes cup' do
       expect do
         delete :destroy, id: cup.id

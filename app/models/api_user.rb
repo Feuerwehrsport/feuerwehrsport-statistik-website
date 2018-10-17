@@ -28,6 +28,7 @@ class APIUser < ActiveRecord::Base
 
   def named_email_address
     return nil if email_address.blank?
+
     address = Mail::Address.new email_address
     address.display_name = name
     address.format
