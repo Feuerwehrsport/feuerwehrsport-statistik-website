@@ -38,14 +38,11 @@ group :production do
 end
 
 group :development, :test do
-  # Bug in Bundler Version 1.11.2: https://github.com/bundler/bundler/issues/3981
-  gem 'm3_rspec', require: false, path: 'm3_rspec'
-  # gem 'm3_rspec', path: '../m3_rspec'
+  gem 'm3_rspec', path: 'm3_rspec'
   gem 'haml_lint', require: false
 end
 
 group :development do
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 
   gem 'm3_capistrano', require: false, git: 'ssh://gitolite3@stadthafen-rails/m3_capistrano'
