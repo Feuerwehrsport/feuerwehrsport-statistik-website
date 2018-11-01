@@ -6,7 +6,7 @@ class Series::RoundsController < ResourceController
     @rounds = {}
     all = Series::Round.uniq.reorder(:name)
     all = all.where(slug: params[:slug]) if single_round?
-    raise raise ActiveRecord::RecordNotFound if all.empty?
+    raise ActiveRecord::RecordNotFound if all.empty?
     all.pluck(:name).each do |name|
       @rounds[name] = Series::Round.cup_count.where(name: name).decorate
       @page_title = name
