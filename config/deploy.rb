@@ -1,7 +1,7 @@
 set :application, 'feuerwehrsport-statistik'
 set :user, 'feuerwehrsport-statistik'
 set :repository, 'git@github.com:Feuerwehrsport/feuerwehrsport-statistik-website.git'
-set :rvm_ruby_string, '2.5.1'
+set :rvm_ruby_string, '2.5.3'
 
 # set :stages, %w(staging production)
 # set :default_stage, "staging"

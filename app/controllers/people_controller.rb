@@ -18,11 +18,11 @@ class PeopleController < ResourceController
       OpenStruct.new(
         team: team,
         score_count: team.person_scores_count(resource),
-        hb:  team.scores.low_and_high_hb.where(person: resource).count,
-        hl:  team.scores.hl.where(person: resource).count,
-        gs:  team.group_score_participations.gs.where(person: resource).count,
-        fs:  team.group_score_participations.fs.where(person: resource).count,
-        la:  team.group_score_participations.la.where(person: resource).count,
+        hb: team.scores.low_and_high_hb.where(person: resource).count,
+        hl: team.scores.hl.where(person: resource).count,
+        gs: team.group_score_participations.gs.where(person: resource).count,
+        fs: team.group_score_participations.fs.where(person: resource).count,
+        la: team.group_score_participations.la.where(person: resource).count,
       )
     end
     @chart = Chart::PersonShow.new(person: resource, team_structs: @team_structs, context: view_context)

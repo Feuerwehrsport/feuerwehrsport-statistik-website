@@ -2,7 +2,7 @@ inherit_gem:
   m3_rspec: config/rubocop.yml
 
 AllCops:
-  TargetRubyVersion: 2.5.1
+  TargetRubyVersion: 2.5.3
 Naming/FileName:
   Exclude:
   - firesport-series/lib/firesport-series.rb
