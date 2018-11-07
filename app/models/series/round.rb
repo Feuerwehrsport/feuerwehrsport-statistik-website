@@ -70,7 +70,7 @@ class Series::Round < ActiveRecord::Base
       %i[female male].each do |gender|
         rows[gender] = teams(gender).values.sort
         rows[gender].each { |row| row.calculate_rank!(rows[gender]) }
-        rows[gender].each { |_row| aggregate_class.special_sort!(rows[gender]) }
+        aggregate_class.special_sort!(rows[gender])
       end
       rows
     end
