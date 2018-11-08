@@ -24,11 +24,11 @@
         - if resource.place.present?
           %tr
             %th Ort
-            %td= place_link(resource.place)
+            %td= resource.place
         - if resource.event.present?
           %tr
             %th Typ
-            %td= place_link(resource.event)
+            %td= event_link(resource.event)
         %tr
           %th Links
           %td= render('links', links: resource.links, linkable_type: resource_class, linkable_id: resource.id)

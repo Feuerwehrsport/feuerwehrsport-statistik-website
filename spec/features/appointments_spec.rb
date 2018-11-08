@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 describe 'appointments', type: :feature, js: true do
-  let!(:place) { create(:place) }
-  let!(:tribsees) { create(:place, name: 'Tribsees') }
   let!(:event) { create(:event) }
   let!(:mvcup) { create(:event, name: 'MV-Cup') }
 
@@ -16,7 +14,7 @@ describe 'appointments', type: :feature, js: true do
       expect(page).to have_content('Termin hinzufügen')
       fill_in 'Name', with: 'Wintertraining_xyz'
       fill_in 'Beschreibung', with: "Beschreibung\n123"
-      select('Charlottenthal', from: 'Ort')
+      fill_in 'Ort', with: 'Charlottenthal'
       select('D-Cup', from: 'Typ')
       check('Feuerwehrstafette')
       save_review_screenshot
@@ -32,7 +30,7 @@ describe 'appointments', type: :feature, js: true do
       description: "Beschreibung\n123",
       disciplines: 'fs',
       event_id: event.id,
-      place_id: place.id,
+      place: 'Charlottenthal',
     )
     api_sign_out
 
@@ -47,7 +45,7 @@ describe 'appointments', type: :feature, js: true do
       expect(find_field('Beschreibung').value).to eq "Beschreibung\n123"
       fill_in 'Name', with: 'Wintertraining_opü'
       fill_in 'Beschreibung', with: "Beschreibung\n890"
-      select('Tribsees', from: 'Ort')
+      fill_in 'Ort', with: 'Tribsees'
       select('MV-Cup', from: 'Typ')
       check('Hakenleitersteigen')
       click_on('OK')
@@ -62,7 +60,7 @@ describe 'appointments', type: :feature, js: true do
       description: "Beschreibung\r\n890",
       disciplines: 'fs,hl',
       event_id: mvcup.id.to_s,
-      place_id: tribsees.id.to_s,
+      place: 'Tribsees',
     )
   end
 end

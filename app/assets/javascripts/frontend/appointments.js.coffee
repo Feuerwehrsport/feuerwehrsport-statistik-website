@@ -5,10 +5,6 @@ Fss.ready 'appointment', ->
   new SortTable({ selector: '.datatable-appointments', direction: 'asc' })
 
   editAppointment = (headline, places, events, values, submitCallback) ->
-    placeOptions = [ { value: 'NULL', display: '----' } ]
-    for place in places
-      placeOptions.push({ value: place.id, display: place.name })
-
     eventOptions = [ { value: 'NULL', display: '----' } ]
     for event in events
       eventOptions.push({ value: event.id, display: event.name })
@@ -16,7 +12,7 @@ Fss.ready 'appointment', ->
     defaultValues = {
       dated_at: ''
       name: ''
-      place_id: 'NULL'
+      place: ''
       event_id: 'NULL'
       disciplines: ''
       description: ''
@@ -31,7 +27,7 @@ Fss.ready 'appointment', ->
 
     w.add(new FssFormRowDate('dated_at', 'Datum', values.dated_at))
     .add(new FssFormRowText('name', 'Name', values.name))
-    .add(new FssFormRowSelect('place_id', 'Ort', values.place_id, placeOptions))
+    .add(new FssFormRowText('place', 'Ort', values.place, places.map((place) -> place.name)))
     .add(new FssFormRowSelect('event_id', 'Typ', values.event_id, eventOptions))
     .add(new FssFormRowTextarea('description', 'Beschreibung', values.description))
 
@@ -49,10 +45,10 @@ Fss.ready 'appointment', ->
       appointmentData = {
         dated_at: data.dated_at
         name: data.name
+        place: data.place
         description: data.description
         disciplines: disciplines.join(',')
       }
-      appointmentData.place_id = if data.place_id isnt 'NULL' then data.place_id else null
       appointmentData.event_id = if data.event_id isnt 'NULL' then data.event_id else null
       submitCallback(appointmentData)
     )

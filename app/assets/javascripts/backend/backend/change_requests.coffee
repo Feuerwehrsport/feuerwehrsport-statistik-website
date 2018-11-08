@@ -317,12 +317,7 @@ class Error
           .append('<br/>')
           .append($('<pre/>').text(@data.appointment.description))
           .append("Disziplinen: #{@data.appointment.disciplines}")
-
-          if @data.appointment.place_id
-            Fss.getResource 'places', @data.appointment.place_id, (place) ->
-              correctBox.append("<br/>Ort: #{place.name}")
-          else
-            @data.appointment.place_id = null
+          .append("<br/>Ort: #{@data.appointment.place}")
           if @data.appointment.event_id
             Fss.getResource 'events', @data.appointment.event_id, (event) ->
               correctBox.append("<br/>Typ: #{event.name}")

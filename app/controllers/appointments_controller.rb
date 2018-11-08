@@ -34,6 +34,6 @@ class AppointmentsController < ResourceController
   end
 
   def find_collection
-    super.upcoming.includes(:place, :event)
+    super.upcoming.includes(:event)
   end
 end

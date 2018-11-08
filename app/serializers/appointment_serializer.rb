@@ -1,9 +1,5 @@
 class AppointmentSerializer < ActiveModel::Serializer
-  attributes :id, :name, :place_id, :event_id, :place, :event, :disciplines, :dated_at, :description, :updateable
-
-  def place
-    object.place.to_s
-  end
+  attributes :id, :name, :event_id, :place, :event, :disciplines, :dated_at, :description, :updateable
 
   def event
     object.event.to_s

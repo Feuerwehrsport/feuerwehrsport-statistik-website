@@ -8,7 +8,6 @@ RSpec.describe API::AppointmentsController, type: :controller do
     {
       id: appointment.id,
       name: 'Finale D-Cup in Charlottenthal',
-      place_id: appointment.place.id,
       event_id: appointment.event.id,
       place: 'Charlottenthal',
       event: 'D-Cup',

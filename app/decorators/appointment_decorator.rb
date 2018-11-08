@@ -1,6 +1,5 @@
 class AppointmentDecorator < AppDecorator
   decorates_association :event
-  decorates_association :place
   decorates_association :links
 
   localizes :dated_at

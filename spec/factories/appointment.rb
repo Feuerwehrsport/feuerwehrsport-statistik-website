@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :appointment do
     name { 'Finale D-Cup in Charlottenthal' }
-    place { Place.first || build(:place) }
+    place { 'Charlottenthal' }
     event { Event.first || build(:event) }
     disciplines { 'gs,hb,hl,la' }
     dated_at { Date.parse('2013-09-21') }

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181010094946) do
+ActiveRecord::Schema.define(version: 20181108093017) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,13 +38,13 @@ ActiveRecord::Schema.define(version: 20181010094946) do
     t.date     "dated_at",     :null=>false
     t.string   "name",         :limit=>200, :null=>false
     t.text     "description",  :null=>false
-    t.integer  "place_id",     :index=>{:name=>"index_appointments_on_place_id", :using=>:btree}
     t.integer  "event_id",     :index=>{:name=>"index_appointments_on_event_id", :using=>:btree}
     t.string   "disciplines",  :limit=>200, :default=>"", :null=>false
     t.datetime "created_at",   :null=>false
     t.datetime "updated_at",   :null=>false
     t.integer  "creator_id"
     t.string   "creator_type"
+    t.string   "place",        :limit=>200
   end
 
   create_table "bla_badges", force: :cascade do |t|
@@ -615,7 +615,6 @@ SELECT date_part('year'::text, competitions.date) AS year
 
   add_foreign_key "admin_users", "m3_logins", column: "login_id"
   add_foreign_key "appointments", "events"
-  add_foreign_key "appointments", "places"
   add_foreign_key "bla_badges", "people"
   add_foreign_key "bla_badges", "scores", column: "hb_score_id"
   add_foreign_key "bla_badges", "scores", column: "hl_score_id"
