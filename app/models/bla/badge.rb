@@ -43,7 +43,7 @@ class BLA::Badge < ActiveRecord::Base
 
   def score_matches
     errors.add(:hl_score, :invalid) if hl_score && hl_score.discipline.to_sym != :hl
-    errors.add(:hb_score, :invalid) if hb_score && hb_score.discipline.to_sym != :hb
+    errors.add(:hb_score, :invalid) if hb_score && !hb_score.discipline.to_sym.in?([:hb, :hw])
     errors.add(:hl_score, :invalid) if hl_score && hl_score.person != person
     errors.add(:hb_score, :invalid) if hb_score && hb_score.person != person
     errors.add(:hl_time, :invalid) if hl_score && hl_score.time != hl_time
