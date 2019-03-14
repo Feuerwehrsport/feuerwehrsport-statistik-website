@@ -23,7 +23,7 @@
       - nt.tab('Online-Anmeldungen') do
         .row
           .col-md-8
-            = count_table(@registrations_competitions) do |t|
+            = count_table(registrations_competitions) do |t|
               - t.col('Datum', class: 'col-10') { |row| row.date }
               - t.col('Veranstaltung', class: 'col-20 info-link') { |row| link_to(row.name, row) }
               - t.col('Ort', :place, class: 'col-20 small')
