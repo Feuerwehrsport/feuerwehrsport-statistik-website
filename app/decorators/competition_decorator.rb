@@ -45,4 +45,19 @@ class CompetitionDecorator < AppDecorator
   def group_assessment(discipline, gender)
     object.group_assessment(discipline, gender).map(&:decorate)
   end
+
+  def linked_name
+    title = []
+    title.push(event.name) if object.event.present?
+    title.push(place.name) if object.place.present?
+    title.push(name) if name.present?
+    title = title.join(' - ')
+    h.link_to(title.truncate(30), h.competition_path(self), title: title)
+  end
+
+  %i[hb_female hb_male hl_female hb_male gs fs_female fs_male la_female la_male].each do |method|
+    define_method method do
+      h.count_or_zero(object.public_send(method))
+    end
+  end
 end

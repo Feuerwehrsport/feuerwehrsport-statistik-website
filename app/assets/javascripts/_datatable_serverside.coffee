@@ -13,4 +13,7 @@ M3.ready ->
     }
     table = $(this)
     dataTableOptions = $.extend({}, dataTableOptions, table.data('datatable-options'))
+    dataTableOptions.ajax.data = (data) ->
+      delete data.columns
+      data
     table.dataTable(dataTableOptions)

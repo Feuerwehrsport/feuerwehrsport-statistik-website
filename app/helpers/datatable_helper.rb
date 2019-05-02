@@ -4,7 +4,9 @@ module DatatableHelper
 
     data = {
       columnDefs: [],
-      ajax: url_for(format: :json, datatable: key),
+      ajax: {
+        url: url_for(format: :json, datatable: key),
+      },
     }
 
     structure.each_with_index do |field, index|
@@ -15,6 +17,7 @@ module DatatableHelper
       else
         defs[:orderable] = false
       end
+      data[:aaSorting] = [[index, field.default_order]] if field.default_order.present?
       data[:columnDefs].push(defs)
     end
 

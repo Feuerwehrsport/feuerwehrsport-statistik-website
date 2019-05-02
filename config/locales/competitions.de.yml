@@ -3,9 +3,20 @@ de:
     attributes:
       competition:
         date: Datum
+        date_iso: Datum
         event: Typ
         event_id: Typ
+        fs_female: FSw
+        fs_male: FSm
+        gs: GS
+        hb_female: HBw
+        hb_male: HBm
         hint_content: Hinweise
+        hl_female: HLw
+        hl_male: HLm
+        la_female: LAw
+        la_male: LAm
+        linked_name: Name
         place: Ort
         place_id: Ort
         score_type: Mannschaftwertung
@@ -21,7 +32,6 @@ de:
       competition_file:
         one: Wettkampfdokument
         other: Wettkampfdokumente
-
   competitions:
     missed_information:
       competition_files: Wettkampfergebnisse als Datei-Upload
@@ -30,7 +40,6 @@ de:
       la_members: Wettkämpfer beim Löschangriff
       links: Verlinkungen
       single_team: Team-Zuordnungen bei Einzeldisziplinen
-
   t3:
     backend/competitions:
       inline_labels:

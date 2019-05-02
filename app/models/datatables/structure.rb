@@ -14,18 +14,22 @@ class Datatables::Structure < M3::Index::Structure
 
     query = []
     each do |field|
-      if field.options[:searchable].present?
-        if field.options[:searchable].is_a?(Hash)
-          association = field.options[:searchable].keys.first
-          column = field.options[:searchable].values.first
+      next if field.options[:searchable].blank?
+
+      searchables = field.options[:searchable]
+      searchables = [searchables] unless searchables.is_a?(Array)
+      searchables.each_with_index do |searchable, index|
+        if searchable.is_a?(Hash)
+          association = searchable.keys.first
+          column = searchable.values.first
           table = klass.reflections[association.to_s].table_name
           join_key = klass.reflections[association.to_s].foreign_key
-          collection = collection.joins("LEFT OUTER JOIN \"#{table}\" t ON \"#{klass.table_name}\".#{join_key} = t.id")
-          query.push(klass.send(:sanitize_sql_array, ["t.\"#{column}\" ILIKE ?", search_string]))
-        elsif field.options[:searchable].is_a?(String)
-          query.push(klass.send(:sanitize_sql_array, [field.options[:searchable], search_string]))
+          collection = collection.joins("LEFT OUTER JOIN \"#{table}\" t#{index} ON \"#{klass.table_name}\".#{join_key} = t#{index}.id")
+          query.push(klass.send(:sanitize_sql_array, ["t#{index}.\"#{column}\" ILIKE ?", search_string]))
+        elsif searchable.is_a?(String)
+          query.push(klass.send(:sanitize_sql_array, [searchable, search_string]))
         else
-          [field.options[:searchable]].flatten.each do |f|
+          [searchable].flatten.each do |f|
             query.push(klass.send(:sanitize_sql_array, ["\"#{klass.table_name}\".\"#{f}\" ILIKE ?", search_string]))
           end
         end
