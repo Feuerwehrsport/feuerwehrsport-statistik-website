@@ -40,6 +40,7 @@ end
 group :development, :test do
   gem 'm3_rspec', path: 'm3_rspec'
   gem 'haml_lint', require: false
+  gem 'rubocop-performance'
 end
 
 group :development do

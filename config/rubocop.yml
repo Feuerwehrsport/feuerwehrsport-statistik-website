@@ -1,6 +1,8 @@
 inherit_gem:
   m3_rspec: config/rubocop.yml
 
+require: rubocop-performance
+
 AllCops:
   TargetRubyVersion: 2.5.3
 Naming/FileName:

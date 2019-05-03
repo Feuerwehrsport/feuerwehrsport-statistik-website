@@ -463,6 +463,8 @@ GEM
       unicode-display_width (>= 1.4.0, < 1.6)
     rubocop-daemon (0.3.1)
       rubocop
+    rubocop-performance (1.1.0)
+      rubocop (>= 0.67.0)
     rubocop-rspec (1.32.0)
       rubocop (>= 0.60.0)
     ruby-progressbar (1.10.0)
@@ -582,6 +584,7 @@ DEPENDENCIES
   redcarpet
   responders
   rqrcode_png
+  rubocop-performance
   schema_plus_views
   schema_validations
   spring
