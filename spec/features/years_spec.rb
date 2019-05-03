@@ -19,7 +19,7 @@ describe 'years features' do
     click_on '2012'
     expect(page).to have_content '1 bis 10 von 16 Einträgen'
     save_review_screenshot
-    expect(current_path).to eq year_path(2012)
+    expect(page).to have_current_path year_path(2012)
     click_on 'Nächste'
     expect(page).to have_content '11 bis 16 von 16 Einträgen'
 
@@ -27,13 +27,13 @@ describe 'years features' do
     expect(page).to have_content 'Bestzeiten des Jahres 2012'
     save_review_screenshot
     expect(page).to have_content '1 bis 1 von 1 Einträgen'
-    expect(current_path).to eq best_scores_year_path(2012)
+    expect(page).to have_current_path best_scores_year_path(2012)
 
     click_on 'Bestleistungen des Jahres'
     expect(page).to have_content 'Bestleistungen des Jahres 2012'
     save_review_screenshot
     expect(page).to have_content '1 bis 1 von 1 Einträgen'
-    expect(current_path).to eq best_performance_year_path(2012)
+    expect(page).to have_current_path best_performance_year_path(2012)
     expect(page).to have_content 'Punkte'
   end
 end

@@ -83,7 +83,7 @@ describe Registrations::CompetitionMailer do
                                                      text
                                                    HEREDOC
 
-                                                 )
+      )
     end
 
     context 'when person without attachment' do

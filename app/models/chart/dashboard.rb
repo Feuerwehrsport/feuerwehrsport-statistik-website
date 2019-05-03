@@ -24,7 +24,7 @@ module Chart
     protected
 
     def years
-      @years ||= (2006..Time.now.year).to_a
+      @years ||= (2006..Time.current.year).to_a
     end
 
     def competition_ids_for_year(year)

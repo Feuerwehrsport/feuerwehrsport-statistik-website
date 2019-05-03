@@ -27,7 +27,7 @@ module Chart
       end
       dates[Date.current.to_s] = absolute
       dates.map do |date_string, count|
-        [DateTime.parse(date_string), count]
+        [DateTime.parse(date_string).in_time_zone, count]
       end
     end
   end

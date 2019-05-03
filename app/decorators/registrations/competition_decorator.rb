@@ -11,9 +11,7 @@ class Registrations::CompetitionDecorator < AppDecorator
   end
 
   def discipline_images(options = {})
-    object.discipline_array.map do |discipline|
-      discipline_image(discipline, options)
-    end.join(' ').html_safe
+    h.safe_join(object.discipline_array.map { |discipline| discipline_image(discipline, options) }, ' ')
   end
 
   def slug_info

@@ -38,7 +38,7 @@ module WettkampfManager
 
     def database_changed
       dc = release_data['database-changed']
-      dc.present? ? Time.parse(dc) : nil
+      dc.present? ? Time.parse(dc).in_time_zone : nil
     end
 
     protected

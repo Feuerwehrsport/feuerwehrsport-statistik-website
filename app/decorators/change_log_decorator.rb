@@ -92,11 +92,11 @@ class ChangeLogDecorator < AppDecorator
   def readable_link
     case action
     when 'create-link', 'update-link'
-      "Link #{link_to(after_model.label, after_model.url)} bei " \
-      "#{link_to(after_model.linkable, after_model.linkable)}".html_safe
+      h.safe_join(['Link ', link_to(after_model.label, after_model.url), ' bei ',
+                   link_to(after_model.linkable, after_model.linkable)])
     when 'destroy-link'
-      "Link #{link_to(before_model.label, before_model.url)} bei " \
-      "#{link_to(before_model.linkable, before_model.linkable)}".html_safe
+      h.safe_join(['Link ', link_to(before_model.label, before_model.url), ' bei ',
+                   link_to(before_model.linkable, before_model.linkable)])
     else
       translated_diff_hash
     end
@@ -112,7 +112,7 @@ class ChangeLogDecorator < AppDecorator
 
   def readable_team
     if action == 'merge'
-      "Integriere #{link_to(before_model, before_model)} in #{link_to(after_model, after_model)}".html_safe
+      h.safe_join(['Integriere ', link_to(before_model, before_model), ' in ', link_to(after_model, after_model)])
     else
       default_readable_link || translated_diff_hash
     end
@@ -120,7 +120,7 @@ class ChangeLogDecorator < AppDecorator
 
   def readable_person
     if action == 'merge'
-      "Integriere #{link_to(before_model, before_model)} in #{link_to(after_model, after_model)}".html_safe
+      h.safe_join(['Integriere ', link_to(before_model, before_model), ' in ', link_to(after_model, after_model)])
     else
       default_readable_link || translated_diff_hash
     end
@@ -129,7 +129,7 @@ class ChangeLogDecorator < AppDecorator
   def readable_import_scores
     competition = Competition.find_by(id: diff_hash[:competition_id].last)&.decorate
     if action == 'scores-import-scores' && competition
-      "Füge Zeiten zu Wettkampf #{link_to(competition, competition)} hinzu".html_safe
+      h.safe_join(['Füge Zeiten zu Wettkampf ', link_to(competition, competition), ' hinzu'])
     else
       translated_diff_hash
     end

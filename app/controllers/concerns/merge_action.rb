@@ -19,8 +19,8 @@ module MergeAction
       success(resource_modulized_name.to_sym => @correct_resource.reload.decorate,
               resource_name: resource_modulized_name)
     end
-  rescue ActiveRecord::ActiveRecordError => error
-    failed(message: error.message)
+  rescue ActiveRecord::ActiveRecordError => e
+    failed(message: e.message)
   end
 
   protected

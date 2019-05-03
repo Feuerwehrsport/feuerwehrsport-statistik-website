@@ -12,6 +12,6 @@ class NewsArticleDecorator < AppDecorator
   end
 
   def content
-    object.content&.html_safe
+    object.content&.html_safe # rubocop:disable Rails/OutputSafety
   end
 end
