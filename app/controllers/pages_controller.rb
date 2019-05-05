@@ -52,6 +52,8 @@ class PagesController < ResourceController
     @team15 = Team.find(15).decorate
     @team61 = Team.find(61).decorate
     @team1869 = Team.find(1869).decorate
+    @nation_ru = Nation.find_by(iso: :ru).decorate
+    @nation_cz = Nation.find_by(iso: :cz).decorate
   end
 
   def best_of

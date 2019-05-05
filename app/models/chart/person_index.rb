@@ -1,12 +1,10 @@
 module Chart
   class PersonIndex < Base
-    attr_accessor :people
-
     def gender_pie
       data = %i[female male].map do |gender|
         {
           name: g(gender),
-          y: people[gender].count,
+          y: Person.gender(gender).count,
           color: gender_color(gender),
         }
       end

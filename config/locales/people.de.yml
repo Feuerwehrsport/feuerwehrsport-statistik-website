@@ -1,19 +1,24 @@
 de:
-  activerecord:
-    models:
-      person: Wettkämpfer
-    attributes:
-      person:
-        first_name: Vorname
-        group_scores: Mannschaftszeiten
-        last_name: Nachname
-        scores: Einzelzeiten
-        teams: Mannschaften
-
   activemodel:
     attributes:
       people/cleaner:
         people: Wettkämpfer
+  activerecord:
+    attributes:
+      person:
+        first_name: Vorname
+        fs_count: FS
+        group_scores: Mannschaftszeiten
+        gs_count: GS
+        hb_count: HB
+        hl_count: HL
+        la_count: LA
+        last_name: Nachname
+        nation_flag_with_iso: Nation
+        scores: Einzelzeiten
+        teams: Mannschaften
+    models:
+      person: Wettkämpfer
   t3:
     backend/people/cleaners:
       views:

@@ -20,24 +20,24 @@
           %td= discipline_image(:hl)
           %td= discipline_name(:hl)
           %td Albert Loginov
-          %td= nation_flag([:ru, "Russland"])
-          %td Russland
+          %td= @nation_ru.nation_flag
+          %td= @nation_ru.name
           %td 12,56 s
           %td= competition_find_link(54)
         %tr
           %td= discipline_image(:hb)
           %td= discipline_name(:hb)
           %td Vladimir Sidorenko
-          %td= nation_flag([:ru, "Russland"])
-          %td Russland
+          %td= @nation_ru.nation_flag
+          %td= @nation_ru.name
           %td 14,77 s
           %td 9. WM 2013 - Jinju (Südkorea)
         %tr
           %td= discipline_image(:zk)
           %td= discipline_name(:zk)
           %td Vladimir Sidorenko
-          %td= nation_flag([:ru, "Russland"])
-          %td Russland
+          %td= @nation_ru.nation_flag
+          %td= @nation_ru.name
           %td
             27,75 s
             %br/
@@ -47,8 +47,8 @@
           %td= discipline_image(:fs)
           %td= discipline_name(:fs)
           %td
-          %td= nation_flag([:ru, "Russland"])
-          %td Russland
+          %td= @nation_ru.nation_flag
+          %td= @nation_ru.name
           %td 52,92 s
           %td= competition_find_link(1674)
         %tr
@@ -58,8 +58,8 @@
             %br/
             %small (ISFFR - 20 m C)
           %td
-          %td= nation_flag([:cz, "Tschechien"])
-          %td Tschechien
+          %td= @nation_cz.nation_flag
+          %td= @nation_cz.name
           %td 25,14 s
           %td= competition_find_link(54)
         %tr
@@ -137,24 +137,24 @@
           %td= discipline_image(:hl)
           %td= discipline_name(:hl)
           %td Ekaterina Chendakova
-          %td= nation_flag([:ru, "Russland"])
-          %td Russland
+          %td= @nation_ru.nation_flag
+          %td= @nation_ru.name
           %td 6,86 s
           %td= competition_find_link(1674)
         %tr
           %td= discipline_image(:hb)
           %td= discipline_name(:hb)
           %td= persons(3220, type: :full_name)
-          %td= nation_flag([:cz, "Tschechien"])
-          %td Tschechien
+          %td= @nation_cz.nation_flag
+          %td= @nation_cz.name
           %td 15,48 s
           %td= competition_find_link(1674)
         %tr
           %td= discipline_image(:zk)
           %td= discipline_name(:zk)
           %td Ekaterina Chendakova
-          %td= nation_flag([:ru, "Russland"])
-          %td Russland
+          %td= @nation_ru.nation_flag
+          %td= @nation_ru.name
           %td
             23,28 s
             %br/
@@ -164,8 +164,8 @@
           %td= discipline_image(:fs)
           %td= discipline_name(:fs)
           %td
-          %td= nation_flag([:ru, "Russland"])
-          %td Russland
+          %td= @nation_ru.nation_flag
+          %td= @nation_ru.name
           %td 59,02 s
           %td= competition_find_link(1674)
         %tr
@@ -175,8 +175,8 @@
             %br/
             %small (ISFFR - 2xB, 20m C)
           %td
-          %td= nation_flag([:ru, "Russland"])
-          %td Russland
+          %td= @nation_ru.nation_flag
+          %td= @nation_ru.name
           %td 24,51 s
           %td= competition_find_link(869)
 

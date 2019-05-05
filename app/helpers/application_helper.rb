@@ -4,7 +4,6 @@ module ApplicationHelper
   include UIHelper
   include MapHelper
   include Helper::PositionSelectorHelper
-  include Helper::NationHelper
   include DisciplineNamesAndImages
   include GenderNames
   include NumberedTeamNames

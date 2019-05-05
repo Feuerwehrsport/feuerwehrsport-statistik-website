@@ -57,9 +57,10 @@ describe 'pages features', type: :feature do
 
   context 'records' do
     it 'shows records' do
-      allow(Person).to receive(:find).and_return(create(:person))
-      allow(Competition).to receive(:find).and_return(create(:competition))
-      allow(Team).to receive(:find).and_return(create(:team))
+      allow(Person).to receive(:find).and_return(build_stubbed(:person))
+      allow(Competition).to receive(:find).and_return(build_stubbed(:competition))
+      allow(Team).to receive(:find).and_return(build_stubbed(:team))
+      allow(Nation).to receive(:find_by).and_return(build_stubbed(:nation))
 
       visit records_path
       expect(page).to have_content 'Weltrekorde - Männer'

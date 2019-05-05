@@ -3,7 +3,7 @@
     .container.page-header
       %span.pull-right
         = resource.nation
-        = nation_flag(resource.nation, width: 24)
+        = resource.nation.nation_flag(width: 24)
       %h1
         = resource.full_name
         %small= g_symbol(resource.gender)

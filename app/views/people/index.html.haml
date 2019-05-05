@@ -8,17 +8,7 @@
     - [:female, :male].each do |gender|
       .container
         = toc.anker(g(gender), :h2)
-
-        = count_table(@gendered_people[gender], class: 'datatable-people') do |t|
-          - t.col('Name', class: 'col-20') { |row| link_to(row.last_name, row) }
-          - t.col('Vorname', class: 'col-20') { |row| link_to(row.first_name, row) }
-          - t.col('Nation', class: 'col-10') { |row| nation_flag_with_iso(row.nation) }
-          - t.col('HB', class: 'col-10') { |row| count_or_zero(row.hb_count) }
-          - t.col('HL', class: 'col-10') { |row| count_or_zero(row.hl_count) }
-          - t.col('LA', class: 'col-10') { |row| count_or_zero(row.la_count) }
-          - t.col('FS', class: 'col-10') { |row| count_or_zero(row.fs_count) }
-          - if gender == :female
-            - t.col('GS', class: 'col-10') { |row| count_or_zero(row.gs_count) }
+        = datatable(:"people_#{gender}")
 
     .container
       = toc.anker('Auswertung')

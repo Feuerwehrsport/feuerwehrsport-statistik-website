@@ -14,7 +14,8 @@ module DatatableSupport
 
       before_action(only: action_name) do
         if request.format.json? && params[:datatable].to_sym == key
-          collection = options.delete(:collection).try(:call) || klass.all.order(:id)
+          collection = options[:collection] || klass.all.order(:id)
+          collection = collection.call if collection.respond_to?(:call)
           count = collection.count
 
           collection = structure.search(collection, params[:search][:value])

@@ -7,7 +7,6 @@ RSpec.describe PeopleController, type: :controller do
     it 'assigns collection' do
       get :index
       expect(response).to be_success
-      expect(controller.send(:collection).length).to eq 1
     end
   end
 
