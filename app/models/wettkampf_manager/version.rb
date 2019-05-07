@@ -17,7 +17,7 @@ module WettkampfManager
     end
 
     def sortable_version_number
-      version_number.split('.').reverse.map.with_index { |number, part| number.to_i * (1000**part) }.reduce(:+)
+      version_number.to_s.split('.').reverse.map.with_index { |number, part| number.to_i * (1000**part) }.reduce(:+)
     end
 
     def commit_id
