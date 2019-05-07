@@ -7,13 +7,17 @@ module WettkampfManager
     def self.all
       Pathname.new(Rails.configuration.wettkampf_manager_path).children.select(&:directory?).map do |version_dir|
         new(version_dir)
-      end.sort_by(&:version_number).reverse
+      end.sort_by(&:sortable_version_number).reverse
     end
 
     def initialize(version_dir)
       @version_dir = version_dir
       @version_number = version_dir.basename
       @targets = Pathname.new(version_dir).children.select { |c| c.file? && c.basename.to_s != 'release-info.json' }
+    end
+
+    def sortable_version_number
+      version_number.split('.').reverse.map.with_index { |number, part| number.to_i * (1000**part) }.reduce(:+)
     end
 
     def commit_id
