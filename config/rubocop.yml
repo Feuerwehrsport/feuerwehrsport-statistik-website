@@ -8,6 +8,9 @@ AllCops:
 Naming/FileName:
   Exclude:
   - firesport-series/lib/firesport-series.rb
+Naming/PredicateName:
+  Exclude:
+  - app/controllers/backend/backend_controller.rb
 RSpec/LetSetup:
   Enabled: false
 Rails/LexicallyScopedActionFilter:
