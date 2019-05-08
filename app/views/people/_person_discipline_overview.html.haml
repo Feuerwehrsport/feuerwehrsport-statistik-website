@@ -13,11 +13,11 @@
         %tr
           %th Durchschnitt
           %td= "#{ds.average_time} s"
-      - if !ds.discipline.in?([:zk, :zw]) && ds.valid_scores.size > 0
+      - if !ds.discipline.in?([:zk, :zw]) && ds.valid_scores.present?
         = @chart.discipline_invalid(ds.discipline, ds.scores)
     .col-md-9= @chart.discipline_scores(ds.discipline, ds.chart_scores)
 
-  = count_table(ds.scores, class: 'datatable-person-scores') do |t|
+  = count_table(ds.scores_decorated, class: 'datatable-person-scores') do |t|
     - t.col('Datum', class: 'col70 info-link') { |row| competition_link(row.competition, type: :date_iso) }
     - t.col('Typ', class: 'col70 small') { |row| event_link(row.competition.event) }
     - t.col('Ort', class: 'col70 small') { |row| place_link(row.competition.place) }

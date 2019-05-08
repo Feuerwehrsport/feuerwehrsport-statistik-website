@@ -21,7 +21,6 @@ class PeopleController < ResourceController
 
   def show
     super
-    @discipline_structs = person_discipline_structs
     @teams = resource.teams.decorate
     @team_structs = @teams.map do |team|
       OpenStruct.new(
@@ -44,100 +43,5 @@ class PeopleController < ResourceController
 
   def find_collection
     super.includes(:nation)
-  end
-
-  private
-
-  def team_mates(discipline)
-    team_mates = {}
-    resource
-      .group_scores
-      .discipline(discipline)
-      .includes(:person_participations)
-      .includes(group_score_category: :competition)
-      .decorate
-      .each do |score|
-      score.person_participations.each do |person_participation|
-        next if person_participation.person_id == resource.id
-
-        team_mates[person_participation.person_id] ||= []
-        team_mates[person_participation.person_id].push(score)
-      end
-    end
-    team_mates.map do |person_id, scores|
-      OpenStruct.new(person: Person.find(person_id).decorate, scores: scores)
-    end
-  end
-
-  def person_discipline_structs
-    disciplines = []
-
-    %i[hb hw hl].each do |discipline|
-      scores = resource.scores.where(discipline: discipline)
-      next if scores.blank?
-
-      chart_scores = scores.valid.best_of_competition.includes(:competition).sort_by { |s| s.competition.date }
-                           .map(&:decorate)
-      scores = scores.includes(competition: %i[place event]).decorate
-      valid_scores = scores.reject(&:time_invalid?)
-
-      disciplines.push(OpenStruct.new(
-                         discipline: discipline,
-                         scores: scores,
-                         chart_scores: chart_scores,
-                         best_time: best_time(scores),
-                         average_time: average_time(valid_scores),
-                         count: scores.size,
-                         valid_scores: valid_scores,
-                       ))
-    end
-
-    { zk: resource.score_double_events, zw: resource.score_low_double_events }.each do |discipline, scores|
-      next if scores.blank?
-
-      chart_scores = scores.includes(:competition).sort_by { |s| s.competition.date }.map(&:decorate)
-      scores = scores.includes(competition: %i[place event]).decorate
-      valid_scores = scores.reject(&:time_invalid?)
-
-      disciplines.push(OpenStruct.new(
-                         discipline: discipline,
-                         scores: scores,
-                         chart_scores: chart_scores,
-                         best_time: best_time(scores),
-                         average_time: average_time(valid_scores),
-                         count: scores.size,
-                         valid_scores: valid_scores,
-                       ))
-    end
-
-    %i[gs fs la].each do |discipline|
-      scores = resource.group_score_participations.where(discipline: discipline)
-      next if scores.blank?
-
-      chart_scores = scores.valid.best_of_competition.includes(:competition).sort_by { |s| s.competition.date }
-                           .map(&:decorate)
-      scores = scores.includes(competition: %i[place event]).includes(:group_score_type).decorate
-      valid_scores = scores.reject(&:time_invalid?)
-
-      disciplines.push(OpenStruct.new(
-                         discipline: discipline,
-                         scores: scores,
-                         chart_scores: chart_scores,
-                         best_time: best_time(scores),
-                         average_time: average_time(valid_scores),
-                         count: scores.size,
-                         valid_scores: valid_scores,
-                         team_mates: team_mates(discipline),
-                       ))
-    end
-    disciplines
-  end
-
-  def best_time(scores)
-    scores.min_by(&:time).try(:second_time)
-  end
-
-  def average_time(valid_scores)
-    Firesport::Time.second_time(valid_scores.map(&:time).sum.to_f / valid_scores.size)
   end
 end

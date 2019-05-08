@@ -29,7 +29,7 @@
     - if resource.bla_badge
       = render('bla_badge', badge: resource.bla_badge)
     .container
-      - @discipline_structs.each do |discipline_struct|
+      - People::DisciplineOverview.for(resource).each do |discipline_struct|
         = render('person_discipline_overview', toc: toc, ds: discipline_struct)
 
 
