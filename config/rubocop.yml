@@ -13,6 +13,9 @@ Naming/PredicateName:
   - app/controllers/backend/backend_controller.rb
 RSpec/LetSetup:
   Enabled: false
+Rails/FindEach:
+  Exclude:
+  - app/models/team.rb
 Rails/LexicallyScopedActionFilter:
   Enabled: false
 Style/ClassAndModuleChildren:
