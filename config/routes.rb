@@ -123,7 +123,7 @@ Rails.application.routes.draw do
         collection { get :new_select_gender }
       end
       resource :person_creation, only: %i[new create]
-      resources :people, only: %i[show edit update destroy]
+      resources :people, only: %i[edit update destroy]
       resources :person_participations, only: %i[edit update]
       resource :mail, only: %i[new create]
     end

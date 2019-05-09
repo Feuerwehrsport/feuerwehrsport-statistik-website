@@ -8,6 +8,7 @@ RSpec.describe Registrations::TeamCreationsController, type: :controller, login:
     it 'redirects' do
       get :new, competition_id: competition.id
       expect(response).to be_success
+      expect(controller.parent_url).to eq registrations_competition_url(competition)
     end
   end
 

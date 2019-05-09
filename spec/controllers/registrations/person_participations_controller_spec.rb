@@ -28,5 +28,15 @@ RSpec.describe Registrations::PersonParticipationsController, type: :controller,
       expect(response).to redirect_to(registrations_competition_path(competition))
       expect(person.reload.assessments).to eq [assessment]
     end
+
+    context 'when person has team' do
+      let(:team) { create(:registrations_team, competition: competition) }
+      let(:person) { create(:registrations_person, team: team, competition: competition) }
+
+      it 'redirect to team page' do
+        patch :update, competition_id: competition.id, id: person.id, registrations_person: {}
+        expect(response).to redirect_to(registrations_competition_team_path(competition, team))
+      end
+    end
   end
 end

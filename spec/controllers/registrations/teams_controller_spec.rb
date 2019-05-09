@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Registrations::TeamsController, type: :controller, login: :user do
-  let(:competition) { create(:registrations_competition) }
+  let(:competition) { create(:registrations_competition, team_tags: 'Sport') }
   let(:team) { create(:registrations_team, competition: competition) }
 
   describe 'GET show' do
@@ -47,6 +47,8 @@ RSpec.describe Registrations::TeamsController, type: :controller, login: :user d
   end
 
   describe 'PATCH update' do
+    let!(:assessment) { create(:registrations_assessment, :la, competition: competition) }
+
     it 'updates' do
       patch :update, id: team.id, competition_id: competition.id, registrations_team: { name: 'new-name' }
       expect(response).to redirect_to(action: :show)

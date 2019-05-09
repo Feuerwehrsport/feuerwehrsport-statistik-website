@@ -116,4 +116,11 @@ RSpec.describe Registrations::CompetitionsController, type: :controller, login: 
       end.to change(Registrations::Competition, :count).by(-1)
     end
   end
+
+  describe 'GET slug_handle' do
+    it 'redirects' do
+      get :slug_handle, slug: competition.slug
+      expect(response).to redirect_to(registrations_competition_path(competition.id))
+    end
+  end
 end
