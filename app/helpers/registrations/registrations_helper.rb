@@ -7,6 +7,6 @@ module Registrations::RegistrationsHelper
       remote: true, class: 'btn btn-default btn-xs pull-right',
     )
     link = can?(:edit, row) ? link : ''
-    "#{value.presence || '-'} #{link}".html_safe
+    safe_join([value.presence || '-', link], ' ')
   end
 end

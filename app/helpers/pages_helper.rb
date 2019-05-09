@@ -5,6 +5,6 @@ module PagesHelper
 
   def persons(ids, options = {})
     ids = [ids] unless ids.is_a?(Array)
-    ids.map { |id| person_link(Person.find(id).decorate, options) }.join(', ').html_safe
+    safe_join(ids.map { |id| person_link(Person.find(id).decorate, options) }, ', ')
   end
 end

@@ -7,11 +7,11 @@ module UIHelper
 
   def table_of_contents(&block)
     toc = UI::TableOfContents.new
-    toc.handle(capture_haml(toc, &block)).html_safe
+    toc.handle(capture_haml(toc, &block)).html_safe # rubocop:disable Rails/OutputSafety
   end
 
   def nav_tab(&block)
-    nt = UI::NavTab.new &block
+    nt = UI::NavTab.new(&block)
     render 'ui/nav_tab', nt: nt
   end
 

@@ -14,15 +14,15 @@ module PlacesHelper
     ]
   end
 
-  class DisciplineScoreOverview < Struct.new(:discipline, :gender, :competition_ids)
+  DisciplineScoreOverview = Struct.new(:discipline, :gender, :competition_ids) do
     def get
       if Discipline.group?(discipline)
-        GroupScoreType.where(discipline: discipline_config[:discipline]).map do |group_score_type|
-          scores = GroupScore
-                   .joins(:group_score_category)
-                   .where(group_score_categories: { competition_id: competition_ids, group_score_type_id: group_score_type.id })
+        group_score_types = GroupScoreType.where(discipline: discipline_config[:discipline]).map do |group_score_type|
+          scores = GroupScore .joins(:group_score_category) .where(group_score_categories:
+            { competition_id: competition_ids, group_score_type_id: group_score_type.id })
           OpenStruct.new(type: group_score_type, calculation: calculation(scores))
-        end.reject { |c| c.calculation.count.zero? }
+        end
+        group_score_types.reject { |c| c.calculation.count.zero? }
       else
         scores = Score.where(competition: competition_ids).german.discipline(discipline)
         [OpenStruct.new(type: nil, calculation: calculation(scores))]
@@ -35,12 +35,12 @@ module PlacesHelper
           year: year,
           best: scores.year(year).valid.order(:time).limit(1),
         )
-      end.reject { |y| y.best.nil? }
+      end
       OpenStruct.new(
         count: scores.count,
         average: scores.valid.average(:time),
         best: scores.valid.order(:time).limit(1),
-        years: years,
+        years: years.reject { |y| y.best.nil? },
       )
     end
   end

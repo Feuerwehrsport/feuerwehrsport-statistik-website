@@ -5,7 +5,7 @@ wb.add_worksheet(name: 'Übersicht') do |sheet|
   sheet.add_row(['Name', resource.name])
   sheet.add_row(['Typ', resource.event.to_s])
   sheet.add_row(['Ort', resource.place.to_s])
-  if @calc.single_score_count > 0
+  if @calc.single_score_count.positive?
     sheet.add_row(['Mannschaftswertung', resource.score_type.present? ? resource.score_type.to_s : 'Keine'])
   end
   sheet.add_row(['Datum', resource.date])

@@ -72,7 +72,7 @@ module ApplicationHelper
   end
 
   def count_or_zero(count)
-    count.to_i > 0 ? count : ''
+    count.to_i.positive? ? count : ''
   end
 
   def design_image(key, options = {})
@@ -80,9 +80,7 @@ module ApplicationHelper
   end
 
   def score_links(scores)
-    scores.map do |score|
-      link_to(score.second_time, score.competition, title: score.competition)
-    end.join(', ').html_safe
+    safe_join(scores.map { |score| link_to(score.second_time, score.competition, title: score.competition) }, ', ')
   end
 
   def series_assessment_cup_participation(cup, row, html: true)
@@ -101,7 +99,6 @@ module ApplicationHelper
   def image_link_to(image, title, *args)
     options = args.extract_options!
     image_options = options.delete(:image)
-    title = "#{design_image(image, image_options)} #{title}".html_safe
-    link_to(title, *args, options)
+    link_to(safe_join([design_image(image, image_options), title], ' '), *args, options)
   end
 end
