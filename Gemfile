@@ -50,3 +50,7 @@ group :development do
   # gem 'm3_capistrano', path: '../m3_capistrano'
   gem 'capistrano_rsync_with_remote_cache', git: 'https://github.com/Lichtbit/capistrano_rsync_with_remote_cache'
 end
+
+group :test do
+  gem 'simplecov', require: false
+end
