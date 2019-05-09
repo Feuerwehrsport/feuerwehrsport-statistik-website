@@ -6,14 +6,15 @@ class Competition < ActiveRecord::Base
   has_many :group_score_types, through: :group_score_categories
   has_many :scores, dependent: :restrict_with_exception
   has_many :group_scores, through: :group_score_categories
-  has_many :score_double_events
-  has_many :score_low_double_events
-  has_many :links, as: :linkable, dependent: :restrict_with_exception
-  has_many :competition_files, dependent: :restrict_with_exception
-  has_many :team_competitions
+  has_many :score_double_events # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :score_low_double_events # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :links, as: :linkable, dependent: :restrict_with_exception, inverse_of: :linkable
+  has_many :competition_files, dependent: :restrict_with_exception, inverse_of: :competition
+  has_many :team_competitions # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :teams, through: :team_competitions
 
   validates :place, :event, :date, presence: true
+  delegate :year, to: :date
 
   scope :with_group_assessment, -> { joins(:score_type) }
   scope :year, ->(year) do
@@ -41,53 +42,29 @@ class Competition < ActiveRecord::Base
   end
 
   def self.update_discipline_score_count
-    hl_female = Score.hl.gender(:female).select('COUNT(*)').where("competition_id = #{table_name}.id").to_sql
-    hl_male = Score.hl.gender(:male).select('COUNT(*)').where("competition_id = #{table_name}.id").to_sql
-    hb_female = Score.low_and_high_hb.gender(:female).select('COUNT(*)').where("competition_id = #{table_name}.id").to_sql
-    hb_male = Score.hb.gender(:male).select('COUNT(*)').where("competition_id = #{table_name}.id").to_sql
-    gs = GroupScore.discipline(:gs).select('COUNT(*)').where("group_score_categories.competition_id = #{table_name}.id").to_sql
-    fs_female = GroupScore.discipline(:fs).gender(:female).select('COUNT(*)').where("group_score_categories.competition_id = #{table_name}.id").to_sql
-    fs_male = GroupScore.discipline(:fs).gender(:male).select('COUNT(*)').where("group_score_categories.competition_id = #{table_name}.id").to_sql
-    la_female = GroupScore.discipline(:la).gender(:female).select('COUNT(*)').where("group_score_categories.competition_id = #{table_name}.id").to_sql
-    la_male = GroupScore.discipline(:la).gender(:male).select('COUNT(*)').where("group_score_categories.competition_id = #{table_name}.id").to_sql
+    group = GroupScore.select('COUNT(*)').where('group_score_categories.competition_id = competitions.id')
+    update_all("gs = (#{group.discipline(:gs).to_sql})")
 
-    group_score_sql = GroupScore
-                      .select("CONCAT(team_id,'-',gender,'-',team_number) AS team")
-                      .joins(:group_score_category)
-                      .where('group_score_categories.competition_id = competitions.id')
-                      .to_sql
-    score_sql = Score
-                .no_finals
-                .with_team
-                .joins(:person)
-                .select("CONCAT(team_id,'-',gender,'-',team_number) AS team")
-                .where('competition_id = competitions.id')
-                .to_sql
-    teams_count_sql = "
-      SELECT COUNT(*)
-      FROM (
-        #{group_score_sql}
-        UNION
-        #{score_sql}
-      ) teams_counts"
+    %i[female male].each do |gender|
+      single = Score.gender(gender).select('COUNT(*)').where('competition_id = competitions.id')
+      update_all("hl_#{gender} = (#{single.hl.to_sql})")
+      update_all("hb_#{gender} = (#{single.low_and_high_hb.to_sql})")
 
-    people_sql = Score
-                 .group(:person_id)
-                 .select(:person_id)
+      update_all("fs_#{gender} = (#{group.discipline(:fs).gender(gender).to_sql})")
+      update_all("la_#{gender} = (#{group.discipline(:la).gender(gender).to_sql})")
+    end
+
+    group_score = GroupScore.joins(:group_score_category)
+                            .select("CONCAT(team_id,'-',gender,'-',team_number) AS team")
+                            .where('group_score_categories.competition_id = competitions.id')
+    score = Score.no_finals.with_team.joins(:person)
+                 .select("CONCAT(team_id,'-',gender,'-',team_number) AS team")
                  .where('competition_id = competitions.id')
-                 .to_sql
-    person_count_sql = "SELECT COUNT(*) FROM (#{people_sql}) person_count"
-
-    update_all("hl_female = (#{hl_female})")
-    update_all("hl_male = (#{hl_male})")
-    update_all("hb_female = (#{hb_female})")
-    update_all("hb_male = (#{hb_male})")
-    update_all("gs = (#{gs})")
-    update_all("fs_female = (#{fs_female})")
-    update_all("fs_male = (#{fs_male})")
-    update_all("la_female = (#{la_female})")
-    update_all("la_male = (#{la_male})")
+    teams_count_sql = "SELECT COUNT(*) FROM ( #{group_score.to_sql} UNION #{score.to_sql} ) teams_counts"
     update_all("teams_count = (#{teams_count_sql})")
+
+    people = Score.group(:person_id).select(:person_id).where('competition_id = competitions.id')
+    person_count_sql = "SELECT COUNT(*) FROM (#{people.to_sql}) person_count"
     update_all("people_count = (#{person_count_sql})")
   end
 
@@ -96,7 +73,8 @@ class Competition < ActiveRecord::Base
     scores.no_finals.best_of_competition.gender(gender).discipline(discipline).each do |score|
       next if score.team_number < 1 || score.team.nil?
 
-      team_scores[score.uniq_team_id] ||= Calculation::CompetitionGroupAssessment.new(score.team, score.team_number, self, gender)
+      team_scores[score.uniq_team_id] ||=
+        Calculation::CompetitionGroupAssessment.new(score.team, score.team_number, self, gender)
       team_scores[score.uniq_team_id].add_score(score)
     end
     team_scores.values.sort
@@ -120,9 +98,5 @@ class Competition < ActiveRecord::Base
         single_team: scores.where(team_id: nil).present?,
         competition_files: competition_files.blank?,
       }
-  end
-
-  def year
-    date.strftime('%Y').to_i
   end
 end

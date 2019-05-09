@@ -2,7 +2,7 @@
 # More info at https://github.com/guard/guard#readme
 
 ## Uncomment and set this to only include directories you want to watch
-directories %w[app lib spec].select { |d| Dir.exist?(d) ? d : UI.warning("Directory #{d} does not exist") }
+directories(%w[app lib spec].select { |d| Dir.exist?(d) ? d : UI.warning("Directory #{d} does not exist") })
 
 # This group allows to skip running RuboCop when RSpec failed.
 group :red_green_refactor, halt_on_fail: true do
@@ -42,7 +42,7 @@ group :red_green_refactor, halt_on_fail: true do
     watch(rails.layouts)       { |m| rspec.spec.call("features/#{m[1]}") }
   end
 
-  guard :rubocop, all_on_start: false, cli: %w[-a --config config/rubocop.yml] do
+  guard :rubocop, all_on_start: false, cli: %w[-aE --config config/rubocop.yml] do
     watch(%r{^app/(.+)\.rb$})
     watch(%r{^lib/(.+)\.rb$})
     watch(%r{^spec/(.+)\.rb$})
