@@ -42,6 +42,7 @@ class Registrations::CompetitionsController < Registrations::BaseController
     f.input :date
     f.input :place
     f.input :description, as: :wysiwyg
+    f.input :hint_to_hint
     f.association :admin_user if can?(:manage, AdminUser)
   end
 

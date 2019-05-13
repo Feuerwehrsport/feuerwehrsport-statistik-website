@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181108093017) do
+ActiveRecord::Schema.define(version: 20190513091835) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -428,6 +428,7 @@ SELECT person_participations.person_id,
     t.string   "slug",          :index=>{:name=>"index_registrations_competitions_on_slug", :unique=>true, :using=>:btree}
     t.boolean  "published",     :default=>false, :null=>false
     t.boolean  "group_score",   :default=>false, :null=>false
+    t.text     "hint_to_hint"
   end
 
   create_table "registrations_people", force: :cascade do |t|
@@ -461,6 +462,7 @@ SELECT person_participations.person_id,
     t.datetime "created_at",               :null=>false
     t.datetime "updated_at",               :null=>false
     t.integer  "federal_state_id"
+    t.text     "hint"
   end
 
   create_view "score_double_events", <<-'END_VIEW_SCORE_DOUBLE_EVENTS', :force => true

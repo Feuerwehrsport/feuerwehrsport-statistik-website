@@ -19,6 +19,10 @@ class Registrations::TeamsController < Registrations::BaseController
       f.input :phone_number
       f.input :email_address
     end
+    f.inputs :hint do
+      f.value :hint_to_hint, label: '' if parent_resource.hint_to_hint.present?
+      f.input :hint
+    end
 
     if parent_resource.team_tag_list.present?
       f.inputs :additional_data do

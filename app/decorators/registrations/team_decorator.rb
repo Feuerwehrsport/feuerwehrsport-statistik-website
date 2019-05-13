@@ -12,4 +12,8 @@ class Registrations::TeamDecorator < AppDecorator
   def with_number
     "#{name} #{team_number}"
   end
+
+  def hint_to_hint
+    h.simple_format(competition.hint_to_hint)
+  end
 end

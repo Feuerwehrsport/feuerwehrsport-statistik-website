@@ -24,6 +24,7 @@ de:
         date: Datum
         description: Beschreibung
         group_score: Mannschaftswertung
+        hint_to_hint: Hinweis für Mannschaften
         open_at: Anmeldung öffnen
         person_tags: Anklickbare Werte für Wettkämpfer
         place: Ort
@@ -37,6 +38,7 @@ de:
         tag_names: Markierungen
         team_name: Mannschaft
       registrations/team:
+        hint: Ergänzende Hinweise
         assessments: Wertungen
         email_address: E-Mail-Adresse
         federal_state: Bundesland
@@ -95,14 +97,13 @@ de:
       form_actions:
         create: Wettkampf anlegen
       hints:
-        group_score: Wird diese Option aktiviert, können Mannschaften eine Reihenfolge
-          ihrer Wettkämpfer vorgeben
-        person_tags: Wettkämpfer können diese Werte bei der Anmeldung anklicken, z.
-          B. <em>U20</em> oder <em>Kreiswertung</em>. Werte mit Komma trennen.
-        published: Diese Einstellungen kann auch später unter <em>Öffentlichkeitseinstellungen</em>
-          vorgenommen werden
-        team_tags: Mannschaften können diese Werte bei der Anmeldung anklicken, z.
-          B. <em>Ü40</em> oder <em>Kreiswertung</em>. Werte mit Komma trennen.
+        group_score: Wird diese Option aktiviert, können Mannschaften eine Reihenfolge ihrer Wettkämpfer vorgeben
+        hint_to_hint: Dieser Hinweis wird beim Anmelder einer Mannschaft angezeigt und erscheint direkt über dem Freitextfeld.
+        person_tags: Wettkämpfer können diese Werte bei der Anmeldung anklicken, z. B. <em>U20</em> oder <em>Kreiswertung</em>.
+          Werte mit Komma trennen.
+        published: Diese Einstellungen kann auch später unter <em>Öffentlichkeitseinstellungen</em> vorgenommen werden
+        team_tags: Mannschaften können diese Werte bei der Anmeldung anklicken, z. B. <em>Ü40</em> oder <em>Kreiswertung</em>.
+          Werte mit Komma trennen.
       inline_labels:
         group_score: Mannschaftswertung für Einzeldisziplinen
         published: Wettkampf sofort für alle sichtbar schalten
@@ -110,31 +111,27 @@ de:
         actions:
           add_person: Einzelstarter anmelden
           add_team: Mannschaft anmelden
-        not_all_people: Es werden eventuell nicht alle Wettkämpfer angezeigt, da du
-          nicht genügend Rechte dafür besitzt.
+        not_all_people: Es werden eventuell nicht alle Wettkämpfer angezeigt, da du nicht genügend Rechte dafür besitzt.
     registrations/mails:
       form_actions:
         create: E-Mail senden
       inline_labels:
         add_registration_file: Teilnehmerliste A und B automatisch als Anhang hinzufügen
       views:
-        header_html: Mit dieser Funktion senden Sie allen angemeldeten Mannschaften
-          und Einzelstarten eine E-Mail. Sie können die Anmeldung der einzelnen Mannschaft
-          auch als PDF-Datei anhängen (Teilnehmerliste A und B).
+        header_html: Mit dieser Funktion senden Sie allen angemeldeten Mannschaften und Einzelstarten eine E-Mail. Sie können
+          die Anmeldung der einzelnen Mannschaft auch als PDF-Datei anhängen (Teilnehmerliste A und B).
     registrations/publishings:
       hints:
-        slug: Der Kurzname darf nur aus Zahlen, Buchstaben, Binde-, Unterstrich und
-          Pluszeichen bestehen
+        slug: Der Kurzname darf nur aus Zahlen, Buchstaben, Binde-, Unterstrich und Pluszeichen bestehen
       inline_labels:
         published: Wettkampf für alle sichtbar schalten
     registrations/tags:
       hints:
-        group_score: Wird diese Option aktiviert, können Mannschaften eine Reihenfolge
-          ihrer Wettkämpfer vorgeben
-        person_tags: Wettkämpfer können diese Werte bei der Anmeldung anklicken, z.
-          B. <em>U20</em> oder <em>Kreiswertung</em>. Werte mit Komma trennen.
-        team_tags: Mannschaften können diese Werte bei der Anmeldung anklicken, z.
-          B. <em>Ü40</em> oder <em>Kreiswertung</em>. Werte mit Komma trennen.
+        group_score: Wird diese Option aktiviert, können Mannschaften eine Reihenfolge ihrer Wettkämpfer vorgeben
+        person_tags: Wettkämpfer können diese Werte bei der Anmeldung anklicken, z. B. <em>U20</em> oder <em>Kreiswertung</em>.
+          Werte mit Komma trennen.
+        team_tags: Mannschaften können diese Werte bei der Anmeldung anklicken, z. B. <em>Ü40</em> oder <em>Kreiswertung</em>.
+          Werte mit Komma trennen.
       inline_labels:
         group_score: Mannschaftswertung für Einzeldisziplinen
     registrations/teams:
@@ -144,7 +141,5 @@ de:
         create: Mannschaft anlegen
       hints:
         name: 'Beispiel: FF Warin'
-        shortcut: 'Kurzer Name der Mannschaft für Listen mit wenig Platz; Beispiel:
-          Warin '
-        team_number: Sollten mehrere Mannschaften mit gleichen Namen antreten, denn
-          hier die Nummer hochzählen.
+        shortcut: 'Kurzer Name der Mannschaft für Listen mit wenig Platz; Beispiel: Warin '
+        team_number: Sollten mehrere Mannschaften mit gleichen Namen antreten, denn hier die Nummer hochzählen.
