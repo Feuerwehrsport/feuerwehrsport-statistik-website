@@ -113,7 +113,7 @@ class Ability
     can :read, Series::Participation
     can :read, Series::Round
 
-    can :read, Registrations::Competition, published: true
+    can %i[read slug_handle], Registrations::Competition, published: true
 
     can(:manage, M3::Login::Session)
     can(:verify, M3::Login::Base)
