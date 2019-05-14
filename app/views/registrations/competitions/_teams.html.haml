@@ -6,7 +6,7 @@
   - if resource.team_tag_list.present?
     - ct.col('Attribute') { |row| row.tag_names.join(', ') }
   - form_resource.assessments.gender(gender).each do |assessment|
-    - ct.col(discipline_image_name_short(assessment.discipline, assessment.gender)) do |row|
+    - ct.col(discipline_image_name_short(assessment.discipline, assessment.gender), th_options: { title: assessment.decorate }) do |row|
       - if Discipline.group?(assessment.discipline)
         - row.assessments.include?(assessment) ? 'x' : ''
       - else

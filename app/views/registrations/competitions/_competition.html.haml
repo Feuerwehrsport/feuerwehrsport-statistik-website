@@ -12,11 +12,12 @@
       = render 'panel_tags'
       - if can?(:edit, resource)
         = render 'panel_actions'
-    - %i[female male].each do |gender|
-      - if @teams[gender].present?
-        = render 'teams', gender: gender, teams: @teams[gender]
-      - if @people_count[gender].positive?
-        = render 'people', gender: gender, people: @people[gender], people_count: @people_count[gender]
+    .col-md-12
+      - %i[female male].each do |gender|
+        - if @teams[gender].present?
+          = render 'teams', gender: gender, teams: @teams[gender]
+        - if @people_count[gender].positive?
+          = render 'people', gender: gender, people: @people[gender], people_count: @people_count[gender]
 
     = render 'action_line'
 - if can?(:edit, resource)
