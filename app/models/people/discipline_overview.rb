@@ -67,7 +67,7 @@ People::DisciplineOverview = Struct.new(:person, :discipline) do
   end
 
   def best_time
-    scores_decorated.map(&:object).min_by(&:time).try(:second_time)
+    scores_decorated.min_by { |score| score.object.time }&.second_time
   end
 
   def average_time
