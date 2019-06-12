@@ -108,6 +108,7 @@ Rails.application.routes.draw do
     resources :teams, only: %i[create show index update] do
       member { post :merge }
     end
+    resources :import_requests, only: [:create]
   end
 
   namespace :registrations do

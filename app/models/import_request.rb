@@ -14,10 +14,10 @@ class ImportRequest < ActiveRecord::Base
 
   def edit_user_id=(id)
     super
-    if edit_user_id_changed?
-      self.edited_at = Time.current if id.present?
-      self.edited_at = nil if id.blank?
-    end
+    return unless edit_user_id_changed?
+
+    self.edited_at = Time.current if id.present?
+    self.edited_at = nil if id.blank?
   end
 
   def finished
@@ -26,6 +26,13 @@ class ImportRequest < ActiveRecord::Base
 
   def finished=(value)
     self.finished_at = value == '0' ? nil : Time.current
+  end
+
+  def compressed_data=(data)
+    json_string = Zlib::Inflate.inflate(data)
+    file = Tempfile.new(['compressed_data', '.json'])
+    file.write(json_string)
+    self.file = file
   end
 
   private

@@ -84,6 +84,7 @@ class Ability
     can :update, Score
     can %i[create update], Team
     can :person_participation, GroupScore
+    can :create, ImportRequest
   end
 
   def all_users
