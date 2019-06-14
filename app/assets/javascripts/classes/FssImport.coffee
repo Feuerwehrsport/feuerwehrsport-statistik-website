@@ -61,20 +61,23 @@ class @FssImport
         .on('submit', (data) => Fss.post('group_score_types', { group_score_type: data }, => @addSuccess) )
         .open()
 
-    $('.add-competition').click =>
+    $('.add-competition').click (event) =>
+      defaultValues = $(event.target).data('competition') || {}
       Fss.checkLogin =>
         Fss.getResources 'events', (events) =>
           Fss.getResources 'places', (places) =>
             eventOptions = []
             eventOptions.push({ display: event.name, value: event.id }) for event in events
             placeOptions = []
-            placeOptions.push({ display: place.name, value: place.id }) for place in places
-            
+            for place in places
+              placeOptions.push({ display: place.name, value: place.id })
+              defaultValues['place_id'] = place.id if defaultValues['place'] == place.name
+
             FssWindow.build('Wettkampf hinzufügen')
-            .add(new FssFormRowText('name', 'Name'))
-            .add(new FssFormRowSelect('place_id', 'Ort', null, placeOptions))
+            .add(new FssFormRowText('name', 'Name', defaultValues['name']))
+            .add(new FssFormRowSelect('place_id', 'Ort', defaultValues['place_id'], placeOptions))
             .add(new FssFormRowSelect('event_id', 'Typ', null, eventOptions))
-            .add(new FssFormRowDate('date', 'Datum'))
+            .add(new FssFormRowDate('date', 'Datum', defaultValues['date']))
             .on('submit', (data) => Fss.post('competitions', { competition: data }, =>
               @addSuccess ->
                 $("input[name='competition-type'][value='latest']").prop('checked', true).trigger('change')
@@ -86,7 +89,8 @@ class @FssImport
         res = className.match(/^discipline-([a-z]{2})-((?:fe)?male)$/)
         if res
           discipline = new Discipline(res[1], res[2])
-          discipline.on('refresh-results', => @changeCompetition)
+          discipline.on('refresh-results', => @changeCompetition())
+          discipline.importRows($(ev.target).data('rows'))
           return false
 
     @reloadCompetitions(@selectCompetitionType)

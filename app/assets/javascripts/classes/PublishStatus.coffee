@@ -2,8 +2,6 @@ class @PublishStatus
   @status: ['not-ready', 'ready', 'published']
 
   constructor: (@container, @competition) ->
-    return
-    @load()
 
   load: =>
     Fss.post 'get-competition-published', { competitionId: @competitionId }, (data) =>

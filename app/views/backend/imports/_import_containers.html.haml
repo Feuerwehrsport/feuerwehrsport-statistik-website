@@ -1,0 +1,54 @@
+- competition_info ||= nil
+.container
+  .col-md-2
+    %input#competition-type-sorted{checked: "checked", name: "competition-type", type: "radio", value: "sorted"}/
+    %label{for: "competition-type-sorted"} Sortiert
+    %br/
+    %input#competition-type-latest{name: "competition-type", type: "radio", value: "latest"}/
+    %label{for: "competition-type-latest"} Letzter
+    %br/
+    %input#competition-type-new{name: "competition-type", type: "radio", value: "new"}/
+    %label{for: "competition-type-new"} Neu
+  #select-competitions.col-md-5
+    %select#competitions{style: ""}
+    %br/
+    %br/
+    %a#competition-link{href: ""}
+    %br/
+    %a#competition-link-admin{href: ""}
+    %br/
+    %a#change-competition-score-type{href: ""}
+      Mannschaftswertung
+      %span
+  #competition-scores.col-md-2
+  #competition-published.col-md-1
+  #create-competitions.col-md-3
+    %button.add-competition{ data: { competition: competition_info&.to_json } } Wettkampf
+    %button.add-event Typ
+    %button.add-place Ort
+    %button.add-group-score-type Gruppen-Typ
+  #show-group-score-types.col-md-3
+    %table.table
+.container
+  .col-md-2
+    %h4 Löschangriff
+    %button.add-discipline.discipline-la-male male
+    %button.add-discipline.discipline-la-female female
+  .col-md-2
+    %h4 Hindernisbahn
+    %button.add-discipline.discipline-hb-male male
+    %button.add-discipline.discipline-hb-female female
+    %button.add-discipline.discipline-hw-female female-low
+  .col-md-2
+    %h4 Feuerwehrstafette
+    %button.add-discipline.discipline-fs-male male
+    %button.add-discipline.discipline-fs-female female
+  .col-md-2
+    %h4 Hakenleitersteigen
+    %button.add-discipline.discipline-hl-male male
+    %button.add-discipline.discipline-hl-female female
+  .col-md-2
+    %h4 Gruppenstafette
+    %button.add-discipline.discipline-gs-female female
+.container
+  #disciplines

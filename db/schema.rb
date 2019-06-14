@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190513091835) do
+ActiveRecord::Schema.define(version: 20190613130727) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -240,6 +240,13 @@ SELECT person_participations.person_id,
      JOIN group_score_types ON ((group_score_types.id = group_score_categories.group_score_type_id)))
   END_VIEW_GROUP_SCORE_PARTICIPATIONS
 
+  create_table "import_request_files", force: :cascade do |t|
+    t.integer  "import_request_id", :null=>false, :index=>{:name=>"index_import_request_files_on_import_request_id", :using=>:btree}
+    t.string   "file",              :null=>false
+    t.datetime "created_at",        :null=>false
+    t.datetime "updated_at",        :null=>false
+  end
+
   create_table "import_requests", force: :cascade do |t|
     t.string   "file"
     t.string   "url"
@@ -253,6 +260,7 @@ SELECT person_participations.person_id,
     t.datetime "finished_at"
     t.datetime "created_at",    :null=>false
     t.datetime "updated_at",    :null=>false
+    t.json     "import_data"
   end
 
   create_table "ipo_registrations", force: :cascade do |t|
@@ -632,6 +640,7 @@ SELECT date_part('year'::text, competitions.date) AS year
   add_foreign_key "group_score_categories", "group_score_types"
   add_foreign_key "group_scores", "group_score_categories"
   add_foreign_key "group_scores", "teams"
+  add_foreign_key "import_request_files", "import_requests"
   add_foreign_key "m3_assets", "m3_websites", column: "website_id"
   add_foreign_key "m3_delivery_settings", "m3_websites", column: "website_id"
   add_foreign_key "m3_logins", "m3_websites", column: "website_id"

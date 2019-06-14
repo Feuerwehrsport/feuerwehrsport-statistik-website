@@ -3,8 +3,8 @@ class ImportRequest < ActiveRecord::Base
   belongs_to :event
   belongs_to :admin_user
   belongs_to :edit_user, class_name: 'AdminUser'
-
-  mount_uploader :file, ImportRequestUploader
+  has_many :import_request_files, class_name: 'ImportRequestFile', dependent: :destroy, inverse_of: :import_request
+  accepts_nested_attributes_for :import_request_files, reject_if: proc { |attributes| attributes['file'].blank? }
 
   default_scope -> { order('finished_at DESC, created_at ASC') }
   scope :open, -> { where(finished_at: nil) }
@@ -28,11 +28,31 @@ class ImportRequest < ActiveRecord::Base
     self.finished_at = value == '0' ? nil : Time.current
   end
 
+  def import_data
+    super.try(:with_indifferent_access)
+  end
+
   def compressed_data=(data)
-    json_string = Zlib::Inflate.inflate(data)
-    file = Tempfile.new(['compressed_data', '.json'])
-    file.write(json_string)
-    self.file = file
+    json = JSON.parse(Zlib::Inflate.inflate(data), symbolize_names: true)
+    self.date = json[:date]
+    self.description = json[:name]
+    import_data = {
+      date: json[:date],
+      name: json[:name],
+      place: json[:place],
+      results: [],
+    }
+    json[:files].try(:each) do |file|
+      data = Base64.decode64(file[:base64_data])
+      if file[:mimetype] == Mime::JSON && JSON.parse(data, symbolize_names: true)[:discipline].present?
+        import_data[:results].push(JSON.parse(data, symbolize_names: true))
+      else
+        import_request_files.new(
+          file: CarrierStringIO.new(data, file[:name], file[:mimetype]),
+        )
+      end
+    end
+    self.import_data = import_data
   end
 
   private

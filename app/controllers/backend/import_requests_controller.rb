@@ -3,7 +3,9 @@ class Backend::ImportRequestsController < Backend::BackendController
   skip_before_action :preauthorize_action, only: :decide_login
 
   default_form do |f|
-    f.input :file, as: :file_preview
+    f.fields_for :import_request_files do
+      f.input :file, as: :file_preview
+    end
     f.input :url
     f.input :date
     f.association :place, as: :association_select
@@ -22,6 +24,11 @@ class Backend::ImportRequestsController < Backend::BackendController
     i.col :description
     i.col :finished_at
     i.col :created_at
+  end
+
+  def new
+    form_resource.import_request_files.build
+    super
   end
 
   def decide_login

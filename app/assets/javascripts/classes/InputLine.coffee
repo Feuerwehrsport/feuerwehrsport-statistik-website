@@ -22,18 +22,24 @@ class @InputLine
     for field in @fields
       container.append(field.get())
     
-    addButton = $('<button/>').text('+').click =>
-      newField = new InputLineField(this, 'time')
-      @fields.push(newField)
-      newField.get().insertBefore(addButton)
+    @addButton = $('<button/>').text('+').click( => @addField())
 
-    container.append(addButton)
+    container.append(@addButton)
+
+  addField: (type='time')=>
+    newField = new InputLineField(this, type)
+    @fields.push(newField)
+    newField.get().insertBefore(@addButton)
 
   removeField: (removeField) =>
     for field, i in @fields
       if removeField is field
         field.remove()
         return @fields.splice(i, 1)
+
+  removeAllFields: =>
+    while @fields.length > 0
+      @removeField(@fields[0])
 
   val: (separator) =>
     outputs = []

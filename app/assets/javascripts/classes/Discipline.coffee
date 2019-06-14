@@ -80,6 +80,23 @@ class @Discipline extends EventHandler
     }
     Fss.getResources('group_score_categories', input, callback)
 
+  importRows: (rows) =>
+    return unless rows?
+    headline = rows.shift()
+
+    @inputLine.removeAllFields()
+    console.log headline
+    for headlineColumn in headline
+      type = switch headlineColumn
+        when 'Vorname' then 'first_name'
+        when 'Nachname' then 'last_name'
+        when 'Mannschaft' then 'team'
+        when 'Lauf' then 'run'
+        when 'time' then 'time'
+        else 'col'
+      @inputLine.addField(type)
+    @textarea.val(rows.map( (row) -> row.join("\t") ).join("\n"))
+
   selectCategory: =>
     if not @categoryId and $.inArray(@discipline, ['hl', 'hb', 'hw']) is -1
       @getGroupScoreCategories (categories) =>

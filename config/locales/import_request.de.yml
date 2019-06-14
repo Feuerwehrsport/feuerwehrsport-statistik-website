@@ -1,13 +1,13 @@
 de:
   activerecord:
     attributes:
+      import_request_file:
+        file: Datei
       import_request:
         date: Datum des Wettkampfes
         description: Zusätzliche Beschreibung
         edit_user: Bearbeiter
         event: Typ
-        file: Datei
-        file_with_link: Datei
         finished_at: Abgeschlossen
         finished: Abgeschlossen
         german_created_at: Erstellt am
@@ -22,7 +22,6 @@ de:
   t3:
     backend/import_requests:
       hints:
-        file: Fall vorhanden, am liebsten Excel-Tabellen der Ergebnisse.
         url: Link zu den Ergebnissen, Bildern oder Berichten
       views:
         header_html: Mittels Importanfragen können Dateien oder Weblinks hinterlegt

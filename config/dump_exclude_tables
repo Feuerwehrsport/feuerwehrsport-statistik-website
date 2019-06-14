@@ -4,6 +4,7 @@ change_logs
 change_requests
 delayed_jobs
 import_requests
+import_request_files
 ipo_registrations
 m3_assets
 m3_delivery_settings

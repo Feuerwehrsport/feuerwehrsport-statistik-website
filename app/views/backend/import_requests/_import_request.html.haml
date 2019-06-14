@@ -1,19 +1,20 @@
 .section
   .container
     .row
-      .col-md-6
-        .panel.panel-default
-          .panel-heading Antragsteller
-          .panel-body
-            %dl
-              %dt Name
-              %dd= resource.admin_user
-            
-              %dt E-Mail-Adresse
-              %dd= resource.admin_user.email_address
+      - if resource.admin_user.present?
+        .col-md-6
+          .panel.panel-default
+            .panel-heading Antragsteller
+            .panel-body
+              %dl
+                %dt Name
+                %dd= resource.admin_user
+              
+                %dt E-Mail-Adresse
+                %dd= resource.admin_user.email_address
 
-              %dt E-Mail-Link
-              %dd= mail_to(resource.admin_user.email_address_format, nil, subject: "Import-Anfrage vom #{resource.created_at_date}")
+                %dt E-Mail-Link
+                %dd= mail_to(resource.admin_user.email_address_format, nil, subject: "Import-Anfrage vom #{resource.created_at_date}")
 
 
       .col-md-6
@@ -37,14 +38,34 @@
                 = button_to 'Bearbeitung abschließen', { action: :update }, method: :patch, params: { 'import_request[finished]' => '1' }, class: 'btn btn-default'
             - else
               = button_to 'Bearbeitung übernehmen', { action: :update }, method: :patch, params: { 'import_request[edit_user_id]' => current_admin_user.id }, class: 'btn btn-default'
-    
+      
+      - if resource.import_data.present? && resource.edited_at.present? && can?(:create, Import::Scores)
+        .col-md-6
+          .panel.panel-default
+            .panel-heading Direkt-Import
+            .panel-body
+              - resource.import_data[:results].each do |result|
+                - if result[:rows].count > 1 && result[:discipline] != 'zk'
+                  %button.add-discipline{ class: "discipline-#{result[:discipline]}-#{result[:gender]}", data: { rows: result[:rows] }}
+                    = result[:discipline]
+                    = result[:gender]
+                    = result[:rows].count
+                    = result[:name]
+
+
+  - if resource.edited_at.present? && can?(:create, Import::Scores)
+    = render('backend/imports/import_containers', competition_info: resource.import_data.except(:results))
+  .container
+    .row
       .col-md-12
         .panel.panel-default
           .panel-heading Wettkampf
           .panel-body
             %dl
-              - %i[file_with_link url_with_link date place event description].each do |field|
+              - resource.import_request_files.each do |file|
+                %dt= ImportRequestFile.human_attribute_name(:file)
+                %dd= file.file_with_link
+              - %i[url_with_link date place event description].each do |field|
                 - if resource.send(field).present?
                   %dt= resource_class.human_attribute_name(field)
-                  %dd
-                    = resource.send(field)
+                  %dd= resource.send(field)
