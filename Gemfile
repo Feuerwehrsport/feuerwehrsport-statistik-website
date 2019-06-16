@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
 gem 'm3', path: 'm3'
-gem 'pg', '~> 0.20.0' # eliminated deprecation warnings
 gem 'responders'
 
 gem 'firesport', path: 'firesport'
@@ -30,11 +29,13 @@ gem 'redcarpet'
 
 # validation
 gem 'schema_validations'
-gem 'schema_plus_views'
+# gem 'schema_plus_views'
+# gem 'schema_plus_views', git: 'https://github.com/SchemaPlus/schema_plus_views.git', branch: 'AR5.0-support'
+# gem 'schema_plus_views', path: 'schema_plus_views'
 
 group :production do
   gem 'unicorn'
-  gem 'm3_log_file_parser', git: 'https://github.com/lichtbit/m3_log_file_parser.git'
+  #  gem 'm3_log_file_parser', git: 'https://github.com/lichtbit/m3_log_file_parser.git'
 end
 
 group :development, :test do

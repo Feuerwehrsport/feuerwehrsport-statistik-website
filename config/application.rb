@@ -1,4 +1,4 @@
-require File.expand_path('boot', __dir__)
+require_relative 'boot'
 
 require 'rails/all'
 
@@ -36,6 +36,6 @@ module FeuerwehrsportStatistik
     config.pdf2table_path = '/opt/pdf2table.jar'
 
     config.m3.session.login_redirect_url = { controller: '/backend/dashboards', action: :index }
-    config.m3.compatible_version = '1.0.9'
+    config.m3.compatible_version = '1.0.10'
   end
 end

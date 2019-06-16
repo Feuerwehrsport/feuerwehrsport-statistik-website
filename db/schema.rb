@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -87,68 +86,6 @@ ActiveRecord::Schema.define(version: 20190613130727) do
     t.datetime "updated_at",     :null=>false
   end
 
-  create_table "group_score_categories", force: :cascade do |t|
-    t.integer  "group_score_type_id", :null=>false, :index=>{:name=>"index_group_score_categories_on_group_score_type_id", :using=>:btree}
-    t.integer  "competition_id",      :null=>false, :index=>{:name=>"index_group_score_categories_on_competition_id", :using=>:btree}
-    t.string   "name",                :limit=>200, :null=>false
-    t.datetime "created_at",          :null=>false
-    t.datetime "updated_at",          :null=>false
-  end
-
-  create_table "group_scores", force: :cascade do |t|
-    t.integer  "team_id",                 :null=>false, :index=>{:name=>"index_group_scores_on_team_id", :using=>:btree}
-    t.integer  "team_number",             :default=>0, :null=>false
-    t.integer  "gender",                  :null=>false
-    t.integer  "time",                    :null=>false
-    t.integer  "group_score_category_id", :null=>false, :index=>{:name=>"index_group_scores_on_group_score_category_id", :using=>:btree}
-    t.string   "run",                     :limit=>1
-    t.datetime "created_at",              :null=>false
-    t.datetime "updated_at",              :null=>false
-  end
-
-  create_table "people", force: :cascade do |t|
-    t.string   "last_name",  :limit=>200, :null=>false
-    t.string   "first_name", :limit=>200, :null=>false
-    t.integer  "gender",     :null=>false, :index=>{:name=>"index_people_on_gender", :using=>:btree}
-    t.integer  "nation_id",  :null=>false, :index=>{:name=>"index_people_on_nation_id", :using=>:btree}
-    t.datetime "created_at", :null=>false
-    t.datetime "updated_at", :null=>false
-    t.integer  "hb_count",   :default=>0, :null=>false
-    t.integer  "hl_count",   :default=>0, :null=>false
-    t.integer  "la_count",   :default=>0, :null=>false
-    t.integer  "fs_count",   :default=>0, :null=>false
-    t.integer  "gs_count",   :default=>0, :null=>false
-  end
-
-  create_table "scores", force: :cascade do |t|
-    t.integer  "person_id",      :null=>false, :index=>{:name=>"index_scores_on_person_id", :using=>:btree}
-    t.string   "discipline",     :null=>false
-    t.integer  "competition_id", :null=>false, :index=>{:name=>"index_scores_on_competition_id", :using=>:btree}
-    t.integer  "time",           :null=>false
-    t.integer  "team_id",        :index=>{:name=>"index_scores_on_team_id", :using=>:btree}
-    t.integer  "team_number",    :default=>0, :null=>false
-    t.datetime "created_at",     :null=>false
-    t.datetime "updated_at",     :null=>false
-  end
-
-  create_view "competition_team_numbers", <<-'END_VIEW_COMPETITION_TEAM_NUMBERS', :force => true
-SELECT group_scores.team_id,
-    group_scores.team_number,
-    group_scores.gender,
-    group_score_categories.competition_id
-   FROM (group_scores
-     JOIN group_score_categories ON ((group_score_categories.id = group_scores.group_score_category_id)))
-  WHERE (group_scores.team_number > 0)
-UNION
- SELECT scores.team_id,
-    scores.team_number,
-    people.gender,
-    scores.competition_id
-   FROM (scores
-     JOIN people ON ((people.id = scores.person_id)))
-  WHERE ((scores.team_number > 0) AND (scores.team_id IS NOT NULL))
-  END_VIEW_COMPETITION_TEAM_NUMBERS
-
   create_table "competitions", force: :cascade do |t|
     t.string   "name",                 :limit=>200, :default=>"", :null=>false
     t.integer  "place_id",             :null=>false, :index=>{:name=>"index_competitions_on_place_id", :using=>:btree}
@@ -209,6 +146,14 @@ UNION
     t.datetime "updated_at", :null=>false
   end
 
+  create_table "group_score_categories", force: :cascade do |t|
+    t.integer  "group_score_type_id", :null=>false, :index=>{:name=>"index_group_score_categories_on_group_score_type_id", :using=>:btree}
+    t.integer  "competition_id",      :null=>false, :index=>{:name=>"index_group_score_categories_on_competition_id", :using=>:btree}
+    t.string   "name",                :limit=>200, :null=>false
+    t.datetime "created_at",          :null=>false
+    t.datetime "updated_at",          :null=>false
+  end
+
   create_table "group_score_types", force: :cascade do |t|
     t.string   "discipline", :null=>false
     t.string   "name",       :limit=>200, :null=>false
@@ -217,28 +162,16 @@ UNION
     t.datetime "updated_at", :null=>false
   end
 
-  create_table "person_participations", force: :cascade do |t|
-    t.integer  "person_id",      :null=>false, :index=>{:name=>"index_person_participations_on_person_id", :using=>:btree}
-    t.integer  "group_score_id", :null=>false, :index=>{:name=>"index_person_participations_on_group_score_id", :using=>:btree}
-    t.integer  "position",       :null=>false
-    t.datetime "created_at",     :null=>false
-    t.datetime "updated_at",     :null=>false
+  create_table "group_scores", force: :cascade do |t|
+    t.integer  "team_id",                 :null=>false, :index=>{:name=>"index_group_scores_on_team_id", :using=>:btree}
+    t.integer  "team_number",             :default=>0, :null=>false
+    t.integer  "gender",                  :null=>false
+    t.integer  "time",                    :null=>false
+    t.integer  "group_score_category_id", :null=>false, :index=>{:name=>"index_group_scores_on_group_score_category_id", :using=>:btree}
+    t.string   "run",                     :limit=>1
+    t.datetime "created_at",              :null=>false
+    t.datetime "updated_at",              :null=>false
   end
-
-  create_view "group_score_participations", <<-'END_VIEW_GROUP_SCORE_PARTICIPATIONS', :force => true
-SELECT person_participations.person_id,
-    group_scores.team_id,
-    group_scores.team_number,
-    group_score_categories.competition_id,
-    group_score_categories.group_score_type_id,
-    group_score_types.discipline,
-    group_scores."time",
-    person_participations."position"
-   FROM (((person_participations
-     JOIN group_scores ON ((group_scores.id = person_participations.group_score_id)))
-     JOIN group_score_categories ON ((group_score_categories.id = group_scores.group_score_category_id)))
-     JOIN group_score_types ON ((group_score_types.id = group_score_categories.group_score_type_id)))
-  END_VIEW_GROUP_SCORE_PARTICIPATIONS
 
   create_table "import_request_files", force: :cascade do |t|
     t.integer  "import_request_id", :null=>false, :index=>{:name=>"index_import_request_files_on_import_request_id", :using=>:btree}
@@ -380,6 +313,28 @@ SELECT person_participations.person_id,
     t.datetime "updated_at",    :null=>false
   end
 
+  create_table "people", force: :cascade do |t|
+    t.string   "last_name",  :limit=>200, :null=>false
+    t.string   "first_name", :limit=>200, :null=>false
+    t.integer  "gender",     :null=>false, :index=>{:name=>"index_people_on_gender", :using=>:btree}
+    t.integer  "nation_id",  :null=>false, :index=>{:name=>"index_people_on_nation_id", :using=>:btree}
+    t.datetime "created_at", :null=>false
+    t.datetime "updated_at", :null=>false
+    t.integer  "hb_count",   :default=>0, :null=>false
+    t.integer  "hl_count",   :default=>0, :null=>false
+    t.integer  "la_count",   :default=>0, :null=>false
+    t.integer  "fs_count",   :default=>0, :null=>false
+    t.integer  "gs_count",   :default=>0, :null=>false
+  end
+
+  create_table "person_participations", force: :cascade do |t|
+    t.integer  "person_id",      :null=>false, :index=>{:name=>"index_person_participations_on_person_id", :using=>:btree}
+    t.integer  "group_score_id", :null=>false, :index=>{:name=>"index_person_participations_on_group_score_id", :using=>:btree}
+    t.integer  "position",       :null=>false
+    t.datetime "created_at",     :null=>false
+    t.datetime "updated_at",     :null=>false
+  end
+
   create_table "person_spellings", force: :cascade do |t|
     t.integer  "person_id",  :null=>false, :index=>{:name=>"index_person_spellings_on_person_id", :using=>:btree}
     t.string   "last_name",  :limit=>200, :null=>false
@@ -473,50 +428,23 @@ SELECT person_participations.person_id,
     t.text     "hint"
   end
 
-  create_view "score_double_events", <<-'END_VIEW_SCORE_DOUBLE_EVENTS', :force => true
-SELECT DISTINCT ON ((concat(hb_scores.competition_id, '-', hb_scores.person_id))) hb_scores.person_id,
-    hb_scores.competition_id,
-    hb_scores."time" AS hb,
-    hl_scores."time" AS hl,
-    (hb_scores."time" + hl_scores."time") AS "time"
-   FROM (( SELECT scores."time",
-            scores.competition_id,
-            scores.person_id
-           FROM scores
-          WHERE ((scores."time" <> 99999999) AND ((scores.discipline)::text = 'hb'::text) AND (scores.team_number >= 0))) hb_scores
-     JOIN ( SELECT scores."time",
-            scores.competition_id,
-            scores.person_id
-           FROM scores
-          WHERE ((scores."time" <> 99999999) AND ((scores.discipline)::text = 'hl'::text) AND (scores.team_number >= 0))) hl_scores ON (((hb_scores.competition_id = hl_scores.competition_id) AND (hb_scores.person_id = hl_scores.person_id))))
-  ORDER BY (concat(hb_scores.competition_id, '-', hb_scores.person_id)), (hb_scores."time" + hl_scores."time")
-  END_VIEW_SCORE_DOUBLE_EVENTS
-
-  create_view "score_low_double_events", <<-'END_VIEW_SCORE_LOW_DOUBLE_EVENTS', :force => true
-SELECT DISTINCT ON ((concat(hb_scores.competition_id, '-', hb_scores.person_id))) hb_scores.person_id,
-    hb_scores.competition_id,
-    hb_scores."time" AS hb,
-    hl_scores."time" AS hl,
-    (hb_scores."time" + hl_scores."time") AS "time"
-   FROM (( SELECT scores."time",
-            scores.competition_id,
-            scores.person_id
-           FROM scores
-          WHERE ((scores."time" <> 99999999) AND ((scores.discipline)::text = 'hw'::text) AND (scores.team_number >= 0))) hb_scores
-     JOIN ( SELECT scores."time",
-            scores.competition_id,
-            scores.person_id
-           FROM scores
-          WHERE ((scores."time" <> 99999999) AND ((scores.discipline)::text = 'hl'::text) AND (scores.team_number >= 0))) hl_scores ON (((hb_scores.competition_id = hl_scores.competition_id) AND (hb_scores.person_id = hl_scores.person_id))))
-  ORDER BY (concat(hb_scores.competition_id, '-', hb_scores.person_id)), (hb_scores."time" + hl_scores."time")
-  END_VIEW_SCORE_LOW_DOUBLE_EVENTS
-
   create_table "score_types", force: :cascade do |t|
     t.integer  "people",     :null=>false
     t.integer  "run",        :null=>false
     t.integer  "score",      :null=>false
     t.datetime "created_at", :null=>false
     t.datetime "updated_at", :null=>false
+  end
+
+  create_table "scores", force: :cascade do |t|
+    t.integer  "person_id",      :null=>false, :index=>{:name=>"index_scores_on_person_id", :using=>:btree}
+    t.string   "discipline",     :null=>false
+    t.integer  "competition_id", :null=>false, :index=>{:name=>"index_scores_on_competition_id", :using=>:btree}
+    t.integer  "time",           :null=>false
+    t.integer  "team_id",        :index=>{:name=>"index_scores_on_team_id", :using=>:btree}
+    t.integer  "team_number",    :default=>0, :null=>false
+    t.datetime "created_at",     :null=>false
+    t.datetime "updated_at",     :null=>false
   end
 
   create_table "series_assessments", force: :cascade do |t|
@@ -569,30 +497,6 @@ SELECT DISTINCT ON ((concat(hb_scores.competition_id, '-', hb_scores.person_id))
     t.datetime "updated_at",    :null=>false
   end
 
-  create_view "team_competitions", <<-'END_VIEW_TEAM_COMPETITIONS', :force => true
-SELECT group_scores.team_id,
-    group_score_categories.competition_id
-   FROM (group_scores
-     JOIN group_score_categories ON ((group_score_categories.id = group_scores.group_score_category_id)))
-UNION
- SELECT scores.team_id,
-    scores.competition_id
-   FROM scores
-  WHERE (scores.team_id IS NOT NULL)
-  END_VIEW_TEAM_COMPETITIONS
-
-  create_view "team_members", <<-'END_VIEW_TEAM_MEMBERS', :force => true
-SELECT group_scores.team_id,
-    person_participations.person_id
-   FROM (group_scores
-     JOIN person_participations ON ((person_participations.group_score_id = group_scores.id)))
-UNION
- SELECT scores.team_id,
-    scores.person_id
-   FROM scores
-  WHERE (scores.team_id IS NOT NULL)
-  END_VIEW_TEAM_MEMBERS
-
   create_table "team_spellings", force: :cascade do |t|
     t.integer  "team_id",    :null=>false, :index=>{:name=>"index_team_spellings_on_team_id", :using=>:btree}
     t.string   "name",       :limit=>200, :null=>false
@@ -615,13 +519,6 @@ UNION
     t.integer  "members_count",      :default=>0, :null=>false
     t.integer  "competitions_count", :default=>0, :null=>false
   end
-
-  create_view "years", <<-'END_VIEW_YEARS', :force => true
-SELECT date_part('year'::text, competitions.date) AS year
-   FROM competitions
-  GROUP BY (date_part('year'::text, competitions.date))
-  ORDER BY (date_part('year'::text, competitions.date)) DESC
-  END_VIEW_YEARS
 
   add_foreign_key "admin_users", "m3_logins", column: "login_id"
   add_foreign_key "appointments", "events"
