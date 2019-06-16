@@ -5,7 +5,7 @@ RSpec.describe Series::AssessmentsController, type: :controller do
 
   describe 'GET show' do
     it 'assigns resource' do
-      get :show, id: assessment.id
+      get :show, params: { id: assessment.id }
       expect(controller.send(:resource)).to be_a Series::Assessment
       expect(response).to be_success
       expect(response.content_type).to eq 'text/html'
@@ -13,7 +13,7 @@ RSpec.describe Series::AssessmentsController, type: :controller do
 
     context 'when pdf requested' do
       it 'sends pdf' do
-        get :show, id: assessment.id, format: :pdf
+        get :show, params: { id: assessment.id, format: :pdf }
         expect(controller.send(:resource)).to be_a Series::Assessment
         expect(response).to be_success
         expect(response.content_type).to eq 'application/pdf'

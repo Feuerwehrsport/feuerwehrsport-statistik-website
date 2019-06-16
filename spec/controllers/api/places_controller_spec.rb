@@ -4,7 +4,7 @@ RSpec.describe API::PlacesController, type: :controller do
   let(:place) { create(:place) }
 
   describe 'POST create' do
-    subject { -> { post :create, place: { name: 'Wurstort' } } }
+    subject { -> { post :create, params: { place: { name: 'Wurstort' } } } }
 
     it 'creates new place', login: :sub_admin do
       expect do
@@ -18,7 +18,7 @@ RSpec.describe API::PlacesController, type: :controller do
 
   describe 'GET show' do
     it 'returns place' do
-      get :show, id: place.id
+      get :show, params: { id: place.id }
       expect_json_response
       expect(json_body[:place]).to eq(
         id: place.id,
@@ -38,7 +38,7 @@ RSpec.describe API::PlacesController, type: :controller do
   end
 
   describe 'PUT update' do
-    subject { -> { put :update, id: place.id, place: { latitude: '123', longitude: '456' } } }
+    subject { -> { put :update, params: { id: place.id, place: { latitude: '123', longitude: '456' } } } }
 
     it 'update place', login: :api do
       subject.call

@@ -4,7 +4,7 @@ RSpec.describe API::GroupScoreTypesController, type: :controller do
   let(:group_score_type) { create(:group_score_type) }
 
   describe 'POST create' do
-    subject { -> { post :create, group_score_type: { name: 'Extrapokal', discipline: 'la' } } }
+    subject { -> { post :create, params: { group_score_type: { name: 'Extrapokal', discipline: 'la' } } } }
 
     it 'creates new group_score_type', login: :sub_admin do
       expect do
@@ -34,7 +34,7 @@ RSpec.describe API::GroupScoreTypesController, type: :controller do
       let(:group_score_type) { create(:group_score_type, discipline: :gs) }
 
       it 'returns group_score_categories' do
-        get :index, discipline: 'gs'
+        get :index, params: { discipline: 'gs' }
         expect_json_response
         expect(json_body[:group_score_types].first).to eq(
           discipline: 'gs',

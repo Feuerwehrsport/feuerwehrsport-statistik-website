@@ -36,7 +36,7 @@ RSpec.describe Ipo::RegistrationsController, type: :controller do
       it 'creates new resource' do
         allow(controller).to receive(:registration_open?).and_return(true)
         expect do
-          post :create, ipo_registration: resource_attrs
+          post :create, params: { ipo_registration: resource_attrs }
           expect(response).to redirect_to(action: :finish)
         end.to change(Ipo::Registration, :count).by(1)
       end

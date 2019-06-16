@@ -7,14 +7,14 @@ RSpec.describe Registrations::PersonParticipationsController, type: :controller,
 
   describe 'GET edit' do
     it 'renders form' do
-      get :edit, competition_id: competition.id, id: person.id
+      get :edit, params: { competition_id: competition.id, id: person.id }
       expect(response).to be_success
     end
   end
 
   describe 'PATCH update' do
     it 'updates' do
-      patch :update, competition_id: competition.id, id: person.id, registrations_person: {
+      patch :update, params: { competition_id: competition.id, id: person.id, registrations_person: {
         person_assessment_participations_attributes: {
           '0' => {
             _destroy: 0,
@@ -24,7 +24,7 @@ RSpec.describe Registrations::PersonParticipationsController, type: :controller,
             single_competitor_order: 0,
           },
         },
-      }
+      } }
       expect(response).to redirect_to(registrations_competition_path(competition))
       expect(person.reload.assessments).to eq [assessment]
     end
@@ -34,7 +34,7 @@ RSpec.describe Registrations::PersonParticipationsController, type: :controller,
       let(:person) { create(:registrations_person, team: team, competition: competition) }
 
       it 'redirect to team page' do
-        patch :update, competition_id: competition.id, id: person.id, registrations_person: {}
+        patch :update, params: { competition_id: competition.id, id: person.id, registrations_person: {} }
         expect(response).to redirect_to(registrations_competition_team_path(competition, team))
       end
     end

@@ -16,7 +16,7 @@ RSpec.describe API::TeamsController, type: :controller do
   end
 
   describe 'POST create' do
-    subject { -> { post :create, team: { name: 'Mannschaft1', shortcut: 'Mann1', status: 'fire_station' } } }
+    subject { -> { post :create, params: { team: { name: 'Mannschaft1', shortcut: 'Mann1', status: 'fire_station' } } } }
 
     it 'creates new team', login: :api do
       expect do
@@ -29,7 +29,7 @@ RSpec.describe API::TeamsController, type: :controller do
 
   describe 'GET show' do
     it 'returns team' do
-      get :show, id: team.id
+      get :show, params: { id: team.id }
       expect(json_body[:team]).to eq team_attributes
     end
 
@@ -38,7 +38,7 @@ RSpec.describe API::TeamsController, type: :controller do
       let!(:group_score) { create(:group_score, team: team) }
 
       it 'returns team' do
-        get :show, id: team.id, extended: 1
+        get :show, params: { id: team.id, extended: 1 }
         expect(json_body[:team]).to include(team_attributes)
         expect(json_body[:team][:single_scores]).to have(1).items
         expect(json_body[:team][:la_scores]).to have(1).items
@@ -59,7 +59,7 @@ RSpec.describe API::TeamsController, type: :controller do
   end
 
   describe 'PUT update' do
-    subject { -> { put :update, id: team.id, team: changed_attributes } }
+    subject { -> { put :update, params: { id: team.id, team: changed_attributes } } }
 
     let(:changed_attributes) { { latitude: '12.0', longitude: '34.0' } }
 
@@ -87,7 +87,7 @@ RSpec.describe API::TeamsController, type: :controller do
   end
 
   describe 'POST merge' do
-    subject { -> { put :merge, id: bad_team.id, correct_team_id: team.id, always: 1 } }
+    subject { -> { put :merge, params: { id: bad_team.id, correct_team_id: team.id, always: 1 } } }
 
     let(:bad_team) { create(:team, :mv) }
 

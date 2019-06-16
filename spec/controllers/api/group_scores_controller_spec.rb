@@ -5,7 +5,7 @@ RSpec.describe API::GroupScoresController, type: :controller do
 
   describe 'GET show' do
     it 'returns group_score' do
-      get :show, id: group_score.id
+      get :show, params: { id: group_score.id }
       expect_json_response
       expect(json_body[:group_score]).to eq(
         id: group_score.id,
@@ -77,7 +77,7 @@ RSpec.describe API::GroupScoresController, type: :controller do
   end
 
   describe 'PUT update' do
-    subject { -> { put :update, id: group_score.id, group_score: { team_id: team.id } } }
+    subject { -> { put :update, params: { id: group_score.id, group_score: { team_id: team.id } } } }
 
     let(:team) { create(:team) }
 
@@ -135,7 +135,7 @@ RSpec.describe API::GroupScoresController, type: :controller do
     end
 
     it 'updates person_participations', login: :api do
-      put :person_participation, id: group_score.id, group_score: persons_in, log_action: 'update-groupscore:participation'
+      put :person_participation, params: { id: group_score.id, group_score: persons_in, log_action: 'update-groupscore:participation' }
       expect_json_response
       expect(json_body[:group_score]).to include(
         similar_scores: [

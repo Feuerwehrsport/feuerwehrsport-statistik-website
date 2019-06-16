@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe API::ImportsController, type: :controller do
   describe 'POST check_lines' do
-    subject { -> { post :check_lines, import: import } }
+    subject { -> { post :check_lines, params: { import: import } } }
 
     let!(:warin) { create(:team) }
     let(:raw_lines) { "Warin;foo;22\nFF Wurststadt;bla;44\nFC Hansa Rostock;blub;D" }
@@ -67,7 +67,7 @@ RSpec.describe API::ImportsController, type: :controller do
   end
 
   describe 'POST scores' do
-    subject { -> { post :scores, import: { discipline: discipline, gender: 'male', scores: scores }.merge(attributes) } }
+    subject { -> { post :scores, params: { import: { discipline: discipline, gender: 'male', scores: scores }.merge(attributes) } } }
 
     let(:competition) { create(:competition) }
     let(:team) { create(:team) }

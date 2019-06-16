@@ -22,7 +22,7 @@ RSpec.describe API::GroupScoreCategoriesController, type: :controller do
       let(:group_score_category) { create(:group_score_category, group_score_type: group_score_type) }
 
       it 'returns group_score_categories' do
-        get :index, discipline: 'gs'
+        get :index, params: { discipline: 'gs' }
         expect_json_response
         expect(json_body[:group_score_categories].first).to eq(
           id: group_score_category.id,
@@ -37,7 +37,7 @@ RSpec.describe API::GroupScoreCategoriesController, type: :controller do
       let!(:group_score_category2) { create(:group_score_category, competition: create(:competition)) }
 
       it 'returns group_score_categories' do
-        get :index, competition_id: group_score_category2.competition.id
+        get :index, params: { competition_id: group_score_category2.competition.id }
         expect_json_response
         expect(json_body[:group_score_categories].first).to eq(
           id: group_score_category2.id,
@@ -50,7 +50,7 @@ RSpec.describe API::GroupScoreCategoriesController, type: :controller do
   end
 
   describe 'POST create' do
-    subject { -> { post :create, group_score_category: { name: 'FooBar', competition_id: competition.id, group_score_type_id: group_score_type.id } } }
+    subject { -> { post :create, params: { group_score_category: { name: 'FooBar', competition_id: competition.id, group_score_type_id: group_score_type.id } } } }
 
     let(:competition) { create(:competition) }
     let(:group_score_type) { create(:group_score_type) }

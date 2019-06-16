@@ -15,7 +15,7 @@ RSpec.describe CompetitionsController, type: :controller do
 
   describe 'GET show' do
     it 'assigns resource' do
-      get :show, id: score.competition.id
+      get :show, params: { id: score.competition.id }
       expect(response).to be_success
       expect(controller.send(:resource)).to eq score.competition
       expect(assigns(:calc)).to be_instance_of Calculation::Competition

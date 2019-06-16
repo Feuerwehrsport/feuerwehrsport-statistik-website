@@ -24,7 +24,7 @@ RSpec.describe AppointmentsController, type: :controller do
 
   describe 'GET show' do
     it 'assigns appointment' do
-      get :show, id: appointment.id
+      get :show, params: { id: appointment.id }
       expect(response).to be_success
       expect(controller.send(:resource)).to eq appointment
     end
@@ -32,7 +32,7 @@ RSpec.describe AppointmentsController, type: :controller do
     context 'when ics format requested' do
       it 'returns appointment as ics file' do
         Timecop.freeze(Date.parse('2013-01-01')) do
-          get :show, id: appointment.id, format: :ics
+          get :show, params: { id: appointment.id, format: :ics }
           expect_ics_response(appointment)
         end
       end

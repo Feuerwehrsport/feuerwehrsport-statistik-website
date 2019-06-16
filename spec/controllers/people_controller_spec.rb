@@ -12,7 +12,7 @@ RSpec.describe PeopleController, type: :controller do
 
   describe 'GET show' do
     it 'assigns resource' do
-      get :show, id: person.id
+      get :show, params: { id: person.id }
       expect(response).to be_success
       expect(controller.send(:resource)).to eq person
     end

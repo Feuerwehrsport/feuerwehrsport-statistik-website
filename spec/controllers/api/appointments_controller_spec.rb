@@ -23,7 +23,7 @@ RSpec.describe API::AppointmentsController, type: :controller do
 
     it 'creates new appointment', login: :api do
       expect do
-        post :create, appointment: attributes
+        post :create, params: { appointment: attributes }
         expect_api_login_response(created_id: Appointment.last.id)
       end.to change(Appointment, :count).by(1)
       expect_change_log(after: attributes, log: 'create-appointment')
@@ -32,7 +32,7 @@ RSpec.describe API::AppointmentsController, type: :controller do
 
   describe 'GET show' do
     it 'returns appointment' do
-      get :show, id: appointment.id
+      get :show, params: { id: appointment.id }
       expect_api_not_login_response resource_name: 'appointment', appointment: expected_attributes
     end
 
@@ -40,7 +40,7 @@ RSpec.describe API::AppointmentsController, type: :controller do
       let(:creator) { login_user }
 
       it 'returns appointment' do
-        get :show, id: appointment.id
+        get :show, params: { id: appointment.id }
         expect_api_login_response resource_name: 'appointment', appointment: expected_attributes.merge(
           updateable: true,
         )
@@ -49,7 +49,7 @@ RSpec.describe API::AppointmentsController, type: :controller do
   end
 
   describe 'PUT update' do
-    subject { -> { put :update, id: appointment.id, appointment: appointment_changes } }
+    subject { -> { put :update, params: { id: appointment.id, appointment: appointment_changes } } }
 
     let(:appointment_changes) { { name: 'Termin1', description: 'Beschreibung', dated_at: '2016-02-29' } }
 

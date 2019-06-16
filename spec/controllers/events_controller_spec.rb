@@ -14,7 +14,7 @@ RSpec.describe EventsController, type: :controller do
 
   describe 'GET show' do
     it 'assigns resource' do
-      get :show, id: event.id
+      get :show, params: { id: event.id }
       expect(response).to be_success
       expect(controller.send(:resource)).to eq event
     end

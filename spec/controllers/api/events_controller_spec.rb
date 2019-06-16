@@ -4,7 +4,7 @@ RSpec.describe API::EventsController, type: :controller do
   let(:event) { create(:event) }
 
   describe 'POST create' do
-    subject { -> { post :create, event: { name: 'Wurstevent' } } }
+    subject { -> { post :create, params: { event: { name: 'Wurstevent' } } } }
 
     it 'creates new event', login: :sub_admin do
       expect do
@@ -18,7 +18,7 @@ RSpec.describe API::EventsController, type: :controller do
 
   describe 'GET show' do
     it 'returns event' do
-      get :show, id: event.id
+      get :show, params: { id: event.id }
       expect_json_response
       expect(json_body[:event]).to eq(id: event.id, name: 'D-Cup')
     end

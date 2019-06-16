@@ -20,7 +20,7 @@ RSpec.describe API::ImportRequestsController, type: :controller do
       expect do
         expect do
           expect do
-            post :create, import_request: { compressed_data: compressed_data }
+            post :create, params: { import_request: { compressed_data: compressed_data } }
             expect_api_login_response(created_id: ImportRequest.last.id)
           end.to change(ImportRequest, :count).by(1)
         end.to change(ImportRequestFile, :count).by(1)

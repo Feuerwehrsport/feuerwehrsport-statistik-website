@@ -13,7 +13,7 @@ RSpec.describe ChangeLogsController, type: :controller do
 
   describe 'GET show' do
     it 'redirect to index' do
-      get :show, id: change_logs.first.id
+      get :show, params: { id: change_logs.first.id }
       expect(response).to redirect_to(action: :index)
     end
   end

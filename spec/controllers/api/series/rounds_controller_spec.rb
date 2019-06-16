@@ -5,7 +5,7 @@ RSpec.describe API::Series::RoundsController, type: :controller do
   let(:attributes) { { name: 'Cup', slug: 'cup', year: 2017, official: true, aggregate_type: 'LaCup', full_cup_count: 4 } }
 
   describe 'POST create' do
-    subject { -> { post :create, series_round: attributes } }
+    subject { -> { post :create, params: { series_round: attributes } } }
 
     it 'creates new round', login: :admin do
       expect do
@@ -19,7 +19,7 @@ RSpec.describe API::Series::RoundsController, type: :controller do
   end
 
   describe 'PUT update' do
-    subject { -> { put :update, id: round.id, series_round: attributes } }
+    subject { -> { put :update, params: { id: round.id, series_round: attributes } } }
 
     it 'update round', login: :admin do
       subject.call
@@ -33,7 +33,7 @@ RSpec.describe API::Series::RoundsController, type: :controller do
 
   describe 'GET show' do
     it 'returns round' do
-      get :show, id: round.id
+      get :show, params: { id: round.id }
       expect_json_response
       expect(json_body[:series_round]).to eq(
         aggregate_type: 'DCup',

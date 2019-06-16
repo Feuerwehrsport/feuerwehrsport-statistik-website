@@ -6,14 +6,14 @@ RSpec.describe Registrations::AssessmentsController, type: :controller, login: :
 
   describe 'GET index' do
     it 'assigns collection' do
-      get :index, competition_id: competition.id
+      get :index, params: { competition_id: competition.id }
       expect(response).to be_success
     end
   end
 
   describe 'GET new' do
     it 'redirects' do
-      get :new, competition_id: competition.id
+      get :new, params: { competition_id: competition.id }
       expect(response).to be_success
     end
   end
@@ -21,7 +21,7 @@ RSpec.describe Registrations::AssessmentsController, type: :controller, login: :
   describe 'POST create' do
     it 'saves' do
       expect do
-        post :create, competition_id: competition.id, registrations_assessment: { discipline: :hl, gender: :female }
+        post :create, params: { competition_id: competition.id, registrations_assessment: { discipline: :hl, gender: :female } }
         expect(response).to redirect_to(action: :index)
       end.to change(Registrations::Assessment, :count).by(1)
     end
@@ -29,14 +29,14 @@ RSpec.describe Registrations::AssessmentsController, type: :controller, login: :
 
   describe 'GET edit' do
     it 'renders form' do
-      get :edit, competition_id: competition.id, id: assessment.id
+      get :edit, params: { competition_id: competition.id, id: assessment.id }
       expect(response).to be_success
     end
   end
 
   describe 'PATCH update' do
     it 'updates' do
-      patch :update, competition_id: competition.id, id: assessment.id, registrations_assessment: { gender: :female }
+      patch :update, params: { competition_id: competition.id, id: assessment.id, registrations_assessment: { gender: :female } }
       expect(response).to redirect_to(action: :index)
       expect(assessment.reload.gender).to eq 'female'
     end
@@ -46,7 +46,7 @@ RSpec.describe Registrations::AssessmentsController, type: :controller, login: :
     it 'destroys' do
       assessment # to load instance
       expect do
-        delete :destroy, competition_id: competition.id, id: assessment.id
+        delete :destroy, params: { competition_id: competition.id, id: assessment.id }
         expect(response).to redirect_to(action: :index)
       end.to change(Registrations::Assessment, :count).by(-1)
     end

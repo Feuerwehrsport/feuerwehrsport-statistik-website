@@ -13,7 +13,7 @@ RSpec.describe Backend::RegistrationsController, type: :controller do
 
     it 'creates new admin user' do
       expect do
-        post :create, admin_users_registration: { login_attributes: attributes }
+        post :create, params: { admin_users_registration: { login_attributes: attributes } }
         expect(response).to redirect_to backend_root_path
       end.to change(AdminUser, :count).by(1)
     end

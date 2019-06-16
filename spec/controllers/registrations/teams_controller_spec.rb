@@ -10,7 +10,7 @@ RSpec.describe Registrations::TeamsController, type: :controller, login: :user d
     after { Timecop.return }
 
     it 'assigns resource' do
-      get :show, id: team.id, competition_id: competition.id
+      get :show, params: { id: team.id, competition_id: competition.id }
       expect(controller.send(:resource)).to be_a Registrations::Team
       expect(response).to be_success
       expect(response.content_type).to eq 'text/html'
@@ -18,7 +18,7 @@ RSpec.describe Registrations::TeamsController, type: :controller, login: :user d
 
     context 'when pdf requested' do
       it 'sends pdf' do
-        get :show, id: team.id, competition_id: competition.id, format: :pdf
+        get :show, params: { id: team.id, competition_id: competition.id, format: :pdf }
         expect(controller.send(:resource)).to be_a Registrations::Team
         expect(response).to be_success
         expect(response.content_type).to eq 'application/pdf'
@@ -29,7 +29,7 @@ RSpec.describe Registrations::TeamsController, type: :controller, login: :user d
     context 'when xlsx requested' do
       render_views
       it 'sends xlsx' do
-        get :show, id: team.id, competition_id: competition.id, format: :xlsx
+        get :show, params: { id: team.id, competition_id: competition.id, format: :xlsx }
         expect(controller.send(:resource)).to be_a Registrations::Team
         expect(response).to be_success
         expect(response.content_type).to eq 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -41,7 +41,7 @@ RSpec.describe Registrations::TeamsController, type: :controller, login: :user d
 
   describe 'GET edit' do
     it 'renders form' do
-      get :edit, id: team.id, competition_id: competition.id
+      get :edit, params: { id: team.id, competition_id: competition.id }
       expect(response).to be_success
     end
   end
@@ -50,7 +50,7 @@ RSpec.describe Registrations::TeamsController, type: :controller, login: :user d
     let!(:assessment) { create(:registrations_assessment, :la, competition: competition) }
 
     it 'updates' do
-      patch :update, id: team.id, competition_id: competition.id, registrations_team: { name: 'new-name' }
+      patch :update, params: { id: team.id, competition_id: competition.id, registrations_team: { name: 'new-name' } }
       expect(response).to redirect_to(action: :show)
       expect(team.reload.name).to eq 'new-name'
     end
@@ -60,7 +60,7 @@ RSpec.describe Registrations::TeamsController, type: :controller, login: :user d
     it 'destroys' do
       team # to load instance
       expect do
-        delete :destroy, id: team.id, competition_id: competition.id
+        delete :destroy, params: { id: team.id, competition_id: competition.id }
         expect(response).to redirect_to(registrations_competition_path(competition))
       end.to change(Registrations::Team, :count).by(-1)
     end

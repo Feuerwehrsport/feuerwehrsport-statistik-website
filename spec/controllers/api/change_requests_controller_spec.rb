@@ -5,7 +5,7 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
   let!(:change_request) { ChangeRequest.create!(content: { key: 'person-nation-changed', data: { person_id: 1 } }, files_data: files_data) }
 
   describe 'POST create' do
-    subject { -> { post :create, change_request: { content: { foo: { bar: '1' } } } } }
+    subject { -> { post :create, params: { change_request: { content: { foo: { bar: '1' } } } } } }
 
     it 'creates new change request', login: :api do
       expect do
@@ -42,7 +42,7 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
   end
 
   describe 'GET files' do
-    subject { -> { get :files, change_request_id: change_request.id, id: 0 } }
+    subject { -> { get :files, params: { change_request_id: change_request.id, id: 0 } } }
 
     let(:files_data) do
       {
@@ -67,7 +67,7 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
   end
 
   describe 'PUT update' do
-    subject { -> { put :update, id: change_request.id, change_request: { done: '1' } } }
+    subject { -> { put :update, params: { id: change_request.id, change_request: { done: '1' } } } }
 
     it 'update change_request', login: :sub_admin do
       subject.call

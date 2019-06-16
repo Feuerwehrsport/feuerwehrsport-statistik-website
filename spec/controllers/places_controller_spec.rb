@@ -14,7 +14,7 @@ RSpec.describe PlacesController, type: :controller do
 
   describe 'GET show' do
     it 'assigns resource' do
-      get :show, id: place.id
+      get :show, params: { id: place.id }
       expect(response).to be_success
       expect(controller.send(:resource)).to eq place
     end

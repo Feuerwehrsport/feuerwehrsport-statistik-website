@@ -4,7 +4,7 @@ RSpec.describe API::CompetitionsController, type: :controller do
   let(:competition) { create(:competition, :score_type, :fake_count) }
 
   describe 'POST create' do
-    subject { -> { post :create, competition: { name: 'Extrapokal', place_id: place.id, event_id: event.id, date: '2014-01-29' } } }
+    subject { -> { post :create, params: { competition: { name: 'Extrapokal', place_id: place.id, event_id: event.id, date: '2014-01-29' } } } }
 
     let(:place) { create(:place) }
     let(:event) { create(:event) }
@@ -21,7 +21,7 @@ RSpec.describe API::CompetitionsController, type: :controller do
 
   describe 'GET show' do
     it 'returns competition' do
-      get :show, id: competition.id
+      get :show, params: { id: competition.id }
       expect_json_response
       expect(json_body[:competition]).to eq(
         id: competition.id,
@@ -62,7 +62,7 @@ RSpec.describe API::CompetitionsController, type: :controller do
   end
 
   describe 'PUT update' do
-    subject { -> { put :update, id: competition.id, competition: { name: 'toller Wettkampf' } } }
+    subject { -> { put :update, params: { id: competition.id, competition: { name: 'toller Wettkampf' } } } }
 
     it 'update competition', login: :sub_admin do
       subject.call

@@ -13,7 +13,7 @@ RSpec.describe Series::RoundsController, type: :controller do
 
   describe 'GET show' do
     it 'assigns resource' do
-      get :show, id: round.id
+      get :show, params: { id: round.id }
       expect(controller.send(:resource)).to be_a Series::Round
       expect(response).to be_success
       expect(response.content_type).to eq 'text/html'
@@ -21,7 +21,7 @@ RSpec.describe Series::RoundsController, type: :controller do
 
     context 'when pdf requested' do
       it 'sends pdf' do
-        get :show, id: round.id, format: :pdf
+        get :show, params: { id: round.id, format: :pdf }
         expect(controller.send(:resource)).to be_a Series::Round
         expect(response).to be_success
         expect(response.content_type).to eq 'application/pdf'

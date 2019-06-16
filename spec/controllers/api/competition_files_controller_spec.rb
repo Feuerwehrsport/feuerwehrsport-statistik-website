@@ -8,7 +8,7 @@ RSpec.describe API::CompetitionFilesController, type: :controller do
 
     it 'creates files', login: :api do
       expect do
-        post :create, competition_id: competition.id, competition_file: { '0' => { file: testfile, hl_male: '1', hb_female: '1' } }
+        post :create, params: { competition_id: competition.id, competition_file: { '0' => { file: testfile, hl_male: '1', hb_female: '1' } } }
       end.to change(CompetitionFile, :count).by(1)
       expect(response).to redirect_to competition_path(1, anchor: 'toc-dateien')
       expect(CompetitionFile.last.keys).to match_array %w[hl_male hb_female]

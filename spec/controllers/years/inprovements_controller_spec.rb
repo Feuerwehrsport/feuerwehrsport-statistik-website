@@ -5,14 +5,14 @@ RSpec.describe Years::InprovementsController, type: :controller do
 
   describe 'GET index' do
     it 'assigns collection' do
-      get :index, year_id: score.competition.date.year
+      get :index, params: { year_id: score.competition.date.year }
       expect(assigns(:disciplines).length).to eq 4
     end
   end
 
   describe 'GET show' do
     it 'assigns collection' do
-      get :show, year_id: score.competition.date.year, id: score.team_id
+      get :show, params: { year_id: score.competition.date.year, id: score.team_id }
       expect(assigns(:disciplines).length).to eq 4
     end
   end

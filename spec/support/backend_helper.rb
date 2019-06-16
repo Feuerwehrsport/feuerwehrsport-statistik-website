@@ -22,7 +22,7 @@ RSpec.shared_examples 'a backend resource controller' do |options|
     describe 'POST create' do
       it 'creates new resource' do
         expect do
-          post :create, resource_name => resource_create_attributes
+          post :create, params: { resource_name => resource_create_attributes }
           id = resource_class.order(id: :desc).pluck(:id).first
           expect(response).to redirect_to(action: :show, id: id), -> { controller.form_resource.errors.inspect }
         end.to change(resource_class, :count).by(1)
@@ -34,7 +34,7 @@ RSpec.shared_examples 'a backend resource controller' do |options|
   if only.include?(:show)
     describe 'GET show' do
       it 'returns resource' do
-        get :show, id: resource.id
+        get :show, params: { id: resource.id }
         expect(response).to be_success
       end
     end
@@ -43,7 +43,7 @@ RSpec.shared_examples 'a backend resource controller' do |options|
   if only.include?(:edit)
     describe 'GET edit' do
       it 'shows edit form' do
-        get :edit, id: resource.id
+        get :edit, params: { id: resource.id }
         expect(response).to be_success
       end
     end
@@ -51,7 +51,7 @@ RSpec.shared_examples 'a backend resource controller' do |options|
 
   if only.include?(:update)
     describe 'PUT update' do
-      subject { -> { put :update, :id => resource.id, resource_name => resource_update_attributes } }
+      subject { -> { put :update, params: { :id => resource.id, resource_name => resource_update_attributes } } }
 
       it 'update resource' do
         subject.call
@@ -80,7 +80,7 @@ RSpec.shared_examples 'a backend resource controller' do |options|
 
       it 'deletes resource' do
         expect do
-          delete :destroy, id: resource.id
+          delete :destroy, params: { id: resource.id }
           expect(response).to redirect_to action: :index
         end.to change(resource_class, :count).by(-1)
         expect_change_log(before: {}, log: "destroy-#{resource_class.name.parameterize}") if change_log_enabled

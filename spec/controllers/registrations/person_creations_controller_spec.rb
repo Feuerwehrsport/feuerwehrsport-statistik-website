@@ -7,7 +7,7 @@ RSpec.describe Registrations::PersonCreationsController, type: :controller, logi
 
   describe 'GET new' do
     it 'redirects' do
-      get :new, competition_id: competition.id
+      get :new, params: { competition_id: competition.id }
       expect(response).to be_success
     end
   end
@@ -16,7 +16,7 @@ RSpec.describe Registrations::PersonCreationsController, type: :controller, logi
     it 'saves' do
       expect do
         expect do
-          post :create, competition_id: competition.id, registrations_person: person_attrs
+          post :create, params: { competition_id: competition.id, registrations_person: person_attrs }
           expect(response).to redirect_to(registrations_competition_path(competition))
         end.to change(Registrations::Person, :count).by(1)
       end.to change(ActionMailer::Base.deliveries, :count).by(2)
@@ -26,7 +26,7 @@ RSpec.describe Registrations::PersonCreationsController, type: :controller, logi
       it 'saves and redirects to team' do
         expect do
           expect do
-            post :create, competition_id: competition.id, registrations_person: person_attrs, team_id: team.id
+            post :create, params: { competition_id: competition.id, registrations_person: person_attrs, team_id: team.id }
             expect(response).to redirect_to(registrations_competition_team_path(competition, team))
           end.to change(Registrations::Person, :count).by(1)
         end.to change(ActionMailer::Base.deliveries, :count).by(0)

@@ -5,13 +5,13 @@ RSpec.describe Backend::Series::RoundImportsController, type: :controller, login
 
   describe 'GET new' do
     it 'shows new form' do
-      get :new, round_id: round
+      get :new, params: { round_id: round }
       expect(response).to be_success
     end
   end
 
   describe 'POST create' do
-    subject { -> { post :create, round_id: round, series_round_import: create_attributes } }
+    subject { -> { post :create, params: { round_id: round, series_round_import: create_attributes } } }
 
     let!(:score) { create(:score, :double, competition: competition) }
     let!(:group_score) { create(:group_score, :double, group_score_category: group_score_category) }

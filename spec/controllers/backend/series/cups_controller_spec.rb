@@ -8,7 +8,7 @@ RSpec.describe Backend::Series::CupsController, type: :controller, login: :admin
 
     it 'deletes cup' do
       expect do
-        delete :destroy, id: cup.id
+        delete :destroy, params: { id: cup.id }
         expect(response).to redirect_to backend_series_round_path(cup.round)
       end.to change(Series::Cup, :count).by(-1)
     end

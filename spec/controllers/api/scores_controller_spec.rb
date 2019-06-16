@@ -36,7 +36,7 @@ RSpec.describe API::ScoresController, type: :controller do
 
   describe 'GET show' do
     it 'returns score' do
-      get :show, id: score.id
+      get :show, params: { id: score.id }
       expect_json_response
       expect(json_body[:score]).to eq(correct_score)
     end
@@ -53,7 +53,7 @@ RSpec.describe API::ScoresController, type: :controller do
   end
 
   describe 'PUT update' do
-    subject { -> { put :update, id: score.id, score: { team_id: mv.id, team_number: '-2' } } }
+    subject { -> { put :update, params: { id: score.id, score: { team_id: mv.id, team_number: '-2' } } } }
 
     let(:mv) { create(:team, :mv) }
 

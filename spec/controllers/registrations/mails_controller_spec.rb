@@ -7,7 +7,7 @@ RSpec.describe Registrations::MailsController, type: :controller, login: :user d
 
   describe 'GET new' do
     it 'redirects' do
-      get :new, competition_id: competition.id
+      get :new, params: { competition_id: competition.id }
       expect(response).to be_success
     end
   end
@@ -15,7 +15,7 @@ RSpec.describe Registrations::MailsController, type: :controller, login: :user d
   describe 'POST create' do
     it 'saves' do
       expect do
-        post :create, competition_id: competition.id, registrations_mail: mail_params
+        post :create, params: { competition_id: competition.id, registrations_mail: mail_params }
         expect(response).to redirect_to(registrations_competition_path(competition))
       end.to change(ActionMailer::Base.deliveries, :count).by(1)
     end

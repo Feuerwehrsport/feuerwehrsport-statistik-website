@@ -37,17 +37,17 @@ class ErrorsController < ApplicationController
 
   def not_found
     @page_title = '404 - Seite nicht gefunden'
-    render(status: 404)
+    render(status: :not_found)
   end
 
   def internal_server_error
     @page_title = '500 - Interner Fehler'
-    render(status: 500)
+    render(status: :internal_server_error)
   end
 
   def unacceptable
     @page_title = '422 - Nicht verarbeitbare Werte'
-    render(status: 422)
+    render(status: :unprocessable_entity)
   end
 
   protected

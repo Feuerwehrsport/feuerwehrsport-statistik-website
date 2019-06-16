@@ -13,7 +13,7 @@ RSpec.describe Backend::Repairs::TeamScoreMovesController, type: :controller, lo
     let!(:team2) { create(:team) }
 
     it 'renders create view' do
-      post :create, repairs_team_score_move: { source_team_id: team1.id, destination_team_id: team2.id }
+      post :create, params: { repairs_team_score_move: { source_team_id: team1.id, destination_team_id: team2.id } }
       expect(response).to render_template :create
     end
   end

@@ -6,7 +6,7 @@ RSpec.describe Registrations::TeamCreationsController, type: :controller, login:
 
   describe 'GET new' do
     it 'redirects' do
-      get :new, competition_id: competition.id
+      get :new, params: { competition_id: competition.id }
       expect(response).to be_success
       expect(controller.parent_url).to eq registrations_competition_url(competition)
     end
@@ -16,7 +16,7 @@ RSpec.describe Registrations::TeamCreationsController, type: :controller, login:
     it 'saves' do
       expect do
         expect do
-          post :create, competition_id: competition.id, registrations_team: team_attrs
+          post :create, params: { competition_id: competition.id, registrations_team: team_attrs }
           expect(response).to(
             redirect_to(edit_registrations_competition_team_path(competition, Registrations::Team.last)),
           )

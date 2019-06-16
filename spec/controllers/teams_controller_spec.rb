@@ -13,7 +13,7 @@ RSpec.describe TeamsController, type: :controller do
 
   describe 'GET show' do
     it 'assigns resource' do
-      get :show, id: team.id
+      get :show, params: { id: team.id }
       expect(response).to be_success
       expect(controller.send(:resource)).to eq team
     end

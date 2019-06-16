@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe API::SuggestionsController, type: :controller do
   describe 'POST people' do
-    subject { -> { post :people, attributes; expect_json_response } }
+    subject { -> { post :people, params: attributes; expect_json_response } }
 
     let!(:person1) { create(:person) }
     let!(:score1) { create(:score, person: person1) }
@@ -110,7 +110,7 @@ RSpec.describe API::SuggestionsController, type: :controller do
   end
 
   describe 'POST teams' do
-    subject { -> { post :teams, attributes; expect_json_response } }
+    subject { -> { post :teams, params: attributes; expect_json_response } }
 
     let!(:team1) { create(:team) }
     let(:team1_hash) { { id: team1.id, name: 'FF Warin', shortcut: 'Warin' } }

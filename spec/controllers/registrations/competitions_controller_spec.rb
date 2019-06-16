@@ -28,7 +28,7 @@ RSpec.describe Registrations::CompetitionsController, type: :controller, login: 
     context 'when tempate selected' do
       it 'renders new' do
         expect_any_instance_of(Registrations::Competition).not_to receive(:save)
-        post :create, from_template: true, registrations_competition: { name: 'foo' }
+        post :create, params: { from_template: true, registrations_competition: { name: 'foo' } }
         expect(response).to be_success
       end
     end
@@ -37,7 +37,7 @@ RSpec.describe Registrations::CompetitionsController, type: :controller, login: 
       it 'saves' do
         expect do
           expect_any_instance_of(Registrations::Competition).to receive(:save).and_call_original
-          post :create, registrations_competition: { name: 'foo', place: 'Warin', date: '2028-01-01' }
+          post :create, params: { registrations_competition: { name: 'foo', place: 'Warin', date: '2028-01-01' } }
           expect(response).to redirect_to(action: :show, id: Registrations::Competition.last.id)
         end.to change(Registrations::Competition, :count).by(1)
       end
@@ -50,7 +50,7 @@ RSpec.describe Registrations::CompetitionsController, type: :controller, login: 
     after { Timecop.return }
 
     it 'assigns resource' do
-      get :show, id: competition.id
+      get :show, params: { id: competition.id }
       expect(controller.send(:resource)).to be_a Registrations::Competition
       expect(response).to be_success
       expect(response.content_type).to eq 'text/html'
@@ -58,7 +58,7 @@ RSpec.describe Registrations::CompetitionsController, type: :controller, login: 
 
     context 'when pdf requested' do
       it 'sends pdf' do
-        get :show, id: competition.id, format: :pdf
+        get :show, params: { id: competition.id, format: :pdf }
         expect(controller.send(:resource)).to be_a Registrations::Competition
         expect(response).to be_success
         expect(response.content_type).to eq 'application/pdf'
@@ -68,7 +68,7 @@ RSpec.describe Registrations::CompetitionsController, type: :controller, login: 
 
     context 'when wettkampf_manager_import requested' do
       it 'sends wettkampf_manager_import' do
-        get :show, id: competition.id, format: :wettkampf_manager_import
+        get :show, params: { id: competition.id, format: :wettkampf_manager_import }
         expect(controller.send(:resource)).to be_a Registrations::Competition
         expect(response).to be_success
         expect(response.content_type).to eq 'text/wettkampf_manager_format'
@@ -82,7 +82,7 @@ RSpec.describe Registrations::CompetitionsController, type: :controller, login: 
     context 'when xlsx requested' do
       render_views
       it 'sends xlsx' do
-        get :show, id: competition.id, format: :xlsx
+        get :show, params: { id: competition.id, format: :xlsx }
         expect(controller.send(:resource)).to be_a Registrations::Competition
         expect(response).to be_success
         expect(response.content_type).to eq 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -94,14 +94,14 @@ RSpec.describe Registrations::CompetitionsController, type: :controller, login: 
 
   describe 'GET edit' do
     it 'renders form' do
-      get :edit, id: competition.id
+      get :edit, params: { id: competition.id }
       expect(response).to be_success
     end
   end
 
   describe 'PATCH update' do
     it 'updates' do
-      patch :update, id: competition.id, registrations_competition: { name: 'new-name' }
+      patch :update, params: { id: competition.id, registrations_competition: { name: 'new-name' } }
       expect(response).to redirect_to(action: :show, id: competition.id)
       expect(competition.reload.name).to eq 'new-name'
     end
@@ -111,7 +111,7 @@ RSpec.describe Registrations::CompetitionsController, type: :controller, login: 
     it 'destroys' do
       competition # to load instance
       expect do
-        delete :destroy, id: competition.id
+        delete :destroy, params: { id: competition.id }
         expect(response).to redirect_to(action: :index)
       end.to change(Registrations::Competition, :count).by(-1)
     end
@@ -119,7 +119,7 @@ RSpec.describe Registrations::CompetitionsController, type: :controller, login: 
 
   describe 'GET slug_handle' do
     it 'redirects' do
-      get :slug_handle, slug: competition.slug
+      get :slug_handle, params: { slug: competition.slug }
       expect(response).to redirect_to(registrations_competition_path(competition.id))
     end
   end
