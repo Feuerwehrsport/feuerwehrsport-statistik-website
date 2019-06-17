@@ -4,7 +4,7 @@
     .col-md-3 Von: #{resource.source_team}
     .col-md-6.text-center
       #do-move.btn.btn-primary Ausführen
-      = link_to('Zurück', url_for(params.merge(action: :new)), class: 'btn btn-default')
+      = link_to('Zurück', url_for(params.permit!.merge(action: :new)), class: 'btn btn-default')
     .col-md-3 Nach: #{resource.destination_team}
         
 .section
