@@ -30,7 +30,7 @@ class AppointmentsController < ResourceController
       calendar.add_event(row.to_icalendar_event)
     end
     calendar.ip_method = method
-    render text: calendar.to_ical
+    render body: calendar.to_ical, content_type: Mime[:ics]
   end
 
   def find_collection

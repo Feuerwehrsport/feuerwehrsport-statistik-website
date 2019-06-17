@@ -5,7 +5,7 @@ RSpec.describe API::ImportRequestsController, type: :controller do
     {
       files: [{
         name: 'test.to_json',
-        mimetype: Mime::JSON.to_s,
+        mimetype: Mime[:json].to_s,
         base64_data: Base64.encode64('{"test":"data"}'),
       }],
       name: 'Wettkampf-Name',

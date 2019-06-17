@@ -4,7 +4,7 @@ class Series::RoundsController < ResourceController
 
   def index
     @rounds = {}
-    all = Series::Round.uniq.reorder(:name)
+    all = Series::Round.distinct.reorder(:name)
     all = all.where(slug: params[:slug]) if single_round?
     raise ActiveRecord::RecordNotFound if all.empty?
 

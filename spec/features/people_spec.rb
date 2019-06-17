@@ -46,7 +46,7 @@ describe 'people', type: :feature, js: true do
       expect(person.first.attributes.symbolize_keys).to include(
         last_name: '00AABBCC',
         first_name: 'Vorname',
-        gender: 0,
+        gender: 'female',
         nation_id: nation.id,
       )
     end

@@ -44,7 +44,7 @@ class ImportRequest < ActiveRecord::Base
     }
     json[:files].try(:each) do |file|
       data = Base64.decode64(file[:base64_data])
-      if file[:mimetype] == Mime::JSON && JSON.parse(data, symbolize_names: true)[:discipline].present?
+      if file[:mimetype] == Mime[:json] && JSON.parse(data, symbolize_names: true)[:discipline].present?
         import_data[:results].push(JSON.parse(data, symbolize_names: true))
       else
         import_request_files.new(

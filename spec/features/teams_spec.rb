@@ -43,7 +43,7 @@ describe 'teams features' do
       expect(team.first.attributes.symbolize_keys).to include(
         name: '00Mannschaft_xyz',
         shortcut: 'Abk789',
-        status: 1,
+        status: 'fire_station',
       )
     end
   end

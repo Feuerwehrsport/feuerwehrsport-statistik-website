@@ -13,18 +13,20 @@ RSpec.describe Registrations::PersonParticipationsController, type: :controller,
   end
 
   describe 'PATCH update' do
-    it 'updates' do
-      patch :update, params: { competition_id: competition.id, id: person.id, registrations_person: {
-        person_assessment_participations_attributes: {
-          '0' => {
-            _destroy: 0,
-            assessment_id: assessment.id,
-            assessment_type: :single_competitor,
-            group_competitor_order: 0,
-            single_competitor_order: 0,
-          },
+    let(:update_params) do
+      { person_assessment_participations_attributes: {
+        '0' => {
+          _destroy: 0,
+          assessment_id: assessment.id,
+          assessment_type: :single_competitor,
+          group_competitor_order: 0,
+          single_competitor_order: 0,
         },
       } }
+    end
+
+    it 'updates' do
+      patch :update, params: { competition_id: competition.id, id: person.id, registrations_person: update_params }
       expect(response).to redirect_to(registrations_competition_path(competition))
       expect(person.reload.assessments).to eq [assessment]
     end
@@ -34,7 +36,7 @@ RSpec.describe Registrations::PersonParticipationsController, type: :controller,
       let(:person) { create(:registrations_person, team: team, competition: competition) }
 
       it 'redirect to team page' do
-        patch :update, params: { competition_id: competition.id, id: person.id, registrations_person: {} }
+        patch :update, params: { competition_id: competition.id, id: person.id, registrations_person: update_params }
         expect(response).to redirect_to(registrations_competition_team_path(competition, team))
       end
     end

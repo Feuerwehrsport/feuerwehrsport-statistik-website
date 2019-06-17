@@ -2,8 +2,8 @@ class Series::Round < ActiveRecord::Base
   include Caching::Keys
   include Series::Participationable
 
-  has_many :cups, class_name: 'Series::Cup'
-  has_many :assessments, class_name: 'Series::Assessment'
+  has_many :cups, class_name: 'Series::Cup', dependent: :destroy
+  has_many :assessments, class_name: 'Series::Assessment', dependent: :destroy
   has_many :participations, through: :assessments, class_name: 'Series::Participation'
 
   validates :name, :slug, :year, :aggregate_type, presence: true
@@ -15,7 +15,8 @@ class Series::Round < ActiveRecord::Base
       .group("#{table_name}.id")
   end
   scope :with_team, ->(team_id, gender) do
-    joins(:participations).where(series_participations: { team_id: team_id }).merge(Series::TeamAssessment.gender(gender)).uniq
+    joins(:participations).where(series_participations: { team_id: team_id })
+                          .merge(Series::TeamAssessment.gender(gender)).distinct
   end
 
   def disciplines

@@ -22,8 +22,10 @@ class API::ChangeRequestsController < API::BaseController
 
   def resource_params
     if action_name == 'create'
-      params[resource_params_name].permit(content: permit_scalar_attributes(params[resource_params_name][:content]),
-                                          files: [])
+      params[resource_params_name].permit(
+        content: permit_scalar_attributes(params[resource_params_name][:content].permit!.to_h),
+        files: [],
+      )
     else
       super
     end

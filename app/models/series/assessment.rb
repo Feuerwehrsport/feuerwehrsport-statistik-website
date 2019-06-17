@@ -4,9 +4,11 @@ class Series::Assessment < ActiveRecord::Base
 
   belongs_to :round, class_name: 'Series::Round'
   has_many :cups, through: :round, class_name: 'Series::Cup'
-  has_many :participations, class_name: 'Series::Participation'
+  has_many :participations, class_name: 'Series::Participation', dependent: :destroy
 
-  scope :with_person, ->(person_id) { joins(:participations).where(series_participations: { person_id: person_id }).uniq }
+  scope :with_person, ->(person_id) do
+                        joins(:participations).where(series_participations: { person_id: person_id }).distinct
+                      end
   scope :round, ->(round_id) { where(round_id: round_id) }
 
   validates :round, :discipline, :gender, presence: true

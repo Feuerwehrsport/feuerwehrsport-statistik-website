@@ -2,7 +2,9 @@ require 'rails_helper'
 
 RSpec.describe API::ChangeRequestsController, type: :controller do
   let(:files_data) { {} }
-  let!(:change_request) { ChangeRequest.create!(content: { key: 'person-nation-changed', data: { person_id: 1 } }, files_data: files_data) }
+  let!(:change_request) do
+    ChangeRequest.create!(content: { key: 'person-nation-changed', data: { person_id: 1 } }, files_data: files_data)
+  end
 
   describe 'POST create' do
     subject { -> { post :create, params: { change_request: { content: { foo: { bar: '1' } } } } } }

@@ -98,7 +98,9 @@ class Registrations::CompetitionsController < Registrations::BaseController
       authorize!(:export, resource)
       response.headers['Content-Disposition'] =
         "attachment; filename=\"#{resource.decorate.to_s.parameterize}.#{request.format.to_sym}\""
-      render text: resource.to_serializer.to_json if request.format.wettkampf_manager_import?
+      if request.format.wettkampf_manager_import?
+        render body: resource.to_serializer.to_json, content_type: Mime[:wettkampf_manager_import]
+      end
     end
   end
 

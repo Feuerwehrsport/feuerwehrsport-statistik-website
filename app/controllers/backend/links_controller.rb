@@ -9,8 +9,8 @@ class Backend::LinksController < Backend::BackendController
   end
 
   filter_index do |by|
-    by.scope :linkable_type, collection: Link.uniq.pluck(:linkable_type)
-    by.scope :linkable_id, collection: Link.uniq.pluck(:linkable_id).map(&:to_s)
+    by.scope :linkable_type, collection: Link.distinct.pluck(:linkable_type)
+    by.scope :linkable_id, collection: Link.distinct.pluck(:linkable_id).map(&:to_s)
   end
 
   default_index do |t|

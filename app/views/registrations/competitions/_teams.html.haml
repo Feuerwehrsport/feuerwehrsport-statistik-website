@@ -10,4 +10,4 @@
       - if Discipline.group?(assessment.discipline)
         - row.assessments.include?(assessment) ? 'x' : ''
       - else
-        - count_or_zero(row.people.with_assessment(assessment).uniq.count)
+        - count_or_zero(row.people.with_assessment(assessment).distinct.count)

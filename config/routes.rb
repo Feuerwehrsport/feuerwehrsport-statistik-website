@@ -64,7 +64,7 @@ Rails.application.routes.draw do
     end
     resources :appointments, only: %i[create show update]
     resources :change_requests, only: %i[create index update] do
-      resources :files, only: [:show], to: 'change_requests#files'
+      get 'files/:id', to: 'change_requests#files'
     end
     resources :competitions, only: %i[create show index update] do
       resource :competition_files, only: [:create]
