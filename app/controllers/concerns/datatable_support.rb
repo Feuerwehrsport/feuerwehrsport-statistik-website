@@ -23,7 +23,7 @@ module DatatableSupport
 
           page = (params[:start].to_i / params[:length].to_i) + 1
           structure.each_with_index do |field, index|
-            break unless params[:order].is_a?(Hash)
+            break unless params[:order].is_a?(ActionController::Parameters)
 
             params[:order] = "#{field.name}_#{params[:order]['0'][:dir]}" if params[:order]['0'][:column].to_i == index
           end
