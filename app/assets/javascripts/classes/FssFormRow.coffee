@@ -114,7 +114,7 @@ class @FssFormRowSelect extends FssFormRowLabelField
     select = $('<select/>')
     for option in options
       select.append($('<option/>').text(option.display).attr('value', option.value))
-    select.val(@defaultValue) if @defaultValue
+    select.val(@defaultValue) if @defaultValue?
     super(label, select)
 
 class @FssFormRowRadio extends FssFormRowLabelField
