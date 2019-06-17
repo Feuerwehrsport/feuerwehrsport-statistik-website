@@ -46,7 +46,7 @@
             .panel-body
               - resource.import_data[:results].each do |result|
                 - if result[:rows].count > 1 && result[:discipline] != 'zk'
-                  %button.add-discipline{ class: "discipline-#{result[:discipline]}-#{result[:gender]}", data: { rows: result[:rows] }}
+                  %button.add-discipline.ask-high-or-low{ class: "discipline-#{result[:discipline]}-#{result[:gender]}", data: { rows: result[:rows] }}
                     = result[:discipline]
                     = result[:gender]
                     = result[:rows].count

@@ -85,7 +85,6 @@ class @Discipline extends EventHandler
     headline = rows.shift()
 
     @inputLine.removeAllFields()
-    console.log headline
     for headlineColumn in headline
       type = switch headlineColumn
         when 'Vorname' then 'first_name'

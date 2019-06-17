@@ -85,12 +85,34 @@ class @FssImport
             .open()
 
     $('.add-discipline').click (ev) =>
+      button = $(ev.target)
       for className in ev.target.className.split(' ')
         res = className.match(/^discipline-([a-z]{2})-((?:fe)?male)$/)
         if res
-          discipline = new Discipline(res[1], res[2])
-          discipline.on('refresh-results', => @changeCompetition())
-          discipline.importRows($(ev.target).data('rows'))
+          discipline = res[1]
+          gender = res[2]
+          addDiscipline = (discipline) ->
+            discipline = new Discipline(discipline, gender)
+            discipline.on('refresh-results', => @changeCompetition())
+            discipline.importRows(button.data('rows'))
+
+          if button.hasClass("ask-high-or-low") && discipline is 'hb' && gender is 'female'
+            w = FssWindow.build("Hoher oder flacher Balken?")
+
+            high = $('<button/>').text('Hoch').on('click', (e) ->
+              e.preventDefault()
+              w.close()
+              addDiscipline('hb')
+            )
+            low = $('<button/>').text('Flach').on('click', (e) ->
+              e.preventDefault()
+              w.close()
+              addDiscipline('hw')
+            )
+            w.add((new FssFormRow(high, low)).addClass('submit-row'))
+            w.open()
+          else
+            addDiscipline(discipline)
           return false
 
     @reloadCompetitions(@selectCompetitionType)
