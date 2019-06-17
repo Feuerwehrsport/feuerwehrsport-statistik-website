@@ -9,7 +9,7 @@ class Caching::Cleaner
     rescue Errno::ENOENT
     end
 
-    Caching::Builder.enqueue_with_options(run_at: Time.current + 5.minutes)
+    Caching::Builder.enqueue_with_options(run_at: Time.current + 5.minutes) if Rails.configuration.caching
     true
   end
 end
