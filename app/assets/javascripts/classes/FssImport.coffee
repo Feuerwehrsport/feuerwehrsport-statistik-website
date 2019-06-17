@@ -33,6 +33,33 @@ class @FssImport
 
     $("input[name='competition-type']").change(@selectCompetitionType)
 
+    $('.transfer-file').each (i, td) =>
+      td = $(td)
+      $('<button/>').text('Übertragen').addClass('btn btn-default btn-xs').appendTo(td).click =>
+        competitionId = @selectCompetition.find('option:selected').val()
+        fileId = td.data('id')
+        FssWindow.build('Datei übertragen')
+        .add(new FssFormRowCheckbox('zk_female', 'ZK weiblich'))
+        .add(new FssFormRowCheckbox('hb_female', 'HB weiblich'))
+        .add(new FssFormRowCheckbox('hl_female', 'HL weiblich'))
+        .add(new FssFormRowCheckbox('gs_female', 'GS weiblich'))
+        .add(new FssFormRowCheckbox('fs_female', 'FS weiblich'))
+        .add(new FssFormRowCheckbox('la_female', 'LA weiblich'))
+        .add(new FssFormRowCheckbox('zk_male', 'ZK männlich'))
+        .add(new FssFormRowCheckbox('hb_male', 'HB männlich'))
+        .add(new FssFormRowCheckbox('hl_male', 'HL männlich'))
+        .add(new FssFormRowCheckbox('fs_male', 'FS männlich'))
+        .add(new FssFormRowCheckbox('la_male', 'LA männlich'))
+        .on('submit', (data) =>
+          keys = []
+          for key, value of data
+            keys.push(key) if value
+          Fss.ajaxReload('PUT', "import_request_files/#{fileId}", 
+            { import_request_file: { transfer_competition_id: competitionId, transfer_keys_string: keys.join(',') } }
+          )
+        )
+        .open()
+
     $('.add-place').click =>
       Fss.checkLogin =>
         FssWindow.build('Ort hinzufügen')

@@ -10,7 +10,6 @@ RSpec.describe Backend::Caching::CleanersController, type: :controller, login: :
 
   describe 'POST create' do
     it 'creates new resource' do
-      expect(Caching::Builder).to receive(:enqueue_with_options)
       post :create
       expect(response).to redirect_to(backend_root_path)
       expect_no_change_log

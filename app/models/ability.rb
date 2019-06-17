@@ -28,6 +28,7 @@ class Ability
     can :manage, GroupScoreType
     can :manage, Import::Scores
     can :manage, ImportRequest
+    can :manage, ImportRequestFile
     can :manage, Link
     can :manage, Link
     can :manage, M3::Asset

@@ -61,10 +61,14 @@
         .panel.panel-default
           .panel-heading Wettkampf
           .panel-body
-            %dl
+            %table.table.table-condensed
               - resource.import_request_files.each do |file|
-                %dt= ImportRequestFile.human_attribute_name(:file)
-                %dd= file.file_with_link
+                %tr
+                  %td= file.file_with_link
+                  %td{ data: { id: file.id }, class: file.pdf? && !file.transfered? ? "transfer-file" : nil }
+                    - if file.transfered?
+                      .fa.fa-exchange-alt
+            %dl
               - %i[url_with_link date place event description].each do |field|
                 - if resource.send(field).present?
                   %dt= resource_class.human_attribute_name(field)

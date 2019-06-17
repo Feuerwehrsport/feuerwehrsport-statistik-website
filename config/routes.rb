@@ -75,6 +75,8 @@ Rails.application.routes.draw do
     resources :group_scores, only: %i[show update] do
       member { put :person_participation }
     end
+    resources :import_requests, only: [:create]
+    resources :import_request_files, only: [:update]
     resources :imports, only: [] do
       collection do
         post :check_lines
@@ -108,7 +110,6 @@ Rails.application.routes.draw do
     resources :teams, only: %i[create show index update] do
       member { post :merge }
     end
-    resources :import_requests, only: [:create]
   end
 
   namespace :registrations do
