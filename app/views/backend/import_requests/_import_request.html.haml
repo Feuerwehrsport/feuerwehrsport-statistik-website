@@ -53,7 +53,7 @@
                     = result[:name]
 
 
-  - if resource.edited_at.present? && can?(:create, Import::Scores)
+  - if resource.edited_at.present? && can?(:create, Import::Scores) && resource.import_data.present?
     = render('backend/imports/import_containers', competition_info: resource.import_data.except(:results))
   .container
     .row
