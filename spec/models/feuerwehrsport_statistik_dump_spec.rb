@@ -6,6 +6,7 @@ RSpec.describe FeuerwehrsportStatistik, type: :model do
   let(:dump_tables) do
     %i[
       appointments
+      ar_internal_metadata
       bla_badges
       competition_files
       competitions
