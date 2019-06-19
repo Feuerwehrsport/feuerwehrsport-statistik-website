@@ -1,6 +1,6 @@
 require 'open3'
 
-class Pdf2Table::Entry < ActiveRecord::Base
+class Pdf2Table::Entry < ApplicationRecord
   belongs_to :api_user
   belongs_to :admin_user
 

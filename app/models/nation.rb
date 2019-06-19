@@ -1,4 +1,4 @@
-class Nation < ActiveRecord::Base
+class Nation < ApplicationRecord
   has_many :people, dependent: :restrict_with_exception
 
   scope :filter_collection, -> { order(:name) }

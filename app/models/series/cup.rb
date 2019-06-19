@@ -1,4 +1,4 @@
-class Series::Cup < ActiveRecord::Base
+class Series::Cup < ApplicationRecord
   include Series::Participationable
 
   belongs_to :round, class_name: 'Series::Round'

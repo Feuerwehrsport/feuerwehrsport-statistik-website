@@ -1,3 +1,3 @@
-class Tag < ActiveRecord::Base
+class Tag < ApplicationRecord
   belongs_to :taggable, polymorphic: true
 end

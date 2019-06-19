@@ -1,4 +1,4 @@
-class Registrations::Person < ActiveRecord::Base
+class Registrations::Person < ApplicationRecord
   include Genderable
   include Taggable
   belongs_to :admin_user

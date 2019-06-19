@@ -1,4 +1,4 @@
-class ScoreType < ActiveRecord::Base
+class ScoreType < ApplicationRecord
   has_many :competitions, dependent: :restrict_with_exception
 
   scope :filter_collection, -> { order(:people, :run, :score) }

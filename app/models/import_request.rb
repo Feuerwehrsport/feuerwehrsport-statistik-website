@@ -1,4 +1,4 @@
-class ImportRequest < ActiveRecord::Base
+class ImportRequest < ApplicationRecord
   belongs_to :place
   belongs_to :event
   belongs_to :admin_user

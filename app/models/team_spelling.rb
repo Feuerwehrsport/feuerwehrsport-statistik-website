@@ -1,4 +1,4 @@
-class TeamSpelling < ActiveRecord::Base
+class TeamSpelling < ApplicationRecord
   include TeamScopes
   belongs_to :team
 

@@ -1,4 +1,4 @@
-class PersonSpelling < ActiveRecord::Base
+class PersonSpelling < ApplicationRecord
   include Genderable
 
   belongs_to :person

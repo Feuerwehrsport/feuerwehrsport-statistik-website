@@ -1,4 +1,4 @@
-class GroupScore < ActiveRecord::Base
+class GroupScore < ApplicationRecord
   include Firesport::TimeInvalid
 
   belongs_to :team

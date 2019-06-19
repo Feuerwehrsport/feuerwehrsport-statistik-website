@@ -1,4 +1,4 @@
-class Score < ActiveRecord::Base
+class Score < ApplicationRecord
   include Firesport::TimeInvalid
 
   # 4  = Mannschaft 4

@@ -1,4 +1,4 @@
-class ImportRequestFile < ActiveRecord::Base
+class ImportRequestFile < ApplicationRecord
   belongs_to :import_request, class_name: 'ImportRequest'
   mount_uploader :file, ImportRequestUploader
   validate :transfer_competition_file_valid

@@ -1,4 +1,4 @@
-class Series::Assessment < ActiveRecord::Base
+class Series::Assessment < ApplicationRecord
   include Genderable
   include Caching::Keys
 

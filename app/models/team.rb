@@ -1,4 +1,4 @@
-class Team < ActiveRecord::Base
+class Team < ApplicationRecord
   include GeoPosition
   include ChangeRequestUploader
   include TeamScopes

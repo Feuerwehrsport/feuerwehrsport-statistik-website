@@ -1,4 +1,4 @@
-class Series::Participation < ActiveRecord::Base
+class Series::Participation < ApplicationRecord
   include Firesport::TimeInvalid
 
   belongs_to :cup, class_name: 'Series::Cup'

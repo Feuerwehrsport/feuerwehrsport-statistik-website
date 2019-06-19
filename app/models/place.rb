@@ -1,4 +1,4 @@
-class Place < ActiveRecord::Base
+class Place < ApplicationRecord
   include GeoPosition
 
   has_many :competitions, dependent: :restrict_with_exception

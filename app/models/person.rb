@@ -1,4 +1,4 @@
-class Person < ActiveRecord::Base
+class Person < ApplicationRecord
   include Genderable
 
   belongs_to :nation

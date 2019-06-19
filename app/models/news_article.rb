@@ -1,4 +1,4 @@
-class NewsArticle < ActiveRecord::Base
+class NewsArticle < ApplicationRecord
   belongs_to :admin_user
 
   default_scope { order(published_at: :desc) }

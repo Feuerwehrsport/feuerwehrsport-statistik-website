@@ -1,4 +1,4 @@
-class ChangeLog < ActiveRecord::Base
+class ChangeLog < ApplicationRecord
   FREE_ACCESS_CLASSES = %w[
     Appointment
     Competition

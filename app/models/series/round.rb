@@ -1,4 +1,4 @@
-class Series::Round < ActiveRecord::Base
+class Series::Round < ApplicationRecord
   include Caching::Keys
   include Series::Participationable
 

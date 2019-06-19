@@ -1,4 +1,4 @@
-class GroupScoreCategory < ActiveRecord::Base
+class GroupScoreCategory < ApplicationRecord
   belongs_to :group_score_type
   belongs_to :competition
   has_many :group_scores, dependent: :restrict_with_exception

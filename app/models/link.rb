@@ -1,4 +1,4 @@
-class Link < ActiveRecord::Base
+class Link < ApplicationRecord
   belongs_to :linkable, polymorphic: true
 
   scope :linkable_id, ->(id) { where(linkable_id: id) }

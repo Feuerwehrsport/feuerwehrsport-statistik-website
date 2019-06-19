@@ -1,4 +1,4 @@
-class Appointment < ActiveRecord::Base
+class Appointment < ApplicationRecord
   include M3::URLSupport
 
   belongs_to :event

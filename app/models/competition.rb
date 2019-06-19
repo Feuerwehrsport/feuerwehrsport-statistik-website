@@ -1,4 +1,4 @@
-class Competition < ActiveRecord::Base
+class Competition < ApplicationRecord
   belongs_to :place
   belongs_to :event
   belongs_to :score_type

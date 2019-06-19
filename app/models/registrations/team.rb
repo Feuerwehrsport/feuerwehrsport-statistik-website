@@ -1,4 +1,4 @@
-class Registrations::Team < ActiveRecord::Base
+class Registrations::Team < ApplicationRecord
   include Genderable
   include Taggable
   belongs_to :competition, class_name: 'Registrations::Competition'

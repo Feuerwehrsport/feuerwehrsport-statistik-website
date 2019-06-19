@@ -1,4 +1,4 @@
-class EntityMerge < ActiveRecord::Base
+class EntityMerge < ApplicationRecord
   belongs_to :source, polymorphic: true
   belongs_to :target, polymorphic: true
 

@@ -1,4 +1,4 @@
-class APIUser < ActiveRecord::Base
+class APIUser < ApplicationRecord
   has_many :change_requests, dependent: :nullify
   has_many :change_logs, dependent: :nullify
 

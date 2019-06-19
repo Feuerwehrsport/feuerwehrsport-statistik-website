@@ -1,4 +1,4 @@
-class BLA::Badge < ActiveRecord::Base
+class BLA::Badge < ApplicationRecord
   belongs_to :person
   belongs_to :hl_score, class_name: 'Score', inverse_of: :hl_bla_badges
   belongs_to :hb_score, class_name: 'Score', inverse_of: :hb_bla_badges

@@ -1,4 +1,4 @@
-class Ipo::Registration < ActiveRecord::Base
+class Ipo::Registration < ApplicationRecord
   DATE = Date.new(2018, 9, 22)
   REGISTRATION_OPEN = Time.zone.local(2018, 3, 3, 12, 0, 0)
   REGISTRATION_CLOSE = Time.zone.local(2018, 3, 17, 12, 0, 0)

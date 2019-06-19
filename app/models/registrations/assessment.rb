@@ -1,4 +1,4 @@
-class Registrations::Assessment < ActiveRecord::Base
+class Registrations::Assessment < ApplicationRecord
   include Genderable
   belongs_to :competition, class_name: 'Registrations::Competition', inverse_of: :assessments
   has_many :assessment_participations, dependent: :destroy, class_name: 'Registrations::AssessmentParticipation',
