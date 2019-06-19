@@ -32,6 +32,14 @@ class ImportRequest < ApplicationRecord
     super.try(:with_indifferent_access)
   end
 
+  def competition_info
+    info = import_data&.except(:results) || {}
+    info[:place] ||= place.name if place.present?
+    info[:event] ||= event.name if event.present?
+    info[:date] ||= date.to_s if date.present?
+    info
+  end
+
   def compressed_data=(data)
     json = JSON.parse(Zlib::Inflate.inflate(data), symbolize_names: true)
     self.date = json[:date]

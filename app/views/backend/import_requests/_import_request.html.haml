@@ -52,9 +52,8 @@
                     = result[:rows].count
                     = result[:name]
 
-
-  - if resource.edited_at.present? && can?(:create, Import::Scores) && resource.import_data.present?
-    = render('backend/imports/import_containers', competition_info: resource.import_data.except(:results))
+  - if resource.edited_at.present? && resource.edit_user == current_admin_user && can?(:create, Import::Scores)
+    = render('backend/imports/import_containers', competition_info: resource.competition_info)
   .container
     .row
       .col-md-12

@@ -94,7 +94,10 @@ class @FssImport
         Fss.getResources 'events', (events) =>
           Fss.getResources 'places', (places) =>
             eventOptions = []
-            eventOptions.push({ display: event.name, value: event.id }) for event in events
+            for event in events
+              eventOptions.push({ display: event.name, value: event.id }) 
+              defaultValues['event_id'] = event.id if defaultValues['event'] == event.name
+
             placeOptions = []
             for place in places
               placeOptions.push({ display: place.name, value: place.id })
@@ -103,7 +106,7 @@ class @FssImport
             FssWindow.build('Wettkampf hinzufügen')
             .add(new FssFormRowText('name', 'Name', defaultValues['name']))
             .add(new FssFormRowSelect('place_id', 'Ort', defaultValues['place_id'], placeOptions))
-            .add(new FssFormRowSelect('event_id', 'Typ', null, eventOptions))
+            .add(new FssFormRowSelect('event_id', 'Typ', defaultValues['event_id'], eventOptions))
             .add(new FssFormRowDate('date', 'Datum', defaultValues['date']))
             .on('submit', (data) => Fss.post('competitions', { competition: data }, =>
               @addSuccess ->
@@ -112,6 +115,7 @@ class @FssImport
             .open()
 
     $('.add-discipline').click (ev) =>
+      fssImport = this
       button = $(ev.target)
       for className in ev.target.className.split(' ')
         res = className.match(/^discipline-([a-z]{2})-((?:fe)?male)$/)
@@ -120,7 +124,7 @@ class @FssImport
           gender = res[2]
           addDiscipline = (discipline) ->
             discipline = new Discipline(discipline, gender)
-            discipline.on('refresh-results', => @changeCompetition())
+            discipline.on('refresh-results', -> fssImport.changeCompetition())
             discipline.importRows(button.data('rows'))
 
           if button.hasClass("ask-high-or-low") && discipline is 'hb' && gender is 'female'
