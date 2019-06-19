@@ -5,6 +5,13 @@ GIT
     capistrano_rsync_with_remote_cache (2.4.0)
       capistrano (~> 2.0)
 
+GIT
+  remote: https://github.com/lichtbit/m3_log_file_parser.git
+  revision: aa4b72cba4958287077a215f72d09e160f54744a
+  specs:
+    m3_log_file_parser (0.0.2)
+      rails
+
 PATH
   remote: firesport-series
   specs:
@@ -52,7 +59,7 @@ PATH
     m3 (1.0.9)
       acts_as_list (~> 0.7.2)
       axlsx (~> 3.0.0.pre)
-      axlsx_rails (~> 0.4.0)
+      axlsx_rails
       bcrypt
       bootstrap-sass (~> 3.0)
       bootstrap3-datetimepicker-rails (~> 4.17.37)
@@ -155,9 +162,9 @@ GEM
       mimemagic (~> 0.3)
       nokogiri (~> 1.8, >= 1.8.2)
       rubyzip (~> 1.2, >= 1.2.1)
-    axlsx_rails (0.4.0)
+    axlsx_rails (0.5.2)
+      actionpack (>= 3.1)
       axlsx (>= 2.0.1)
-      rails (>= 3.1)
     bcrypt (3.1.13)
     bootstrap-sass (3.4.1)
       autoprefixer-rails (>= 5.2.1)
@@ -198,7 +205,7 @@ GEM
     chronic (0.10.2)
     chunky_png (1.3.11)
     cliver (0.3.2)
-    cocoon (1.2.12)
+    cocoon (1.2.13)
     coderay (1.1.2)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
@@ -304,7 +311,7 @@ GEM
     image_size (2.0.1)
     in_threads (1.5.2)
     its-it (1.3.0)
-    jaro_winkler (1.5.2)
+    jaro_winkler (1.5.3)
     jquery-rails (4.3.5)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
@@ -492,7 +499,7 @@ GEM
     sassc (2.0.1)
       ffi (~> 1.9)
       rake
-    sassc-rails (2.1.1)
+    sassc-rails (2.1.2)
       railties (>= 4.0.0)
       sassc (>= 2.0)
       sprockets (> 3.0)
@@ -589,6 +596,7 @@ DEPENDENCIES
   lazy_high_charts
   m3!
   m3_capistrano!
+  m3_log_file_parser!
   m3_rspec!
   prawn-rails
   redcarpet

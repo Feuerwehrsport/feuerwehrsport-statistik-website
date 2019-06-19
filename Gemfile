@@ -35,7 +35,7 @@ gem 'schema_validations'
 
 group :production do
   gem 'unicorn'
-  #  gem 'm3_log_file_parser', git: 'https://github.com/lichtbit/m3_log_file_parser.git'
+  gem 'm3_log_file_parser', git: 'https://github.com/lichtbit/m3_log_file_parser.git'
 end
 
 group :development, :test do
