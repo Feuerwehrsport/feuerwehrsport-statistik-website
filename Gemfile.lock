@@ -63,7 +63,7 @@ PATH
       bcrypt
       bootstrap-sass (~> 3.0)
       bootstrap3-datetimepicker-rails (~> 4.17.37)
-      cancancan (~> 3.0)
+      cancancan
       carrierwave
       carrierwave-imageoptim
       csv_builder (~> 2.1.0)
