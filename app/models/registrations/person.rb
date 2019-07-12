@@ -4,10 +4,10 @@ class Registrations::Person < ApplicationRecord
   belongs_to :admin_user
   belongs_to :competition, class_name: 'Registrations::Competition'
   belongs_to :team, class_name: 'Registrations::Team'
-  has_many :assessments, through: :person_assessment_participations,
-                         class_name: 'Registrations::Assessment'
   has_many :person_assessment_participations, inverse_of: :person, dependent: :destroy,
                                               class_name: 'Registrations::PersonAssessmentParticipation'
+  has_many :assessments, through: :person_assessment_participations,
+                         class_name: 'Registrations::Assessment'
 
   default_scope -> { order(:competition_id, :team_id, :registration_order) }
   scope :with_assessment, ->(assessment) do

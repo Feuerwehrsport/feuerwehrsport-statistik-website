@@ -103,7 +103,7 @@ class ChangeLogDecorator < AppDecorator
   end
 
   def readable_competitionfile
-    if action.in?(['create-competitionfile', 'files-competitionfile'])
+    if action.in?(%w[create-competitionfile files-competitionfile])
       link_to(diff_hash[:file].second[:url], competition_url(after_model.competition_id))
     else
       default_readable_link || translated_diff_hash

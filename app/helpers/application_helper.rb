@@ -24,13 +24,13 @@ module ApplicationHelper
       'Verteiler',
       'Strahlrohr rechts',
     ],
-    gs: [
-      'B-Schlauch',
-      'Verteiler',
-      'C-Schlauch',
-      'Knoten',
-      'D-Schlauch',
-      'Läufer',
+    gs: %w[
+      B-Schlauch
+      Verteiler
+      C-Schlauch
+      Knoten
+      D-Schlauch
+      Läufer
     ],
     fs: [
       { female: 'Leiterwand', male: 'Haus ' },

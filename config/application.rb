@@ -8,6 +8,9 @@ Bundler.require(*Rails.groups)
 
 module FeuerwehrsportStatistik
   class Application < Rails::Application
+    # Initialize configuration defaults for originally generated Rails version.
+    config.load_defaults 5.1
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -28,6 +31,8 @@ module FeuerwehrsportStatistik
 
     # dynamic error handling
     config.exceptions_app = routes
+
+    Rails.application.config.active_record.belongs_to_required_by_default = false
 
     config.wettkampf_manager_path = Rails.root.join('spec', 'fixtures', 'wettkampf_manager')
     config.pdf2table_path = '/opt/pdf2table.jar'
