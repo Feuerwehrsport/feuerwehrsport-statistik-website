@@ -588,7 +588,6 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers
-  axlsx (~> 3.0.0.pre)
   capistrano_rsync_with_remote_cache!
   cocoon
   coffee-rails
