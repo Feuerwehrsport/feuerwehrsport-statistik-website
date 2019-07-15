@@ -7,9 +7,9 @@ GIT
 
 GIT
   remote: https://github.com/lichtbit/m3_log_file_parser.git
-  revision: d83fca1d222632b483d255a46e79d17a3c36e459
+  revision: 4d57d937e8e418da6ca460b51563d63026f62c00
   specs:
-    m3_log_file_parser (0.0.5)
+    m3_log_file_parser (0.0.6)
       rails
 
 PATH
