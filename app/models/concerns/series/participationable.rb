@@ -6,7 +6,7 @@ module Series::Participationable
   end
 
   def team_participations
-    participations.where(type: Series::TeamParticipation)
+    participations.where(type: 'Series::TeamParticipation')
   end
 
   def person_count
@@ -14,6 +14,6 @@ module Series::Participationable
   end
 
   def person_participations
-    participations.where(type: Series::PersonParticipation)
+    participations.where(type: 'Series::PersonParticipation')
   end
 end
