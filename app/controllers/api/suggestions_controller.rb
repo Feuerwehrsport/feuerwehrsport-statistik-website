@@ -17,7 +17,7 @@ class API::SuggestionsController < API::BaseController
       person_participations = PersonParticipation.team(group_score.team_id).discipline(group_score.discipline)
       person_participations = person_participations.where(position: params[:position]) if params[:position].present?
       position_suggestions = suggestions.joins(person_participations: :group_score).merge(person_participations)
-                                        .group(:id).order('COUNT(*) DESC')
+                                        .group(:id).order(Arel.sql('COUNT(*) DESC'))
       if position_suggestions.to_a.size <= 10
         team_suggestions = suggestions.where.not(id: position_suggestions.map(&:id))
                                       .where(id: TeamMember.where(team_id: group_score.team_id).select(:person_id))

@@ -6,7 +6,7 @@ RSpec.describe Registrations::TagsController, type: :controller, login: :user do
   describe 'GET edit' do
     it 'renders form' do
       get :edit, params: { competition_id: competition.id }
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 

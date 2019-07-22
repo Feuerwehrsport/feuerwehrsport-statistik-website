@@ -34,7 +34,7 @@ class Score < ApplicationRecord
   scope :with_team, -> { where.not(team_id: nil) }
   scope :best_of_competition, -> do
     distinct_column = "CONCAT(#{table_name}.competition_id, '-', #{table_name}.person_id, #{table_name}.discipline)"
-    select("DISTINCT ON (#{distinct_column}) #{table_name}.*").order("#{distinct_column}, #{table_name}.time")
+    select("DISTINCT ON (#{distinct_column}) #{table_name}.*").order(Arel.sql("#{distinct_column}, #{table_name}.time"))
   end
   scope :german, -> { joins(:person).merge(Person.german) }
   scope :year, ->(year) { joins(:competition).merge(Competition.year(year)) }
@@ -85,11 +85,11 @@ class Score < ApplicationRecord
     includes(:person, competition: %i[place event])
       .where("#{Score.table_name}.id IN (WITH times AS (#{times_subquery}) #{scores_subquery})")
       .joins(:person, :competition)
-      .order("
-      #{Score.table_name}.discipline,
-      #{Person.table_name}.gender,
-      EXTRACT(YEAR FROM #{Competition.table_name}.date)
-    ")
+      .order(Arel.sql(<<~SQL))
+        #{Score.table_name}.discipline,
+        #{Person.table_name}.gender,
+        EXTRACT(YEAR FROM #{Competition.table_name}.date)
+      SQL
   end
   scope :competition, ->(competition_id) { where(competition_id: competition_id) }
   scope :person, ->(person_id) { where(person_id: person_id) }

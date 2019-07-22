@@ -7,7 +7,7 @@ RSpec.describe AppointmentsController, type: :controller do
     it 'assigns rows' do
       Timecop.freeze(Date.parse('2013-01-01')) do
         get :index
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(controller.send(:collection).count).to eq 1
       end
     end
@@ -25,7 +25,7 @@ RSpec.describe AppointmentsController, type: :controller do
   describe 'GET show' do
     it 'assigns appointment' do
       get :show, params: { id: appointment.id }
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(controller.send(:resource)).to eq appointment
     end
 
@@ -41,7 +41,7 @@ RSpec.describe AppointmentsController, type: :controller do
 end
 
 def expect_ics_response(appointment)
-  expect(response).to be_success
+  expect(response).to be_successful
   expect(response.header['Content-Type']).to eq 'text/calendar; charset=utf-8'
   expect(response.body).to include(
     "BEGIN:VCALENDAR\r\n" \

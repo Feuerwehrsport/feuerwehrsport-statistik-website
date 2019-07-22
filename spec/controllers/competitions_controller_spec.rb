@@ -6,7 +6,7 @@ RSpec.describe CompetitionsController, type: :controller do
   describe 'GET index' do
     it 'assigns collection' do
       get :index
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(controller.send(:collection).count).to eq 1
       expect(assigns(:chart)).to be_instance_of(Chart::CompetitionsScoreOverview)
       expect(assigns(:competitions_discipline_overview).count).to eq 1
@@ -16,7 +16,7 @@ RSpec.describe CompetitionsController, type: :controller do
   describe 'GET show' do
     it 'assigns resource' do
       get :show, params: { id: score.competition.id }
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(controller.send(:resource)).to eq score.competition
       expect(assigns(:calc)).to be_instance_of Calculation::Competition
     end

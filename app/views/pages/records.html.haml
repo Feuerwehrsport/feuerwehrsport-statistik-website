@@ -75,7 +75,7 @@
           %td= discipline_image(:hl)
           %td= discipline_name(:hl)
           %td= persons(100, type: :full_name)
-          %td= image_tag(@team3.image.thumb)
+          %td= @team3.image_thumb
           %td= team_link(@team3)
           %td 14,21 s
           %td= competition_find_link(1210)
@@ -83,7 +83,7 @@
           %td= discipline_image(:hb)
           %td= discipline_name(:hb)
           %td= persons(221, type: :full_name)
-          %td= image_tag(@team61.image.thumb)
+          %td= @team61.image_thumb
           %td= team_link(@team61)
           %td 16,45 s
           %td= competition_find_link(1674)
@@ -91,7 +91,7 @@
           %td= discipline_image(:zk)
           %td= discipline_name(:zk)
           %td= persons(184, type: :full_name)
-          %td= image_tag(@team3.image.thumb)
+          %td= @team3.image_thumb
           %td= team_link(@team3)
           %td
             31,41 s
@@ -103,7 +103,7 @@
           %td= discipline_name(:fs)
           %td
             %small= persons([268, 248, 42, 79], type: :short_name)
-          %td= image_tag(@team3.image.thumb)
+          %td= @team3.image_thumb
           %td= team_link(@team3)
           %td 59,21 s
           %td= competition_find_link(1097)
@@ -115,7 +115,7 @@
             %small (ISFFR - 20 m C)
           %td
             %small= persons([246, 237, 184, 42, 100, 79, 68], type: :short_name)
-          %td= image_tag(@team61.image.thumb)
+          %td= @team61.image_thumb
           %td= team_link(@team61)
           %td 26,56 s
           %td= competition_find_link(56)
@@ -197,7 +197,7 @@
             %br/
             %small 120cm Balken
           %td= persons(8, type: :full_name)
-          %td= image_tag(@team2.image.thumb)
+          %td= @team2.image_thumb
           %td= team_link(@team2)
           %td 18,20 s
           %td= competition_find_link(12)
@@ -208,7 +208,7 @@
             %br/
             %small 80cm Balken
           %td= persons(8, type: :full_name)
-          %td= image_tag(@team61.image.thumb)
+          %td= @team61.image_thumb
           %td= team_link(@team61)
           %td 18,22 s
           %td= competition_find_link(651)
@@ -217,7 +217,7 @@
           %td
             = discipline_name(:hl)
           %td= persons(17, type: :full_name)
-          %td= image_tag(@team2.image.thumb)
+          %td= @team2.image_thumb
           %td= team_link(@team2)
           %td 8,13 s
           %td= competition_find_link(1097)
@@ -228,7 +228,7 @@
             %br/
             %small 120cm Balken
           %td= persons(17, type: :full_name)
-          %td= image_tag(@team2.image.thumb)
+          %td= @team2.image_thumb
           %td= team_link(@team2)
           %td
             27,16 s
@@ -242,7 +242,7 @@
             %br/
             %small 80cm Balken
           %td= persons(394, type: :full_name)
-          %td= image_tag(@team1869.image.thumb)
+          %td= @team1869.image_thumb
           %td= team_link(@team1869)
           %td
             26,82 s
@@ -257,7 +257,7 @@
             %small Leiterwand/120cm Balken
           %td
             %small= persons([8, 251, 282, 116], type: :short_name)
-          %td= image_tag(@team2.image.thumb)
+          %td= @team2.image_thumb
           %td= team_link(@team2)
           %td 66,89 s
           %td= competition_find_link(53)
@@ -269,7 +269,7 @@
             %small Haus/80cm Balken
           %td
             %small= persons([17, 8, 435, 116], type: :short_name)
-          %td= image_tag(@team61.image.thumb)
+          %td= @team61.image_thumb
           %td= team_link(@team61)
           %td 67,15 s
           %td= competition_find_link(651)
@@ -278,7 +278,7 @@
           %td= discipline_name(:gs)
           %td
             %small= persons([116, 284, 282, 8, 35, 251], type: :short_name)
-          %td= image_tag(@team2.image.thumb)
+          %td= @team2.image_thumb
           %td= team_link(@team2)
           %td 82,42 s
           %td= competition_find_link(53)
@@ -290,7 +290,7 @@
             %small (ISFFR - 2xB, 20m C)
           %td
             %small= persons([291, 38, 4, 290, 3376, 2448, 143], type: :short_name)
-          %td= image_tag(@team61.image.thumb)
+          %td= @team61.image_thumb
           %td= team_link(@team61)
           %td 27,32 s
           %td= competition_find_link(1674)

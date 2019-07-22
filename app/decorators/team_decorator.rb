@@ -18,7 +18,7 @@ class TeamDecorator < AppDecorator
   end
 
   def image_thumb
-    object.image.present? ? h.image_tag(object.image.thumb) : ''
+    object.image.present? ? h.image_tag(object.image.thumb.url) : ''
   end
 
   def link

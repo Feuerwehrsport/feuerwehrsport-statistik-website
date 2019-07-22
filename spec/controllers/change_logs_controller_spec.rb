@@ -6,7 +6,7 @@ RSpec.describe ChangeLogsController, type: :controller do
   describe 'GET index' do
     it 'assigns rows' do
       get :index
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(controller.send(:collection).count).to eq 3
     end
   end

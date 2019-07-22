@@ -6,7 +6,7 @@ RSpec.describe TeamsController, type: :controller do
   describe 'GET index' do
     it 'assigns collection' do
       get :index
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(assigns(:charts)).to be_instance_of(Chart::TeamOverview)
     end
   end
@@ -14,7 +14,7 @@ RSpec.describe TeamsController, type: :controller do
   describe 'GET show' do
     it 'assigns resource' do
       get :show, params: { id: team.id }
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(controller.send(:resource)).to eq team
     end
   end

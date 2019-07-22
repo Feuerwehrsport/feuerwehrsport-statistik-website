@@ -4,7 +4,7 @@ RSpec.describe Backend::People::CleanersController, type: :controller, login: :s
   describe 'GET show' do
     it 'shows list' do
       get :show
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 end

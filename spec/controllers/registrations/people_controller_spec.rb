@@ -8,7 +8,7 @@ RSpec.describe Registrations::PeopleController, type: :controller, login: :user 
   describe 'GET edit' do
     it 'renders form' do
       get :edit, params: { id: person.id, competition_id: competition.id }
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 

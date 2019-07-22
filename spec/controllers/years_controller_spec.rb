@@ -8,7 +8,7 @@ RSpec.describe YearsController, type: :controller do
   describe 'GET index' do
     it 'assigns collection' do
       get :index
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(controller.send(:collection).length).to eq 1
     end
   end
@@ -16,7 +16,7 @@ RSpec.describe YearsController, type: :controller do
   describe 'GET show' do
     it 'assigns resource' do
       get :show, params: { id: competition.date.year }
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(controller.send(:resource).year).to eq Year.first.year
     end
   end
@@ -24,7 +24,7 @@ RSpec.describe YearsController, type: :controller do
   describe 'GET best_performance' do
     it 'assigns resource' do
       get :best_performance, params: { id: competition.date.year }
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(controller.send(:resource).year).to eq Year.first.year
       expect(assigns(:performance_overview_disciplines)).to have(2).items
     end
@@ -33,7 +33,7 @@ RSpec.describe YearsController, type: :controller do
   describe 'GET best_scores' do
     it 'assigns resource' do
       get :best_scores, params: { id: competition.date.year }
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(controller.send(:resource).year).to eq Year.first.year
       expect(assigns(:discipline_structs)).to have(2).items
     end

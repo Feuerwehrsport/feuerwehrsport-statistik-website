@@ -13,7 +13,7 @@ RSpec.shared_examples 'a backend resource controller' do |options|
     describe 'GET new' do
       it 'shows new form' do
         get :new
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
   end
@@ -35,7 +35,7 @@ RSpec.shared_examples 'a backend resource controller' do |options|
     describe 'GET show' do
       it 'returns resource' do
         get :show, params: { id: resource.id }
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
   end
@@ -44,7 +44,7 @@ RSpec.shared_examples 'a backend resource controller' do |options|
     describe 'GET edit' do
       it 'shows edit form' do
         get :edit, params: { id: resource.id }
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
   end
@@ -69,7 +69,7 @@ RSpec.shared_examples 'a backend resource controller' do |options|
 
       it 'returns resources' do
         get :index
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
   end

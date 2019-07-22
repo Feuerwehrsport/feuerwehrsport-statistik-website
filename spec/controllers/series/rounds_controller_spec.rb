@@ -7,7 +7,7 @@ RSpec.describe Series::RoundsController, type: :controller do
     it 'assigns collection' do
       get :index
       expect(assigns(:rounds).keys).to eq ['D-Cup']
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
@@ -15,7 +15,7 @@ RSpec.describe Series::RoundsController, type: :controller do
     it 'assigns resource' do
       get :show, params: { id: round.id }
       expect(controller.send(:resource)).to be_a Series::Round
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response.content_type).to eq 'text/html'
     end
 
@@ -23,7 +23,7 @@ RSpec.describe Series::RoundsController, type: :controller do
       it 'sends pdf' do
         get :show, params: { id: round.id, format: :pdf }
         expect(controller.send(:resource)).to be_a Series::Round
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.content_type).to eq 'application/pdf'
         expect(response.headers['Content-Disposition']).to eq('inline; filename="d-cup-2016.pdf"')
       end

@@ -34,7 +34,7 @@ class Person < ApplicationRecord
       .joins(:team_members)
       .where(TeamMember.arel_table[:person_id].eq(arel_table[:id]))
       .select('1')
-      .exists
+      .arel.exists
       .desc)
   end
   scope :nation, ->(nation_id) { where(nation_id: nation_id) }

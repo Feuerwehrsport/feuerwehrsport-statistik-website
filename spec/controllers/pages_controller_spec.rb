@@ -25,7 +25,7 @@ RSpec.describe PagesController, type: :controller do
     it 'assigns information' do
       get :about
       expect(assigns(:charts)).to be_instance_of Chart::About
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 

@@ -7,7 +7,7 @@ RSpec.describe EventsController, type: :controller do
   describe 'GET index' do
     it 'assigns collection' do
       get :index
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(controller.send(:collection).length).to eq 1
     end
   end
@@ -15,7 +15,7 @@ RSpec.describe EventsController, type: :controller do
   describe 'GET show' do
     it 'assigns resource' do
       get :show, params: { id: event.id }
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(controller.send(:resource)).to eq event
     end
   end

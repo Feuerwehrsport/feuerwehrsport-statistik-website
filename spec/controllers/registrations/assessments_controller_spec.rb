@@ -7,14 +7,14 @@ RSpec.describe Registrations::AssessmentsController, type: :controller, login: :
   describe 'GET index' do
     it 'assigns collection' do
       get :index, params: { competition_id: competition.id }
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
   describe 'GET new' do
     it 'redirects' do
       get :new, params: { competition_id: competition.id }
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
@@ -30,7 +30,7 @@ RSpec.describe Registrations::AssessmentsController, type: :controller, login: :
   describe 'GET edit' do
     it 'renders form' do
       get :edit, params: { competition_id: competition.id, id: assessment.id }
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 

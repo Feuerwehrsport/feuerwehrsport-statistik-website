@@ -12,7 +12,7 @@ RSpec.describe Registrations::TeamsController, type: :controller, login: :user d
     it 'assigns resource' do
       get :show, params: { id: team.id, competition_id: competition.id }
       expect(controller.send(:resource)).to be_a Registrations::Team
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response.content_type).to eq 'text/html'
     end
 
@@ -20,7 +20,7 @@ RSpec.describe Registrations::TeamsController, type: :controller, login: :user d
       it 'sends pdf' do
         get :show, params: { id: team.id, competition_id: competition.id, format: :pdf }
         expect(controller.send(:resource)).to be_a Registrations::Team
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.content_type).to eq 'application/pdf'
         expect(response.headers['Content-Disposition']).to eq('inline; filename="ff-mannschaft.pdf"')
       end
@@ -31,7 +31,7 @@ RSpec.describe Registrations::TeamsController, type: :controller, login: :user d
       it 'sends xlsx' do
         get :show, params: { id: team.id, competition_id: competition.id, format: :xlsx }
         expect(controller.send(:resource)).to be_a Registrations::Team
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.content_type).to eq 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         expect(response.headers['Content-Disposition']).to eq('attachment; filename="ff-mannschaft.xlsx"')
         expect(response.body.length).to eq 4514
@@ -42,7 +42,7 @@ RSpec.describe Registrations::TeamsController, type: :controller, login: :user d
   describe 'GET edit' do
     it 'renders form' do
       get :edit, params: { id: team.id, competition_id: competition.id }
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 

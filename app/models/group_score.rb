@@ -18,7 +18,7 @@ class GroupScore < ApplicationRecord
   scope :best_of_competition, ->(single_run = false) do
     run = single_run ? '' : ", #{table_name}.run"
     distinct_column = "CONCAT(#{table_name}.group_score_category_id, '-', #{table_name}.team_id, '-', #{table_name}.team_number, #{table_name}.gender#{run})"
-    select("DISTINCT ON (#{distinct_column}) #{table_name}.*").order("#{distinct_column}, #{table_name}.time")
+    select("DISTINCT ON (#{distinct_column}) #{table_name}.*").order(Arel.sql("#{distinct_column}, #{table_name}.time"))
   end
   scope :regular, -> { joins(group_score_category: :group_score_type).where(group_score_types: { regular: true }) }
   scope :without_members, ->(d) do
@@ -77,13 +77,13 @@ class GroupScore < ApplicationRecord
 
     includes(:team, group_score_category: [:group_score_type, competition: %i[place event]])
       .where("#{GroupScore.table_name}.id IN (WITH times AS (#{times_subquery}) #{scores_subquery})").joins(group_score_category: %i[competition group_score_type])
-      .order("
+      .order(Arel.sql(<<~SQL ))
         #{GroupScoreType.table_name}.discipline,
         #{GroupScoreType.table_name}.regular DESC,
         #{GroupScoreType.table_name}.name,
         #{GroupScore.table_name}.gender,
         EXTRACT(YEAR FROM #{Competition.table_name}.date)
-      ")
+      SQL
   end
   scope :competition, ->(competition_id) { joins(:group_score_category).where(group_score_categories: { competition_id: competition_id }) }
   scope :group_score_category, ->(group_score_category_id) { where(group_score_category_id: group_score_category_id) }

@@ -4,7 +4,7 @@ RSpec.describe Backend::Repairs::TeamScoreMovesController, type: :controller, lo
   describe 'GET new' do
     it 'shows new form' do
       get :new
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 

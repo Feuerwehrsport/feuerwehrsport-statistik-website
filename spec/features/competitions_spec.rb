@@ -23,7 +23,7 @@ describe 'competitions features', type: :feature, js: true do
 
       expect(page).to have_link 'Alfred Meier'
       expect(page).not_to have_content 'FF Warin'
-      find('img[alt=La]').click
+      find('img[title="Löschangriff nass"]').click
       expect(page).to have_link 'FF Warin'
       expect(page).not_to have_content 'Alfred Meier'
     end

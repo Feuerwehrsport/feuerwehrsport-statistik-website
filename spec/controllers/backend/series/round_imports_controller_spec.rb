@@ -6,7 +6,7 @@ RSpec.describe Backend::Series::RoundImportsController, type: :controller, login
   describe 'GET new' do
     it 'shows new form' do
       get :new, params: { round_id: round }
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 

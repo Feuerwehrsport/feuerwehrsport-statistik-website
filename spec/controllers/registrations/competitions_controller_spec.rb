@@ -6,7 +6,7 @@ RSpec.describe Registrations::CompetitionsController, type: :controller, login: 
   describe 'GET index' do
     it 'assigns collection' do
       get :index
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
@@ -20,7 +20,7 @@ RSpec.describe Registrations::CompetitionsController, type: :controller, login: 
   describe 'GET new_select_template' do
     it 'renders template select' do
       get :new_select_template
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
@@ -29,7 +29,7 @@ RSpec.describe Registrations::CompetitionsController, type: :controller, login: 
       it 'renders new' do
         expect_any_instance_of(Registrations::Competition).not_to receive(:save)
         post :create, params: { from_template: true, registrations_competition: { name: 'foo' } }
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
 
@@ -52,7 +52,7 @@ RSpec.describe Registrations::CompetitionsController, type: :controller, login: 
     it 'assigns resource' do
       get :show, params: { id: competition.id }
       expect(controller.send(:resource)).to be_a Registrations::Competition
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response.content_type).to eq 'text/html'
     end
 
@@ -60,7 +60,7 @@ RSpec.describe Registrations::CompetitionsController, type: :controller, login: 
       it 'sends pdf' do
         get :show, params: { id: competition.id, format: :pdf }
         expect(controller.send(:resource)).to be_a Registrations::Competition
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.content_type).to eq 'application/pdf'
         expect(response.headers['Content-Disposition']).to eq('inline; filename="d-cup-21-03-2018.pdf"')
       end
@@ -70,7 +70,7 @@ RSpec.describe Registrations::CompetitionsController, type: :controller, login: 
       it 'sends wettkampf_manager_import' do
         get :show, params: { id: competition.id, format: :wettkampf_manager_import }
         expect(controller.send(:resource)).to be_a Registrations::Competition
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.content_type).to eq 'text/wettkampf_manager_format'
         expect(response.headers['Content-Disposition']).to eq 'attachment; ' \
         'filename="d-cup-21-03-2018.wettkampf_manager_import"'
@@ -84,7 +84,7 @@ RSpec.describe Registrations::CompetitionsController, type: :controller, login: 
       it 'sends xlsx' do
         get :show, params: { id: competition.id, format: :xlsx }
         expect(controller.send(:resource)).to be_a Registrations::Competition
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.content_type).to eq 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         expect(response.headers['Content-Disposition']).to eq('attachment; filename="d-cup-21-03-2018.xlsx"')
         expect(response.body.length).to eq 4509
@@ -95,7 +95,7 @@ RSpec.describe Registrations::CompetitionsController, type: :controller, login: 
   describe 'GET edit' do
     it 'renders form' do
       get :edit, params: { id: competition.id }
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 

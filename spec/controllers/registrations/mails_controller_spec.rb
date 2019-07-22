@@ -8,7 +8,7 @@ RSpec.describe Registrations::MailsController, type: :controller, login: :user d
   describe 'GET new' do
     it 'redirects' do
       get :new, params: { competition_id: competition.id }
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
