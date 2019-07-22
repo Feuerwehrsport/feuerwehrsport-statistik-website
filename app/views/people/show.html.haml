@@ -20,7 +20,7 @@
       .col-md-6
         - @teams.each do |team|
           - if team.image.present?
-            = image_tag(team.image.tile, width: 100, title: team)
+            = image_tag(team.image.tile.url, width: 100, title: team)
           - else
             .team-logo-replacement= team
       .col-md-3= toc.index

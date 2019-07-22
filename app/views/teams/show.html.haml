@@ -3,7 +3,7 @@
     .container
       .col-md-2
         - if resource.image.present?
-          = image_tag(resource.image.tile)
+          = image_tag(resource.image.tile.url)
         - else
           = design_image(:upload_logo, class: 'upload-logo', data: { team_id: resource.id })
         %hr

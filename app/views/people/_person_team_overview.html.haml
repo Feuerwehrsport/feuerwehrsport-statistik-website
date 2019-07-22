@@ -2,7 +2,7 @@
   .col-md-3
     %h5= team_link(team_struct.team)
     - if team_struct.team.image.present?
-      = link_to(image_tag(team_struct.team.image.tile, width: 100, title: team_struct.team), team_struct.team)
+      = link_to(image_tag(team_struct.team.image.tile.url, width: 100, title: team_struct.team), team_struct.team)
   .col-md-6
     = @chart.team_scores_count(team_struct)
   .col-md-3
