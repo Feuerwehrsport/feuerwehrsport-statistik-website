@@ -35,6 +35,7 @@ module FeuerwehrsportStatistik
     Rails.application.config.active_record.belongs_to_required_by_default = false
 
     config.wettkampf_manager_path = Rails.root.join('spec', 'fixtures', 'wettkampf_manager')
+    config.wettkampf_manager_config_path = Rails.root.join('spec', 'fixtures', 'wms-config.json')
     config.pdf2table_path = '/opt/pdf2table.jar'
 
     config.m3.session.login_redirect_url = { controller: '/backend/dashboards', action: :index }

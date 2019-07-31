@@ -13,7 +13,7 @@ describe 'pages features', type: :feature do
       save_review_screenshot
       expect(page.find("h4 a[href='/news_articles/#{news_article.id}']")).to have_content 'Neuigkeiten von heute'
       expect(page).to have_link 'D-Cup - Charlottenthal - 01.05.2017', href: competition_path(score.competition_id)
-      expect(page).to have_content 'Super Leistungen vom Jahr 2018'
+      expect(page).to have_content 'Super Leistungen vom Jahr 2019'
       expect(page).to have_content 'Fehler in den Daten'
     end
   end

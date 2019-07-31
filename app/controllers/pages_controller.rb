@@ -32,6 +32,7 @@ class PagesController < ResourceController
     @news = NewsArticle.first(2).map(&:decorate)
     @performance_overview_disciplines = Calculation::PerformanceOfYear::Discipline.get(2019, 5).map(&:decorate)
     @charts = Chart::Dashboard.new(context: view_context)
+    @wms = WettkampfManager::Instance.all.select(&:current?)
   end
 
   def last_competitions_overview
