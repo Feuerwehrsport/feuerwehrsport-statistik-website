@@ -70,20 +70,20 @@ module Import
 
     def normalize_team_number(team_name, default = 1)
       team_name = team_name.gsub(/\s[ABCD]$/, '').strip
-      return 1 if team_name =~ /\s[1I]$/
-      return 2 if team_name =~ /\s(2|(II))$/
-      return 3 if team_name =~ /\s(3|(III))$/
-      return 4 if team_name =~ /\s(4|(IV))$/
-      return 0 if team_name =~ /\sE$/
+      return 1 if /\s[1I]$/.match?(team_name)
+      return 2 if /\s(2|(II))$/.match?(team_name)
+      return 3 if /\s(3|(III))$/.match?(team_name)
+      return 4 if /\s(4|(IV))$/.match?(team_name)
+      return 0 if /\sE$/.match?(team_name)
 
       default
     end
 
     def normalize_team_run(team_name, default = 'A')
-      return 'A' if team_name =~ /\sA$/
-      return 'B' if team_name =~ /\sB$/
-      return 'C' if team_name =~ /\sC$/
-      return 'D' if team_name =~ /\sD$/
+      return 'A' if /\sA$/.match?(team_name)
+      return 'B' if /\sB$/.match?(team_name)
+      return 'C' if /\sC$/.match?(team_name)
+      return 'D' if /\sD$/.match?(team_name)
 
       default
     end
@@ -119,7 +119,7 @@ module Import
       time = time.gsub(/^(.+)\s*s\s*\.?$/, '\\1').strip
       time = time.gsub(/^(.+)\s*sekunden$/, '\\1').strip
 
-      return false unless time =~ /^[\d,:;.]+$/
+      return false unless /^[\d,:;.]+$/.match?(time)
 
       if match = time.match(/^(\d+):(\d{2})[:,](\d{2})$/)
         seconds = match[1].to_i * 60 + match[2].to_i
