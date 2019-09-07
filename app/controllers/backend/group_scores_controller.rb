@@ -6,7 +6,7 @@ class Backend::GroupScoresController < Backend::BackendController
     f.input :team_number
     f.input :gender, collection: %i[male female]
     f.input :time
-    f.association :group_score_category, as: :association_select
+    f.association :group_score_category, as: :association_select, association: :group_score_category
     f.input :run, collection: %w[A B C]
   end
 
