@@ -117,7 +117,7 @@ Fss.ready 'backend/repairs/team_score_move', ->
                   moveIt()
                 else
                   new AlertFssWindow 'Zeiten verschoben', "Die #{count} Zeiten wurden verschoben.", ->
-                    location.reload()
+                    location.href = '/backend'
             moveIt()
           ).open()
       false

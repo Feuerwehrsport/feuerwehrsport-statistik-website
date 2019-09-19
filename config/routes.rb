@@ -38,7 +38,7 @@ Rails.application.routes.draw do
     resources :person_spellings
     resources :places
     namespace :repairs do
-      resource :team_score_move
+      resource :team_score_move, only: %i[new create]
     end
     resource :registration
     resources :scores
