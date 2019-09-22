@@ -12,16 +12,16 @@ class Team < ApplicationRecord
   has_many :group_people, through: :person_participations, class_name: 'Person',
                           foreign_key: 'person_id', source: :person
   has_many :people, through: :scores
-  has_many :team_members
+  has_many :team_members # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :members, through: :team_members, class_name: 'Person',
                      foreign_key: 'person_id', source: :person
-  has_many :team_competitions
+  has_many :team_competitions # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :competitions, through: :team_competitions
-  has_many :group_score_participations
+  has_many :group_score_participations # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :links, as: :linkable, dependent: :restrict_with_exception
   has_many :team_spellings, dependent: :restrict_with_exception
   has_many :series_participations, dependent: :restrict_with_exception, class_name: 'Series::TeamParticipation'
-  has_many :entity_merges, as: :target
+  has_many :entity_merges, as: :target, dependent: :restrict_with_exception
 
   mount_uploader :image, TeamLogoUploader
   change_request_upload(:image)
@@ -59,7 +59,8 @@ class Team < ApplicationRecord
     scores.group(:person_id, :discipline).count.each do |keys, count|
       all_members[keys.first].increment(keys.last, count)
     end
-    person_participations.includes(group_score: { group_score_category: :group_score_type }).find_each do |participation|
+    person_participations.includes(group_score: { group_score_category: :group_score_type })
+                         .find_each do |participation|
       discipline = participation.group_score.group_score_category.group_score_type.discipline
       all_members[participation.person_id].increment(discipline)
     end

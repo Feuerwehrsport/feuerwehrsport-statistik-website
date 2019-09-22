@@ -20,7 +20,8 @@ class Registrations::Team < ApplicationRecord
     team_sql = Registrations::Team.joins(:competition).merge(Registrations::Competition.open)
                                   .where(admin_user_id: user.id).select(:id).to_sql
     competition_sql = Registrations::Team.joins(:competition)
-                                         .where(registrations_competitions: { admin_user_id: user.id }).select(:id).to_sql
+                                         .where(registrations_competitions: { admin_user_id: user.id }).select(:id)
+                                         .to_sql
     where("id IN ((#{team_sql}) UNION (#{competition_sql}))")
   end
 

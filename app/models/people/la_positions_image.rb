@@ -48,11 +48,11 @@ class People::LAPositionsImage
   end
 
   def template_path
-    "#{Rails.root}/app/assets/images/templates/"
+    Rails.root.join('app', 'assets', 'images', 'templates')
   end
 
   def store_path
-    path = "#{Rails.root}/public/generated/la_positions/"
+    path = Rails.root.join('public', 'generated', 'la_positions')
     FileUtils.mkdir_p(path)
     path
   end

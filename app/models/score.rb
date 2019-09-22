@@ -54,19 +54,19 @@ class Score < ApplicationRecord
   scope :yearly_best, ->(competitions) do
     times_subquery = Score
                      .joins(:competition, :person)
-                     .select("
-        #{Score.table_name}.discipline,
-        #{Person.table_name}.gender,
-        EXTRACT(YEAR FROM #{Competition.table_name}.date) AS year,
-        MIN(#{Score.table_name}.time) AS time
-      ")
+                     .select(<<~SQL)
+                       #{Score.table_name}.discipline,
+                       #{Person.table_name}.gender,
+                       EXTRACT(YEAR FROM #{Competition.table_name}.date) AS year,
+                       MIN(#{Score.table_name}.time) AS time
+                     SQL
                      .german
                      .where(competition_id: competitions)
-                     .group("
-        #{Score.table_name}.discipline,
-        #{Person.table_name}.gender,
-        EXTRACT(YEAR FROM #{Competition.table_name}.date)
-      ")
+                     .group(<<~SQL)
+                       #{Score.table_name}.discipline,
+                       #{Person.table_name}.gender,
+                       EXTRACT(YEAR FROM #{Competition.table_name}.date)
+                     SQL
                      .to_sql
 
     scores_subquery = Score

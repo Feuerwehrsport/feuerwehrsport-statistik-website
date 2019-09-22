@@ -15,7 +15,7 @@ class ScoreDoubleEvent < ActiveRecord::View
     keys = person.gender == 'female' ? %i[hb hl] : %i[hl hb]
     keys.each do |key|
       compare = send(key) <=> other.send(key)
-      next if compare == 0
+      next if compare.zero?
 
       return compare
     end

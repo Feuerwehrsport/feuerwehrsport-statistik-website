@@ -54,9 +54,8 @@ class Series::RoundImport
       end
     end
     if type == :person
-      selected_people = find_assessment_config("#{gender}-person#{name}").selected_entities.map do |key, _name, _selected|
-        key
-      end
+      selected_people = find_assessment_config("#{gender}-person#{name}")
+                        .selected_entities.map { |key, _name, _selected| key }
       scores = scores.select { |score| score.person_id.to_s.in?(selected_people) }
     end
     scores
@@ -76,11 +75,15 @@ class Series::RoundImport
 
   def configure_assessments
     @assessment_configs = []
-    add_assessment_config('categories', competition.group_score_categories.map { |c| [c.id.to_s, "#{c.name} #{c.group_score_type.name}", true] })
+    add_assessment_config(
+      'categories',
+      competition.group_score_categories.map { |c| [c.id.to_s, "#{c.name} #{c.group_score_type.name}", true] },
+    )
 
     %i[female male].each do |gender|
-      group_teams = competition.group_assessment(group_assessment_disciplines.keys, gender).map { |ga| [ga.team.id, ga.team_number] }
-      team_teams  = competition.group_scores.gender(gender).pluck(:team_id, :team_number)
+      group_teams = competition.group_assessment(group_assessment_disciplines.keys, gender)
+                               .map { |ga| [ga.team.id, ga.team_number] }
+      team_teams = competition.group_scores.gender(gender).pluck(:team_id, :team_number)
       teams = (group_teams + team_teams).uniq.map do |team_id, team_number|
         ["#{team_id}-#{team_number}", "#{Team.find(team_id).name} #{team_number}", true]
       end
@@ -143,7 +146,7 @@ class Series::RoundImport
     end
   end
 
-  class AssessmentConfig < Struct.new(:id, :entities, :block, :selected_entities)
+  AssessmentConfig = Struct.new(:id, :entities, :block, :selected_entities) do
     def selected_entities=(new_entities)
       self.entities = entities.map do |entity|
         entity[2] = entity.first.in?(new_entities)
@@ -168,14 +171,6 @@ class Series::RoundImport
     team_class
   end
 
-  def person_assessment_disciplines
-    person_class.try(:assessment_disciplines) || {}
-  end
-
-  def team_assessment_disciplines
-    team_class.try(:assessment_disciplines) || {}
-  end
-
   def group_assessment_disciplines
     team_class.try(:group_assessment_disciplines) || {}
   end
@@ -186,9 +181,5 @@ class Series::RoundImport
 
   def team_assessment_disciplines
     team_class.try(:assessment_disciplines) || {}
-  end
-
-  def group_assessment_disciplines
-    team_class.try(:group_assessment_disciplines) || {}
   end
 end

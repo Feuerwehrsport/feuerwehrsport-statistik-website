@@ -1,4 +1,4 @@
-class Years::Inprovement < Struct.new(:year, :discipline, :gender, :team)
+Years::Inprovement = Struct.new(:year, :discipline, :gender, :team) do
   def discipline_key
     discipline.is_a?(Array) ? discipline.first.to_sym : discipline.to_sym
   end

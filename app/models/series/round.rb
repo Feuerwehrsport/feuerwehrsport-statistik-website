@@ -60,7 +60,7 @@ class Series::Round < ApplicationRecord
   end
 
   def complete?
-    cups_left == 0
+    cups_left&.zero? || false
   end
 
   protected
