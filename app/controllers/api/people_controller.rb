@@ -14,4 +14,8 @@ class API::PeopleController < API::BaseController
       super.reorder(:last_name,  :first_name)
     end
   end
+
+  def serializer_for_object(object)
+    object.is_a?(Person) && params[:extended].present? ? ExtendedPersonSerializer.new(object.decorate) : super
+  end
 end

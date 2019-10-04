@@ -1,5 +1,6 @@
 class Person < ApplicationRecord
   include Genderable
+  include People::CacheBuilder
 
   belongs_to :nation
   has_one :bla_badge, class_name: 'BLA::Badge', dependent: :restrict_with_exception
@@ -47,14 +48,6 @@ class Person < ApplicationRecord
   end
 
   validates :last_name, :gender, :nation, presence: true
-
-  def self.update_score_count
-    update_all("hb_count = (#{Score.select('COUNT(*)').low_and_high_hb.where('person_id = people.id').to_sql})")
-    update_all("hl_count = (#{Score.select('COUNT(*)').hl.where('person_id = people.id').to_sql})")
-    update_all("la_count = (#{GroupScoreParticipation.la.select('COUNT(*)').where('person_id = people.id').to_sql})")
-    update_all("fs_count = (#{GroupScoreParticipation.fs.select('COUNT(*)').where('person_id = people.id').to_sql})")
-    update_all("gs_count = (#{GroupScoreParticipation.gs.select('COUNT(*)').where('person_id = people.id').to_sql})")
-  end
 
   def merge_to(correct_person)
     raise ActiveRecord::ActiveRecordError, 'same id' if id == correct_person.id

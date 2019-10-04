@@ -9,7 +9,8 @@ FactoryBot.define do
 
     trait :double do
       after(:create) do |score|
-        create(:score, time: 2091, person: score.person, team: score.team, competition: score.competition)
+        create(:score, time: 2091, person: score.person, team: score.team, competition: score.competition,
+                       discipline: score.discipline)
       end
     end
 
@@ -19,6 +20,10 @@ FactoryBot.define do
 
     trait :hb do
       discipline { :hb }
+    end
+
+    trait :hw do
+      discipline { :hw }
     end
   end
 end

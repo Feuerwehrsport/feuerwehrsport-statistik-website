@@ -3,6 +3,7 @@ class ScoreLowDoubleEvent < ActiveRecord::View
   belongs_to :person
 
   scope :gender, ->(gender) { joins(:person).merge(Person.gender(gender)) }
+  scope :year, ->(year) { joins(:competition).merge(Competition.year(year)) }
 
   def time_invalid?
     false

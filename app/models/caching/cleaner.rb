@@ -10,6 +10,7 @@ class Caching::Cleaner
     end
 
     Caching::Builder.enqueue_with_options(run_at: Time.current + 5.minutes) if Rails.configuration.caching
+    Caching::HeavyBuilder.enqueue_with_options(run_at: Date.current.end_of_day) if Rails.configuration.caching
     true
   end
 end
