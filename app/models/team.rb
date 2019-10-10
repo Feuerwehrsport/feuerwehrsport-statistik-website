@@ -80,7 +80,7 @@ class Team < ApplicationRecord
   end
 
   def group_assessments
-    %i[hl hb].map do |discipline|
+    %i[hl hb hw].map do |discipline|
       %i[female male].map do |gender|
         team_scores = {}
         scores
