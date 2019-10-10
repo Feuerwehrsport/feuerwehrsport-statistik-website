@@ -19,7 +19,7 @@ RSpec.describe Person, type: :model do
             'zk' => [4988, '01.05.2017 - Charlottenthal, D-Cup (Erster Lauf)'],
           },
           'sb' => {
-            'hl' => [4034, '04.10.2019 - Charlottenthal, D-Cup (Erster Lauf)'],
+            'hl' => [4034, "#{I18n.l(Date.current)} - Charlottenthal, D-Cup (Erster Lauf)"],
             'hb' => nil,
             'zk' => nil,
           },
@@ -40,7 +40,7 @@ RSpec.describe Person, type: :model do
             'zk' => [3977, '01.05.2017 - Charlottenthal, D-Cup (Erster Lauf)'],
           },
           'sb' => {
-            'hl' => [4034, '04.10.2019 - Charlottenthal, D-Cup (Erster Lauf)'],
+            'hl' => [4034, "#{I18n.l(Date.current)} - Charlottenthal, D-Cup (Erster Lauf)"],
             'hb' => nil,
             'zk' => nil,
           },

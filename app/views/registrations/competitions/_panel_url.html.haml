@@ -2,4 +2,4 @@
   .panel-heading URL zu dieser Seite
   .panel-body
     %p.small= link_to(resource.slug_url, resource.slug_url)
-    %img{ src: RQRCode::QRCode.new(resource.slug_url, level: :h).to_img.resize(200, 200).to_data_url }
+    %img{ src: RQRCode::QRCode.new(resource.slug_url).as_png(size: 200).to_data_url }

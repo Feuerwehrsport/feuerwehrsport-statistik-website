@@ -21,7 +21,7 @@ gem 'icalendar'
 
 # export
 gem 'prawn-rails'
-gem 'rqrcode_png'
+gem 'rqrcode'
 
 # markdown
 gem 'redcarpet'

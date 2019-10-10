@@ -24,6 +24,7 @@ describe 'people', type: :feature, js: true do
 
       # add one
       visit people_path
+      sleep 0.1
       find('#add-person').click
       within('.fss-window') do
         expect(page).to have_content('Person hinzufügen')
