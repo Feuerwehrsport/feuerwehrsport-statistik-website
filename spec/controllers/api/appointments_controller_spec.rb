@@ -65,6 +65,7 @@ RSpec.describe API::AppointmentsController, type: :controller do
         log: 'update-appointment',
       )
     end
+
     it_behaves_like 'api user get permission error'
   end
 end

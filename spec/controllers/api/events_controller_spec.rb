@@ -13,6 +13,7 @@ RSpec.describe API::EventsController, type: :controller do
       end.to change(Event, :count).by(1)
       expect_change_log(after: { name: 'Wurstevent' }, log: 'create-event')
     end
+
     it_behaves_like 'api user get permission error'
   end
 

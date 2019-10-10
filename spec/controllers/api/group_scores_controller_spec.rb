@@ -88,6 +88,7 @@ RSpec.describe API::GroupScoresController, type: :controller do
       expect(GroupScore.find(group_score.id).team_id).to eq team.id
       expect_change_log(before: { time: 2287 }, after: { team_id: team.id }, log: 'update-groupscore')
     end
+
     it_behaves_like 'api user get permission error'
   end
 

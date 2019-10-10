@@ -40,6 +40,7 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
         files: [],
       )
     end
+
     it_behaves_like 'api user get permission error'
   end
 
@@ -65,6 +66,7 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
         filename: 'content.txt',
       )
     end
+
     it_behaves_like 'api user get permission error'
   end
 
@@ -77,6 +79,7 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
       expect(change_request.reload.done_at).not_to be nil
       expect_change_log(before: { done_at: nil }, after: {}, log: 'update-changerequest')
     end
+
     it_behaves_like 'api user get permission error'
   end
 end

@@ -18,7 +18,7 @@ module Chart
     end
 
     def discipline_invalid(discipline, scores)
-      invalid = scores.select(&:time_invalid?).size
+      invalid = scores.count(&:time_invalid?)
       valid = scores.size - invalid
       data = [{ name: 'Ungültig', y: invalid, color: 'red' }, { name: 'Gültig', y: valid, color: 'green' }]
 

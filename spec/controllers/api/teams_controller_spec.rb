@@ -106,6 +106,7 @@ RSpec.describe API::TeamsController, type: :controller do
         subject.call
       end.to change(EntityMerge, :count).by(1)
     end
+
     it_behaves_like 'api user get permission error'
   end
 end

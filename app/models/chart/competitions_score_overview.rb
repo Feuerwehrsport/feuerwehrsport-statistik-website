@@ -6,7 +6,7 @@ module Chart
       month_counts = (1..12).map do |month|
         {
           name: t('date.month_names')[month - 1],
-          y: competitions.select { |c| c.date.month == month }.count,
+          y: competitions.count { |c| c.date.month == month },
         }
       end
       hc = column_chart_style
@@ -19,7 +19,7 @@ module Chart
       week_counts = (1..7).map do |wday|
         {
           name: t('date.day_names')[wday],
-          y: @competitions.select { |c| c.date.wday == (wday % 7) }.count,
+          y: @competitions.count { |c| c.date.wday == (wday % 7) },
         }
       end
       hc = column_chart_style

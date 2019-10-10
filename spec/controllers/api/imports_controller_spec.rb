@@ -50,6 +50,7 @@ RSpec.describe API::ImportsController, type: :controller do
         ],
       )
     end
+
     it_behaves_like 'api user get permission error'
 
     context 'when params are not valid', login: :sub_admin do

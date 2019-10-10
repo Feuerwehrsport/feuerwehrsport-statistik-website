@@ -127,6 +127,7 @@ RSpec.describe API::PeopleController, type: :controller do
       )
       expect_change_log(before: { gender: 'male' }, after: { first_name: 'Vorname' }, log: 'update-person')
     end
+
     it_behaves_like 'api user get permission error'
   end
 
@@ -158,6 +159,7 @@ RSpec.describe API::PeopleController, type: :controller do
         subject.call
       end.to change(EntityMerge, :count).by(1)
     end
+
     it_behaves_like 'api user get permission error'
   end
 end

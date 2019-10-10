@@ -16,6 +16,7 @@ RSpec.describe API::CompetitionsController, type: :controller do
       end.to change(Competition, :count).by(1)
       expect_change_log(after: { name: 'Extrapokal' }, log: 'create-competition')
     end
+
     it_behaves_like 'api user get permission error'
   end
 
@@ -77,6 +78,7 @@ RSpec.describe API::CompetitionsController, type: :controller do
       )
       expect_change_log(before: { name: 'Erster Lauf' }, after: { name: 'toller Wettkampf' }, log: 'update-competition')
     end
+
     it_behaves_like 'api user get permission error'
   end
 end

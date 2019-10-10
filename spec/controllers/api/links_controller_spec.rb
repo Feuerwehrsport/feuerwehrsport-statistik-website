@@ -41,6 +41,7 @@ RSpec.describe API::LinksController, type: :controller do
       end.to change(Link, :count).by(-1)
       expect_change_log(before: {}, log: 'destroy-link')
     end
+
     it_behaves_like 'api user get permission error'
   end
 end

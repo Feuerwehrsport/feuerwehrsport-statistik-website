@@ -1,1 +1,1 @@
-ActiveRecord::Base.send(:include, ActiveModel::SerializerFinder)
+ActiveRecord::Base.include ActiveModel::SerializerFinder

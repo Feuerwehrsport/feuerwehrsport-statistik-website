@@ -31,8 +31,12 @@ module Chart
       hc.yAxis(allowDecimals: false, title: { text: 'Zeit (s)' })
       hc.chart(type: 'line', height: 120)
       hc.series(name: discipline_name(discipline.discipline), data: scores, lineWidth: 1)
-      hc.series(name: discipline_name(:hb), data: options[:hb], lineWidth: 1, marker: { enabled: false }) if options[:hb].present?
-      hc.series(name: discipline_name(:hl), data: options[:hl], lineWidth: 1, marker: { enabled: false }) if options[:hb].present?
+      if options[:hb].present?
+        hc.series(name: discipline_name(:hb), data: options[:hb], lineWidth: 1, marker: { enabled: false })
+      end
+      if options[:hb].present?
+        hc.series(name: discipline_name(:hl), data: options[:hl], lineWidth: 1, marker: { enabled: false })
+      end
       hc.tooltip(shared: true)
       hc.legend(enabled: false)
       render(hc)

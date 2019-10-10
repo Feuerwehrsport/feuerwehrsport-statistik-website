@@ -71,6 +71,7 @@ RSpec.describe API::SuggestionsController, type: :controller do
         subject.call
         expect(json_body[:people]).to eq [person3_hash, person4_hash]
       end
+
       context 'when order by gender' do
         let(:attributes) { { name: 'oromeier', gender: 'female' } }
 
