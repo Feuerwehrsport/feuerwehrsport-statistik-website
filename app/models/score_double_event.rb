@@ -1,4 +1,6 @@
-class ScoreDoubleEvent < ActiveRecord::View
+class ScoreDoubleEvent < ApplicationRecord
+  is_view
+
   belongs_to :competition
   belongs_to :person
 

@@ -1,4 +1,6 @@
-class CompetitionTeamNumber < ActiveRecord::View
+class CompetitionTeamNumber < ApplicationRecord
+  is_view
+
   belongs_to :team
   belongs_to :competition
   enum gender: { female: 0, male: 1 }

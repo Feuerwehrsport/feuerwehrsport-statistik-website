@@ -144,6 +144,8 @@ GEM
       activemodel (= 5.2.3)
       activesupport (= 5.2.3)
       arel (>= 9.0)
+    activerecord_views (0.0.20)
+      activerecord (>= 4.2, < 5.3)
     activestorage (5.2.3)
       actionpack (= 5.2.3)
       activerecord (= 5.2.3)
@@ -597,6 +599,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers
+  activerecord_views
   capistrano_rsync_with_remote_cache!
   cocoon
   coffee-rails

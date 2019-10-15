@@ -5,6 +5,7 @@ RSpec.describe FeuerwehrsportStatistik, type: :model do
   let(:exclude_tables) { Rails.root.join('config', 'dump_exclude_tables').read.split("\n").map(&:to_sym) }
   let(:dump_tables) do
     %i[
+      active_record_views
       appointments
       ar_internal_metadata
       bla_badges

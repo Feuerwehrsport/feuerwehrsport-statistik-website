@@ -40,7 +40,8 @@ class Backend::BackendController < ApplicationController
 
       instance = collection.new
       next if begin
-                instance.is_a?(ActiveRecord::View)
+                # instance.is_a?(ActiveRecord::View)
+                # TODO
               rescue StandardError
                 true
               end

@@ -28,9 +28,7 @@ gem 'redcarpet'
 
 # validation
 gem 'schema_validations'
-# gem 'schema_plus_views'
-# gem 'schema_plus_views', git: 'https://github.com/SchemaPlus/schema_plus_views.git', branch: 'AR5.0-support'
-# gem 'schema_plus_views', path: 'schema_plus_views'
+gem 'activerecord_views'
 
 group :production do
   gem 'unicorn'
