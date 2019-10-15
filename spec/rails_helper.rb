@@ -13,8 +13,8 @@ Dir[Rails.root.join('spec', 'factories', '**', '*.rb')].each { |f| require f }
 RSpec.configure do |config|
   config.before(type: :feature) do
     domain = Capybara.default_host.gsub(%r{^https?://}, '')
-    website = M3::Website.create_with(key: :allos_media, domain: domain, title: 'Allos - Mediendatenbank',
-                                      default_site: true, port: 3000).find_or_create_by!(name: 'Kranbauer Webpräsenz')
+    website = M3::Website.create_with(key: :fss, domain: domain, title: 'Feuerwehrsport-Statistik',
+                                      default_site: true, port: 7787).find_or_create_by!(name: 'Kranbauer Webpräsenz')
     website.delivery_setting.update!(website: website, delivery_method: :test, from_address: "no-reply@#{domain}")
   end
 
@@ -26,20 +26,16 @@ RSpec.configure do |config|
 end
 
 Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app,
-                                    window_size: [1280, 1024],
-                                    phantomjs_options: ['--debug=no', '--load-images=yes', '--ignore-ssl-errors=yes',
-                                                        '--ssl-protocol=TLSv1'],
-                                    debug: false,
-                                    extensions: ['m3_rspec/lib/m3_rspec/support/phantomjs_disable_animations.js'])
+  Capybara::Poltergeist::Driver.new(
+    app,
+    window_size: [1280, 1024],
+    phantomjs_options: ['--debug=no', '--load-images=yes', '--ignore-ssl-errors=yes',
+                        '--ssl-protocol=TLSv1'],
+    debug: false,
+    extensions: [Rails.root.join('m3_rspec', 'lib', 'm3_rspec', 'support', 'phantomjs_disable_animations.js').to_s],
+  )
 end
 
 Capybara.configure do |config|
-  config.app_host = 'http://127.0.0.1:7787'
-  config.default_host = 'http://127.0.0.1'
-  config.run_server = true
-  config.server_port = 7787
-  config.javascript_driver = :poltergeist
-  config.default_driver = config.javascript_driver
   config.server = :webrick
 end

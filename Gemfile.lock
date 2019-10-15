@@ -1,4 +1,14 @@
 GIT
+  remote: git@gitlab.lichtbit.com:lichtbit/m3_capistrano.git
+  revision: 3ea896d367a688a60861c4d10f3cabb5b30fd508
+  specs:
+    m3_capistrano (0.1.1)
+      capistrano (~> 2)
+      capistrano-nginx-unicorn
+      capistrano_rsync_with_remote_cache
+      rvm-capistrano
+
+GIT
   remote: https://github.com/Lichtbit/capistrano_rsync_with_remote_cache
   revision: ae8918689c5a4e00718782ec6186965f7842fa3c
   specs:
@@ -7,9 +17,9 @@ GIT
 
 GIT
   remote: https://github.com/lichtbit/m3_log_file_parser.git
-  revision: 8d2d58db33e32e10f175c991b11788728c28862a
+  revision: 78f0bdb8865e04c6e1b07c6c787ffce2a01eb586
   specs:
-    m3_log_file_parser (0.0.9)
+    m3_log_file_parser (0.0.10)
       rails
 
 PATH
@@ -89,16 +99,6 @@ PATH
       whenever (~> 0.9.0)
       will_paginate-bootstrap (~> 1.0)
 
-GIT
-  remote: ssh://gitolite3@stadthafen-rails/m3_capistrano
-  revision: 3ea896d367a688a60861c4d10f3cabb5b30fd508
-  specs:
-    m3_capistrano (0.1.1)
-      capistrano (~> 2)
-      capistrano-nginx-unicorn
-      capistrano_rsync_with_remote_cache
-      rvm-capistrano
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -162,7 +162,7 @@ GEM
     afm (0.2.2)
     arel (9.0.0)
     ast (2.4.0)
-    autoprefixer-rails (9.6.4)
+    autoprefixer-rails (9.7.1)
       execjs
     axlsx (3.0.0.pre)
       htmlentities (~> 4.3, >= 4.3.4)
@@ -231,8 +231,8 @@ GEM
     concurrent-ruby (1.1.5)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
-    crass (1.0.4)
-    csv_builder (2.1.1)
+    crass (1.0.5)
+    csv_builder (2.1.2)
       actionpack (>= 3.0.0)
     daemons (1.2.6)
     database_cleaner (1.7.0)
@@ -265,7 +265,7 @@ GEM
     fspath (3.1.2)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    guard (2.15.1)
+    guard (2.16.1)
       formatador (>= 0.2.4)
       listen (>= 2.7, < 4.0)
       lumberjack (>= 1.0.12, < 2.0)
@@ -291,15 +291,10 @@ GEM
       haml (>= 4.0.6, < 6.0)
       html2haml (>= 1.0.1)
       railties (>= 4.0.1)
-    haml_lint (0.34.0)
-      haml (>= 4.0, < 5.2)
-      rainbow
-      rubocop (>= 0.50.0)
-      sysexits (~> 1.1)
     hash-deep-merge (0.1.1)
     hashdiff (1.0.0)
     hashery (2.1.2)
-    highline (2.0.2)
+    highline (2.0.3)
     html2haml (2.2.0)
       erubis (~> 2.7.0)
       haml (>= 4.0, < 6)
@@ -323,7 +318,7 @@ GEM
     image_size (2.0.2)
     in_threads (1.5.3)
     its-it (1.3.0)
-    jaro_winkler (1.5.3)
+    jaro_winkler (1.5.4)
     jquery-rails (4.3.5)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
@@ -339,7 +334,7 @@ GEM
     listen (3.2.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    loofah (2.3.0)
+    loofah (2.3.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.13)
@@ -355,7 +350,7 @@ GEM
     mini_magick (4.9.5)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
-    minitest (5.12.2)
+    minitest (5.13.0)
     modernizr-rails (2.7.1)
     modware (0.1.3)
       key_struct (~> 0.4)
@@ -371,7 +366,7 @@ GEM
     net-ssh-gateway (2.0.0)
       net-ssh (>= 4.0.0)
     nio4r (2.5.2)
-    nokogiri (1.10.4)
+    nokogiri (1.10.5)
       mini_portile2 (~> 2.4.0)
     notiffany (0.1.3)
       nenv (~> 0.1)
@@ -487,14 +482,14 @@ GEM
     rspec-retry (0.6.1)
       rspec-core (> 3.3)
     rspec-support (3.9.0)
-    rubocop (0.75.0)
+    rubocop (0.76.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
       parser (>= 2.6)
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 1.7)
-    rubocop-daemon (0.3.1)
+    rubocop-daemon (0.3.2)
       rubocop
     rubocop-performance (1.5.0)
       rubocop (>= 0.71.0)
@@ -505,7 +500,7 @@ GEM
       rubocop (>= 0.68.1)
     ruby-progressbar (1.10.1)
     ruby-rc4 (0.1.5)
-    ruby_parser (3.14.0)
+    ruby_parser (3.14.1)
       sexp_processor (~> 4.9)
     rubyzip (1.3.0)
     rvm-capistrano (1.5.6)
@@ -557,7 +552,6 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sysexits (1.2.0)
     temple (0.8.2)
     thor (0.20.3)
     thread_safe (0.3.6)
@@ -588,7 +582,7 @@ GEM
     websocket-extensions (0.1.4)
     whenever (0.9.7)
       chronic (>= 0.6.3)
-    will_paginate (3.2.0)
+    will_paginate (3.2.1)
     will_paginate-bootstrap (1.0.2)
       will_paginate (>= 3.0.3)
     xpath (3.2.0)
@@ -605,7 +599,6 @@ DEPENDENCIES
   coffee-rails
   firesport!
   firesport-series!
-  haml_lint
   icalendar
   jquery-rails
   lazy_high_charts
@@ -617,7 +610,6 @@ DEPENDENCIES
   redcarpet
   responders
   rqrcode
-  rubocop-performance
   schema_validations
   simplecov
   spring

@@ -37,15 +37,12 @@ end
 
 group :development, :test do
   gem 'm3_rspec', path: 'm3_rspec'
-  gem 'haml_lint', require: false
-  gem 'rubocop-performance'
 end
 
 group :development do
   gem 'spring'
 
-  gem 'm3_capistrano', require: false, git: 'ssh://gitolite3@stadthafen-rails/m3_capistrano'
-  # gem 'm3_capistrano', path: '../m3_capistrano'
+  gem 'm3_capistrano', require: false, git: 'git@gitlab.lichtbit.com:lichtbit/m3_capistrano.git'
   gem 'capistrano_rsync_with_remote_cache', git: 'https://github.com/Lichtbit/capistrano_rsync_with_remote_cache'
 end
 

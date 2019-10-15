@@ -3,9 +3,10 @@ variables:
   POSTGRES_DB: feuerwehrsport-statistik-test
   POSTGRES_USER: feuerwehrsport-statistik
   POSTGRES_PASSWORD: feuerwehrsport-statistik
+  POSTGRES_HOST: postgres
 
 default:
-  image: lichtbit/ruby:2.6
+  image: lichtbit/ruby:2.5
 
 services:
   - postgres
@@ -14,8 +15,8 @@ test:
   stage: test
   script:
   - bundle install --path /cache --without production development
-  - POSTGRES_HOST=postgres RAILS_ENV=test bundle exec rake db:create 
-  - POSTGRES_HOST=postgres bundle exec rspec spec/models
-  - POSTGRES_HOST=postgres bundle exec rspec spec/controllers
-  - POSTGRES_HOST=postgres bundle exec rspec spec/mailers
-  - POSTGRES_HOST=postgres bundle exec rspec spec/features
+  - RAILS_ENV=test bundle exec rake db:create 
+  - DISABLE_SCREENSHOT_OPEN=1 bundle exec rspec spec/features/pages_spec.rb:22
+
+after_script:
+  - cat log/test.log

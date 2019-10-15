@@ -12,7 +12,6 @@
     = javascript_include_tag 'frontend', 'data-turbolinks-track' => true
     = stylesheet_link_tag    'frontend', 'data-turbolinks-track' => true
 
-  = javascript_include_tag "controllers/#{controller_path}" if ::Sprockets::Railtie.build_environment(Rails.application).find_asset("controllers/#{controller_path}.js").present?
   = auto_discovery_link_tag(:rss, news_articles_path(format: :atom))
   = auto_discovery_link_tag(:rss, change_logs_path(format: :atom))
   = csrf_meta_tags
