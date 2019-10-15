@@ -1,0 +1,12 @@
+variables:
+  GIT_SUBMODULE_STRATEGY: normal
+
+default:
+  image: lichtbit/ruby:2.6
+
+test:
+  stage: test
+  script:
+  - bundle install --path /cache
+  - bundle exec rake db:create RAILS_ENV=test
+  - bundle exec rspec
