@@ -1,12 +1,12 @@
 [submodule "firesport-series"]
-	path = firesport-series
-	url = git@github.com:Feuerwehrsport/firesport-series.git
+  path = firesport-series
+  url = https://github.com/Feuerwehrsport/firesport-series.git
 [submodule "firesport"]
-	path = firesport
-	url = git@github.com:Feuerwehrsport/firesport.git
+  path = firesport
+  url = https://github.com/Feuerwehrsport/firesport.git
 [submodule "m3"]
 	path = m3
-	url = ssh://gitolite3@stadthafen-rails/m3
+	url = ../../lichtbit/m3.git
 [submodule "m3_rspec"]
 	path = m3_rspec
-	url = ssh://gitolite3@stadthafen-rails/m3_rspec
+  url = ../../lichtbit/m3_rspec.git
