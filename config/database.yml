@@ -18,6 +18,7 @@ development:
 test:
   <<: *default
   database: feuerwehrsport-statistik-test
+  host: <%= ENV['POSTGRES_HOST'].presence || 'localhost' %>
 
 production:
   <<: *online_default

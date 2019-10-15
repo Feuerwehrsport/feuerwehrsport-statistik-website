@@ -1,12 +1,21 @@
 variables:
   GIT_SUBMODULE_STRATEGY: normal
+  POSTGRES_DB: feuerwehrsport-statistik-test
+  POSTGRES_USER: feuerwehrsport-statistik
+  POSTGRES_PASSWORD: feuerwehrsport-statistik
 
 default:
   image: lichtbit/ruby:2.6
 
+services:
+  - postgres
+
 test:
   stage: test
   script:
-  - bundle install --path /cache
-  - bundle exec rake db:create RAILS_ENV=test
-  - bundle exec rspec
+  - bundle install --path /cache --without production development
+  - POSTGRES_HOST=postgres RAILS_ENV=test bundle exec rake db:create 
+  - POSTGRES_HOST=postgres bundle exec rspec spec/models
+  - POSTGRES_HOST=postgres bundle exec rspec spec/controllers
+  - POSTGRES_HOST=postgres bundle exec rspec spec/mailers
+  - POSTGRES_HOST=postgres bundle exec rspec spec/features
