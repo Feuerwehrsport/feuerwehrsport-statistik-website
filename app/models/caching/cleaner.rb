@@ -3,7 +3,7 @@ class Caching::Cleaner
 
   def save
     Rails.logger.debug('CACHING: CLEAN')
-    FileUtils.rm_r(Rails.root.join('public', 'cache'), force: true)
+    FileUtils.rm_r(Rails.root.join('public/cache'), force: true)
     begin
       Caching::Cache.clear
     rescue Errno::ENOENT

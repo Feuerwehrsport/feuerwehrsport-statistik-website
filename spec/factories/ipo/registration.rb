@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :ipo_registration, class: Ipo::Registration do
+  factory :ipo_registration, class: 'Ipo::Registration' do
     team_name { 'Warin' }
     name { 'Limbach, Georg' }
     locality { 'Rostock' }

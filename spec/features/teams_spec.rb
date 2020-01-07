@@ -57,7 +57,7 @@ describe 'teams features' do
 
       within('.fss-window') do
         save_review_screenshot
-        attach_file('logo_files', "#{Rails.root}/spec/fixtures/testfile.pdf")
+        attach_file('logo_files', Rails.root.join('spec/fixtures/testfile.pdf'))
         click_on('OK')
       end
       expect(page).to have_content('Der Fehlerbericht wurde gespeichert')

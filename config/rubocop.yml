@@ -1,5 +1,8 @@
 inherit_gem:
   m3_rspec: config/rubocop.yml
+inherit_mode:
+  merge:
+    - Exclude
 
 require: rubocop-performance
 

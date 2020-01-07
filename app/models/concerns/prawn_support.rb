@@ -26,7 +26,7 @@ module PrawnSupport
   end
 
   def unicode(&block)
-    font_path = Rails.root.join('app', 'assets', 'fonts')
+    font_path = Rails.root.join('app/assets/fonts')
     prawn.font_families.update(
       'DejaVuSans' => {
         normal: "#{font_path}/DejaVuSans.ttf",
@@ -68,7 +68,7 @@ module PrawnSupport
       prawn.text(title, align: :center, size: 15)
       prawn.text(subtitle, align: :center, size: 12) if subtitle.present?
       if discipline.present?
-        prawn.image(Rails.root.join('app', 'assets', 'images', 'disciplines', "#{discipline}.png"),
+        prawn.image(Rails.root.join("app/assets/images/disciplines/#{discipline}.png"),
                     width: 30, at: [10, position])
       end
     end

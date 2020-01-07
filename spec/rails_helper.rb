@@ -7,8 +7,8 @@ require File.expand_path('../config/environment', __dir__)
 
 require 'spec_helper'
 require 'm3_rspec/rails_helper'
-Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
-Dir[Rails.root.join('spec', 'factories', '**', '*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join('spec/factories/**/*.rb')].sort.each { |f| require f }
 
 RSpec.configure do |config|
   config.before(type: :feature) do
@@ -32,7 +32,7 @@ Capybara.register_driver :poltergeist do |app|
     phantomjs_options: ['--debug=no', '--load-images=yes', '--ignore-ssl-errors=yes',
                         '--ssl-protocol=TLSv1'],
     debug: false,
-    extensions: [Rails.root.join('m3_rspec', 'lib', 'm3_rspec', 'support', 'phantomjs_disable_animations.js').to_s],
+    extensions: [Rails.root.join('m3_rspec/lib/m3_rspec/support/phantomjs_disable_animations.js').to_s],
   )
 end
 

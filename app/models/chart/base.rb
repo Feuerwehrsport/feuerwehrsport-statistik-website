@@ -56,9 +56,9 @@ module Chart
                   end
 
       if defined?(raw)
-        return raw(js_output)
+        raw(js_output)
       else
-        return js_output
+        js_output
       end
     end
   end

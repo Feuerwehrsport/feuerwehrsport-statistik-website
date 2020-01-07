@@ -105,6 +105,6 @@ Registrations::Teams::Pdf = Struct.new(:team) do
   end
 
   def dicipline_image_path(discipline)
-    Rails.root.join('app', 'assets', 'images', 'disciplines', "#{discipline}.png")
+    Rails.root.join("app/assets/images/disciplines/#{discipline}.png")
   end
 end

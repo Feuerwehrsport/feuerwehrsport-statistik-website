@@ -21,7 +21,7 @@ class Caching::Cache < ActiveSupport::Cache::FileStore
   end
 
   def cache_path
-    Rails.root.join('tmp', 'file-cache')
+    Rails.root.join('tmp/file-cache')
   end
 
   def self.method_missing(m, *args, &block)
