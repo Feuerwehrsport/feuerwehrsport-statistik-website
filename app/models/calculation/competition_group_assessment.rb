@@ -1,14 +1,14 @@
-class Calculation::CompetitionGroupAssessment < Struct.new(:team, :team_number, :competition, :gender)
+Calculation::CompetitionGroupAssessment = Struct.new(:team, :team_number, :competition, :gender) do
   include Draper::Decoratable
   def add_score(score)
-    @scores ||= []
-    @scores.push(score)
+    @unsorted_scores ||= []
+    @unsorted_scores.push(score)
   end
 
   delegate :id, to: :team, prefix: true
 
   def scores
-    @sorted_scores ||= @scores.sort
+    @scores ||= @unsorted_scores.sort
   end
 
   def score_in_assessment(score_count = nil)
@@ -40,7 +40,7 @@ class Calculation::CompetitionGroupAssessment < Struct.new(:team, :team_number, 
   end
 
   def calculate_time(score_count)
-    if score_in_assessment(score_count).reject(&:time_invalid?).count < score_count
+    if score_in_assessment(score_count).count(&:time_invalid?) < score_count
       Firesport::INVALID_TIME
     else
       score_in_assessment(score_count).map(&:time).sum

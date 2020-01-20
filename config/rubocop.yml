@@ -8,18 +8,22 @@ require: rubocop-performance
 
 AllCops:
   TargetRubyVersion: 2.5.5
+Lint/UnusedMethodArgument:
+  Exclude:
+  - firesport-series/lib/firesport/series/**/*.rb
+Metrics/BlockLength:
+  Exclude:
+  - '**/*.xlsx.axlsx'
 Naming/FileName:
   Exclude:
   - firesport-series/lib/firesport-series.rb
 Naming/PredicateName:
   Exclude:
   - app/controllers/backend/backend_controller.rb
-RSpec/LetSetup:
-  Enabled: false
 Rails/FindEach:
   Exclude:
   - app/models/team.rb
-Rails/LexicallyScopedActionFilter:
+Rails/HelperInstanceVariable:
   Enabled: false
 Style/ClassAndModuleChildren:
   Exclude:

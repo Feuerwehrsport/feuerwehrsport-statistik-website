@@ -26,7 +26,9 @@ RSpec.describe Registrations::PersonCreationsController, type: :controller, logi
       it 'saves and redirects to team' do
         expect do
           expect do
-            post :create, params: { competition_id: competition.id, registrations_person: person_attrs, team_id: team.id }
+            post :create, params: {
+              competition_id: competition.id, registrations_person: person_attrs, team_id: team.id
+            }
             expect(response).to redirect_to(registrations_competition_team_path(competition, team))
           end.to change(Registrations::Person, :count).by(1)
         end.to change(ActionMailer::Base.deliveries, :count).by(0)

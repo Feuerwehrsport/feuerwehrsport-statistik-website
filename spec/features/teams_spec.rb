@@ -6,7 +6,7 @@ describe 'teams features' do
 
   before { page.driver.browser.url_blacklist = ['openstreetmap'] }
 
-  context 'index' do
+  context 'when index' do
     it 'can step pages' do
       create_list(:team, 13)
 
@@ -48,7 +48,7 @@ describe 'teams features' do
     end
   end
 
-  context 'show' do
+  context 'when show' do
     it 'can add logo' do
       api_sign_in
 

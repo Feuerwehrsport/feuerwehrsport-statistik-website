@@ -4,14 +4,15 @@ RSpec.describe API::CompetitionsController, type: :controller do
   let(:competition) { create(:competition, :score_type, :fake_count) }
 
   describe 'POST create' do
-    subject { -> { post :create, params: { competition: { name: 'Extrapokal', place_id: place.id, event_id: event.id, date: '2014-01-29' } } } }
+    let(:r) { -> { post :create, params: params } }
 
+    let(:params) { { competition: { name: 'Extrapokal', place_id: place.id, event_id: event.id, date: '2014-01-29' } } }
     let(:place) { create(:place) }
     let(:event) { create(:event) }
 
     it 'creates new competition', login: :sub_admin do
       expect do
-        subject.call
+        r.call
         expect_api_login_response(created_id: Competition.last.id)
       end.to change(Competition, :count).by(1)
       expect_change_log(after: { name: 'Extrapokal' }, log: 'create-competition')
@@ -63,10 +64,10 @@ RSpec.describe API::CompetitionsController, type: :controller do
   end
 
   describe 'PUT update' do
-    subject { -> { put :update, params: { id: competition.id, competition: { name: 'toller Wettkampf' } } } }
+    let(:r) { -> { put :update, params: { id: competition.id, competition: { name: 'toller Wettkampf' } } } }
 
     it 'update competition', login: :sub_admin do
-      subject.call
+      r.call
       expect_json_response
       expect(json_body[:competition]).to eq(
         id: competition.id,

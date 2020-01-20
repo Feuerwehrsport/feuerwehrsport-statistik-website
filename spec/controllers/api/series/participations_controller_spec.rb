@@ -4,17 +4,19 @@ RSpec.describe API::Series::ParticipationsController, type: :controller do
   let(:participation) { create(:series_person_participation) }
 
   describe 'POST create' do
-    subject { -> { post :create, params: { series_participation: attributes } } }
+    let(:r) { -> { post :create, params: { series_participation: attributes } } }
 
     let(:cup) { create(:series_cup) }
     let(:assessment) { create(:series_person_assessment) }
     let(:person) { create(:person) }
 
-    let(:attributes) { { cup_id: cup.id, assessment_id: assessment.id, person_id: person.id, time: '1234', rank: '22', points: '22' } }
+    let(:attributes) do
+      { cup_id: cup.id, assessment_id: assessment.id, person_id: person.id, time: '1234', rank: '22', points: '22' }
+    end
 
     it 'creates new participation', login: :admin do
       expect do
-        subject.call
+        r.call
         expect_api_login_response(created_id: Series::Participation.last.id)
       end.to change(Series::Participation, :count).by(1)
       expect_change_log(after: { points: 22 }, log: 'create-series-participation')
@@ -25,10 +27,10 @@ RSpec.describe API::Series::ParticipationsController, type: :controller do
   end
 
   describe 'GET show' do
-    subject { -> { get :show, params: { id: participation.id } } }
+    let(:r) { -> { get :show, params: { id: participation.id } } }
 
     it 'returns participation', login: :admin do
-      subject.call
+      r.call
       expect_json_response
       expect(json_body[:series_participation]).to eq(
         assessment_id: participation.assessment_id,
@@ -71,12 +73,12 @@ RSpec.describe API::Series::ParticipationsController, type: :controller do
   end
 
   describe 'PUT update' do
-    subject { -> { put :update, params: { id: participation.id, series_participation: attributes } } }
+    let(:r) { -> { put :update, params: { id: participation.id, series_participation: attributes } } }
 
     let(:attributes) { { person_id: create(:person).id, time: 1234, rank: 22, points: 22 } }
 
     it 'updates participation', login: :admin do
-      subject.call
+      r.call
       expect(json_body[:series_participation]).to include attributes
       expect_change_log(before: { points: 15 }, after: { points: 22 }, log: 'update-series-participation')
     end
@@ -86,13 +88,13 @@ RSpec.describe API::Series::ParticipationsController, type: :controller do
   end
 
   describe 'DELETE destroy' do
-    subject { -> { delete :destroy, params: { id: participation.id } } }
+    let(:r) { -> { delete :destroy, params: { id: participation.id } } }
 
     before { participation }
 
     it 'destroys participation', login: :admin do
       expect do
-        subject.call
+        r.call
         expect_json_response
       end.to change(Series::Participation, :count).by(-1)
       expect_change_log(before: { points: 15 }, log: 'destroy-series-participation')

@@ -16,11 +16,12 @@ RSpec.describe API::TeamsController, type: :controller do
   end
 
   describe 'POST create' do
-    subject { -> { post :create, params: { team: { name: 'Mannschaft1', shortcut: 'Mann1', status: 'fire_station' } } } }
+    let(:r) { -> { post :create, params: params } }
+    let(:params) { { team: { name: 'Mannschaft1', shortcut: 'Mann1', status: 'fire_station' } } }
 
     it 'creates new team', login: :api do
       expect do
-        subject.call
+        r.call
         expect_api_login_response(created_id: Team.last.id)
       end.to change(Team, :count).by(1)
       expect_change_log(after: { name: 'Mannschaft1' }, log: 'create-team')
@@ -59,12 +60,12 @@ RSpec.describe API::TeamsController, type: :controller do
   end
 
   describe 'PUT update' do
-    subject { -> { put :update, params: { id: team.id, team: changed_attributes } } }
+    let(:r) { -> { put :update, params: { id: team.id, team: changed_attributes } } }
 
     let(:changed_attributes) { { latitude: '12.0', longitude: '34.0' } }
 
     it 'updates team', login: :api do
-      subject.call
+      r.call
       expect(json_body[:team]).to eq(team_attributes.merge(changed_attributes))
     end
 
@@ -73,13 +74,13 @@ RSpec.describe API::TeamsController, type: :controller do
 
       context 'when user have not enough permissions', login: :api do
         it 'failes to update' do
-          subject.call
+          r.call
           expect(json_body[:team]).to eq(team_attributes)
         end
       end
 
       it 'success', login: :sub_admin do
-        subject.call
+        r.call
         expect(json_body[:team]).to eq(team_attributes.merge(changed_attributes))
         expect_change_log(before: { name: 'FF Warin' }, after: { name: 'FF Hanswurst' }, log: 'update-team')
       end
@@ -87,14 +88,14 @@ RSpec.describe API::TeamsController, type: :controller do
   end
 
   describe 'POST merge' do
-    subject { -> { put :merge, params: { id: bad_team.id, correct_team_id: team.id, always: 1 } } }
+    let(:r) { -> { put :merge, params: { id: bad_team.id, correct_team_id: team.id, always: 1 } } }
 
     let(:bad_team) { create(:team, :mv) }
 
     it 'merge two teams', login: :sub_admin do
       expect_any_instance_of(Team).to receive(:merge_to).and_call_original
       expect do
-        subject.call
+        r.call
       end.to change(TeamSpelling, :count).by(1)
 
       expect_json_response
@@ -103,7 +104,7 @@ RSpec.describe API::TeamsController, type: :controller do
 
     it 'creates entity_merge', login: :sub_admin do
       expect do
-        subject.call
+        r.call
       end.to change(EntityMerge, :count).by(1)
     end
 

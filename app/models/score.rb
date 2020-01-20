@@ -51,39 +51,44 @@ class Score < ApplicationRecord
     from("(#{sql}) AS #{table_name}").where('r=1')
   end
 
+  def self.yearly_best_times_subquery(competitions)
+    Score
+      .joins(:competition, :person)
+      .select(<<~SQL)
+        #{Score.table_name}.discipline,
+        #{Person.table_name}.gender,
+        EXTRACT(YEAR FROM #{Competition.table_name}.date) AS year,
+        MIN(#{Score.table_name}.time) AS time
+      SQL
+      .german
+      .where(competition_id: competitions)
+      .group(<<~SQL)
+        #{Score.table_name}.discipline,
+        #{Person.table_name}.gender,
+        EXTRACT(YEAR FROM #{Competition.table_name}.date)
+      SQL
+      .to_sql
+  end
+
+  def self.yearly_best_scores_subquery(competitions)
+    Score
+      .joins(:competition, :person)
+      .joins(
+        "INNER JOIN times t ON t.discipline = #{Score.table_name}.discipline AND " \
+        "t.time = #{Score.table_name}.time AND " \
+        "t.year = EXTRACT(YEAR FROM #{Competition.table_name}.date) AND " \
+        "t.gender = #{Person.table_name}.gender",
+      )
+      .select("#{Score.table_name}.id")
+      .german
+      .where(competition_id: competitions)
+      .to_sql
+  end
+
   scope :yearly_best, ->(competitions) do
-    times_subquery = Score
-                     .joins(:competition, :person)
-                     .select(<<~SQL)
-                       #{Score.table_name}.discipline,
-                       #{Person.table_name}.gender,
-                       EXTRACT(YEAR FROM #{Competition.table_name}.date) AS year,
-                       MIN(#{Score.table_name}.time) AS time
-                     SQL
-                     .german
-                     .where(competition_id: competitions)
-                     .group(<<~SQL)
-                       #{Score.table_name}.discipline,
-                       #{Person.table_name}.gender,
-                       EXTRACT(YEAR FROM #{Competition.table_name}.date)
-                     SQL
-                     .to_sql
-
-    scores_subquery = Score
-                      .joins(:competition, :person)
-                      .joins(
-                        "INNER JOIN times t ON t.discipline = #{Score.table_name}.discipline AND " \
-                        "t.time = #{Score.table_name}.time AND " \
-                        "t.year = EXTRACT(YEAR FROM #{Competition.table_name}.date) AND " \
-                        "t.gender = #{Person.table_name}.gender",
-                      )
-                      .select("#{Score.table_name}.id")
-                      .german
-                      .where(competition_id: competitions)
-                      .to_sql
-
     includes(:person, competition: %i[place event])
-      .where("#{Score.table_name}.id IN (WITH times AS (#{times_subquery}) #{scores_subquery})")
+      .where("#{Score.table_name}.id IN (WITH times AS (#{yearly_best_times_subquery(competitions)}) " \
+        "#{yearly_best_scores_subquery(competitions)})")
       .joins(:person, :competition)
       .order(Arel.sql(<<~SQL))
         #{Score.table_name}.discipline,

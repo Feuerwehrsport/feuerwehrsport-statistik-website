@@ -47,7 +47,8 @@ class ChangeLog < ApplicationRecord
       object = model_class.constantize.new
       content[:"#{type}_hash"].each do |attribute, value|
         object.send(:"#{attribute}=", value) if object.respond_to?(:"#{attribute}=")
-      rescue ActiveRecord::AssociationTypeMismatch
+      rescue ActiveRecord::AssociationTypeMismatch => e
+        Rails.logger.debug("Mismatch: #{e.message}")
       end
       object
     end

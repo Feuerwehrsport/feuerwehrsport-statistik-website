@@ -4,11 +4,11 @@ RSpec.describe API::GroupScoreTypesController, type: :controller do
   let(:group_score_type) { create(:group_score_type) }
 
   describe 'POST create' do
-    subject { -> { post :create, params: { group_score_type: { name: 'Extrapokal', discipline: 'la' } } } }
+    let(:r) { -> { post :create, params: { group_score_type: { name: 'Extrapokal', discipline: 'la' } } } }
 
     it 'creates new group_score_type', login: :sub_admin do
       expect do
-        subject.call
+        r.call
         expect_api_login_response(created_id: GroupScoreType.last.id)
       end.to change(GroupScoreType, :count).by(1)
       expect_change_log(after: { name: 'Extrapokal' }, log: 'create-groupscoretype')

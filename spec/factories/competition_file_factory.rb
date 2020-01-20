@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :competition_file do
     competition { Competition.first || build(:competition) }
-    file { Rack::Test::UploadedFile.new(File.open(File.join(Rails.root, '/spec/fixtures/testfile.pdf')), 'application/pdf') }
+    file { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/testfile.pdf'), 'application/pdf') }
     keys_string { 'hb,hl' }
   end
 end

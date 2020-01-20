@@ -50,14 +50,19 @@ RSpec.describe API::GroupScoreCategoriesController, type: :controller do
   end
 
   describe 'POST create' do
-    subject { -> { post :create, params: { group_score_category: { name: 'FooBar', competition_id: competition.id, group_score_type_id: group_score_type.id } } } }
+    let(:r) { -> { post :create, params: params } }
+    let(:params) do
+      { group_score_category: {
+        name: 'FooBar', competition_id: competition.id, group_score_type_id: group_score_type.id
+      } }
+    end
 
     let(:competition) { create(:competition) }
     let(:group_score_type) { create(:group_score_type) }
 
     it 'creates new group_score_category', login: :sub_admin do
       expect do
-        subject.call
+        r.call
         expect_api_login_response(created_id: GroupScoreCategory.last.id)
       end.to change(GroupScoreCategory, :count).by(1)
       expect(GroupScoreCategory.last.name).to eq 'FooBar'

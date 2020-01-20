@@ -7,7 +7,9 @@ RSpec.describe API::LinksController, type: :controller do
   describe 'POST create' do
     it 'creates new link', login: :api do
       expect do
-        post :create, params: { link: { label: 'Linkname', url: 'http://foobar', linkable_id: team.id, linkable_type: 'Team' } }
+        post :create, params: {
+          link: { label: 'Linkname', url: 'http://foobar', linkable_id: team.id, linkable_type: 'Team' },
+        }
         expect_api_login_response(created_id: Link.last.id)
       end.to change(Link, :count).by(1)
       expect_change_log(after: { label: 'Linkname' }, log: 'create-link')
@@ -30,13 +32,13 @@ RSpec.describe API::LinksController, type: :controller do
   end
 
   describe 'DELETE destroy' do
-    subject { -> { delete :destroy, params: { id: link.id } } }
+    let(:r) { -> { delete :destroy, params: { id: link.id } } }
 
     before { link }
 
     it 'destroys link', login: :sub_admin do
       expect do
-        subject.call
+        r.call
         expect_json_response
       end.to change(Link, :count).by(-1)
       expect_change_log(before: {}, log: 'destroy-link')

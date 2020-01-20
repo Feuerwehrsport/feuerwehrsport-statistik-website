@@ -21,7 +21,9 @@ RSpec.describe Registrations::AssessmentsController, type: :controller, login: :
   describe 'POST create' do
     it 'saves' do
       expect do
-        post :create, params: { competition_id: competition.id, registrations_assessment: { discipline: :hl, gender: :female } }
+        post :create, params: {
+          competition_id: competition.id, registrations_assessment: { discipline: :hl, gender: :female }
+        }
         expect(response).to redirect_to(action: :index)
       end.to change(Registrations::Assessment, :count).by(1)
     end
@@ -36,7 +38,9 @@ RSpec.describe Registrations::AssessmentsController, type: :controller, login: :
 
   describe 'PATCH update' do
     it 'updates' do
-      patch :update, params: { competition_id: competition.id, id: assessment.id, registrations_assessment: { gender: :female } }
+      patch :update, params: {
+        competition_id: competition.id, id: assessment.id, registrations_assessment: { gender: :female }
+      }
       expect(response).to redirect_to(action: :index)
       expect(assessment.reload.gender).to eq 'female'
     end

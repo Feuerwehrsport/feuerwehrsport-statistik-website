@@ -6,7 +6,8 @@ class Caching::Cleaner
     FileUtils.rm_r(Rails.root.join('public/cache'), force: true)
     begin
       Caching::Cache.clear
-    rescue Errno::ENOENT
+    rescue Errno::ENOENT => e
+      Rails.logger.debug(e.message)
     end
 
     Caching::Builder.enqueue_with_options(run_at: Time.current + 5.minutes) if Rails.configuration.caching

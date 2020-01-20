@@ -2,8 +2,6 @@ require 'rails_helper'
 
 RSpec.describe API::SuggestionsController, type: :controller do
   describe 'POST people' do
-    subject { -> { post :people, params: attributes; expect_json_response } }
-
     let!(:person1) { create(:person) }
     let!(:score1) { create(:score, person: person1) }
     let(:person1_hash) do
@@ -59,7 +57,8 @@ RSpec.describe API::SuggestionsController, type: :controller do
 
     context 'when attributes empty' do
       it 'returns people' do
-        subject.call
+        post :people, params: attributes
+        expect_json_response
         expect(json_body[:people]).to eq [person1_hash, person2_hash, person3_hash, person4_hash]
       end
     end
@@ -68,7 +67,8 @@ RSpec.describe API::SuggestionsController, type: :controller do
       let(:attributes) { { name: 'oromeier' } }
 
       it 'returns people' do
-        subject.call
+        post :people, params: attributes
+        expect_json_response
         expect(json_body[:people]).to eq [person3_hash, person4_hash]
       end
 
@@ -76,7 +76,8 @@ RSpec.describe API::SuggestionsController, type: :controller do
         let(:attributes) { { name: 'oromeier', gender: 'female' } }
 
         it 'returns people' do
-          subject.call
+          post :people, params: attributes
+          expect_json_response
           expect(json_body[:people]).to eq [person4_hash, person3_hash]
         end
       end
@@ -85,7 +86,8 @@ RSpec.describe API::SuggestionsController, type: :controller do
         let(:attributes) { { name: 'alfmeier', team_name: 'warin' } }
 
         it 'returns people' do
-          subject.call
+          post :people, params: attributes
+          expect_json_response
           expect(json_body[:people]).to eq [person1_hash, person3_hash, person2_hash]
         end
       end
@@ -95,7 +97,8 @@ RSpec.describe API::SuggestionsController, type: :controller do
       let(:attributes) { { real_gender: 'female' } }
 
       it 'returns people' do
-        subject.call
+        post :people, params: attributes
+        expect_json_response
         expect(json_body[:people]).to eq [person4_hash]
       end
     end
@@ -104,15 +107,14 @@ RSpec.describe API::SuggestionsController, type: :controller do
       let(:attributes) { { score_id: group_score.id } }
 
       it 'returns people' do
-        subject.call
+        post :people, params: attributes
+        expect_json_response
         expect(json_body[:people]).to eq [person1_hash, person3_hash]
       end
     end
   end
 
   describe 'POST teams' do
-    subject { -> { post :teams, params: attributes; expect_json_response } }
-
     let!(:team1) { create(:team) }
     let(:team1_hash) { { id: team1.id, name: 'FF Warin', shortcut: 'Warin' } }
     let!(:team2) { create(:team, :mv) }
@@ -122,7 +124,8 @@ RSpec.describe API::SuggestionsController, type: :controller do
 
     context 'when attributes empty' do
       it 'returns teams' do
-        subject.call
+        post :teams, params: attributes
+        expect_json_response
         expect(json_body[:teams]).to eq [team1_hash, team2_hash]
       end
     end
@@ -131,7 +134,8 @@ RSpec.describe API::SuggestionsController, type: :controller do
       let(:attributes) { { name: 'arin' } }
 
       it 'returns people' do
-        subject.call
+        post :teams, params: attributes
+        expect_json_response
         expect(json_body[:teams]).to eq [team1_hash]
       end
     end

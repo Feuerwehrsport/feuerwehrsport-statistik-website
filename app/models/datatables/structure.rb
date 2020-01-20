@@ -24,7 +24,8 @@ class Datatables::Structure < M3::Index::Structure
           column = searchable.values.first
           table = klass.reflections[association.to_s].table_name
           join_key = klass.reflections[association.to_s].foreign_key
-          collection = collection.joins("LEFT OUTER JOIN \"#{table}\" t#{index} ON \"#{klass.table_name}\".#{join_key} = t#{index}.id")
+          collection = collection.joins("LEFT OUTER JOIN \"#{table}\" t#{index} ON " \
+            "\"#{klass.table_name}\".#{join_key} = t#{index}.id")
           query.push(klass.send(:sanitize_sql_array, ["t#{index}.\"#{column}\" ILIKE ?", search_string]))
         elsif searchable.is_a?(String)
           query.push(klass.send(:sanitize_sql_array, [searchable, search_string]))

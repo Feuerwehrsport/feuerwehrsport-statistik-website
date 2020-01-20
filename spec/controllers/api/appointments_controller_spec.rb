@@ -49,12 +49,12 @@ RSpec.describe API::AppointmentsController, type: :controller do
   end
 
   describe 'PUT update' do
-    subject { -> { put :update, params: { id: appointment.id, appointment: appointment_changes } } }
+    let(:r) { -> { put :update, params: { id: appointment.id, appointment: appointment_changes } } }
 
     let(:appointment_changes) { { name: 'Termin1', description: 'Beschreibung', dated_at: '2016-02-29' } }
 
     it 'update appointment', login: :sub_admin do
-      subject.call
+      r.call
       expect_api_login_response(
         resource_name: 'appointment',
         appointment: expected_attributes.merge(appointment_changes.merge(updateable: true)),

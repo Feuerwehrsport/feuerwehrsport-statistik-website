@@ -16,7 +16,9 @@ RSpec.describe Registrations::PeopleController, type: :controller, login: :user 
     let!(:assessment) { create(:registrations_assessment, :la, competition: competition) }
 
     it 'updates' do
-      patch :update, params: { id: person.id, competition_id: competition.id, registrations_person: { last_name: 'new-name' } }
+      patch :update, params: {
+        id: person.id, competition_id: competition.id, registrations_person: { last_name: 'new-name' }
+      }
       expect(response).to redirect_to registrations_competition_path(competition)
       expect(person.reload.last_name).to eq 'new-name'
     end

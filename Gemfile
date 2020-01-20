@@ -30,6 +30,8 @@ gem 'redcarpet'
 gem 'schema_validations'
 gem 'activerecord_views'
 
+gem 'ttfunk', '1.5.1'
+
 group :production do
   gem 'unicorn'
   gem 'm3_log_file_parser', git: 'https://github.com/lichtbit/m3_log_file_parser.git'

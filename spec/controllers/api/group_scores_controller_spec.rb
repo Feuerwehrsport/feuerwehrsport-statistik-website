@@ -77,12 +77,12 @@ RSpec.describe API::GroupScoresController, type: :controller do
   end
 
   describe 'PUT update' do
-    subject { -> { put :update, params: { id: group_score.id, group_score: { team_id: team.id } } } }
+    let(:r) { -> { put :update, params: { id: group_score.id, group_score: { team_id: team.id } } } }
 
     let(:team) { create(:team) }
 
     it 'update group_score', login: :sub_admin do
-      subject.call
+      r.call
       expect_json_response
       expect(json_body[:group_score]).to include(team_id: team.id)
       expect(GroupScore.find(group_score.id).team_id).to eq team.id
@@ -136,7 +136,9 @@ RSpec.describe API::GroupScoresController, type: :controller do
     end
 
     it 'updates person_participations', login: :api do
-      put :person_participation, params: { id: group_score.id, group_score: persons_in, log_action: 'update-groupscore:participation' }
+      put :person_participation, params: {
+        id: group_score.id, group_score: persons_in, log_action: 'update-groupscore:participation'
+      }
       expect_json_response
       expect(json_body[:group_score]).to include(
         similar_scores: [

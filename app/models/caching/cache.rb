@@ -3,6 +3,14 @@ class Caching::Cache < ActiveSupport::Cache::FileStore
   class_attribute :caching
   self.caching = true
 
+  def self.fetch(*args, &block)
+    instance.fetch(*args, &block)
+  end
+
+  def self.clear(*args, &block)
+    instance.clear(*args, &block)
+  end
+
   def initialize
     FileUtils.mkdir_p(cache_path)
     super(cache_path)
@@ -24,16 +32,12 @@ class Caching::Cache < ActiveSupport::Cache::FileStore
     Rails.root.join('tmp/file-cache')
   end
 
-  def self.method_missing(m, *args, &block)
-    instance.send(m, *args, &block)
-  end
-
   def self.disable
     caching_before = caching
     self.caching = false
     begin
       yield
-    rescue Exception => e
+    rescue StandardError => e
       self.caching = caching_before
       raise e
     end

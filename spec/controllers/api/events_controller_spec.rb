@@ -4,11 +4,11 @@ RSpec.describe API::EventsController, type: :controller do
   let(:event) { create(:event) }
 
   describe 'POST create' do
-    subject { -> { post :create, params: { event: { name: 'Wurstevent' } } } }
+    let(:r) { -> { post :create, params: { event: { name: 'Wurstevent' } } } }
 
     it 'creates new event', login: :sub_admin do
       expect do
-        subject.call
+        r.call
         expect_api_login_response(created_id: Event.last.id)
       end.to change(Event, :count).by(1)
       expect_change_log(after: { name: 'Wurstevent' }, log: 'create-event')

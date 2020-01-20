@@ -106,16 +106,11 @@ RSpec.describe API::PeopleController, type: :controller do
   end
 
   describe 'PUT update' do
-    subject do
-      -> {
-        put :update, params: { id: person.id, person: {
-          first_name: 'Vorname', last_name: 'Nachname', nation_id: nation.id
-        } }
-      }
-    end
+    let(:r) { -> { put :update, params: params } }
+    let(:params) { { id: person.id, person: { first_name: 'Vorname', last_name: 'Nachname', nation_id: nation.id } } }
 
     it 'update person', login: :sub_admin do
-      subject.call
+      r.call
       expect_json_response
       expect(json_body[:person]).to eq(
         first_name: 'Vorname',
@@ -132,14 +127,14 @@ RSpec.describe API::PeopleController, type: :controller do
   end
 
   describe 'POST merge' do
-    subject { -> { put :merge, params: { id: person.id, correct_person_id: correct_person.id, always: 1 } } }
+    let(:r) { -> { put :merge, params: { id: person.id, correct_person_id: correct_person.id, always: 1 } } }
 
     let!(:correct_person) { create(:person, first_name: 'Alfredo', last_name: 'Mayer') }
 
     it 'merge two people', login: :sub_admin do
       expect_any_instance_of(Person).to receive(:merge_to).and_call_original
       expect do
-        subject.call
+        r.call
 
         expect_json_response
         expect(json_body[:person]).to eq(
@@ -156,7 +151,7 @@ RSpec.describe API::PeopleController, type: :controller do
 
     it 'creates entity_merge', login: :sub_admin do
       expect do
-        subject.call
+        r.call
       end.to change(EntityMerge, :count).by(1)
     end
 

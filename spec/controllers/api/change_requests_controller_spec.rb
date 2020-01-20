@@ -7,11 +7,11 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
   end
 
   describe 'POST create' do
-    subject { -> { post :create, params: { change_request: { content: { foo: { bar: '1' } } } } } }
+    let(:r) { -> { post :create, params: { change_request: { content: { foo: { bar: '1' } } } } } }
 
     it 'creates new change request', login: :api do
       expect do
-        subject.call
+        r.call
         expect_api_login_response(created_id: ChangeRequest.last.id)
       end.to change(ChangeRequest, :count).by(1)
       expect(ChangeRequest.last.content).to eq foo: { bar: '1' }
@@ -21,17 +21,17 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
     it 'sends notification', login: :api do
       create(:admin_user, :admin)
       expect do
-        subject.call
+        r.call
         expect_api_login_response(created_id: ChangeRequest.last.id)
       end.to change(ActionMailer::Base.deliveries, :count).by(1)
     end
   end
 
   describe 'GET index' do
-    subject { -> { get :index } }
+    let(:r) { -> { get :index } }
 
     it 'returns change_requests', login: :sub_admin do
-      subject.call
+      r.call
       expect_json_response
       expect(json_body[:change_requests].count).to eq 1
       expect(json_body[:change_requests].first).to include(
@@ -45,7 +45,7 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
   end
 
   describe 'GET files' do
-    subject { -> { get :files, params: { change_request_id: change_request.id, id: 0 } } }
+    let(:r) { -> { get :files, params: { change_request_id: change_request.id, id: 0 } } }
 
     let(:files_data) do
       {
@@ -58,7 +58,7 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
     end
 
     it 'returns change_request file', login: :sub_admin do
-      subject.call
+      r.call
       expect_json_response
       expect(json_body[:change_request_file]).to eq(
         binary: "Y29udGVudA==\n",
@@ -71,10 +71,10 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
   end
 
   describe 'PUT update' do
-    subject { -> { put :update, params: { id: change_request.id, change_request: { done: '1' } } } }
+    let(:r) { -> { put :update, params: { id: change_request.id, change_request: { done: '1' } } } }
 
     it 'update change_request', login: :sub_admin do
-      subject.call
+      r.call
       expect_json_response
       expect(change_request.reload.done_at).not_to be nil
       expect_change_log(before: { done_at: nil }, after: {}, log: 'update-changerequest')

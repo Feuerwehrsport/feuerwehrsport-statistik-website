@@ -4,11 +4,11 @@ RSpec.describe API::PlacesController, type: :controller do
   let(:place) { create(:place) }
 
   describe 'POST create' do
-    subject { -> { post :create, params: { place: { name: 'Wurstort' } } } }
+    let(:r) { -> { post :create, params: { place: { name: 'Wurstort' } } } }
 
     it 'creates new place', login: :sub_admin do
       expect do
-        subject.call
+        r.call
         expect_api_login_response(created_id: Place.last.id)
       end.to change(Place, :count).by(1)
       expect_change_log(after: { name: 'Wurstort' }, log: 'create-place')
@@ -39,10 +39,10 @@ RSpec.describe API::PlacesController, type: :controller do
   end
 
   describe 'PUT update' do
-    subject { -> { put :update, params: { id: place.id, place: { latitude: '123', longitude: '456' } } } }
+    let(:r) { -> { put :update, params: { id: place.id, place: { latitude: '123', longitude: '456' } } } }
 
     it 'update place', login: :api do
-      subject.call
+      r.call
       expect_json_response
       expect(json_body[:place]).to eq(
         id: place.id,

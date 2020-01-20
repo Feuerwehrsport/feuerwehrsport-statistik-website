@@ -8,7 +8,7 @@ describe 'competitions features', type: :feature, js: true do
     create(:score, :double, competition: group_score.competition, discipline: :hl).competition
   end
 
-  context 'index' do
+  context 'when index' do
     it 'shows an overview' do
       competition
       create_list(:competition, 12)
@@ -29,7 +29,7 @@ describe 'competitions features', type: :feature, js: true do
     end
   end
 
-  context 'show' do
+  context 'when show' do
     it 'shows the competition' do
       visit competition_path(competition)
 
@@ -60,7 +60,7 @@ describe 'competitions features', type: :feature, js: true do
       end
     end
 
-    it 'shows the competition' do
+    it 'shows the competition als xlsx' do
       visit competition_path(id: competition.id, format: :xlsx)
       expect(page.response_headers['Content-Type']).to eq(
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8',
@@ -115,7 +115,7 @@ describe 'competitions features', type: :feature, js: true do
     end
   end
 
-  context 'file upload' do
+  context 'when file upload' do
     it 'adds change requests', retry: 3 do
       api_sign_in
 
@@ -123,7 +123,7 @@ describe 'competitions features', type: :feature, js: true do
       find('#add-file').click
 
       expect(page).to have_content('Es dürfen nur PDFs hochgeladen werden.')
-      attach_file('competition_file[0][file]', "#{Rails.root}/spec/fixtures/testfile.pdf")
+      attach_file('competition_file[0][file]', Rails.root.join('spec/fixtures/testfile.pdf'))
       check('competition_file[0][fs_female]')
       click_on('Hochladen')
       expect(page).to have_content('testfile.pdf')

@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe 'pages features', type: :feature do
-  before { page.driver.browser.url_blacklist = ['https://i.ytimg.com'] }
+  before { page.driver.browser.url_blacklist = ['https://i.ytimg.com', 'youtube'] }
 
-  context 'dashboard' do
+  context 'when dashboard' do
     let!(:score) { create(:score, :double) }
     let!(:news_article) { create(:news_article) }
 
@@ -18,7 +18,7 @@ describe 'pages features', type: :feature do
     end
   end
 
-  context 'legal_notice' do
+  context 'when legal_notice' do
     it 'shows a contact information' do
       visit impressum_path
       save_review_screenshot
@@ -26,7 +26,7 @@ describe 'pages features', type: :feature do
     end
   end
 
-  context 'firesport_overview' do
+  context 'when firesport_overview' do
     it 'shows videos and other information' do
       visit feuerwehrsport_path
       expect(page).to have_content 'Feuerwehrsport - verschiedene Angebote'
@@ -35,7 +35,7 @@ describe 'pages features', type: :feature do
     end
   end
 
-  context 'last_competitions_overview' do
+  context 'when last_competitions_overview' do
     let!(:score) { create(:score, :double) }
 
     it 'shows list of the last inserted competitions' do
@@ -47,7 +47,7 @@ describe 'pages features', type: :feature do
     end
   end
 
-  context 'wettkampf_manager' do
+  context 'when wettkampf_manager' do
     it 'shows other information' do
       visit wettkampf_manager_path
       save_review_screenshot
@@ -55,7 +55,7 @@ describe 'pages features', type: :feature do
     end
   end
 
-  context 'records' do
+  context 'when records' do
     it 'shows records' do
       allow(Person).to receive(:find).and_return(build_stubbed(:person))
       allow(Competition).to receive(:find).and_return(build_stubbed(:competition))
@@ -70,7 +70,7 @@ describe 'pages features', type: :feature do
     end
   end
 
-  context 'best_of' do
+  context 'when best_of' do
     let!(:score) { create(:score, :double, person: create(:person, :female)) }
 
     it 'shows best_of' do

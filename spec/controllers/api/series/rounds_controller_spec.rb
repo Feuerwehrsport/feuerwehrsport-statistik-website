@@ -2,14 +2,16 @@ require 'rails_helper'
 
 RSpec.describe API::Series::RoundsController, type: :controller do
   let(:round) { create(:series_round) }
-  let(:attributes) { { name: 'Cup', slug: 'cup', year: 2017, official: true, aggregate_type: 'LaCup', full_cup_count: 4 } }
+  let(:attributes) do
+    { name: 'Cup', slug: 'cup', year: 2017, official: true, aggregate_type: 'LaCup', full_cup_count: 4 }
+  end
 
   describe 'POST create' do
-    subject { -> { post :create, params: { series_round: attributes } } }
+    let(:r) { -> { post :create, params: { series_round: attributes } } }
 
     it 'creates new round', login: :admin do
       expect do
-        subject.call
+        r.call
         expect_api_login_response(created_id: Series::Round.last.id)
       end.to change(Series::Round, :count).by(1)
       expect_change_log(after: { year: 2017 }, log: 'create-series-round')
@@ -20,10 +22,10 @@ RSpec.describe API::Series::RoundsController, type: :controller do
   end
 
   describe 'PUT update' do
-    subject { -> { put :update, params: { id: round.id, series_round: attributes } } }
+    let(:r) { -> { put :update, params: { id: round.id, series_round: attributes } } }
 
     it 'update round', login: :admin do
-      subject.call
+      r.call
       expect_json_response
       expect(Series::Round.first.official).to eq true
       expect_change_log(before: { year: 2016 }, after: { year: 2017 }, log: 'update-series-round')

@@ -17,7 +17,8 @@ class GroupScore < ApplicationRecord
   scope :year, ->(year) { joins(group_score_category: :competition).merge(Competition.year(year)) }
   scope :best_of_competition, ->(single_run = false) do
     run = single_run ? '' : ", #{table_name}.run"
-    distinct_column = "CONCAT(#{table_name}.group_score_category_id, '-', #{table_name}.team_id, '-', #{table_name}.team_number, #{table_name}.gender#{run})"
+    distinct_column = "CONCAT(#{table_name}.group_score_category_id, '-', #{table_name}.team_id, '-', " \
+                      "#{table_name}.team_number, #{table_name}.gender#{run})"
     select("DISTINCT ON (#{distinct_column}) #{table_name}.*").order(Arel.sql("#{distinct_column}, #{table_name}.time"))
   end
   scope :regular, -> { joins(group_score_category: :group_score_type).where(group_score_types: { regular: true }) }
@@ -45,38 +46,44 @@ class GroupScore < ApplicationRecord
                     .to_sql
     from("(#{sql}) AS #{table_name}").where('r=1')
   end
-  scope :yearly_best, ->(competitions) do
-    times_subquery = GroupScore
-                     .joins(group_score_category: :competition)
-                     .select("
+
+  def self.yearly_best_times_subquery(competitions)
+    GroupScore
+      .joins(group_score_category: :competition)
+      .select("
         #{GroupScoreCategory.table_name}.group_score_type_id,
         #{GroupScore.table_name}.gender,
         EXTRACT(YEAR FROM #{Competition.table_name}.date) AS year,
         MIN(#{GroupScore.table_name}.time) AS time
       ")
-                     .where(group_score_categories: { competition_id: competitions })
-                     .group("
+      .where(group_score_categories: { competition_id: competitions })
+      .group("
         #{GroupScoreCategory.table_name}.group_score_type_id,
         #{GroupScore.table_name}.gender,
         EXTRACT(YEAR FROM #{Competition.table_name}.date)
       ")
-                     .to_sql
+      .to_sql
+  end
 
-    scores_subquery = GroupScore
-                      .joins(group_score_category: :competition)
-                      .joins("INNER JOIN times t
+  def self.yearly_best_scores_subquery(competitions)
+    GroupScore
+      .joins(group_score_category: :competition)
+      .joins("INNER JOIN times t
         ON t.group_score_type_id = #{GroupScoreCategory.table_name}.group_score_type_id
         AND t.time = #{GroupScore.table_name}.time
         AND t.year = EXTRACT(YEAR FROM #{Competition.table_name}.date)
         AND t.gender = #{GroupScore.table_name}.gender")
-                      .select("
+      .select("
         #{GroupScore.table_name}.id
       ")
-                      .where(group_score_categories: { competition_id: competitions })
-                      .to_sql
-
+      .where(group_score_categories: { competition_id: competitions })
+      .to_sql
+  end
+  scope :yearly_best, ->(competitions) do
     includes(:team, group_score_category: [:group_score_type, competition: %i[place event]])
-      .where("#{GroupScore.table_name}.id IN (WITH times AS (#{times_subquery}) #{scores_subquery})").joins(group_score_category: %i[competition group_score_type])
+      .where("#{GroupScore.table_name}.id IN (WITH times AS (#{yearly_best_times_subquery(competitions)}) "\
+        " #{yearly_best_scores_subquery(competitions)})")
+      .joins(group_score_category: %i[competition group_score_type])
       .order(Arel.sql(<<~SQL ))
         #{GroupScoreType.table_name}.discipline,
         #{GroupScoreType.table_name}.regular DESC,
@@ -85,7 +92,9 @@ class GroupScore < ApplicationRecord
         EXTRACT(YEAR FROM #{Competition.table_name}.date)
       SQL
   end
-  scope :competition, ->(competition_id) { joins(:group_score_category).where(group_score_categories: { competition_id: competition_id }) }
+  scope :competition, ->(competition_id) do
+    joins(:group_score_category).where(group_score_categories: { competition_id: competition_id })
+  end
   scope :group_score_category, ->(group_score_category_id) { where(group_score_category_id: group_score_category_id) }
   scope :person, ->(person_id) { joins(:person_participations).where(person_participations: { person_id: person_id }) }
   scope :team, ->(team_id) { where(team_id: team_id) }
@@ -104,7 +113,8 @@ class GroupScore < ApplicationRecord
   end
 
   def similar_scores
-    GroupScore.where(team_id: team_id, team_number: team_number, group_score_category_id: group_score_category_id).gender(gender).order(:id)
+    GroupScore.where(team_id: team_id, team_number: team_number, group_score_category_id: group_score_category_id)
+              .gender(gender).order(:id)
   end
 
   def competition_scores_from_team

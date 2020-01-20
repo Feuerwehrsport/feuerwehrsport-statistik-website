@@ -89,6 +89,24 @@ class Ability
   end
 
   def all_users
+    basic_stuff
+
+    can :read, Series::Assessment
+    can :read, Series::Cup
+    can :read, Series::Participation
+    can :read, Series::Round
+
+    can %i[read slug_handle], Registrations::Competition, published: true
+
+    can(:manage, M3::Login::Session)
+    can(:verify, M3::Login::Base)
+    can(:manage, M3::Login::PasswordReset)
+    can(:manage, M3::Login::ChangedEmailAddress)
+    can(:create, AdminUsers::Registration)
+    can(%i[create finish], Ipo::Registration)
+  end
+
+  def basic_stuff
     can %i[create status logout], APIUser
     can :read, Appointment
     can :read, BLA::Badge
@@ -109,20 +127,6 @@ class Ability
     can :read, TeamMember
     can :read, TeamSpelling
     can %i[read best_performance best_scores], Year
-
-    can :read, Series::Assessment
-    can :read, Series::Cup
-    can :read, Series::Participation
-    can :read, Series::Round
-
-    can %i[read slug_handle], Registrations::Competition, published: true
-
-    can(:manage, M3::Login::Session)
-    can(:verify, M3::Login::Base)
-    can(:manage, M3::Login::PasswordReset)
-    can(:manage, M3::Login::ChangedEmailAddress)
-    can(:create, AdminUsers::Registration)
-    can(%i[create finish], Ipo::Registration)
   end
 
   def ipo_admin_abilities

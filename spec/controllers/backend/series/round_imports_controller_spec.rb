@@ -11,8 +11,6 @@ RSpec.describe Backend::Series::RoundImportsController, type: :controller, login
   end
 
   describe 'POST create' do
-    subject { -> { post :create, params: { round_id: round, series_round_import: create_attributes } } }
-
     let!(:score) { create(:score, :double, competition: competition) }
     let!(:group_score) { create(:group_score, :double, group_score_category: group_score_category) }
     let(:group_score_category) { create(:group_score_category, competition: competition) }
@@ -21,7 +19,7 @@ RSpec.describe Backend::Series::RoundImportsController, type: :controller, login
 
     it 'renders create view' do
       expect do
-        subject.call
+        post :create, params: { round_id: round, series_round_import: create_attributes }
         expect(response).to render_template :create
       end.to change(Series::Cup, :count).by(0)
     end
@@ -31,7 +29,7 @@ RSpec.describe Backend::Series::RoundImportsController, type: :controller, login
 
       it 'saves and redirect to round' do
         expect do
-          subject.call
+          post :create, params: { round_id: round, series_round_import: create_attributes }
           expect(response).to redirect_to(action: :show, id: round, controller: 'backend/series/rounds')
         end.to change(Series::Cup, :count).by(1)
       end

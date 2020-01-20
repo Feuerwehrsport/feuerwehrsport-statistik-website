@@ -4,9 +4,9 @@ module DisciplineNamesAndImages
   end
 
   def discipline_image_name_short(discipline, gender = nil)
-    text = "#{discipline_image(discipline)} #{discipline_name_short(discipline)}"
-    text += " #{g_symbol(gender)}" if gender.present?
-    text.html_safe
+    output = [discipline_image(discipline), discipline_name_short(discipline)]
+    output.push(g_symbol(gender)) if gender.present?
+    h.safe_join(output, ' ')
   end
 
   def discipline_name_short(discipline)

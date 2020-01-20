@@ -69,7 +69,7 @@ describe Import::Check do
       )
     end
 
-    it '' do
+    it 'generates correct results' do
       expect(check.import_lines!.map(&:to_h)).to eq(
         [
           valid: true,

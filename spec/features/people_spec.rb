@@ -4,7 +4,7 @@ describe 'people', type: :feature, js: true do
   let(:nation) { create(:nation) }
   let(:person) { create(:person) }
 
-  context 'index' do
+  context 'when index' do
     it 'can step pages' do
       create_list(:person, 13, :female)
 
@@ -53,7 +53,7 @@ describe 'people', type: :feature, js: true do
     end
   end
 
-  context 'add change request' do
+  context 'when add change request' do
     let!(:alfredo) { create(:person, first_name: 'Alfredo') }
     let!(:ungarn) { create(:nation, :ungarn) }
 

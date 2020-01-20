@@ -51,10 +51,10 @@ RSpec.shared_examples 'a backend resource controller' do |options|
 
   if only.include?(:update)
     describe 'PUT update' do
-      subject { -> { put :update, params: { :id => resource.id, resource_name => resource_update_attributes } } }
+      let(:r) { -> { put :update, params: { :id => resource.id, resource_name => resource_update_attributes } } }
 
       it 'update resource' do
-        subject.call
+        r.call
         expect(response).to redirect_to(action: :show, id: resource.id), -> { controller.form_resource.errors.inspect }
         if change_log_enabled
           expect_change_log(before: {}, after: {}, log: "update-#{resource_class.name.parameterize}")

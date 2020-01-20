@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'events features', type: :feature, js: true do
   let(:event) { create(:event) }
 
-  context 'index' do
+  context 'when index' do
     it 'shows an overview' do
       create_list(:event, 13).each { |event| create(:competition, event: event) }
 
@@ -17,7 +17,7 @@ describe 'events features', type: :feature, js: true do
     end
   end
 
-  context 'show' do
+  context 'when  show' do
     it 'shows an competitions overview' do
       create_list(:competition, 13, event: event)
 
