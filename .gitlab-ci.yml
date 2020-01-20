@@ -11,12 +11,15 @@ default:
 services:
   - postgres
 
-test:
+before_script:
+  - bundle install --path /cache --without production development
+
+test:rubocop:
   stage: test
   script:
-  - bundle install --path /cache --without production development
-  - RAILS_ENV=test bundle exec rake db:create
-  - DISABLE_SCREENSHOT_OPEN=1 bundle exec rspec spec/features/pages_spec.rb:22
+  - bundle exec rubocop --config config/rubocop.yml
 
-after_script:
-  - cat log/test.log
+test:rspec:
+  stage: test
+  script:
+  - SCREENSHOTS_DISABLED=1 DISABLE_SCREENSHOT_OPEN=1 bundle exec rspec
