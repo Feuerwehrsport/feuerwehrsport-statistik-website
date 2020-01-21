@@ -87,7 +87,7 @@ RSpec.describe Registrations::CompetitionsController, type: :controller, login: 
         expect(response).to be_successful
         expect(response.content_type).to eq 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         expect(response.headers['Content-Disposition']).to eq('attachment; filename="d-cup-21-03-2018.xlsx"')
-        expect(response.body.length).to eq 4509
+        expect(response.body.length).to be > 4000
       end
     end
   end

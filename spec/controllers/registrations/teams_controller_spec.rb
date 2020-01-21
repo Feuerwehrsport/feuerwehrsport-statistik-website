@@ -34,7 +34,7 @@ RSpec.describe Registrations::TeamsController, type: :controller, login: :user d
         expect(response).to be_successful
         expect(response.content_type).to eq 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         expect(response.headers['Content-Disposition']).to eq('attachment; filename="ff-mannschaft.xlsx"')
-        expect(response.body.length).to eq 4514
+        expect(response.body.length).to be > 4000
       end
     end
   end
