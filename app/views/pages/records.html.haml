@@ -6,7 +6,7 @@
       .col-md-3
         = toc.index
     .container
-      %table.table
+      %table.table.records-table
         %tr
           %td{colspan: "7"}
             = toc.anker("Weltrekorde - Männer", :h3)
@@ -41,7 +41,7 @@
           %td
             27,75 s
             %br/
-            %small 12,63 s/15,12 s
+            %small.times 12,63 s/15,12 s
           %td 9. WM 2013 - Jinju (Südkorea)
         %tr
           %td= discipline_image(:fs)
@@ -56,7 +56,7 @@
           %td
             = discipline_name(:la)
             %br/
-            %small (ISFFR - 20 m C)
+            %small.times (ISFFR - 20 m C)
           %td
           %td= @nation_cz.nation_flag
           %td= @nation_cz.name
@@ -96,7 +96,7 @@
           %td
             31,41 s
             %br/
-            %small 14,48 s/16,93 s
+            %small.times 14,48 s/16,93 s
           %td= competition_find_link(487)
         %tr
           %td= discipline_image(:fs)
@@ -112,7 +112,7 @@
           %td
             = discipline_name(:la)
             %br/
-            %small (ISFFR - 20 m C)
+            %small.times (ISFFR - 20 m C)
           %td
             %small= persons([246, 237, 184, 42, 100, 79, 68], type: :short_name)
           %td= @team61.image_thumb
@@ -158,7 +158,7 @@
           %td
             23,28 s
             %br/
-            %small 7,05 s/16,23 s
+            %small.times 7,05 s/16,23 s
           %td= competition_find_link(1674)
         %tr
           %td= discipline_image(:fs)
@@ -173,7 +173,7 @@
           %td
             = discipline_name(:la)
             %br/
-            %small (ISFFR - 2xB, 20m C)
+            %small.times (ISFFR - 2xB, 20m C)
           %td
           %td= @nation_ru.nation_flag
           %td= @nation_ru.name
@@ -195,7 +195,7 @@
           %td
             = discipline_name(:hb)
             %br/
-            %small 120cm Balken
+            %small.times 120cm Balken
           %td= persons(8, type: :full_name)
           %td= @team2.image_thumb
           %td= team_link(@team2)
@@ -206,7 +206,7 @@
           %td
             = discipline_name(:hb)
             %br/
-            %small 80cm Balken
+            %small.times 80cm Balken
           %td= persons(1598, type: :full_name)
           %td= @team2.image_thumb
           %td= team_link(@team2)
@@ -216,45 +216,45 @@
           %td= discipline_image(:hl)
           %td
             = discipline_name(:hl)
-          %td= persons(17, type: :full_name)
-          %td= @team2.image_thumb
-          %td= team_link(@team2)
-          %td 8,13 s
-          %td= competition_find_link(1097)
+          %td= persons(394, type: :full_name)
+          %td= @team167.image_thumb
+          %td= team_link(@team167)
+          %td 8,11 s
+          %td= competition_find_link(2003)
         %tr
           %td= discipline_image(:zk)
           %td
             = discipline_name(:zk)
             %br/
-            %small 120cm Balken
+            %small.times 120cm Balken
           %td= persons(17, type: :full_name)
           %td= @team2.image_thumb
           %td= team_link(@team2)
           %td
             27,16 s
             %br/
-            %small 8,13 s/19,03 s
+            %small.times 8,13 s/19,03 s
           %td= competition_find_link(1097)
         %tr
           %td= discipline_image(:zk)
           %td
             = discipline_name(:zk)
             %br/
-            %small 80cm Balken
-          %td= persons(394, type: :full_name)
-          %td= @team1869.image_thumb
-          %td= team_link(@team1869)
+            %small.times 80cm Balken
+          %td= persons(17, type: :full_name)
+          %td= @team61.image_thumb
+          %td= team_link(@team61)
           %td
-            26,82 s
+            26,52 s
             %br/
-            %small 8,55 s/18,27 s
-          %td= competition_find_link(1210)
+            %small.times 8,29 s/18,23 s
+          %td= competition_find_link(2004)
         %tr
           %td= discipline_image(:fs)
           %td
             = discipline_name(:fs)
             %br/
-            %small Leiterwand/120cm Balken
+            %small.times Leiterwand/120cm Balken
           %td
             %small= persons([8, 251, 282, 116], type: :short_name)
           %td= @team2.image_thumb
@@ -266,7 +266,7 @@
           %td
             = discipline_name(:fs)
             %br/
-            %small Haus/80cm Balken
+            %small.times Haus/80cm Balken
           %td
             %small= persons([17, 8, 435, 116], type: :short_name)
           %td= @team61.image_thumb
@@ -287,7 +287,7 @@
           %td
             = discipline_name(:la)
             %br/
-            %small (ISFFR - 2xB, 20m C)
+            %small.times (ISFFR - 2xB, 20m C)
           %td
             %small= persons([291, 38, 4, 290, 3376, 2448, 143], type: :short_name)
           %td= @team61.image_thumb
@@ -298,4 +298,4 @@
           %td{colspan: "7"}
             %em.small
               Nach der deutschen Wettkampfordnung werden in der Disziplin Löschangriff nass keine Rekorde geführt.
-      %p Stand: 31.08.2019
+      %p Stand: 01.01.2020

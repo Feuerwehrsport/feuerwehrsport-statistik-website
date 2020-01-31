@@ -52,6 +52,7 @@ class PagesController < ResourceController
     @team3  = Team.find(3).decorate
     @team15 = Team.find(15).decorate
     @team61 = Team.find(61).decorate
+    @team167 = Team.find(167).decorate
     @team1869 = Team.find(1869).decorate
     @nation_ru = Nation.find_by(iso: :ru).decorate
     @nation_cz = Nation.find_by(iso: :cz).decorate
