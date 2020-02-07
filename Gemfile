@@ -44,8 +44,8 @@ end
 group :development do
   gem 'spring'
 
-  gem 'm3_capistrano', require: false, git: 'git@gitlab.lichtbit.com:lichtbit/m3_capistrano.git'
-  gem 'capistrano_rsync_with_remote_cache', git: 'https://github.com/Lichtbit/capistrano_rsync_with_remote_cache'
+  gem 'm3_capistrano3', git: 'git@gitlab.lichtbit.com:lichtbit/m3_capistrano3.git'
+  gem 'capistrano-rsync-plugin', git: 'https://github.com/Lichtbit/capistrano-rsync-plugin'
 end
 
 group :test do

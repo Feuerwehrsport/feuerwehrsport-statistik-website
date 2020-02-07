@@ -1,10 +1,8 @@
+# config valid for current version and patch releases of Capistrano
+lock '~> 3.11.2'
+
 set :application, 'feuerwehrsport-statistik'
-set :user, 'feuerwehrsport-statistik'
-set :repository, 'git@gitlab.lichtbit.com:feuerwehrsport/feuerwehrsport-statistik.git'
-set :rvm_ruby_string, '2.5.5'
+set :repo_url, 'git@gitlab.lichtbit.com:feuerwehrsport/feuerwehrsport-statistik.git'
+set :deploy_to, '/srv/feuerwehrsport-statistik'
 
-# set :stages, %w(staging production)
-# set :default_stage, "staging"
-
-# set :enable_delayed_job, true
-# set :enable_whenever, true
+set :rvm_ruby_version, '2.5.5'

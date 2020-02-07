@@ -1,7 +1,4 @@
-require 'm3_capistrano_before_deploy'
+require 'm3_capistrano3/default'
 
-load 'deploy'
-load 'deploy/assets'
-load 'config/deploy'
-
-require 'm3_capistrano_after_deploy'
+# Load custom tasks from `lib/capistrano/tasks` if you have any defined
+Dir.glob('lib/capistrano/tasks/*.rake').each { |r| import r }
