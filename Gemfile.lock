@@ -1,8 +1,8 @@
 GIT
   remote: git@gitlab.lichtbit.com:lichtbit/m3_capistrano3.git
-  revision: dc4f06176cda6b35defa7b38abf70a0dfb7429af
+  revision: f8c98283d437651adc1e4fdac0cdf67dd6290d75
   specs:
-    m3_capistrano3 (0.1.0)
+    m3_capistrano3 (0.2.0)
       capistrano (~> 3.0)
       capistrano-rails
       capistrano-rsync-plugin
