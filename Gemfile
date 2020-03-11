@@ -30,7 +30,8 @@ gem 'redcarpet'
 gem 'schema_validations'
 gem 'activerecord_views'
 
-gem 'ttfunk', '1.5.1'
+# vue
+gem 'webpacker'
 
 group :production do
   gem 'unicorn'

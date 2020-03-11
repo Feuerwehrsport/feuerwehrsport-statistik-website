@@ -1,8 +1,10 @@
+- content_for(:head_content) do
+  = javascript_pack_tag 'calendar'
+
 .section
   .container
     %h1 Wettkampftermine
 
-  
     = nav_tab do |nt|
       - nt.tab('Wettkampftermine') do
         .row
@@ -31,3 +33,4 @@
           .col-md-4
             %p= image_link_to('appointment-new', 'Online-Anmeldung hinzufügen', new_select_template_registrations_competitions_path, image: { width: '18px' }, class: 'btn btn-default btn-sm btn-block')
             %p Diese Seite bietet es an, Online-Anmeldung von Wettkämpfen zu schalten. Weitere Informationen zum Vorgehen ist auf #{link_to('einer separaten Seite', online_anmeldungen_path)} erklärt.
+    #calendar-placeholder

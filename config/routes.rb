@@ -62,7 +62,7 @@ Rails.application.routes.draw do
         post :logout
       end
     end
-    resources :appointments, only: %i[create show update]
+    resources :appointments, only: %i[create show update index]
     resources :change_requests, only: %i[create index update] do
       get 'files/:id', to: 'change_requests#files'
     end

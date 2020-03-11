@@ -1,5 +1,5 @@
 class API::AppointmentsController < API::BaseController
-  api_actions :create, :show, :update,
+  api_actions :create, :show, :update, :index,
               change_log: true,
               default_form: %i[name description dated_at disciplines place event_id]
 

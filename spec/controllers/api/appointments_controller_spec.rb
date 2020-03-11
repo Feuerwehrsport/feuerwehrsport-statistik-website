@@ -68,4 +68,14 @@ RSpec.describe API::AppointmentsController, type: :controller do
 
     it_behaves_like 'api user get permission error'
   end
+
+  describe 'GET index' do
+    before { appointment }
+
+    it 'returns appointments' do
+      get :index
+      expect_api_not_login_response(collection_name: 'appointments',
+                                    appointments: [expected_attributes.merge(updateable: nil)])
+    end
+  end
 end
