@@ -1,6 +1,7 @@
 class CompetitionsController < ResourceController
   include DatatableSupport
   resource_actions :show, :index, cache: %i[show index]
+  map_support_at :show
 
   datatable(:index, :competitions, Competition, collection: -> { Competition.includes(:place, :event) }) do |t|
     t.col(:date_iso, class: 'col-10', sortable: :date, default_order: :desc)

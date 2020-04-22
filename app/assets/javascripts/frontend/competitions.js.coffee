@@ -10,16 +10,15 @@ Fss.ready 'competition', ->
 
   if $('#competition-map').length > 0
     elem = $('#competition-map')
-    FssMap.loadStyle ->
-      red = elem.data('map').red
-      map = FssMap.getMap('competition-map')
-      markers = elem.data('map').markers or []
-      markers = for marker in markers
-        L.marker(marker.latlon, { icon: FssMap.defaultIcon() }).bindPopup(marker.popup).addTo(map)
-      markers.push(L.marker(red.latlon, { icon: FssMap.redIcon() }).bindPopup(red.popup).addTo(map))
-      setTimeout( ->
-        map.fitBounds(L.featureGroup(markers).getBounds(), { padding: [20, 20] })
-      , 300)
+    red = elem.data('map').red
+    map = FssMap.getMap('competition-map')
+    markers = elem.data('map').markers or []
+    markers = for marker in markers
+      L.marker(marker.latlon, { icon: FssMap.defaultIcon() }).bindPopup(marker.popup).addTo(map)
+    markers.push(L.marker(red.latlon, { icon: FssMap.redIcon() }).bindPopup(red.popup).addTo(map))
+    setTimeout( ->
+      map.fitBounds(L.featureGroup(markers).getBounds(), { padding: [20, 20] })
+    , 300)
 
   $('#add-file').click ->
     Fss.checkLogin ->

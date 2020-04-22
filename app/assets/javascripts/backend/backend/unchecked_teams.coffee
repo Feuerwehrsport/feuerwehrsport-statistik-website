@@ -1,4 +1,3 @@
-#= require lib/map_utils
 #= require lib/team_state_selector
 
 Fss.ready 'backend/unchecked_teams', ->
@@ -25,7 +24,7 @@ Fss.ready 'backend/unchecked_teams', ->
         tr = $('<tr/>').appendTo(table)
         $('<td/>').text(item.display_name).appendTo(tr)
         $('<td/>').appendTo(tr).append($('<div/>').addClass('btn btn-default btn-sm').text('Auswählen').click ->
-          loadMap(true, [item.lat, item.lon])
+          FssMap.load('team', true, [item.lat, item.lon])
         )
     $.getScript("https://nominatim.openstreetmap.org/search?q=#{name}&format=json&json_callback=geoPositionResult")
 

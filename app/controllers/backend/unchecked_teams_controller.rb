@@ -1,5 +1,6 @@
 class Backend::UncheckedTeamsController < Backend::BackendController
   backend_actions
+  map_support_at :show
 
   default_form do |f|
     f.input :name

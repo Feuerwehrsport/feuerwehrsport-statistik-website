@@ -1,6 +1,5 @@
 #= require classes/Fss
 #= require classes/SortTable
-#= require lib/map_utils
 #= require lib/team_state_selector
 
 teamEditWindow = (title, data, submit) ->
@@ -36,7 +35,7 @@ Fss.ready 'team', ->
   new SortTable({ selector: '.datatable-group-assessments', noSorting: [5, 6] })
   new SortTable({ selector: '.datatable-group-disciplines' })
 
-  loadMap()
+  FssMap.load('team')
 
   $('#add-team').click ->
     Fss.checkLogin ->
@@ -49,7 +48,7 @@ Fss.ready 'team', ->
     addLogo($(this).data('team-id'))
 
   $('#add-geo-position').click ->
-    loadMap(true)
+    FssMap.load('team', true)
 
   $('#add-change-request').click ->
     teamId = $(this).data('team-id')
@@ -97,16 +96,15 @@ Fss.ready 'team', ->
           addLogo(teamId)
         else if selected is 'map'
           location.hash = '#toc-karte'
-          loadMap(true)
+          FssMap.load('team', true)
       )
       .open()
 
   if $('#teams-map').length > 0
     elem = $('#teams-map')
-    FssMap.loadStyle ->
-      map = FssMap.getMap('teams-map')
-      markers = for marker in elem.data('map').markers
-        L.circle(marker.latlon, marker.count * 20, { icon: FssMap.defaultIcon() }).bindPopup(marker.popup).addTo(map)
-      setTimeout( ->
-        map.fitBounds([[50.4, 5.9], [54.5, 16.8]])
-      , 300)
+    map = FssMap.getMap('teams-map')
+    markers = for marker in elem.data('map').markers
+      L.circle(marker.latlon, marker.count * 20, { icon: FssMap.defaultIcon() }).bindPopup(marker.popup).addTo(map)
+    setTimeout( ->
+      map.fitBounds([[50.4, 5.9], [54.5, 16.8]])
+    , 300)

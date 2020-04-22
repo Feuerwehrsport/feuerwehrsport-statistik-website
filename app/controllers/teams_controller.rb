@@ -1,6 +1,7 @@
 class TeamsController < ResourceController
   include DatatableSupport
   resource_actions :show, cache: %i[show index]
+  map_support_at :show, :index
 
   datatable(:index, :teams, Team) do |t|
     t.col :image_thumb, label: '', sortable: false, th_class: 'col-5'

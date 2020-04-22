@@ -11,6 +11,9 @@
   - else
     = javascript_include_tag 'frontend', 'data-turbolinks-track' => true
     = stylesheet_link_tag    'frontend', 'data-turbolinks-track' => true
+  - if map_support?
+    = javascript_include_tag '/leaflet/leaflet', skip_pipeline: true
+    = stylesheet_link_tag    '/leaflet/leaflet', skip_pipeline: true
 
   = auto_discovery_link_tag(:rss, news_articles_path(format: :atom))
   = auto_discovery_link_tag(:rss, change_logs_path(format: :atom))
