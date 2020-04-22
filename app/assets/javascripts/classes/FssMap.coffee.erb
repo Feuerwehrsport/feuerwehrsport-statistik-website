@@ -12,9 +12,7 @@ class @FssMap
 
     $.getScript '<%= asset_path('leaflet.js') %>', () ->
       L.Icon.Default.imagePath = '/styling/images/'
-      $.get '<%= asset_path('leaflet.css') %>', (css) ->
-        $('<style type="text/css"></style>').html(css).appendTo("head")
-        FssMap.loaded(callback)
+      FssMap.loaded(callback)
 
   @getMap: (id, latLon=[FssMap.lat,FssMap.lon], zoom=8) ->
     osmUrl = "https://b.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png"

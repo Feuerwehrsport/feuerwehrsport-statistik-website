@@ -8,4 +8,3 @@
 //= link frontend.css
 //= link backend.css
 //= link registrations.css
-//= link leaflet.css
