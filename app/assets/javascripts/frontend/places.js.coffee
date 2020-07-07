@@ -17,4 +17,4 @@ Fss.ready 'place', ->
   FssMap.load('place')
 
   $('#change-geo-position').click ->
-    FssMap.load('place', true)
+    FssMap.load("place", true)

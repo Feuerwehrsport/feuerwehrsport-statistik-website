@@ -39,7 +39,7 @@ module FeuerwehrsportStatistik
     config.pdf2table_path = '/opt/pdf2table.jar'
 
     config.m3.session.login_redirect_url = { controller: '/backend/dashboards', action: :index }
-    config.m3.compatible_version = '1.0.10'
+    config.m3.compatible_version = '1.0.11'
 
     config.after_initialize do
       Rails.application.precompiled_assets if config.assets.compile

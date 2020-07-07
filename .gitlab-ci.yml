@@ -6,7 +6,7 @@ variables:
   POSTGRES_HOST: postgres
 
 default:
-  image: lichtbit/ruby:2.5
+  image: lichtbit/ruby:2.6
 
 services:
   - postgres
