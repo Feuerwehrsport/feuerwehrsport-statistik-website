@@ -18,5 +18,3 @@
   = auto_discovery_link_tag(:rss, news_articles_path(format: :atom))
   = auto_discovery_link_tag(:rss, change_logs_path(format: :atom))
   = csrf_meta_tags
-  - if content_for?(:head_content)
-    = yield(:head_content)

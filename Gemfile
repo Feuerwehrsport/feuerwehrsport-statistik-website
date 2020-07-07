@@ -30,9 +30,6 @@ gem 'redcarpet'
 gem 'schema_validations'
 gem 'activerecord_views'
 
-# vue
-gem 'webpacker'
-
 group :production do
   gem 'unicorn'
   gem 'm3_log_file_parser', git: 'https://github.com/lichtbit/m3_log_file_parser.git'
