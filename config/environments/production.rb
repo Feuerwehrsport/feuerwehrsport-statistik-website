@@ -92,7 +92,7 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.wettkampf_manager_path = '/srv/feuerwehrsport-statistik/shared/uploads/wettkampf_manager'
+  config.wettkampf_manager_path = '/srv/feuerwehrsport-statistik/shared/public/uploads/wettkampf_manager'
   config.wettkampf_manager_config_path = '/home/feuerwehrsport-statistik/wms/config.json'
 
   config.log_file_parser = OpenStruct.new(
