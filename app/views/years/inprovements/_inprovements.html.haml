@@ -2,7 +2,17 @@
   .container.page-header
     %h1 Verbesserungen von #{@year.to_i - 1} zu #{@year}
 
-    %p Die nachfolgende Tabelle zeigt eine Übersicht der Wettkämpfer an, die im Jahr #{link_to(@year.to_i - 1, year_path(@year.to_i - 1))} und #{link_to(@year, year_path(@year))} jeweils mindenstens drei gültige Zeiten hatten. Die <var>Durchschnitt</var>sspalten geben den Durchschnitt der besten drei Zeiten des Jahres an. In der <var>Unterschied</var>spalte wird der absolute Unterschied zwischen den Jahren angezeigt.
+    %p
+      Die nachfolgende Tabelle zeigt eine Übersicht der Wettkämpfer an,
+      - if @year.to_i == 2020
+        die im Jahr #{link_to(2020, year_path(2020))} mindestens zwei und im Jahr #{link_to(2019, year_path(2019))} mindenstens drei gültige Zeiten hatten.
+      - elsif @year.to_i == 2021
+        die im Jahr #{link_to(2020, year_path(2020))} mindestens zwei und im Jahr #{link_to(2021, year_path(2021))} mindenstens drei gültige Zeiten hatten.
+      - else
+        die im Jahr #{link_to(@year.to_i - 1, year_path(@year.to_i - 1))} und #{link_to(@year, year_path(@year))} jeweils mindenstens drei gültige Zeiten hatten.
+      - if @year.to_i == 2020 || @year.to_i == 2021
+        Durch die Pandemie im Jahr #{link_to(2020, year_path(2020))} wurde hier eine Ausnahme mit nur zwei nötigen Zeiten gemacht.
+      Die <var>Durchschnitt</var>sspalten geben den Durchschnitt der besten drei Zeiten des Jahres an. In der <var>Unterschied</var>spalte wird der absolute Unterschied zwischen den Jahren angezeigt.
 
     %p Die Tabelle zeigt die Sportler weiter oben, die sich im Vergleich von #{link_to(@year.to_i - 1, year_path(@year.to_i - 1))} zu #{link_to(@year, year_path(@year))} verbessert haben.
 
