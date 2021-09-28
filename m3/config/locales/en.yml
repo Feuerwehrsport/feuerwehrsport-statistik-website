@@ -1,0 +1,97 @@
+en:
+  activerecord:
+    models:
+      m3/asset:
+        one: Asset
+        other: Assets
+    attributes:
+      m3/asset:
+        file: File
+        file_name: File name
+        image_preview: Image preview
+
+  application:
+    form:
+      has_errors: "Please review the problems below:"
+      wysiwyg:
+        bold: Bold
+        italic: Italic
+        h1: Title
+        h2: Heading
+        paragraph: Paragraph
+        ul: List
+        ol: Ordered List
+
+  attributes:
+    id: ID
+    to_s: Name
+    created_at: Created at
+    updated_at: Updated at
+
+  inputs:
+    association_select:
+      add: Add
+      remove_all: Remove all
+      search: Search
+      select: Select
+
+  "yes": "Yes"
+  "no": "No"
+
+  m3:
+    errors:
+      not_found:
+        not_found: Error 404 - Page not found
+        back_to_root_path: Return to homepage
+      internal_server_error:
+        internal_server_error: Error 500 - Internal error
+        back_to_root_path: Return to homepage
+      unacceptable:
+        unacceptable: Error 422 - Unprocessable entity
+        back_to_root_path: Return to homepage
+
+  t3:
+    application:
+      errors:
+        access_denied: Access denied
+        login_required: Please log in
+        invalid_resource: A problem has occurred
+      form_actions:
+        create: Save
+        submit: Save
+        update: Save
+        abort: Abort
+        confirm_destroy: Confirm deletion
+      views:
+        actions:
+          index: Show all
+          index_model: "Show all %{name}"
+          new: Create
+          new_resource: "Create %{name}"
+          download: Download
+          edit: Edit
+          edit_resource: "Edit %{name}"
+          export: Download
+          show: Show
+          show_resource: "Show %{name}"
+          abort: Abort
+          destroy: Delete
+          confirm_destroy: "Are you sure?"
+          move: Move
+          move_here: Move here
+          logout: Log out
+          filter: Filter
+          submit_filter: Filter
+          unfilter: Remove filters
+          select: Select
+        depending_associations_to_be_destroyed: Depending data to be destroyed
+        export_formats:
+          csv: CSV
+          xlsx: XLSX (Excel)
+        empty_collection: Empty
+        image_preview_input:
+          remove_file_on_save: Remove on save
+          edit: Edit
+          remove: Remove
+          reset: Abort
+          will_be_removed: File will be removed

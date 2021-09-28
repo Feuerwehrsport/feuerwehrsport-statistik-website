@@ -1,0 +1,9 @@
+.section
+  .container
+    = render 'filter_form', filters: m3_filter_structure, collection: collection
+    - if collection.blank?
+      %p.text-info= ca_t(:empty_collection)
+    - else
+      = yield
+      = render 'index_pagination'
+      = m3_export_format_list

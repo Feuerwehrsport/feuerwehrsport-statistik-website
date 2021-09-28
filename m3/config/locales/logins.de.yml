@@ -1,0 +1,92 @@
+de:
+  activerecord:
+    models:
+      m3/login/base:
+        one: Anmeldekonto
+        other: Anmeldekonten
+      m3/login/email_login:
+        one: Benutzerkonto
+        other: Benutzerkonten
+    attributes:
+      m3/login/base:
+        email_address: E-Mail-Adresse
+        expired_at: Passwortablauf am
+        new_email_address: E-Mail-Adresse
+        password: Passwort
+        password_confirmation: Passwortbestätigung
+        verified: Verifiziert
+        verified_at: Verifiziert am
+        verified_since: Verifiziert seit
+      m3/login/changed_email_address:
+        old_email_address: Alte E-Mail-Adresse
+        changed_email_address: Neue E-Mail-Adresse
+
+  activemodel:
+    models:
+      m3/login/session:
+        one: Sitzung
+        other: Sitzungen
+      m3/login/password_reset: Neues Passwort
+    attributes:
+      m3/login/session:
+        email_address: E-Mail-Adresse
+        password: Passwort
+      m3/login/password_reset:
+        email_address: E-Mail-Adresse
+        password: Passwort
+        password_confirmation: Passwortbestätigung
+    errors:
+      models:
+        m3/login/session:
+          attributes:
+            email_address:
+              unverified: ist noch nicht bestätigt
+            password:
+              expired: ist abgelaufen
+
+  t3:
+    m3/login/expired_logins:
+      views:
+        title: Passwort abgelaufen 
+        header_html: |
+          <p>Um die Sicherheit Ihres Nutzerkontos zu erhöhen, müssen Sie Ihr Passwort aktualisieren.
+    m3/login/password_resets:
+      form_actions:
+        create: Neues Passwort anfordern
+    m3/login/sessions:
+      form_actions:
+        create: Anmelden
+        update: Anmelden
+        destroy: Abmelden
+        abort: Passwort vergessen?
+      views:
+        title: Sitzung
+        actions:
+          new_resource: Anmelden
+          destroy: Abmelden
+          confirm_destroy: "Wirklich abmelden?"
+    m3/login/sessions#new:
+      views:
+        title: Anmelden
+    m3/login/changed_email_addresses:
+      form_actions:
+        update: Bestätigen
+    m3/logins:
+      inline_labels:
+        verified: E-Mail-Adresse wurde verifiziert und Nutzer darf sich anmelden
+
+  m3:
+    login:
+      sessions:
+        show:
+          new_resource: Anmelden
+      verifications:
+        verification_successful: E-Mail-Adresse erfolgreich verifiziert
+        resent_verification: Verifizierungs-E-Mail erneut versendet
+      password_resets:
+        index:
+          create_success_headline:  E-Mail versendet
+          create_success: Eine E-Mail mit Hinweisen zum Setzen eines neuen Passworts wurde versendet.
+        update_success: Passwort wurde geändert
+      change_email_address:
+        email_sent: Verifizierungs-E-Mail versendet

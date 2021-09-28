@@ -1,0 +1,12 @@
+= render 'hero', actions: collection_actions
+
+= render layout: 'index_table_section' do
+  = render layout: 'index_table' do |res, index|
+    = render 'index_move_target_row', res: res, position: index + (resource.position > index ? 1 : 0)
+    = render 'index_table_row', res: res
+    - if res == collection.last
+      = render 'index_move_target_row', res: res, position: res.position
+
+  = link_to link_to t('application.actions.abort'), url_for(action: :index), class: 'btn btn-default'
+
+  = ca_t(:footer_html)

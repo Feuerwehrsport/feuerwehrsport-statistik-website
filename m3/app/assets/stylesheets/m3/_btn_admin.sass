@@ -1,0 +1,27 @@
+$btn-admin-bg: rgba(#08f, 0.33) !default
+$btn-admin-border: #068 !default
+$btn-admin-border-radius: 2px !default
+$btn-admin-border-style: dashed !default
+$btn-admin-border-width: 2px !default
+$btn-admin-color: #068 !default
+
+.btn-admin
+  +button-variant($btn-admin-color, $btn-admin-bg, $btn-admin-border)
+  border-radius: $btn-admin-border-radius
+  border-style: $btn-admin-border-style
+  border-width: $btn-admin-border-width
+  padding-bottom: $padding-base-vertical - ($btn-admin-border-width - 1px)
+  padding-top: $padding-base-vertical - ($btn-admin-border-width - 1px)
+  text-decoration: none
+
+  &.btn-xs
+    padding-bottom: $padding-xs-vertical - ($btn-admin-border-width - 1px)
+    padding-top: $padding-xs-vertical - ($btn-admin-border-width - 1px)
+
+  &.btn-sm
+    padding-bottom: $padding-small-vertical - ($btn-admin-border-width - 1px)
+    padding-top: $padding-small-vertical - ($btn-admin-border-width - 1px)
+
+  &.btn-lg
+    padding-bottom: $padding-large-vertical - ($btn-admin-border-width - 1px)
+    padding-top: $padding-large-vertical - ($btn-admin-border-width - 1px)

@@ -1,0 +1,6 @@
+- mappings = { 'alert' => 'danger', 'notice' => 'info' }
+- flash.each do |name, msg|
+  - type = mappings[name] || name
+  .alert{ class: "alert-#{type}" }
+    %a.close{ href: "#", "data-dismiss" => "alert" } &times;
+    .container!= msg

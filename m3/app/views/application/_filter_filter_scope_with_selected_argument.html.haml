@@ -1,0 +1,13 @@
+.filters-filter
+  %label{ for: filter.html_id }= filter.label
+  %select.filters-input{ id: filter.html_id, type: :text, name: filter.param_name }
+    %option
+    - filter.collection.each do |member|
+      - if member.is_a?(String)
+        %option{ value: member, selected: member == filter.argument }= member
+      - elsif member.is_a?(Array)
+        %option{ value: member.second, selected: member.second == filter.argument }= member.first
+      - elsif member.respond_to?(:decorate)
+        %option{ value: member.to_param, selected: member == filter.argument }= member.decorate.send(filter.label_method)
+      - else
+        %option{ value: member.to_param, selected: member == filter.argument }= member

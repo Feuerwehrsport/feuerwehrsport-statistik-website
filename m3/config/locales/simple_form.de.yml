@@ -1,0 +1,14 @@
+de:
+  helpers:
+    submit:
+      create: "%{model} erstellen"
+      update: "%{model} speichern"
+
+  simple_form:
+    "yes": 'ja'
+    "no": 'nein'
+    required:
+      text: 'erforderlich'
+      mark: '*'
+    error_notification:
+      default_message: "Bitte folgende Probleme prüfen:"

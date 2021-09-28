@@ -1,0 +1,78 @@
+$hero-bg: $highlight-color !default
+$hero-color: $highlight-font-color !default
+
+$hero-btn-default-color: $btn-default-color !default
+$hero-btn-default-bg: $btn-default-bg !default
+$hero-btn-default-border: $btn-default-border !default
+
+$hero-btn-primary-color: $btn-primary-color !default
+$hero-btn-primary-bg: $btn-primary-bg !default
+$hero-btn-primary-border: $btn-primary-border !default
+
+$hero-btn-danger-color: $btn-danger-color !default
+$hero-btn-danger-bg: $btn-danger-bg !default
+$hero-btn-danger-border: $btn-danger-border !default
+
+$hero-btn-admin-color: $btn-admin-color !default
+$hero-btn-admin-bg: $btn-admin-bg !default
+$hero-btn-admin-border: $btn-admin-border !default
+
+.hero
+  @extend .section
+  background-color: $hero-bg
+  color: $hero-color
+
+  @if $hero-bg != $body-bg and $hero-bg != transparent
+    .section + &
+      padding-top: $section-padding
+
+    & + .section
+      padding-top: $section-padding
+
+  &.hero-bg
+    padding-top: $section-padding
+
+    & + .section
+      padding-top: $section-padding
+
+  .alert + &
+    margin-top: -$line-height-computed
+
+  .kicker
+    font-size: 1em
+    margin: 10px 0 0
+
+    a
+      color: $hero-color
+      text-decoration: none
+
+    & + h1
+      margin-top: 10px
+
+  .btn-default
+    +button-variant($hero-btn-default-color, $hero-btn-default-bg, $hero-btn-default-border)
+
+  .btn-primary
+    +button-variant($hero-btn-primary-color, $hero-btn-primary-bg, $hero-btn-primary-border)
+
+  .btn-danger
+    +button-variant($hero-btn-danger-color, $hero-btn-danger-bg, $hero-btn-danger-border)
+
+  .btn-admin
+    +button-variant($hero-btn-admin-color, $hero-btn-admin-bg, $hero-btn-admin-border)
+
+.hero-actions
+  margin: 0
+  padding: 0
+
+  .btn-group
+    > a[data-method=delete], > a.destroy
+      @extend .btn-danger
+
+  .dropdown-menu
+    a
+      font-size: $font-size-base
+
+  .open > .dropdown-menu
+    left: auto
+    right: 0

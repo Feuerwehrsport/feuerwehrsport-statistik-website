@@ -1,0 +1,10 @@
+- size ||= 'lg'
+- id ||= nil
+.modal.fade.modal-remote{ id: id }
+  .modal-dialog{ class: "modal-#{size}" }
+    - if !defined?(close) || close
+      %button.close.modal-close{ type: :button, 'data-dismiss': :modal } &times;
+    .modal-content
+      - if !defined?(flash_messages) || flash_messages
+        = render 'flash_messages'
+      = yield

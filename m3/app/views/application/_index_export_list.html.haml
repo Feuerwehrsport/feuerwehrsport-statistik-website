@@ -1,0 +1,7 @@
+.btn-group
+  %button.btn.btn-default.btn-xs.dropdown-toggle{ data: { toggle: :dropdown } }
+    = t3('actions.export')
+    %span.caret
+  %ul.dropdown-menu
+    - formats.each do |format|
+      %li= link_to(t3("export_formats.#{format}"), { format: format, q: params[:q], order: params[:order] })

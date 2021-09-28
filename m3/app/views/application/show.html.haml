@@ -1,0 +1,14 @@
+= render 'hero', actions: member_actions
+- begin
+  = render resource
+- rescue ActionView::MissingTemplate => e
+  .section
+    .container
+      %dl
+        - m3_show_structure.each do |field|
+          %dt= resource_class.human_attribute_name(field.name)
+          %dd= field.value(resource)
+
+.section
+  .container
+    = ca_t(:footer_html)

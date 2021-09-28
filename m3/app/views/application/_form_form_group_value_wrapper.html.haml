@@ -1,0 +1,10 @@
+.form-group{ options[:wrapper_html] || {} }
+  - unless label == false
+    %label.col-sm-3.control-label= label
+  .col-sm-9
+    - if value.present? and value.html_safe?
+      .form-control-static= value
+    - else
+      %p.form-control-static= value
+    - if hint
+      %p.help-block!= hint

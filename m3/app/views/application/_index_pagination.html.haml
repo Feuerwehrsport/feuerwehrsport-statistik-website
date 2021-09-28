@@ -1,0 +1,2 @@
+- if paginate?
+  = will_paginate collection, renderer: BootstrapPagination::Rails, inner_window: 2, outer_window: 0, next_label: content_tag(:span, '', class: 'fa fa-caret-right'), previous_label: content_tag(:span, '', class: 'fa fa-caret-left')

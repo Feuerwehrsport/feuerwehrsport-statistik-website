@@ -1,0 +1,92 @@
+en:
+  activerecord:
+    models:
+      m3/login/base:
+        one: User account
+        other: User accounts
+      m3/login/email_login:
+        one: User account
+        other: User accounts
+    attributes:
+      m3/login/base:
+        email_address: E-mail address
+        expired_at: Password expires at
+        new_email_address: E-mail address
+        password: Password
+        password_confirmation: Confirm password
+        verified: Verified
+        verified_at: Verified at
+        verified_since: Verified since
+      m3/login/changed_email_address:
+        old_email_address: Old e-mail address
+        changed_email_address: New e-mail address
+
+  activemodel:
+    models:
+      m3/login/session:
+        one: Session
+        other: Sessions
+      m3/login/password_reset: New password
+    attributes:
+      m3/login/session:
+        email_address: E-mail address
+        password: Password
+      m3/login/password_reset:
+        email_address: E-mail address
+        password: Password
+        password_confirmation: Confirm password
+    errors:
+      models:
+        m3/login/session:
+          attributes:
+            email_address:
+              unverified: is not verified yet
+            password:
+              expired: has expired
+
+  t3:
+    m3/login/expired_logins:
+      views:
+        title: Password expired
+        header_html: |
+          <p>Please change your password.
+    m3/login/password_resets:
+      form_actions:
+        create: Get new password
+    m3/login/sessions:
+      form_actions:
+        create: Log in
+        update: Log in
+        destroy: Log out  
+        abort: Forgot your password?
+      views:
+        title: Session
+        actions:
+          new_resource: Log in
+          destroy: Log out
+          confirm_destroy: "Log out?"
+    m3/login/sessions#new:
+      views:
+        title: Log in
+    m3/login/changed_email_addresses:
+      form_actions:
+        update: Confirm
+    m3/logins:
+      inline_labels:
+        verified: E-Mail-Adresse wurde bestätigt und Nutzer darf sich anmelden
+
+  m3:
+    login:
+      sessions:
+        show:
+          new_resource: Log in
+      verifications:
+        verification_successful: Verified e-mail address
+        resent_verification: Resent verification e-mail
+      password_resets:
+        index:
+          create_success_headline:  Sent e-mail
+          create_success: An e-mail with instructions to reset your password has been sent.
+        update_success: Changed password
+      change_email_address:
+        email_sent: Confirmation e-mail sent

@@ -1,0 +1,24 @@
+= render 'hero', actions: collection_actions
+
+= render layout: 'index_table_section' do
+  = render layout: 'index_table' do |res, index|
+    = render layout: 'index_table_row', locals: { res: res } do
+      - actions = member_actions(res)
+      - if actions.size > m3_index_table_max_actions
+        .btn-group
+          - actions.first(m3_index_table_max_actions).each do |action|
+            = action.link_to class: 'btn btn-default btn-xs'
+          %button.btn.btn-default.btn-xs.dropdown-toggle{ type: :button, data: { toggle: :dropdown }, aria: { haspopup: true, expanded: false } }
+            %span.caret
+          %ul.dropdown-menu
+            - actions.drop(m3_index_table_max_actions).each do |action|
+              %li= action.link_to
+      - else
+        - actions.each do |action|
+          = action.link_to class: 'btn btn-default btn-xs'
+
+- footer_html = ca_t(:footer_html)
+- if footer_html
+  .section
+    .container
+      = footer_html

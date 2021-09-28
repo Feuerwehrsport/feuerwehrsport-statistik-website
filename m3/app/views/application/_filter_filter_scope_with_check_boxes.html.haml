@@ -1,0 +1,15 @@
+.filters-filter
+  %label= filter.label
+  - filter.collection.each_with_index do |member, index|
+    .filters-with-check-boxes
+      %label{ for: "#{filter.html_id}_#{index}" }
+        - if member.is_a?(String)
+          - value = member ; label = member
+        - elsif member.is_a?(Array)
+          - value = member.second ; label = member.first
+        - elsif member.respond_to?(:decorate)
+          - value = member.to_param ; label = member.decorate
+        - else
+          - value = member.to_param ; label = member
+        %input{ id: "#{filter.html_id}_#{index}", type: :checkbox, name: "#{filter.param_name}[]", value: value, checked: member.in?(filter.argument) }
+        = label

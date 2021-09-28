@@ -1,0 +1,4 @@
+- if resource != res && resource.position != position
+  %tr.index-table-move-target
+    %td{ colspan: 100 }
+      = link_to t('application.actions.move_here'), url_for(action: :update, id: resource, rtp: url_for(action: :index), resource_class.model_name.param_key => { position: position }), method: :patch, class: 'btn btn-default btn-xs'

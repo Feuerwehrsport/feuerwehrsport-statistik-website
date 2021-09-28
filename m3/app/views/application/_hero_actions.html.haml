@@ -1,0 +1,16 @@
+- if actions.present?
+  - if actions.size > m3_hero_max_actions
+    .hero-actions
+      .btn-group
+        - actions.first(m3_hero_max_actions).each do |action|
+          = action.link_to class: 'btn btn-default'
+        %button.btn.btn-default.dropdown-toggle{ type: :button, data: { toggle: :dropdown }, aria: { haspopup: true, expanded: false } }
+          %span.caret
+        %ul.dropdown-menu
+          - actions.drop(m3_hero_max_actions).each do |action|
+            %li= action.link_to
+  - else
+    %ul.hero-actions
+      .btn-group
+        - actions.each do |action|
+          = action.link_to class: 'btn btn-default'

@@ -1,0 +1,24 @@
+- if child.is_a?(M3::Form::Structure::Inputs)
+  = f.inputs child.name, child.options do
+    - child.each do |inner_child|
+      = render 'form_structure', child: inner_child, f: f
+- elsif child.is_a?(M3::Form::Structure::Render)
+  = render child.options do
+    - child.each do |inner_child|
+      = render 'form_structure', child: inner_child, f: f
+- elsif child.is_a?(M3::Form::Structure::FieldsFor)
+  = f.m3_fields_for(child.name, child.object, child.options) do |ff|
+    - child.each do |inner_child|
+      = render 'form_structure', child: inner_child, f: ff
+- elsif child.is_a?(M3::Form::Structure::Input)
+  = f.input child.name, child.options
+- elsif child.is_a?(M3::Form::Structure::Association)
+  = f.association child.name, child.options
+- elsif child.is_a?(M3::Form::Structure::Hint)
+  = f.hint child.name, child.options
+- elsif child.is_a?(M3::Form::Structure::Value)
+  = render 'form_form_group_value_wrapper',
+    hint: child.hint(f.object, self),
+    label: child.label(f.object),
+    options: child.options,
+    value: child.value(f.object)

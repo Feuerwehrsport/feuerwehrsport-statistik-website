@@ -1,0 +1,6 @@
+.form-group.form-group-actions
+  - if wrapper_name == :horizontal_form
+    .col-sm-9.col-sm-offset-3
+      = capture(&content)
+  - else
+    = capture(&content)

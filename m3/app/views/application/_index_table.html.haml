@@ -1,0 +1,5 @@
+%table.index-table
+  = render 'index_table_thead'
+  %tbody
+    - collection.each_with_index do |res, index|
+      = yield(res, index)

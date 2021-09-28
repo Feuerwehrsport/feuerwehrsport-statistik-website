@@ -1,0 +1,8 @@
+%header.navbar.navbar-default.navbar-static-top
+  .container
+    .navbar-header
+      %button.navbar-toggle.collapsed{ data: { toggle: 'collapse', target: '#header-navbar-collapse' } }
+        .far.fa-bars
+      = render 'header_brand'
+    #header-navbar-collapse.collapse.navbar-collapse
+      = render 'header_menu'

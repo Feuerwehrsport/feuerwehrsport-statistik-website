@@ -1,0 +1,9 @@
+- if collection_action(:index).link_to?
+  %h2.kicker
+    = link_to resource_class.model_name.human(count: :many), url_for(action: :index)
+- elsif parent_resource?
+  %h2.kicker
+    - if parent_url
+      = link_to parent_resource, parent_url
+    - else
+      %span= parent_resource

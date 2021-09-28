@@ -1,0 +1,97 @@
+de:
+  activerecord:
+    models:
+      m3/asset:
+        one: Datei
+        other: Dateien
+    attributes:
+      m3/asset:
+        file: Datei
+        file_name: Dateiname
+        image_preview: Bildvorschau
+
+  application:
+    form:
+      has_errors: "Bitte folgende Felder prüfen:"
+      wysiwyg:
+        bold: Fett
+        italic: Kursiv
+        h1: Titel
+        h2: Überschrift
+        paragraph: Absatz
+        ul: Liste
+        ol: Geordn. Liste
+
+  attributes:
+    id: ID
+    to_s: Name
+    created_at: Erstellt am
+    updated_at: Bearbeitet am
+
+  inputs:
+    association_select:
+      add: Hinzufügen
+      remove_all: Alle entfernen
+      search: Durchsuchen
+      select: Auswählen
+
+  "yes": Ja
+  "no": Nein
+
+  m3:
+    errors:
+      not_found:
+        not_found: Fehler 404 - Seite nicht gefunden
+        back_to_root_path: Zurück zur Startseite
+      internal_server_error:
+        internal_server_error: Fehler 500 - Fehler beim Verarbeiten der Anfrage
+        back_to_root_path: Zurück zur Startseite
+      unacceptable:
+        unacceptable: Fehler 422 - Fehler beim Verarbeiten der Anfrage
+        back_to_root_path: Zurück zur Startseite
+
+  t3:
+    application:
+      errors:
+        access_denied: Keine Rechte zum Anzeigen der Seite
+        login_required: Bitte anmelden, um Seite anzuzeigen
+        invalid_resource: Ein Problem ist aufgetreten
+      form_actions:
+        create: "Speichern"
+        submit: "Speichern"
+        update: "Speichern"
+        abort: Abbrechen
+        confirm_destroy: Löschen bestätigen
+      views:
+        actions:
+          index: Alle anzeigen
+          index_model: "Alle %{name} anzeigen"
+          new: Neu erstellen
+          new_resource: "%{name} erstellen"
+          download: Herunterladen
+          edit: Bearbeiten
+          edit_resource: "%{name} bearbeiten"
+          export: Herunterladen
+          show: Anzeigen
+          show_resource: "%{name} anzeigen"
+          abort: Abbrechen
+          destroy: Löschen
+          confirm_destroy: "Auswahl wirklich löschen?"
+          move: Verschieben
+          move_here: Hierhin verschieben
+          logout: Abmelden
+          filter: Filtern
+          submit_filter: Suchen
+          unfilter: Aktive Filter entfernen
+          select: Auswählen
+        depending_associations_to_be_destroyed: Abhängige Daten, die mitgelöscht werden
+        export_formats:
+          csv: CSV
+          xlsx: XLSX (Excel)
+        empty_collection: Keine Einträge
+        image_preview_input:
+          remove_file_on_save: Beim Speichern löschen
+          edit: Ändern
+          remove: Entfernen
+          reset: Abbrechen
+          will_be_removed: Datei wird entfernt

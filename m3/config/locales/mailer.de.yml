@@ -1,0 +1,12 @@
+de:
+  m3:
+    login_mailer:
+      verify:
+        subject: Validierung der E-Mail-Adresse
+      password_reset:
+        subject: Zurücksetzen des Passworts
+      change_email_address:
+        subject: Änderung der E-Mail-Adresse
+    failure_mailer:
+      delivery_failed:
+        subject: "E-Mail-Zustellung fehlgeschlagen: %{subject}"

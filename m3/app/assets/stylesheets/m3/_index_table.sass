@@ -1,0 +1,57 @@
+.index-table
+  @extend .table
+
+  .index-table-actions
+    text-align: right
+
+  .is-sortable
+    color: $text-color
+    text-decoration: none
+
+    .sort-icon
+      margin-right: 0.25em
+      font-size: .9em
+      opacity: 0.25
+
+  .is-sortable
+    white-space: nowrap
+
+  .is-sorted .sort-icon
+    opacity: 1
+
+  .index-table-moving-row
+    @extend .active
+
+  .index-table-move-target
+    td
+      padding: 0
+      border: none
+      text-align: center
+
+    .btn-xs
+      display: block
+      width: 100%
+      font-size: 0.75em
+
+    & + tr td
+      border-top-width: 0
+
+  .image-preview
+    height: 50px
+    max-width: 150px
+
+  +screen-xs-and-below
+    td.priority-5, th.priority-5,
+    td.priority-4, th.priority-4,
+    td.priority-3, th.priority-3,
+    td.priority-2, th.priority-2,
+      display: none
+
+  +screen-sm-only
+    td.priority-5, th.priority-5,
+    td.priority-4, th.priority-4,
+      display: none
+  
+  +screen-md-only
+    td.priority-5, th.priority-5,
+      display: none

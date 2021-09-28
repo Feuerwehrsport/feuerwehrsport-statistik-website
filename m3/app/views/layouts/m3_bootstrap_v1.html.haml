@@ -1,0 +1,9 @@
+!!!
+%html{ lang: I18n.locale }
+  = render 'layouts/head'
+  %body{ class: body_classes }
+
+    = render 'header'
+    = render 'flash_messages'
+    = yield
+    = render 'footer'

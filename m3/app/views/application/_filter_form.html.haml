@@ -1,0 +1,13 @@
+- if filters.size > 0 && (collection.present? || filters.filtered?)
+  .filters-wrapper
+    %button.filters-trigger{ type: :button, data: { toggle: :dropdown }, aria: { haspopup: 'true', expanded: 'false' } }
+      = t3('actions.filter')
+      %span.caret
+    = form_tag(url_for(), { class: 'filters-form', method: :get }) do
+      - filters.reject(&:hidden?).each do |filter|
+        = render "filter_#{filter.to_partial_path}", filter: filter
+      = keep_filter_options for_key: :c
+      %button.filters-submit{ type: :submit }= t3('actions.submit_filter')
+
+    - if filters.filtered?
+      = link_to t3('actions.unfilter'), url_for(q: nil), class: 'filters-unfilter'

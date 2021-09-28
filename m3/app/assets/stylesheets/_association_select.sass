@@ -1,0 +1,90 @@
+.association-select
+
+  select.select
+    position: absolute
+    left: -99999px
+
+  .as-ul
+    list-style-type: none
+    padding-left: 0
+
+    > li
+      border-bottom: 1px solid #CCC
+      padding: 8px
+
+      &:first-child
+        border-top: 1px solid #CCC
+
+  .as-remove
+    float: right
+    cursor: pointer
+    padding: 0 3px
+    margin-left: 1em
+
+    &:hover
+      background: #F6F6F6
+
+  .as-remove-all
+    float: right
+    margin-right: 8px
+    color: #AAA
+    cursor: pointer
+    padding: 0 3px 0 6px
+
+    > *
+      display: inline-block
+
+    .as-remove-all-icon
+      cursor: pointer
+      margin-left: 1em
+      color: $text-color
+
+    .as-remove-all-label
+      font-size: 13px
+      line-height: 20px
+
+    &:hover
+      background: #F6F6F6
+
+  .as-selectable
+    cursor: pointer
+
+    &:hover
+      background: #F6F6F6
+
+
+  .as-info
+    float: right
+    color: #AAA
+    font-size: 13px
+    line-height: 20px
+
+  .as-desc
+    margin-top: 5px
+    color: #AAA
+    font-size: 13px
+    line-height: 20px
+
+  .as-groups
+    text-align: left
+
+  .is-loading-icon
+    float: right
+    visibility: hidden
+
+  .as-search-wrapper
+    display: flex
+    align-items: center
+
+    > :nth-child(1)
+      flex: 1
+
+    > :nth-child(2)
+      margin-left: 1rem
+
+  .modal.is-loading
+    .as-ul
+      opacity: 0.5
+
+    .is-loading-icon
+      visibility: visible

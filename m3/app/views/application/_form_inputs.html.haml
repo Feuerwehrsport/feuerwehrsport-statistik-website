@@ -1,0 +1,10 @@
+%fieldset{ class: classes }
+  - if input
+    %legend.legend-input
+      %label
+        = input
+        = legend
+  - elsif legend
+    %legend= legend
+  .fieldset-content
+    = capture(&content)

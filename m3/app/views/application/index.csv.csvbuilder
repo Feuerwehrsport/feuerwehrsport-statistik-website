@@ -1,0 +1,4 @@
+csv << m3_index_export_structure.map { |field| field.options[:label] || ca_t(field.name, scope: :index_csv_headers, default: collection.klass.human_attribute_name(field.name)).html_safe }
+collection.each do |res|
+  csv << m3_index_export_structure.map { |field| field.value(res) }
+end

@@ -1,0 +1,6 @@
+%tr
+  - m3_index_structure.each do |field|
+    %td{ class: "priority-#{field.priority}" }= field.value(res)
+  - if block_given?
+    %td.index-table-actions
+      = yield

@@ -1,0 +1,19 @@
+= render 'hero', actions: member_actions
+.section
+  .container
+    %h3= t3(:depending_associations_to_be_destroyed)
+    %table.index-table
+      %tbody
+        - @depending_associations.each do |assoc|
+          %tr
+            - assoc[:field_names].each do |name|
+              %th= name
+          - assoc[:collection].each do |record|
+            %tr
+              - assoc[:fields].each do |name|
+                %td= record.send(name)
+    
+    = m3_form(url: url_for(action: :destroy, confirm: 1), method: :delete) do |f|
+      = f.actions(submit_label: t3(:confirm_destroy, scope: :form_actions))
+    
+    = ca_t(:footer_html)

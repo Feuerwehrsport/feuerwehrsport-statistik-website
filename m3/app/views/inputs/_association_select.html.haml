@@ -1,0 +1,40 @@
+.association-select-wrapper{ data: { url: association_select_url(association, filter: filter, rtp: nil) } }
+  = input
+
+  %ul.as-ul
+    %li
+      .as-remove &#10005;
+      .as-info &ndash;
+      .as-label &ndash;
+      - if show_input_description
+        .as-desc &ndash;
+
+  %a.as-add.btn.btn-default{ href: "##{id_prefix}-modal" }
+    - if multi_select
+      = t('.add')
+    - else
+      = t('.select')
+  - if remove_all
+    %div.as-remove-all
+      .as-remove-all-label= t('.remove_all')
+      .as-remove-all-icon &#10005;
+
+  .modal.fade{ id: "#{id_prefix}-modal" }
+    .modal-dialog.modal-lg
+      .modal-content
+        .modal-header
+          %button.close.modal-close{ type: :button, 'data-dismiss': :modal } &times;
+          %div &nbsp;
+          .as-search-wrapper
+            %div
+              %input.form-control.as-search{ type: :text, placeholder: t('.search') }
+            %div
+              %i.is-loading-icon.far.fa-spinner-third.fa-spin
+        .modal-body
+          %ul.as-ul
+            %li.as-selectable
+              .as-info &ndash;
+              .as-label &ndash;
+              .as-desc &ndash;
+        .modal-footer.as-groups
+          %button.as-group.btn.btn-default.btn-sm{ type: :button } Group

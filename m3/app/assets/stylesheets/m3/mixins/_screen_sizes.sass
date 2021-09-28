@@ -1,0 +1,47 @@
+=screen-uncollapsed-nav
+  @media (min-width: $grid-float-breakpoint)
+    @content
+
+=screen-below-xs
+  @media (max-width: $screen-xs-min - 1)
+    @content
+
+=screen-xs-and-below
+  @media (max-width: $screen-xs-max)
+    @content
+
+=screen-xs-only
+  @media (min-width: $screen-xs-min) and (max-width: $screen-xs-max)
+    @content
+
+=screen-xs-and-up
+  @media (min-width: $screen-xs-min)
+    @content
+
+=screen-sm-and-below
+  @media (max-width: $screen-sm-max)
+    @content
+
+=screen-sm-only
+  @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max)
+    @content
+
+=screen-sm-and-up
+  @media (min-width: $screen-sm-min)
+    @content
+
+=screen-md-and-below
+  @media (max-width: $screen-md-max)
+    @content
+
+=screen-md-only
+  @media (min-width: $screen-md-min) and (max-width: $screen-md-max)
+    @content
+
+=screen-md-and-up
+  @media (min-width: $screen-md-min)
+    @content
+
+=screen-lg-only
+  @media (min-width: $screen-lg-min)
+    @content

@@ -1,0 +1,3 @@
+# frozen_string_literal: true
+
+M3::ExcelWorkbook.new(xlsx_package.workbook, ca_title&.truncate(31), m3_index_export_structure).add_sheet(collection)

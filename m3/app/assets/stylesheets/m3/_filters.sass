@@ -1,0 +1,25 @@
+.filters-wrapper
+  position: relative
+  display: inline-block
+  margin-bottom: 1em
+.filters-trigger
+  @extend .btn, .btn-default, .btn-xs
+.filters-unfilter
+  @extend .btn, .btn-warning, .btn-xs
+.filters-form
+  @extend .dropdown-menu
+  padding: 10px
+  min-width: 250px
+  +screen-xs-and-up
+    min-width: 400px
+.filters-filter
+  @extend .form-group
+.filters-input
+  @extend .form-control
+  &.date, &.time
+    display: block !important
+    width: 100% !important
+.filters-with-check-boxes label
+  font-weight: normal
+.filters-submit
+  @extend .btn, .btn-default, .btn-sm

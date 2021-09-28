@@ -1,0 +1,6 @@
+#= require m3/i18n
+
+translations = <%= I18n.t('javascript', locale: :en).to_json %>
+
+for key of translations
+  I18n[key] = translations[key]

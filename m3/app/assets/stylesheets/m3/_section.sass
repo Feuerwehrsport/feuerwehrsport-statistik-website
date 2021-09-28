@@ -1,0 +1,19 @@
+$section-padding: $padding-large-vertical * 2 !default
+
+.section
+  padding: $section-padding 0
+
+  & > *:first-child, & > .row:first-child > div > *:first-child
+    margin-top: 0
+
+  & > *:last-child, & > .row:last-child > div > *:last-child
+    margin-bottom: 0
+
+  .section &
+    padding: 0
+
+  .section & + .section
+    padding-top: $section-padding
+
+  .section + &
+    padding-top: 0

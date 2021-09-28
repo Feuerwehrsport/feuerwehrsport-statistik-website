@@ -1,0 +1,13 @@
+=keyframes($name)
+  @-webkit-keyframes #{$name}
+    @content
+
+  @keyframes #{$name}
+    @content
+
+=transform($transform)
+  -moz-transform: $transform
+  -ms-transform: $transform
+  -o-transform: $transform
+  -webkit-transform: $transform
+  transform: $transform

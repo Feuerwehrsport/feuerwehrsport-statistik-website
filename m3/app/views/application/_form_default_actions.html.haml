@@ -1,0 +1,4 @@
+= hidden_field_tag :_ignored # https://blog.yorkxin.org/2014/02/06/ajax-with-formdata-is-broken-on-ie10-ie11
+= f.button :submit, class: 'btn-primary', value: f.submit_label
+- if abort_url.present?
+  = link_to f.abort_label, return_page_or_url(abort_url), class: 'btn btn-default' 
