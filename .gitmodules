@@ -4,6 +4,3 @@
 [submodule "firesport"]
   path = firesport
   url = https://github.com/Feuerwehrsport/firesport.git
-[submodule "m3"]
-	path = m3
-	url = ../../lichtbit/m3.git
