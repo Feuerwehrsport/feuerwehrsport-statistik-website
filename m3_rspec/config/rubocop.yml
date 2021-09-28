@@ -1,0 +1,194 @@
+require:
+  - rubocop-rspec
+  - rubocop-rails
+  - rubocop-performance
+
+AllCops:
+  Exclude:
+  - db/schema.rb
+  - m3/lib/generators/m3/templates/*.rb
+  - node_modules/**/*
+  - spec/fixtures/**/*
+  - tmp/**/*
+  - vendor/**/*
+  TargetRailsVersion: 5.2
+  TargetRubyVersion: 2.5
+Bundler/OrderedGems:
+  Enabled: false
+Layout/LineLength:
+  Exclude:
+  - db/migrate/*
+  - Gemfile
+  - m3/db/migrate/*
+  Max: 120
+Lint/BooleanSymbol:
+  Enabled: false
+Lint/UnusedMethodArgument:
+  Exclude:
+  - m3/app/models/m3/form_object_associations.rb
+Metrics/AbcSize:
+  Enabled: false
+Metrics/BlockLength:
+  Exclude:
+  - '**/*.rake'
+  - config/application.rb
+  - config/environments/*.rb
+  - config/routes.rb
+  - db/migrate/*.rb
+  - Guardfile
+  - m3/config/initializers/simple_form_bootstrap.rb
+  - m3_rspec/**/*
+  - Rakefile
+  - spec/**/*.rb
+  IgnoredMethods:
+  - add_worksheet
+  - class_methods
+  - default_form
+  - default_index
+  - export_index
+  - filter_index
+  - form_for
+  - included
+  - inputs
+  - new
+Metrics/ClassLength:
+  Exclude:
+  - db/migrate/*.rb
+  Max: 200
+Metrics/CyclomaticComplexity:
+  Exclude:
+  - m3/app/controllers/concerns/default_actions.rb
+  Max: 15
+Metrics/MethodLength:
+  Exclude:
+  - db/migrate/*.rb
+  Max: 30
+Metrics/ModuleLength:
+  Exclude:
+  - m3/app/helpers/m3/application_helper.rb
+Metrics/ParameterLists:
+  Exclude:
+  - m3/app/controllers/concerns/default_actions.rb
+  Max: 6
+Metrics/PerceivedComplexity:
+  Exclude:
+  - m3/app/controllers/concerns/default_actions.rb
+  - m3/app/decorators/m3/index/structure/field_decorator.rb
+  Max: 15
+Naming/MemoizedInstanceVariableName:
+  Exclude:
+  - m3/app/helpers/m3/application_helper.rb
+Naming/MethodParameterName:
+  AllowedNames:
+  - _f
+  - at
+  - by
+  - db
+  - f
+  - id
+  - in
+  - io
+  - ip
+  - to
+  - true
+Naming/PredicateName:
+  AllowedMethods:
+  - is_a?
+  - has_slug
+  - has_many
+  - has_attribute?
+RSpec/AnyInstance:
+  Enabled: false
+RSpec/DescribeClass:
+  Exclude:
+  - m3_rspec/lib/generators/m3/rspec/templates/spec/controllers/m3_filter_structure_spec.rb
+  - m3_rspec/lib/generators/m3/rspec/templates/spec/controllers/m3_index_structure_spec.rb
+  - spec/controllers/m3_filter_structure_spec.rb
+  - spec/controllers/m3_index_structure_spec.rb
+  - spec/features/**/*
+RSpec/EmptyExampleGroup:
+  Exclude:
+  - spec/rails_helper.rb
+RSpec/ExampleLength:
+  Max: 120
+RSpec/Focus:
+  AutoCorrect: false
+RSpec/LetSetup:
+  Enabled: false
+RSpec/MessageSpies:
+  Enabled: false
+RSpec/MissingExampleGroupArgument:
+  Exclude:
+  - spec/rails_helper.rb
+RSpec/MultipleExpectations:
+  Enabled: false
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+RSpec/NestedGroups:
+  Enabled: false
+RSpec/RepeatedExample:
+  Enabled: false
+RSpec/ScatteredSetup:
+  Enabled: false
+RSpec/StubbedMock:
+  Enabled: false
+Rails:
+  Enabled: true
+Rails/ApplicationRecord:
+  Enabled: false
+Rails/DynamicFindBy:
+  AllowedMethods:
+  - find_by_session
+  - find_by_sql
+  AutoCorrect: false
+Rails/LexicallyScopedActionFilter:
+  Enabled: false
+Rails/Output:
+  Exclude:
+  - config/deploy/**/*
+Rails/OutputSafety:
+  Exclude:
+  - m3/app/helpers/m3/application_helper.rb
+Rails/RakeEnvironment:
+  Exclude:
+  - m3/lib/tasks/m3.rake
+Rails/ReversibleMigration:
+  Enabled: false
+Rails/SkipsModelValidations:
+  Enabled: false
+Rails/UnknownEnv:
+  Environments:
+  - development
+  - production
+  - staging
+  - test
+Style/AsciiComments:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+  Exclude:
+  - config/application.rb
+  - config/boot.rb
+  - m3_rspec/lib/generators/m3/rspec/install_generator.rb
+Style/Documentation:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/GlobalVars:
+  Exclude:
+  - m3_rspec/lib/m3_rspec/rails_helper.rb
+Style/Lambda:
+  EnforcedStyle: literal
+Style/MixinUsage:
+  Exclude:
+  - bin/**/*
+Style/NumericPredicate:
+  Enabled: false
+Style/SafeNavigation:
+  Enabled: false
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: comma
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
