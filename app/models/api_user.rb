@@ -4,7 +4,7 @@ class APIUser < ApplicationRecord
 
   scope :old_entries, -> { where(arel_table[:created_at].lt(1.month.ago)) }
 
-  validates :email_address, email_format: true, allow_blank: true
+  validates :email_address, "valid_email_2/email": true, allow_blank: true
   validates :name, presence: true
   after_create :remove_old_entries
 
