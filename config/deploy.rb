@@ -6,3 +6,5 @@ set :repo_url, 'git@gitlab.lichtbit.com:feuerwehrsport/feuerwehrsport-statistik.
 set :deploy_to, '/srv/feuerwehrsport-statistik'
 
 set :rvm_ruby_version, '2.6.6'
+
+set :systemd_usage, true

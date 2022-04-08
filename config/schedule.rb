@@ -19,15 +19,8 @@
 
 # Learn more: http://github.com/javan/whenever
 base_command = '/usr/local/bin/feuerwehrsport-statistik.'
-job_type :ensure_delayed_job_running, ':path/m3/etc/ensure_delayed_job_running.sh :task'
-job_type :ensure_unicorn_running, ':path/m3/etc/ensure_unicorn_running.sh :task'
 job_type :dump, ':path/etc/store_dump.sh "--exclude-table-data=$(sed \':a;N;$!ba;s/\n/ --exclude-table-data=/g\' ' \
                 ':path/config/dump_exclude_tables)" :task'
-
-every :reboot do
-  ensure_delayed_job_running 'feuerwehrsport-statistik'
-  ensure_unicorn_running 'feuerwehrsport-statistik'
-end
 
 every :day, at: '5:12 am' do
   command "#{base_command}rake m3:log_file_parser"
@@ -35,9 +28,4 @@ end
 
 every :day, at: '3:42 am' do
   dump 'feuerwehrsport-statistik'
-end
-
-every 5.minutes do
-  ensure_delayed_job_running 'feuerwehrsport-statistik'
-  ensure_unicorn_running 'feuerwehrsport-statistik'
 end
