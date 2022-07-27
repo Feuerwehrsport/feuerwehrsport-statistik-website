@@ -51,6 +51,7 @@ class PagesController < ResourceController
     @team2  = Team.find(2).decorate
     @team3  = Team.find(3).decorate
     @team15 = Team.find(15).decorate
+    @team10 = Team.find(10).decorate
     @team61 = Team.find(61).decorate
     @team167 = Team.find(167).decorate
     @team1869 = Team.find(1869).decorate
