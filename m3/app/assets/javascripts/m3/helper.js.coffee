@@ -34,20 +34,3 @@ M3.ready ->
 
     url = if url.match(/\?/) then url.replace(/\?/, '.js?') else "#{url}.js"
     replacePlaceholder(url, placeholder)
-
-
-Modernizr.addTest('ipad', ->
-  !!navigator.userAgent.match(/iPad/i)
-)
-
-Modernizr.addTest('iphone', ->
-  !!navigator.userAgent.match(/iPhone/i)
-)
-
-Modernizr.addTest('ipod', ->
-  !!navigator.userAgent.match(/iPod/i)
-)
-
-Modernizr.addTest('appleios', ->
-  (Modernizr.ipad || Modernizr.ipod || Modernizr.iphone)
-)

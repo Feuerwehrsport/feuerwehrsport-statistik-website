@@ -1,7 +1,7 @@
 #= require bootstrap-datetimepicker
 
-hasNativeSupportForDate = Modernizr.inputtypes.date
-hasNativeSupportForTime = Modernizr.inputtypes.time
+hasNativeSupportForDate = true
+hasNativeSupportForTime = true
 
 M3.ready ->
   $.fn.datetimepicker.defaults.locale = moment.locale()

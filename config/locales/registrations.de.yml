@@ -137,8 +137,6 @@ de:
     registrations/teams:
       fieldsets:
         assessments: Wertungen
-      form_actions:
-        create: Mannschaft anlegen
       hints:
         name: 'Beispiel: FF Warin'
         shortcut: 'Kurzer Name der Mannschaft für Listen mit wenig Platz; Beispiel: Warin '

@@ -25,7 +25,7 @@ describe 'registration feature', js: true do
     save_review_screenshot
     expect do
       select 'männlich', from: 'Geschlecht'
-      click_on('Mannschaft anlegen')
+      click_on('Mannschaft erstellen')
 
       fill_in 'Mannschaftsleiter', with: 'Max Mustermann'
       fill_in 'Straße und Hausnummer', with: 'Musterstraße 123'

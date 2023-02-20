@@ -1,25 +1,14 @@
 de:
+  helpers:
+    submit:
+      create: "%{model} erstellen"
+      update: "%{model} speichern"
+
   simple_form:
-    yes: 'Ja'
-    no: 'Nein'
+    "yes": 'ja'
+    "no": 'nein'
     required:
       text: 'erforderlich'
       mark: '*'
     error_notification:
-      default_message: "Bitte beseitigen Sie folgende Fehler:"
-
-    # Examples
-    # labels:
-    #   defaults:
-    #     password: 'Password'
-    #   user:
-    #     new:
-    #       email: 'E-mail to sign in.'
-    #     edit:
-    #       email: 'E-mail.'
-    # include_blanks:
-    #   defaults:
-    #     age: 'Rather not say'
-    # prompts:
-    #   defaults:
-    #     age: 'Select your age'
+      default_message: "Bitte folgende Probleme prüfen:"

@@ -3,7 +3,6 @@ var body = $('body');
 var existingModals = body.children('.modal-remote');
 var fragment = $("<%= j render(layout: 'modal', locals: { id: id }, formats: ['html']) { render(template: template, formats: ['html']) } %>");
 var modalOptions = {};
-if(Modernizr.appleios) { modalOptions.backdrop = 'static'; }
 
 existingModals.modal('hide');
 body.append(fragment);

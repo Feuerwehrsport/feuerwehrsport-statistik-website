@@ -155,7 +155,6 @@ Naming/MethodParameterName:
 Naming/PredicateName:
   AllowedMethods:
   - is_a?
-  - has_slug
   - has_many
   - has_attribute?
 Naming/VariableNumber:

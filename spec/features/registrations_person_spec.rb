@@ -22,7 +22,7 @@ describe 'registration feature', js: true do
       find('.last_name').click
       expect(find_field('registrations_person[last_name]').value).to eq 'Meier'
       save_review_screenshot
-      click_on('Wettkämpfer anlegen')
+      click_on('Wettkämpfer erstellen')
     end
     within('.datatable') do
       expect(page).to have_content('Alfred')
