@@ -31,13 +31,16 @@ class BLA::BadgeGenerator
     scores = person
              .scores
              .joins(:competition)
-             .where(competitions: { scores_for_bla_badge: true })
              .where(Competition.arel_table[:date].gteq(Date.new(2002, 1, 1)))
              .order(Competition.arel_table[:date].asc)
     scores = yield(scores) if block_given?
 
-    badge.hb_score = scores.low_and_high_hb.find_by(Score.arel_table[:time].lteq(hb_max_time))
-    badge.hl_score = scores.hl.find_by(Score.arel_table[:time].lteq(hl_max_time))
+    badge.hb_score = scores.low_and_high_hb
+                           .where(competitions: { "hb_#{person.gender}_for_bla_badge": true })
+                           .find_by(Score.arel_table[:time].lteq(hb_max_time))
+    badge.hl_score = scores.hl
+                           .where(competitions: { "hl_#{person.gender}_for_bla_badge": true })
+                           .find_by(Score.arel_table[:time].lteq(hl_max_time))
 
     scores = scores.where(Competition.arel_table[:date].lteq(Date.new(2016, 1, 1)))
     badge.hb_score ||= scores.low_and_high_hb.find_by(Score.arel_table[:time].lteq(hb_max_time + 30))
@@ -49,10 +52,11 @@ class BLA::BadgeGenerator
   def people_without_gold(gender, hl_max_time, hb_max_time)
     scores = Score.select(:person_id).group(:person_id)
                   .gender(gender).joins(:competition)
-                  .where(competitions: { scores_for_bla_badge: true })
                   .where(Competition.arel_table[:date].gteq(Date.new(2002, 1, 1)))
     hb_people = scores.discipline(%i[hb hw]).where(Score.arel_table[:time].lteq(hb_max_time))
+                      .where(competitions: { "hb_#{gender}_for_bla_badge": true })
     hl_people = scores.hl.where(Score.arel_table[:time].lteq(hl_max_time))
+                      .where(competitions: { "hl_#{gender}_for_bla_badge": true })
     Person.german.where(id: hb_people.where(person_id: hl_people)).reject do |person|
       person.bla_badge.try(:status) == 'gold'
     end

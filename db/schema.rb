@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_20_200212) do
+ActiveRecord::Schema.define(version: 2023_02_20_211028) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -94,28 +94,31 @@ ActiveRecord::Schema.define(version: 2023_02_20_200212) do
   end
 
   create_table "competitions", id: :serial, force: :cascade do |t|
-    t.string   "name",                 :limit=>200, :default=>"", :null=>false
-    t.integer  "place_id",             :null=>false, :index=>{:name=>"index_competitions_on_place_id"}
-    t.integer  "event_id",             :null=>false, :index=>{:name=>"index_competitions_on_event_id"}
-    t.integer  "score_type_id",        :index=>{:name=>"index_competitions_on_score_type_id"}
-    t.date     "date",                 :null=>false
+    t.string   "name",                    :limit=>200, :default=>"", :null=>false
+    t.integer  "place_id",                :null=>false, :index=>{:name=>"index_competitions_on_place_id"}
+    t.integer  "event_id",                :null=>false, :index=>{:name=>"index_competitions_on_event_id"}
+    t.integer  "score_type_id",           :index=>{:name=>"index_competitions_on_score_type_id"}
+    t.date     "date",                    :null=>false
     t.datetime "published_at"
-    t.datetime "created_at",           :null=>false
-    t.datetime "updated_at",           :null=>false
-    t.text     "hint_content",         :default=>"", :null=>false
-    t.integer  "hl_female",            :default=>0, :null=>false
-    t.integer  "hl_male",              :default=>0, :null=>false
-    t.integer  "hb_female",            :default=>0, :null=>false
-    t.integer  "hb_male",              :default=>0, :null=>false
-    t.integer  "gs",                   :default=>0, :null=>false
-    t.integer  "fs_female",            :default=>0, :null=>false
-    t.integer  "fs_male",              :default=>0, :null=>false
-    t.integer  "la_female",            :default=>0, :null=>false
-    t.integer  "la_male",              :default=>0, :null=>false
-    t.integer  "teams_count",          :default=>0, :null=>false
-    t.integer  "people_count",         :default=>0, :null=>false
-    t.boolean  "scores_for_bla_badge", :default=>false, :null=>false
-    t.string   "long_name",            :limit=>200
+    t.datetime "created_at",              :null=>false
+    t.datetime "updated_at",              :null=>false
+    t.text     "hint_content",            :default=>"", :null=>false
+    t.integer  "hl_female",               :default=>0, :null=>false
+    t.integer  "hl_male",                 :default=>0, :null=>false
+    t.integer  "hb_female",               :default=>0, :null=>false
+    t.integer  "hb_male",                 :default=>0, :null=>false
+    t.integer  "gs",                      :default=>0, :null=>false
+    t.integer  "fs_female",               :default=>0, :null=>false
+    t.integer  "fs_male",                 :default=>0, :null=>false
+    t.integer  "la_female",               :default=>0, :null=>false
+    t.integer  "la_male",                 :default=>0, :null=>false
+    t.integer  "teams_count",             :default=>0, :null=>false
+    t.integer  "people_count",            :default=>0, :null=>false
+    t.string   "long_name",               :limit=>200
+    t.boolean  "hb_male_for_bla_badge",   :default=>false, :null=>false
+    t.boolean  "hl_male_for_bla_badge",   :default=>false, :null=>false
+    t.boolean  "hb_female_for_bla_badge", :default=>false, :null=>false
+    t.boolean  "hl_female_for_bla_badge", :default=>false, :null=>false
   end
 
   create_table "delayed_jobs", id: :serial, force: :cascade do |t|

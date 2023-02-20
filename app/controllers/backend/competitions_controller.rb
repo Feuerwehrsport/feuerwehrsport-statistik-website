@@ -10,7 +10,11 @@ class Backend::CompetitionsController < Backend::BackendController
     f.association :event, as: :association_select
     f.association :score_type
     f.input :hint_content, as: :wysiwyg
-    f.input :scores_for_bla_badge
+
+    f.input :hb_male_for_bla_badge
+    f.input :hl_male_for_bla_badge
+    f.input :hb_female_for_bla_badge
+    f.input :hl_female_for_bla_badge
   end
 
   filter_index do |by|
@@ -34,6 +38,10 @@ class Backend::CompetitionsController < Backend::BackendController
     t.col :event
     t.col :score_type
     t.col :hint_content
-    t.col :scores_for_bla_badge
+
+    t.col :hb_male_for_bla_badge
+    t.col :hl_male_for_bla_badge
+    t.col :hb_female_for_bla_badge
+    t.col :hl_female_for_bla_badge
   end
 end

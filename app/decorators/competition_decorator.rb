@@ -8,7 +8,11 @@ class CompetitionDecorator < AppDecorator
   decorates_association :teams
 
   localizes :date
-  localizes_boolean :scores_for_bla_badge
+
+  localizes_boolean :hb_male_for_bla_badge
+  localizes_boolean :hl_male_for_bla_badge
+  localizes_boolean :hb_female_for_bla_badge
+  localizes_boolean :hl_female_for_bla_badge
 
   def to_s
     full_name
