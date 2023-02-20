@@ -5,7 +5,7 @@ class ResultUploader < M3::ApplicationUploader
     %w[pdf]
   end
 
-  def content_type_whitelist
+  def content_type_allowlist
     [
       'application/pdf',
     ]
