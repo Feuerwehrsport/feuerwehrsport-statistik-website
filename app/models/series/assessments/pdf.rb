@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Series::Assessments::Pdf = Struct.new(:assessment) do
   include PrawnSupport
   decorates_assigned :assessment

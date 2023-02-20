@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Calculation::CompetitionsScoreOverview = Struct.new(:competitions) do
   def disciplines
     ds = {}

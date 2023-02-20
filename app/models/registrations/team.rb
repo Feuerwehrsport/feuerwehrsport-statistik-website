@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Registrations::Team < ApplicationRecord
   include Genderable
   include Taggable

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class UI::RankTable < UI::CountTable
   def before_initialize
     rank_options = options[:rank_options] || {}

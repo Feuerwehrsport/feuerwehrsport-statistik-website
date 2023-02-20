@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class GroupScoreType < ApplicationRecord
   has_many :group_score_categories, dependent: :restrict_with_exception
 

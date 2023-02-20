@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 shared_context 'when api user', login: :api do
   let(:login_user) { APIUser.first || APIUser.create!(name: 'hans', ip_address_hash: 'a', user_agent_hash: 'a') }
   before do

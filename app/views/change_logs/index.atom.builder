@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 atom_feed do |feed|
   feed.title('Feuerwehrsport-Statistik-Veränderungen')
   feed.updated(collection.object.map(&:created_at).max)

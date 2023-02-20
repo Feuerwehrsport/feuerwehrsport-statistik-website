@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class GroupScoreParticipation < ApplicationRecord
   include Firesport::TimeInvalid
   is_view

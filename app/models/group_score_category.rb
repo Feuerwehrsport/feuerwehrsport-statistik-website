@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class GroupScoreCategory < ApplicationRecord
   belongs_to :group_score_type
   belongs_to :competition

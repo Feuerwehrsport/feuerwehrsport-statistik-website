@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Pdf2Table::OutputUploader < M3::ApplicationUploader
   def extension_white_list
     %w[csv ods]

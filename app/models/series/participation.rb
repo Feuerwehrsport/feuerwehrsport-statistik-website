@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Series::Participation < ApplicationRecord
   include Firesport::TimeInvalid
 

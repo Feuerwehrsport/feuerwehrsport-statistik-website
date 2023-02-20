@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 def expect_change_log(before: nil, after: nil, klass: nil, log: nil)
   expect(ChangeLog.count).to eq 1
   change_log = ChangeLog.last

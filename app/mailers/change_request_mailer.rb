@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ChangeRequestMailer < ApplicationMailer
   def new_notification(change_request)
     @change_request = change_request.decorate

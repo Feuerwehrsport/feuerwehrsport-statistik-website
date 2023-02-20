@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class TeamSpelling < ApplicationRecord
   include TeamScopes
   belongs_to :team

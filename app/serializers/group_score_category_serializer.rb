@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class GroupScoreCategorySerializer < ActiveModel::Serializer
   attributes :id, :group_score_type, :competition, :name
 

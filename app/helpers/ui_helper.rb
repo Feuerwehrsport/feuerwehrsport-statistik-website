@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module UIHelper
   def count_table(rows, options = {}, &block)
     table_class = options.delete(:table_class) || UI::CountTable

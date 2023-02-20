@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AdminUser < ApplicationRecord
   include M3::Login::Loginable
   delegate :name, :email_address, to: :login, allow_nil: true

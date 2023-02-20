@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Person < ApplicationRecord
   include Genderable
   include People::CacheBuilder

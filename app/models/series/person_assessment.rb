@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Series::PersonAssessment < Series::Assessment
   def self.for(person_id)
     assessment_structs = {}

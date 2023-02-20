@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module TeamScopes
   extend ActiveSupport::Concern
 

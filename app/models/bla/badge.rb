@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class BLA::Badge < ApplicationRecord
   belongs_to :person
   belongs_to :hl_score, class_name: 'Score', inverse_of: :hl_bla_badges

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Calculation::PerformanceOfYear::Discipline = Struct.new(:discipline, :gender, :entries) do
   include Draper::Decoratable
 

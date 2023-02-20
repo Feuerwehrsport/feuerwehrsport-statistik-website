@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Chart::Dashboard < Chart::Base
   def year_overview
     hc = lazy_high_chart

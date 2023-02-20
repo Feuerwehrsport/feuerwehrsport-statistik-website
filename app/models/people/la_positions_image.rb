@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class People::LAPositionsImage
   include M3::FormObject
   belongs_to :person

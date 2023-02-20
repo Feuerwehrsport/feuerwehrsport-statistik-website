@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe Backend::BLA::BadgeGeneratorsController, type: :controller, login: :admin do

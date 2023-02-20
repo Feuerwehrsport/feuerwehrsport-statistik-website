@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Series::Rounds::Pdf = Struct.new(:round) do
   include PrawnSupport
   include GenderNames

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Pdf2Table::Worker = Struct.new(:entry) do
   include M3::Delayable
 

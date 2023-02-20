@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class GroupScoreSerializer < ActiveModel::Serializer
   attributes :id, :team_id, :team_number, :gender, :time, :group_score_category_id, :run,
              :discipline, :second_time, :translated_discipline_name, :similar_scores

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Series::CupSerializer < ActiveModel::Serializer
   attributes :id, :competition_id, :round_id, :date, :place
 

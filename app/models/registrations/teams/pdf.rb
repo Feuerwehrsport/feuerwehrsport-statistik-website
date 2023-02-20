@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Registrations::Teams::Pdf = Struct.new(:team) do
   include PrawnSupport
   include GenderNames

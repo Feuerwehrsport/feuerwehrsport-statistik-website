@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ExtendedCompetitionSerializer < CompetitionSerializer
   attributes :score_count, :published_at, :score_type_id, :score_type
 

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 FactoryBot.define do
   factory :group_score do
     team { Team.first || build(:team) }

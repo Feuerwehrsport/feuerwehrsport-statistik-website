@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Import::Line
   attr_reader :cols, :check
 

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Series::RoundImport
   include M3::FormObject
 

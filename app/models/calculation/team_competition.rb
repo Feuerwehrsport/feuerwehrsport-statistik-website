@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Calculation::TeamCompetition < Competition
   attr_reader :hl, :hb, :gs, :fs, :la
 

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe Registrations::AssessmentsController, type: :controller, login: :user do

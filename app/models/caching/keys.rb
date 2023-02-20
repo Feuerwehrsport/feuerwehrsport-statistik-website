@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Caching::Keys
   extend ActiveSupport::Concern
   def caching_key(uniq)

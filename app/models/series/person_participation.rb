@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Series::PersonParticipation < Series::Participation
   belongs_to :person
 

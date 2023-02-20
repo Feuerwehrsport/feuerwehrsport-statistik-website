@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ExtendedTeamSerializer < TeamSerializer
   %i[fs gs la].each do |discipline|
     attributes :"#{discipline}_scores"

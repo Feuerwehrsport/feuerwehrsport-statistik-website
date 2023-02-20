@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Registrations::PersonMailer < ApplicationMailer
   def notification_to_creator(person)
     @person = person.decorate

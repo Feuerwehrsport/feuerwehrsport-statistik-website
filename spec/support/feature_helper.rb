@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 def sign_in(role = :admin)
   user = create(:admin_user, role)
   visit new_session_path

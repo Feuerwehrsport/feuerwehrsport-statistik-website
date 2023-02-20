@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ImportRequestMailer < ApplicationMailer
   def new_request(import_request)
     @import_request = import_request.decorate

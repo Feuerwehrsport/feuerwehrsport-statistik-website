@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe Backend::TeamsController, type: :controller, login: :sub_admin do

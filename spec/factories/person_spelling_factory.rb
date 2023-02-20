@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 FactoryBot.define do
   factory :person_spelling do
     first_name { 'Alfredo' }

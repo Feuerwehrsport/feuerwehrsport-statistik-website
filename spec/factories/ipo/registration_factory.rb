@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 FactoryBot.define do
   factory :ipo_registration, class: 'Ipo::Registration' do
     team_name { 'Warin' }

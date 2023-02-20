@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 People::DisciplineOverview = Struct.new(:person, :discipline) do
   def self.for(person)
     %i[hb hw hl zk zw gs fs la].map { |discipline| new(person, discipline) }.reject(&:blank?)

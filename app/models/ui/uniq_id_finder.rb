@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module UI::UniqIDFinder
   def available_id(name)
     regular = name.to_s.parameterize.first(50)

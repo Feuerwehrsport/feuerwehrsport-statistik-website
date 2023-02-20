@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Series::Round < ApplicationRecord
   include Caching::Keys
   include Series::Participationable

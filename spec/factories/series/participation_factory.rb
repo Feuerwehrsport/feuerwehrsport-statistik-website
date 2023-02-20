@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 FactoryBot.define do
   factory :series_person_participation, class: 'Series::PersonParticipation' do
     assessment { Series::PersonAssessment.first || build(:series_person_assessment) }

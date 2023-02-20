@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Chart::CompetitionDisciplineCategoryOverview < Chart::Base
   attr_accessor :discipline
 

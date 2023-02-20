@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module NumberedTeamNames
   def numbered_team_name(score, options = {})
     return '' if score.team.blank?

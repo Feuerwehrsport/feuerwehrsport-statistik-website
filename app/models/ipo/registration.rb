@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Ipo::Registration < ApplicationRecord
   DATE = Date.new(2018, 9, 22)
   REGISTRATION_OPEN = Time.zone.local(2018, 3, 3, 12, 0, 0)

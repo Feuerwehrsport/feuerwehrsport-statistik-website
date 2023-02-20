@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Registrations::Assessment < ApplicationRecord
   include Genderable
   belongs_to :competition, class_name: 'Registrations::Competition', inverse_of: :assessments

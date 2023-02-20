@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Caching::Builder
   include M3::Delayable
 

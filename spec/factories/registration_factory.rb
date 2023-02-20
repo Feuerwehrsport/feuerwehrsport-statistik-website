@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 FactoryBot.define do
   factory :registrations_competition, class: 'Registrations::Competition' do
     name { 'D-Cup' }

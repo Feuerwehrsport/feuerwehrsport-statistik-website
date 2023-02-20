@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module DisciplineNamesAndImages
   def discipline_name(discipline)
     t("discipline.#{discipline}")
