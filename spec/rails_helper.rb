@@ -13,18 +13,19 @@ Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
 # Dir[Rails.root.join('spec/factories/**/*.rb')].sort.each { |f| require f }
 
 RSpec.configure do |config|
-  config.before(type: :feature) do
-    domain = Capybara.default_host.gsub(%r{^https?://}, '')
-    website = M3::Website.create_with(key: :fss, domain: domain, title: 'Feuerwehrsport-Statistik',
-                                      default_site: true, port: 7787).find_or_create_by!(name: 'Kranbauer Webpräsenz')
-    website.delivery_setting.update!(website: website, delivery_method: :test, from_address: "no-reply@#{domain}")
-  end
-
-  config.before(type: :controller) do
-    create(:m3_website, domain: 'test.host')
-  end
-
   config.fixture_path = Rails.root.join('spec/fixtures')
+
+  Capybara.disable_animation = true
+  config.before(type: :feature) do
+    Capybara.current_session # start capybara and puma before feature spec
+    Capybara.disable_animation = true
+    Rails.configuration.default_url_options[:host] = '127.0.0.1'
+    Rails.configuration.default_url_options[:port] = 7787
+  end
+  config.after(type: :feature) do
+    Rails.configuration.default_url_options[:host] = 'test.host'
+    Rails.configuration.default_url_options[:port] = 80
+  end
 end
 
 Capybara.register_driver :poltergeist do |app|

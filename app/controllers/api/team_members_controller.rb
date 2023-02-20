@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class API::TeamMembersController < API::BaseController
+class Api::TeamMembersController < Api::BaseController
   api_actions :index
 end

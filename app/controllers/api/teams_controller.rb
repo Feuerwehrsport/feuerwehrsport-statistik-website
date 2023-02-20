@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class API::TeamsController < API::BaseController
+class Api::TeamsController < Api::BaseController
   api_actions :create, :show, :index, :update,
               change_log: true,
               create_form: %i[name shortcut status]

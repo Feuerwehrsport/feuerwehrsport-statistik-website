@@ -3,19 +3,18 @@
 require 'rails_helper'
 
 describe Registrations::CompetitionMailer do
-  let(:website) { create(:m3_website) }
   let(:sender) { create(:admin_user) }
   let(:competition) { create(:registrations_competition, admin_user: sender) }
   let(:receiver) { create(:admin_user, login: build(:m3_login, email_address: 'receiver@example.com', name: 'hans')) }
 
   describe '#new_team_registered' do
     let(:team) { create(:registrations_team, competition: competition, admin_user: receiver) }
-    let(:mail) { described_class.configure(website, nil, :new_team_registered, team) }
+    let(:mail) { described_class.with(team: team).new_team_registered }
 
     it 'renders the header information and body' do
       expect(mail.subject).to eq "Neue Wettkampfanmeldung für D-Cup - #{I18n.l(Time.zone.today)}"
       expect(mail.header[:to].to_s).to eq('admin user <admin_user@example.com>')
-      expect(mail.header[:from].to_s).to eq('Kranbauer <info@kranbauer.de>')
+      expect(mail.header[:from].to_s).to eq('Feuerwehrsport-Statistik <info@feuerwehrsport-statistik.de>')
       expect(mail.header[:cc].to_s).to eq('')
       expect(mail.header[:reply_to].to_s).to eq('')
 
@@ -23,7 +22,7 @@ describe Registrations::CompetitionMailer do
         Es wurde eine neue Mannschaft für den Wettkampf D-Cup - #{I18n.l(Time.zone.today)} angemeldet.
 
         Weitere Informationen zu deinem Wettkampf findest du hier:
-        http://www.kranbauer.de/registrations/competitions/#{competition.id}
+        http://test.host/registrations/competitions/#{competition.id}
 
         Mannschaft: FF Mannschaft 1
         Geschlecht: männlich
@@ -36,12 +35,12 @@ describe Registrations::CompetitionMailer do
 
   describe '#new_person_registered' do
     let(:person) { create(:registrations_person, competition: competition, admin_user: receiver) }
-    let(:mail) { described_class.configure(website, nil, :new_person_registered, person) }
+    let(:mail) { described_class.with(person: person).new_person_registered }
 
     it 'renders the header information and body' do
       expect(mail.subject).to eq "Neue Wettkampfanmeldung für D-Cup - #{I18n.l(Time.zone.today)}"
       expect(mail.header[:to].to_s).to eq('admin user <admin_user@example.com>')
-      expect(mail.header[:from].to_s).to eq('Kranbauer <info@kranbauer.de>')
+      expect(mail.header[:from].to_s).to eq('Feuerwehrsport-Statistik <info@feuerwehrsport-statistik.de>')
       expect(mail.header[:cc].to_s).to eq('')
       expect(mail.header[:reply_to].to_s).to eq('')
 
@@ -49,7 +48,7 @@ describe Registrations::CompetitionMailer do
         Es wurde ein neuer Einzelstarter für den Wettkampf D-Cup - #{I18n.l(Time.zone.today)} angemeldet.
 
         Weitere Informationen zu deinem Wettkampf findest du hier:
-        http://www.kranbauer.de/registrations/competitions/#{competition.id}
+        http://test.host/registrations/competitions/#{competition.id}
 
         Wettkämpfer: Alfred Meier
         Geschlecht: männlich
@@ -64,14 +63,14 @@ describe Registrations::CompetitionMailer do
     let(:resource) { create(:registrations_team, competition: competition, admin_user: receiver) }
     let(:add_registration_file) { true }
     let(:mail) do
-      described_class.configure(website, nil, :news, resource, competition, 'subject', 'text',
-                                add_registration_file, sender)
+      described_class.with(resource: resource, competition: competition, subject: 'subject', text: 'text',
+                           file: add_registration_file, sender: sender).news
     end
 
     it 'renders the header information and body' do
       expect(mail.subject).to eq 'subject'
       expect(mail.header[:to].to_s).to eq('hans <receiver@example.com>')
-      expect(mail.header[:from].to_s).to eq('Kranbauer <info@kranbauer.de>')
+      expect(mail.header[:from].to_s).to eq('Feuerwehrsport-Statistik <info@feuerwehrsport-statistik.de>')
       expect(mail.header[:cc].to_s).to eq('admin user <admin_user@example.com>')
       expect(mail.header[:reply_to].to_s).to eq('admin user <admin_user@example.com>')
 
@@ -95,7 +94,7 @@ describe Registrations::CompetitionMailer do
       it 'assigns only body' do
         expect(mail.subject).to eq 'subject'
         expect(mail.header[:to].to_s).to eq('admin user <admin_user@example.com>')
-        expect(mail.header[:from].to_s).to eq('Kranbauer <info@kranbauer.de>')
+        expect(mail.header[:from].to_s).to eq('Feuerwehrsport-Statistik <info@feuerwehrsport-statistik.de>')
         expect(mail.header[:cc].to_s).to eq('admin user <admin_user@example.com>')
         expect(mail.header[:reply_to].to_s).to eq('admin user <admin_user@example.com>')
 

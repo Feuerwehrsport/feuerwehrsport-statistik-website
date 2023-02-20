@@ -4,15 +4,18 @@ require 'rails_helper'
 
 describe ChangeRequestMailer do
   describe '#new_notification' do
+    let!(:admin_user) { create(:admin_user, :sub_admin) }
     let(:change_request) { ChangeRequest.new }
-    let(:website) { admin_user.login.website }
-    let(:admin_user) { create(:admin_user, :sub_admin) }
-    let(:mail) { described_class.configure(website, nil, :new_notification, change_request) }
+    let(:mail) { described_class.with(change_request: change_request).new_notification }
 
     it 'renders the header information and render body' do
       expect(mail.subject).to eq 'Fehler bei Feuerwehrsport-Statistik'
-      expect(mail.to).to eq ['sub_admin@example.com']
-      expect(mail.from).to eq ['info@kranbauer.de']
+      expect(mail.header[:to].to_s).to eq 'sub_admin <sub_admin@example.com>'
+      expect(mail.header[:from].to_s).to eq 'Feuerwehrsport-Statistik <info@feuerwehrsport-statistik.de>'
+      expect(mail.header[:cc].to_s).to eq ''
+      expect(mail.header[:reply_to].to_s).to eq ''
+
+      expect(mail.attachments).to have(0).attachments
 
       expect_with_mailer_signature(
         "Es wurde ein neuer Hinweis gemeldet:\n" \
@@ -21,7 +24,7 @@ describe ChangeRequestMailer do
         "Inhalt: \n" \
         "Absender: \n" \
         "\n" \
-        "http://www.kranbauer.de/backend/change_requests\n",
+        "http://test.host/backend/change_requests\n",
       )
     end
   end

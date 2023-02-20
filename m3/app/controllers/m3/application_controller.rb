@@ -5,16 +5,13 @@ class M3::ApplicationController < ActionController::Base
   include DefaultResources
   include DefaultParentResources
   include ActionManager
-  include WebsiteContext
   include DefaultActions
   include ReturnToPage
   include IndexStructures
   include FormStructures
   include FilterStructures
   include Authorization
-  include MailerSupport
   include ControllerTranslation
-  include TrackingKeys
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.

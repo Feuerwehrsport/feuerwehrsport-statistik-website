@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class API::ImportsController < API::BaseController
+class Api::ImportsController < Api::BaseController
   include ChangeLogSupport
   before_action :authorize_action
 

@@ -45,5 +45,8 @@ module FeuerwehrsportStatistik
     config.after_initialize do
       Rails.application.precompiled_assets if config.assets.compile
     end
+
+    config.action_mailer.default_options = { from: 'Feuerwehrsport-Statistik <info@feuerwehrsport-statistik.de>' }
+    config.action_mailer.delivery_method = :file
   end
 end

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class API::ScoreTypesController < API::BaseController
+class Api::ScoreTypesController < Api::BaseController
   api_actions :index
 end

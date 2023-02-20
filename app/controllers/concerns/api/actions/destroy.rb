@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module API::Actions::Destroy
+module Api::Actions::Destroy
   extend ActiveSupport::Concern
 
   protected

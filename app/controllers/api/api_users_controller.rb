@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class API::APIUsersController < API::BaseController
+class Api::ApiUsersController < Api::BaseController
   api_actions :create,
               clean_cache_disabled: true,
               default_form: %i[name email_address]

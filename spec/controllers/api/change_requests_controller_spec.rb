@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::ChangeRequestsController do
+RSpec.describe Api::ChangeRequestsController do
   let(:files_data) { {} }
   let!(:change_request) do
     ChangeRequest.create!(content: { key: 'person-nation-changed', data: { person_id: 1 } }, files_data: files_data)

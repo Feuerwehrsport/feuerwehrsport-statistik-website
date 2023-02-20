@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::APIUsersController do
+RSpec.describe Api::ApiUsersController do
   describe 'GET status' do
     context 'when session is not set' do
       it 'returns login false' do
@@ -12,10 +12,10 @@ RSpec.describe API::APIUsersController do
     end
 
     context 'when session user id is set' do
-      let(:login_user) { APIUser.new(name: 'hans') }
+      let(:login_user) { ApiUser.new(name: 'hans') }
 
       it 'returns login true' do
-        expect(APIUser).to receive(:find_by).with(id: 99).and_return(login_user)
+        expect(ApiUser).to receive(:find_by).with(id: 99).and_return(login_user)
         get :status, session: { api_user_id: 99 }
         expect_api_login_response
       end
@@ -23,12 +23,12 @@ RSpec.describe API::APIUsersController do
   end
 
   describe 'POST create' do
-    let(:login_user) { APIUser.new(name: 'hans') }
+    let(:login_user) { ApiUser.new(name: 'hans') }
 
     it 'creates new user and sign in' do
       expect do
         post :create, params: { api_user: { name: 'hans', email_address: 'email-address@foo.de' } }
-      end.to change(APIUser, :count).by(1)
+      end.to change(ApiUser, :count).by(1)
       expect_api_login_response
     end
 

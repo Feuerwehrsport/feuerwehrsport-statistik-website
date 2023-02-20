@@ -32,8 +32,10 @@ class Registrations::MailsController < Registrations::BaseController
     %i[teams people].each do |type|
       form_resource.send(type).each do |res|
         add_file = type == :teams ? form_resource.add_registration_file : false
-        deliver_later(Registrations::CompetitionMailer, :news, res, parent_resource, form_resource.subject,
-                      form_resource.text, add_file, form_resource.admin_user)
+        Registrations::CompetitionMailer.with(
+          resource: res, competition: parent_resource, subject: form_resource.subject,
+          text: form_resource.text, file: add_file, sender: form_resource.admin_user
+        ).news.deliver_later
       end
     end
 

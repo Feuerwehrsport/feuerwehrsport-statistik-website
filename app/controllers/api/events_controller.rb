@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class API::EventsController < API::BaseController
+class Api::EventsController < Api::BaseController
   api_actions :create, :show, :index,
               change_log: true,
               default_form: [:name]

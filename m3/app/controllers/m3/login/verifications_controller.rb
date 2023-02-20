@@ -3,7 +3,6 @@
 require_dependency 'm3'
 
 class M3::Login::VerificationsController < ApplicationController
-  disable_tracking
   default_actions for_class: M3::Login::Base
 
   def verify

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::LinksController do
+RSpec.describe Api::LinksController do
   let(:link) { create(:link) }
   let(:team) { create(:team) }
 

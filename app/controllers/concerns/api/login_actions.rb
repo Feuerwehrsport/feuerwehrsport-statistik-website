@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module API::LoginActions
+module Api::LoginActions
   protected
 
   def current_user
@@ -8,7 +8,7 @@ module API::LoginActions
   end
 
   def current_api_user
-    @current_api_user ||= APIUser.find_by(id: session[:api_user_id])
+    @current_api_user ||= ApiUser.find_by(id: session[:api_user_id])
   end
 
   def login_status

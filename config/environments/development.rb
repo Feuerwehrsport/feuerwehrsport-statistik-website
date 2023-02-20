@@ -63,4 +63,10 @@ Rails.application.configure do
 
   config.caching = false
   config.pdf2table_path = '/home/georf/eclipse-workspace/pdf2table/target/pdf2table-current.jar'
+
+  config.default_url_options = {
+    host: 'localhost',
+    port: 5060,
+    protocol: :http,
+  }
 end

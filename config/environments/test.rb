@@ -50,5 +50,10 @@ Rails.application.configure do
   config.active_support.test_order = :random
 
   config.caching = false
-  config.m3_rspec = OpenStruct.new(website_key: :fss)
+
+  config.default_url_options = {
+    host: 'test.host',
+    port: 80,
+    protocol: :http,
+  }
 end

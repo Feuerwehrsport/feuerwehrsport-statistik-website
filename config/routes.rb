@@ -193,12 +193,6 @@ Rails.application.routes.draw do
   resources :assets, controller: 'm3/assets', only: %i[index new create edit update destroy]
   resources :image_assets, controller: 'm3/image_assets', only: %i[index new create edit update destroy]
 
-  namespace :ipo do
-    resources :registrations do
-      collection { get :finish }
-    end
-  end
-
   get 'wk-linux-install', to: redirect('https://raw.githubusercontent.com/Feuerwehrsport/wettkampf-manager/release/doc/scripts/basic-install.sh')
 
   # error handling

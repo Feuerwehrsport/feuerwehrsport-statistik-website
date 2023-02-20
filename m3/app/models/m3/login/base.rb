@@ -6,8 +6,7 @@ class M3::Login::Base < ApplicationRecord
   has_secure_token :verify_token
   has_secure_token :password_reset_token
   has_secure_token :changed_email_address_token
-  belongs_to :website, class_name: 'M3::Website'
-  validates :email_address, 'valid_email_2/email': true, presence: true, uniqueness: { scope: :website }
+  validates :email_address, 'valid_email_2/email': true, presence: true
   validates :new_email_address, 'valid_email_2/email': true
   before_validation :normalize_email_address
   before_validation :assign_tokens

@@ -29,4 +29,8 @@ class ApplicationController < M3::ApplicationController
   def select_layout
     'application'
   end
+
+  def default_url_options
+    Rails.application.config.default_url_options
+  end
 end

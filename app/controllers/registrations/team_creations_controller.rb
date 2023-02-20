@@ -27,8 +27,8 @@ class Registrations::TeamCreationsController < Registrations::BaseController
   end
 
   def after_create
-    deliver_later(Registrations::CompetitionMailer, :new_team_registered, form_resource)
-    deliver_later(Registrations::TeamMailer, :notification_to_creator, form_resource)
+    Registrations::CompetitionMailer.with(team: form_resource).new_team_registered.deliver_later
+    Registrations::TeamMailer.with(team: form_resource).notification_to_creator.deliver_later
     super
   end
 

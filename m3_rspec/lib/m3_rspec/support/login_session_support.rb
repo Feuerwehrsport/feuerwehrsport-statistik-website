@@ -66,11 +66,10 @@ shared_examples 'works like a sessions controller' do |options|
 
         context 'when login not verified' do
           let(:login) { create(:m3_login, :not_verified) }
-          let(:mail_sent) { Rails.configuration.m3.login.send_verification_mail ? 1 : 0 }
           it 'resend mail' do
             expect do
               subject.call
-            end.to change { ActionMailer::Base.deliveries.count }.by(mail_sent)
+            end.to change { ActionMailer::Base.deliveries.count }.by(1)
             expect(response).to have_http_status(:success)
             expect(response).to render_template(:new)
             expect(session['m3_login_id']).to eq nil

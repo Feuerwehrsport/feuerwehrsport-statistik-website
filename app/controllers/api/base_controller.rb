@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-class API::BaseController < ApplicationController
-  include API::LoginActions
+class Api::BaseController < ApplicationController
+  include Api::LoginActions
   include SerializerSupport
   skip_before_action :verify_authenticity_token
   rescue_from CanCan::AccessDenied do |exception|
@@ -13,20 +13,20 @@ class API::BaseController < ApplicationController
     options              = action_names.extract_options!
     change_log           = options.delete(:change_log)
     clean_cache_disabled = options.delete(:clean_cache_disabled)
-    for_class            = options.delete(:for_class) || controller_path.classify.gsub(/^API::/, '').constantize
+    for_class            = options.delete(:for_class) || controller_path.classify.gsub(/^Api::/, '').constantize
     create_form          = options.delete(:create_form)
     update_form          = options.delete(:update_form)
     default_form         = options.delete(:default_form)
 
     options[:for_class] = for_class
     default_actions(*action_names, options)
-    include API::Actions::Index            if action_names.include?(:index)
-    include API::Actions::Create           if action_names.include?(:create)
-    include API::Actions::Show             if action_names.include?(:show)
-    include API::Actions::Edit             if action_names.include?(:edit)
-    include API::Actions::Update           if action_names.include?(:update)
-    include API::Actions::Destroy          if action_names.include?(:destroy)
-    include API::Actions::Move             if action_names.include?(:move)
+    include Api::Actions::Index            if action_names.include?(:index)
+    include Api::Actions::Create           if action_names.include?(:create)
+    include Api::Actions::Show             if action_names.include?(:show)
+    include Api::Actions::Edit             if action_names.include?(:edit)
+    include Api::Actions::Update           if action_names.include?(:update)
+    include Api::Actions::Destroy          if action_names.include?(:destroy)
+    include Api::Actions::Move             if action_names.include?(:move)
     include ChangeLogSupport if change_log
     include CleanCacheSupport unless clean_cache_disabled
 

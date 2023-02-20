@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module API::Actions::Show
+module Api::Actions::Show
   extend ActiveSupport::Concern
 
   def show

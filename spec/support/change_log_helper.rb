@@ -3,7 +3,7 @@
 def expect_change_log(before: nil, after: nil, klass: nil, log: nil)
   expect(ChangeLog.count).to eq 1
   change_log = ChangeLog.last
-  if login_user.is_a?(APIUser)
+  if login_user.is_a?(ApiUser)
     expect(change_log.api_user).to eq login_user
   else
     expect(change_log.admin_user).to eq login_user

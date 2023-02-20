@@ -102,4 +102,23 @@ Rails.application.configure do
     file_pattern: /\Aproduction.log-\d{8}\z/,
     output_level: :warn,
   )
+
+  # Basic URL
+  config.default_url_options = {
+    host: 'feuerwehrsport-statistik.de',
+    port: 443,
+    protocol: :https,
+  }
+
+  # Basic Mailer options
+  config.action_mailer.smtp_settings = {
+    address: 'mail.lichtbit.com',
+    port: 465,
+    domain: 'mail.lichtbit.com',
+    user_name: Rails.application.secrets.smtp_user_name,
+    password: Rails.application.secrets.smtp_password,
+    tls: true,
+    authentication: :login,
+  }
+  config.action_mailer.delivery_method = :smtp
 end

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::Series::RoundsController do
+RSpec.describe Api::Series::RoundsController do
   let(:round) { create(:series_round) }
   let(:attributes) do
     { name: 'Cup', slug: 'cup', year: 2017, official: true, aggregate_type: 'LaCup', full_cup_count: 4 }

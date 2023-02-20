@@ -5,10 +5,10 @@ class M3::Login::Session
 
   ID_KEY = 'm3_login_id'
 
-  attr_accessor :email_address, :password, :website, :session, :from_session
+  attr_accessor :email_address, :password, :session, :from_session
   attr_writer :login
 
-  validates :email_address, :website, presence: true
+  validates :email_address, presence: true
   validate :valid_login
   validate :session_is_hash
 
@@ -22,7 +22,7 @@ class M3::Login::Session
   end
 
   def login
-    @login ||= website.logins.find_by(email_address: email_address.try(:downcase).try(:strip))
+    @login ||= M3::Login::Base.find_by(email_address: email_address.try(:downcase).try(:strip))
   end
 
   def persisted?

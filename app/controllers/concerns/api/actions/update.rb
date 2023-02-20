@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module API::Actions::Update
+module Api::Actions::Update
   extend ActiveSupport::Concern
 
   protected

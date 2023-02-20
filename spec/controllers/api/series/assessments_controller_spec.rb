@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::Series::AssessmentsController do
+RSpec.describe Api::Series::AssessmentsController do
   let!(:assessment) { create(:series_person_assessment) }
 
   describe 'GET index' do

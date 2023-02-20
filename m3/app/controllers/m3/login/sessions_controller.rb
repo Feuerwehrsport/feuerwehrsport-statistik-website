@@ -3,7 +3,6 @@
 require_dependency 'm3'
 
 class M3::Login::SessionsController < ApplicationController
-  disable_tracking
   default_actions :new, :create, :show, :destroy, singleton: true
   before_action :redirect_to_show, only: %i[new create]
 
@@ -25,7 +24,7 @@ class M3::Login::SessionsController < ApplicationController
   protected
 
   def build_resource
-    resource_class.new(website: m3_website, session: session)
+    resource_class.new(session: session)
   end
 
   def find_resource
@@ -36,10 +35,8 @@ class M3::Login::SessionsController < ApplicationController
     if form_resource.login.present? && form_resource.login_expired?
       redirect_to controller: 'm3/login/expired_logins', action: :new, email_address: form_resource.login.email_address
     elsif form_resource.login.present? && !form_resource.login_verified?
-      if Rails.configuration.m3.login.send_verification_mail
-        deliver_later(M3::LoginMailer, :verify, form_resource.login)
-        flash.now[:info] = I18n.t('m3.login.verifications.resent_verification')
-      end
+      LoginMailer.with(login: form_resource.login).verify.deliver_later
+      flash.now[:info] = I18n.t('m3.login.verifications.resent_verification')
       super
     else
       super

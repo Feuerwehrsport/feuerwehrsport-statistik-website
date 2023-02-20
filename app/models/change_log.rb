@@ -38,7 +38,7 @@ class ChangeLog < ApplicationRecord
 
   def user=(user)
     case user
-    when APIUser
+    when ApiUser
       self.api_user = user
     when AdminUser
       self.admin_user = user

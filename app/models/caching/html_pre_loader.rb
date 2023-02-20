@@ -2,7 +2,7 @@
 
 class Caching::HTMLPreLoader
   include M3::Delayable
-  include M3::URLSupport
+  include URLSupport
 
   def perform
     return unless Rails.configuration.caching

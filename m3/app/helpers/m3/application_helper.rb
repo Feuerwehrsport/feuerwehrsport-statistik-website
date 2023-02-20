@@ -6,10 +6,6 @@ require_dependency 'm3/form/form_builder'
 require_dependency 'm3/filter/structure'
 
 module M3::ApplicationHelper
-  def m3_website
-    @decorated_m3_website ||= @m3_website.decorate
-  end
-
   def resource
     @decorated_resource ||= begin
       res = controller.send(:resource)
@@ -93,7 +89,7 @@ module M3::ApplicationHelper
   end
 
   def head_title
-    t3(:head_title, action_scope: true, default: '').presence || m3_website.title
+    t3(:head_title, action_scope: true, default: '').presence || 'Feuerwehrsport-Statistik'
   end
 
   def asset_exist?(path)

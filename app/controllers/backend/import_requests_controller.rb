@@ -45,7 +45,7 @@ class Backend::ImportRequestsController < Backend::BackendController
   end
 
   def after_create
-    deliver_later(ImportRequestMailer, :new_request, resource)
+    ImportRequestMailer.with(import_request: resource).new_request.deliver_later
     super
   end
 

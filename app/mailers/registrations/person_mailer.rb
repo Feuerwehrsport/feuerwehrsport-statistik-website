@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class Registrations::PersonMailer < ApplicationMailer
-  def notification_to_creator(person)
+  def notification_to_creator
+    person = params[:person]
     @person = person.decorate
     @competition = @person.competition
     @receiver = @person.admin_user

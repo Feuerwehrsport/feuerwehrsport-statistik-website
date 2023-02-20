@@ -32,7 +32,7 @@ class Backend::AdminUsersController < Backend::BackendController
 
   def after_update
     if form_resource.login.previous_changes[:changed_email_address].present?
-      deliver_later(M3::LoginMailer, :change_email_address, form_resource.login)
+      LoginMailer.with(login: form_resource.login).change_email_address.deliver_later
       flash[:info] = I18n.t('m3.login.change_email_address.email_sent')
     end
     super

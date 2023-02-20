@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class API::AppointmentsController < API::BaseController
+class Api::AppointmentsController < Api::BaseController
   api_actions :create, :show, :update, :index,
               change_log: true,
               default_form: %i[name description dated_at disciplines place event_id]

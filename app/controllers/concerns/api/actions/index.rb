@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module API::Actions::Index
+module Api::Actions::Index
   extend ActiveSupport::Concern
 
   def index

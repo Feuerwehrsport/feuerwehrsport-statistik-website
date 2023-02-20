@@ -4,15 +4,18 @@ require 'rails_helper'
 
 describe ImportRequestMailer do
   describe '#new_request' do
-    let(:website) { admin_user.login.website }
+    let!(:admin_user) { create(:admin_user, :sub_admin) }
     let(:import_request) { create(:import_request, admin_user: create(:admin_user)) }
-    let(:admin_user) { create(:admin_user, :sub_admin) }
-    let(:mail) { described_class.configure(website, nil, :new_request, import_request) }
+    let(:mail) { described_class.with(import_request: import_request).new_request }
 
     it 'renders the header information and render body' do
       expect(mail.subject).to eq 'Import-Anfrage bei Feuerwehrsport-Statistik'
-      expect(mail.to).to eq ['sub_admin@example.com']
-      expect(mail.from).to eq ['info@kranbauer.de']
+      expect(mail.header[:to].to_s).to eq 'sub_admin <sub_admin@example.com>'
+      expect(mail.header[:from].to_s).to eq 'Feuerwehrsport-Statistik <info@feuerwehrsport-statistik.de>'
+      expect(mail.header[:cc].to_s).to eq ''
+      expect(mail.header[:reply_to].to_s).to eq ''
+
+      expect(mail.attachments).to have(0).attachments
 
       expect_with_mailer_signature(
         "Es wurde ein neuer Import gemeldet:\n" \
@@ -21,7 +24,7 @@ describe ImportRequestMailer do
         "Beschreibung:\n" \
         "Am 21.09.2013 fand das Finale des Deutschland-Cups in Charlottenthal statt.\n" \
         "\n" \
-        "http://www.kranbauer.de/backend/import_requests\n",
+        "http://test.host/backend/import_requests\n",
       )
     end
   end

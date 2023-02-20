@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::GroupScoreCategoriesController do
+RSpec.describe Api::GroupScoreCategoriesController do
   let(:group_score_category) { create(:group_score_category) }
 
   describe 'GET index' do

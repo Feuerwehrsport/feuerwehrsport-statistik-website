@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class API::Series::ParticipationsController < API::BaseController
+class Api::Series::ParticipationsController < Api::BaseController
   api_actions :create, :show, :index, :update, :destroy,
               change_log: true,
               create_form: %i[cup_id assessment_id type person_id team_id team_number rank points time],

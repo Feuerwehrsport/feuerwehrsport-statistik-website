@@ -2,7 +2,6 @@
 
 FactoryBot.define do
   factory :m3_login, class: 'M3::Login::Base' do
-    website { M3::Website.first || build(:m3_website) }
     password { 'Secret123' }
     password_digest { '$2a$10$ZXjJBwkQ9aFZwBUEpLDBaOUkZsocc3w7N0/B2/UDZ6pWCI2UfAm7a' }
     email_address { 'my_account1994@gmail.com' }

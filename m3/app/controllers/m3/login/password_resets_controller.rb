@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class M3::Login::PasswordResetsController < ApplicationController
-  disable_tracking
   default_actions :new, :create, :edit, :update
 
   form_for :new, :create do |f|
@@ -17,12 +16,8 @@ class M3::Login::PasswordResetsController < ApplicationController
 
   protected
 
-  def build_resource
-    resource_class.new(website: m3_website)
-  end
-
   def find_resource
-    resource_class.find(m3_website, params[:id])
+    resource_class.find(params[:id])
   end
 
   def collection_redirect_url
@@ -30,7 +25,7 @@ class M3::Login::PasswordResetsController < ApplicationController
   end
 
   def after_create
-    deliver_later(M3::LoginMailer, :password_reset, form_resource.login)
+    LoginMailer.with(login: form_resource.login).password_reset.deliver_later
     redirect_to return_page_or_url(action: :index)
   end
 

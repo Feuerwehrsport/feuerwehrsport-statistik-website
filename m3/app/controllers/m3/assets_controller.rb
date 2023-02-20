@@ -19,10 +19,4 @@ class M3::AssetsController < ApplicationController
       f.input :file
     end
   end
-
-  protected
-
-  def build_resource
-    resource_class.new(website: m3_website)
-  end
 end

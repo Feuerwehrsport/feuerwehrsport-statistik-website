@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class API::ChangeRequestsController < API::BaseController
+class Api::ChangeRequestsController < Api::BaseController
   api_actions :create, :index, :update,
               change_log: true, clean_cache_disabled: true,
               update_form: [:done]
@@ -34,7 +34,7 @@ class API::ChangeRequestsController < API::BaseController
   end
 
   def after_create
-    deliver_later(ChangeRequestMailer, :new_notification, resource)
+    ChangeRequestMailer.with(change_request: resource).new_notification.deliver_later
     super
   end
 

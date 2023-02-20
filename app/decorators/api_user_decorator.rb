@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class APIUserDecorator < AppDecorator
+class ApiUserDecorator < AppDecorator
   def to_s
     name
   end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Registrations::Competition < ApplicationRecord
-  include M3::URLSupport
+  include URLSupport
   belongs_to :admin_user
   has_many :assessments, inverse_of: :competition, dependent: :destroy, class_name: 'Registrations::Assessment'
   has_many :teams, inverse_of: :competition, dependent: :destroy, class_name: 'Registrations::Team'

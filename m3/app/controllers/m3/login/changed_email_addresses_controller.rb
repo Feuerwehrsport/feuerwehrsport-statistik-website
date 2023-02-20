@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class M3::Login::ChangedEmailAddressesController < ApplicationController
-  disable_tracking
   default_actions :edit, :update
 
   default_form do |f|

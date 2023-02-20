@@ -37,7 +37,6 @@ class M3::Engine < Rails::Engine
   config.m3.session = ActiveSupport::OrderedOptions.new
   config.m3.session.login_url = { controller: 'm3/login/sessions', action: :new }
   config.m3.login = ActiveSupport::OrderedOptions.new
-  config.m3.login.send_verification_mail = true
 
   initializer :assets do |_config|
     Rails.application.config.assets.precompile += %w[m3_bootstrap_v1/index.css]
@@ -49,7 +48,6 @@ class M3::Engine < Rails::Engine
 
   initializer :delayed do
     require_dependency 'm3/delayable'
-    require_dependency 'm3/mailer_configuration'
 
     Delayed::Worker.destroy_failed_jobs = false
     Delayed::Worker.sleep_delay = 10

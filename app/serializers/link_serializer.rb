@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class LinkSerializer < ActiveModel::Serializer
-  include M3::URLSupport
+  include URLSupport
   attributes :id, :label, :linkable_id, :linkable_type, :url, :linkable_url
 
   def linkable_url

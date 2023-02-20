@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class API::Series::TeamAssessmentsController < API::BaseController
+class Api::Series::TeamAssessmentsController < Api::BaseController
   api_actions :index
 
   protected

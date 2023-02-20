@@ -15,13 +15,13 @@ class Backend::RegistrationsController < Backend::BackendController
   protected
 
   def build_resource
-    super.tap { |r| r.assign_attributes(role: :user, login_attributes: { website: m3_website }) }
+    super.tap { |r| r.assign_attributes(role: :user) }
   end
 
   def after_create
     flash[:success] = t3('.registered')
-    deliver_later(M3::LoginMailer, :verify, form_resource.login)
-    M3::Login::Session.new(session: session, website: m3_website, login: form_resource.login).save(validate: false)
+    LoginMailer.with(login: form_resource.login).verify.deliver_later
+    M3::Login::Session.new(session: session, login: form_resource.login).save(validate: false)
     if session[:requested_url_before_login].present?
       redirect_to session.delete(:requested_url_before_login)
     else

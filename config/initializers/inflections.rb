@@ -18,7 +18,6 @@
 # end
 
 multilingual_inflections = ->(inflect) do
-  inflect.acronym 'API'
   inflect.acronym 'BLA'
 end
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class API::CompetitionsController < API::BaseController
+class Api::CompetitionsController < Api::BaseController
   api_actions :create, :show, :index, :update,
               change_log: true,
               create_form: %i[name place_id event_id date],

@@ -1,10 +1,5 @@
 # frozen_string_literal: true
 
-shared_context 'on website', website: :default do
-  let(:m3_website) { build(:m3_website, domain: 'test.host') }
-  let!(:m3_delivery_setting) { create(:m3_delivery_setting, website: m3_website) }
-end
-
 shared_examples 'orders all index fields' do
   before { Dir[Rails.root.join('app/controllers/**/*_controller.rb')].each { |f| require_dependency f } }
   let(:controllers) { ApplicationController.descendants }

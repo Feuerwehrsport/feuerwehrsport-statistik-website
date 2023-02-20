@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class API::GroupScoreTypesController < API::BaseController
+class Api::GroupScoreTypesController < Api::BaseController
   api_actions :create, :index,
               change_log: true,
               default_form: %i[name discipline]

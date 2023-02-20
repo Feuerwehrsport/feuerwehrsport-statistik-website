@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class M3::Login::BasesController < ApplicationController
-  disable_tracking
   default_actions for_class: M3::Login::Base
 
   default_form do |f|
@@ -17,12 +16,8 @@ class M3::Login::BasesController < ApplicationController
 
   protected
 
-  def build_resource
-    resource_class.new(website: m3_website)
-  end
-
   def after_create
-    deliver_later(M3::LoginMailer, :verify, form_resource) if Rails.configuration.m3.login.send_verification_mail
+    LoginMailer.with(login: form_resource).verify.deliver_later
     super
   end
 end

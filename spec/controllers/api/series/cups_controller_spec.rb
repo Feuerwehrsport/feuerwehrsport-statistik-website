@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::Series::CupsController do
+RSpec.describe Api::Series::CupsController do
   let!(:cup) { create(:series_cup) }
 
   describe 'GET index' do

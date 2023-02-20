@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class API::SuggestionsController < API::BaseController
+class Api::SuggestionsController < Api::BaseController
   def people
     suggestions = Person.limit(10)
     suggestions = suggestions.where_name_like(params[:name]) if params[:name]

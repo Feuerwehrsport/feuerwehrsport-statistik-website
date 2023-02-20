@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::PeopleController do
+RSpec.describe Api::PeopleController do
   let!(:nation) { create(:nation) }
   let(:person) { create(:person, :with_best_scores) }
 

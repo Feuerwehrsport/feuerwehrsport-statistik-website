@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class API::Series::CupsController < API::BaseController
+class Api::Series::CupsController < Api::BaseController
   api_actions :index
 end

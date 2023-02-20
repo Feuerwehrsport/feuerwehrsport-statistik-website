@@ -10,11 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_03_161642) do
+ActiveRecord::Schema.define(version: 2023_02_20_133602) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
   enable_extension "plpgsql"
+
+  create_table "active_record_views", primary_key: "name", id: :text, force: :cascade do |t|
+    t.text     "class_name",   :null=>false, :index=>{:name=>"active_record_views_class_name_key", :unique=>true}
+    t.text     "checksum",     :null=>false
+    t.json     "options",      :default=>{}, :null=>false
+    t.datetime "refreshed_at"
+  end
 
   create_table "admin_users", id: :serial, force: :cascade do |t|
     t.string   "role",       :limit=>200, :default=>"user", :null=>false
@@ -198,20 +205,6 @@ ActiveRecord::Schema.define(version: 2019_10_03_161642) do
     t.json     "import_data"
   end
 
-  create_table "ipo_registrations", id: :serial, force: :cascade do |t|
-    t.string   "team_name",        :limit=>200, :null=>false
-    t.string   "name",             :limit=>200, :null=>false
-    t.string   "locality",         :limit=>200, :null=>false
-    t.string   "phone_number",     :limit=>200, :null=>false
-    t.string   "email_address",    :limit=>200, :null=>false
-    t.boolean  "youth_team",       :default=>false, :null=>false
-    t.boolean  "female_team",      :default=>false, :null=>false
-    t.boolean  "male_team",        :default=>false, :null=>false
-    t.boolean  "terms_of_service", :default=>false, :null=>false
-    t.datetime "created_at",       :null=>false
-    t.datetime "updated_at",       :null=>false
-  end
-
   create_table "links", id: :serial, force: :cascade do |t|
     t.string   "label",         :null=>false
     t.integer  "linkable_id",   :null=>false
@@ -222,34 +215,11 @@ ActiveRecord::Schema.define(version: 2019_10_03_161642) do
   end
 
   create_table "m3_assets", id: :serial, force: :cascade do |t|
-    t.integer  "website_id", :null=>false, :index=>{:name=>"index_m3_assets_on_website_id"}
     t.string   "file"
     t.string   "name",       :limit=>200
     t.boolean  "image",      :default=>false, :null=>false
     t.datetime "created_at", :null=>false
     t.datetime "updated_at", :null=>false
-  end
-
-  create_table "m3_delivery_settings", id: :serial, force: :cascade do |t|
-    t.integer  "website_id",           :null=>false, :index=>{:name=>"index_m3_delivery_settings_on_website_id"}
-    t.string   "delivery_method",      :default=>"file", :null=>false
-    t.string   "address"
-    t.integer  "port"
-    t.string   "domain"
-    t.string   "user_name"
-    t.string   "password"
-    t.string   "authentication"
-    t.boolean  "enable_starttls_auto"
-    t.boolean  "tls"
-    t.string   "openssl_verify_mode"
-    t.string   "location"
-    t.string   "arguments"
-    t.string   "from_address"
-    t.string   "from_name"
-    t.string   "reply_to_address"
-    t.string   "reply_to_name"
-    t.datetime "created_at",           :null=>false
-    t.datetime "updated_at",           :null=>false
   end
 
   create_table "m3_logins", id: :serial, force: :cascade do |t|
@@ -258,7 +228,6 @@ ActiveRecord::Schema.define(version: 2019_10_03_161642) do
     t.string   "password_digest"
     t.datetime "verified_at"
     t.string   "verify_token",                       :index=>{:name=>"index_m3_logins_on_verify_token", :unique=>true}
-    t.integer  "website_id",                         :null=>false, :index=>{:name=>"index_m3_logins_on_website_id"}
     t.datetime "created_at",                         :null=>false
     t.datetime "updated_at",                         :null=>false
     t.datetime "password_reset_requested_at"
@@ -267,21 +236,6 @@ ActiveRecord::Schema.define(version: 2019_10_03_161642) do
     t.string   "changed_email_address"
     t.string   "changed_email_address_token",        :null=>false, :index=>{:name=>"index_m3_logins_on_changed_email_address_token", :unique=>true}
     t.datetime "changed_email_address_requested_at"
-  end
-
-  create_table "m3_websites", id: :serial, force: :cascade do |t|
-    t.string   "name",                   :null=>false
-    t.string   "domain",                 :null=>false
-    t.string   "title",                  :null=>false
-    t.datetime "created_at",             :null=>false
-    t.datetime "updated_at",             :null=>false
-    t.integer  "port",                   :default=>80, :null=>false
-    t.string   "protocol",               :default=>"http", :null=>false
-    t.boolean  "default_site",           :default=>false, :null=>false
-    t.string   "google_tag_manager_key", :limit=>200
-    t.string   "facebook_pixel_id",      :limit=>200
-    t.string   "google_analytics_key",   :limit=>200
-    t.string   "key",                    :limit=>200, :null=>false, :index=>{:name=>"index_m3_websites_on_key", :unique=>true}
   end
 
   create_table "nations", id: :serial, force: :cascade do |t|
@@ -541,9 +495,6 @@ ActiveRecord::Schema.define(version: 2019_10_03_161642) do
   add_foreign_key "group_scores", "group_score_categories"
   add_foreign_key "group_scores", "teams"
   add_foreign_key "import_request_files", "import_requests"
-  add_foreign_key "m3_assets", "m3_websites", column: "website_id"
-  add_foreign_key "m3_delivery_settings", "m3_websites", column: "website_id"
-  add_foreign_key "m3_logins", "m3_websites", column: "website_id"
   add_foreign_key "news_articles", "admin_users"
   add_foreign_key "pdf2_table_entries", "admin_users"
   add_foreign_key "pdf2_table_entries", "api_users"

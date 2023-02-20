@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class API::GroupScoresController < API::BaseController
+class Api::GroupScoresController < Api::BaseController
   api_actions :show, :update,
               change_log: true,
               default_form: [:team_id].push((1..7).map { |i| :"person_#{i}" })

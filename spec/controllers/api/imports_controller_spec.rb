@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::ImportsController do
+RSpec.describe Api::ImportsController do
   describe 'POST check_lines' do
     let(:r) { -> { post :check_lines, params: { import: import } } }
 

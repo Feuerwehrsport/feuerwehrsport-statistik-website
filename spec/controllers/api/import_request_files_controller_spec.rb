@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::ImportRequestFilesController do
+RSpec.describe Api::ImportRequestFilesController do
   let(:import_request) { create(:import_request) }
   let(:file) { import_request.import_request_files.first }
   let(:competition) { create(:competition) }
