@@ -4,19 +4,11 @@ require_dependency 'm3/form'
 
 class M3::Form::FormBuilder < SimpleForm::FormBuilder
   def inputs(legend = nil, options = {}, &block)
-    input = nil
-    if options[:as] == :boolean
-      label = options[:label] || legend
-      options[:label] = false
-      options[:wrapper] = false
-      input = check_box(legend, options)
-      legend = label
-    end
     if legend.is_a?(Symbol)
       attribute_name = object.class.human_attribute_name(legend)
       legend = localize(:fieldsets, legend, default: attribute_name)
     end
-    template.render('form_inputs', legend: legend, input: input, classes: options[:class], content: block)
+    template.render('form_inputs', legend: legend, classes: options[:class], content: block)
   end
 
   def input(attribute_name, given_options = {}, &block)
