@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Chart::About < Chart::Base
   def competition_creations
     hc = lazy_high_chart

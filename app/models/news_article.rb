@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class NewsArticle < ApplicationRecord
   belongs_to :admin_user
 

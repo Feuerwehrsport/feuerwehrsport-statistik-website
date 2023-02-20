@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Backend::GroupScoresController, type: :controller, login: :sub_admin do

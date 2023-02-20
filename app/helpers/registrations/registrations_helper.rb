@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Registrations::RegistrationsHelper
   def edit_participation(row, assessment, competition)
     value = row.person_assessment_participations.find_by(assessment: assessment).try(:decorate).try(:short_type)

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module PlacesHelper
   def disciplines_overview
     competition_ids = @competitions.map(&:id)

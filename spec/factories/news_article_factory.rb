@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 FactoryBot.define do
   factory :news_article do
     title { 'Neuigkeiten von heute' }

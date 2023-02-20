@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 SchemaValidations.setup do |config|
   # Whether to automatically create validations based on database constraints.
   # (Can be set false globally to disable the gem by default, and set true per-model to enable.)

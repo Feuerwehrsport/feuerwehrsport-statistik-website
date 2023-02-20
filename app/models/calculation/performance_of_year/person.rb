@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Calculation::PerformanceOfYear::Person < Calculation::PerformanceOfYear::Base
   def person
     entity

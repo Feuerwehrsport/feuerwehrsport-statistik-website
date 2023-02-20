@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ChangeRequest < ApplicationRecord
   belongs_to :api_user
   belongs_to :admin_user

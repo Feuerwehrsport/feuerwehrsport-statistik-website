@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # This file is copied to spec/ when you run 'rails generate m3:rspec:install'
 require 'simplecov'
 SimpleCov.start 'rails'

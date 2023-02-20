@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Competitions::CacheBuilder
   extend ActiveSupport::Concern
 

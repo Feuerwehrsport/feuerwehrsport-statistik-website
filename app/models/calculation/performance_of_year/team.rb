@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Calculation::PerformanceOfYear::Team < Calculation::PerformanceOfYear::Base
   def team
     entity

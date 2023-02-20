@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Chart::PersonIndex < Chart::Base
   def gender_pie
     data = %i[female male].map do |gender|

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # see https://gist.github.com/henrik/146844
 
 class Hash

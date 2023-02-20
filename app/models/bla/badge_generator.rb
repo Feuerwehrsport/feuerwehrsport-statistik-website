@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class BLA::BadgeGenerator
   include M3::FormObject
 

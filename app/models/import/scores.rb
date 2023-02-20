@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Import::Scores
   include ActiveModel::Model
   include ActiveModel::Validations::Callbacks

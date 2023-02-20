@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class TeamMember < ApplicationRecord
   is_view
 

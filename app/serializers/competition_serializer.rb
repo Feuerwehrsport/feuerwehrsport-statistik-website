@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CompetitionSerializer < ActiveModel::Serializer
   attributes :id, :name, :place, :event, :date, :hint_content
 

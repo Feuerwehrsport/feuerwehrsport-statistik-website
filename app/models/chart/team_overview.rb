@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Chart::TeamOverview < Chart::Base
   def federal_states_pie
     data = Team.where(state: State::FEDERAL).group(:state).count

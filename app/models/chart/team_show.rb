@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Chart::TeamShow < Chart::Base
   attr_accessor :team
 

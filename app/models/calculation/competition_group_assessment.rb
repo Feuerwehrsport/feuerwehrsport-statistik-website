@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 Calculation::CompetitionGroupAssessment = Struct.new(:team, :team_number, :competition, :gender) do
   include Draper::Decoratable
   def add_score(score)

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class UI::TableOfContents
   include ActionView::Helpers::TagHelper
   include UI::UniqIDFinder

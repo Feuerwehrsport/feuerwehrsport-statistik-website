@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Registrations::Competition < ApplicationRecord
   include M3::URLSupport
   belongs_to :admin_user

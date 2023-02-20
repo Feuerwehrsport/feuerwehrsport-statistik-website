@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Chart::EventIndex < Chart::Base
   attr_accessor :events
 

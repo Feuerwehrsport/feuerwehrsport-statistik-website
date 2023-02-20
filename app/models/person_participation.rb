@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class PersonParticipation < ApplicationRecord
   belongs_to :person
   belongs_to :group_score

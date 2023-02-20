@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 FactoryBot.define do
   factory :competition_file do
     competition { Competition.first || build(:competition) }

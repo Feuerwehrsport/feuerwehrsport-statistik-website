@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Registrations::TeamMailer < ApplicationMailer
   def notification_to_creator(team)
     @team = team.decorate

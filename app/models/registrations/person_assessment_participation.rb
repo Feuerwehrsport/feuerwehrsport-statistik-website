@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Registrations::PersonAssessmentParticipation < Registrations::AssessmentParticipation
   belongs_to :person, class_name: 'Registrations::Person', inverse_of: :person_assessment_participations
   enum assessment_type: { group_competitor: 0, single_competitor: 1, out_of_competition: 2, competitor: 3 }

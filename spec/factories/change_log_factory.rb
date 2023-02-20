@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 FactoryBot.define do
   factory :change_log do
     admin_user { AdminUser.first || build(:admin_user) }

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ScoreType < ApplicationRecord
   has_many :competitions, dependent: :restrict_with_exception
 

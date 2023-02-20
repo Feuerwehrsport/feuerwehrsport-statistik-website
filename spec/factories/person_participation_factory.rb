@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 FactoryBot.define do
   factory :person_participation do
     person { Person.first || build(:person) }

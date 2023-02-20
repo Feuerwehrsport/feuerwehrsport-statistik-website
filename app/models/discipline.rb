@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Discipline
   PARTICIPATION_COUNT = {
     gs: 6,

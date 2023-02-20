@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 RSpec.shared_examples 'a backend resource controller' do |options|
   options ||= {}
   only = options.delete(:only) || %i[new create show edit update index destroy]

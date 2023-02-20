@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 FactoryBot.define do
   factory :bla_badge, class: 'BLA::Badge' do
     person { Person.first || build(:person) }

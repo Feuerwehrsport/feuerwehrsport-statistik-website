@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Chart::Base
   include ActiveModel::Model
   include Draper::Decoratable

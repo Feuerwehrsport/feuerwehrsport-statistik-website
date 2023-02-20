@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Caching::HTMLPreLoader
   include M3::Delayable
   include M3::URLSupport

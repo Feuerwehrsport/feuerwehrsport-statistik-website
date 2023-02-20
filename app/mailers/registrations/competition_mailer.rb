@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Registrations::CompetitionMailer < ApplicationMailer
   def new_team_registered(team)
     @team = team.decorate

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CompetitionFile < ApplicationRecord
   POSSIBLE_KEYS = %i[
     zk_female hb_female hl_female gs_female fs_female la_female

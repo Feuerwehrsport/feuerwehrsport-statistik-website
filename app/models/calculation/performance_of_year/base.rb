@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Calculation::PerformanceOfYear::Base
   include Draper::Decoratable
   attr_reader :scores, :entity

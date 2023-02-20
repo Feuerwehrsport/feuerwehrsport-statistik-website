@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 Years::InprovementItem = Struct.new(:person, :year) do
   include Draper::Decoratable
 

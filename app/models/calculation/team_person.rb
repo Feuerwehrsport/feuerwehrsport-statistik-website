@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Calculation::TeamPerson < Person
   attr_reader :hl, :hb, :gs, :fs, :la
 

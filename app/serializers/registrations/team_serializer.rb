@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Registrations::TeamSerializer < ActiveModel::Serializer
   attributes :id, :name, :shortcut, :team_number, :statitics_team_id, :gender, :assessments, :tag_names,
              :federal_state

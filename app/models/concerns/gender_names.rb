@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module GenderNames
   def g(gender)
     t("gender.#{normalize_gender(gender)}")

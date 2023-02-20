@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Ipo::RegistrationMailer < ApplicationMailer
   def confirm(registration)
     @registration = registration.decorate

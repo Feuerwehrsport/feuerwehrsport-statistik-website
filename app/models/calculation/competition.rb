@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 Calculation::Competition = Struct.new(:competition, :context) do
   attr_accessor :single_score_count
   attr_reader :disciplines, :single_categories, :group_categories

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Series::TeamParticipation < Series::Participation
   belongs_to :team
 

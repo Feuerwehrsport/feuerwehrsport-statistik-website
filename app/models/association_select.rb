@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AssociationSelect
   def initialize(ability)
     @ability = ability

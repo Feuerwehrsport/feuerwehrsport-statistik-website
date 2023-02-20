@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class UI::NavTab
   include UI::UniqIDFinder
   attr_reader :tabs

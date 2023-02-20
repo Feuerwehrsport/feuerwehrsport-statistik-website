@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class TeamSerializer < ActiveModel::Serializer
   attributes :id, :name, :shortcut, :status, :latitude, :longitude, :state, :tile_path
 

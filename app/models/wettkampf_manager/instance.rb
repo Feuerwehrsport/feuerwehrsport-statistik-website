@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 WettkampfManager::Instance = Struct.new(:date, :description, :slug) do
   def self.all
     json = JSON.parse(File.read(Rails.configuration.wettkampf_manager_config_path), symbolize_names: true)

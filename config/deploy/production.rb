@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 server 'stadthafen-rails',
        user: 'feuerwehrsport-statistik',
        roles: %w[app db web],

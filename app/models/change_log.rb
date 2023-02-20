@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ChangeLog < ApplicationRecord
   FREE_ACCESS_CLASSES = %w[
     Appointment

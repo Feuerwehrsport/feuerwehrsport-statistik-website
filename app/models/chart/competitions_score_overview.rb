@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Chart::CompetitionsScoreOverview < Chart::Base
   attr_accessor :competitions
 

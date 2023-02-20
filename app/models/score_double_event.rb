@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ScoreDoubleEvent < ApplicationRecord
   is_view
 

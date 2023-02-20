@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Chart::PersonShow < Chart::Base
   attr_accessor :person, :team_structs
 

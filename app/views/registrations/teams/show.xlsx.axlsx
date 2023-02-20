@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 wb = xlsx_package.workbook
 
 team_assessments = resource.competition.assessments

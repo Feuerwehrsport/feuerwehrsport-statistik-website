@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Caching::Cleaner
   include M3::FormObject
 

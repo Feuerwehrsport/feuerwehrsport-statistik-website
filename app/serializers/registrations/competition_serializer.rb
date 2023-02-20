@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Registrations::CompetitionSerializer < ActiveModel::Serializer
   attributes :name, :place, :date, :description, :teams, :assessments, :people, :person_tag_list, :team_tag_list
 

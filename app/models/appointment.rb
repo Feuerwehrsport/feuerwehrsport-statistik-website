@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Appointment < ApplicationRecord
   include M3::URLSupport
 

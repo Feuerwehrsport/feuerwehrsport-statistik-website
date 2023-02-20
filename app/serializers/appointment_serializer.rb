@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AppointmentSerializer < ActiveModel::Serializer
   attributes :id, :name, :event_id, :place, :event, :disciplines, :dated_at, :description, :updateable
 

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 Registrations::Competitions::Pdf = Struct.new(:competition, :ability) do
   include PrawnSupport
   include GenderNames

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ImportRequest < ApplicationRecord
   belongs_to :place
   belongs_to :event
