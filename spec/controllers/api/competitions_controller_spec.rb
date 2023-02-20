@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::CompetitionsController, type: :controller do
+RSpec.describe API::CompetitionsController do
   let(:competition) { create(:competition, :score_type, :fake_count) }
 
   describe 'POST create' do

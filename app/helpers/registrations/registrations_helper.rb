@@ -8,7 +8,7 @@ module Registrations::RegistrationsHelper
       edit_registrations_competition_person_participation_path(competition, row),
       remote: true, class: 'btn btn-default btn-xs pull-right',
     )
-    link = can?(:edit, row) ? link : ''
+    link = '' unless can?(:edit, row)
     safe_join([value.presence || '-', link], ' ')
   end
 end

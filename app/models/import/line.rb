@@ -124,7 +124,7 @@ class Import::Line
     return false unless /^[\d,:;.]+$/.match?(time)
 
     if (match = time.match(/^(\d+):(\d{2})[:,](\d{2})$/))
-      seconds = match[1].to_i * 60 + match[2].to_i
+      seconds = (match[1].to_i * 60) + match[2].to_i
       time = "#{seconds}:#{match[3]}"
     end
 
@@ -153,7 +153,7 @@ class Import::Line
              else
                millis.to_i
              end
-    time = seconds * 100 + millis if seconds.positive?
+    time = (seconds * 100) + millis if seconds.positive?
 
     if time.to_i.to_s == time.to_s
       return Firesport::INVALID_TIME if time.to_i < 500 || time.to_i > 99_800

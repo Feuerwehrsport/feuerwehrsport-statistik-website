@@ -17,7 +17,7 @@ class Competition < ApplicationRecord
   has_many :team_competitions # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :teams, through: :team_competitions
 
-  validates :place, :event, :date, presence: true
+  validates :date, presence: true
   delegate :year, to: :date
 
   scope :with_group_assessment, -> { joins(:score_type) }
@@ -31,7 +31,7 @@ class Competition < ApplicationRecord
   scope :team, ->(team_id) { joins(:team_competitions).where(team_competitions: { team_id: team_id }) }
   scope :filter_collection, -> { order(date: :desc).includes(:place, :event) }
   scope :search, ->(search_team) do
-    search_team_splitted = "%#{search_team.split('').reject(&:blank?).join('%')}%"
+    search_team_splitted = "%#{search_team.chars.reject(&:blank?).join('%')}%"
     match_list = [
       arel_table[:name],
       Place.arel_table[:name],

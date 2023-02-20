@@ -32,7 +32,7 @@ if Rails.env.development?
   end
 end
 
-class M3::Engine < ::Rails::Engine
+class M3::Engine < Rails::Engine
   config.m3 = ActiveSupport::OrderedOptions.new
   config.m3.session = ActiveSupport::OrderedOptions.new
   config.m3.session.login_url = { controller: 'm3/login/sessions', action: :new }

@@ -28,7 +28,7 @@ class Person < ApplicationRecord
   end
   scope :index_order, -> { order(:last_name, :first_name) }
   scope :where_name_like, ->(name) do
-    query = "%#{name.split('').join('%')}%"
+    query = "%#{name.chars.join('%')}%"
     spelling_query = PersonSpelling.where("(first_name || ' ' || last_name) ILIKE ?", query).select(:person_id)
     where("(first_name || ' ' || last_name) ILIKE ? OR id IN (#{spelling_query.to_sql})", query)
   end
@@ -49,7 +49,7 @@ class Person < ApplicationRecord
     where(arel_table[:id].not_in(Arel.sql(ids)))
   end
 
-  validates :last_name, :gender, :nation, presence: true
+  validates :last_name, :gender, presence: true
 
   def merge_to(correct_person)
     raise ActiveRecord::ActiveRecordError, 'same id' if id == correct_person.id

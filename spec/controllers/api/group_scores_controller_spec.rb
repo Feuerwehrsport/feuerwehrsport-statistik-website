@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::GroupScoresController, type: :controller do
+RSpec.describe API::GroupScoresController do
   let(:group_score) { create(:group_score, :double) }
 
   describe 'GET show' do

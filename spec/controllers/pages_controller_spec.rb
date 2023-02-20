@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe PagesController, type: :controller do
+RSpec.describe PagesController do
   let!(:score) { create(:score, :double) }
 
   describe 'GET dashboard' do
@@ -42,6 +42,7 @@ RSpec.describe PagesController, type: :controller do
   describe 'GET firesport_overview' do
     it 'assigns nothing' do
       get :firesport_overview
+      expect(response).to be_successful
     end
   end
 

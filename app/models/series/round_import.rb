@@ -103,7 +103,7 @@ class Series::RoundImport
 
   def create_or_find_assessment(type, discipline, gender, name)
     ::Series::Assessment.find_or_create_by!(
-      type: type != :person ? 'Series::TeamAssessment' : 'Series::PersonAssessment',
+      type: type == :person ? 'Series::PersonAssessment' : 'Series::TeamAssessment',
       round: round,
       discipline: discipline,
       gender: Genderable::GENDERS[gender],
@@ -119,9 +119,10 @@ class Series::RoundImport
     when :group
       competition.group_assessment(discipline, gender)
     when :person
-      if discipline.to_sym == :zk
+      case discipline.to_sym
+      when :zk
         competition.score_double_events.gender(gender).sort_by(&:time)
-      elsif discipline.to_sym == :zw
+      when :zw
         competition.score_low_double_events.gender(gender).sort_by(&:time)
       else
         competition.scores.no_finals.gender(gender).discipline(discipline).best_of_competition.sort_by(&:time)

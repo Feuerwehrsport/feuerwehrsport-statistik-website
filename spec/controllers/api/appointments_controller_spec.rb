@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::AppointmentsController, type: :controller do
+RSpec.describe API::AppointmentsController do
   let(:appointment) { create(:appointment, creator: creator) }
   let(:creator) { create(:admin_user, :sub_admin) }
 

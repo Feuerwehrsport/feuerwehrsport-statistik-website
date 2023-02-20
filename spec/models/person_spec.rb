@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Person, type: :model do
+RSpec.describe Person do
   let(:person) { create(:person) }
   let!(:hl) { create(:score, :hl, :double, person: person) }
   let(:competition_today) { create(:competition, date: Date.current) }

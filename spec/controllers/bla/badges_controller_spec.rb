@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe BLA::BadgesController, type: :controller do
+RSpec.describe BLA::BadgesController do
   let!(:badge) { create(:bla_badge) }
 
   describe 'GET index' do

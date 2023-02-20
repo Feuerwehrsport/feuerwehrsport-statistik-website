@@ -11,8 +11,8 @@ class Registrations::Team < ApplicationRecord
   has_many :assessments, through: :team_assessment_participations, class_name: 'Registrations::Assessment'
   has_many :people, inverse_of: :team, dependent: :destroy, class_name: 'Registrations::Person'
 
-  validates :competition, :name, :gender, :shortcut, :admin_user, presence: true
-  validates :email_address, "valid_email_2/email": true, allow_blank: true
+  validates :name, :gender, :shortcut, presence: true
+  validates :email_address, 'valid_email_2/email': true, allow_blank: true
 
   accepts_nested_attributes_for :team_assessment_participations, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :people, reject_if: :all_blank, allow_destroy: true

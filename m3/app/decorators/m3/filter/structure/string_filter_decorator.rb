@@ -18,7 +18,7 @@ class M3::Filter::Structure::StringFilterDecorator < M3::Filter::Structure::Sing
       if column.is_a?(Hash)
         inner = []
         column.each do |key, values|
-          values = values.is_a?(Array) ? values : [values]
+          values = [values] unless values.is_a?(Array)
           values.each do |value|
             table = resource_class.reflections[key.to_s].table_name
             collection = collection.joins(key)

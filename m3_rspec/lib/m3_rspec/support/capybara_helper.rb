@@ -16,14 +16,14 @@ module M3Rspec::CapybaraHelper
           if fixture
             img1 = Phashion::Image.new(screenshot)
             img2 = Phashion::Image.new(fixture)
-            if !img1.duplicate?(img2, threshold: 0)
+            if img1.duplicate?(img2, threshold: 0)
+              FileUtils.rm(screenshot)
+            else
               comp_path = "#{review_screenshot_directory}/compare/CHANGED: #{basename}"
               FileUtils.cp(screenshot, comp_path)
               FileUtils.cp(fixture, "#{review_screenshot_directory}/compare/CHANGED: #{basename}.ORIGINAL.png")
               changes << screenshot
               comparision_image ||= comp_path
-            else
-              FileUtils.rm(screenshot)
             end
           else
             comp_path = "#{review_screenshot_directory}/compare/NEW: #{basename}"

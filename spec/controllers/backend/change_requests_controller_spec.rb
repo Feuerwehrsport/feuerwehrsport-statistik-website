@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Backend::ChangeRequestsController, type: :controller do
+RSpec.describe Backend::ChangeRequestsController do
   describe 'GET index' do
     it 'successes', login: :sub_admin do
       get :index

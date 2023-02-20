@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'ipo', type: :feature do
+describe 'ipo' do
   context 'when registration is open' do
     before do
       allow_any_instance_of(Ipo::RegistrationsController).to receive(:registration_open?).and_return(true)

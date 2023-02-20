@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Registrations::TagsController, type: :controller, login: :user do
+RSpec.describe Registrations::TagsController, login: :user do
   let(:competition) { create(:registrations_competition) }
 
   describe 'GET edit' do

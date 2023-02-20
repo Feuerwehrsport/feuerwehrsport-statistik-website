@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe PlacesController, type: :controller do
+RSpec.describe PlacesController do
   let!(:competition) { create(:competition) }
   let(:place) { competition.place }
 

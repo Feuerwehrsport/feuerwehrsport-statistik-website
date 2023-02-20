@@ -15,7 +15,7 @@ class Calculation::PerformanceOfYear::Base
   end
 
   def valid_time_sum
-    valid_times.map(&:time).sum
+    valid_times.sum(&:time)
   end
 
   def valid_time_count
@@ -35,13 +35,13 @@ class Calculation::PerformanceOfYear::Base
       # - 1/23 *x^2+ 10
       sum = 0
       (0..valid_time_count - 1).each do |z|
-        subtotal = -1.0 / 23.0 * (z**2) + 10
+        subtotal = (-1.0 / 23.0 * (z**2)) + 10
         break if subtotal < 0
 
         sum += subtotal
       end
 
-      valid_time_average + invalid_time_count * 15 - sum
+      valid_time_average + (invalid_time_count * 15) - sum
     end
   end
 

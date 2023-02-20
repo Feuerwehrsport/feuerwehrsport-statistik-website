@@ -11,9 +11,10 @@ class Pdf2Table::Entry < ApplicationRecord
   mount_uploader :ods, Pdf2Table::OutputUploader
 
   def user=(user)
-    if user.is_a?(APIUser)
+    case user
+    when APIUser
       self.api_user = user
-    elsif user.is_a?(AdminUser)
+    when AdminUser
       self.admin_user = user
     end
   end

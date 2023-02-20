@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Registrations::RegistrationTimesController, type: :controller, login: :user do
+RSpec.describe Registrations::RegistrationTimesController, login: :user do
   let(:competition) { create(:registrations_competition) }
 
   describe 'GET edit' do

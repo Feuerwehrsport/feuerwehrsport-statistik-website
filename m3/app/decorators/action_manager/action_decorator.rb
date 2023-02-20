@@ -2,7 +2,7 @@
 
 class ActionManager::ActionDecorator < ApplicationDecorator
   def link_to(options = {}, &block)
-    if block_given?
+    if block
       h.link_to url, options, &block
     else
       h.link_to link_label, url, options

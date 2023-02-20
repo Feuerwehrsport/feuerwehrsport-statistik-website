@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Registrations::PersonCreationsController, type: :controller, login: :user do
+RSpec.describe Registrations::PersonCreationsController, login: :user do
   let(:competition) { create(:registrations_competition) }
   let(:team) { create(:registrations_team) }
   let(:person_attrs) { { first_name: 'Alfred', last_name: 'Meier', gender: :male } }
@@ -33,7 +33,7 @@ RSpec.describe Registrations::PersonCreationsController, type: :controller, logi
             }
             expect(response).to redirect_to(registrations_competition_team_path(competition, team))
           end.to change(Registrations::Person, :count).by(1)
-        end.to change(ActionMailer::Base.deliveries, :count).by(0)
+        end.not_to change(ActionMailer::Base.deliveries, :count)
       end
     end
   end

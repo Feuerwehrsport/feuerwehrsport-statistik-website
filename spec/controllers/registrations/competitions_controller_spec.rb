@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Registrations::CompetitionsController, type: :controller, login: :user do
+RSpec.describe Registrations::CompetitionsController, login: :user do
   let(:competition) { create(:registrations_competition) }
 
   describe 'GET index' do
@@ -75,9 +75,9 @@ RSpec.describe Registrations::CompetitionsController, type: :controller, login: 
         expect(response).to be_successful
         expect(response.content_type).to eq 'text/wettkampf_manager_format'
         expect(response.headers['Content-Disposition']).to eq 'attachment; ' \
-        'filename="d-cup-21-03-2018.wettkampf_manager_import"'
+                                                              'filename="d-cup-21-03-2018.wettkampf_manager_import"'
         expect(response.body).to eq '{"name":"D-Cup","place":"Ort","date":"2018-03-21","description":"","teams":[],' \
-          '"assessments":[],"people":[],"person_tag_list":[],"team_tag_list":[]}'
+                                    '"assessments":[],"people":[],"person_tag_list":[],"team_tag_list":[]}'
       end
     end
 

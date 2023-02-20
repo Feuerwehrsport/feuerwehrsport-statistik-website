@@ -11,7 +11,7 @@ class PersonSpelling < ApplicationRecord
   scope :official, -> { where(official: true) }
   scope :person, ->(person_id) { where(person_id: person_id) }
 
-  validates :person, :first_name, :last_name, :gender, presence: true
+  validates :first_name, :last_name, :gender, presence: true
 
   def self.create_from(person, incorrect_person)
     create!(

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Backend::CompetitionFilesController, type: :controller, login: :sub_admin do
+RSpec.describe Backend::CompetitionFilesController, login: :sub_admin do
   let(:competition) { create(:competition) }
 
   it_behaves_like 'a backend resource controller' do

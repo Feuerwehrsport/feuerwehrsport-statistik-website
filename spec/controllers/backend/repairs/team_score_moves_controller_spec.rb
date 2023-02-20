@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Backend::Repairs::TeamScoreMovesController, type: :controller, login: :sub_admin do
+RSpec.describe Backend::Repairs::TeamScoreMovesController, login: :sub_admin do
   describe 'GET new' do
     it 'shows new form' do
       get :new

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Backend::TeamsController, type: :controller, login: :sub_admin do
+RSpec.describe Backend::TeamsController, login: :sub_admin do
   let(:person) { create(:person) }
   let(:team) { create(:team) }
   let(:competition) { create(:competition) }

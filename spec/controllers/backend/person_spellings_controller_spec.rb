@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Backend::PersonSpellingsController, type: :controller, login: :sub_admin do
+RSpec.describe Backend::PersonSpellingsController, login: :sub_admin do
   let(:person) { create(:person) }
 
   it_behaves_like 'a backend resource controller' do

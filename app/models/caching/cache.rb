@@ -5,12 +5,12 @@ class Caching::Cache < ActiveSupport::Cache::FileStore
   class_attribute :caching
   self.caching = true
 
-  def self.fetch(*args, &block)
-    instance.fetch(*args, &block)
+  def self.fetch(...)
+    instance.fetch(...)
   end
 
-  def self.clear(*args, &block)
-    instance.clear(*args, &block)
+  def self.clear(...)
+    instance.clear(...)
   end
 
   def initialize

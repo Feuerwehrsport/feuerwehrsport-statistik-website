@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::PlacesController, type: :controller do
+RSpec.describe API::PlacesController do
   let(:place) { create(:place) }
 
   describe 'POST create' do

@@ -11,11 +11,10 @@ module SerializerSupport
 
   def handle_value_serializer(value)
     value = serializer_for_object(value)
-    if value.is_a?(ActiveModel::Serializer)
-      value
-    elsif value.is_a?(Array) || value.is_a?(ApplicationCollectionDecorator)
+    case value
+    when Array, ApplicationCollectionDecorator, CollectionDecorator
       value.map { |e| handle_value_serializer(e) }
-    elsif value.is_a?(Hash)
+    when Hash
       handle_serializer(value)
     else
       value

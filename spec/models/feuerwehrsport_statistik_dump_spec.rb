@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe FeuerwehrsportStatistik, type: :model do
+RSpec.describe FeuerwehrsportStatistik do
   let(:all_tables) { ActiveRecord::Base.connection.tables.map(&:to_sym) }
   let(:exclude_tables) { Rails.root.join('config/dump_exclude_tables').read.split("\n").map(&:to_sym) }
   let(:dump_tables) do

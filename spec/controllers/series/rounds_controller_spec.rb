@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Series::RoundsController, type: :controller do
+RSpec.describe Series::RoundsController do
   let!(:round) { create(:series_round) }
 
   describe 'GET index' do

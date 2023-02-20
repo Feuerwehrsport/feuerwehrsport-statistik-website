@@ -9,6 +9,4 @@ class Series::Cup < ApplicationRecord
   has_many :participations, dependent: :destroy, class_name: 'Series::Participation'
 
   default_scope -> { joins(:competition).order('competitions.date') }
-
-  validates :round, :competition, presence: true
 end

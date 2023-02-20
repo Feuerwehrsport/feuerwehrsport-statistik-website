@@ -20,7 +20,7 @@ module PlacesHelper
     def get
       if Discipline.group?(discipline)
         group_score_types = GroupScoreType.where(discipline: discipline_config[:discipline]).map do |group_score_type|
-          scores = GroupScore .joins(:group_score_category) .where(group_score_categories:
+          scores = GroupScore.joins(:group_score_category).where(group_score_categories:
             { competition_id: competition_ids, group_score_type_id: group_score_type.id })
           OpenStruct.new(type: group_score_type, calculation: calculation(scores))
         end

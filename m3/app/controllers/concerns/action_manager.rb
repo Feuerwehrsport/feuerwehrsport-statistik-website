@@ -67,7 +67,7 @@ module ActionManager
   def add_action(name, action_class, resource_or_class, check_existence: true)
     name = name.to_sym if name.is_a?(String)
     existing = !check_existence || action_names.include?(name)
-    action_class = existing ? action_class : MissingAction
+    action_class = MissingAction unless existing
     action_class.new(name, resource_or_class, current_ability, self).decorate
   end
 end

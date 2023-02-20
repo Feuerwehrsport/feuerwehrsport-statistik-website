@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::Series::RoundsController, type: :controller do
+RSpec.describe API::Series::RoundsController do
   let(:round) { create(:series_round) }
   let(:attributes) do
     { name: 'Cup', slug: 'cup', year: 2017, official: true, aggregate_type: 'LaCup', full_cup_count: 4 }
@@ -29,7 +29,7 @@ RSpec.describe API::Series::RoundsController, type: :controller do
     it 'update round', login: :admin do
       r.call
       expect_json_response
-      expect(Series::Round.first.official).to eq true
+      expect(Series::Round.first.official).to be true
       expect_change_log(before: { year: 2016 }, after: { year: 2017 }, log: 'update-series-round')
     end
 

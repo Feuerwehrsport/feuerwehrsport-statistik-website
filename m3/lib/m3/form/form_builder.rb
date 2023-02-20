@@ -35,7 +35,7 @@ class M3::Form::FormBuilder < SimpleForm::FormBuilder
   def association(association, options = {}, &block)
     options = options.dup
 
-    if block_given?
+    if block
       return simple_fields_for(*[association,
                                  options.delete(:collection), options].compact, &block)
     end

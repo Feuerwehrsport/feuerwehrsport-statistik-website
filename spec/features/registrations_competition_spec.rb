@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'registration feature', type: :feature, js: true do
+describe 'registration feature', js: true do
   it 'creates competition' do
     sign_in :user
 

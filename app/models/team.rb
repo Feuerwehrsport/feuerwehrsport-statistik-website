@@ -42,7 +42,7 @@ class Team < ApplicationRecord
   end)
   scope :person, ->(person_id) { joins(:team_members).where(team_members: { person_id: person_id }) }
   scope :competition, ->(cid) { joins(:team_competitions).where(team_competitions: { competition_id: cid }) }
-  scope :filter_collection, -> { order(:name) }
+  scope :filter_collection, -> { index_order }
   scope :unchecked, -> { where(checked_at: nil) }
 
   def self.update_members_and_competitions_count
@@ -57,7 +57,7 @@ class Team < ApplicationRecord
   end
 
   def members_with_discipline_count
-    all_members = members.map { |member| [member.id, member.becomes(Calculation::TeamPerson)] }.to_h
+    all_members = members.to_h { |member| [member.id, member.becomes(Calculation::TeamPerson)] }
     scores.group(:person_id, :discipline).count.each do |keys, count|
       all_members[keys.first].increment(keys.last, count)
     end
@@ -70,7 +70,7 @@ class Team < ApplicationRecord
   end
 
   def competitions_with_discipline_count
-    all_competitions = competitions.map { |comp| [comp.id, comp.becomes(Calculation::TeamCompetition)] }.to_h
+    all_competitions = competitions.to_h { |comp| [comp.id, comp.becomes(Calculation::TeamCompetition)] }
     scores.group(:competition_id, :discipline).count.each do |keys, count|
       all_competitions[keys.first].increment(keys.last, count)
     end
@@ -81,9 +81,13 @@ class Team < ApplicationRecord
     all_competitions.values
   end
 
+  GroupAssessment = Struct.new(:discipline, :gender, :scores)
+
   def group_assessments
+    genders = %i[female male].freeze
+
     %i[hl hb hw].map do |discipline|
-      %i[female male].map do |gender|
+      genders.map do |gender|
         team_scores = {}
         scores
           .where(competition_id: competitions.with_group_assessment)
@@ -103,20 +107,24 @@ class Team < ApplicationRecord
           team_scores[score.uniq_team_id].add_score(score)
         end
 
-        OpenStruct.new(
-          discipline: discipline,
-          gender: gender,
-          scores: team_scores.values.map(&:decorate),
+        GroupAssessment.new(
+          discipline,
+          gender,
+          team_scores.values.map(&:decorate),
         )
       end
     end.flatten
   end
 
+  GroupDiscipline = Struct.new(:discipline, :gender, :types)
+
   def group_disciplines
+    genders = %i[female male].freeze
+
     group_disciplines = []
     %i[gs fs la].each do |discipline|
-      %i[female male].each do |gender|
-        current_discipline = OpenStruct.new(discipline: discipline, gender: gender, types: [])
+      genders.each do |gender|
+        current_discipline = GroupDiscipline.new(discipline, gender, [])
         group_score_types(discipline).each do |group_type|
           scores = group_scores.gender(gender).group_score_type(group_type).includes(:person_participations).to_a
           if scores.count.positive?
@@ -150,7 +158,7 @@ class Team < ApplicationRecord
     end
 
     def average_time
-      Firesport::Time.second_time(valid_scores.map(&:time).sum.to_f / valid_scores.size)
+      Firesport::Time.second_time(valid_scores.sum(&:time).to_f / valid_scores.size)
     end
   end
 

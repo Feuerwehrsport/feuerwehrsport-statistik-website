@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Registrations::Competitions::Pdf, type: :model do
+RSpec.describe Registrations::Competitions::Pdf do
   let(:competition) { create(:registrations_competition) }
   let(:pdf) { described_class.build(competition, Ability.new(competition.admin_user, nil)) }
 

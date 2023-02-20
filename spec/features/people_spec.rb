@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'people', type: :feature, js: true do
+describe 'people', js: true do
   let(:nation) { create(:nation) }
   let(:person) { create(:person) }
 

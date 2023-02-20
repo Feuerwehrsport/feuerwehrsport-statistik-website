@@ -22,7 +22,7 @@ class Score < ApplicationRecord
   has_many :hb_bla_badges, foreign_key: :hl_score_id, class_name: 'BLA::Badge', dependent: :nullify,
                            inverse_of: :hb_score
 
-  validates :person, :competition, :discipline, :time, :team_number, presence: true
+  validates :discipline, :time, :team_number, presence: true
 
   scope :gender, ->(gender) { joins(:person).merge(Person.gender(gender)) }
   scope :discipline, ->(discipline) { where(discipline: discipline) }
@@ -56,7 +56,7 @@ class Score < ApplicationRecord
   def self.yearly_best_times_subquery(competitions)
     Score
       .joins(:competition, :person)
-      .select(<<~SQL)
+      .select(<<~SQL.squish)
         #{Score.table_name}.discipline,
         #{Person.table_name}.gender,
         EXTRACT(YEAR FROM #{Competition.table_name}.date) AS year,
@@ -64,7 +64,7 @@ class Score < ApplicationRecord
       SQL
       .german
       .where(competition_id: competitions)
-      .group(<<~SQL)
+      .group(<<~SQL.squish)
         #{Score.table_name}.discipline,
         #{Person.table_name}.gender,
         EXTRACT(YEAR FROM #{Competition.table_name}.date)
@@ -90,9 +90,9 @@ class Score < ApplicationRecord
   scope :yearly_best, ->(competitions) do
     includes(:person, competition: %i[place event])
       .where("#{Score.table_name}.id IN (WITH times AS (#{yearly_best_times_subquery(competitions)}) " \
-        "#{yearly_best_scores_subquery(competitions)})")
+             "#{yearly_best_scores_subquery(competitions)})")
       .joins(:person, :competition)
-      .order(Arel.sql(<<~SQL))
+      .order(Arel.sql(<<~SQL.squish))
         #{Score.table_name}.discipline,
         #{Person.table_name}.gender,
         EXTRACT(YEAR FROM #{Competition.table_name}.date)

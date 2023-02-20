@@ -82,11 +82,11 @@ class GroupScore < ApplicationRecord
       .to_sql
   end
   scope :yearly_best, ->(competitions) do
-    includes(:team, group_score_category: [:group_score_type, competition: %i[place event]])
-      .where("#{GroupScore.table_name}.id IN (WITH times AS (#{yearly_best_times_subquery(competitions)}) "\
-        " #{yearly_best_scores_subquery(competitions)})")
+    includes(:team, group_score_category: [:group_score_type, { competition: %i[place event] }])
+      .where("#{GroupScore.table_name}.id IN (WITH times AS (#{yearly_best_times_subquery(competitions)})  " \
+             "#{yearly_best_scores_subquery(competitions)})")
       .joins(group_score_category: %i[competition group_score_type])
-      .order(Arel.sql(<<~SQL ))
+      .order(Arel.sql(<<~SQL.squish))
         #{GroupScoreType.table_name}.discipline,
         #{GroupScoreType.table_name}.regular DESC,
         #{GroupScoreType.table_name}.name,
@@ -102,7 +102,7 @@ class GroupScore < ApplicationRecord
   scope :team, ->(team_id) { where(team_id: team_id) }
   scope :where_time_like, ->(search_term) { where('time::TEXT ILIKE ?', "%#{search_term}%") }
 
-  validates :team, :group_score_category, :team_number, :gender, :time, presence: true
+  validates :team_number, :gender, :time, presence: true
 
   delegate :competition, to: :group_score_category
 

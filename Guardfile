@@ -44,7 +44,7 @@ group :red_green_refactor, halt_on_fail: true do
     watch(rails.layouts)       { |m| rspec.spec.call("features/#{m[1]}") }
   end
 
-  guard :rubocop, all_on_start: false, cli: %w[-aED --config config/rubocop.yml] do
+  guard :rubocop, all_on_start: false, cli: %w[-aED --server] do
     watch(%r{^app/(.+)\.rb$})
     watch(%r{^lib/(.+)\.rb$})
     watch(%r{^spec/(.+)\.rb$})

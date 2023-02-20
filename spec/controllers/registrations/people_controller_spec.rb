@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Registrations::PeopleController, type: :controller, login: :user do
+RSpec.describe Registrations::PeopleController, login: :user do
   let(:competition) { create(:registrations_competition, team_tags: 'Sport') }
   let(:team) { create(:registrations_team, competition: competition) }
   let(:person) { create(:registrations_person, competition: competition) }

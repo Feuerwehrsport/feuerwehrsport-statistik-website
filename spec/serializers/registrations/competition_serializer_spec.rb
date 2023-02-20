@@ -6,10 +6,10 @@ RSpec.describe Registrations::CompetitionSerializer, type: :model do
   let!(:competition) { create(:registrations_competition) }
   let!(:la) { create(:registrations_assessment, :la, competition: competition) }
   let!(:hl) { create(:registrations_assessment, competition: competition) }
-  let!(:team_1) { create(:registrations_team, competition: competition) }
-  let!(:team_2) { create(:registrations_team, competition: competition, assessments: [la]) }
-  let!(:person_1) { create(:registrations_person, competition: competition) }
-  let!(:person_2) { create(:registrations_person, competition: competition, assessments: [hl]) }
+  let!(:team1) { create(:registrations_team, competition: competition) }
+  let!(:team2) { create(:registrations_team, competition: competition, assessments: [la]) }
+  let!(:person1) { create(:registrations_person, competition: competition) }
+  let!(:person2) { create(:registrations_person, competition: competition, assessments: [hl]) }
   let(:serializer) { competition.to_serializer }
 
   describe '.to_json' do
@@ -17,7 +17,7 @@ RSpec.describe Registrations::CompetitionSerializer, type: :model do
       expect(serializer.to_json).to eq({
         name: 'D-Cup', place: 'Ort', date: Time.zone.today, description: '',
         teams: [{
-          id: team_1.id,
+          id: team1.id,
           name: 'FF Mannschaft',
           shortcut: 'Mannschaft',
           team_number: 1,
@@ -27,7 +27,7 @@ RSpec.describe Registrations::CompetitionSerializer, type: :model do
           tag_names: [],
           federal_state: nil,
         }, {
-          id: team_2.id,
+          id: team2.id,
           name: 'FF Mannschaft',
           shortcut: 'Mannschaft',
           team_number: 1,
@@ -49,7 +49,7 @@ RSpec.describe Registrations::CompetitionSerializer, type: :model do
           id: la.id,
         }],
         people: [{
-          id: person_1.id,
+          id: person1.id,
           team_id: nil,
           team_name: nil,
           first_name: 'Alfred',
@@ -59,7 +59,7 @@ RSpec.describe Registrations::CompetitionSerializer, type: :model do
           assessment_participations: [],
           tag_names: [],
         }, {
-          id: person_2.id,
+          id: person2.id,
           team_id: nil,
           team_name: nil,
           first_name: 'Alfred',

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Backend::Series::RoundImportsController, type: :controller, login: :admin do
+RSpec.describe Backend::Series::RoundImportsController, login: :admin do
   let(:round) { create(:series_round) }
 
   describe 'GET new' do
@@ -23,7 +23,7 @@ RSpec.describe Backend::Series::RoundImportsController, type: :controller, login
       expect do
         post :create, params: { round_id: round, series_round_import: create_attributes }
         expect(response).to render_template :create
-      end.to change(Series::Cup, :count).by(0)
+      end.not_to change(Series::Cup, :count)
     end
 
     context 'when import_now set' do

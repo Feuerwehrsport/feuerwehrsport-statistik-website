@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'competitions features', type: :feature, js: true do
+describe 'competitions features', js: true do
   let(:competition) do
     create(:competition, :score_type)
     group_score = create(:group_score, :double)
@@ -73,7 +73,7 @@ describe 'competitions features', type: :feature, js: true do
       api_sign_in
 
       visit competition_path(competition)
-      find('#add-change-request').click
+      find_by_id('add-change-request').click
 
       within('.fss-window') do
         expect(page).to have_content('Auswahl des Fehlers')
@@ -94,7 +94,7 @@ describe 'competitions features', type: :feature, js: true do
       expect(change_request_content).to include key: 'competition-change-name'
       expect(change_request_content[:data]).to eq(competition_id: competition.id.to_s, name: 'Superduperwettkampf')
 
-      find('#add-change-request').click
+      find_by_id('add-change-request').click
 
       within('.fss-window') do
         expect(page).to have_content('Auswahl des Fehlers')
@@ -122,7 +122,7 @@ describe 'competitions features', type: :feature, js: true do
       api_sign_in
 
       visit competition_path(competition)
-      find('#add-file').click
+      find_by_id('add-file').click
 
       expect(page).to have_content('Es dürfen nur PDFs hochgeladen werden.')
       attach_file('competition_file[0][file]', Rails.root.join('spec/fixtures/testfile.pdf'))

@@ -23,7 +23,7 @@ def expect_with_mailer_signature_and_attachments(attachments, body)
   expect(mail.attachments).to have(attachments.count).attachment
   attachments.each_with_index do |a, i|
     attachment = mail.attachments[i]
-    expect(attachment).to be_a_kind_of(Mail::Part)
+    expect(attachment).to be_a(Mail::Part)
     expect(attachment.content_type).to eq(a[:content_type])
     expect(attachment.filename).to eq(a[:filename])
   end

@@ -6,7 +6,7 @@ class Registrations::Assessment < ApplicationRecord
   has_many :assessment_participations, dependent: :destroy, class_name: 'Registrations::AssessmentParticipation',
                                        inverse_of: :assessment
 
-  validates :competition, :discipline, :gender, presence: true
+  validates :discipline, :gender, presence: true
 
   default_scope { order(:name, :discipline, :gender) }
   scope :requestable_for, ->(entity) do

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::ImportsController, type: :controller do
+RSpec.describe API::ImportsController do
   describe 'POST check_lines' do
     let(:r) { -> { post :check_lines, params: { import: import } } }
 
@@ -88,7 +88,7 @@ RSpec.describe API::ImportsController, type: :controller do
     context 'when as valid user', login: :sub_admin do
       context 'when person exists' do
         it { expect { r.call }.to change(Score, :count).by(1) }
-        it { expect { r.call }.to change(Person, :count).by(0) }
+        it { expect { r.call }.not_to change(Person, :count) }
       end
 
       context 'when person does not exists' do
@@ -104,7 +104,7 @@ RSpec.describe API::ImportsController, type: :controller do
         context 'when group_score_category_id is not set' do
           let(:scores) { [team_id: team.id, team_number: 1, times: ['2200']] }
 
-          it { expect { r.call }.to change(GroupScore, :count).by(0) }
+          it { expect { r.call }.not_to change(GroupScore, :count) }
         end
 
         context 'when attributes are valid' do

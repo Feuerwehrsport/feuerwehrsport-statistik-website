@@ -37,9 +37,10 @@ class ChangeLog < ApplicationRecord
   end
 
   def user=(user)
-    if user.is_a?(APIUser)
+    case user
+    when APIUser
       self.api_user = user
-    elsif user.is_a?(AdminUser)
+    when AdminUser
       self.admin_user = user
     end
   end
@@ -50,7 +51,7 @@ class ChangeLog < ApplicationRecord
       content[:"#{type}_hash"].each do |attribute, value|
         object.send(:"#{attribute}=", value) if object.respond_to?(:"#{attribute}=")
       rescue ActiveRecord::AssociationTypeMismatch => e
-        Rails.logger.debug("Mismatch: #{e.message}")
+        Rails.logger.debug { "Mismatch: #{e.message}" }
       end
       object
     end

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe TeamsController, type: :controller do
+RSpec.describe TeamsController do
   let!(:team) { create(:team) }
 
   describe 'GET index' do

@@ -8,28 +8,24 @@ People::DisciplineOverview = Struct.new(:person, :discipline) do
   delegate :blank?, to: :scores
 
   def scores
-    @scores ||= begin
-      case discipline
-      when :hb, :hw, :hl
-        person.scores.where(discipline: discipline)
-      when :zk
-        person.score_double_events
-      when :zw
-        person.score_low_double_events
-      when :gs, :fs, :la
-        person.group_score_participations.where(discipline: discipline)
-      end
-    end
+    @scores ||= case discipline
+                when :hb, :hw, :hl
+                  person.scores.where(discipline: discipline)
+                when :zk
+                  person.score_double_events
+                when :zw
+                  person.score_low_double_events
+                when :gs, :fs, :la
+                  person.group_score_participations.where(discipline: discipline)
+                end
   end
 
   def scores_decorated
-    @scores_decorated ||= begin
-      if discipline.in?(%i[gs fs la])
-        scores.includes(competition: %i[place event]).includes(:group_score_type).decorate
-      else
-        scores.includes(competition: %i[place event]).decorate
-      end
-    end
+    @scores_decorated ||= if discipline.in?(%i[gs fs la])
+                            scores.includes(competition: %i[place event]).includes(:group_score_type).decorate
+                          else
+                            scores.includes(competition: %i[place event]).decorate
+                          end
   end
 
   def chart_scores
@@ -73,6 +69,6 @@ People::DisciplineOverview = Struct.new(:person, :discipline) do
   end
 
   def average_time
-    Firesport::Time.second_time(valid_scores.map(&:time).sum.to_f / valid_scores.size)
+    Firesport::Time.second_time(valid_scores.sum(&:time).to_f / valid_scores.size)
   end
 end

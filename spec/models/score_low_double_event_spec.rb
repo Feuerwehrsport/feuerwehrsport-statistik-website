@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe ScoreLowDoubleEvent, type: :model do
+RSpec.describe ScoreLowDoubleEvent do
   let(:male_person) { create(:person) }
   let(:female_person) { create(:person, :female) }
   let(:male) { described_class.new(time: 10, person: male_person, hb: 5, hl: 5) }

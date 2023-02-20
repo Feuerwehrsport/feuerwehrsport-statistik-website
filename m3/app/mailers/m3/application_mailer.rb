@@ -65,7 +65,7 @@ class M3::ApplicationMailer < ActionMailer::Base
     }
   end
 
-  def set_default_url_options(options = {}) # rubocop:disable Naming/AccessorMethodName
+  def set_default_url_options(options = {})
     new_options = website_default_url_options(options)
     self.default_url_options = new_options
     uri_class = new_options[:protocol].to_sym == :https ? URI::HTTPS : URI::HTTP

@@ -13,7 +13,7 @@ class Series::Assessment < ApplicationRecord
                       end
   scope :round, ->(round_id) { where(round_id: round_id) }
 
-  validates :round, :discipline, :gender, presence: true
+  validates :discipline, :gender, presence: true
 
   def rows
     @rows ||= calculate_rows

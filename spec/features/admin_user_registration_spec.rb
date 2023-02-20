@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'registration process', type: :feature do
+describe 'registration process' do
   let(:email_address) { 'test@foobar.de' }
   let(:password) { '12345678asdf' }
 

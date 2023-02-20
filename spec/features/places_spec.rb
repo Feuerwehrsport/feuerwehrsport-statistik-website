@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'places features', type: :feature, js: true do
+describe 'places features', js: true do
   let(:place) { create(:place) }
 
   before { page.driver.browser.url_blacklist = ['openstreetmap'] }
@@ -40,7 +40,7 @@ describe 'places features', type: :feature, js: true do
       visit place_path(place)
       within('.place-map-actions') do
         save_review_screenshot
-        find('#change-geo-position').click
+        find_by_id('change-geo-position').click
         find('.btn.btn-primary').click
       end
       expect(page).not_to have_content('Bitte warten')

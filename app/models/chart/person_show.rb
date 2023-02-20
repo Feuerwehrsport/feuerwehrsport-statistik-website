@@ -65,11 +65,10 @@ class Chart::PersonShow < Chart::Base
   end
 
   def team_scores_count(team_struct)
-    @max_team_scores ||= begin
-      %i[hb hl gs fs la].map do |discipline|
-        team_structs.map { |ti| ti[discipline] }.max
-      end.max
-    end
+    @max_team_scores ||= %i[hb hl gs fs la].map do |discipline|
+      team_structs.pluck(discipline).max
+    end.max
+
     hc = lazy_high_chart
     data = []
     %i[hb hl gs fs la].each do |discipline|
@@ -78,7 +77,7 @@ class Chart::PersonShow < Chart::Base
       end
     end
     hc.plotOptions(series: { pointWidth: 6 })
-    hc.xAxis(categories: data.map { |d| d[:name] })
+    hc.xAxis(categories: data.pluck(:name))
     hc.yAxis(max: @max_team_scores, title: { text: 'Zeiten' })
     hc.legend(enabled: false)
     hc.series(name: 'Läufe', data: data)
@@ -104,7 +103,7 @@ class Chart::PersonShow < Chart::Base
                         .joins(:competition)
                         .where('EXTRACT(YEAR FROM DATE(competitions.date)) = ?', year)
                         .map(&:time)
-          times.present? ? (times.instance_eval { reduce(:+) / size.to_f } / 100).round(2) : nil
+          times.present? ? (times.instance_eval { sum / size.to_f } / 100).round(2) : nil
         end.push(year)
       end
     end

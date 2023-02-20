@@ -48,39 +48,6 @@ class Registrations::CompetitionsController < Registrations::BaseController
     f.association :admin_user if can?(:manage, AdminUser)
   end
 
-  def create
-    if params[:from_template].present?
-      form_resource.assign_attributes(resource_params)
-      render :new
-    else
-      super
-    end
-  end
-
-  def new
-    redirect_to action: :new_select_template
-  end
-
-  def new_select_template
-    @types = [
-      build_template('Löschangriff-Wettkampf', [%i[la male], %i[la female]]),
-      build_template('Löschangriff-Wettkampf mit Jugend', [
-                       %i[la male], %i[la female],
-                       [:la, :male, 'Jugend'], [:la, :female, 'Jugend']
-                     ]),
-      build_template('Hindernisbahn-Wettkampf', [%i[hb male], %i[hb female]]),
-      build_template('Hakenleitersteigen-Wettkampf', [%i[hl male], %i[hl female]]),
-      build_template('Deutschland-Cup', [
-                       %i[la male], %i[la female],
-                       %i[fs male], %i[fs female],
-                       %i[hb male], %i[hb female],
-                       %i[hl male], %i[hl female],
-                       %i[gs female]
-                     ], person_tags: 'U20', group_score: true),
-      build_template('Leere Vorlage', []),
-    ]
-  end
-
   def show
     super
 
@@ -104,6 +71,39 @@ class Registrations::CompetitionsController < Registrations::BaseController
         render body: resource.to_serializer.to_json, content_type: Mime[:wettkampf_manager_import]
       end
     end
+  end
+
+  def new
+    redirect_to action: :new_select_template
+  end
+
+  def create
+    if params[:from_template].present?
+      form_resource.assign_attributes(resource_params)
+      render :new
+    else
+      super
+    end
+  end
+
+  def new_select_template
+    @types = [
+      build_template('Löschangriff-Wettkampf', [%i[la male], %i[la female]]),
+      build_template('Löschangriff-Wettkampf mit Jugend', [
+                       %i[la male], %i[la female],
+                       [:la, :male, 'Jugend'], [:la, :female, 'Jugend']
+                     ]),
+      build_template('Hindernisbahn-Wettkampf', [%i[hb male], %i[hb female]]),
+      build_template('Hakenleitersteigen-Wettkampf', [%i[hl male], %i[hl female]]),
+      build_template('Deutschland-Cup', [
+                       %i[la male], %i[la female],
+                       %i[fs male], %i[fs female],
+                       %i[hb male], %i[hb female],
+                       %i[hl male], %i[hl female],
+                       %i[gs female]
+                     ], person_tags: 'U20', group_score: true),
+      build_template('Leere Vorlage', []),
+    ]
   end
 
   def slug_handle

@@ -9,5 +9,5 @@ class PersonParticipation < ApplicationRecord
   scope :team, ->(team_id) { joins(:group_score).where(group_scores: { team_id: team_id }) }
   scope :discipline, ->(discipline) { joins(:group_score).merge(GroupScore.discipline(discipline)) }
 
-  validates :person, :group_score, :position, presence: true
+  validates :position, presence: true
 end

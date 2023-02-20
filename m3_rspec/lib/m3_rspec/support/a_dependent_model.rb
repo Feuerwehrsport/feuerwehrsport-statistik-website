@@ -20,8 +20,8 @@ shared_examples 'a dependent model' do |options = {}|
 
     expect(suspicious_keys).to be_empty, -> {
       "Missing or incomplete foreign key configuration for #{suspicious_keys.to_sentence(locale: :en)}\n" \
-        "To ignore those keys add the following to the spec:\n" \
-        "  ignore: %w(#{suspicious_keys.join(' ')})"
+        "To ignore those keys add the following to the spec:\n  " \
+        "ignore: %w(#{suspicious_keys.join(' ')})"
     }
   end
 

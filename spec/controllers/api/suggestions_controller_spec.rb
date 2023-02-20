@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::SuggestionsController, type: :controller do
+RSpec.describe API::SuggestionsController do
   describe 'POST people' do
     let!(:person1) { create(:person) }
     let!(:score1) { create(:score, person: person1) }

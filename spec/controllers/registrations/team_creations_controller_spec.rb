@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Registrations::TeamCreationsController, type: :controller, login: :user do
+RSpec.describe Registrations::TeamCreationsController, login: :user do
   let(:competition) { create(:registrations_competition) }
   let(:team_attrs) { { name: 'FF Warin', shortcut: 'Warin', gender: :male } }
 

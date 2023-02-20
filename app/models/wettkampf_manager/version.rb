@@ -18,7 +18,7 @@ class WettkampfManager::Version
   end
 
   def sortable_version_number
-    version_number.to_s.split('.').reverse.map.with_index { |number, part| number.to_i * (1000**part) }.reduce(:+)
+    version_number.to_s.split('.').reverse.map.with_index { |number, part| number.to_i * (1000**part) }.sum
   end
 
   def commit_id
@@ -53,12 +53,10 @@ class WettkampfManager::Version
   end
 
   def release_data
-    @release_data ||= begin
-      if File.file?("#{@version_dir}/release-info.json")
-        JSON.parse(File.open("#{@version_dir}/release-info.json").read)
-      else
-        {}
-      end
-    end
+    @release_data ||= if File.file?("#{@version_dir}/release-info.json")
+                        JSON.parse(File.read("#{@version_dir}/release-info.json"))
+                      else
+                        {}
+                      end
   end
 end

@@ -21,9 +21,7 @@ class Backend::BackendController < ApplicationController
 
   def self.default_show(&block)
     define_method(:m3_show_structure) do
-      @m3_show_structure ||= begin
-        M3::Index::Structure.build(self, &block).decorate
-      end
+      @m3_show_structure ||= M3::Index::Structure.build(self, &block).decorate
     end
   end
 
@@ -42,11 +40,11 @@ class Backend::BackendController < ApplicationController
 
       instance = collection.new
       next if begin
-                # instance.is_a?(ActiveRecord::View)
-                # TODO
-              rescue StandardError
-                true
-              end
+      # instance.is_a?(ActiveRecord::View)
+      # TODO
+      rescue StandardError
+        true
+      end
 
       model_name = instance.class.model_name.human(count: :many)
       q = if association.options[:as].present?
@@ -56,10 +54,10 @@ class Backend::BackendController < ApplicationController
             { "#{resource_name}_scope": resource.id }
           end
       url = (begin
-               url_for(controller: "backend/#{association.name}", action: :index, q: q)
-             rescue StandardError
-               nil
-             end)
+        url_for(controller: "backend/#{association.name}", action: :index, q: q)
+      rescue StandardError
+        nil
+      end)
       associations[model_name] = url if url.present?
     end
     associations.with_indifferent_access

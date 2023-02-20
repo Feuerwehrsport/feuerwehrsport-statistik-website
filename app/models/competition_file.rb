@@ -10,7 +10,7 @@ class CompetitionFile < ApplicationRecord
   mount_uploader :file, ResultUploader
   scope :competition, ->(competition_id) { where(competition_id: competition_id) }
 
-  validates :file, :competition, presence: true
+  validates :file, presence: true
 
   def keys
     keys_string.split(',')

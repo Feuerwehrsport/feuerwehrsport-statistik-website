@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Backend::AdminUsersController, type: :controller do
+RSpec.describe Backend::AdminUsersController do
   context 'when admin user', login: :admin do
     it_behaves_like 'a backend resource controller', only: %i[show edit update index destroy] do
       let(:resource_attributes) { { name: 'New name', password: 'asdf' } }

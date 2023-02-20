@@ -30,6 +30,6 @@ Years::InprovementItem = Struct.new(:person, :year) do
   protected
 
   def best_x_average(scores, bext_x)
-    scores.count >= bext_x ? scores.sort_by!(&:time).first(bext_x).map(&:time).sum / bext_x : Firesport::INVALID_TIME
+    scores.count >= bext_x ? scores.sort_by!(&:time).first(bext_x).sum(&:time) / bext_x : Firesport::INVALID_TIME
   end
 end

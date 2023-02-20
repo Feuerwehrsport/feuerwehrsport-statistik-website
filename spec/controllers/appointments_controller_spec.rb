@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe AppointmentsController, type: :controller do
+RSpec.describe AppointmentsController do
   let!(:appointment) { create(:appointment) }
 
   describe 'GET index' do
@@ -58,14 +58,14 @@ def expect_ics_response(appointment)
     "DTSTART:20130921T000000\r\n",
   )
   expect(response.body).to include(
-    "DESCRIPTION:Am 21.09.2013 findet das Finale des Deutschland-Cups in Charlot\r\n" \
-    " tenthal statt.\r\n",
+    "DESCRIPTION:Am 21.09.2013 findet das Finale des Deutschland-Cups in Charlot\r\n " \
+    "tenthal statt.\r\n",
   )
   expect(response.body).to include(
     "LOCATION:Charlottenthal\r\n" \
-   "SUMMARY:Finale D-Cup in Charlottenthal - D-Cup\r\n" \
-   "URL:http://test.host/appointments/#{appointment.id}\r\n" \
-   "END:VEVENT\r\n" \
-   "END:VCALENDAR\r\n",
+    "SUMMARY:Finale D-Cup in Charlottenthal - D-Cup\r\n" \
+    "URL:http://test.host/appointments/#{appointment.id}\r\n" \
+    "END:VEVENT\r\n" \
+    "END:VCALENDAR\r\n",
   )
 end

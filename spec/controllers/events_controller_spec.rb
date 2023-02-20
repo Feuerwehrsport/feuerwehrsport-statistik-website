@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe EventsController, type: :controller do
+RSpec.describe EventsController do
   let!(:competition) { create(:competition) }
   let(:event) { competition.event }
 

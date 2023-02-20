@@ -24,7 +24,7 @@ RSpec.configure do |config|
     create(:m3_website, domain: 'test.host')
   end
 
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.fixture_path = Rails.root.join('spec/fixtures')
 end
 
 Capybara.register_driver :poltergeist do |app|

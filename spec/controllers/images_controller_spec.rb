@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe ImagesController, type: :controller do
+RSpec.describe ImagesController do
   let(:person_participation) { create(:person_participation) }
 
   describe 'GET la_positions' do

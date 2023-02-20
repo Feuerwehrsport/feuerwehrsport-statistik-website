@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Backend::GroupScoreTypesController, type: :controller, login: :sub_admin do
+RSpec.describe Backend::GroupScoreTypesController, login: :sub_admin do
   it_behaves_like 'a backend resource controller' do
     let(:resource_attributes) do
       {

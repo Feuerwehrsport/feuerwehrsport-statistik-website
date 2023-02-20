@@ -6,6 +6,8 @@ class UI::TableOfContents
   attr_reader :ankers
   alias elements ankers
 
+  Anker = Struct.new(:name, :id)
+
   def index
     '|||TOC_PLACEHOLDER_TOC|||'
   end
@@ -15,7 +17,7 @@ class UI::TableOfContents
     tag_value = options[:tag_value] || name
     label_value = options[:label_value] || name
     id = available_id(name)
-    @ankers.push(OpenStruct.new(name: label_value, id: id))
+    @ankers.push(Anker.new(label_value, id))
     element_tag = element.present? ? content_tag(element, tag_value) : ''
     content_tag(:a, '', id: "toc-#{id}") + element_tag
   end

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::Series::ParticipationsController, type: :controller do
+RSpec.describe API::Series::ParticipationsController do
   let(:participation) { create(:series_person_participation) }
 
   describe 'POST create' do

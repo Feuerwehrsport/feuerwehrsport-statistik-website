@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe CompetitionsController, type: :controller do
+RSpec.describe CompetitionsController do
   let!(:score) { create(:score) }
 
   describe 'GET index' do

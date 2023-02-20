@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Series::AssessmentsController, type: :controller do
+RSpec.describe Series::AssessmentsController do
   let!(:assessment) { create(:series_person_assessment) }
 
   describe 'GET show' do

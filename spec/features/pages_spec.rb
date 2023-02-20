@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'pages features', type: :feature do
+describe 'pages features' do
   before { page.driver.browser.url_blacklist = ['https://i.ytimg.com', 'youtube'] }
 
   context 'when dashboard' do

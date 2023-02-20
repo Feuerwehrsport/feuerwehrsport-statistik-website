@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::APIUsersController, type: :controller do
+RSpec.describe API::APIUsersController do
   describe 'GET status' do
     context 'when session is not set' do
       it 'returns login false' do

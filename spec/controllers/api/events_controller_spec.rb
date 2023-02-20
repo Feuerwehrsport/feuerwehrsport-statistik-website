@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::EventsController, type: :controller do
+RSpec.describe API::EventsController do
   let(:event) { create(:event) }
 
   describe 'POST create' do

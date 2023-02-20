@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::ImportRequestsController, type: :controller do
+RSpec.describe API::ImportRequestsController do
   let(:export_hash) do
     {
       files: [{

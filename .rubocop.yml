@@ -1,0 +1,519 @@
+require:
+  - rubocop-rspec
+  - rubocop-rails
+  - rubocop-performance
+
+AllCops:
+  Exclude:
+  - app/models/concerns/schema_validations.rb
+  - config/initializers/simple_form.rb
+  - config/initializers/simple_form_bootstrap.rb
+  - db/schema.rb
+  - lib/generators/**/templates/**/*
+  - m3/lib/generators/**/templates/**/*
+  - lib/templates/**/*
+  - node_modules/**/*
+  - spec/fixtures/**/*
+  - tmp/**/*
+  - vendor/**/*
+  - firesport/**/*
+  - firesport-series/**/*
+  TargetRailsVersion: 5.2
+  TargetRubyVersion: 2.7.6
+Bundler/OrderedGems:
+  Enabled: false
+Capybara/MatchStyle:
+  Enabled: true
+Capybara/NegationMatcher:
+  Enabled: true
+Capybara/SpecificActions:
+  Enabled: true
+Capybara/SpecificFinders:
+  Enabled: true
+Capybara/SpecificMatcher:
+  Enabled: true
+Gemspec/DeprecatedAttributeAssignment:
+  Enabled: true
+Gemspec/DevelopmentDependencies:
+  Enabled: true
+Gemspec/RequireMFA:
+  Enabled: false
+Gemspec/RequiredRubyVersion:
+  Enabled: false
+Layout/EmptyLineAfterMagicComment:
+  Enabled: true
+Layout/ExtraSpacing:
+  Exclude:
+  - app/models/export_formats/zeta.rb
+  - app/models/export_formats/kappa.rb
+Layout/LineContinuationLeadingSpace:
+  Enabled: true
+Layout/LineContinuationSpacing:
+  Enabled: true
+Layout/LineEndStringConcatenationIndentation:
+  Enabled: true
+Layout/LineLength:
+  Exclude:
+  - config/initializers/devise.rb
+  - db/migrate/*
+  - db/seeds.rb
+  - Gemfile
+  Max: 120
+Layout/SpaceBeforeBrackets:
+  Enabled: true
+Lint/AmbiguousAssignment:
+  Enabled: true
+Lint/AmbiguousOperatorPrecedence:
+  Enabled: true
+Lint/AmbiguousRange:
+  Enabled: true
+Lint/BooleanSymbol:
+  Enabled: false
+Lint/ConstantOverwrittenInRescue:
+  Enabled: true
+Lint/DeprecatedConstants:
+  Enabled: true
+Lint/DuplicateBranch:
+  Enabled: true
+Lint/DuplicateMagicComment:
+  Enabled: true
+Lint/DuplicateRegexpCharacterClassElement:
+  Enabled: true
+Lint/EmptyBlock:
+  Enabled: true
+Lint/EmptyClass:
+  Enabled: true
+  Exclude:
+  - config/initializers/devise.rb
+Lint/EmptyInPattern:
+  Enabled: true
+Lint/IncompatibleIoSelectWithFiberScheduler:
+  Enabled: true
+Lint/LambdaWithoutLiteralBlock:
+  Enabled: true
+Lint/NoReturnInBeginEndBlocks:
+  Enabled: true
+Lint/NonAtomicFileOperation:
+  Enabled: true
+Lint/NumberedParameterAssignment:
+  Enabled: true
+Lint/OrAssignmentToConstant:
+  Enabled: true
+Lint/RedundantDirGlobSort:
+  Enabled: true
+Lint/RefinementImportMethods:
+  Enabled: true
+Lint/RequireRangeParentheses:
+  Enabled: true
+Lint/RequireRelativeSelfPath:
+  Enabled: true
+Lint/SymbolConversion:
+  Enabled: true
+Lint/ToEnumArguments:
+  Enabled: true
+Lint/TripleQuotes:
+  Enabled: true
+Lint/UnexpectedBlockArity:
+  Enabled: true
+Lint/UnmodifiedReduceAccumulator:
+  Enabled: true
+Lint/UselessRescue:
+  Enabled: true
+Lint/UselessRuby2Keywords:
+  Enabled: true
+Metrics/AbcSize:
+  Enabled: false
+Metrics/BlockLength:
+  Enabled: false
+Metrics/ClassLength:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Enabled: false
+Metrics/MethodLength:
+  Exclude:
+  - db/migrate/**/*.rb
+  - app/models/exports/xlsx/*.rb
+  - app/models/exports/pdf/*.rb
+  Max: 50
+Metrics/ModuleLength:
+  Exclude:
+  - db/migrate/*.rb
+  Max: 200
+Metrics/ParameterLists:
+  Enabled: false
+Metrics/PerceivedComplexity:
+  Enabled: false
+Naming/BlockForwarding:
+  Enabled: true
+Naming/MemoizedInstanceVariableName:
+  Enabled: false
+Naming/MethodParameterName:
+  Enabled: false
+Naming/PredicateName:
+  AllowedMethods:
+  - is_a?
+  - has_slug
+  - has_many
+  - has_attribute?
+Naming/VariableNumber:
+  Exclude:
+  - spec/controllers/api/group_scores_controller_spec.rb
+Performance/AncestorsInclude:
+  Enabled: true
+Performance/BigDecimalWithNumericArgument:
+  Enabled: true
+Performance/BlockGivenWithExplicitBlock:
+  Enabled: true
+Performance/CollectionLiteralInLoop:
+  Enabled: true
+Performance/ConcurrentMonotonicTime:
+  Enabled: true
+Performance/ConstantRegexp:
+  Enabled: true
+Performance/MapCompact:
+  Enabled: true
+Performance/MethodObjectAsBlock:
+  Enabled: true
+Performance/RedundantEqualityComparisonBlock:
+  Enabled: true
+Performance/RedundantSortBlock:
+  Enabled: true
+Performance/RedundantSplitRegexpArgument:
+  Enabled: true
+Performance/RedundantStringChars:
+  Enabled: true
+Performance/ReverseFirst:
+  Enabled: true
+Performance/SortReverse:
+  Enabled: true
+Performance/Squeeze:
+  Enabled: true
+Performance/StringIdentifierArgument:
+  Enabled: true
+Performance/StringInclude:
+  Enabled: true
+Performance/Sum:
+  Enabled: true
+RSpec/AnyInstance:
+  Enabled: false
+RSpec/BeEq:
+  Enabled: true
+RSpec/BeNil:
+  Enabled: true
+RSpec/ChangeByZero:
+  Enabled: true
+RSpec/ClassCheck:
+  Enabled: true
+RSpec/DescribeClass:
+  Exclude:
+  - spec/controllers/m3_index_structure_spec.rb
+  - spec/features/**/*
+RSpec/DuplicatedMetadata:
+  Enabled: true
+RSpec/EmptyExampleGroup:
+  Exclude:
+  - spec/rails_helper.rb
+  - spec/controllers/**/*
+RSpec/ExampleLength:
+  Enabled: false
+RSpec/ExcessiveDocstringSpacing:
+  Enabled: true
+RSpec/FactoryBot/ConsistentParenthesesStyle:
+  Enabled: true
+RSpec/FactoryBot/FactoryNameStyle:
+  Enabled: true
+RSpec/FactoryBot/SyntaxMethods:
+  Enabled: true
+RSpec/Focus:
+  AutoCorrect: false
+RSpec/IdenticalEqualityAssertion:
+  Enabled: true
+RSpec/InstanceVariable:
+  Enabled: false
+RSpec/LetSetup:
+  Enabled: false
+RSpec/MessageSpies:
+  Enabled: false
+RSpec/MissingExampleGroupArgument:
+  Exclude:
+  - spec/rails_helper.rb
+  - spec/support/**/*.rb
+RSpec/MultipleExpectations:
+  Enabled: false
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+RSpec/NestedGroups:
+  Enabled: false
+RSpec/NoExpectationExample:
+  Enabled: true
+RSpec/PendingWithoutReason:
+  Enabled: true
+RSpec/Rails/AvoidSetupHook:
+  Enabled: true
+RSpec/Rails/HaveHttpStatus:
+  Enabled: true
+RSpec/Rails/InferredSpecType:
+  Enabled: true
+RSpec/Rails/MinitestAssertions:
+  Enabled: true
+RSpec/RepeatedDescription:
+  Enabled: false
+RSpec/RepeatedExample:
+  Enabled: false
+RSpec/ScatteredSetup:
+  Enabled: false
+RSpec/SortMetadata:
+  Enabled: true
+RSpec/StubbedMock:
+  Enabled: false
+RSpec/SubjectDeclaration:
+  Enabled: true
+RSpec/VerifiedDoubleReference:
+  Enabled: true
+Rails:
+  Enabled: true
+Rails/ActionControllerFlashBeforeRender:
+  Enabled: true
+Rails/ActionControllerTestCase:
+  Enabled: true
+Rails/ActionOrder:
+  Enabled: true
+Rails/ActiveRecordCallbacksOrder:
+  Enabled: true
+Rails/ActiveSupportOnLoad:
+  Enabled: true
+Rails/AddColumnIndex:
+  Enabled: true
+Rails/AfterCommitOverride:
+  Enabled: true
+Rails/ApplicationRecord:
+  Enabled: false
+Rails/AttributeDefaultBlockValue:
+  Enabled: true
+Rails/CompactBlank:
+  Enabled: true
+Rails/DeprecatedActiveModelErrorsMethods:
+  Enabled: true
+Rails/DotSeparatedKeys:
+  Enabled: true
+Rails/DuplicateAssociation:
+  Enabled: true
+Rails/DuplicateScope:
+  Enabled: true
+Rails/DurationArithmetic:
+  Enabled: true
+Rails/DynamicFindBy:
+  AutoCorrect: false
+Rails/EagerEvaluationLogMessage:
+  Enabled: true
+Rails/ExpandedDateRange:
+  Enabled: true
+Rails/FindById:
+  Enabled: true
+Rails/FindEach:
+  Exclude:
+  - app/models/team.rb
+Rails/FreezeTime:
+  Enabled: true
+Rails/HasAndBelongsToMany:
+  Enabled: false
+Rails/HelperInstanceVariable:
+  Enabled: false
+Rails/I18nLazyLookup:
+  Enabled: true
+Rails/I18nLocaleAssignment:
+  Enabled: true
+Rails/I18nLocaleTexts:
+  Enabled: false
+Rails/IgnoredColumnsAssignment:
+  Enabled: true
+Rails/Inquiry:
+  Enabled: true
+Rails/LexicallyScopedActionFilter:
+  Enabled: false
+Rails/MailerName:
+  Enabled: true
+Rails/MatchRoute:
+  Enabled: true
+Rails/MigrationClassName:
+  Enabled: true
+Rails/NegateInclude:
+  Enabled: true
+Rails/Output:
+  AutoCorrect: false
+  Exclude:
+  - config/deploy/**/*
+  - db/migrate/**/*.rb
+  - db/seeds.rb
+Rails/Pluck:
+  Enabled: true
+Rails/PluckInWhere:
+  Enabled: true
+Rails/RedundantPresenceValidationOnBelongsTo:
+  Enabled: true
+Rails/RedundantTravelBack:
+  Enabled: true
+Rails/RenderInline:
+  Enabled: true
+Rails/RenderPlainText:
+  Enabled: true
+Rails/ReversibleMigration:
+  Enabled: false
+Rails/RootJoinChain:
+  Enabled: true
+Rails/RootPathnameMethods:
+  Enabled: true
+Rails/RootPublicPath:
+  Enabled: true
+Rails/ShortI18n:
+  Enabled: true
+Rails/SkipsModelValidations:
+  Enabled: false
+Rails/SquishedSQLHeredocs:
+  Enabled: true
+Rails/StripHeredoc:
+  Enabled: true
+Rails/TimeZoneAssignment:
+  Enabled: true
+Rails/ToFormattedS:
+  Enabled: true
+Rails/ToSWithArgument:
+  Enabled: true
+Rails/TopLevelHashWithIndifferentAccess:
+  Enabled: true
+Rails/TransactionExitStatement:
+  Enabled: true
+Rails/UnknownEnv:
+  Environments:
+  - development
+  - production
+  - staging
+  - test
+Rails/UnusedIgnoredColumns:
+  Enabled: true
+Rails/WhereEquals:
+  Enabled: true
+Rails/WhereExists:
+  Enabled: true
+Rails/WhereMissing:
+  Enabled: true
+Rails/WhereNot:
+  Enabled: true
+Rails/WhereNotWithMultipleConditions:
+  Enabled: true
+Security/CompoundHash:
+  Enabled: true
+Security/IoMethods:
+  Enabled: true
+Style/ArgumentsForwarding:
+  Enabled: true
+Style/ArrayIntersect:
+  Enabled: true
+Style/AsciiComments:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+  Exclude:
+  - config/application.rb
+  - config/boot.rb
+  - lib/vkg_config.rb
+Style/CollectionCompact:
+  Enabled: true
+Style/ComparableClamp:
+  Enabled: true
+Style/ConcatArrayLiterals:
+  Enabled: true
+Style/DocumentDynamicEvalDefinition:
+  Enabled: true
+Style/Documentation:
+  Enabled: false
+Style/EmptyHeredoc:
+  Enabled: true
+Style/EndlessMethod:
+  Enabled: true
+Style/EnvHome:
+  Enabled: true
+Style/FetchEnvVar:
+  Enabled: true
+Style/FileRead:
+  Enabled: true
+Style/FileWrite:
+  Enabled: true
+Style/FrozenStringLiteralComment:
+  AutoCorrect: true
+  Enabled: true
+Style/HashConversion:
+  Enabled: true
+Style/HashExcept:
+  Enabled: true
+Style/IfWithBooleanLiteralBranches:
+  Enabled: true
+Style/InPatternThen:
+  Enabled: true
+Style/Lambda:
+  EnforcedStyle: literal
+Style/MagicCommentFormat:
+  Enabled: true
+Style/MapCompactWithConditionalBlock:
+  Enabled: true
+Style/MapToHash:
+  Enabled: true
+Style/MapToSet:
+  Enabled: true
+Style/MinMaxComparison:
+  Enabled: true
+Style/MixinUsage:
+  Exclude:
+  - bin/**/*
+Style/MultilineInPatternThen:
+  Enabled: true
+Style/NegatedIfElseCondition:
+  Enabled: true
+Style/NestedFileDirname:
+  Enabled: true
+Style/NilLambda:
+  Enabled: true
+Style/NumberedParameters:
+  Enabled: true
+Style/NumberedParametersLimit:
+  Enabled: true
+Style/NumericPredicate:
+  Enabled: false
+Style/ObjectThen:
+  Enabled: true
+Style/OpenStructUse:
+  Enabled: true
+Style/OperatorMethodCall:
+  Enabled: true
+Style/QuotedSymbols:
+  Enabled: true
+Style/RedundantArgument:
+  Enabled: true
+Style/RedundantConstantBase:
+  Enabled: true
+Style/RedundantDoubleSplatHashBraces:
+  Enabled: true
+Style/RedundantEach:
+  Enabled: true
+Style/RedundantHeredocDelimiterQuotes:
+  Enabled: true
+Style/RedundantInitialize:
+  Enabled: true
+Style/RedundantSelfAssignmentBranch:
+  Enabled: true
+Style/RedundantStringEscape:
+  Enabled: true
+Style/SafeNavigation:
+  Enabled: false
+Style/SelectByRegexp:
+  Enabled: true
+Style/StringChars:
+  Enabled: true
+Style/SwapValues:
+  Enabled: true
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: comma
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma

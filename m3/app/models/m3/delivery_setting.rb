@@ -3,7 +3,6 @@
 class M3::DeliverySetting < ApplicationRecord
   belongs_to :website
 
-  validates :website, presence: true
   validates :delivery_method, inclusion: { in: %i[test file smtp sendmail exim] }
   validates :port, numericality: { greater_than: 0, less_than: 65_536, only_integer: true, allow_blank: true }
   validates :authentication, inclusion: { in: %i[plain login cram_md5], allow_blank: true }

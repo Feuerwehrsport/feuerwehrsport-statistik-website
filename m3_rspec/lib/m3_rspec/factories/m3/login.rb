@@ -17,11 +17,11 @@ FactoryBot.define do
     end
 
     trait :expired do
-      expired_at { Time.current - 1.hour }
+      expired_at { 1.hour.ago }
     end
 
     trait :with_password_reset_token do
-      password_reset_requested_at { Time.current - 1.minute }
+      password_reset_requested_at { 1.minute.ago }
     end
   end
 end

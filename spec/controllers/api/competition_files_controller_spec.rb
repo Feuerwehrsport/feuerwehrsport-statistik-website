@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::CompetitionFilesController, type: :controller do
+RSpec.describe API::CompetitionFilesController do
   let(:competition) { create(:competition, :score_type, :fake_count) }
 
   describe 'POST files' do

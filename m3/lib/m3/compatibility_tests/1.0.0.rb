@@ -3,8 +3,8 @@
 puts '# Running M3 compatibility checks for version 1.0.0...'
 puts
 
-titles = I18n.translate('t3', locale: :de).values.map { |v| v[:views] && v[:views][:title] }
-titles += I18n.translate('t3', locale: :en).values.map { |v| v[:views] && v[:views][:title] }
+titles = I18n.t('t3', locale: :de).values.map { |v| v[:views] && v[:views][:title] }
+titles += I18n.t('t3', locale: :en).values.map { |v| v[:views] && v[:views][:title] }
 titles = titles.compact.select { |title| title.include?('%{') }
 
 if titles.present?

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Backend::AppointmentsController, type: :controller, login: :sub_admin do
+RSpec.describe Backend::AppointmentsController, login: :sub_admin do
   let(:place) { create(:place) }
   let(:event) { create(:event) }
 

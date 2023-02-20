@@ -9,9 +9,4 @@ namespace :m3 do
       p failed_jobs
     end
   end
-
-  desc 'drop ; create ; migrate ; seed'
-  task :reseed do
-    `rake db:drop && rake db:create && rake db:migrate && rake db:seed`
-  end
 end

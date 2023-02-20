@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::ScoresController, type: :controller do
+RSpec.describe API::ScoresController do
   let(:score) { create(:score, :double) }
   let(:correct_score) do
     {

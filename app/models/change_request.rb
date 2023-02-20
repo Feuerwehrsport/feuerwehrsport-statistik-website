@@ -11,9 +11,10 @@ class ChangeRequest < ApplicationRecord
   validates :content, presence: true
 
   def user=(user)
-    if user.is_a?(APIUser)
+    case user
+    when APIUser
       self.api_user = user
-    elsif user.is_a?(AdminUser)
+    when AdminUser
       self.admin_user = user
     end
   end

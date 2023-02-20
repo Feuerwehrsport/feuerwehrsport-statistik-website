@@ -137,7 +137,7 @@ class Chart::CompetitionsScoreOverview < Chart::Base
   end
 
   def discipline_count(competition, *disciplines)
-    disciplines.map { |discipline| competition.send(discipline) }.sum
+    disciplines.sum { |discipline| competition.send(discipline) }
   end
 
   def disciplines_overview_counts

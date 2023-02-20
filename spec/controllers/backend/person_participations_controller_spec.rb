@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Backend::PersonParticipationsController, type: :controller, login: :sub_admin do
+RSpec.describe Backend::PersonParticipationsController, login: :sub_admin do
   let(:person) { create(:person) }
   let(:group_score) { create(:group_score) }
 

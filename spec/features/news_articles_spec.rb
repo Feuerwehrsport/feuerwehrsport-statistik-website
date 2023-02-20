@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'news features', type: :feature do
+describe 'news features' do
   let!(:article) { create(:news_article) }
 
   it 'shows an overview' do

@@ -28,7 +28,7 @@ class Registrations::Person < ApplicationRecord
   end
   scope :without_team, -> { where(team_id: nil) }
 
-  validates :first_name, :last_name, :gender, :competition, :admin_user, presence: true
+  validates :first_name, :last_name, :gender, presence: true
   validate :validate_team_gender
 
   accepts_nested_attributes_for :person_assessment_participations, reject_if: :all_blank, allow_destroy: true

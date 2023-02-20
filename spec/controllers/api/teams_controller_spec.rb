@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::TeamsController, type: :controller do
+RSpec.describe API::TeamsController do
   let(:team) { create(:team) }
   let(:team_attributes) do
     {

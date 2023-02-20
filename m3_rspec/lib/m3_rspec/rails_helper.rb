@@ -159,9 +159,9 @@ RSpec.configure do |config|
   config.after(:suite) { M3Rspec::CapybaraHelper::Screenshots.m3_compare_and_open_screenshots }
 
   %i[controller view request].each do |type|
-    config.include ::Rails::Controller::Testing::TestProcess, type: type
-    config.include ::Rails::Controller::Testing::TemplateAssertions, type: type
-    config.include ::Rails::Controller::Testing::Integration, type: type
+    config.include Rails::Controller::Testing::TestProcess, type: type
+    config.include Rails::Controller::Testing::TemplateAssertions, type: type
+    config.include Rails::Controller::Testing::Integration, type: type
   end
 end
 

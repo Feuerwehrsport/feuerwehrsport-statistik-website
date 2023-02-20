@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Series::Assessments::Pdf, type: :model do
+RSpec.describe Series::Assessments::Pdf do
   let(:assessment) { create(:series_person_assessment) }
   let(:pdf) { described_class.build(assessment) }
 

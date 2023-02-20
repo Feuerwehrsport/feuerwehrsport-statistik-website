@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Backend::NewsArticlesController, type: :controller, login: :admin do
+RSpec.describe Backend::NewsArticlesController, login: :admin do
   let(:admin_user) { create(:admin_user) }
 
   it_behaves_like 'a backend resource controller' do

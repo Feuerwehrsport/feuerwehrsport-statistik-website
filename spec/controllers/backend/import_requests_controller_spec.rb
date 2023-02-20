@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Backend::ImportRequestsController, type: :controller, login: :sub_admin do
+RSpec.describe Backend::ImportRequestsController, login: :sub_admin do
   let(:place) { create(:place) }
   let(:event) { create(:event) }
   let!(:admin) { create(:admin_user, :admin) }

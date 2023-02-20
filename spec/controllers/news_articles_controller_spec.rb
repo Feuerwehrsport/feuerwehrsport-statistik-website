@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe NewsArticlesController, type: :controller do
+RSpec.describe NewsArticlesController do
   let!(:news_article) { create(:news_article) }
 
   describe 'GET index' do

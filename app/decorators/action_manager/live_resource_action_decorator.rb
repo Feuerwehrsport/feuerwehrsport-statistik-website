@@ -2,7 +2,7 @@
 
 class ActionManager::LiveResourceActionDecorator < ActionManager::ActionDecorator
   def url
-    if resource_or_class.class == Class
+    if resource_or_class.instance_of?(Class)
       resource_name = resource_or_class.name.demodulize.underscore.pluralize
       h.url_for(controller: "/#{resource_name}", action: :index)
     else

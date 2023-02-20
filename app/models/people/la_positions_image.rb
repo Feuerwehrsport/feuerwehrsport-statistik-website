@@ -15,8 +15,8 @@ class People::LAPositionsImage
         next if position_count.blank?
 
         relation = position_count / sum.to_f
-        size = 30 * relation + 8
-        opacity = (2 * relation + 7) / 10.0
+        size = (30 * relation) + 8
+        opacity = ((2 * relation) + 7) / 10.0
 
         convert.draw(
           'fill #68F53F ' \
@@ -54,7 +54,7 @@ class People::LAPositionsImage
   end
 
   def store_path
-    path = Rails.root.join('public/generated/la_positions')
+    path = Rails.public_path.join('generated/la_positions')
     FileUtils.mkdir_p(path)
     path
   end

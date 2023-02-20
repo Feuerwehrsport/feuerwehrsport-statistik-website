@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::TeamSpellingsController, type: :controller do
+RSpec.describe API::TeamSpellingsController do
   describe 'GET index' do
     let!(:ts) { create(:team_spelling) }
 

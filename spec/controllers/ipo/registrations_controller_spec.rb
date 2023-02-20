@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Ipo::RegistrationsController, type: :controller do
+RSpec.describe Ipo::RegistrationsController do
   let(:resource_attrs) do
     {
       team_name: 'Warin',

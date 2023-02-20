@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Backend::RegistrationsController, type: :controller do
+RSpec.describe Backend::RegistrationsController do
   describe 'GET new' do
     it 'shows new form' do
       get :new

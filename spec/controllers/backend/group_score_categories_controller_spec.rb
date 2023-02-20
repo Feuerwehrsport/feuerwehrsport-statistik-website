@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Backend::GroupScoreCategoriesController, type: :controller, login: :sub_admin do
+RSpec.describe Backend::GroupScoreCategoriesController, login: :sub_admin do
   let(:competition) { create(:competition) }
   let(:group_score_type) { create(:group_score_type) }
 

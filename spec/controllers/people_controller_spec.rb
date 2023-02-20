@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe PeopleController, type: :controller do
+RSpec.describe PeopleController do
   let!(:person) { create(:person) }
 
   describe 'GET index' do

@@ -13,7 +13,7 @@ Calculation::PerformanceOfYear::Discipline = Struct.new(:discipline, :gender, :e
       %i[la female],
       %i[la male],
     ].map do |discipline, gender|
-      klass = if ::Discipline.group?(discipline)
+      klass = if Discipline.group?(discipline)
                 Calculation::PerformanceOfYear::Team
               else
                 Calculation::PerformanceOfYear::Person

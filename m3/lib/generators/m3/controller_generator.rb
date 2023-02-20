@@ -27,9 +27,9 @@ class M3::Generators::ControllerGenerator < Rails::Generators::NamedBase
 
     template 'model_wrapper.rb', File.join('app/models', class_path, "#{file_name.singularize}.rb")
     puts <<~HEREDOC
-        💡 Remember abilities for model wrapper #{model_wrapper_class_name}, e.g.:
-          can(:read, #{model_wrapper_class_name}, user_id: user.id)
-      HEREDOC
+      💡 Remember abilities for model wrapper #{model_wrapper_class_name}, e.g.:
+        can(:read, #{model_wrapper_class_name}, user_id: user.id)
+    HEREDOC
   end
 
   private

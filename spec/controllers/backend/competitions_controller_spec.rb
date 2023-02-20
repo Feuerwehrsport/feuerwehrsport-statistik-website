@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Backend::CompetitionsController, type: :controller, login: :sub_admin do
+RSpec.describe Backend::CompetitionsController, login: :sub_admin do
   let(:place) { create(:place) }
   let(:event) { create(:event) }
   let(:score_type) { create(:score_type) }

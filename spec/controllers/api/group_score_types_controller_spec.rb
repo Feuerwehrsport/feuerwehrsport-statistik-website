@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::GroupScoreTypesController, type: :controller do
+RSpec.describe API::GroupScoreTypesController do
   let(:group_score_type) { create(:group_score_type) }
 
   describe 'POST create' do

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe AssociationSelect, type: :model do
+RSpec.describe AssociationSelect do
   let(:ability) { Ability.new(nil, nil) }
   let(:select) { described_class.new(ability) }
 

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'appointments', type: :feature, js: true do
+describe 'appointments', js: true do
   let!(:event) { create(:event) }
   let!(:mvcup) { create(:event, name: 'MV-Cup') }
 

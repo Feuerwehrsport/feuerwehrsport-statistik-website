@@ -25,7 +25,7 @@ module ActiveModel::Translation
 
     key = defaults.shift
     options[:default] = defaults
-    items = I18n.translate(key, options)
+    items = I18n.t(key, options)
     if items.is_a?(Array) && items.first.is_a?(Hash)
       items = items.inject({}) { |hash, item| hash.merge!(item.keys.first => item.values.first) }
     end

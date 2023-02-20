@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Years::InprovementsController, type: :controller do
+RSpec.describe Years::InprovementsController do
   let!(:score) { create(:score, :double) }
 
   describe 'GET index' do

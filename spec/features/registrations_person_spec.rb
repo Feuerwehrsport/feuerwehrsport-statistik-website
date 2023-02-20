@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'registration feature', type: :feature, js: true do
+describe 'registration feature', js: true do
   let!(:competition) do
     create(:registrations_competition, admin_user: create(:admin_user, role: :sub_admin), person_tags: 'U20')
   end

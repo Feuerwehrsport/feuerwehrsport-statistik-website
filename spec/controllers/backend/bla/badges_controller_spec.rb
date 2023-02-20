@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Backend::BLA::BadgesController, type: :controller, login: :admin do
+RSpec.describe Backend::BLA::BadgesController, login: :admin do
   let(:person) { create(:person) }
   let(:hl_score) { create(:score, :hl, person: person) }
   let(:hb_score) { create(:score, :hb, person: person) }

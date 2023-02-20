@@ -14,7 +14,7 @@ module DestroyConfirmation
   private
 
   def depending_associations
-    @depending_associations ||= depending_association_names(resource.class).map do |assoc_name|
+    @depending_associations ||= depending_association_names(resource.class).filter_map do |assoc_name|
       collection = resource.send(assoc_name)
       next if collection.empty?
 
@@ -23,7 +23,7 @@ module DestroyConfirmation
         fields: fields(collection),
         field_names: field_names(collection),
       }
-    end.compact
+    end
   end
 
   def depending_association_names(reflected_class)

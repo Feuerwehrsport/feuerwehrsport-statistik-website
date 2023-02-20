@@ -12,7 +12,7 @@ class Chart::YearIndex < Chart::Base
       }
     end
     hc.plotOptions(series: { pointWidth: 6 })
-    hc.xAxis(categories: data.map { |d| d[:name] })
+    hc.xAxis(categories: data.pluck(:name))
     hc.legend(enabled: false)
     hc.series(name: 'Wettkämpfe', data: data)
     hc.chart(type: 'bar', height: years.count * 15)

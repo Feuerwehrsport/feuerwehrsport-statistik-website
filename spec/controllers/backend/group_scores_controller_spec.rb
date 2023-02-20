@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Backend::GroupScoresController, type: :controller, login: :sub_admin do
+RSpec.describe Backend::GroupScoresController, login: :sub_admin do
   let(:team) { create(:team) }
   let(:group_score_category) { create(:group_score_category) }
 

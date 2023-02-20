@@ -51,7 +51,7 @@ class Ipo::RegistrationsController < ApplicationController
     t.col :created_at
   end
 
-  def create
+  def new
     if registration_open? || can?(:manage, resource_class)
       super
     else
@@ -59,7 +59,7 @@ class Ipo::RegistrationsController < ApplicationController
     end
   end
 
-  def new
+  def create
     if registration_open? || can?(:manage, resource_class)
       super
     else
@@ -77,7 +77,7 @@ class Ipo::RegistrationsController < ApplicationController
   protected
 
   def registration_open?
-    resource_class::REGISTRATION_OPEN < Time.current && resource_class::REGISTRATION_CLOSE > Time.current
+    Time.current > resource_class::REGISTRATION_OPEN && Time.current < resource_class::REGISTRATION_CLOSE
   end
 
   def after_create

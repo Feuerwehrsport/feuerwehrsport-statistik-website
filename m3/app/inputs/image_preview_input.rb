@@ -10,7 +10,7 @@ class ImagePreviewInput < FilePreviewInput
       image = object.send(attribute_name)
       version = :thumb if version.nil? && image.respond_to?(:thumb)
       version = :thumbnail if version.nil? && image.respond_to?(:thumbnail)
-      url ||= image.tap { |o| break o.send(version) if version }.send('url')
+      url ||= image.tap { |o| break o.send(version) if version }.send(:url)
       out << template.image_tag(url, class: 'imagepreview-image')
       out << js_buttons
       out << remove_file_on_save

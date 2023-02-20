@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe YearsController, type: :controller do
+RSpec.describe YearsController do
   let!(:competition) { create(:competition) }
   let!(:score) { create(:score, :double) }
   let!(:group_score) { create(:group_score, :double) }

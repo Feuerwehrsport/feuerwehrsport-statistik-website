@@ -13,5 +13,5 @@ class GroupScoreCategory < ApplicationRecord
   scope :competition, ->(competition_id) { where(competition_id: competition_id) }
   scope :group_score_type, ->(group_score_type_id) { where(group_score_type_id: group_score_type_id) }
 
-  validates :group_score_type, :competition, :name, presence: true
+  validates :name, presence: true
 end

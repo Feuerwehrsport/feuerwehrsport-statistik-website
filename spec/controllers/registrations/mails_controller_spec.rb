@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Registrations::MailsController, type: :controller, login: :user do
+RSpec.describe Registrations::MailsController, login: :user do
   let!(:competition) { create(:registrations_competition, admin_user: login_user) }
   let!(:team) { create(:registrations_team, competition: competition) }
   let(:mail_params) { { subject: 'subject', text: 'text', add_registration_file: true } }

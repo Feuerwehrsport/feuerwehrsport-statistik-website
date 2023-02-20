@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::ChangeRequestsController, type: :controller do
+RSpec.describe API::ChangeRequestsController do
   let(:files_data) { {} }
   let!(:change_request) do
     ChangeRequest.create!(content: { key: 'person-nation-changed', data: { person_id: 1 } }, files_data: files_data)
@@ -78,7 +78,7 @@ RSpec.describe API::ChangeRequestsController, type: :controller do
     it 'update change_request', login: :sub_admin do
       r.call
       expect_json_response
-      expect(change_request.reload.done_at).not_to be nil
+      expect(change_request.reload.done_at).not_to be_nil
       expect_change_log(before: { done_at: nil }, after: {}, log: 'update-changerequest')
     end
 

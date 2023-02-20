@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe API::TeamMembersController, type: :controller do
+RSpec.describe API::TeamMembersController do
   describe 'GET index' do
     let!(:score) { create(:score) }
 
