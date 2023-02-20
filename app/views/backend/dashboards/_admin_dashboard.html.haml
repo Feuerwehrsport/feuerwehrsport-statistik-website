@@ -7,8 +7,6 @@
       %ul.nav.nav-pills.nav-stacked.backend-nav
         - if can?(:index, Registrations::Competition)
           %li= link_to 'Wettkampfanmeldungen', registrations_competitions_path
-        - if can?(:index, Pdf2Table::Entry)
-          %li= link_to 'PDF-Umwandlungen', pdf2_table_entries_path
 
         - if current_admin_user
           %li= link_to 'Mein Profil', edit_backend_admin_user_path(current_admin_user)

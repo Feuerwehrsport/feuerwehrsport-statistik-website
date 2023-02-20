@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_20_133602) do
+ActiveRecord::Schema.define(version: 2023_02_20_200212) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -254,21 +254,6 @@ ActiveRecord::Schema.define(version: 2023_02_20_133602) do
     t.datetime "updated_at",    :null=>false
   end
 
-  create_table "pdf2_table_entries", id: :serial, force: :cascade do |t|
-    t.string   "pdf",           :null=>false
-    t.string   "ods"
-    t.string   "csv"
-    t.text     "csv_to_copy"
-    t.text     "log"
-    t.integer  "api_user_id",   :index=>{:name=>"index_pdf2_table_entries_on_api_user_id"}
-    t.integer  "admin_user_id", :index=>{:name=>"index_pdf2_table_entries_on_admin_user_id"}
-    t.datetime "locked_at"
-    t.datetime "finished_at"
-    t.boolean  "success"
-    t.datetime "created_at",    :null=>false
-    t.datetime "updated_at",    :null=>false
-  end
-
   create_table "people", id: :serial, force: :cascade do |t|
     t.string   "last_name",   :limit=>200, :null=>false
     t.string   "first_name",  :limit=>200, :null=>false
@@ -496,8 +481,6 @@ ActiveRecord::Schema.define(version: 2023_02_20_133602) do
   add_foreign_key "group_scores", "teams"
   add_foreign_key "import_request_files", "import_requests"
   add_foreign_key "news_articles", "admin_users"
-  add_foreign_key "pdf2_table_entries", "admin_users"
-  add_foreign_key "pdf2_table_entries", "api_users"
   add_foreign_key "people", "nations"
   add_foreign_key "person_participations", "group_scores"
   add_foreign_key "person_participations", "people"

@@ -7,7 +7,6 @@ import_requests
 import_request_files
 m3_assets
 m3_logins
-pdf2_table_entries
 registrations_assessment_participations
 registrations_assessments
 registrations_competitions

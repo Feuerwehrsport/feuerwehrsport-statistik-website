@@ -72,8 +72,6 @@ class Ability
     can %i[create index], ImportRequest
 
     can %i[logout show update], AdminUser, id: user.id
-
-    can %i[create read], Pdf2Table::Entry, admin_user_id: user.id
   end
 
   def api_user_abilities
