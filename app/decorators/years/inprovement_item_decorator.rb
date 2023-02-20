@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Years::InprovementItemDecorator < AppDecorator
   decorates_association :person
   decorates_association :current_scores

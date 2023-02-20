@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Years::InprovementsController < ResourceController
   cache_actions :index, :show
 

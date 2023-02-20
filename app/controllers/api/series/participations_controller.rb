@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class API::Series::ParticipationsController < API::BaseController
   api_actions :create, :show, :index, :update, :destroy,
               change_log: true,

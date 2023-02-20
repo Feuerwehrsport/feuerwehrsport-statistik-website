@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Backend::AdminUsersController < Backend::BackendController
   backend_actions :show, :edit, :update, :index, :destroy, clean_cache_disabled: true
 

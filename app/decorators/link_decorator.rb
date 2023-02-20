@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LinkDecorator < AppDecorator
   decorates_association :linkable
 

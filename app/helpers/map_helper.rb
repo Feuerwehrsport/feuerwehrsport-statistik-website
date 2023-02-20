@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MapHelper
   def map(options, &block)
     id = options.delete(:id) || 'map'

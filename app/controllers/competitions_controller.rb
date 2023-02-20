@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CompetitionsController < ResourceController
   include DatatableSupport
   resource_actions :show, :index, cache: %i[show index]

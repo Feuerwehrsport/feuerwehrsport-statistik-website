@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ImagesController < ApplicationController
   def la_positions
     person = Person.find(params[:person_id])

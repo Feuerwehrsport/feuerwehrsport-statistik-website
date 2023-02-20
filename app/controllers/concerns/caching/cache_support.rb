@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Caching::CacheSupport
   extend ActiveSupport::Concern
   class_methods do

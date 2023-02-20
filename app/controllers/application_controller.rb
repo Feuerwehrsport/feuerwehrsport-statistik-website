@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < M3::ApplicationController
   include Caching::CacheSupport
   include PDFSupport

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AdminUserDecorator < AppDecorator
   def to_s
     name

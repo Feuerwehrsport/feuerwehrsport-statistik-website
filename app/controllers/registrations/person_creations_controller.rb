@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Registrations::PersonCreationsController < Registrations::BaseController
   default_actions :new, :create, for_class: Registrations::Person
   belongs_to Registrations::Competition, url: -> { registrations_competition_path(parent_resource) }

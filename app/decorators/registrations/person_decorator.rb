@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Registrations::PersonDecorator < AppDecorator
   decorates_association :team
   decorates_association :competition

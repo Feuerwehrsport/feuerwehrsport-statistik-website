@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class API::CompetitionsController < API::BaseController
   api_actions :create, :show, :index, :update,
               change_log: true,

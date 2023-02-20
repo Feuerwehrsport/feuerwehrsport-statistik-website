@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Registrations::PublishingsController < Registrations::BaseController
   default_actions :edit, :update, for_class: Registrations::Competition
   belongs_to Registrations::Competition, url: -> { collection_redirect_url }

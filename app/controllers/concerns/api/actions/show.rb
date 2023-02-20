@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module API::Actions::Show
   extend ActiveSupport::Concern
 

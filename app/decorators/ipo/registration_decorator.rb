@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Ipo::RegistrationDecorator < AppDecorator
   delegate :to_s, to: :team_name
 

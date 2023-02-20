@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Backend::TeamSpellingsController < Backend::BackendController
   backend_actions
 

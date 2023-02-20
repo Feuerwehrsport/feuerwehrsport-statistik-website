@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Registrations::AssessmentDecorator < AppDecorator
   def to_s
     show_only_name? ? name : [name, discipline_name(discipline)].reject(&:blank?).join(' - ')

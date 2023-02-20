@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeLogDecorator < AppDecorator
   include M3::URLSupport
   LINKABLE_CLASSES = [

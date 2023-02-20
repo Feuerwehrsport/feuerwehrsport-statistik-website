@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ActionManager::LiveResourceActionDecorator < ActionManager::ActionDecorator
   def url
     if resource_or_class.class == Class

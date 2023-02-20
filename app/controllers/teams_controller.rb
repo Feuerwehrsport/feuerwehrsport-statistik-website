@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TeamsController < ResourceController
   include DatatableSupport
   resource_actions :show, cache: %i[show index]

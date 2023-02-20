@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Backend::DashboardsController < Backend::BackendController
   RESOURCE_MODELS = [
     ::BLA::Badge,

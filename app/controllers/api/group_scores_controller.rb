@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class API::GroupScoresController < API::BaseController
   api_actions :show, :update,
               change_log: true,

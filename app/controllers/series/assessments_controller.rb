@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Series::AssessmentsController < ResourceController
   resource_actions :show, cache: [:show]
 

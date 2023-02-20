@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AppointmentsController < ResourceController
   resource_actions :show, :index, cache: :show
   decorates_assigned :registrations_competitions

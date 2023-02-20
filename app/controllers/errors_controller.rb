@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ErrorsController < ApplicationController
   before_action :old_path_redirects
   before_action :entity_merge_redirects

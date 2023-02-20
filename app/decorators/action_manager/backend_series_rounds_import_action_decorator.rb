@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ActionManager::BackendSeriesRoundsImportActionDecorator < ActionManager::MemberActionDecorator
   def url
     h.new_backend_series_round_import_path(resource)

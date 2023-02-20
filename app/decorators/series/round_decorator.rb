@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Series::RoundDecorator < AppDecorator
   decorates_association :cups
   localizes_boolean :official

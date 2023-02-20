@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class API::APIUsersController < API::BaseController
   api_actions :create,
               clean_cache_disabled: true,

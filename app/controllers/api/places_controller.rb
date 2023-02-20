@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class API::PlacesController < API::BaseController
   api_actions :create, :show, :index, :update,
               change_log: true,

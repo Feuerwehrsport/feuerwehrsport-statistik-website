@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ActionManager::BackendBLABadgesGenerateActionDecorator < ActionManager::MemberActionDecorator
   def url
     h.new_backend_bla_badge_generator_path

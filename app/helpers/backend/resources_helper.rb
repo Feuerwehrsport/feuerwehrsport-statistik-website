@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Backend::ResourcesHelper
   def breadcrum
     items = [

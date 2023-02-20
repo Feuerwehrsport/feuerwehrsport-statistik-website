@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Registrations::AssessmentsController < Registrations::BaseController
   default_actions :new, :create, :index, :edit, :update, :destroy
   belongs_to Registrations::Competition, url: -> { url_for(parent_resource) }

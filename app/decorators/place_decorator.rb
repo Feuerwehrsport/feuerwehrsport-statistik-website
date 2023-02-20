@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PlaceDecorator < AppDecorator
   decorates_association :competitions
 

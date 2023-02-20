@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Firesport::Series::Person::BaseDecorator < AppDecorator
   decorates_association :round
   decorates_association :entity

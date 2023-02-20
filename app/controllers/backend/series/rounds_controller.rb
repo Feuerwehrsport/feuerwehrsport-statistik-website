@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Backend::Series::RoundsController < Backend::BackendController
   backend_actions
   member_actions :import, :show, :edit, :destroy

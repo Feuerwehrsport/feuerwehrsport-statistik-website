@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TeamDecorator < AppDecorator
   delegate :to_s, to: :name
 

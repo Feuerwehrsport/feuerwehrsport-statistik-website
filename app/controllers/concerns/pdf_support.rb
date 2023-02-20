@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PDFSupport
   def configure_prawn(options = {})
     title = options.delete(:title) || page_title

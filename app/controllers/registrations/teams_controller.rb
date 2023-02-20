@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Registrations::TeamsController < Registrations::BaseController
   default_actions :show, :edit, :update, :destroy
   belongs_to Registrations::Competition, url: -> { collection_redirect_url }

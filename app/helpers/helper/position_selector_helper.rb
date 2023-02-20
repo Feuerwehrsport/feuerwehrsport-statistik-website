@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Helper::PositionSelectorHelper
   def position_count_table(discipline, gender, rows, options = {})
     options[:class] = [options[:class], 'change-position'].flatten.compact

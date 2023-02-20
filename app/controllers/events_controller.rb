@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EventsController < ResourceController
   resource_actions :show, :index, cache: %i[show index]
 

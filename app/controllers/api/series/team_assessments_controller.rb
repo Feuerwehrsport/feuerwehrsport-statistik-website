@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class API::Series::TeamAssessmentsController < API::BaseController
   api_actions :index
 

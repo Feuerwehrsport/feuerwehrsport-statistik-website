@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class API::ChangeRequestsController < API::BaseController
   api_actions :create, :index, :update,
               change_log: true, clean_cache_disabled: true,

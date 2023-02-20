@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Calculation::CompetitionGroupAssessmentDecorator < AppDecorator
   decorates_association :score_in_assessment
   decorates_association :score_out_assessment

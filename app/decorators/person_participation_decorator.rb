@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PersonParticipationDecorator < AppDecorator
   decorates_association :person
   decorates_association :group_score

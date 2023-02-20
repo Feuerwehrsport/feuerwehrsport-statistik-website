@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PagesController < ResourceController
   cache_actions :firesport_overview, :legal_notice, :rss, :dashboard, :last_competitions_overview,
                 :records, :best_of

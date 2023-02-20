@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Backend::UncheckedTeamsController < Backend::BackendController
   backend_actions
   map_support_at :show

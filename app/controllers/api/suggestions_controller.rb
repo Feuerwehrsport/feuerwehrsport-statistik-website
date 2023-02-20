@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class API::SuggestionsController < API::BaseController
   def people
     suggestions = Person.limit(10)

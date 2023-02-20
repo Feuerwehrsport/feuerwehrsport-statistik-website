@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PagesHelper
   def competition_find_link(id)
     competition_link(Competition.find(id).decorate)

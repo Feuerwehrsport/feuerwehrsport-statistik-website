@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Registrations::PeopleController < Registrations::BaseController
   default_actions :edit, :update, :destroy
   belongs_to Registrations::Competition, url: -> { registrations_competition_path(parent_resource) }

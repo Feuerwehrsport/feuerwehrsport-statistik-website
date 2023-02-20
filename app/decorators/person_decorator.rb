@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PersonDecorator < AppDecorator
   decorates_association :nation
   decorates_association :bla_badge

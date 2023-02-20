@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Backend::NewsArticlesController < Backend::BackendController
   backend_actions
 

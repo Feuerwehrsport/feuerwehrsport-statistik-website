@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeLogsController < ResourceController
   resource_actions :index, cache: :index
 

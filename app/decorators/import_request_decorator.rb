@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ImportRequestDecorator < AppDecorator
   decorates_association :admin_user
   decorates_association :edit_user

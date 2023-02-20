@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Pdf2Table::EntryDecorator < AppDecorator
   decorates_association :admin_user
   localizes :finished_at

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NationDecorator < AppDecorator
   delegate :to_s, to: :name
 

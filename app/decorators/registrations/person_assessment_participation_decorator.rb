@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Registrations::PersonAssessmentParticipationDecorator < AppDecorator
   decorates_association :assessment
   decorates_association :person

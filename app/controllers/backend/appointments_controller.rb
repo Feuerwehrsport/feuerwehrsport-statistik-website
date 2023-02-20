@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Backend::AppointmentsController < Backend::BackendController
   backend_actions clean_cache_disabled: true
 

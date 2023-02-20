@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Ipo::RegistrationsController < ApplicationController
   default_actions
 

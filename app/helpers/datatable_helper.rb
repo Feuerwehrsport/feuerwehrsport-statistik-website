@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DatatableHelper
   def datatable(key)
     structure = datatables[action_name][key]

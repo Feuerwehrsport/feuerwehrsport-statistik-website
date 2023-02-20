@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Backend::GroupScoreCategoriesController < Backend::BackendController
   backend_actions
 

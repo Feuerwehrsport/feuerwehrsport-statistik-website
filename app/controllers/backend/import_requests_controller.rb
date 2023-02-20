@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Backend::ImportRequestsController < Backend::BackendController
   backend_actions clean_cache_disabled: true
   skip_before_action :preauthorize_action, only: :decide_login

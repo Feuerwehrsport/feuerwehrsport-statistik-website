@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module LinksHelper
   def competition_link(competition, options = {})
     options = options.merge(title: 'Details zu diesem Wettkampf anzeigen')

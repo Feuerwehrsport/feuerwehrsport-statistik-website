@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PersonSpellingDecorator < AppDecorator
   decorates_association :person
   localizes_gender

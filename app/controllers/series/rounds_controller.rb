@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Series::RoundsController < ResourceController
   resource_actions :show, :index, cache: %i[show index single]
   helper_method :single_round?

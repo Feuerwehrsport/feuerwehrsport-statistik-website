@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class API::GroupScoreTypesController < API::BaseController
   api_actions :create, :index,
               change_log: true,

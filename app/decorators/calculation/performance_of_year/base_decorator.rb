@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Calculation::PerformanceOfYear::BaseDecorator < AppDecorator
   decorates_association :scores
   decorates_association :entity

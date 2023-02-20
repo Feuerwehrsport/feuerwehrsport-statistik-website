@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Backend::Series::RoundImportsController < Backend::BackendController
   backend_actions :new, :create
   belongs_to Series::Round, url: -> { collection_redirect_url }

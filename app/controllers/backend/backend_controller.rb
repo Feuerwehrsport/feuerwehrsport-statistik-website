@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Backend::BackendController < ApplicationController
   helper_method :has_many_associations, :belongs_to_associations, :show_associations?
 

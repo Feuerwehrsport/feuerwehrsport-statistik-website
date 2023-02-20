@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PageTitleHelper
   def page_title
     @page_title ||= t3('page_title', default: '').presence

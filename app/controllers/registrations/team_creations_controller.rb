@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Registrations::TeamCreationsController < Registrations::BaseController
   default_actions :new, :create, for_class: Registrations::Team
   belongs_to Registrations::Competition, url: -> { collection_redirect_url }

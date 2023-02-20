@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class API::AppointmentsController < API::BaseController
   api_actions :create, :show, :update, :index,
               change_log: true,

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PeopleHelper
   def series_row
     @series_structs.each do |name, years|

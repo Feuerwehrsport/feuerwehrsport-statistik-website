@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Backend::CompetitionFilesController < Backend::BackendController
   backend_actions
 

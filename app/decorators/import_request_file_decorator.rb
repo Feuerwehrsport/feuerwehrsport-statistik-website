@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ImportRequestFileDecorator < AppDecorator
   decorates_association :import_request
 

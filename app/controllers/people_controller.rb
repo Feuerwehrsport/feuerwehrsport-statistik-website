@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PeopleController < ResourceController
   include DatatableSupport
   resource_actions :show, cache: %i[show index]

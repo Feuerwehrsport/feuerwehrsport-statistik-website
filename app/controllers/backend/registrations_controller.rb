@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Backend::RegistrationsController < Backend::BackendController
   backend_actions :new, :create, for_class: AdminUsers::Registration
 

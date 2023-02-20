@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CompetitionFileDecorator < AppDecorator
   decorates_association :competition
 

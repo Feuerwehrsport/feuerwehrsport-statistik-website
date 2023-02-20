@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AppointmentDecorator < AppDecorator
   decorates_association :event
   decorates_association :links

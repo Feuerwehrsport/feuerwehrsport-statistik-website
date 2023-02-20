@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ResourceController < ApplicationController
   def self.resource_actions(*action_names)
     options   = action_names.extract_options!

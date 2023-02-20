@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BLA::BadgeDecorator < AppDecorator
   decorates_association :person
   decorates_association :hl_score

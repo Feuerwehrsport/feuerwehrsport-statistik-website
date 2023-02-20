@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Backend::Repairs::TeamScoreMovesController < Backend::BackendController
   backend_actions :new, :create, clean_cache_disabled: true
 

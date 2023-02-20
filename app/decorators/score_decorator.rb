@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ScoreDecorator < AppDecorator
   decorates_association :competition
   decorates_association :team

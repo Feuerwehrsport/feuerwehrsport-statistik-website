@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Backend::EventsController < Backend::BackendController
   backend_actions
 

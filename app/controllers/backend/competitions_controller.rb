@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Backend::CompetitionsController < Backend::BackendController
   backend_actions
 

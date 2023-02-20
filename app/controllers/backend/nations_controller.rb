@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Backend::NationsController < Backend::BackendController
   backend_actions
 

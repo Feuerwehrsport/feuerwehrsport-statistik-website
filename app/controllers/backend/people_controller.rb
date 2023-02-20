@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Backend::PeopleController < Backend::BackendController
   backend_actions
 

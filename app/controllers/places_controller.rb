@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PlacesController < ResourceController
   resource_actions :show, :index, cache: %i[show index]
   map_support_at :show, :index

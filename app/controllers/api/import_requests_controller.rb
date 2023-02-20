@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class API::ImportRequestsController < API::BaseController
   api_actions :create,
               default_form: %i[compressed_data]

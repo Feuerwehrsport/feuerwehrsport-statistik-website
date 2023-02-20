@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class YearDecorator < AppDecorator
   def to_s
     object.year.to_i.to_s

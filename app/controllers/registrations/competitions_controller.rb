@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Registrations::CompetitionsController < Registrations::BaseController
   default_actions
   member_actions :add_team, :add_person, :show, :edit, :destroy

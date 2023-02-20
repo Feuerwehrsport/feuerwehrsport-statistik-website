@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BLA::BadgesController < ResourceController
   resource_actions :index, cache: %i[index]
 

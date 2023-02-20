@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class API::CompetitionFilesController < API::BaseController
   api_actions :create, change_log: true
   belongs_to Competition

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GroupScoreCategoryDecorator < AppDecorator
   decorates_association :competition
   decorates_association :group_score_type
