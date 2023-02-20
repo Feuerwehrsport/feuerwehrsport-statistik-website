@@ -39,14 +39,6 @@ class M3::Engine < Rails::Engine
   config.m3.login = ActiveSupport::OrderedOptions.new
   config.m3.login.send_verification_mail = true
 
-  initializer :append_migrations do |app|
-    unless app.root.to_s.match root.to_s
-      config.paths['db/migrate'].expanded.each do |expanded_path|
-        app.config.paths['db/migrate'] << expanded_path
-      end
-    end
-  end
-
   initializer :assets do |_config|
     Rails.application.config.assets.precompile += %w[m3_bootstrap_v1/index.css]
   end
