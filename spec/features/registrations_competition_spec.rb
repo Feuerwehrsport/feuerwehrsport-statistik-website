@@ -15,7 +15,7 @@ describe 'registration feature', type: :feature, js: true do
 
     expect(find_field('registrations_competition_name').value).to eq 'Deutschland-Cup'
     save_review_screenshot
-    fill_in 'Datum', with: '29.02.2020'
+    fill_in 'Datum', with: Date.parse('2020-02-29')
     fill_in 'Ort', with: 'Ostseebad Nienhagen'
     click_on 'Wettkampf anlegen'
 

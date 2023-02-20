@@ -9,7 +9,7 @@ describe 'appointments', type: :feature, js: true do
 
     # add one
     visit appointments_path
-    find('#add-appointment').click
+    find_by_id('add-appointment').click
     within('.fss-window') do
       expect(page).to have_content('Termin hinzufügen')
       fill_in 'Name', with: 'Wintertraining_xyz'
@@ -39,7 +39,7 @@ describe 'appointments', type: :feature, js: true do
 
     # edit one
     click_on('Wintertraining_xyz')
-    find('#edit-appointment').click
+    find_by_id('edit-appointment').click
     within('.fss-window') do
       expect(find_field('Name').value).to eq 'Wintertraining_xyz'
       expect(find_field('Beschreibung').value).to eq "Beschreibung\n123"
@@ -57,7 +57,7 @@ describe 'appointments', type: :feature, js: true do
     expect(change_request_content).to include key: 'appointment-edit'
     expect(change_request_content[:data][:appointment]).to include(
       name: 'Wintertraining_opü',
-      description: "Beschreibung\r\n890",
+      description: "Beschreibung\n890",
       disciplines: 'fs,hl',
       event_id: mvcup.id.to_s,
       place: 'Tribsees',

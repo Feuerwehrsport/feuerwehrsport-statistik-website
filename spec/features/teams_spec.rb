@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'teams features' do
@@ -25,7 +27,7 @@ describe 'teams features' do
       # add one
       visit teams_path
       expect(page).to have_content('Verteilung der Bundesländer')
-      find('#add-team').click
+      find_by_id('add-team').click
       expect(page).to have_content('maximal 10 Zeichen')
       within('.fss-window') do
         save_review_screenshot
@@ -77,7 +79,7 @@ describe 'teams features' do
       visit team_path(team_without_geo_location)
       within('.team-map-actions') do
         save_review_screenshot
-        find('#add-geo-position').click
+        find_by_id('add-geo-position').click
         find('.btn.btn-primary').click
       end
       expect(page).not_to have_content('Bitte warten')
@@ -95,13 +97,14 @@ describe 'teams features' do
       api_sign_in
 
       visit team_path(team)
-      find('#add-change-request').click
+      find_by_id('add-change-request').click
 
       within('.fss-window') do
         save_review_screenshot
         choose('Team ist doppelt vorhanden')
         click_on('OK')
 
+        select('FF Warin', from: 'Richtiges Team:')
         expect(page).to have_content('Mannschaft zusammenführen')
         click_on('OK')
       end
@@ -118,7 +121,7 @@ describe 'teams features' do
     it 'can add change request with team-correction' do
       api_sign_in
       visit team_path(team)
-      find('#add-change-request').click
+      find_by_id('add-change-request').click
 
       within('.fss-window') do
         save_review_screenshot

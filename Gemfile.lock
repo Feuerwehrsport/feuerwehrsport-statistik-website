@@ -37,64 +37,11 @@ PATH
   remote: m3_rspec
   specs:
     m3_rspec (1.1.0)
-      capybara (>= 3.34.0)
-      capybara-email
-      cuprite
-      database_cleaner-active_record
-      factory_bot_rails
-      guard
-      guard-rspec
-      guard-rubocop
-      launchy
-      phashion
-      pry
-      pry-byebug
-      rails-controller-testing
-      rspec-collection_matchers
-      rspec-rails
-      rspec-retry
-      rubocop (>= 0.53.0)
-      rubocop-daemon
-      rubocop-performance
-      rubocop-rails
-      rubocop-rspec
-      timecop
-      vcr
-      webmock
 
 PATH
   remote: m3
   specs:
     m3 (1.0.13)
-      acts_as_list
-      bcrypt
-      bootsnap
-      bootstrap-sass (~> 3.0)
-      bootstrap3-datetimepicker-rails (~> 4.17.37)
-      cancancan
-      carrierwave
-      caxlsx
-      caxlsx_rails
-      csv_builder (~> 2.1.0)
-      daemons (~> 1.2.0)
-      delayed_job_active_record (~> 4.1.0)
-      draper (~> 3.0)
-      haml-rails (~> 1.0)
-      image_optim (>= 0.28.0)
-      image_optim_pack
-      mini_magick (~> 4.0)
-      modernizr-rails (~> 2.7.1)
-      momentjs-rails (>= 2.9.0)
-      pg
-      puma
-      rails (~> 5.2.0)
-      remotipart (~> 1.0)
-      sassc-rails
-      simple_form (~> 4.0)
-      turbolinks (~> 5.0)
-      valid_email2
-      whenever (~> 0.9.0)
-      will_paginate-bootstrap (~> 1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -226,7 +173,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.1.6)
+    concurrent-ruby (1.2.0)
     crack (0.4.5)
       rexml
     crass (1.0.6)
@@ -306,7 +253,7 @@ GEM
       nokogiri (>= 1.6.0)
       ruby_parser (~> 3.5)
     htmlentities (4.3.4)
-    i18n (1.8.2)
+    i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     icalendar (2.6.1)
       ice_cube (~> 0.16)
@@ -330,6 +277,7 @@ GEM
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
+    json (2.6.3)
     jsonapi-renderer (0.2.2)
     key_struct (0.4.2)
     kgio (2.11.3)
@@ -355,7 +303,7 @@ GEM
     mini_magick (4.11.0)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
-    minitest (5.14.0)
+    minitest (5.17.0)
     modernizr-rails (2.7.1)
     modware (0.1.3)
       key_struct (~> 0.4)
@@ -372,8 +320,8 @@ GEM
     notiffany (0.1.3)
       nenv (~> 0.1)
       shellany (~> 0.0)
-    parallel (1.21.0)
-    parser (3.0.2.0)
+    parallel (1.22.1)
+    parser (3.2.1.0)
       ast (~> 2.4.1)
     pdf-core (0.7.0)
     pg (1.2.3)
@@ -397,7 +345,7 @@ GEM
     public_suffix (4.0.6)
     puma (5.5.0)
       nio4r (~> 2.0)
-    rack (2.2.2)
+    rack (2.2.6.2)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (5.2.4.1)
@@ -428,14 +376,14 @@ GEM
       method_source
       rake (>= 0.8.7)
       thor (>= 0.19.0, < 2.0)
-    rainbow (3.0.0)
+    rainbow (3.1.1)
     raindrops (0.19.1)
     rake (13.0.1)
     rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     redcarpet (3.5.0)
-    regexp_parser (2.1.1)
+    regexp_parser (2.7.0)
     remotipart (1.4.4)
     request_store (1.5.0)
       rack (>= 1.4)
@@ -472,28 +420,32 @@ GEM
     rspec-retry (0.6.2)
       rspec-core (> 3.3)
     rspec-support (3.10.2)
-    rubocop (1.21.0)
+    rubocop (1.45.1)
+      json (~> 2.3)
       parallel (~> 1.10)
-      parser (>= 3.0.0.0)
+      parser (>= 3.2.0.0)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
-      rexml
-      rubocop-ast (>= 1.9.1, < 2.0)
+      rexml (>= 3.2.5, < 4.0)
+      rubocop-ast (>= 1.24.1, < 2.0)
       ruby-progressbar (~> 1.7)
-      unicode-display_width (>= 1.4.0, < 3.0)
-    rubocop-ast (1.12.0)
-      parser (>= 3.0.1.1)
+      unicode-display_width (>= 2.4.0, < 3.0)
+    rubocop-ast (1.26.0)
+      parser (>= 3.2.1.0)
+    rubocop-capybara (2.17.1)
+      rubocop (~> 1.41)
     rubocop-daemon (0.3.2)
       rubocop
-    rubocop-performance (1.11.5)
+    rubocop-performance (1.16.0)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
-    rubocop-rails (2.12.2)
+    rubocop-rails (2.17.4)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
-      rubocop (>= 1.7.0, < 2.0)
-    rubocop-rspec (2.5.0)
-      rubocop (~> 1.19)
+      rubocop (>= 1.33.0, < 2.0)
+    rubocop-rspec (2.18.1)
+      rubocop (~> 1.33)
+      rubocop-capybara (~> 2.17)
     ruby-progressbar (1.11.0)
     ruby-vips (2.1.3)
       ffi (~> 1.12)
@@ -558,11 +510,11 @@ GEM
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
-    tzinfo (1.2.6)
+    tzinfo (1.2.11)
       thread_safe (~> 0.1)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
-    unicode-display_width (2.1.0)
+    unicode-display_width (2.4.2)
     unicorn (5.5.3)
       kgio (~> 2.6)
       raindrops (~> 0.7)
@@ -592,27 +544,80 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers
   activerecord_views
+  acts_as_list
+  bcrypt
+  bootsnap
+  bootstrap-sass (~> 3.0)
+  bootstrap3-datetimepicker-rails (~> 4.17.37)
+  cancancan
   capistrano-rsync-plugin!
+  capybara (>= 3.34.0)
+  capybara-email
+  carrierwave
+  caxlsx
+  caxlsx_rails
   cocoon
   coffee-rails
+  csv_builder (~> 2.1.0)
+  cuprite
+  daemons (~> 1.2.0)
+  database_cleaner-active_record
+  delayed_job_active_record (~> 4.1.0)
+  draper (~> 3.0)
+  factory_bot_rails
   firesport!
   firesport-series!
+  guard
+  guard-rspec
+  guard-rubocop
+  haml-rails (~> 1.0)
   icalendar
+  image_optim (>= 0.28.0)
+  image_optim_pack
   jquery-rails
+  launchy
   lazy_high_charts
   m3!
   m3_capistrano3!
   m3_log_file_parser!
   m3_rspec!
+  mini_magick (~> 4.0)
+  modernizr-rails (~> 2.7.1)
+  momentjs-rails (>= 2.9.0)
+  pg
+  phashion
   prawn-rails
+  pry
+  pry-byebug
+  puma
+  rails (~> 5.2.0)
+  rails-controller-testing
   redcarpet
+  remotipart (~> 1.0)
   responders
   rqrcode
+  rspec-collection_matchers
+  rspec-rails
+  rspec-retry
+  rubocop (>= 0.53.0)
+  rubocop-daemon
+  rubocop-performance
+  rubocop-rails
+  rubocop-rspec
+  sassc-rails
   schema_validations
+  simple_form (~> 4.0)
   simplecov
   spring
+  timecop
+  turbolinks (~> 5.0)
   uglifier
   unicorn
+  valid_email2
+  vcr
+  webmock
+  whenever (~> 0.9.0)
+  will_paginate-bootstrap (~> 1.0)
 
 BUNDLED WITH
    2.1.4

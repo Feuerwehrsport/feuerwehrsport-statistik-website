@@ -25,7 +25,7 @@ describe 'people', type: :feature, js: true do
       # add one
       visit people_path
       sleep 0.1
-      find('#add-person').click
+      find_by_id('add-person').click
       within('.fss-window') do
         expect(page).to have_content('Person hinzufügen')
         fill_in 'Vorname', with: 'Vorname'
@@ -62,7 +62,7 @@ describe 'people', type: :feature, js: true do
 
       # add one
       visit person_path(person)
-      find('#add-change-request').click
+      find_by_id('add-change-request').click
       within('.fss-window') do
         expect(page).to have_content('Auswahl des Fehlers')
         choose('Person ist falsch geschrieben')
@@ -91,7 +91,7 @@ describe 'people', type: :feature, js: true do
 
       # add one
       visit person_path(person)
-      find('#add-change-request').click
+      find_by_id('add-change-request').click
       within('.fss-window') do
         expect(page).to have_content('Auswahl des Fehlers')
         choose('Person ist falsch geschrieben')
@@ -123,7 +123,7 @@ describe 'people', type: :feature, js: true do
 
       # add one
       visit person_path(person)
-      find('#add-change-request').click
+      find_by_id('add-change-request').click
       within('.fss-window') do
         expect(page).to have_content('Auswahl des Fehlers')
         choose('Person ist falscher Nation zugeordnet')
@@ -147,7 +147,7 @@ describe 'people', type: :feature, js: true do
 
       # add one
       visit person_path(person)
-      find('#add-change-request').click
+      find_by_id('add-change-request').click
       within('.fss-window') do
         expect(page).to have_content('Auswahl des Fehlers')
         choose('Etwas anderes')
@@ -162,7 +162,7 @@ describe 'people', type: :feature, js: true do
       change_request_content = ChangeRequest.last.content
       expect(change_request_content).to eq(
         key: 'person-other',
-        data: { person_id: person.id.to_s, description: "Beschreibung\r\n123" },
+        data: { person_id: person.id.to_s, description: "Beschreibung\n123" },
       )
     end
   end

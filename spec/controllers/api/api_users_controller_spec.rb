@@ -33,7 +33,7 @@ RSpec.describe API::APIUsersController, type: :controller do
     context 'when email_address is not valid' do
       it 'fails to create new user' do
         post :create, params: { api_user: { name: 'hans', email_address: 'not-valid' } }
-        expect_api_not_login_response success: false, message: 'E-Mail-Adresse ist keine gültige E-Mail-Adresse'
+        expect_api_not_login_response success: false, message: 'E-Mail-Adresse ist nicht gültig'
       end
     end
   end
