@@ -39,14 +39,6 @@ class M3::Engine < Rails::Engine
   config.m3.login = ActiveSupport::OrderedOptions.new
   config.m3.login.send_verification_mail = true
 
-  config.after_initialize do
-    tested_version = Gem::Version.new(config.m3.compatible_version || '0.0.0')
-    Dir.glob(M3::Engine.root.join('lib', 'm3', 'compatibility_tests', '*.rb')).sort.each do |path|
-      version = Gem::Version.new(File.basename(path, '.rb'))
-      require path if version > tested_version
-    end
-  end
-
   initializer :append_migrations do |app|
     unless app.root.to_s.match root.to_s
       config.paths['db/migrate'].expanded.each do |expanded_path|
