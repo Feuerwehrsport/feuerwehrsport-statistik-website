@@ -14,7 +14,7 @@ describe Registrations::PersonMailer do
     it 'renders the header information and body' do
       expect(mail.subject).to eq "Deine Wettkampfanmeldung für D-Cup - #{I18n.l(Time.zone.today)}"
       expect(mail.header[:to].to_s).to eq('hans <receiver@example.com>')
-      expect(mail.header[:from].to_s).to eq('Feuerwehrsport-Statistik <info@feuerwehrsport-statistik.de>')
+      expect(mail.header[:from].to_s).to eq('Feuerwehrsport-Statistik <automailer@feuerwehrsport-statistik.de>')
       expect(mail.header[:cc].to_s).to eq('')
       expect(mail.header[:reply_to].to_s).to eq('')
 
