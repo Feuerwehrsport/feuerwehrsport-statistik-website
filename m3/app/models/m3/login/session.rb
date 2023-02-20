@@ -57,14 +57,12 @@ class M3::Login::Session
   private
 
   def valid_login
-    if login.blank?
+    if login.blank? || login.nil? || !login.authenticate(password)
       errors.add(:password, :invalid)
     elsif login_expired?
       errors.add(:password, :expired)
     elsif !login_verified?
       errors.add(:email_address, :unverified)
-    elsif login.nil? || !login.authenticate(password)
-      errors.add(:password, :invalid)
     end
   end
 

@@ -10,6 +10,7 @@ shared_examples 'orders all index fields' do
   let(:controllers) { ApplicationController.descendants }
   let(:params_handler) { ->(params, _controller_instance) { params } }
   let(:collections) { {} }
+  let(:directions) { %i[asc desc] }
 
   it 'orders all sortable index fields' do
     controllers.each do |controller|
@@ -39,7 +40,7 @@ shared_examples 'orders all index fields' do
       structure.each do |field|
         next unless field.sortable?
 
-        %i[asc desc].each do |direction|
+        directions.each do |direction|
           allow(structure.h).to receive(:params).and_return(order: "#{field.name}_#{direction}")
           expect do
             structure.order_collection(collection, resource_class: resource_class).to_a

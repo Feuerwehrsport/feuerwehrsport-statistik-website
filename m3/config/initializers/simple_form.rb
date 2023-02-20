@@ -49,9 +49,8 @@ class SimpleForm::Tags::CollectionRadioButtons < ActionView::Helpers::Tags::Coll
         label_options = default_html_options.slice(:index, :namespace)
         label_options['class'] = @options[:item_label_class]
         if is_radio_buttons_button_group
-          if @options[:checked] && value.to_s == @options[:checked]
-            active = 'active'
-          elsif !@options[:checked] && value.to_s == object.send(@method_name)
+          if (@options[:checked] && value.to_s == @options[:checked]) ||
+             (!@options[:checked] && value.to_s == object.send(@method_name))
             active = 'active'
           end
           label_options['class'] = [label_options['class'], @options[:item_wrapper_class], active].flatten.compact

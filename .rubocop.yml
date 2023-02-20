@@ -71,6 +71,9 @@ Lint/BooleanSymbol:
   Enabled: false
 Lint/ConstantOverwrittenInRescue:
   Enabled: true
+Lint/Debugger:
+  Exclude:
+  - m3/lib/tasks/m3.rake
 Lint/DeprecatedConstants:
   Enabled: true
 Lint/DuplicateBranch:
@@ -304,6 +307,8 @@ Rails/DurationArithmetic:
   Enabled: true
 Rails/DynamicFindBy:
   AutoCorrect: false
+  Exclude:
+  - m3/app/models/m3/login/session.rb
 Rails/EagerEvaluationLogMessage:
   Enabled: true
 Rails/ExpandedDateRange:
@@ -350,7 +355,7 @@ Rails/Pluck:
 Rails/PluckInWhere:
   Enabled: true
 Rails/RedundantPresenceValidationOnBelongsTo:
-  Enabled: true
+  Enabled: false
 Rails/RedundantTravelBack:
   Enabled: true
 Rails/RenderInline:

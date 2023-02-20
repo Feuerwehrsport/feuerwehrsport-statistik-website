@@ -2,6 +2,9 @@
 
 source 'https://rubygems.org'
 
+gem 'pg' # postgres adapter
+gem 'rails', '~> 5.2.0'
+
 gem 'm3', path: 'm3'
 gem 'responders'
 
@@ -41,9 +44,7 @@ gem 'carrierwave'
 gem 'draper', '~> 3.0'
 gem 'haml-rails', '~> 1.0'
 gem 'mini_magick', '~> 4.0'
-gem 'pg'
 gem 'puma'
-gem 'rails', '~> 5.2.0'
 gem 'remotipart', '~> 1.0'
 gem 'sassc-rails'
 gem 'simple_form', '~> 4.0'
@@ -93,7 +94,7 @@ group :development, :test do
   gem 'rspec-collection_matchers'
   gem 'rspec-rails'
   gem 'rspec-retry'
-  gem 'rubocop', '>= 0.53.0'
+  gem 'rubocop'
   gem 'rubocop-daemon'
   gem 'rubocop-performance'
   gem 'rubocop-rails'
