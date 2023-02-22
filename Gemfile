@@ -61,9 +61,9 @@ gem 'caxlsx_rails'
 gem 'csv_builder', '~> 2.1.0'
 
 # background jobs
-gem 'daemons', '~> 1.2.0'
-gem 'delayed_job_active_record', '~> 4.1.0'
-gem 'whenever', '~> 0.9.0'
+gem 'daemons'
+gem 'delayed_job_active_record'
+gem 'whenever' # cronjobs
 
 gem 'valid_email2' # validate emails
 
