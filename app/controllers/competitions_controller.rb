@@ -12,7 +12,7 @@ class CompetitionsController < ResourceController
     t.col(:hb_female, searchable: false, class: 'hidden-xs', th_class: 'small col-5 hidden-xs')
     t.col(:hb_male, searchable: false, class: 'hidden-xs', th_class: 'small col-5 hidden-xs')
     t.col(:hl_female, searchable: false, class: 'hidden-xs', th_class: 'small col-5 hidden-xs')
-    t.col(:hb_male, searchable: false, class: 'hidden-xs', th_class: 'small col-5 hidden-xs')
+    t.col(:hl_male, searchable: false, class: 'hidden-xs', th_class: 'small col-5 hidden-xs')
     t.col(:gs, searchable: false, class: 'hidden-xs', th_class: 'small col-5 hidden-xs')
     t.col(:fs_female, searchable: false, class: 'hidden-xs', th_class: 'small col-5 hidden-xs')
     t.col(:fs_male, searchable: false, class: 'hidden-xs', th_class: 'small col-5 hidden-xs')
