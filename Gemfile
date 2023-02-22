@@ -55,13 +55,9 @@ gem 'will_paginate-bootstrap', '~> 1.0'
 gem 'image_optim', '>= 0.28.0'
 gem 'image_optim_pack'
 
-# exports
-gem 'caxlsx'
-gem 'caxlsx_rails'
-
-# background jobs
-gem 'daemons'
-gem 'delayed_job_active_record'
+gem 'caxlsx_rails' # xlsx exports
+gem 'daemons' # background jobs
+gem 'delayed_job_active_record' # background jobs
 gem 'whenever' # cronjobs
 
 gem 'valid_email2' # validate emails
