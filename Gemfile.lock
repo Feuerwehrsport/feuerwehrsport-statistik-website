@@ -175,8 +175,6 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.6)
-    csv_builder (2.1.3)
-      actionpack (>= 3.0.0)
     cuprite (0.13)
       capybara (>= 2.1, < 4)
       ferrum (~> 0.11.0)
@@ -567,7 +565,6 @@ DEPENDENCIES
   caxlsx_rails
   cocoon
   coffee-rails
-  csv_builder (~> 2.1.0)
   cuprite
   daemons
   database_cleaner-active_record

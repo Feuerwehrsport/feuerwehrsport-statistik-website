@@ -19,7 +19,6 @@ require 'sassc/rails'
 
 # exports
 require 'caxlsx_rails'
-require 'csv_builder'
 
 if Rails.env.development?
   begin

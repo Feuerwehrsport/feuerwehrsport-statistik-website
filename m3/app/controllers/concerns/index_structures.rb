@@ -28,12 +28,10 @@ module IndexStructures
           return M3::Index::Structure.new.decorate
         end
 
-        if basename.present? && request.format.in?([Mime[:xlsx], Mime[:csv]])
+        if basename.present? && request.format == Mime[:xlsx]
           current_basename = basename.respond_to?(:call) ? instance_exec(&basename) : basename.dup
           if request.format.xlsx?
             response.headers['Content-Disposition'] = "attachment; filename=\"#{current_basename}.xlsx\""
-          elsif request.format.csv?
-            @filename = "#{current_basename}.csv"
           end
         end
 

@@ -58,7 +58,6 @@ gem 'image_optim_pack'
 # exports
 gem 'caxlsx'
 gem 'caxlsx_rails'
-gem 'csv_builder', '~> 2.1.0'
 
 # background jobs
 gem 'daemons'
