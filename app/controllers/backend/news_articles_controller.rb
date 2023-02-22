@@ -6,8 +6,8 @@ class Backend::NewsArticlesController < Backend::BackendController
   default_form do |f|
     f.input :title
     f.input :content, as: :wysiwyg
-    f.association :admin_user, as: :association_select
-    f.input :published_at
+    f.association :admin_user, as: :association_select, association: :admin_user
+    f.input :published_at, html5: true
   end
 
   filter_index do |by|

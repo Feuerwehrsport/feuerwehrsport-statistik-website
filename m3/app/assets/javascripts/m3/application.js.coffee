@@ -3,7 +3,6 @@
 #= require jquery.remotipart
 #= require turbolinks
 #= require bootstrap-sprockets
-#= require moment
 #= require m3/initialize
 #= require m3/helper
 #= require_tree ./layout

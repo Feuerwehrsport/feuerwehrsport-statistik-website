@@ -5,8 +5,8 @@ class Registrations::RegistrationTimesController < Registrations::BaseController
   belongs_to Registrations::Competition, url: -> { collection_redirect_url }
 
   default_form do |f|
-    f.input :open_at
-    f.input :close_at
+    f.input :open_at, html5: true
+    f.input :close_at, html5: true
   end
 
   protected

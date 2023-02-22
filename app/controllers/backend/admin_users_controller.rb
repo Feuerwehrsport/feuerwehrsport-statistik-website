@@ -17,7 +17,7 @@ class Backend::AdminUsersController < Backend::BackendController
       f.input :role, collection: AdminUser::ROLES
       f.fields_for :login do
         f.input :password
-        f.input :verified_at
+        f.input :verified_at, html5: true
       end
     end
   end

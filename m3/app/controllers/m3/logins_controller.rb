@@ -15,6 +15,6 @@ class M3::LoginsController < ApplicationController
     f.input :email_address
     f.value :verified_at, label: resource_class.human_attribute_name(:verified_since) if form_resource.verified?
     f.input :verified, as: :boolean
-    f.input :expired_at
+    f.input :expired_at, html5: true
   end
 end

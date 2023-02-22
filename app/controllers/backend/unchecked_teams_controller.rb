@@ -8,7 +8,7 @@ class Backend::UncheckedTeamsController < Backend::BackendController
     f.input :name
     f.input :shortcut
     f.input :status, as: :radio_buttons, collection: { 'Team' => 'team', 'Feuerwehr' => 'fire_station' }
-    f.input :checked_at
+    f.input :checked_at, html5: true
   end
 
   default_index do |t|

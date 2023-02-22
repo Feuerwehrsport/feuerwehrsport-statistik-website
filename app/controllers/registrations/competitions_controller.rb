@@ -17,7 +17,7 @@ class Registrations::CompetitionsController < Registrations::BaseController
   form_for :new, :create do |f|
     f.inputs 'Allgemeine Daten' do
       f.input :name
-      f.input :date
+      f.input :date, html5: true
       f.input :place
       f.input :description, as: :wysiwyg
     end
@@ -41,7 +41,7 @@ class Registrations::CompetitionsController < Registrations::BaseController
 
   form_for :edit, :update do |f|
     f.input :name
-    f.input :date
+    f.input :date, html5: true
     f.input :place
     f.input :description, as: :wysiwyg
     f.input :hint_to_hint

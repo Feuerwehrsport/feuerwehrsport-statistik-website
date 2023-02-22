@@ -9,7 +9,7 @@ class Backend::ImportRequestsController < Backend::BackendController
       f.input :file, as: :file_preview
     end
     f.input :url
-    f.input :date
+    f.input :date, html5: true
     f.association :place, as: :association_select
     f.association :event, as: :association_select
     f.input :description

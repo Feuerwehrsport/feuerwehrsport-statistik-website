@@ -5,7 +5,7 @@ class Backend::AppointmentsController < Backend::BackendController
 
   default_form do |f|
     f.input :name
-    f.input :dated_at
+    f.input :dated_at, html5: true
     f.input :description
     f.input :place
     f.association :event, as: :association_select

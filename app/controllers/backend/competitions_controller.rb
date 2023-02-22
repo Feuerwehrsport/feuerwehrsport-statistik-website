@@ -5,7 +5,7 @@ class Backend::CompetitionsController < Backend::BackendController
 
   default_form do |f|
     f.input :name
-    f.input :date
+    f.input :date, html5: true
     f.association :place, as: :association_select
     f.association :event, as: :association_select
     f.association :score_type

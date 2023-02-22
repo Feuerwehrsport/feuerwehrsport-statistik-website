@@ -65,9 +65,7 @@ gem 'daemons', '~> 1.2.0'
 gem 'delayed_job_active_record', '~> 4.1.0'
 gem 'whenever', '~> 0.9.0'
 
-gem 'bootstrap3-datetimepicker-rails', '~> 4.17.37'
-gem 'momentjs-rails', '>= 2.9.0'
-gem 'valid_email2'
+gem 'valid_email2' # validate emails
 
 group :production do
   gem 'unicorn'
