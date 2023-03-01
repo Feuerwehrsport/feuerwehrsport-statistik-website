@@ -4,15 +4,24 @@
       - resource.people_with_badges.each do |person, badges|
         %tr
           %td= person.decorate
+          %td= person.decorate.gender_translated
           - 3.times do |i|
             - if !badges[i]
               %td.info Vorhanden
+              %td.info
+              %td.info
             - else
               %td{ class: badges[i].valid? ? 'success' : 'warning' }
                 = badges[i].valid? ? 'OK' : 'Nein'
+              %td{ class: badges[i].valid? ? 'success' : 'warning' }
                 - if badges[i].hl_score
-                  %br
-                  = link_to(badges[i].hl_score.decorate.with_competition ,badges[i].hl_score.competition)
+                  = link_to(badges[i].hl_score.competition) do
+                    = badges[i].hl_score.decorate.second_time
+                    %br
+                    = badges[i].hl_score.decorate.competition
+              %td{ class: badges[i].valid? ? 'success' : 'warning' }
                 - if badges[i].hb_score
-                  %br
-                  = link_to(badges[i].hb_score.decorate.with_competition,badges[i].hb_score.competition)
+                  = link_to(badges[i].hb_score.competition) do
+                    = badges[i].hb_score.decorate.second_time
+                    %br
+                    = badges[i].hb_score.decorate.competition
