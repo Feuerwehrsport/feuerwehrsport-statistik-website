@@ -72,14 +72,11 @@ group :development, :test do
 
   gem 'capybara', '>= 3.34.0'
   gem 'capybara-email'
-  gem 'cuprite'
   gem 'database_cleaner-active_record'
   gem 'factory_bot_rails'
-  gem 'guard'
-  gem 'guard-rspec'
-  gem 'guard-rubocop'
-  gem 'launchy'
-  gem 'phashion'
+
+  gem 'pry' # debugger
+  gem 'pry-byebug' # debugger
 
   # code beautifier
   gem 'rubocop'
@@ -103,6 +100,9 @@ group :test do
   gem 'vcr' # record http requests
   gem 'webmock' # mock http requests
   gem 'rails-controller-testing' # helper methods for controller testings
-  gem 'pry' # debugger
-  gem 'pry-byebug' # debugger
+  gem 'launchy' # open system default apps from console
+  gem 'phashion' # changes between screenshots
+  gem 'cuprite' # headless chrome driver for capybara
+  gem 'guard', require: false # on demand tests
+  gem 'guard-rspec', require: false # on demand tests
 end
