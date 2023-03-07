@@ -8,7 +8,7 @@ RSpec.describe NewsArticlesController do
   describe 'GET index' do
     it 'assigns collection' do
       get :index
-      expect(controller.send(:collection)).to have(1).item
+      expect(controller.send(:collection).count).to eq 1
     end
   end
 

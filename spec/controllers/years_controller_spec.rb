@@ -28,7 +28,7 @@ RSpec.describe YearsController do
       get :best_performance, params: { id: competition.date.year }
       expect(response).to be_successful
       expect(controller.send(:resource).year).to eq Year.first.year
-      expect(assigns(:performance_overview_disciplines)).to have(2).items
+      expect(assigns(:performance_overview_disciplines).count).to eq 2
     end
   end
 
@@ -37,7 +37,7 @@ RSpec.describe YearsController do
       get :best_scores, params: { id: competition.date.year }
       expect(response).to be_successful
       expect(controller.send(:resource).year).to eq Year.first.year
-      expect(assigns(:discipline_structs)).to have(2).items
+      expect(assigns(:discipline_structs).count).to eq 2
     end
   end
 end

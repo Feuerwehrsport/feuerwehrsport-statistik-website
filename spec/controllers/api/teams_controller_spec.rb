@@ -43,10 +43,10 @@ RSpec.describe Api::TeamsController do
       it 'returns team' do
         get :show, params: { id: team.id, extended: 1 }
         expect(json_body[:team]).to include(team_attributes)
-        expect(json_body[:team][:single_scores]).to have(1).items
-        expect(json_body[:team][:la_scores]).to have(1).items
-        expect(json_body[:team][:fs_scores]).to have(0).items
-        expect(json_body[:team][:gs_scores]).to have(0).items
+        expect(json_body[:team][:single_scores].count).to eq 1
+        expect(json_body[:team][:la_scores].count).to eq 1
+        expect(json_body[:team][:fs_scores].count).to eq 0
+        expect(json_body[:team][:gs_scores].count).to eq 0
       end
     end
   end

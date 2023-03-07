@@ -82,12 +82,7 @@ group :development, :test do
   gem 'phashion'
   gem 'pry'
   gem 'pry-byebug'
-  gem 'rails-controller-testing'
-  gem 'rspec-collection_matchers'
-  gem 'rspec-rails'
-  gem 'rspec-retry'
-  gem 'vcr'
-  gem 'webmock'
+  # gem 'rspec-collection_matchers'
 
   # code beautifier
   gem 'rubocop'
@@ -105,6 +100,10 @@ group :development do
 end
 
 group :test do
+  gem 'rspec-rails' # rspec for rails
   gem 'simplecov', require: false # test coverage
   gem 'timecop' # hold specific time
+  gem 'vcr' # record http requests
+  gem 'webmock' # mock http requests
+  gem 'rails-controller-testing' # helper methods for controller testings
 end

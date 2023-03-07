@@ -7,11 +7,11 @@ describe Import::Check do
     it 'validation' do
       import = described_class.new
       expect(import).not_to be_valid
-      expect(import).to have(2).errors_on(:headline_columns)
-      expect(import).to have(2).errors_on(:discipline)
-      expect(import).to have(2).errors_on(:gender)
-      expect(import).to have(1).errors_on(:separator)
-      expect(import).to have(1).errors_on(:lines)
+      expect(import.errors[:headline_columns].count).to eq 2
+      expect(import.errors[:discipline].count).to eq 2
+      expect(import.errors[:gender].count).to eq 2
+      expect(import.errors[:separator].count).to eq 1
+      expect(import.errors[:lines].count).to eq 1
 
       import = described_class.new(
         discipline: 'la',
@@ -19,8 +19,8 @@ describe Import::Check do
         raw_headline_columns: 'team',
       )
       expect(import).not_to be_valid
-      expect(import).to have(2).errors_on(:headline_columns)
-      expect(import).to have(1).errors_on(:lines)
+      expect(import.errors[:headline_columns].count).to eq 2
+      expect(import.errors[:lines].count).to eq 1
 
       import = described_class.new(
         discipline: 'la',
@@ -29,8 +29,8 @@ describe Import::Check do
         separator: '|',
       )
       expect(import).not_to be_valid
-      expect(import).to have(1).errors_on(:headline_columns)
-      expect(import).to have(1).errors_on(:lines)
+      expect(import.errors[:headline_columns].count).to eq 1
+      expect(import.errors[:lines].count).to eq 1
 
       import = described_class.new(
         discipline: 'la',
@@ -42,7 +42,7 @@ describe Import::Check do
       expect(import).to be_valid
       import.separator = "\t"
       expect(import).not_to be_valid
-      expect(import).to have(0).errors_on(:separator)
+      expect(import.errors[:separator].count).to eq 0
 
       import = described_class.new(
         discipline: 'la',
@@ -52,7 +52,7 @@ describe Import::Check do
         raw_lines: 'foo|bar|team|foo',
       )
       expect(import).not_to be_valid
-      expect(import).to have(1).errors_on(:raw_lines)
+      expect(import.errors[:raw_lines].count).to eq 1
     end
   end
 
