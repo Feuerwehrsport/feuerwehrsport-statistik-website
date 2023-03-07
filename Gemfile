@@ -70,11 +70,6 @@ end
 group :development, :test do
   gem 'm3_rspec', path: 'm3_rspec'
 
-  gem 'capybara', '>= 3.34.0'
-  gem 'capybara-email'
-  gem 'database_cleaner-active_record'
-  gem 'factory_bot_rails'
-
   gem 'pry' # debugger
   gem 'pry-byebug' # debugger
 
@@ -105,4 +100,7 @@ group :test do
   gem 'cuprite' # headless chrome driver for capybara
   gem 'guard', require: false # on demand tests
   gem 'guard-rspec', require: false # on demand tests
+  gem 'factory_bot_rails' # factories for models
+  gem 'database_cleaner-active_record' # cleaning strategies for specs
+  gem 'capybara'
 end

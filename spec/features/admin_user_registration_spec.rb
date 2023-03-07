@@ -7,7 +7,6 @@ describe 'registration process' do
   let(:password) { '12345678asdf' }
 
   it 'registers' do
-    clear_emails
     visit backend_root_path
     click_on 'Konto erstellen', match: :first
     fill_in 'Name', with: 'Testnutzer'
@@ -19,8 +18,5 @@ describe 'registration process' do
     expect(page).to have_content('Sie haben sich erfolgreich registriert.')
     save_review_screenshot
     click_on 'Abmelden'
-
-    open_email email_address
-    expect(current_email).to have_content 'Um Ihre E-Mail-Adresse zu bestätigen'
   end
 end

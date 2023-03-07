@@ -34,5 +34,3 @@ module M3Rspec
 end
 
 M3Rspec.configure
-
-require 'm3_rspec/seed'
