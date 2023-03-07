@@ -80,9 +80,6 @@ group :development, :test do
   gem 'guard-rubocop'
   gem 'launchy'
   gem 'phashion'
-  gem 'pry'
-  gem 'pry-byebug'
-  # gem 'rspec-collection_matchers'
 
   # code beautifier
   gem 'rubocop'
@@ -106,4 +103,6 @@ group :test do
   gem 'vcr' # record http requests
   gem 'webmock' # mock http requests
   gem 'rails-controller-testing' # helper methods for controller testings
+  gem 'pry' # debugger
+  gem 'pry-byebug' # debugger
 end
