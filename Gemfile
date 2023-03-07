@@ -2,8 +2,10 @@
 
 source 'https://rubygems.org'
 
-gem 'pg' # postgres adapter
 gem 'rails', '~> 5.2.0'
+gem 'pg' # postgres adapter
+gem 'bcrypt' # password hashs
+gem 'cancancan' # abilities
 
 gem 'm3', path: 'm3'
 gem 'responders'
@@ -36,10 +38,8 @@ gem 'schema_validations'
 gem 'activerecord_views'
 
 gem 'acts_as_list'
-gem 'bcrypt'
 gem 'bootsnap'
 gem 'bootstrap-sass', '~> 3.0'
-gem 'cancancan'
 gem 'carrierwave'
 gem 'draper', '~> 3.0'
 gem 'haml-rails', '~> 1.0'
@@ -86,14 +86,15 @@ group :development, :test do
   gem 'rspec-collection_matchers'
   gem 'rspec-rails'
   gem 'rspec-retry'
+  gem 'vcr'
+  gem 'webmock'
+
+  # code beautifier
   gem 'rubocop'
   gem 'rubocop-daemon'
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
-  gem 'timecop'
-  gem 'vcr'
-  gem 'webmock'
 end
 
 group :development do
@@ -104,5 +105,6 @@ group :development do
 end
 
 group :test do
-  gem 'simplecov', require: false
+  gem 'simplecov', require: false # test coverage
+  gem 'timecop' # hold specific time
 end
