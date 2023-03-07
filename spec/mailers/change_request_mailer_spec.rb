@@ -15,7 +15,7 @@ describe ChangeRequestMailer do
       expect(mail.header[:cc].to_s).to eq ''
       expect(mail.header[:reply_to].to_s).to eq ''
 
-      expect(mail.attachments).to have(0).attachments
+      expect(mail.attachments.count).to eq 0
 
       expect_with_mailer_signature(
         "Es wurde ein neuer Hinweis gemeldet:\n" \
