@@ -68,8 +68,6 @@ group :production do
 end
 
 group :development, :test do
-  gem 'm3_rspec', path: 'm3_rspec'
-
   gem 'pry' # debugger
   gem 'pry-byebug' # debugger
 
@@ -102,5 +100,5 @@ group :test do
   gem 'guard-rspec', require: false # on demand tests
   gem 'factory_bot_rails' # factories for models
   gem 'database_cleaner-active_record' # cleaning strategies for specs
-  gem 'capybara'
+  gem 'capybara' # feature test helper
 end
