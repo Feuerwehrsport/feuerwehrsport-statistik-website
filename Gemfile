@@ -13,15 +13,13 @@ gem 'responders'
 gem 'firesport', path: 'firesport'
 gem 'firesport-series', path: 'firesport-series'
 
-gem 'jquery-rails'
-gem 'uglifier'
-gem 'coffee-rails'
+gem 'jquery-rails' # jquery js
+gem 'uglifier' # asset compressor
+gem 'coffee-rails' # coffee script
 gem 'cocoon' # nested_form helper
 
-gem 'active_model_serializers'
-
-# charts
-gem 'lazy_high_charts'
+gem 'active_model_serializers' # model serializer
+gem 'lazy_high_charts' # charts
 
 # ics export
 gem 'icalendar'
@@ -44,21 +42,20 @@ gem 'carrierwave'
 gem 'draper', '~> 3.0'
 gem 'haml-rails', '~> 1.0'
 gem 'mini_magick', '~> 4.0'
-gem 'puma'
 gem 'remotipart', '~> 1.0'
 gem 'sassc-rails'
 gem 'simple_form', '~> 4.0'
 gem 'turbolinks', '~> 5.0'
 gem 'will_paginate-bootstrap', '~> 1.0'
 
-# image optimazing
-gem 'image_optim', '>= 0.28.0'
-gem 'image_optim_pack'
+gem 'image_optim' # image optimazing
+gem 'image_optim_pack' # image optimazing binaries
 
 gem 'caxlsx_rails' # xlsx exports
 gem 'daemons' # background jobs
 gem 'delayed_job_active_record' # background jobs
 gem 'whenever' # cronjobs
+gem 'puma' # dev web server
 
 gem 'valid_email2' # validate emails
 
