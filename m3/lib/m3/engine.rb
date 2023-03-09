@@ -12,7 +12,6 @@ require 'valid_email2'
 require 'delayed_job_active_record'
 require 'will_paginate'
 require 'will_paginate-bootstrap'
-require 'turbolinks'
 require 'sassc/rails'
 
 # exports

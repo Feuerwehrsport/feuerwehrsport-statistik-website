@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '~> 6.1.0'
+gem 'rails', '~> 7.0.0'
 
 # background stuff
 gem 'pg' # postgres adapter
@@ -18,6 +18,7 @@ gem 'mini_magick' # image processing
 gem 'responders' # set of responders
 gem 'simple_form' # more form support
 gem 'm3', path: 'm3' # old lichtbit stuff
+gem 'sprockets-rails' # sprockets for rails
 
 # templating
 gem 'haml-rails' # haml templating
@@ -36,7 +37,7 @@ gem 'image_optim' # image optimazing
 gem 'image_optim_pack' # image optimazing binaries
 gem 'bootstrap-sass' # bootstrap with sass support
 gem 'sassc-rails' # sass for rails
-gem 'turbolinks' # direct js links
+gem 'turbo-rails' # hot wire links
 gem 'will_paginate-bootstrap' # pagination with bootstrap layout
 
 # exports

@@ -87,12 +87,5 @@ class ApplicationDecorator < Draper::Decorator
 
   delegate_all
   localizes :created_at, :updated_at
-
-  def t(*args)
-    h.t(*args)
-  end
-
-  def l(*args)
-    h.l(*args)
-  end
+  delegate :t, :l, to: :h
 end

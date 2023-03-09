@@ -3,14 +3,14 @@
   %meta{:content => "text/html;charset=utf-8", "http-equiv" => "content-type"}/
   = favicon_link_tag
   - if backend?
-    = javascript_include_tag 'backend', 'data-turbolinks-track' => true
-    = stylesheet_link_tag 'backend', 'data-turbolinks-track' => true
+    = javascript_include_tag 'backend'
+    = stylesheet_link_tag 'backend'
   - elsif registrations?
-    = javascript_include_tag 'registrations', 'data-turbolinks-track' => true
-    = stylesheet_link_tag 'registrations', 'data-turbolinks-track' => true
+    = javascript_include_tag 'registrations'
+    = stylesheet_link_tag 'registrations'
   - else
-    = javascript_include_tag 'frontend', 'data-turbolinks-track' => true
-    = stylesheet_link_tag    'frontend', 'data-turbolinks-track' => true
+    = javascript_include_tag 'frontend'
+    = stylesheet_link_tag    'frontend'
   - if map_support?
     = javascript_include_tag '/leaflet/leaflet', skip_pipeline: true
     = stylesheet_link_tag    '/leaflet/leaflet', skip_pipeline: true

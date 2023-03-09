@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 require_dependency 'simple_form/inputs/base'
+require_dependency 'simple_form/tags'
 
-class SimpleForm::FormBuilder < ActionView::Helpers::FormBuilder
-  map_type :check_boxes_inline, to: CollectionCheckBoxesInlineInput
-  map_type :radio_buttons_button_group, to: CollectionRadioButtonsButtonGroupInput
-  map_type :radio_buttons_inline, to: CollectionRadioButtonsInlineInput
-end
+# class SimpleForm::FormBuilder < ActionView::Helpers::FormBuilder
+#   map_type :check_boxes_inline, to: CollectionCheckBoxesInlineInput
+#   map_type :radio_buttons_button_group, to: CollectionRadioButtonsButtonGroupInput
+#   map_type :radio_buttons_inline, to: CollectionRadioButtonsInlineInput
+# end
 
 class SimpleForm::Inputs::Base
   # Lookup translations for the given namespace using I18n, based on controller

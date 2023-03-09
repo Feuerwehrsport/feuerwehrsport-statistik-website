@@ -27,19 +27,19 @@ class M3::Form::Structure
   end
 
   def sanitize(params, options = {})
-    each { |child| child.sanitize(params, options) }
+    each { |child| child.sanitize(params, **options) }
   end
 
-  def inputs(*args, &block)
-    node(Inputs, args, &block)
+  def inputs(*args, &)
+    node(Inputs, args, &)
   end
 
-  def render(*args, &block)
-    node(Render, args, &block)
+  def render(*args, &)
+    node(Render, args, &)
   end
 
-  def fields_for(*args, &block)
-    node(FieldsFor, args, &block)
+  def fields_for(*args, &)
+    node(FieldsFor, args, &)
   end
 
   def input(*args)
@@ -113,7 +113,7 @@ class M3::Form::Structure
     end
 
     def sanitize(params, options = {})
-      each { |child| child.sanitize(params, options) }
+      each { |child| child.sanitize(params, **options) }
     end
   end
 
@@ -126,7 +126,7 @@ class M3::Form::Structure
     end
 
     def sanitize(params, options = {})
-      each { |child| child.sanitize(params, options) }
+      each { |child| child.sanitize(params, **options) }
     end
   end
 
@@ -206,7 +206,7 @@ class M3::Form::Structure
         return
       end
 
-      params[name].gsub!(I18n.t('number.format.separator'), '.')
+      params[name].tr!(',', '.')
     end
 
     def number_input?

@@ -9,9 +9,4 @@ Rails-Projekt der Webseite feuerwehrsport-statistik.de
 * API für [Wettkampf-Manager](https://github.com/Feuerwehrsport/wettkampf-manager)
 * [Facebook](https://www.facebook.com/FeuerwehrsportStatistik/)
 
-Weitere geplante Funktionen:
-* Neue Wettkämpfe vom [Wettkampf-Manager](https://github.com/Feuerwehrsport/wettkampf-manager) importieren
-
-Dieses Projekt ersetzt das vorherige [PHP-Projekt](https://github.com/georf/feuerwehrsport-statistik) zu der Webseite.
-
 Unterstützt von [Lichtbit](https://lichtbit.com)

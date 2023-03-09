@@ -13,6 +13,5 @@ window.onload = function() {
 
   if (typeof $ == 'function') {
     $.fx.off = true;
-    $('html').removeClass('turbolinks-progress-bar');
   }
 };

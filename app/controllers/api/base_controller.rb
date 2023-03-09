@@ -19,7 +19,7 @@ class Api::BaseController < ApplicationController
     default_form         = options.delete(:default_form)
 
     options[:for_class] = for_class
-    default_actions(*action_names, options)
+    default_actions(*action_names, **options)
     include Api::Actions::Index            if action_names.include?(:index)
     include Api::Actions::Create           if action_names.include?(:create)
     include Api::Actions::Show             if action_names.include?(:show)

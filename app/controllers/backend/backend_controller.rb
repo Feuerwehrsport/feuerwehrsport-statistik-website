@@ -10,7 +10,7 @@ class Backend::BackendController < ApplicationController
     disable_logging = options.delete(:disable_logging)
     options[:for_class] = for_class
     define_method(:show_associations?) { false } if options.delete(:disable_show_associations)
-    default_actions(*action_names, options)
+    default_actions(*action_names, **options)
     include SerializerSupport
     include ChangeLogSupport unless for_class < M3::FormObject || disable_logging
     include CleanCacheSupport unless clean_cache_disabled
@@ -19,9 +19,9 @@ class Backend::BackendController < ApplicationController
     member_actions :live_resource, :show, :edit, :destroy, check_existence: true
   end
 
-  def self.default_show(&block)
+  def self.default_show(&)
     define_method(:m3_show_structure) do
-      @m3_show_structure ||= M3::Index::Structure.build(self, &block).decorate
+      @m3_show_structure ||= M3::Index::Structure.build(self, &).decorate
     end
   end
 
@@ -54,7 +54,7 @@ class Backend::BackendController < ApplicationController
             { "#{resource_name}_scope": resource.id }
           end
       url = (begin
-        url_for(controller: "backend/#{association.name}", action: :index, q: q)
+        url_for(controller: "backend/#{association.name}", action: :index, q:)
       rescue StandardError
         nil
       end)

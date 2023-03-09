@@ -3,8 +3,8 @@
   %meta{ content: 'width=device-width, initial-scale=1, user-scalable=no', name: 'viewport' }
   %title= head_title
   = favicon_link_tag if asset_exist?('favicon.ico')
-  = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => 'reload'
-  = javascript_include_tag 'application', 'data-turbolinks-track' => 'reload'
-  = javascript_include_tag "m3/i18n_#{I18n.locale}", 'data-turbolinks-track' => 'reload'
+  = stylesheet_link_tag 'application', media: 'all'
+  = javascript_include_tag 'application'
+  = javascript_include_tag "m3/i18n_#{I18n.locale}"
   = csrf_meta_tags
   = tracking_code
