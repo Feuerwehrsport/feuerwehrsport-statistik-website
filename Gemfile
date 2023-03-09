@@ -13,6 +13,7 @@ gem 'delayed_job_active_record' # background jobs
 gem 'whenever' # cronjobs
 gem 'puma' # dev web server
 gem 'cancancan' # abilities
+gem 'carrierwave' # uploads
 
 gem 'm3', path: 'm3'
 gem 'responders'
@@ -28,6 +29,7 @@ gem 'cocoon' # nested_form helper
 gem 'lazy_high_charts' # charts
 gem 'image_optim' # image optimazing
 gem 'image_optim_pack' # image optimazing binaries
+gem 'bootstrap-sass' # bootstrap with sass support
 
 # exports
 gem 'icalendar' # ics export
@@ -43,9 +45,7 @@ gem 'schema_validations' # validations from database
 gem 'activerecord_views' # save db views in code
 gem 'valid_email2' # validate emails
 
-gem 'bootstrap-sass', '~> 3.0'
-gem 'carrierwave'
-gem 'haml-rails', '~> 1.0'
+gem 'haml-rails'
 gem 'mini_magick', '~> 4.0'
 gem 'remotipart', '~> 1.0'
 gem 'sassc-rails'

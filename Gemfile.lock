@@ -99,7 +99,7 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     arel (9.0.0)
     ast (2.4.2)
-    autoprefixer-rails (10.3.3.0)
+    autoprefixer-rails (10.4.13.0)
       execjs (~> 2)
     bcrypt (3.1.18)
     bootsnap (1.16.0)
@@ -189,7 +189,6 @@ GEM
       request_store (>= 1.0)
       ruby2_keywords
     erubi (1.12.0)
-    erubis (2.7.0)
     execjs (2.8.1)
     exifr (1.3.10)
     factory_bot (6.2.1)
@@ -221,22 +220,17 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
-    haml (5.2.2)
-      temple (>= 0.8.0)
+    haml (6.1.1)
+      temple (>= 0.8.2)
+      thor
       tilt
-    haml-rails (1.0.0)
-      actionpack (>= 4.0.1)
-      activesupport (>= 4.0.1)
-      haml (>= 4.0.6, < 6.0)
-      html2haml (>= 1.0.1)
-      railties (>= 4.0.1)
+    haml-rails (2.1.0)
+      actionpack (>= 5.1)
+      activesupport (>= 5.1)
+      haml (>= 4.0.6)
+      railties (>= 5.1)
     hash-deep-merge (0.1.1)
     hashdiff (1.0.1)
-    html2haml (2.2.0)
-      erubis (~> 2.7.0)
-      haml (>= 4.0, < 6)
-      nokogiri (>= 1.6.0)
-      ruby_parser (~> 3.5)
     htmlentities (4.3.4)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
@@ -436,8 +430,6 @@ GEM
     ruby-vips (2.1.4)
       ffi (~> 1.12)
     ruby2_keywords (0.0.5)
-    ruby_parser (3.17.0)
-      sexp_processor (~> 4.15, >= 4.15.1)
     rubyzip (2.3.2)
     sassc (2.4.0)
       ffi (~> 1.9)
@@ -464,7 +456,6 @@ GEM
       activerecord (>= 5.2, < 7.1)
       schema_plus_columns (~> 1.0.1)
       valuable
-    sexp_processor (4.15.3)
     shellany (0.0.1)
     simple_form (4.1.0)
       actionpack (>= 5.0)
@@ -485,10 +476,10 @@ GEM
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     ssrf_filter (1.1.1)
-    temple (0.8.2)
+    temple (0.10.0)
     thor (1.2.1)
     thread_safe (0.3.6)
-    tilt (2.0.10)
+    tilt (2.1.0)
     timecop (0.9.6)
     timeout (0.3.2)
     ttfunk (1.7.0)
@@ -532,7 +523,7 @@ DEPENDENCIES
   activerecord_views
   bcrypt
   bootsnap
-  bootstrap-sass (~> 3.0)
+  bootstrap-sass
   cancancan
   capistrano-rsync-plugin!
   capybara
@@ -550,7 +541,7 @@ DEPENDENCIES
   firesport-series!
   guard
   guard-rspec
-  haml-rails (~> 1.0)
+  haml-rails
   icalendar
   image_optim
   image_optim_pack
