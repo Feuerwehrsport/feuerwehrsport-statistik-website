@@ -125,7 +125,7 @@ describe 'competitions features', js: true do
       find_by_id('add-file').click
 
       expect(page).to have_content('Es dürfen nur PDFs hochgeladen werden.')
-      attach_file('competition_file[0][file]', Rails.root.join('spec/fixtures/testfile.pdf'))
+      attach_file('competition_file[0][file]', file_fixture('testfile.pdf'))
       check('competition_file[0][fs_female]')
       click_on('Hochladen')
       expect(page).to have_content('testfile.pdf')

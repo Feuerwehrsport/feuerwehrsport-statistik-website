@@ -12,6 +12,6 @@ FactoryBot.define do
   end
 
   factory :import_request_file do
-    file { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/testfile.pdf'), 'application/pdf') }
+    file { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/testfile.pdf'), 'application/pdf') }
   end
 end
