@@ -1,7 +1,7 @@
 <% id ||= nil %>
 var body = $('body');
 var existingModals = body.children('.modal-remote');
-var fragment = $("<%= j render(layout: 'modal', locals: { id: id }, formats: ['html']) { render(template: template, formats: ['html']) } %>");
+var fragment = $("<%= j render(layout: 'modal', locals: { id: id }, formats: [:html]) { render(template: template, formats: [:html]) } %>");
 var modalOptions = {};
 
 existingModals.modal('hide');

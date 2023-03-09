@@ -2,7 +2,7 @@
 
 class ApplicationController < M3::ApplicationController
   include Caching::CacheSupport
-  include PDFSupport
+  include PdfSupport
   include PageTitleHelper
   include MapSupport
   helper_method :current_admin_user, :current_user

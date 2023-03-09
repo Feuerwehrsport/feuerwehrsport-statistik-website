@@ -19,9 +19,9 @@ class Registrations::Team < ApplicationRecord
 
   default_scope -> { order(:name, :team_number) }
   scope :manageable_by, ->(user) do
-    team_sql = Registrations::Team.joins(:competition).merge(Registrations::Competition.open)
+    team_sql = Registrations::Team.unscoped.joins(:competition).merge(Registrations::Competition.open)
                                   .where(admin_user_id: user.id).select(:id).to_sql
-    competition_sql = Registrations::Team.joins(:competition)
+    competition_sql = Registrations::Team.unscoped.joins(:competition)
                                          .where(registrations_competitions: { admin_user_id: user.id }).select(:id)
                                          .to_sql
     where("id IN ((#{team_sql}) UNION (#{competition_sql}))")

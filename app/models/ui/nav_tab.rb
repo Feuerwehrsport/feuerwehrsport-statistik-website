@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-class UI::NavTab
-  include UI::UniqIDFinder
+class Ui::NavTab
+  include Ui::UniqIdFinder
   attr_reader :tabs
   alias elements tabs
 
@@ -13,8 +13,8 @@ class UI::NavTab
   def tab(name, &block)
     id = available_id(name)
     global_id = "tav-tab-#{id}"
-    @tabs.push UI::Tab.new(name, id, global_id, block)
+    @tabs.push Ui::Tab.new(name, id, global_id, block)
   end
 
-  UI::Tab = Struct.new(:name, :id, :global_id, :block)
+  Ui::Tab = Struct.new(:name, :id, :global_id, :block)
 end

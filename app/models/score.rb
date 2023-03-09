@@ -41,13 +41,14 @@ class Score < ApplicationRecord
   scope :german, -> { joins(:person).merge(Person.german) }
   scope :year, ->(year) { joins(:competition).merge(Competition.year(year)) }
   scope :best_of_year, ->(year, discipline, gender) do
-    sql = Score.joins(:person).merge(Person.german).year(year).discipline(discipline).gender(gender)
+    sql = Score.unscoped.joins(:person).merge(Person.german).year(year).discipline(discipline).gender(gender)
                .select("#{table_name}.*, ROW_NUMBER() OVER (PARTITION BY person_id ORDER BY time ) AS r")
                .to_sql
     from("(#{sql}) AS #{table_name}").where('r=1')
   end
   scope :best_of, ->(discipline, gender) do
-    sql = Score.joins(:person).merge(Person.german).discipline(discipline).gender(gender)
+    sql = Score.unscoped
+               .joins(:person).merge(Person.german).discipline(discipline).gender(gender)
                .select("#{table_name}.*, ROW_NUMBER() OVER (PARTITION BY person_id ORDER BY time ) AS r")
                .to_sql
     from("(#{sql}) AS #{table_name}").where('r=1')

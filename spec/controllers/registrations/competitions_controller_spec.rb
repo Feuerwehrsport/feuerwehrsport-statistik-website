@@ -55,7 +55,7 @@ RSpec.describe Registrations::CompetitionsController, login: :user do
       get :show, params: { id: competition.id }
       expect(controller.send(:resource)).to be_a Registrations::Competition
       expect(response).to be_successful
-      expect(response.content_type).to eq 'text/html'
+      expect(response.content_type).to eq 'text/html; charset=utf-8'
     end
 
     context 'when pdf requested' do
@@ -64,7 +64,9 @@ RSpec.describe Registrations::CompetitionsController, login: :user do
         expect(controller.send(:resource)).to be_a Registrations::Competition
         expect(response).to be_successful
         expect(response.content_type).to eq 'application/pdf'
-        expect(response.headers['Content-Disposition']).to eq('inline; filename="d-cup-21-03-2018.pdf"')
+        expect(response.headers['Content-Disposition']).to eq(
+          "inline; filename=\"d-cup-21-03-2018.pdf\"; filename*=UTF-8''d-cup-21-03-2018.pdf",
+        )
       end
     end
 
@@ -73,7 +75,7 @@ RSpec.describe Registrations::CompetitionsController, login: :user do
         get :show, params: { id: competition.id, format: :wettkampf_manager_import }
         expect(controller.send(:resource)).to be_a Registrations::Competition
         expect(response).to be_successful
-        expect(response.content_type).to eq 'text/wettkampf_manager_format'
+        expect(response.content_type).to eq 'text/wettkampf_manager_format; charset=utf-8'
         expect(response.headers['Content-Disposition']).to eq 'attachment; ' \
                                                               'filename="d-cup-21-03-2018.wettkampf_manager_import"'
         expect(response.body).to eq '{"name":"D-Cup","place":"Ort","date":"2018-03-21","description":"","teams":[],' \
@@ -87,7 +89,9 @@ RSpec.describe Registrations::CompetitionsController, login: :user do
         get :show, params: { id: competition.id, format: :xlsx }
         expect(controller.send(:resource)).to be_a Registrations::Competition
         expect(response).to be_successful
-        expect(response.content_type).to eq 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        expect(response.content_type).to eq(
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8',
+        )
         expect(response.headers['Content-Disposition']).to eq('attachment; filename="d-cup-21-03-2018.xlsx"')
         expect(response.body.length).to be > 4000
       end

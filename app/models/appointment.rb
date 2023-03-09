@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Appointment < ApplicationRecord
-  include URLSupport
+  include UrlSupport
 
   belongs_to :event
   belongs_to :creator, polymorphic: true

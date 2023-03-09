@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ChangeLogDecorator < AppDecorator
-  include URLSupport
+  include UrlSupport
 
   LINKABLE_CLASSES = [
     'AdminUser',

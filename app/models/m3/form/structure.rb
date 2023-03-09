@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_dependency 'm3/form'
-
 class M3::Form::Structure
   include Enumerable
   attr_reader :children

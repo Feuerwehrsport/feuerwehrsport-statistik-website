@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_dependency 'm3/form'
-
 class M3::Filter::Structure
   include Enumerable
   include Draper::Decoratable

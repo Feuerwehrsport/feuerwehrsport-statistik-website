@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_dependency 'm3/form'
-
 class M3::Form::FormBuilder < SimpleForm::FormBuilder
   def inputs(legend = nil, options = {}, &block)
     if legend.is_a?(Symbol)

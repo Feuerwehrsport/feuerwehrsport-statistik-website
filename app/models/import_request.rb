@@ -58,7 +58,7 @@ class ImportRequest < ApplicationRecord
         import_data[:results].push(JSON.parse(data, symbolize_names: true))
       else
         import_request_files.new(
-          file: CarrierStringIO.new(data, file[:name], file[:mimetype]),
+          file: CarrierStringIo.new(data, file[:name], file[:mimetype]),
         )
       end
     end

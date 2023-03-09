@@ -10,7 +10,7 @@ RSpec.describe Series::AssessmentsController do
       get :show, params: { id: assessment.id }
       expect(controller.send(:resource)).to be_a Series::Assessment
       expect(response).to be_successful
-      expect(response.content_type).to eq 'text/html'
+      expect(response.content_type).to eq 'text/html; charset=utf-8'
     end
 
     context 'when pdf requested' do
@@ -19,7 +19,9 @@ RSpec.describe Series::AssessmentsController do
         expect(controller.send(:resource)).to be_a Series::Assessment
         expect(response).to be_successful
         expect(response.content_type).to eq 'application/pdf'
-        expect(response.headers['Content-Disposition']).to eq('inline; filename="hakenleitersteigen-mannlich.pdf"')
+        expect(response.headers['Content-Disposition']).to eq(
+          "inline; filename=\"hakenleitersteigen-mannlich.pdf\"; filename*=UTF-8''hakenleitersteigen-mannlich.pdf",
+        )
       end
     end
   end

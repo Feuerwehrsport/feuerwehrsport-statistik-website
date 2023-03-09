@@ -15,7 +15,7 @@ RSpec.describe Registrations::TeamsController, login: :user do
       get :show, params: { id: team.id, competition_id: competition.id }
       expect(controller.send(:resource)).to be_a Registrations::Team
       expect(response).to be_successful
-      expect(response.content_type).to eq 'text/html'
+      expect(response.content_type).to eq 'text/html; charset=utf-8'
     end
 
     context 'when pdf requested' do
@@ -24,7 +24,9 @@ RSpec.describe Registrations::TeamsController, login: :user do
         expect(controller.send(:resource)).to be_a Registrations::Team
         expect(response).to be_successful
         expect(response.content_type).to eq 'application/pdf'
-        expect(response.headers['Content-Disposition']).to eq('inline; filename="ff-mannschaft.pdf"')
+        expect(response.headers['Content-Disposition']).to eq(
+          "inline; filename=\"ff-mannschaft.pdf\"; filename*=UTF-8''ff-mannschaft.pdf",
+        )
       end
     end
 
@@ -34,7 +36,9 @@ RSpec.describe Registrations::TeamsController, login: :user do
         get :show, params: { id: team.id, competition_id: competition.id, format: :xlsx }
         expect(controller.send(:resource)).to be_a Registrations::Team
         expect(response).to be_successful
-        expect(response.content_type).to eq 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        expect(response.content_type).to eq(
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8',
+        )
         expect(response.headers['Content-Disposition']).to eq('attachment; filename="ff-mannschaft.xlsx"')
         expect(response.body.length).to be > 4000
       end

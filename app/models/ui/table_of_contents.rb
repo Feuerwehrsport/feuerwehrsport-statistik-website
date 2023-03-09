@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class UI::TableOfContents
+class Ui::TableOfContents
   include ActionView::Helpers::TagHelper
-  include UI::UniqIDFinder
+  include Ui::UniqIdFinder
   attr_reader :ankers
   alias elements ankers
 

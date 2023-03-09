@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module URLSupport
+module UrlSupport
   extend ActiveSupport::Concern
   included { include Rails.application.routes.url_helpers }
 

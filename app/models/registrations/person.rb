@@ -17,11 +17,11 @@ class Registrations::Person < ApplicationRecord
       .where(registrations_assessments: { id: assessment })
   end
   scope :manageable_by, ->(user) do
-    person_sql = Registrations::Person.joins(:competition)
+    person_sql = Registrations::Person.unscoped.joins(:competition)
                                       .merge(Registrations::Competition.open)
                                       .where(admin_user_id: user.id)
                                       .select(:id).to_sql
-    competition_sql = Registrations::Person.joins(:competition)
+    competition_sql = Registrations::Person.unscoped.joins(:competition)
                                            .where(registrations_competitions: { admin_user_id: user.id })
                                            .select(:id).to_sql
     where("id IN ((#{person_sql}) UNION (#{competition_sql}))")

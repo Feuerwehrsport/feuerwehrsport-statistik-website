@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module PDFSupport
+module PdfSupport
   def configure_prawn(options = {})
     title = options.delete(:title) || page_title
     filename = options.delete(:filename) || "#{title.parameterize}.pdf"

@@ -18,7 +18,7 @@ RSpec.describe Series::RoundsController do
       get :show, params: { id: round.id }
       expect(controller.send(:resource)).to be_a Series::Round
       expect(response).to be_successful
-      expect(response.content_type).to eq 'text/html'
+      expect(response.content_type).to eq 'text/html; charset=utf-8'
     end
 
     context 'when pdf requested' do
@@ -27,7 +27,9 @@ RSpec.describe Series::RoundsController do
         expect(controller.send(:resource)).to be_a Series::Round
         expect(response).to be_successful
         expect(response.content_type).to eq 'application/pdf'
-        expect(response.headers['Content-Disposition']).to eq('inline; filename="d-cup-2016.pdf"')
+        expect(response.headers['Content-Disposition']).to eq(
+          "inline; filename=\"d-cup-2016.pdf\"; filename*=UTF-8''d-cup-2016.pdf",
+        )
       end
     end
   end

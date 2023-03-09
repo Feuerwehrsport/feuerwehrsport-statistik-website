@@ -3,7 +3,7 @@
 module ApplicationHelper
   include PageTitleHelper
   include LinksHelper
-  include UIHelper
+  include UiHelper
   include MapHelper
   include Helper::PositionSelectorHelper
   include DisciplineNamesAndImages

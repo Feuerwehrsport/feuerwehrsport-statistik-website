@@ -15,7 +15,7 @@
       = nav_tab do |nv|
         - @discipline_structs.each do |struct|
           - nv.tab(discipline_image_name_short(struct.discipline, struct.gender)) do
-            = count_table(struct.scores, table_class: UI::RankTable, class: 'datatable-best-scores', rank_options: { class: 'col-10' }) do |t|
+            = count_table(struct.scores, table_class: Ui::RankTable, class: 'datatable-best-scores', rank_options: { class: 'col-10' }) do |t|
               - t.col('Name', class: 'col-30') { |row| person_link(row.entity, type: :full_name) }
               - t.col('Zeit', :second_time, class: 'col-10')
               - t.col('Wettkampf', class: 'col-40') { |row| competition_link(row.competition) }

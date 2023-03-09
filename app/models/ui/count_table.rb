@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-UI::CountTable = Struct.new(:view, :rows, :options, :columns, :data_fields, :footer_options, :footer_block) do
+Ui::CountTable = Struct.new(:view, :rows, :options, :columns, :data_fields, :footer_options, :footer_block) do
   def initialize(*args)
     super
     self.options ||= {}
@@ -18,11 +18,11 @@ UI::CountTable = Struct.new(:view, :rows, :options, :columns, :data_fields, :foo
     end
     column_key = [column_key] unless column_key.is_a? Array
     column_key.compact!
-    columns.push UI::Column.new(self, column_head, column_key, options, block)
+    columns.push Ui::Column.new(self, column_head, column_key, options, block)
   end
 
   def data(data_name, &block)
-    data_fields.push(UI::DataField.new(data_name, block))
+    data_fields.push(Ui::DataField.new(data_name, block))
   end
 
   def row_data(row)
@@ -50,9 +50,9 @@ UI::CountTable = Struct.new(:view, :rows, :options, :columns, :data_fields, :foo
     self.footer_block = block
   end
 
-  UI::DataField = Struct.new(:name, :block)
+  Ui::DataField = Struct.new(:name, :block)
 
-  UI::Column = Struct.new(:count_table, :name, :keys, :options, :block) do
+  Ui::Column = Struct.new(:count_table, :name, :keys, :options, :block) do
     def content(row)
       if keys.present?
         value = row

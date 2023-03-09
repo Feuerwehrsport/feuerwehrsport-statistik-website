@@ -26,6 +26,9 @@ if Rails.env.development?
   end
 end
 
+module M3
+end
+
 class M3::Engine < Rails::Engine
   config.m3 = ActiveSupport::OrderedOptions.new
   config.m3.session = ActiveSupport::OrderedOptions.new

@@ -26,6 +26,7 @@ class GroupScore < ApplicationRecord
   scope :regular, -> { joins(group_score_category: :group_score_type).where(group_score_types: { regular: true }) }
   scope :without_members, ->(d) do
     inner_sql = GroupScore
+                .unscoped
                 .select('COUNT(person_participations.id) AS members_count, group_scores.*')
                 .discipline(d)
                 .joins('LEFT JOIN person_participations ON person_participations.group_score_id = group_scores.id')
@@ -37,13 +38,13 @@ class GroupScore < ApplicationRecord
     joins(:group_score_category).where(group_score_categories: { group_score_type_id: group_type.id })
   end
   scope :best_of_year, ->(year, discipline, gender) do
-    sql = GroupScore.year(year).discipline(discipline).gender(gender)
+    sql = GroupScore.unscoped.year(year).discipline(discipline).gender(gender)
                     .select("#{table_name}.*, ROW_NUMBER() OVER (PARTITION BY team_id ORDER BY time ) AS r")
                     .to_sql
     from("(#{sql}) AS #{table_name}").where('r=1')
   end
   scope :best_of, ->(discipline, gender) do
-    sql = GroupScore.discipline(discipline).gender(gender)
+    sql = GroupScore.unscoped.discipline(discipline).gender(gender)
                     .select("#{table_name}.*, ROW_NUMBER() OVER (PARTITION BY team_id ORDER BY time ) AS r")
                     .to_sql
     from("(#{sql}) AS #{table_name}").where('r=1')

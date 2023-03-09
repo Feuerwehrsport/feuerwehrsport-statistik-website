@@ -70,7 +70,7 @@ module M3Rspec::CapybaraHelper
       end
 
       def review_screenshot_directory
-        dir_name = Rails.application.class.parent_name.parameterize
+        dir_name = Rails.application.class.module_parent_name.parameterize
         "/tmp/#{dir_name}"
       end
     end
