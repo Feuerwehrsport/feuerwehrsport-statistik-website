@@ -14,9 +14,14 @@ gem 'whenever' # cronjobs
 gem 'puma' # dev web server
 gem 'cancancan' # abilities
 gem 'carrierwave' # uploads
+gem 'mini_magick' # image processing
+gem 'responders' # set of responders
+gem 'simple_form' # more form support
+gem 'm3', path: 'm3' # old lichtbit stuff
 
-gem 'm3', path: 'm3'
-gem 'responders'
+# templating
+gem 'haml-rails' # haml templating
+gem 'redcarpet' # markdown
 
 gem 'firesport', path: 'firesport'
 gem 'firesport-series', path: 'firesport-series'
@@ -30,6 +35,9 @@ gem 'lazy_high_charts' # charts
 gem 'image_optim' # image optimazing
 gem 'image_optim_pack' # image optimazing binaries
 gem 'bootstrap-sass' # bootstrap with sass support
+gem 'sassc-rails' # sass for rails
+gem 'turbolinks' # direct js links
+gem 'will_paginate-bootstrap' # pagination with bootstrap layout
 
 # exports
 gem 'icalendar' # ics export
@@ -37,20 +45,12 @@ gem 'active_model_serializers' # model serializer
 gem 'prawn-rails' # pdf export
 gem 'rqrcode' # pdf/png qr code
 gem 'caxlsx_rails' # xlsx exports
-gem 'redcarpet' # markdown
 gem 'draper' # model decorators
 
 # validation
 gem 'schema_validations' # validations from database
 gem 'activerecord_views' # save db views in code
 gem 'valid_email2' # validate emails
-
-gem 'haml-rails'
-gem 'mini_magick', '~> 4.0'
-gem 'sassc-rails'
-gem 'simple_form', '~> 4.0'
-gem 'turbolinks', '~> 5.0'
-gem 'will_paginate-bootstrap', '~> 1.0'
 
 group :production do
   gem 'unicorn'
