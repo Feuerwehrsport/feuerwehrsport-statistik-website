@@ -368,7 +368,6 @@ GEM
       ffi (~> 1.0)
     redcarpet (3.6.0)
     regexp_parser (2.7.0)
-    remotipart (1.4.4)
     request_store (1.5.1)
       rack (>= 1.4)
     responders (3.0.0)
@@ -561,7 +560,6 @@ DEPENDENCIES
   rails (~> 5.2.0)
   rails-controller-testing
   redcarpet
-  remotipart (~> 1.0)
   responders
   rqrcode
   rspec-rails

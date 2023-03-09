@@ -47,7 +47,6 @@ gem 'valid_email2' # validate emails
 
 gem 'haml-rails'
 gem 'mini_magick', '~> 4.0'
-gem 'remotipart', '~> 1.0'
 gem 'sassc-rails'
 gem 'simple_form', '~> 4.0'
 gem 'turbolinks', '~> 5.0'

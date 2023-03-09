@@ -1,6 +1,5 @@
 #= require jquery2
 #= require jquery_ujs
-#= require jquery.remotipart
 #= require turbolinks
 #= require bootstrap-sprockets
 #= require m3/initialize
