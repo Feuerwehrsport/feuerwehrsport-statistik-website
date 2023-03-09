@@ -3,8 +3,15 @@
 source 'https://rubygems.org'
 
 gem 'rails', '~> 5.2.0'
+
+# background stuff
 gem 'pg' # postgres adapter
 gem 'bcrypt' # password hashs
+gem 'bootsnap', require: false # boot rails faster
+gem 'daemons' # background jobs
+gem 'delayed_job_active_record' # background jobs
+gem 'whenever' # cronjobs
+gem 'puma' # dev web server
 gem 'cancancan' # abilities
 
 gem 'm3', path: 'm3'
@@ -36,7 +43,6 @@ gem 'schema_validations' # validations from database
 gem 'activerecord_views' # save db views in code
 gem 'valid_email2' # validate emails
 
-gem 'acts_as_list'
 gem 'bootstrap-sass', '~> 3.0'
 gem 'carrierwave'
 gem 'haml-rails', '~> 1.0'
@@ -46,12 +52,6 @@ gem 'sassc-rails'
 gem 'simple_form', '~> 4.0'
 gem 'turbolinks', '~> 5.0'
 gem 'will_paginate-bootstrap', '~> 1.0'
-
-gem 'bootsnap', require: false # boot rails faster
-gem 'daemons' # background jobs
-gem 'delayed_job_active_record' # background jobs
-gem 'whenever' # cronjobs
-gem 'puma' # dev web server
 
 group :production do
   gem 'unicorn'
