@@ -6,7 +6,7 @@ describe ChangeRequestMailer do
   describe '#new_notification' do
     let!(:admin_user) { create(:admin_user, :sub_admin) }
     let(:change_request) { ChangeRequest.new }
-    let(:mail) { described_class.with(change_request: change_request).new_notification }
+    let(:mail) { described_class.with(change_request:).new_notification }
 
     it 'renders the header information and render body' do
       expect(mail.subject).to eq 'Fehler bei Feuerwehrsport-Statistik'

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class BLA::BadgeGenerator
+class Bla::BadgeGenerator
   include M3::FormObject
 
   def people_with_badges
@@ -23,8 +23,8 @@ class BLA::BadgeGenerator
   end
 
   def badge_for(person, status, hl_max_time, hb_max_time)
-    badge = BLA::Badge.find_or_initialize_by(person: person)
-    badge.assign_attributes(status: status, hb_score: nil, hl_score: nil, hb_time: nil, hl_time: nil)
+    badge = Bla::Badge.find_or_initialize_by(person:)
+    badge.assign_attributes(status:, hb_score: nil, hl_score: nil, hb_time: nil, hl_time: nil)
     badge.year = Date.current.year
     return if person.bla_badge && (person.bla_badge <=> badge) >= 0
 

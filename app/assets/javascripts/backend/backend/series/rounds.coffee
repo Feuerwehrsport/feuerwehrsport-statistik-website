@@ -108,24 +108,6 @@ Fss.ready 'backend/series/round', ->
 
   new SortTable({ selector: '.datatable-scores', direction: 'asc' })
 
-  classNameOptions = ->
-    teamClassNames = $('#create-round').data('class-names')
-    options = []
-    for teamClassName in teamClassNames
-      options.push({ value: teamClassName, display: teamClassName })
-    options
-
-  $('#create-round').click ->
-    FssWindow.build('Wettkampfserie hinzufügen')
-    .add(new FssFormRowText('name', 'Name'))
-    .add(new FssFormRowText('year', 'Jahr'))
-    .add(new FssFormRowSelect('aggregate_type', 'Klasse', null, classNameOptions()))
-    .add(new FssFormRowCheckbox('official', 'Offiziell'))
-    .add(new FssFormRowText('full_cup_count', 'Komplett', round.full_cup_count))
-    .on('submit', (data) ->
-      Fss.ajaxReload('POST', 'series/rounds', { series_round: data }))
-    .open()
-
   $('a[data-round-id]').each ->
     id = $(this).data('round-id')
     $('<button>').insertAfter($(this)).addClass('btn btn-default btn-xs').text('Edit').click ->

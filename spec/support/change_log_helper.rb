@@ -9,7 +9,8 @@ def expect_change_log(before: nil, after: nil, klass: nil, log: nil)
     expect(change_log.admin_user).to eq login_user
   end
 
-  klass ||= controller.resource_class
+  klass ||= controller.resource_class if respond_to?(:controller)
+  klass ||= controller_class.resource_class if respond_to?(:controller_class)
   expect(change_log.model_class).to eq klass.name
 
   if before

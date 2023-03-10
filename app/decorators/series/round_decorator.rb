@@ -2,10 +2,11 @@
 
 class Series::RoundDecorator < AppDecorator
   decorates_association :cups
+  decorates_association :kind
   localizes_boolean :official
 
   def to_s
-    "#{name} #{year}"
+    "#{kind} #{year}"
   end
 
   def page_title

@@ -34,6 +34,7 @@
         - if can?(:create, Series::Round)
           %li= link_to 'Serienwettkampf hinzufügen', new_backend_series_round_path
           %li= link_to 'Serienübersicht', backend_series_rounds_path
+          %li= link_to 'Serienartenübersicht', backend_series_kinds_path
         %li= link_to 'Cache löschen', new_backend_caching_cleaner_path
         %li= link_to 'Ungenutzte Wettkämpfer löschen', backend_people_cleaner_path
         %li

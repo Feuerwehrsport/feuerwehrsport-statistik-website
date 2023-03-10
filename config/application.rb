@@ -47,5 +47,13 @@ module FeuerwehrsportStatistik
 
     config.action_mailer.default_options = { from: 'Feuerwehrsport-Statistik <automailer@feuerwehrsport-statistik.de>' }
     config.action_mailer.delivery_method = :file
+
+    config.generators do |g|
+      g.orm             :active_record
+      g.template_engine :haml
+      g.test_framework  :rspec, fixture: false
+      g.view_specs      false
+      g.helper_specs    false
+    end
   end
 end

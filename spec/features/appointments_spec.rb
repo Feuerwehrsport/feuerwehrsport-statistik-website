@@ -19,7 +19,6 @@ describe 'appointments', js: true do
       fill_in 'Ort', with: 'Charlottenthal'
       select('D-Cup', from: 'Typ')
       check('Feuerwehrstafette')
-      save_review_screenshot
       click_on('OK')
     end
     expect(page).not_to have_content('Bitte warten')

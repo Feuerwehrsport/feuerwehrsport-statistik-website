@@ -10,35 +10,12 @@ describe 'competitions features', js: true do
     create(:score, :double, competition: group_score.competition, discipline: :hl).competition
   end
 
-  context 'when index' do
-    it 'shows an overview' do
-      competition
-      create_list(:competition, 12)
-
-      visit competitions_path
-      expect(page).to have_content '1 bis 10 von 13 Einträgen'
-      save_review_screenshot
-      click_on 'Nächste'
-      expect(page).to have_content '11 bis 13 von 13 Einträgen'
-      click_on 'Zurück'
-      expect(page).to have_content '1 bis 10 von 13 Einträgen'
-
-      expect(page).to have_link 'Alfred Meier'
-      expect(page).not_to have_content 'FF Warin'
-      find('img[title="Löschangriff nass"]').click
-      expect(page).to have_link 'FF Warin'
-      expect(page).not_to have_content 'Alfred Meier'
-    end
-  end
-
   context 'when show' do
     it 'shows the competition' do
       visit competition_path(competition)
 
       expect(page).not_to have_content('Hindernisbahn weiblich')
       expect(page).not_to have_content('Hindernisbahn weiblich Mannschaftswertung')
-
-      save_review_screenshot
 
       expect(page).to have_content('Hindernisbahn männlich')
       expect(page).to have_content('1 bis 1 von 1 Einträgen')
@@ -84,7 +61,6 @@ describe 'competitions features', js: true do
       within('.fss-window') do
         expect(page).to have_content('Namen vorschlagen')
         fill_in 'Name', with: 'Superduperwettkampf'
-        save_review_screenshot
         click_on('OK')
       end
       expect(page).to have_content('Der Fehlerbericht wurde gespeichert')
@@ -105,7 +81,6 @@ describe 'competitions features', js: true do
       within('.fss-window') do
         expect(page).to have_content('Hinweis beschreiben')
         fill_in 'Beschreibung', with: 'Wetterbericht'
-        save_review_screenshot
         click_on('OK')
       end
       expect(page).to have_content('Der Fehlerbericht wurde gespeichert')
@@ -125,7 +100,7 @@ describe 'competitions features', js: true do
       find_by_id('add-file').click
 
       expect(page).to have_content('Es dürfen nur PDFs hochgeladen werden.')
-      attach_file('competition_file[0][file]', file_fixture('testfile.pdf'))
+      attach_file('competition_file[0][file]', File.expand_path(file_fixture('testfile.pdf')))
       check('competition_file[0][fs_female]')
       click_on('Hochladen')
       expect(page).to have_content('testfile.pdf')

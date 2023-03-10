@@ -1,7 +1,8 @@
 .panel.panel-default
   .panel-heading Inhaltsverzeichnis
   .panel-body
-    %ol
-      - ankers.each do |anker|
-        %li
-          %a{href: "#toc-#{anker.id}"}= anker.name
+    - if ankers
+      %ol
+        - ankers.each do |anker|
+          %li
+            %a{href: "#toc-#{anker.id}"}= anker.name

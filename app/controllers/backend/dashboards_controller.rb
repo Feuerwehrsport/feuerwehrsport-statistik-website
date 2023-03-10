@@ -2,7 +2,7 @@
 
 class Backend::DashboardsController < Backend::BackendController
   RESOURCE_MODELS = [
-    ::BLA::Badge,
+    ::Bla::Badge,
     ::Series::Round,
     AdminUser,
     Appointment,

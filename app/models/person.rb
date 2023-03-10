@@ -5,7 +5,7 @@ class Person < ApplicationRecord
   include People::CacheBuilder
 
   belongs_to :nation
-  has_one :bla_badge, class_name: 'BLA::Badge', dependent: :restrict_with_exception
+  has_one :bla_badge, class_name: 'Bla::Badge', dependent: :restrict_with_exception
   has_many :person_participations, dependent: :restrict_with_exception
   has_many :group_scores, through: :person_participations
   has_many :scores, dependent: :restrict_with_exception
@@ -40,11 +40,11 @@ class Person < ApplicationRecord
       .arel.exists
       .desc)
   end
-  scope :nation, ->(nation_id) { where(nation_id: nation_id) }
-  scope :team, ->(team_id) { joins(:team_members).where(team_members: { team_id: team_id }) }
+  scope :nation, ->(nation_id) { where(nation_id:) }
+  scope :team, ->(team_id) { joins(:team_members).where(team_members: { team_id: }) }
   scope :filter_collection, -> { order(:last_name, :first_name) }
   scope :unused, -> do
-    ids = [BLA::Badge, PersonParticipation, Score, Series::PersonParticipation]
+    ids = [Bla::Badge, PersonParticipation, Score, Series::PersonParticipation]
           .map { |k| k.select(:person_id).to_sql }.join(' UNION ')
     where(arel_table[:id].not_in(Arel.sql(ids)))
   end

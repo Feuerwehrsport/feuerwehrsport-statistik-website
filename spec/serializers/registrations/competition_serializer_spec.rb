@@ -4,12 +4,12 @@ require 'rails_helper'
 
 RSpec.describe Registrations::CompetitionSerializer, type: :model do
   let!(:competition) { create(:registrations_competition) }
-  let!(:la) { create(:registrations_assessment, :la, competition: competition) }
-  let!(:hl) { create(:registrations_assessment, competition: competition) }
-  let!(:team1) { create(:registrations_team, competition: competition) }
-  let!(:team2) { create(:registrations_team, competition: competition, assessments: [la]) }
-  let!(:person1) { create(:registrations_person, competition: competition) }
-  let!(:person2) { create(:registrations_person, competition: competition, assessments: [hl]) }
+  let!(:la) { create(:registrations_assessment, :la, competition:) }
+  let!(:hl) { create(:registrations_assessment, competition:) }
+  let!(:team1) { create(:registrations_team, competition:) }
+  let!(:team2) { create(:registrations_team, competition:, assessments: [la]) }
+  let!(:person1) { create(:registrations_person, competition:) }
+  let!(:person2) { create(:registrations_person, competition:, assessments: [hl]) }
   let(:serializer) { competition.to_serializer }
 
   describe '.to_json' do
@@ -33,7 +33,7 @@ RSpec.describe Registrations::CompetitionSerializer, type: :model do
           team_number: 1,
           statitics_team_id: nil,
           gender: 'male',
-          assessments: [1],
+          assessments: [la.id],
           tag_names: [],
           federal_state: nil,
         }],

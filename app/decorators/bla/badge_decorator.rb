@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class BLA::BadgeDecorator < AppDecorator
+class Bla::BadgeDecorator < AppDecorator
   decorates_association :person
   decorates_association :hl_score
   decorates_association :hb_score

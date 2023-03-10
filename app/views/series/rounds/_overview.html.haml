@@ -1,5 +1,0 @@
-.container
-  = count_table(@rounds) do |ct|
-    - ct.col('Übersicht', class: 'col-md-1') { |row|  link_to(row.first, row.last.first.slug) }
-    - ct.col('Jahre', class: 'col-md-3') { |row|  safe_join(row.last.map { |r| link_to(r.year, r) }, ', ') }
-    - ct.col('Disziplinen', class: 'col-md-2') { |row|  safe_join(row.last.map { |r| r.disciplines }.flatten.uniq.map { |d| discipline_image_name_short(d) }, ' ') }

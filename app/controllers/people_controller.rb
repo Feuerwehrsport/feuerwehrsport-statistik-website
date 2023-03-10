@@ -26,7 +26,7 @@ class PeopleController < ResourceController
     @teams = resource.teams.decorate
     @team_structs = @teams.map do |team|
       OpenStruct.new(
-        team: team,
+        team:,
         score_count: team.person_scores_count(resource),
         hb: team.scores.low_and_high_hb.where(person: resource).count,
         hl: team.scores.hl.where(person: resource).count,

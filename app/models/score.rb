@@ -17,15 +17,15 @@ class Score < ApplicationRecord
   belongs_to :person
   belongs_to :competition
   belongs_to :team
-  has_many :hl_bla_badges, foreign_key: :hl_score_id, class_name: 'BLA::Badge', dependent: :nullify,
+  has_many :hl_bla_badges, foreign_key: :hl_score_id, class_name: 'Bla::Badge', dependent: :nullify,
                            inverse_of: :hl_score
-  has_many :hb_bla_badges, foreign_key: :hl_score_id, class_name: 'BLA::Badge', dependent: :nullify,
+  has_many :hb_bla_badges, foreign_key: :hl_score_id, class_name: 'Bla::Badge', dependent: :nullify,
                            inverse_of: :hb_score
 
   validates :discipline, :time, :team_number, presence: true
 
   scope :gender, ->(gender) { joins(:person).merge(Person.gender(gender)) }
-  scope :discipline, ->(discipline) { where(discipline: discipline) }
+  scope :discipline, ->(discipline) { where(discipline:) }
   scope :hl, -> { discipline(:hl) }
   scope :hb, -> { discipline(:hb) }
   scope :hw, -> { discipline(:hw) }
@@ -99,9 +99,9 @@ class Score < ApplicationRecord
         EXTRACT(YEAR FROM #{Competition.table_name}.date)
       SQL
   end
-  scope :competition, ->(competition_id) { where(competition_id: competition_id) }
-  scope :person, ->(person_id) { where(person_id: person_id) }
-  scope :team, ->(team_id) { where(team_id: team_id) }
+  scope :competition, ->(competition_id) { where(competition_id:) }
+  scope :person, ->(person_id) { where(person_id:) }
+  scope :team, ->(team_id) { where(team_id:) }
   scope :where_time_like, ->(search_term) { where('time::TEXT ILIKE ?', "%#{search_term}%") }
 
   def uniq_team_id
@@ -129,10 +129,10 @@ class Score < ApplicationRecord
 
   def similar_scores
     @similar_scores ||= Score.where(
-      competition_id: competition_id,
-      person_id: person_id,
-      discipline: discipline,
-      team_number: team_number,
+      competition_id:,
+      person_id:,
+      discipline:,
+      team_number:,
     ).order(:time, :id)
   end
 end

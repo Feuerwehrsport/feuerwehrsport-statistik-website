@@ -10,14 +10,14 @@ de:
         fs_male: FSm
         gs: GS
         hb_female: HBw
-        hb_female_for_bla_badge: HBw-Zeiten für BLA
+        hb_female_for_bla_badge: HBw-Zeiten für Bla
         hb_male: HBm
-        hb_male_for_bla_badge: HBm-Zeiten für BLA
+        hb_male_for_bla_badge: HBm-Zeiten für Bla
         hint_content: Hinweise
         hl_female: HLw
-        hl_female_for_bla_badge: HLw-Zeiten für BLA
+        hl_female_for_bla_badge: HLw-Zeiten für Bla
         hl_male: HLm
-        hl_male_for_bla_badge: HLm-Zeiten für BLA
+        hl_male_for_bla_badge: HLm-Zeiten für Bla
         la_female: LAw
         la_male: LAm
         linked_name: Name

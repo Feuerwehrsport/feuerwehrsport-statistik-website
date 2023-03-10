@@ -4,13 +4,13 @@ require 'rails_helper'
 
 RSpec.describe Person do
   let(:person) { create(:person) }
-  let!(:hl) { create(:score, :hl, :double, person: person) }
+  let!(:hl) { create(:score, :hl, :double, person:) }
   let(:competition_today) { create(:competition, date: Date.current) }
-  let!(:hl_today) { create(:score, :hl, time: 4034, person: person, competition: competition_today) }
+  let!(:hl_today) { create(:score, :hl, time: 4034, person:, competition: competition_today) }
 
   describe '#update_best_scores' do
     context 'when person is male' do
-      let!(:hb) { create(:score, :hb, time: 3012, person: person) }
+      let!(:hb) { create(:score, :hb, time: 3012, person:) }
 
       it 'calculates best scores and store it' do
         described_class.update_best_scores
@@ -31,7 +31,7 @@ RSpec.describe Person do
 
     context 'when person is female' do
       let(:person) { create(:person, :female) }
-      let!(:hw) { create(:score, :hw, time: 2001, person: person) }
+      let!(:hw) { create(:score, :hw, time: 2001, person:) }
 
       it 'calculates best scores and store it' do
         described_class.update_best_scores

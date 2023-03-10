@@ -6,7 +6,7 @@ describe 'registration feature', js: true do
   let!(:competition) do
     create(:registrations_competition, admin_user: create(:admin_user, role: :sub_admin), team_tags: 'Kreiswertung')
   end
-  let!(:assessment) { create(:registrations_assessment, :la, competition: competition) }
+  let!(:assessment) { create(:registrations_assessment, :la, competition:) }
   let!(:team) { create(:team) }
 
   it 'registers team' do
@@ -22,7 +22,6 @@ describe 'registration feature', js: true do
     find('.name').click
     expect(find_field('registrations_team[name]').value).to eq 'FF Warin'
     expect(find_field('registrations_team[shortcut]').value).to eq 'Warin'
-    save_review_screenshot
     expect do
       select 'männlich', from: 'Geschlecht'
       click_on('Mannschaft erstellen')
@@ -33,7 +32,6 @@ describe 'registration feature', js: true do
       fill_in 'Ort', with: 'Musterstadt'
       fill_in 'Telefonnummer', with: '+1233/234432'
       fill_in 'E-Mail-Adresse', with: 'foo@bar.de'
-      save_review_screenshot
       check 'Löschangriff nass'
       click_on 'Speichern'
     end.to change(Registrations::Team, :count).by(1)

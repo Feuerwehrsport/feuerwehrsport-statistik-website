@@ -11,9 +11,9 @@ describe Import::Line do
     Import::Check.new(
       discipline: 'hb',
       gender: 'male',
-      raw_headline_columns: raw_headline_columns,
+      raw_headline_columns:,
       separator: ';',
-      raw_lines: raw_lines,
+      raw_lines:,
     )
   end
   let(:line) { described_class.new(check, []) }

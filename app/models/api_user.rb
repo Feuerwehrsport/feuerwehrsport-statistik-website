@@ -11,8 +11,8 @@ class ApiUser < ApplicationRecord
   after_create :remove_old_entries
 
   def user_agent=(user_agent)
-    self.user_agent_meta = user_agent.truncate(10)
-    self.user_agent_hash = Digest::SHA256.hexdigest(user_agent)
+    self.user_agent_meta = user_agent&.truncate(10)
+    self.user_agent_hash = Digest::SHA256.hexdigest(user_agent.to_s)
   end
 
   def ip_address=(ip_address)

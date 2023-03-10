@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class BLA::BadgesController < ResourceController
+class Bla::BadgesController < ResourceController
   resource_actions :index, cache: %i[index]
 
   export_index do |t|

@@ -46,6 +46,7 @@ Rails.application.routes.draw do
     resources :scores
     resources :score_types
     namespace :series do
+      resources :kinds
       resources :rounds do
         resource :import, only: %i[new create], controller: :round_imports
       end
@@ -98,7 +99,7 @@ Rails.application.routes.draw do
       resources :assessments, only: [:index]
       resources :cups, only: [:index]
       resources :participations, only: %i[create show index update destroy]
-      resources :rounds, only: %i[create show update index]
+      resources :rounds, only: %i[show index]
       resources :team_assessments, only: [:index]
     end
     resources :suggestions, only: [] do
@@ -154,8 +155,9 @@ Rails.application.routes.draw do
   end
   resources :events, only: %i[index show]
   namespace :series do
+    resources :kinds, only: %i[index]
     get ':slug', to: 'rounds#index'
-    resources :rounds, only: %i[index show]
+    resources :rounds, only: %i[show]
     resources :assessments, only: [:show]
   end
   scope :images do

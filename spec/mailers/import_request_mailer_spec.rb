@@ -6,7 +6,7 @@ describe ImportRequestMailer do
   describe '#new_request' do
     let!(:admin_user) { create(:admin_user, :sub_admin) }
     let(:import_request) { create(:import_request, admin_user: create(:admin_user)) }
-    let(:mail) { described_class.with(import_request: import_request).new_request }
+    let(:mail) { described_class.with(import_request:).new_request }
 
     it 'renders the header information and render body' do
       expect(mail.subject).to eq 'Import-Anfrage bei Feuerwehrsport-Statistik'

@@ -65,9 +65,9 @@ describe Import::Check do
       described_class.new(
         discipline: 'la',
         gender: 'male',
-        raw_headline_columns: raw_headline_columns,
+        raw_headline_columns:,
         separator: ';',
-        raw_lines: raw_lines,
+        raw_lines:,
       )
     end
 

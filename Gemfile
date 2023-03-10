@@ -83,9 +83,6 @@ group :test do
   gem 'timecop' # hold specific time
   gem 'vcr' # record http requests
   gem 'webmock' # mock http requests
-  gem 'rails-controller-testing' # helper methods for controller testings
-  gem 'launchy' # open system default apps from console
-  gem 'phashion' # changes between screenshots
   gem 'cuprite' # headless chrome driver for capybara
   gem 'guard', require: false # on demand tests
   gem 'guard-rspec', require: false # on demand tests

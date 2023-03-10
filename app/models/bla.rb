@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module BLA
+module Bla
   def self.table_name_prefix
     'bla_'
   end

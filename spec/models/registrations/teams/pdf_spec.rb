@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Registrations::Teams::Pdf do
   let(:competition) { create(:registrations_competition) }
-  let(:team) { create(:registrations_team, competition: competition) }
+  let(:team) { create(:registrations_team, competition:) }
   let(:pdf) { described_class.build(team) }
 
   describe '.build' do

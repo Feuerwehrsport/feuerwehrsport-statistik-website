@@ -8,7 +8,7 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 
 require 'rspec/rails'
-require 'spec_helper'
+require 'capybara/rails'
 require 'capybara/rspec'
 require 'capybara/cuprite'
 
@@ -34,43 +34,8 @@ ActiveRecord::Migration.maintain_test_schema!
 #
 # Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
-module M3Rspec
-  class << self
-    attr_accessor :configuration
-
-    def configure
-      self.configuration ||= Configuration.new
-      yield(configuration) if block_given?
-    end
-
-    def seed(&block)
-      Seed.block = block
-    end
-  end
-
-  class Configuration
-    attr_accessor :screenshot_sleep, :open_screenshots, :screenshots_disabled
-
-    def initialize
-      @screenshot_sleep = (ENV['SCREENSHOT_SLEEP'].presence || '0.6').to_f
-      @open_screenshots = ENV['DISABLE_SCREENSHOT_OPEN'].blank?
-      @screenshots_disabled = ENV['SCREENSHOTS_DISABLED'].present?
-    end
-
-    def open_screenshots?
-      @open_screenshots
-    end
-
-    def screenshot_sleep?
-      @screenshot_sleep > 0.0
-    end
-  end
-end
-
-M3Rspec.configure
-
 support_path = File.expand_path('support', __dir__)
-Dir["#{support_path}/**/*.rb"].sort.each { |f| require f }
+Dir["#{support_path}/**/*.rb"].each { |f| require f }
 
 VCR.configure do |config|
   config.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
@@ -82,112 +47,45 @@ end
 RSpec.configure do |config|
   config.filter_run focus: true
   config.run_all_when_everything_filtered = true
-
-  # factory girl
-  config.include FactoryBot::Syntax::Methods
-
-  # RSpec Rails can automatically mix in different behaviours to your tests
-  # based on their file location, for example enabling you to call `get` and
-  # `post` in specs under `spec/controllers`.
-  #
-  # You can disable this behaviour by removing the line below, and instead
-  # explicitly tag your specs with their type, e.g.:
-  #
-  #     RSpec.describe UsersController, :type => :controller do
-  #       # ...
-  #     end
-  #
-  # The different available types are documented in the features, such as in
-  # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
+  config.fixture_path = Rails.root.join('spec/fixtures')
+  config.before(:each, type: :request) { host! 'test.host' }
 
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
+
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
-  config.before(js: false) do
-    Capybara.default_driver = :rack_test
-  end
+  # factory bot
+  config.include FactoryBot::Syntax::Methods
 
-  config.after(js: false) do
-    Capybara.default_driver = Capybara.javascript_driver
-  end
+  config.before(js: false) { Capybara.default_driver = :rack_test }
+  config.after(js: false)  { Capybara.default_driver = Capybara.javascript_driver }
 
-  config.use_transactional_fixtures = false
-
-  config.before(:suite) do
-    if config.use_transactional_fixtures?
-      raise(<<-MSG)
-        Delete line `config.use_transactional_fixtures = true` from rails_helper.rb
-        (or set it to false) to prevent uncommitted transactions being used in
-        JavaScript-dependent specs.
-
-        During testing, the app-under-test that the browser driver connects to
-        uses a different database connection to the database connection used by
-        the spec. The app's database connection would not be able to access
-        uncommitted transaction data setup over the spec's database connection.
-      MSG
-    end
-
-    DatabaseCleaner.clean_with(:truncation)
-  end
-
-  config.before do
-    DatabaseCleaner.strategy = :transaction
-  end
+  config.before(:suite) { DatabaseCleaner.clean_with(:truncation) }
+  config.before { DatabaseCleaner.strategy = :transaction }
 
   config.before(:each, type: :feature) do
     Timecop.freeze(Time.zone.local(2016, 2, 29, 12, 20, 42))
 
-    # :rack_test driver's Rack app under test shares database connection
-    # with the specs, so continue to use transaction strategy for speed.
     driver_shares_db_connection_with_specs = Capybara.current_driver == :rack_test
-
-    unless driver_shares_db_connection_with_specs
-      # Driver is probably for an external browser with an app
-      # under test that does *not* share a database connection with the
-      # specs, so use truncation strategy.
-      DatabaseCleaner.strategy = :truncation
-    end
+    DatabaseCleaner.strategy = :truncation unless driver_shares_db_connection_with_specs
   end
+  config.after(:each, type: :feature) { Timecop.return }
 
-  config.after(:each, type: :feature) do
-    Timecop.return
+  config.before       { DatabaseCleaner.start }
+  config.append_after { DatabaseCleaner.clean }
+
+  config.before(type: :feature) do
+    Capybara.current_session # start capybara and puma before feature spec
+    Capybara.disable_animation = true
+    Rails.configuration.default_url_options[:host] = '127.0.0.1'
+    Rails.configuration.default_url_options[:port] = 7787
   end
-
-  config.before do
-    DatabaseCleaner.start
-  end
-
-  config.append_after do
-    DatabaseCleaner.clean
-  end
-
-  def mock_m3_login(login)
-    patch_session = proc { |session, key|
-      if key == M3::Login::Session::ID_KEY
-        login.id
-      elsif session.key?(key)
-        session.fetch(key)
-      end
-    }
-    allow_any_instance_of(ActionController::TestSession).to receive(:[], &patch_session)
-    allow_any_instance_of(ActionDispatch::Request::Session).to receive(:[], &patch_session)
-  end
-
-  config.before do |example|
-    @example = example
-    @review_screenshot_number = 0
-  end
-
-  config.include M3Rspec::CapybaraHelper
-  config.after(:suite) { M3Rspec::CapybaraHelper::Screenshots.m3_compare_and_open_screenshots }
-
-  %i[controller view request].each do |type|
-    config.include Rails::Controller::Testing::TestProcess, type: type
-    config.include Rails::Controller::Testing::TemplateAssertions, type: type
-    config.include Rails::Controller::Testing::Integration, type: type
+  config.after(type: :feature) do
+    Rails.configuration.default_url_options[:host] = 'test.host'
+    Rails.configuration.default_url_options[:port] = 80
   end
 end
 
@@ -207,37 +105,7 @@ Capybara.configure do |config|
   config.run_server = true
   config.server_port = 7787
   config.javascript_driver = :cuprite
+  config.disable_animation = true
   config.default_driver = config.javascript_driver
 end
 Capybara.server = :puma, { Silent: true }
-
-RSpec.configure do |config|
-  config.fixture_path = Rails.root.join('spec/fixtures')
-
-  Capybara.disable_animation = true
-  config.before(type: :feature) do
-    Capybara.current_session # start capybara and puma before feature spec
-    Capybara.disable_animation = true
-    Rails.configuration.default_url_options[:host] = '127.0.0.1'
-    Rails.configuration.default_url_options[:port] = 7787
-  end
-  config.after(type: :feature) do
-    Rails.configuration.default_url_options[:host] = 'test.host'
-    Rails.configuration.default_url_options[:port] = 80
-  end
-end
-
-Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(
-    app,
-    window_size: [1280, 1024],
-    phantomjs_options: ['--debug=no', '--load-images=yes', '--ignore-ssl-errors=yes',
-                        '--ssl-protocol=TLSv1'],
-    debug: false,
-    extensions: [Rails.root.join('m3_rspec/lib/m3_rspec/support/phantomjs_disable_animations.js').to_s],
-  )
-end
-
-Capybara.configure do |config|
-  config.server = :webrick
-end

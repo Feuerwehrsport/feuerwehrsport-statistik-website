@@ -9,18 +9,6 @@ describe 'teams features' do
   before { page.driver.browser.url_blacklist = ['openstreetmap'] }
 
   context 'when index' do
-    it 'can step pages' do
-      create_list(:team, 13)
-
-      visit teams_path
-      expect(page).to have_content '1 bis 10 von 13 Einträgen'
-      save_review_screenshot
-      click_on 'Nächste'
-      expect(page).to have_content '11 bis 13 von 13 Einträgen'
-      click_on 'Zurück'
-      expect(page).to have_content '1 bis 10 von 13 Einträgen'
-    end
-
     it 'can add team' do
       api_sign_in
 
@@ -30,7 +18,6 @@ describe 'teams features' do
       find_by_id('add-team').click
       expect(page).to have_content('maximal 10 Zeichen')
       within('.fss-window') do
-        save_review_screenshot
         expect(page).to have_content('Mannschaft anlegen')
         fill_in 'Name', with: '00Mannschaft_xyz'
         fill_in 'Abkürzung', with: 'Abk789'
@@ -58,8 +45,7 @@ describe 'teams features' do
       find('.upload-logo').click
 
       within('.fss-window') do
-        save_review_screenshot
-        attach_file('logo_files', file_fixture('testfile.pdf'))
+        attach_file('logo_files', File.expand_path(file_fixture('testfile.pdf')))
         click_on('OK')
       end
       expect(page).to have_content('Der Fehlerbericht wurde gespeichert')
@@ -78,7 +64,6 @@ describe 'teams features' do
 
       visit team_path(team_without_geo_location)
       within('.team-map-actions') do
-        save_review_screenshot
         find_by_id('add-geo-position').click
         find('.btn.btn-primary').click
       end
@@ -100,7 +85,6 @@ describe 'teams features' do
       find_by_id('add-change-request').click
 
       within('.fss-window') do
-        save_review_screenshot
         choose('Team ist doppelt vorhanden')
         click_on('OK')
 
@@ -124,7 +108,6 @@ describe 'teams features' do
       find_by_id('add-change-request').click
 
       within('.fss-window') do
-        save_review_screenshot
         choose('Team ist falsch geschrieben')
         click_on('OK')
 

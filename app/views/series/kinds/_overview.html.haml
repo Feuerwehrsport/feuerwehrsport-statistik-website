@@ -1,0 +1,5 @@
+.container
+  = count_table(collection) do |ct|
+    - ct.col('Übersicht', class: 'col-md-1') { |row|  link_to(row.name, series_path(row.slug)) }
+    - ct.col('Jahre', class: 'col-md-3') { |row|  safe_join(row.rounds.map { |r| link_to(r.year, r) }, ', ') }
+    - ct.col('Disziplinen', class: 'col-md-2') { |row|  safe_join(row.disciplines.map { |d| discipline_image_name_short(d) }, ' ') }

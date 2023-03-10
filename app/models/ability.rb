@@ -95,6 +95,7 @@ class Ability
     can :read, Series::Cup
     can :read, Series::Participation
     can :read, Series::Round
+    can :read, Series::Kind
 
     can %i[read slug_handle], Registrations::Competition, published: true
 
@@ -108,7 +109,7 @@ class Ability
   def basic_stuff
     can %i[create status logout], ApiUser
     can :read, Appointment
-    can :read, BLA::Badge
+    can :read, Bla::Badge
     can :read, Competition
     can :read, ChangeLog
     can :read, Event

@@ -11,12 +11,10 @@ describe 'registration feature', js: true do
     expect(page).to have_content('Vorlage für Wettkämpf wählen')
 
     within('.template:nth-child(5)') do
-      save_review_screenshot
       click_on 'Als Vorlage wählen'
     end
 
     expect(find_field('registrations_competition_name').value).to eq 'Deutschland-Cup'
-    save_review_screenshot
     fill_in 'Datum', with: Date.parse('2020-02-29')
     fill_in 'Ort', with: 'Ostseebad Nienhagen'
     click_on 'Wettkampf anlegen'
@@ -28,7 +26,6 @@ describe 'registration feature', js: true do
     click_on 'Öffentlichkeitseinstellungen'
     within('.modal-content') do
       uncheck 'Veröffentlichen'
-      save_review_screenshot
       click_on 'Speichern'
     end
 
@@ -41,7 +38,6 @@ describe 'registration feature', js: true do
     within('.modal-content') do
       fill_in 'Anmeldung öffnen', with: '01.01.2019'
       fill_in 'Anmeldung schließen', with: '10.01.2019'
-      save_review_screenshot
       click_on 'Speichern'
     end
 
@@ -49,16 +45,13 @@ describe 'registration feature', js: true do
       click_on 'Bearbeiten'
     end
     expect(page).to have_content('Noch keine Anmeldungen für diese Wertung')
-    save_review_screenshot
     click_on 'Neu erstellen'
     choose 'Hakenleitersteigen'
     choose 'weiblich'
     fill_in 'Name', with: 'Ü80'
-    save_review_screenshot
     click_on 'Speichern'
 
     expect(page).to have_content('Ü80 - Hakenleitersteigen weiblich')
-    save_review_screenshot
     within('.panel', text: 'Ü80 - Hakenleitersteigen weiblich') do
       click_on 'Bearbeiten'
     end
@@ -76,19 +69,16 @@ describe 'registration feature', js: true do
     within('.modal-content') do
       fill_in 'Anklickbare Werte für Mannschaften', with: 'Kreiswertung'
       check 'Mannschaftswertung für Einzeldisziplinen'
-      save_review_screenshot
       click_on 'Speichern'
     end
     within('.panel-heading', text: 'Markierungen') do
       expect(page).to have_content('Markierungen')
-      save_review_screenshot
     end
 
     click_on 'E-Mail versenden'
     fill_in 'Betreff', with: 'Neue Infos'
     fill_in 'Inhalt', with: 'Text'
     check 'Teilnehmerliste A und B automatisch als Anhang hinzufügen'
-    save_review_screenshot
     click_on 'E-Mail senden'
     expect(page).to have_content('E-Mail wird im Hintergrund versendet')
   end

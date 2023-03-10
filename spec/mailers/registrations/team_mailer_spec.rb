@@ -8,8 +8,8 @@ describe Registrations::TeamMailer do
   let(:receiver) { create(:admin_user, login: build(:m3_login, email_address: 'receiver@example.com', name: 'hans')) }
 
   describe '#notification_to_creator' do
-    let(:team) { create(:registrations_team, competition: competition, admin_user: receiver) }
-    let(:mail) { described_class.with(team: team).notification_to_creator }
+    let(:team) { create(:registrations_team, competition:, admin_user: receiver) }
+    let(:mail) { described_class.with(team:).notification_to_creator }
 
     it 'renders the header information and body' do
       expect(mail.subject).to eq "Deine Wettkampfanmeldung für D-Cup - #{I18n.l(Time.zone.today)}"

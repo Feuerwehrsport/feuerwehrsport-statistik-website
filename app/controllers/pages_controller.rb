@@ -76,8 +76,8 @@ class PagesController < ResourceController
     ].each do |discipline, gender|
       klass = Discipline.group?(discipline) ? GroupScore.regular : Score
       @discipline_structs.push OpenStruct.new(
-        discipline: discipline,
-        gender: gender,
+        discipline:,
+        gender:,
         scores: klass.best_of(discipline, gender).order(:time).first(100).map(&:decorate),
       )
     end

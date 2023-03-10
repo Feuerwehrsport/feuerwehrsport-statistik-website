@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-class BLA::Badge < ApplicationRecord
+class Bla::Badge < ApplicationRecord
   belongs_to :person
   belongs_to :hl_score, class_name: 'Score', inverse_of: :hl_bla_badges
   belongs_to :hb_score, class_name: 'Score', inverse_of: :hb_bla_badges
 
-  scope :person, ->(person_id) { where(person_id: person_id) }
+  scope :person, ->(person_id) { where(person_id:) }
 
   before_validation do
     self.hl_time ||= hl_score.try(:time)
@@ -36,7 +36,7 @@ class BLA::Badge < ApplicationRecord
   end
 
   def next_badge
-    @next_badge ||= BLA::BadgeGenerator.new.badge_for(person, :gold,
+    @next_badge ||= Bla::BadgeGenerator.new.badge_for(person, :gold,
                                                       (hl_time || Firesport::INVALID_TIME) - 1,
                                                       hb_time - 1) { |s| s.reorder(:time) }
   end

@@ -25,4 +25,4 @@
               = entity.second
   .alert.alert-danger
     = f.input :import_now
-  = f.actions(m3_form_options.slice(:abort_url))
+  = f.actions(**m3_form_options.slice(:abort_url))

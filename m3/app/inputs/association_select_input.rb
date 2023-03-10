@@ -9,13 +9,13 @@ class AssociationSelectInput < SimpleForm::Inputs::CollectionSelectInput
     @builder.template.render(
       partial: 'inputs/association_select',
       locals: {
-        association: association,
-        filter: filter,
+        association:,
+        filter:,
         id_prefix: "as-#{attribute_name}",
         input: super,
-        show_input_description: show_input_description,
+        show_input_description:,
         multi_select: multi_select?,
-        remove_all: remove_all,
+        remove_all:,
       },
     )
   end
@@ -63,9 +63,9 @@ class AssociationSelectInput < SimpleForm::Inputs::CollectionSelectInput
 
   def association_fallback_name
     if multi_select?
-      reflection.class_name.parameterize.underscore.pluralize
+      reflection.class_name.underscore.parameterize.underscore.pluralize
     else
-      reflection.class_name.parameterize.underscore
+      reflection.class_name.underscore.parameterize.underscore
     end
   end
 

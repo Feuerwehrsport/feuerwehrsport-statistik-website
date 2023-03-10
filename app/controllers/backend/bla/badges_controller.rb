@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Backend::BLA::BadgesController < Backend::BackendController
+class Backend::Bla::BadgesController < Backend::BackendController
   backend_actions
   collection_actions :generate, :index, :new
 

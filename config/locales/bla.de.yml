@@ -4,7 +4,7 @@ de:
       bla/badge_generator:
         year: Jahr
     models:
-      bla/badge_generator: BLA-Generator
+      bla/badge_generator: Bla-Generator
   activerecord:
     attributes:
       bla/badge:

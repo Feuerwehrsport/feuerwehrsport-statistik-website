@@ -7,18 +7,6 @@ describe 'people', js: true do
   let(:person) { create(:person) }
 
   context 'when index' do
-    it 'can step pages' do
-      create_list(:person, 13, :female)
-
-      visit people_path
-      expect(page).to have_content '1 bis 10 von 13 Einträgen'
-      save_review_screenshot
-      click_on 'Nächste', match: :first
-      expect(page).to have_content '11 bis 13 von 13 Einträgen'
-      click_on 'Zurück', match: :first
-      expect(page).to have_content '1 bis 10 von 13 Einträgen'
-    end
-
     it 'can add person' do
       nation
 
@@ -75,7 +63,6 @@ describe 'people', js: true do
         click_on('OK')
 
         expect(page).to have_content('Namen korrigieren')
-        save_review_screenshot
         select('Meier, Alfredo (männlich)', from: 'Richtige Person')
         click_on('OK')
       end

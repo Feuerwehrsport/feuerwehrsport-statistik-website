@@ -8,8 +8,8 @@ describe Registrations::CompetitionMailer do
   let(:receiver) { create(:admin_user, login: build(:m3_login, email_address: 'receiver@example.com', name: 'hans')) }
 
   describe '#new_team_registered' do
-    let(:team) { create(:registrations_team, competition: competition, admin_user: receiver) }
-    let(:mail) { described_class.with(team: team).new_team_registered }
+    let(:team) { create(:registrations_team, competition:, admin_user: receiver) }
+    let(:mail) { described_class.with(team:).new_team_registered }
 
     it 'renders the header information and body' do
       expect(mail.subject).to eq "Neue Wettkampfanmeldung für D-Cup - #{I18n.l(Time.zone.today)}"
@@ -34,8 +34,8 @@ describe Registrations::CompetitionMailer do
   end
 
   describe '#new_person_registered' do
-    let(:person) { create(:registrations_person, competition: competition, admin_user: receiver) }
-    let(:mail) { described_class.with(person: person).new_person_registered }
+    let(:person) { create(:registrations_person, competition:, admin_user: receiver) }
+    let(:mail) { described_class.with(person:).new_person_registered }
 
     it 'renders the header information and body' do
       expect(mail.subject).to eq "Neue Wettkampfanmeldung für D-Cup - #{I18n.l(Time.zone.today)}"
@@ -60,11 +60,11 @@ describe Registrations::CompetitionMailer do
   end
 
   describe '#news' do
-    let(:resource) { create(:registrations_team, competition: competition, admin_user: receiver) }
+    let(:resource) { create(:registrations_team, competition:, admin_user: receiver) }
     let(:add_registration_file) { true }
     let(:mail) do
-      described_class.with(resource: resource, competition: competition, subject: 'subject', text: 'text',
-                           file: add_registration_file, sender: sender).news
+      described_class.with(resource:, competition:, subject: 'subject', text: 'text',
+                           file: add_registration_file, sender:).news
     end
 
     it 'renders the header information and body' do
@@ -88,7 +88,7 @@ describe Registrations::CompetitionMailer do
     end
 
     context 'when person without attachment' do
-      let(:resource) { create(:registrations_person, competition: competition) }
+      let(:resource) { create(:registrations_person, competition:) }
       let(:add_registration_file) { false }
 
       it 'assigns only body' do

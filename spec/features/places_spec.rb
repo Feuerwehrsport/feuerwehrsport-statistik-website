@@ -9,11 +9,10 @@ describe 'places features', js: true do
 
   context 'when index' do
     it 'shows an overview' do
-      create_list(:place, 13).each { |place| create(:competition, place: place) }
+      create_list(:place, 13).each { |place| create(:competition, place:) }
 
       visit places_path
       expect(page).to have_content '1 bis 10 von 13 Einträgen'
-      save_review_screenshot
       click_on('Nächste')
       expect(page).to have_content '11 bis 13 von 13 Einträgen'
       click_on 'Zurück'
@@ -23,11 +22,10 @@ describe 'places features', js: true do
 
   context 'when show' do
     it 'shows an competitions overview' do
-      create_list(:competition, 13, place: place)
+      create_list(:competition, 13, place:)
 
       visit place_path(place)
       expect(page).to have_content '1 bis 10 von 13 Einträgen'
-      save_review_screenshot
       click_on('Nächste')
       expect(page).to have_content '11 bis 13 von 13 Einträgen'
       click_on 'Zurück'
@@ -39,7 +37,6 @@ describe 'places features', js: true do
 
       visit place_path(place)
       within('.place-map-actions') do
-        save_review_screenshot
         find_by_id('change-geo-position').click
         find('.btn.btn-primary').click
       end

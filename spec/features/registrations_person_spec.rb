@@ -6,7 +6,7 @@ describe 'registration feature', js: true do
   let!(:competition) do
     create(:registrations_competition, admin_user: create(:admin_user, role: :sub_admin), person_tags: 'U20')
   end
-  let!(:assessment) { create(:registrations_assessment, competition: competition) }
+  let!(:assessment) { create(:registrations_assessment, competition:) }
   let!(:peron) { create(:person) }
 
   it 'registers person' do
@@ -21,7 +21,6 @@ describe 'registration feature', js: true do
       find('.last_name').click
       find('.last_name').click
       expect(find_field('registrations_person[last_name]').value).to eq 'Meier'
-      save_review_screenshot
       click_on('Wettkämpfer erstellen')
     end
     within('.datatable') do
@@ -31,7 +30,6 @@ describe 'registration feature', js: true do
     end
     within('.modal-content') do
       expect(page).to have_content('Alfred Meier')
-      save_review_screenshot
       check 'Hakenleitersteigen'
       click_on 'Wettkämpfer speichern'
     end
@@ -42,7 +40,6 @@ describe 'registration feature', js: true do
 
     expect(page).to have_content('Zusätzliche Angaben')
     check 'U20'
-    save_review_screenshot
     click_on 'Wettkämpfer speichern'
 
     within('.datatable') do

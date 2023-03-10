@@ -31,6 +31,7 @@ RSpec.describe FeuerwehrsportStatistik do
       scores
       series_assessments
       series_cups
+      series_kinds
       series_participations
       series_rounds
       team_spellings

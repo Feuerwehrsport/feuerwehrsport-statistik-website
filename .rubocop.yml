@@ -2,6 +2,7 @@ require:
   - rubocop-rspec
   - rubocop-rails
   - rubocop-performance
+  - rubocop-capybara
 
 AllCops:
   Exclude:
@@ -160,8 +161,7 @@ Naming/PredicateName:
   - has_many
   - has_attribute?
 Naming/VariableNumber:
-  Exclude:
-  - spec/controllers/api/group_scores_controller_spec.rb
+  Enabled: false
 Performance/AncestorsInclude:
   Enabled: true
 Performance/BigDecimalWithNumericArgument:
@@ -209,9 +209,7 @@ RSpec/ChangeByZero:
 RSpec/ClassCheck:
   Enabled: true
 RSpec/DescribeClass:
-  Exclude:
-  - spec/controllers/m3_index_structure_spec.rb
-  - spec/features/**/*
+  Enabled: false
 RSpec/DuplicatedMetadata:
   Enabled: true
 RSpec/EmptyExampleGroup:

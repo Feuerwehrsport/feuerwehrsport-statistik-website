@@ -1,9 +1,8 @@
-- @rounds.each do |name, rows|
-  .container
-    = toc.anker(name, :h3)
-    = count_table(rows) do |ct|
-      - ct.col('Jahr', class: 'col-md-1') { |row|  link_to(row.year, round_link_prefix + [row], data: { round_id: row.id }) }
-      - ct.col('Cup-Anzahl', :cup_count_with_status, class: 'col-md-1')
-      - ct.col('Disziplinen', class: 'col-md-3') { |row| row.disciplines.map { |d| discipline_image_name_short(d) }.join(" ").html_safe }
-      - ct.col('Mannschaften', :team_count, class: 'col-md-1')
-      - ct.col('Wettkämpfer', :person_count, class: 'col-md-1')
+.container
+  = toc.anker(@kind.name, :h3)
+  = count_table(@rounds) do |ct|
+    - ct.col('Jahr', class: 'col-md-1') { |row|  link_to(row.year, round_link_prefix + [row], data: { round_id: row.id }) }
+    - ct.col('Cup-Anzahl', :cup_count_with_status, class: 'col-md-1')
+    - ct.col('Disziplinen', class: 'col-md-3') { |row| row.disciplines.map { |d| discipline_image_name_short(d) }.join(" ").html_safe }
+    - ct.col('Mannschaften', :team_count, class: 'col-md-1')
+    - ct.col('Wettkämpfer', :person_count, class: 'col-md-1')

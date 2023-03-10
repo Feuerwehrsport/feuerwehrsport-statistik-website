@@ -4,22 +4,23 @@ class Series::Round < ApplicationRecord
   include Caching::Keys
   include Series::Participationable
 
+  belongs_to :kind, class_name: 'Series::Kind'
   has_many :cups, class_name: 'Series::Cup', dependent: :destroy
   has_many :assessments, class_name: 'Series::Assessment', dependent: :destroy
   has_many :participations, through: :assessments, class_name: 'Series::Participation'
 
-  validates :name, :slug, :year, :aggregate_type, presence: true
-
-  default_scope -> { order(year: :desc, name: :asc) }
+  default_scope -> { order(year: :desc) }
   scope :cup_count, -> do
     select("#{table_name}.*, COUNT(#{Series::Cup.table_name}.id) AS cup_count")
       .joins(:cups)
       .group("#{table_name}.id")
   end
   scope :with_team, ->(team_id, gender) do
-    joins(:participations).where(series_participations: { team_id: team_id })
+    joins(:participations).where(series_participations: { team_id: })
                           .merge(Series::TeamAssessment.gender(gender)).distinct
   end
+
+  delegate :name, :slug, to: :kind
 
   def disciplines
     assessments.pluck(:discipline).uniq.sort
@@ -42,7 +43,7 @@ class Series::Round < ApplicationRecord
         next if row.rank.nil?
 
         round_structs[round.name].push OpenStruct.new(
-          round: round,
+          round:,
           cups: round.cups,
           row: row.decorate,
           team_number: row.team_number,
