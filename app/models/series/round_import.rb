@@ -23,7 +23,7 @@ class Series::RoundImport
     %i[person team group].each do |type|
       send("#{type}_assessment_disciplines").each do |discipline, names|
         names.each do |name|
-          %i[female male].each do |gender|
+          Genderable::GENDERS.each_key do |gender|
             scores = series_participations(type, gender, discipline)
             next if scores.blank?
 
