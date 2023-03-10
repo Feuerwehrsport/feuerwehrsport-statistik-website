@@ -97,12 +97,6 @@ Rails.application.configure do
   config.wettkampf_manager_path = '/srv/feuerwehrsport-statistik/shared/public/uploads/wettkampf_manager'
   config.wettkampf_manager_config_path = '/home/feuerwehrsport-statistik/wms/config.json'
 
-  config.log_file_parser = OpenStruct.new(
-    file_path: '/srv/feuerwehrsport-statistik/shared/log/',
-    file_pattern: /\Aproduction.log-\d{8}\z/,
-    output_level: :warn,
-  )
-
   # Basic URL
   config.default_url_options = {
     host: 'feuerwehrsport-statistik.de',

@@ -55,7 +55,7 @@ gem 'valid_email2' # validate emails
 
 group :production do
   gem 'unicorn'
-  gem 'm3_log_file_parser', git: 'https://github.com/lichtbit/m3_log_file_parser.git'
+  gem 'rails_log_parser'
 end
 
 group :development, :test do
