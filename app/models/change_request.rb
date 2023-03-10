@@ -76,9 +76,9 @@ class ChangeRequest < ApplicationRecord
 
     def to_h
       {
-        filename: filename,
-        content_type: content_type,
-        binary: binary,
+        filename:,
+        content_type:,
+        binary:,
       }
     end
   end

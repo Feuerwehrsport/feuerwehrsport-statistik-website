@@ -10,7 +10,7 @@ module ChangeRequestUploader
 
       define_method("#{attribute}_change_request=") do |change_request_ids|
         id, file_id = change_request_ids.split('-')
-        files = ChangeRequest.find_by(id: id).try(:files) || []
+        files = ChangeRequest.find_by(id:).try(:files) || []
         file = files[file_id.to_i]
         send(:"#{attribute}=", file) if file
       end

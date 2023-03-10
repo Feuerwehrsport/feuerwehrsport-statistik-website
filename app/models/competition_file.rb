@@ -8,7 +8,7 @@ class CompetitionFile < ApplicationRecord
 
   belongs_to :competition
   mount_uploader :file, ResultUploader
-  scope :competition, ->(competition_id) { where(competition_id: competition_id) }
+  scope :competition, ->(competition_id) { where(competition_id:) }
 
   validates :file, presence: true
 

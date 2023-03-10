@@ -51,7 +51,7 @@ describe 'teams features' do
       expect(page).to have_content('Der Fehlerbericht wurde gespeichert')
 
       change_request = ChangeRequest.last
-      expect(change_request.content).to eq(key: 'team-logo', data: { team_id: '1' })
+      expect(change_request.content).to eq(key: 'team-logo', data: { team_id: team.id.to_s })
       expect(change_request.files_data.keys).to eq([:files])
       expect(change_request.files_data[:files][0]).to include(
         { filename: 'testfile.pdf', content_type: 'application/pdf' },

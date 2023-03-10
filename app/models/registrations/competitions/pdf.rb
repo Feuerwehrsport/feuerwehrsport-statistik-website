@@ -37,7 +37,7 @@ Registrations::Competitions::Pdf = Struct.new(:competition, :ability) do
       line = [index + 1, person.first_name, person.last_name, person.team_name, person.tag_names.join(', ')]
       competition.assessments.gender(gender).decorate.each do |assessment|
         unless Discipline.group?(assessment.discipline)
-          line.push(person.person_assessment_participations.find_by(assessment: assessment)&.decorate&.short_type)
+          line.push(person.person_assessment_participations.find_by(assessment:)&.decorate&.short_type)
         end
       end
       lines.push(line)

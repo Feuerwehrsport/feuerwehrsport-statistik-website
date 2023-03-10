@@ -15,7 +15,7 @@ class Year < ApplicationRecord
   end
 
   def competitions
-    Competition.where(id: Year.with_competitions.where(year: year).select('competitions.id AS competition_id'))
+    Competition.where(id: Year.with_competitions.where(year:).select('competitions.id AS competition_id'))
   end
 
   def to_param

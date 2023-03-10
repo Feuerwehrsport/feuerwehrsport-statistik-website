@@ -44,7 +44,7 @@ module People::CacheBuilder
   def best_score_relation(relation, saison = false)
     relation = relation.reorder(:time)
     relation = relation.year(Date.current.year) if saison
-    relation.limit(1).pluck(:time, :competition_id).first
+    relation.limit(1).pick(:time, :competition_id)
   end
 
   def hl_best_score

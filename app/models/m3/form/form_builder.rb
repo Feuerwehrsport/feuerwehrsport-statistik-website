@@ -6,20 +6,20 @@ class M3::Form::FormBuilder < SimpleForm::FormBuilder
       attribute_name = object.class.human_attribute_name(legend)
       legend = localize(:fieldsets, legend, default: attribute_name)
     end
-    template.render('form_inputs', legend: legend, classes: options[:class], content: block)
+    template.render('form_inputs', legend:, classes: options[:class], content: block)
   end
 
-  def input(attribute_name, given_options = {}, &block)
+  def input(attribute_name, given_options = {}, &)
     options      = given_options.dup
     column       = send(:find_attribute_column, attribute_name)
     input_type   = send(:default_input_type, attribute_name, column, options)
     inline_label = localize(:inline_labels, attribute_name)
 
     options[:label] = proc_to_value(options[:label], object)
-    options.reverse_merge!(inline_label: inline_label) if inline_label.present?
+    options.reverse_merge!(inline_label:) if inline_label.present?
     add_collection(attribute_name, options) if needs_collection?(options)
     options[:include_blank] = true if needs_blank?(input_type, options)
-    super(attribute_name, options, &block)
+    super(attribute_name, options, &)
   end
 
   def association(association, options = {}, &block)
@@ -41,7 +41,7 @@ class M3::Form::FormBuilder < SimpleForm::FormBuilder
 
     attribute = build_association_attribute(reflection, association, options)
 
-    input(attribute, options.merge(reflection: reflection))
+    input(attribute, options.merge(reflection:))
   end
 
   def actions(abort_url: true, submit_label: nil, abort_label: nil, &block)
@@ -49,7 +49,7 @@ class M3::Form::FormBuilder < SimpleForm::FormBuilder
     @submit_label = submit_label
     abort_label = template.controller.instance_exec(&abort_label) if abort_label.respond_to?(:call)
     @abort_label = abort_label
-    block = default_actions(abort_url: abort_url) unless block_given?
+    block = default_actions(abort_url:) unless block_given?
     template.render('form_actions', content: block, f: self, wrapper_name: options[:wrapper] ||
       SimpleForm.default_wrapper)
   end
@@ -57,12 +57,12 @@ class M3::Form::FormBuilder < SimpleForm::FormBuilder
   def default_actions(abort_url: true)
     abort_url = template.controller.instance_exec(&abort_url) if abort_url.respond_to?(:call)
     abort_url = default_abort_url if abort_url == true
-    -> { template.render('form_default_actions', abort_url: abort_url, f: self) }
+    -> { template.render('form_default_actions', abort_url:, f: self) }
   end
 
-  def m3_fields_for(record_name, record_object = nil, options = {}, &block)
+  def m3_fields_for(record_name, record_object = nil, options = {}, &)
     options[:builder] ||= self.class
-    simple_fields_for(record_name, record_object, options, &block)
+    simple_fields_for(record_name, record_object, options, &)
   end
 
   def submit_label
@@ -121,7 +121,7 @@ class M3::Form::FormBuilder < SimpleForm::FormBuilder
   def localize(type, attribute_name, default: nil)
     return unless object.class.respond_to?(:lookup_ancestors)
 
-    out = template.t3(attribute_name, scope: type, model: model_name, default: default).presence
+    out = template.t3(attribute_name, scope: type, model: model_name, default:).presence
     out.respond_to?(:html_safe) ? out.html_safe : out # rubocop:disable Rails/OutputSafety
   end
 

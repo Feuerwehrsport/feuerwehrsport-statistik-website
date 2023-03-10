@@ -21,7 +21,7 @@ class Backend::RegistrationsController < Backend::BackendController
   def after_create
     flash[:success] = t3('.registered')
     LoginMailer.with(login: form_resource.login).verify.deliver_later
-    M3::Login::Session.new(session: session, login: form_resource.login).save(validate: false)
+    M3::Login::Session.new(session:, login: form_resource.login).save(validate: false)
     if session[:requested_url_before_login].present?
       redirect_to session.delete(:requested_url_before_login)
     else

@@ -18,7 +18,7 @@ class M3::Login::Session
     login = M3::Login::Base.where(
       M3::Login::Base.arel_table[:expired_at].eq(nil).or(M3::Login::Base.arel_table[:expired_at].gt(Time.current)),
     ).find_by(id: session[ID_KEY])
-    new(session: session, login: login) if login
+    new(session:, login:) if login
   end
 
   def login

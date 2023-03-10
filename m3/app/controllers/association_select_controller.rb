@@ -85,7 +85,7 @@
 class AssociationSelectController < ApplicationController
   def show
     if valid?
-      render json: { association: params[:association], payload: payload }
+      render json: { association: params[:association], payload: }
     else
       render status: :not_found, text: ''
     end

@@ -18,6 +18,6 @@ module MapHelper
     map_data[:markers] ||= []
     data = options.delete(:data) || {}
     data[:map] = map_data.to_json
-    content_tag(:div, '', class: html_classes, id: id, data: data)
+    content_tag(:div, '', class: html_classes, id:, data:)
   end
 end

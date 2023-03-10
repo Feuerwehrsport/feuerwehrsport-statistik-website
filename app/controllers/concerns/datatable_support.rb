@@ -10,9 +10,9 @@ module DatatableSupport
   end
 
   class_methods do
-    def datatable(action_name, key, klass, options = {}, &block)
+    def datatable(action_name, key, klass, options = {}, &)
       datatables[action_name] ||= {}
-      datatables[action_name][key] = structure = Datatables::Structure.build(self, klass: klass, &block).decorate
+      datatables[action_name][key] = structure = Datatables::Structure.build(self, klass:, &).decorate
 
       before_action(only: action_name) do
         if request.format.json? && params[:datatable].to_sym == key
@@ -30,7 +30,7 @@ module DatatableSupport
             params[:order] = "#{field.name}_#{params[:order]['0'][:dir]}" if params[:order]['0'][:column].to_i == index
           end
           collection = structure.order_collection(collection, resource_class: klass)
-          collection = collection.paginate(page: page, per_page: params[:length].to_i)
+          collection = collection.paginate(page:, per_page: params[:length].to_i)
           render json: {
             draw: params[:draw].to_i,
             recordsTotal: count,

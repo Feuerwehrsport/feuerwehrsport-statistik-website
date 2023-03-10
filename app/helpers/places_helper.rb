@@ -34,7 +34,7 @@ module PlacesHelper
     def calculation(scores)
       years = Year.all.map do |year|
         OpenStruct.new(
-          year: year,
+          year:,
           best: scores.year(year).valid.order(:time).limit(1),
         )
       end

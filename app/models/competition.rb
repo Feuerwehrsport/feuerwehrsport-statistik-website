@@ -25,13 +25,13 @@ class Competition < ApplicationRecord
     year_value = year.is_a?(Year) ? year.year.to_i : year.to_i
     where("EXTRACT(YEAR FROM date) = #{year_value}")
   end
-  scope :event, ->(event_id) { where(event_id: event_id) }
-  scope :place, ->(place_id) { where(place_id: place_id) }
-  scope :score_type, ->(score_type_id) { where(score_type_id: score_type_id) }
-  scope :team, ->(team_id) { joins(:team_competitions).where(team_competitions: { team_id: team_id }) }
+  scope :event, ->(event_id) { where(event_id:) }
+  scope :place, ->(place_id) { where(place_id:) }
+  scope :score_type, ->(score_type_id) { where(score_type_id:) }
+  scope :team, ->(team_id) { joins(:team_competitions).where(team_competitions: { team_id: }) }
   scope :filter_collection, -> { order(date: :desc).includes(:place, :event) }
   scope :search, ->(search_team) do
-    search_team_splitted = "%#{search_team.chars.reject(&:blank?).join('%')}%"
+    search_team_splitted = "%#{search_team.chars.compact_blank.join('%')}%"
     match_list = [
       arel_table[:name],
       Place.arel_table[:name],

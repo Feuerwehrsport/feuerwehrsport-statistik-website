@@ -72,7 +72,7 @@ class Series::RoundImport
   end
 
   def create_cup
-    @cup = Series::Cup.create!(round: round, competition_id: competition_id)
+    @cup = Series::Cup.create!(round:, competition_id:)
   end
 
   def configure_assessments
@@ -104,10 +104,10 @@ class Series::RoundImport
   def create_or_find_assessment(type, discipline, gender, name)
     ::Series::Assessment.find_or_create_by!(
       type: type == :person ? 'Series::PersonAssessment' : 'Series::TeamAssessment',
-      round: round,
-      discipline: discipline,
+      round:,
+      discipline:,
       gender: Genderable::GENDERS[gender],
-      name: name,
+      name:,
     )
   end
 
@@ -134,11 +134,11 @@ class Series::RoundImport
     rank = 1
     scores.each do |score|
       hash = {
-        assessment: assessment,
-        cup: cup,
+        assessment:,
+        cup:,
         time: score.time,
         points: klass.points_for_result(rank, score.time, cup.round),
-        rank: rank,
+        rank:,
       }
       if score.is_a?(GroupScore) || score.is_a?(Calculation::CompetitionGroupAssessment)
         ::Series::TeamParticipation.create!(hash.merge(team: score.team, team_number: score.team_number))

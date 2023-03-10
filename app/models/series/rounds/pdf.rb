@@ -38,7 +38,7 @@ Series::Rounds::Pdf = Struct.new(:round) do
     lines = [headline]
 
     round.team_assessment_rows(gender, true).map(&:decorate).each do |row|
-      line = [row.rank, numbered_team_name(row, competition_id: round.cups.map(&:competition_id), gender: gender)]
+      line = [row.rank, numbered_team_name(row, competition_id: round.cups.map(&:competition_id), gender:)]
       cups.each do |cup|
         participations = row.participations_for_cup(cup)
         if participations.present?

@@ -14,7 +14,7 @@ class GroupScore < ApplicationRecord
   scope :gender, ->(gender) { where(gender: GroupScore.genders[gender]) }
   scope :discipline, ->(discipline) do
     joins(group_score_category: :group_score_type)
-      .where(group_score_types: { discipline: discipline })
+      .where(group_score_types: { discipline: })
   end
   scope :year, ->(year) { joins(group_score_category: :competition).merge(Competition.year(year)) }
   scope :best_of_competition, ->(single_run = false) do
@@ -96,11 +96,11 @@ class GroupScore < ApplicationRecord
       SQL
   end
   scope :competition, ->(competition_id) do
-    joins(:group_score_category).where(group_score_categories: { competition_id: competition_id })
+    joins(:group_score_category).where(group_score_categories: { competition_id: })
   end
-  scope :group_score_category, ->(group_score_category_id) { where(group_score_category_id: group_score_category_id) }
-  scope :person, ->(person_id) { joins(:person_participations).where(person_participations: { person_id: person_id }) }
-  scope :team, ->(team_id) { where(team_id: team_id) }
+  scope :group_score_category, ->(group_score_category_id) { where(group_score_category_id:) }
+  scope :person, ->(person_id) { joins(:person_participations).where(person_participations: { person_id: }) }
+  scope :team, ->(team_id) { where(team_id:) }
   scope :where_time_like, ->(search_term) { where('time::TEXT ILIKE ?', "%#{search_term}%") }
 
   validates :team_number, :gender, :time, presence: true
@@ -116,16 +116,16 @@ class GroupScore < ApplicationRecord
   end
 
   def similar_scores
-    GroupScore.where(team_id: team_id, team_number: team_number, group_score_category_id: group_score_category_id)
+    GroupScore.where(team_id:, team_number:, group_score_category_id:)
               .gender(gender).order(:id)
   end
 
   def competition_scores_from_team
-    @competition_scores_from_team ||= similar_scores.where(team_number: team_number).sort_by(&:time)
+    @competition_scores_from_team ||= similar_scores.where(team_number:).sort_by(&:time)
   end
 
   def competition_scores_from_team_with_run
-    @competition_scores_from_team_with_run ||= similar_scores.where(team_number: team_number, run: run).sort_by(&:time)
+    @competition_scores_from_team_with_run ||= similar_scores.where(team_number:, run:).sort_by(&:time)
   end
 
   def <=>(other)

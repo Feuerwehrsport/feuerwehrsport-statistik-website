@@ -26,7 +26,7 @@ class Chart::TeamOverview < Chart::Base
     hc.plotOptions(series: { pointWidth: 6 })
     hc.yAxis(endOnTick: false, title: nil)
     hc.xAxis(categories: data.pluck(:name))
-    hc.series(name: 'Mannschaften', data: data)
+    hc.series(name: 'Mannschaften', data:)
     render(hc)
   end
 
@@ -41,7 +41,7 @@ class Chart::TeamOverview < Chart::Base
     hc.plotOptions(series: { pointWidth: 6 })
     hc.yAxis(endOnTick: false, title: nil)
     hc.xAxis(categories: data.pluck(:short_name))
-    hc.series(name: 'Mannschaften', data: data)
+    hc.series(name: 'Mannschaften', data:)
     render(hc)
   end
 end

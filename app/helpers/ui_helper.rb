@@ -1,20 +1,20 @@
 # frozen_string_literal: true
 
 module UiHelper
-  def count_table(rows, options = {}, &block)
+  def count_table(rows, options = {}, &)
     table_class = options.delete(:table_class) || Ui::CountTable
-    ct = table_class.new(self, rows, options, &block)
-    render 'ui/count_table', ct: ct
+    ct = table_class.new(self, rows, options, &)
+    render 'ui/count_table', ct:
   end
 
-  def table_of_contents(&block)
+  def table_of_contents(&)
     toc = Ui::TableOfContents.new
-    toc.handle(capture_haml(toc, &block)).html_safe # rubocop:disable Rails/OutputSafety
+    toc.handle(capture_haml(toc, &)).html_safe # rubocop:disable Rails/OutputSafety
   end
 
-  def nav_tab(&block)
-    nt = Ui::NavTab.new(&block)
-    render 'ui/nav_tab', nt: nt
+  def nav_tab(&)
+    nt = Ui::NavTab.new(&)
+    render 'ui/nav_tab', nt:
   end
 
   def youtube_video(id, options = {})

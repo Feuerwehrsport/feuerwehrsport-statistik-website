@@ -5,8 +5,8 @@ class Datatables::Structure < M3::Index::Structure
     options[:klass]
   end
 
-  def col(name, options = {}, &block)
-    push(Datatables::Field.new(name, field_options.merge(options), &block))
+  def col(name, options = {}, &)
+    push(Datatables::Field.new(name, field_options.merge(options), &))
   end
 
   def search(collection, search_string)

@@ -83,7 +83,7 @@ class ChangeLogDecorator < AppDecorator
   def default_model_url(model)
     model = model.object if model.decorated?
     controller = model.class.name.underscore.pluralize
-    url_for(controller: controller, action: :show, id: model.to_param)
+    url_for(controller:, action: :show, id: model.to_param)
   rescue ActionController::UrlGenerationError
     begin
       url_for(controller: "backend/#{controller}", action: :show, id: model.to_param)

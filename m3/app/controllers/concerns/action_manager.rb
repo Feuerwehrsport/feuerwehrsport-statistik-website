@@ -19,7 +19,7 @@ module ActionManager
       define_method(:collection_actions) do
         actions = []
         args.each do |action_name|
-          actn = add_collection_action(action_name, check_existence: check_existence)
+          actn = add_collection_action(action_name, check_existence:)
           actions << actn if actn.link_to?
         end
         actions
@@ -31,7 +31,7 @@ module ActionManager
         actions = []
         res = res.object if res.respond_to?(:decorated?) && res.decorated?
         args.each do |action_name|
-          actn = add_member_action(action_name, check_existence: check_existence, resource: res)
+          actn = add_member_action(action_name, check_existence:, resource: res)
           actions << actn if actn.link_to?
         end
         actions
@@ -45,7 +45,7 @@ module ActionManager
   end
 
   def add_collection_action(name, check_existence: true)
-    add_action(name, CollectionAction, resource_class, check_existence: check_existence)
+    add_action(name, CollectionAction, resource_class, check_existence:)
   end
 
   def member_action(name, resource: nil)
@@ -55,7 +55,7 @@ module ActionManager
 
   def add_member_action(name, check_existence: true, resource: nil)
     resource ||= form_resource || self.resource
-    add_action(name, MemberAction, resource, check_existence: check_existence)
+    add_action(name, MemberAction, resource, check_existence:)
   end
 
   def m3_hero_max_actions

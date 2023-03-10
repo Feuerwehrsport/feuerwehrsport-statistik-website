@@ -33,7 +33,7 @@ class Chart::TeamShow < Chart::Base
     data = [{ name: 'Ungültig', y: invalid, color: 'red' }, { name: 'Gültig', y: valid, color: 'green' }]
 
     hc = lazy_high_chart
-    hc.series(name: discipline_name(discipline), data: data)
+    hc.series(name: discipline_name(discipline), data:)
     hc.plotOptions(pie: { size: 70, dataLabels: { distance: 0, format: '{percentage:.1f} % {point.name}' } })
     hc.chart(type: 'pie', height: 90)
     render(hc)

@@ -2,7 +2,7 @@
 
 M3::ExcelWorkbook = Struct.new(:wb, :name, :structure) do
   def add_sheet(collection)
-    wb.add_worksheet(name: name) do |sheet|
+    wb.add_worksheet(name:) do |sheet|
       percent = sheet.styles.add_style(format_code: '0.0%;[Red]-0.0%')
       sheet.add_row(structure.map(&:label))
       row_index = 0
@@ -19,7 +19,7 @@ M3::ExcelWorkbook = Struct.new(:wb, :name, :structure) do
         end
         sheet.add_row(row_values,
                       types: structure.map { |field| field.excel_type(res) },
-                      style: structure.map { |field| field.excel_style(res, percent: percent) })
+                      style: structure.map { |field| field.excel_style(res, percent:) })
       end
       structure.edit_sheet(sheet)
     end

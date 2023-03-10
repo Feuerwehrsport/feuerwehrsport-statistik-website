@@ -2,11 +2,11 @@
 
 class Registrations::AssessmentDecorator < AppDecorator
   def to_s
-    show_only_name? ? name : [name, discipline_name(discipline)].reject(&:blank?).join(' - ')
+    show_only_name? ? name : [name, discipline_name(discipline)].compact_blank.join(' - ')
   end
 
   def shortcut
-    show_only_name? ? name : [name, discipline_name_short(discipline)].reject(&:blank?).join(' - ')
+    show_only_name? ? name : [name, discipline_name_short(discipline)].compact_blank.join(' - ')
   end
 
   def with_gender

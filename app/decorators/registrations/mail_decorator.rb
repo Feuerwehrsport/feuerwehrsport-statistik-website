@@ -15,6 +15,6 @@ class Registrations::MailDecorator < AppDecorator
   private
 
   def counted_name(klass, count)
-    "#{count} #{klass.model_name.human(count: count)}"
+    "#{count} #{klass.model_name.human(count:)}"
   end
 end

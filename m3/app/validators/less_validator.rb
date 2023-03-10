@@ -10,7 +10,7 @@ class LessValidator < ActiveModel::EachValidator
     return if valid
 
     compared_field = record.class.human_attribute_name(than_attribute)
-    record.errors.add(attribute, message_key, compared_field: compared_field)
+    record.errors.add(attribute, message_key, compared_field:)
   end
 
   protected

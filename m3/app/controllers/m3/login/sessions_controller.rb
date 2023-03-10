@@ -24,7 +24,7 @@ class M3::Login::SessionsController < ApplicationController
   protected
 
   def build_resource
-    resource_class.new(session: session)
+    resource_class.new(session:)
   end
 
   def find_resource

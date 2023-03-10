@@ -17,8 +17,8 @@ class M3::Index::Structure
     @children = children
   end
 
-  def col(name, options = {}, &block)
-    push(Field.new(name, field_options.merge(options), &block))
+  def col(name, options = {}, &)
+    push(Field.new(name, field_options.merge(options), &))
   end
 
   def each

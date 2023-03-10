@@ -14,9 +14,9 @@ module IndexStructures
   end
 
   class_methods do
-    def default_index(&block)
+    def default_index(&)
       define_method(:m3_index_structure) do
-        @m3_index_structure ||= M3::Index::Structure.build(self, &block).decorate
+        @m3_index_structure ||= M3::Index::Structure.build(self, &).decorate
       end
     end
 

@@ -22,7 +22,7 @@ class Chart::CompetitionDisciplineCategoryOverview < Chart::Base
     scores = all_scores.map { |s| { y: s.time.to_f / 100, name: s.person.short_name } }
     hb = all_scores.map { |s| { y: s.hb.to_f / 100, name: s.person.short_name } }
     hl = all_scores.map { |s| { y: s.hl.to_f / 100, name: s.person.short_name } }
-    scores_overview(scores, hb: hb, hl: hl)
+    scores_overview(scores, hb:, hl:)
   end
 
   def scores_overview(scores, options = {})

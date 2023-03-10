@@ -2,7 +2,7 @@
 
 People::DisciplineOverview = Struct.new(:person, :discipline) do
   def self.for(person)
-    %i[hb hw hl zk zw gs fs la].map { |discipline| new(person, discipline) }.reject(&:blank?)
+    %i[hb hw hl zk zw gs fs la].map { |discipline| new(person, discipline) }.compact_blank
   end
 
   delegate :blank?, to: :scores
@@ -10,13 +10,13 @@ People::DisciplineOverview = Struct.new(:person, :discipline) do
   def scores
     @scores ||= case discipline
                 when :hb, :hw, :hl
-                  person.scores.where(discipline: discipline)
+                  person.scores.where(discipline:)
                 when :zk
                   person.score_double_events
                 when :zw
                   person.score_low_double_events
                 when :gs, :fs, :la
-                  person.group_score_participations.where(discipline: discipline)
+                  person.group_score_participations.where(discipline:)
                 end
   end
 
@@ -60,7 +60,7 @@ People::DisciplineOverview = Struct.new(:person, :discipline) do
       end
     end
     team_mates.map do |person_id, scores|
-      OpenStruct.new(person: Person.find(person_id).decorate, scores: scores)
+      OpenStruct.new(person: Person.find(person_id).decorate, scores:)
     end
   end
 

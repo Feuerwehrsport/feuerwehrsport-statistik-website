@@ -14,8 +14,8 @@ module DefaultActions::Shared
     if collection.respond_to?(:accessible_by)
       self.collection = collection.accessible_by(current_ability, action_name.to_sym)
     end
-    self.collection = m3_filter_structure.filter_collection(collection, resource_class: resource_class)
-    self.collection = m3_index_structure.order_collection(collection, resource_class: resource_class)
+    self.collection = m3_filter_structure.filter_collection(collection, resource_class:)
+    self.collection = m3_index_structure.order_collection(collection, resource_class:)
     self.collection = collection.paginate(page: paginate_page, per_page: page_size) if paginate?
   end
 

@@ -28,6 +28,6 @@ class Ui::TableOfContents
 
   def generated_index
     ac = ActionController::Base.new
-    ac.render_to_string(partial: 'ui/table_of_contents', locals: { ankers: ankers })
+    ac.render_to_string(partial: 'ui/table_of_contents', locals: { ankers: })
   end
 end

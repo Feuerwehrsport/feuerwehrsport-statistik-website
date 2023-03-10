@@ -17,7 +17,7 @@ Calculation::Competition = Struct.new(:competition, :context) do
     end
 
     def chart
-      @chart ||= Chart::CompetitionDisciplineCategoryOverview.new(discipline: self, context: context)
+      @chart ||= Chart::CompetitionDisciplineCategoryOverview.new(discipline: self, context:)
     end
   end
 

@@ -35,7 +35,7 @@ class Chart::Base
     hc.legend(borderWidth: 0, margin: 0, padding: 5)
     hc.chart(type: 'pie', height: 150)
     hc.plotOptions(pie: { dataLabels: { enabled: false }, showInLegend: true })
-    hc.series(name: 'Geschlecht', data: data)
+    hc.series(name: 'Geschlecht', data:)
     render(hc)
   end
 

@@ -8,11 +8,11 @@ module FilterStructures
   end
 
   class_methods do
-    def filter_index(&block)
+    def filter_index(&)
       define_method(:m3_filter_structure) do
         @m3_filter_structure ||= begin
           f = M3::Filter::Structure::Builder.new
-          instance_exec(f, &block)
+          instance_exec(f, &)
           f.structure.decorate
         end
       end

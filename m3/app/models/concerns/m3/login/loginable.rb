@@ -11,7 +11,7 @@ module M3::Login::Loginable
 
   class_methods do
     def for_login(login)
-      login.present? ? where(login: login).first : nil
+      login.present? ? where(login:).first : nil
     end
   end
 

@@ -55,7 +55,7 @@ module FormStructures
                            permitted_params = params[resource_params_name].permit(
                              m3_form_structure.permitted_fields,
                            )
-                           m3_form_structure.sanitize(permitted_params, resource_class: resource_class)
+                           m3_form_structure.sanitize(permitted_params, resource_class:)
                            permitted_params
                          else
                            {}

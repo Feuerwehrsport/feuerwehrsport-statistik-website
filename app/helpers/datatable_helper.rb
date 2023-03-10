@@ -23,6 +23,6 @@ module DatatableHelper
       data[:columnDefs].push(defs)
     end
 
-    render 'ui/datatable', structure: structure, data: data
+    render 'ui/datatable', structure:, data:
   end
 end

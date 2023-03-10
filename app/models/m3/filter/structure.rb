@@ -8,8 +8,8 @@ class M3::Filter::Structure
     @children = children
   end
 
-  def each(&block)
-    @children.each(&block)
+  def each(&)
+    @children.each(&)
   end
 
   def <<(child)
@@ -63,46 +63,46 @@ class M3::Filter::Structure
       @parent = structure
     end
 
-    def string(name, options = {}, &block)
-      @parent << StringFilter.new(name, options, &block)
+    def string(name, options = {}, &)
+      @parent << StringFilter.new(name, options, &)
     end
 
-    def presence(name, options = {}, &block)
-      @parent << PresenceFilter.new(name, options, &block)
+    def presence(name, options = {}, &)
+      @parent << PresenceFilter.new(name, options, &)
     end
 
-    def scope(name, options = {}, &block)
+    def scope(name, options = {}, &)
       @parent << if options[:collection] && options[:as] == :check_boxes
-                   ScopeWithCheckBoxesFilter.new(name, options, &block)
+                   ScopeWithCheckBoxesFilter.new(name, options, &)
                  elsif options[:collection]
-                   ScopeWithSelectedArgumentFilter.new(name, options, &block)
+                   ScopeWithSelectedArgumentFilter.new(name, options, &)
                  else
-                   ScopeFilter.new(name, options, &block)
+                   ScopeFilter.new(name, options, &)
                  end
     end
 
-    def configurable(name, options = {}, &block)
-      @parent << ConfigurableFilter.new(name, options, &block)
+    def configurable(name, options = {}, &)
+      @parent << ConfigurableFilter.new(name, options, &)
     end
 
-    def date_lteq(name, options = {}, &block)
-      @parent << DateFilter.new(name, options.merge(operator: :lteq), &block)
+    def date_lteq(name, options = {}, &)
+      @parent << DateFilter.new(name, options.merge(operator: :lteq), &)
     end
 
-    def date_gteq(name, options = {}, &block)
-      @parent << DateFilter.new(name, options.merge(operator: :gteq), &block)
+    def date_gteq(name, options = {}, &)
+      @parent << DateFilter.new(name, options.merge(operator: :gteq), &)
     end
 
-    def date_lt(name, options = {}, &block)
-      @parent << DateFilter.new(name, options.merge(operator: :lt), &block)
+    def date_lt(name, options = {}, &)
+      @parent << DateFilter.new(name, options.merge(operator: :lt), &)
     end
 
-    def date_gt(name, options = {}, &block)
-      @parent << DateFilter.new(name, options.merge(operator: :gt), &block)
+    def date_gt(name, options = {}, &)
+      @parent << DateFilter.new(name, options.merge(operator: :gt), &)
     end
 
-    def date_eq(name, options = {}, &block)
-      @parent << DateFilter.new(name, options.merge(operator: :eq), &block)
+    def date_eq(name, options = {}, &)
+      @parent << DateFilter.new(name, options.merge(operator: :eq), &)
     end
   end
 end

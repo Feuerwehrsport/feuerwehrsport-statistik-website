@@ -37,7 +37,7 @@ module M3::ApplicationHelper
     super(verb, resource)
   end
 
-  def m3_form_for(resource, options = {}, &block)
+  def m3_form_for(resource, options = {}, &)
     resource = resource.object if resource.is_a?(Draper::Decorator)
     options[:url] = controller.instance_exec(&options[:url]) if options[:url].respond_to?(:call)
     options[:builder] = M3::Form::FormBuilder
@@ -48,17 +48,17 @@ module M3::ApplicationHelper
       options[:html][:class] = [form_class, simple_form_css_class(resource, options)].compact
     end
     options[:html][:data] = controller.instance_exec(&options[:html][:data]) if options[:html][:data].respond_to?(:call)
-    simple_form_for(resource, options, &block)
+    simple_form_for(resource, options, &)
   end
 
   # Returns a form for the current resource. Naming is based on resource_class,
   # so even if resource is different (e.g. a subclass), the normally expected
   # param key is used.
-  def m3_form(options = {}, &block)
+  def m3_form(options = {}, &)
     target_action = form_resource.new_record? ? :create : :update
     options[:url] = url_for(action: target_action) if options[:url].blank?
     options.reverse_merge!(as: resource_params_name)
-    m3_form_for(form_resource, options, &block)
+    m3_form_for(form_resource, options, &)
   end
 
   def t3(keys, options = {})
@@ -102,7 +102,7 @@ module M3::ApplicationHelper
 
   def m3_export_format_list
     formats = m3_index_export_formats
-    render('index_export_list', formats: formats) if formats.present?
+    render('index_export_list', formats:) if formats.present?
   end
 
   def body_classes
@@ -114,8 +114,8 @@ module M3::ApplicationHelper
     bc
   end
 
-  def remote_index_table(url, &block)
-    tag.div('', data: { remote_index_table: url }, &block)
+  def remote_index_table(url, &)
+    tag.div('', data: { remote_index_table: url }, &)
   end
 
   def sortable_index_label(label, field_name: nil, param_name: :order, asc: false, desc: false)

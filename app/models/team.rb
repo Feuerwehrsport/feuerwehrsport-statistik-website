@@ -40,7 +40,7 @@ class Team < ApplicationRecord
     in_spellings = TeamSpelling.select(TeamSpelling.arel_table[:team_id].as('id')).like_name_or_shortcut(name).to_sql
     where("#{table_name}.id IN (#{in_names}) OR #{table_name}.id IN (#{in_spellings})")
   end)
-  scope :person, ->(person_id) { joins(:team_members).where(team_members: { person_id: person_id }) }
+  scope :person, ->(person_id) { joins(:team_members).where(team_members: { person_id: }) }
   scope :competition, ->(cid) { joins(:team_competitions).where(team_competitions: { competition_id: cid }) }
   scope :filter_collection, -> { index_order }
   scope :unchecked, -> { where(checked_at: nil) }
@@ -53,7 +53,7 @@ class Team < ApplicationRecord
   end
 
   def person_scores_count(person)
-    scores.where(person: person).count + person_participations.where(person: person).count
+    scores.where(person:).count + person_participations.where(person:).count
   end
 
   def members_with_discipline_count
@@ -166,6 +166,6 @@ class Team < ApplicationRecord
 
   def group_score_types(discipline)
     @group_score_types ||= {}
-    @group_score_types[discipline] ||= GroupScoreType.where(discipline: discipline).decorate
+    @group_score_types[discipline] ||= GroupScoreType.where(discipline:).decorate
   end
 end

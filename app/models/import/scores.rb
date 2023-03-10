@@ -56,7 +56,7 @@ class Import::Scores
     end
     if person.nil?
       person = Person.create!(
-        gender: gender,
+        gender:,
         last_name: score[:last_name],
         first_name: score[:first_name],
         nation_id: 1,

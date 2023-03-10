@@ -27,7 +27,7 @@ module PrawnSupport
     "#{send(members.first).decorate.to_s.parameterize}.pdf"
   end
 
-  def unicode(&block)
+  def unicode(&)
     font_path = Rails.root.join('app/assets/fonts')
     prawn.font_families.update(
       'DejaVuSans' => {
@@ -48,7 +48,7 @@ module PrawnSupport
     )
 
     prawn.fallback_fonts(%w[Helvetica Arial])
-    prawn.font('DejaVuSans', &block)
+    prawn.font('DejaVuSans', &)
   end
 
   protected
@@ -77,7 +77,7 @@ module PrawnSupport
   end
 
   def footer(title = nil, subtitle = nil)
-    full_name = [title, subtitle, 'Feuerwehrsport-Statistik.de'].reject(&:blank?).join(' - ')
+    full_name = [title, subtitle, 'Feuerwehrsport-Statistik.de'].compact_blank.join(' - ')
     prawn.page_count.times do |i|
       prawn.bounding_box([prawn.bounds.left, prawn.bounds.bottom], width: prawn.bounds.width, height: 30) do
         prawn.go_to_page i + 1

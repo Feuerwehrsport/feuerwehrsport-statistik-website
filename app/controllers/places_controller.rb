@@ -7,7 +7,7 @@ class PlacesController < ResourceController
   def show
     super
     competitions = resource.competitions.includes(:event)
-    @chart = Chart::CompetitionsScoreOverview.new(competitions: competitions, context: view_context)
+    @chart = Chart::CompetitionsScoreOverview.new(competitions:, context: view_context)
     @competitions = competitions.decorate
     @competitions_discipline_overview = Calculation::CompetitionsScoreOverview.new(@competitions.map(&:id)).disciplines
   end

@@ -10,7 +10,7 @@ class YearsController < ResourceController
 
   def show
     competitions = @year.competitions.includes(:place, :event)
-    @chart = Chart::CompetitionsScoreOverview.new(competitions: competitions, context: view_context)
+    @chart = Chart::CompetitionsScoreOverview.new(competitions:, context: view_context)
     @competitions_discipline_overview = Calculation::CompetitionsScoreOverview.new(competitions.map(&:id)).disciplines
     @competitions = competitions.decorate
   end
@@ -38,9 +38,9 @@ class YearsController < ResourceController
       next if scores.to_a.blank?
 
       @discipline_structs.push OpenStruct.new(
-        discipline: discipline,
-        gender: gender,
-        scores: scores,
+        discipline:,
+        gender:,
+        scores:,
       )
     end
   end

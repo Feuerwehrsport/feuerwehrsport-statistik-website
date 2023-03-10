@@ -8,10 +8,10 @@ class GroupScoreCategory < ApplicationRecord
 
   scope :discipline, ->(discipline) do
     joins(:group_score_type)
-      .where(group_score_types: { discipline: discipline })
+      .where(group_score_types: { discipline: })
   end
-  scope :competition, ->(competition_id) { where(competition_id: competition_id) }
-  scope :group_score_type, ->(group_score_type_id) { where(group_score_type_id: group_score_type_id) }
+  scope :competition, ->(competition_id) { where(competition_id:) }
+  scope :group_score_type, ->(group_score_type_id) { where(group_score_type_id:) }
 
   validates :name, presence: true
 end

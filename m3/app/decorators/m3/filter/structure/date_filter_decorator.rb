@@ -15,7 +15,7 @@ class M3::Filter::Structure::DateFilterDecorator < M3::Filter::Structure::Single
   end
 
   def argument
-    super.to_date.to_s(:db)
+    super.to_date.to_fs(:db)
   rescue StandardError
     nil
   end

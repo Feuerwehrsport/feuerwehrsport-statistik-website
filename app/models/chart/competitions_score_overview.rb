@@ -44,7 +44,7 @@ class Chart::CompetitionsScoreOverview < Chart::Base
     hc.chart(type: 'pie', height: 120)
     hc.plotOptions(pie: { dataLabels: { format: '{point.percentage:.1f}%', distance: 0 }, showInLegend: true })
     hc.legend(align: :right, verticalAlign: :middle, layout: :vertical)
-    hc.series(name: 'Wettkämpfe', data: data, colorByPoint: true)
+    hc.series(name: 'Wettkämpfe', data:, colorByPoint: true)
     render(hc)
   end
 
@@ -56,7 +56,7 @@ class Chart::CompetitionsScoreOverview < Chart::Base
     hc.chart(type: 'pie', height: 120)
     hc.plotOptions(pie: { dataLabels: { format: '{point.percentage:.1f}%', distance: 0 }, showInLegend: true })
     hc.legend(align: :right, verticalAlign: :middle, layout: :vertical)
-    hc.series(name: 'Wettkämpfe', data: data, colorByPoint: true)
+    hc.series(name: 'Wettkämpfe', data:, colorByPoint: true)
     render(hc)
   end
 
@@ -87,7 +87,7 @@ class Chart::CompetitionsScoreOverview < Chart::Base
     hc.chart(type: 'pie', height: 120)
     hc.plotOptions(pie: { dataLabels: { format: '{point.percentage:.1f}%', distance: 0 }, showInLegend: true })
     hc.legend(align: :right, verticalAlign: :middle, layout: :vertical)
-    hc.series(name: 'Wettkämpfe', data: data, colorByPoint: true)
+    hc.series(name: 'Wettkämpfe', data:, colorByPoint: true)
     render(hc)
   end
 
@@ -121,7 +121,7 @@ class Chart::CompetitionsScoreOverview < Chart::Base
     hc.chart(type: 'pie', height: 120)
     hc.plotOptions(pie: { dataLabels: { format: '{point.percentage:.1f}%', distance: 0 }, showInLegend: true })
     hc.legend(align: :right, verticalAlign: :middle, layout: :vertical)
-    hc.series(name: 'Wettkämpfe', data: data, colorByPoint: true)
+    hc.series(name: 'Wettkämpfe', data:, colorByPoint: true)
     render(hc)
   end
 

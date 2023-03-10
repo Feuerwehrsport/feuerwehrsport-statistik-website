@@ -36,7 +36,7 @@ class Registrations::Competition < ApplicationRecord
   end
 
   def slug_url
-    registrations_slug_url(slug: slug)
+    registrations_slug_url(slug:)
   end
 
   def discipline_array
@@ -58,7 +58,7 @@ class Registrations::Competition < ApplicationRecord
       slug =  base_slug = decorate.to_s.parameterize
       i = 0
       loop do
-        break if self.class.find_by(slug: slug).blank?
+        break if self.class.find_by(slug:).blank?
 
         i += 1
         slug = "#{base_slug}-#{i}"

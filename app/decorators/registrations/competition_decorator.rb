@@ -21,6 +21,6 @@ class Registrations::CompetitionDecorator < AppDecorator
   end
 
   def assessments_overview
-    h.render 'assessments_overview', assessments: assessments
+    h.render 'assessments_overview', assessments:
   end
 end

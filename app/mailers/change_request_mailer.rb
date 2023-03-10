@@ -9,6 +9,6 @@ class ChangeRequestMailer < ApplicationMailer
     end
     return ActionMailer::Base::NullMail.new if to.blank?
 
-    mail(to: to, subject: 'Fehler bei Feuerwehrsport-Statistik')
+    mail(to:, subject: 'Fehler bei Feuerwehrsport-Statistik')
   end
 end

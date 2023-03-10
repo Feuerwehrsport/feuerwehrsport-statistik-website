@@ -12,7 +12,7 @@ module Helper::PositionSelectorHelper
       participation_count = Discipline.participation_count(discipline)
       (1..participation_count).each do |position|
         title = competitor_position(discipline, position, gender)
-        ct.col("WK#{position}", class: 'small', th_options: { title: title }) do |row|
+        ct.col("WK#{position}", class: 'small', th_options: { title: }) do |row|
           person = row.person_participations.find { |p| p.position == position }.try(:person)
           person.nil? ? '' : person_link(person.decorate, type: :short_name)
         end

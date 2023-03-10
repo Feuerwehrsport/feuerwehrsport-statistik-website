@@ -32,7 +32,7 @@ wb.add_worksheet(name: 'Wettkämpfer') do |sheet|
     row = [person.first_name, person.last_name, g(person.gender), person.team.try(:with_number) || person.team_name]
 
     person_assessments.each do |assessment|
-      row.push(person.person_assessment_participations.find_by(assessment: assessment).try(:decorate).try(:short_type))
+      row.push(person.person_assessment_participations.find_by(assessment:).try(:decorate).try(:short_type))
     end
     sheet.add_row(row)
   end

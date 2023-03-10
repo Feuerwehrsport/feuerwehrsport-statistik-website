@@ -8,9 +8,9 @@ class M3::Login::PasswordReset
   validates :email_address, :login, presence: true
   validate do
     errors.add(:email_address, :invalid) if email_address.present? && login.blank?
-    if login.present? && !login.valid?
+    if login.present? && login.invalid?
       login.errors.each do |attribute, message|
-        errors[attribute].push(message)
+        errors.add(attribute, message)
       end
     end
   end
@@ -30,7 +30,7 @@ class M3::Login::PasswordReset
   end
 
   def self.find(token)
-    new(token: token, login: M3::Login::Base.valid_password_reset.find_by!(password_reset_token: token))
+    new(token:, login: M3::Login::Base.valid_password_reset.find_by!(password_reset_token: token))
   end
 
   def save

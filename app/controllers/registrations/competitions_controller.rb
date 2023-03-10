@@ -125,9 +125,9 @@ class Registrations::CompetitionsController < Registrations::BaseController
 
   def build_template(name, assessments, options = {})
     resource = build_resource
-    resource.assign_attributes(options.merge(name: name))
+    resource.assign_attributes(options.merge(name:))
     assessments.each do |discipline, gender, assessment_name|
-      opts = { discipline: discipline, gender: gender }
+      opts = { discipline:, gender: }
       opts[:name] = assessment_name if assessment_name.present?
       resource.assessments.build(opts)
     end

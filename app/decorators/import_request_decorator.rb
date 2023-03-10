@@ -10,7 +10,7 @@ class ImportRequestDecorator < AppDecorator
   localizes :date, :finished_at, :edited_at
 
   def to_s
-    [date, place, event].reject(&:blank?).join(' - ')
+    [date, place, event].compact_blank.join(' - ')
   end
 
   def url_with_link

@@ -27,7 +27,7 @@ class Chart::PersonShow < Chart::Base
     data = [{ name: 'Ungültig', y: invalid, color: 'red' }, { name: 'Gültig', y: valid, color: 'green' }]
 
     hc = lazy_high_chart
-    hc.series(name: discipline_name(discipline), data: data)
+    hc.series(name: discipline_name(discipline), data:)
     hc.plotOptions(pie: { size: 70, dataLabels: { distance: 0, format: '{percentage:.1f} % {point.name}' } })
     hc.chart(type: 'pie', height: 90)
     render(hc)
@@ -52,7 +52,7 @@ class Chart::PersonShow < Chart::Base
   end
 
   def discipline_positions(discipline)
-    position_counts = @person.group_score_participations.where(discipline: discipline)
+    position_counts = @person.group_score_participations.where(discipline:)
                              .group(:position).count.map do |position, count|
       { name: competitor_position(discipline, position, @person.gender), y: count }
     end
@@ -80,7 +80,7 @@ class Chart::PersonShow < Chart::Base
     hc.xAxis(categories: data.pluck(:name))
     hc.yAxis(max: @max_team_scores, title: { text: 'Zeiten' })
     hc.legend(enabled: false)
-    hc.series(name: 'Läufe', data: data)
+    hc.series(name: 'Läufe', data:)
     hc.chart(type: 'bar', height: 140)
     render(hc)
   end
@@ -97,7 +97,7 @@ class Chart::PersonShow < Chart::Base
       (years.min..years.max).map do |year|
         %i[hb hl hw].map do |discipline|
           times = person.scores
-                        .where(discipline: discipline)
+                        .where(discipline:)
                         .valid
                         .best_of_competition
                         .joins(:competition)

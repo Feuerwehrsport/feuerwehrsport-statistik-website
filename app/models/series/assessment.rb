@@ -9,9 +9,9 @@ class Series::Assessment < ApplicationRecord
   has_many :participations, class_name: 'Series::Participation', dependent: :destroy
 
   scope :with_person, ->(person_id) do
-                        joins(:participations).where(series_participations: { person_id: person_id }).distinct
+                        joins(:participations).where(series_participations: { person_id: }).distinct
                       end
-  scope :round, ->(round_id) { where(round_id: round_id) }
+  scope :round, ->(round_id) { where(round_id:) }
 
   validates :discipline, :gender, presence: true
 

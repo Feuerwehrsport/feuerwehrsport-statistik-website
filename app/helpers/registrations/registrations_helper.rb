@@ -2,7 +2,7 @@
 
 module Registrations::RegistrationsHelper
   def edit_participation(row, assessment, competition)
-    value = row.person_assessment_participations.find_by(assessment: assessment).try(:decorate).try(:short_type)
+    value = row.person_assessment_participations.find_by(assessment:).try(:decorate).try(:short_type)
     link = link_to(
       content_tag(:span, '', class: 'glyphicon glyphicon-pencil'),
       edit_registrations_competition_person_participation_path(competition, row),

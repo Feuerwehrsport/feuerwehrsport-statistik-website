@@ -9,7 +9,7 @@ class Appointment < ApplicationRecord
 
   default_scope -> { order(:dated_at) }
   scope :upcoming, -> { where('dated_at >= ?', 1.week.ago) }
-  scope :event, ->(event_id) { where(event_id: event_id) }
+  scope :event, ->(event_id) { where(event_id:) }
 
   validates :dated_at, :name, :description, presence: true
   attr_accessor :updateable

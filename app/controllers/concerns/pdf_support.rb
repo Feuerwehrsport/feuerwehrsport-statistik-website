@@ -13,9 +13,9 @@ module PdfSupport
     prawn_options = {
       page_size: 'A4',
       margin: [36, 36, 40, 36],
-      info: info,
+      info:,
     }
 
-    prawnto(prawn: prawn_options.merge(options), filename: filename, inline: true)
+    prawnto(prawn: prawn_options.merge(options), filename:, inline: true)
   end
 end
