@@ -9,6 +9,6 @@ class Caching::Builder
     Person.update_score_count
     Competition.update_discipline_score_count
     Team.update_members_and_competitions_count
-    Caching::HTMLPreLoader.perform_now
+    Caching::HtmlPreLoader.perform_now
   end
 end
