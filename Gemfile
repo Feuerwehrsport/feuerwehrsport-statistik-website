@@ -30,7 +30,7 @@ gem 'firesport-series', path: 'firesport-series'
 
 # assets
 gem 'jquery-rails' # jquery js
-gem 'uglifier' # asset compressor
+gem 'terser' # asset compressor
 gem 'coffee-rails' # coffee script
 gem 'cocoon' # nested_form helper
 gem 'lazy_high_charts' # charts
