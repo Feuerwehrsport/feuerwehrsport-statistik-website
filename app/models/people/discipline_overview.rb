@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+TeamMate = Struct.new(:person, :scores)
 People::DisciplineOverview = Struct.new(:person, :discipline) do
   def self.for(person)
     %i[hb hw hl zk zw gs fs la].map { |discipline| new(person, discipline) }.compact_blank
@@ -60,7 +61,7 @@ People::DisciplineOverview = Struct.new(:person, :discipline) do
       end
     end
     team_mates.map do |person_id, scores|
-      OpenStruct.new(person: Person.find(person_id).decorate, scores:)
+      TeamMate.new(Person.find(person_id).decorate, scores)
     end
   end
 

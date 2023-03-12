@@ -42,7 +42,7 @@ class Person < ApplicationRecord
   end
   scope :nation, ->(nation_id) { where(nation_id:) }
   scope :team, ->(team_id) { joins(:team_members).where(team_members: { team_id: }) }
-  scope :filter_collection, -> { order(:last_name, :first_name) }
+  scope :filter_collection, -> { index_order }
   scope :unused, -> do
     ids = [Bla::Badge, PersonParticipation, Score, Series::PersonParticipation]
           .map { |k| k.select(:person_id).to_sql }.join(' UNION ')

@@ -54,7 +54,7 @@ class Registrations::CompetitionsController < Registrations::BaseController
     @teams = {}
     @people = {}
     @people_count = {}
-    %i[female male].each do |gender|
+    Genderable::GENDER_KEYS.each do |gender|
       @teams[gender] = resource.teams.gender(gender).decorate
       @people[gender] = resource.people.gender(gender).where(team_id: nil).accessible_by(current_ability).decorate
       @people_count[gender] = resource.people.gender(gender).where(team_id: nil).count

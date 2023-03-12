@@ -12,7 +12,7 @@ class Event < ApplicationRecord
       .group("#{table_name}.id")
   end
   scope :index_order, -> { order(:name) }
-  scope :filter_collection, -> { order(:name) }
+  scope :filter_collection, -> { index_order }
   scope :search, ->(value) do
     search_value = "%#{value}%"
     where('name ILIKE ?', search_value)

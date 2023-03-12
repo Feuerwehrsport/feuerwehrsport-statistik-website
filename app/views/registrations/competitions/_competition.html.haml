@@ -13,7 +13,7 @@
       - if can?(:edit, resource)
         = render 'panel_actions'
     .col-md-12
-      - %i[female male].each do |gender|
+      - Genderable::GENDER_KEYS.each do |gender|
         - if @teams[gender].present?
           = render 'teams', gender: gender, teams: @teams[gender]
         - if @people_count[gender].positive?

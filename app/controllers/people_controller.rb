@@ -4,7 +4,7 @@ class PeopleController < ResourceController
   include DatatableSupport
   resource_actions :show, cache: %i[show index]
 
-  %i[female male].each do |gender|
+  Genderable::GENDER_KEYS.each do |gender|
     datatable(:index, :"people_#{gender}", Person, collection: Person.gender(gender).includes(:nation)) do |t|
       t.col(:last_name, class: 'col-20', searchable: :last_name) { |row| row.link_to(:last_name) }
       t.col(:first_name, class: 'col-20', searchable: :first_name) { |row| row.link_to(:first_name) }

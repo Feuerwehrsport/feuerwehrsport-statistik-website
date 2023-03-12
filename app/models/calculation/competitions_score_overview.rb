@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
-Calculation::CompetitionsScoreOverview = Struct.new(:competitions) do
+class Calculation::CompetitionsScoreOverview
+  attr_accessor :competitions
+
+  def initialize(competitions)
+    self.competitions = competitions
+  end
+
   def disciplines
     ds = {}
 

@@ -284,6 +284,9 @@ Rails/ActionControllerFlashBeforeRender:
   Enabled: true
 Rails/ActionControllerTestCase:
   Enabled: true
+Rails/OutputSafety:
+  Exclude:
+  - m3/app/helpers/m3/application_helper.rb
 Rails/ActionOrder:
   Enabled: true
 Rails/ActiveRecordCallbacksOrder:
@@ -314,6 +317,7 @@ Rails/DynamicFindBy:
   AutoCorrect: false
   Exclude:
   - m3/app/models/m3/login/session.rb
+  - m3/app/controllers/concerns/authorization.rb
 Rails/EagerEvaluationLogMessage:
   Enabled: true
 Rails/ExpandedDateRange:

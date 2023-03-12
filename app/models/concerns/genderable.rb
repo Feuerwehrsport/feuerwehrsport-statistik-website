@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Genderable
+  GENDER_KEYS = %i[female male].freeze
   GENDERS = { female: 0, male: 1 }.freeze
   extend ActiveSupport::Concern
   included do

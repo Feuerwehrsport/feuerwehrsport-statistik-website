@@ -26,7 +26,7 @@ class Series::Round < ApplicationRecord
     assessments.pluck(:discipline).uniq.sort
   end
 
-  def team_assessment_rows(gender, cache = true)
+  def team_assessment_rows(gender, cache: true)
     @team_assessment_rows ||= calculate_rows(cache)
     @team_assessment_rows[gender]
   end
@@ -35,6 +35,8 @@ class Series::Round < ApplicationRecord
     @aggregate_class ||= Firesport::Series::Handler.team_class_for(aggregate_type)
   end
 
+  TeamRound = Struct.new(:round, :cups, :row, :team_number)
+
   def self.for_team(team_id, gender)
     round_structs = {}
     Series::Round.with_team(team_id, gender).decorate.each do |round|
@@ -42,12 +44,12 @@ class Series::Round < ApplicationRecord
       round.team_assessment_rows(gender).select { |r| r.team.id == team_id }.each do |row|
         next if row.rank.nil?
 
-        round_structs[round.name].push OpenStruct.new(
-          round:,
-          cups: round.cups,
-          row: row.decorate,
-          team_number: row.team_number,
-        )
+        round_structs[round.name].push(TeamRound.new(
+                                         round,
+                                         round.cups,
+                                         row.decorate,
+                                         row.team_number,
+                                       ))
       end
       round_structs.delete(round.name) if round_structs[round.name].empty?
     end
@@ -71,7 +73,7 @@ class Series::Round < ApplicationRecord
   def calculate_rows(cache)
     Caching::Cache.fetch(caching_key(:calculate_rows), force: !cache) do
       rows = {}
-      %i[female male].each do |gender|
+      Genderable::GENDER_KEYS.each do |gender|
         rows[gender] = teams(gender).values.sort
         rows[gender].each { |row| row.calculate_rank!(rows[gender]) }
         aggregate_class.special_sort!(rows[gender])

@@ -41,7 +41,7 @@ module People::CacheBuilder
     score
   end
 
-  def best_score_relation(relation, saison = false)
+  def best_score_relation(relation, saison: false)
     relation = relation.reorder(:time)
     relation = relation.year(Date.current.year) if saison
     relation.limit(1).pick(:time, :competition_id)
@@ -60,14 +60,14 @@ module People::CacheBuilder
   end
 
   def hl_saison_best_score
-    @hl_saison_best_score ||= best_score_relation(scores.hl, true)
+    @hl_saison_best_score ||= best_score_relation(scores.hl, saison: true)
   end
 
   def hb_saison_best_score
-    @hb_saison_best_score ||= best_score_relation(scores.low_and_high_hb, true)
+    @hb_saison_best_score ||= best_score_relation(scores.low_and_high_hb, saison: true)
   end
 
   def zk_saison_best_score
-    @zk_saison_best_score ||= best_score_relation(female? ? score_low_double_events : score_double_events, true)
+    @zk_saison_best_score ||= best_score_relation(female? ? score_low_double_events : score_double_events, saison: true)
   end
 end

@@ -11,7 +11,7 @@
     .col-md-4
       = f.input :last_name
     .col-md-4
-      = f.input :gender, collection: Genderable::GENDERS.keys.map { |gender| [g(gender), gender] }
+      = f.input :gender, collection: Genderable::GENDER_KEYS.map { |gender| [g(gender), gender] }
   - if resource.team.blank?
     = f.input :team_name
   = f.input :team_id, as: :hidden

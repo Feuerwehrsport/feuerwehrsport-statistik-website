@@ -10,8 +10,8 @@ Series::Rounds::Pdf = Struct.new(:round) do
 
   def build
     first_page = true
-    %i[female male].each do |gender|
-      next if round.team_assessment_rows(gender, true).blank?
+    Genderable::GENDER_KEYS.each do |gender|
+      next if round.team_assessment_rows(gender, cache: true).blank?
 
       prawn.start_new_page unless first_page
       first_page = false
@@ -37,7 +37,7 @@ Series::Rounds::Pdf = Struct.new(:round) do
     headline.push('Teil.', 'Bestzeit', 'Punkte')
     lines = [headline]
 
-    round.team_assessment_rows(gender, true).map(&:decorate).each do |row|
+    round.team_assessment_rows(gender, cache: true).map(&:decorate).each do |row|
       line = [row.rank, numbered_team_name(row, competition_id: round.cups.map(&:competition_id), gender:)]
       cups.each do |cup|
         participations = row.participations_for_cup(cup)

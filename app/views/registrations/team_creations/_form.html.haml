@@ -10,7 +10,7 @@
     .col-md-4
       = f.input :shortcut
     .col-md-4
-      = f.input :gender, collection: Genderable::GENDERS.keys.map { |gender| [g(gender), gender] }
+      = f.input :gender, collection: Genderable::GENDER_KEYS.map { |gender| [g(gender), gender] }
   = f.input :team_id, as: :hidden
   .pull-right
     = f.submit class: 'btn btn-primary'

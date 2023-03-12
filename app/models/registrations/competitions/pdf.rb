@@ -10,7 +10,7 @@ Registrations::Competitions::Pdf = Struct.new(:competition, :ability) do
     prawn.text("#{competition.place} - Wettkampfanmeldung", align: :center, size: 14)
     prawn.move_down 12
 
-    %i[female male].each { |gender| build_people_table(gender, people_by(gender)) }
+    Genderable::GENDER_KEYS.each { |gender| build_people_table(gender, people_by(gender)) }
 
     competition.teams.each do |team|
       prawn.start_new_page

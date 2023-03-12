@@ -8,7 +8,7 @@ class Chart::Dashboard < Chart::Base
     hc.chart(type: 'line', height: 250)
 
     %i[hb hl].each do |discipline|
-      %i[female male].each do |gender|
+      Genderable::GENDERS.each_key do |gender|
         hc.series(
           name: "#{discipline_name_short(discipline)} #{g_symbol(gender)}",
           data: averages(discipline, gender),

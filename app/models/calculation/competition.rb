@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-Calculation::Competition = Struct.new(:competition, :context) do
-  attr_accessor :single_score_count
+class Calculation::Competition
+  attr_accessor :competition, :context, :single_score_count
   attr_reader :disciplines, :single_categories, :group_categories
 
   Calculation::CompetitionDiscipline = Struct.new(:calculation, :discipline, :gender, :category, :context) do
@@ -54,8 +54,10 @@ Calculation::Competition = Struct.new(:competition, :context) do
     end
   end
 
-  def initialize(*args)
-    super
+  def initialize(competition, context)
+    self.competition = competition
+    self.context = context
+
     @single_score_count = 0
     @disciplines = []
     @single_categories = {}
@@ -63,14 +65,15 @@ Calculation::Competition = Struct.new(:competition, :context) do
     generate_disciplines
   end
 
-  def discipline(discipline, gender, category = false)
+  def discipline(discipline, gender, category)
     disciplines.find { |d| d.match?(discipline, gender, category) }
   end
 
   def generate_disciplines
+    finals = [false, -1, -2, -3, -4]
     %i[hb hw hl].each do |discipline|
-      %i[female male].each do |gender|
-        [false, -1, -2, -3, -4].each do |final|
+      Genderable::GENDER_KEYS.each do |gender|
+        finals.each do |final|
           single = Calculation::CompetitionSingleDiscipline.new(self, discipline, gender, final, context)
           next unless single.count > 0
 
@@ -81,7 +84,7 @@ Calculation::Competition = Struct.new(:competition, :context) do
       end
     end
 
-    %i[female male].each do |gender|
+    Genderable::GENDER_KEYS.each do |gender|
       double_event = Calculation::CompetitionDoubleEventDiscipline.new(self, :zk, gender, nil, context)
       @disciplines.push(double_event) if double_event.count > 0
       low_double_event = Calculation::CompetitionLowDoubleEventDiscipline.new(self, :zk, gender, nil, context)
@@ -89,7 +92,7 @@ Calculation::Competition = Struct.new(:competition, :context) do
     end
 
     %i[gs fs la].each do |discipline|
-      %i[female male].each do |gender|
+      Genderable::GENDER_KEYS.each do |gender|
         competition.group_score_categories.discipline(discipline).decorate.each do |category|
           group = Calculation::CompetitionGroupDiscipline.new(self, discipline, gender, category, context)
           next unless group.count > 0

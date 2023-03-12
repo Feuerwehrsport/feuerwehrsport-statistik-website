@@ -2,7 +2,7 @@
 
 class Chart::PersonIndex < Chart::Base
   def gender_pie
-    data = %i[female male].map do |gender|
+    data = Genderable::GENDER_KEYS.map do |gender|
       {
         name: g(gender),
         y: Person.gender(gender).count,

@@ -95,7 +95,7 @@ class Chart::PersonShow < Chart::Base
                     .map(&:year)
                     .map(&:to_i)
       (years.min..years.max).map do |year|
-        %i[hb hl hw].map do |discipline|
+        Discipline::SINGLE.map do |discipline|
           times = person.scores
                         .where(discipline:)
                         .valid

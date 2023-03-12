@@ -6,6 +6,7 @@ class Discipline
     fs: 4,
     la: 7,
   }.freeze
+  SINGLE               = %i[hb hw hl].freeze
   WITHOUT_DOUBLE_EVENT = %i[hb hw hl gs fs la].freeze
   ALL                  = %i[hb hw hl zk gs fs la].freeze
   GROUP                = %i[gs fs la].freeze

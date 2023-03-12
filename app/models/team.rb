@@ -84,7 +84,7 @@ class Team < ApplicationRecord
   GroupAssessment = Struct.new(:discipline, :gender, :scores)
 
   def group_assessments
-    genders = %i[female male].freeze
+    genders = Genderable::GENDER_KEYS.freeze
 
     %i[hl hb hw].map do |discipline|
       genders.map do |gender|
@@ -119,7 +119,7 @@ class Team < ApplicationRecord
   GroupDiscipline = Struct.new(:discipline, :gender, :types)
 
   def group_disciplines
-    genders = %i[female male].freeze
+    genders = Genderable::GENDER_KEYS.freeze
 
     group_disciplines = []
     %i[gs fs la].each do |discipline|

@@ -82,7 +82,7 @@ class Series::RoundImport
       competition.group_score_categories.map { |c| [c.id.to_s, "#{c.name} #{c.group_score_type.name}", true] },
     )
 
-    %i[female male].each do |gender|
+    Genderable::GENDER_KEYS.each do |gender|
       group_teams = competition.group_assessment(group_assessment_disciplines.keys, gender)
                                .map { |ga| [ga.team.id, ga.team_number] }
       team_teams = competition.group_scores.gender(gender).pluck(:team_id, :team_number)

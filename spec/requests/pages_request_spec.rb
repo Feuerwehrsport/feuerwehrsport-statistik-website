@@ -45,6 +45,23 @@ RSpec.describe 'Pages' do
     end
   end
 
+  describe 'GET records' do
+    let(:team) { build_stubbed(:team) }
+    let(:nation) { build_stubbed(:nation) }
+    let(:competition) { build_stubbed(:competition) }
+    let(:person) { build_stubbed(:person) }
+
+    it 'assigns nothing' do
+      allow(Team).to receive(:find).and_return(team)
+      allow(Nation).to receive(:find_by).and_return(nation)
+      allow(Competition).to receive(:find).and_return(competition)
+      allow(Person).to receive(:find).and_return(person)
+
+      get '/records'
+      expect(response).to be_successful
+    end
+  end
+
   describe 'GET wettkampf_manager' do
     it 'assigns wettkampf_manager_versions' do
       get '/wettkampf_manager'

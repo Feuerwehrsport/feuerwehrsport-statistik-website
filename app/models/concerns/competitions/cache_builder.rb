@@ -12,7 +12,7 @@ module Competitions::CacheBuilder
       group = GroupScore.select('COUNT(*)').where('group_score_categories.competition_id = competitions.id')
       update_all("gs = (#{group.discipline(:gs).to_sql})")
 
-      %i[female male].each do |gender|
+      Genderable::GENDER_KEYS.each do |gender|
         single = Score.gender(gender).select('COUNT(*)').where('competition_id = competitions.id')
         update_all("hl_#{gender} = (#{single.hl.to_sql})")
         update_all("hb_#{gender} = (#{single.low_and_high_hb.to_sql})")

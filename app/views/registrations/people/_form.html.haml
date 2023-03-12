@@ -5,7 +5,7 @@
         = m3_form do |f|
           = f.input :first_name
           = f.input :last_name
-          = f.input :gender, collection: Genderable::GENDERS.keys.map { |gender| [g(gender), gender] }
+          = f.input :gender, collection: Genderable::GENDER_KEYS.map { |gender| [g(gender), gender] }
           - if resource.team.blank?
             = f.input :team_name
           - if resource.competition.person_tag_list.present?

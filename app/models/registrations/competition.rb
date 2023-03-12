@@ -7,7 +7,7 @@ class Registrations::Competition < ApplicationRecord
   has_many :teams, inverse_of: :competition, dependent: :destroy, class_name: 'Registrations::Team'
   has_many :people, inverse_of: :competition, dependent: :destroy, class_name: 'Registrations::Person'
 
-  validates :slug, uniqueness: { case_sensitive: false }, allow_blank: true, format: { with: /\A[a-zA-Z0-9\-_+]*\z/ }
+  validates :slug, allow_blank: true, format: { with: /\A[a-zA-Z0-9\-_+]*\z/ }
   before_save :generate_slug
   after_create :remove_old_entries
 

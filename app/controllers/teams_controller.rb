@@ -28,7 +28,7 @@ class TeamsController < ResourceController
     @group_disciplines = resource.group_disciplines
     @series_round_structs = {}
     @max_cup_count = {}
-    %i[female male].each do |gender|
+    Genderable::GENDER_KEYS.each do |gender|
       @series_round_structs[gender] = Series::Round.for_team(resource.id, gender)
       @max_cup_count[gender] = @series_round_structs[gender].values.flatten.map(&:cups).map(&:count).max
     end
