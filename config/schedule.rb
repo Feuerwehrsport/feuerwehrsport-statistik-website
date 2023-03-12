@@ -23,6 +23,10 @@
 job_type :dump, ':path/etc/store_dump.sh "--exclude-table-data=$(sed \':a;N;$!ba;s/\n/ --exclude-table-data=/g\' ' \
                 ':path/config/dump_exclude_tables)" :task'
 
+def rails_command(command)
+  command "/usr/local/bin/feuerwehrsport-statistik.rails #{command} | break_long_lines"
+end
+
 every 20.minutes do
   rails_command 'debug:failed_delayed_jobs'
   rails_command 'rails_log_parser:parse[22]'
