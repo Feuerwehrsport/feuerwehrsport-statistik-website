@@ -32,9 +32,6 @@ class ErrorsController < ApplicationController
     [%r{^/page/wettkampf-manager\.html$}, '/wettkampf_manager'],
     [%r{^/page/year-(\d+)\.html$}, '/years/%1%'],
     [%r{^/page/years\.html$}, '/years'],
-    [%r{^/news/(\d+)$}, '/news_articles/%1%'],
-    [%r{^/news/?$}, '/news_articles'],
-    [%r{^/news\.atom$}, '/news_articles.atom'],
   ].freeze
 
   def not_found

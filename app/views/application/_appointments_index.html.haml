@@ -1,0 +1,4 @@
+- appointments.each do |n|
+  %h5
+    = link_to(n.name, n, title: n.dated_at)
+    %small= n.dated_at

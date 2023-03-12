@@ -14,7 +14,6 @@ class Backend::DashboardsController < Backend::BackendController
     GroupScoreType,
     Link,
     Nation,
-    NewsArticle,
     Person,
     PersonParticipation,
     PersonSpelling,

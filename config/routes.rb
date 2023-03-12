@@ -31,7 +31,6 @@ Rails.application.routes.draw do
     end
     resources :links
     resources :nations
-    resources :news_articles
     namespace :people do
       resource :cleaner, only: %i[show]
     end
@@ -143,7 +142,6 @@ Rails.application.routes.draw do
   resources :people, only: %i[index show]
   resources :places, only: %i[index show]
   resources :teams, only: %i[index show]
-  resources :news_articles, only: %i[index show]
   resources :years, only: %i[index show] do
     member do
       get :best_performance

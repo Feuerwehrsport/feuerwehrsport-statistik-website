@@ -117,7 +117,6 @@ class Ability
     can :read, GroupScoreType
     can :read, GroupScore
     can :read, Nation
-    can :read, NewsArticle
     can :read, Person
     can :read, PersonSpelling
     can :read, Place

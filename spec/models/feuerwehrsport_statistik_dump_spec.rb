@@ -21,7 +21,6 @@ RSpec.describe FeuerwehrsportStatistik do
       group_scores
       links
       nations
-      news_articles
       people
       person_participations
       person_spellings

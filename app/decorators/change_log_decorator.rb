@@ -13,7 +13,6 @@ class ChangeLogDecorator < AppDecorator
     'GroupScoreType',
     'ImportRequest',
     'Nation',
-    'NewsArticle',
     'Person',
     'PersonSpelling',
     'Place',

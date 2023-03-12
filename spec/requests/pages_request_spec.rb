@@ -16,7 +16,6 @@ RSpec.describe 'Pages' do
       expect(controller.instance_variable_get(:@events_count)).to eq 1
       expect(controller.instance_variable_get(:@competitions_count)).to eq 1
       expect(controller.instance_variable_get(:@teams_count)).to eq 1
-      expect(controller.instance_variable_get(:@news).count).to eq 0
       expect(controller.instance_variable_get(:@performance_overview_disciplines).count).to eq 0
       expect(controller.instance_variable_get(:@charts)).to be_instance_of Chart::Dashboard
     end

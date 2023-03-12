@@ -45,9 +45,6 @@ de:
     nation:
       create_nation: Nation hinzufügen
       update_nation: Nation bearbeiten
-    news_article:
-      create_newsarticle: Neuigkeit hinzufügen
-      update_newsarticle: Neuigkeit bearbeiten
     person:
       create_person: Wettkämpfer hinzufügen
       destroy_person: Wettkämpfer löschen

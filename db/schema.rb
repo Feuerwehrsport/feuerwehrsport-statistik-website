@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_10_111120) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_12_220019) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
   enable_extension "plpgsql"
@@ -247,15 +247,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_10_111120) do
     t.datetime "updated_at", :precision=>nil, :null=>false
   end
 
-  create_table "news_articles", id: :serial, force: :cascade do |t|
-    t.string   "title",         :limit=>200, :null=>false
-    t.integer  "admin_user_id", :null=>false, :index=>{:name=>"index_news_articles_on_admin_user_id"}
-    t.text     "content",       :null=>false
-    t.date     "published_at",  :null=>false
-    t.datetime "created_at",    :precision=>nil, :null=>false
-    t.datetime "updated_at",    :precision=>nil, :null=>false
-  end
-
   create_table "people", id: :serial, force: :cascade do |t|
     t.string   "last_name",   :limit=>200, :null=>false
     t.string   "first_name",  :limit=>200, :null=>false
@@ -488,7 +479,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_10_111120) do
   add_foreign_key "group_scores", "group_score_categories"
   add_foreign_key "group_scores", "teams"
   add_foreign_key "import_request_files", "import_requests"
-  add_foreign_key "news_articles", "admin_users"
   add_foreign_key "people", "nations"
   add_foreign_key "person_participations", "group_scores"
   add_foreign_key "person_participations", "people"

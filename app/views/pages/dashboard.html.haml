@@ -21,10 +21,14 @@
             %tr
               %td
               %td.small= link_to("Mehr Infos über den Wettkampf-Manager", wettkampf_manager_path)
-        %p.pull-right= link_to('Alle anzeigen', news_articles_path)
-        = toc.anker('Neuigkeiten', :h3)
-        = render('news_index', news: @news)
-        %p.pull-right= link_to('Alle anzeigen', news_articles_path)
+        %p.pull-right= link_to('Alle anzeigen', appointments_path)
+        = toc.anker('Termine', :h3)
+        %table.table
+          - @appointments.each do |a|
+            %tr
+              %td= a.dated_at
+              %td= link_to(a.name, a)
+              %td= a.place
       .col-md-6
         %h3 Neu eingetragene Wettkämpfe
         %ul
