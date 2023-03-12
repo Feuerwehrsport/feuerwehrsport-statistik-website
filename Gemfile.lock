@@ -565,6 +565,7 @@ DEPENDENCIES
   lazy_high_charts
   m3!
   m3_capistrano3!
+  matrix
   mini_magick
   pg
   prawn-rails

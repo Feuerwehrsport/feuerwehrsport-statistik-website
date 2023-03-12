@@ -19,6 +19,7 @@ gem 'responders' # set of responders
 gem 'simple_form' # more form support
 gem 'm3', path: 'm3' # old lichtbit stuff
 gem 'sprockets-rails' # sprockets for rails
+gem 'matrix'
 
 # templating
 gem 'haml-rails' # haml templating
