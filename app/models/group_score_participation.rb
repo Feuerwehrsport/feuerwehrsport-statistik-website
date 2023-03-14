@@ -14,6 +14,6 @@ class GroupScoreParticipation < ApplicationRecord
   scope :gs, -> { where(discipline: 'gs') }
   scope :best_of_competition, -> do
     distinct_column = "CONCAT(#{table_name}.competition_id, '-', #{table_name}.person_id, #{table_name}.discipline)"
-    select("DISTINCT ON (#{distinct_column}) #{table_name}.*").order("#{distinct_column}, #{table_name}.time")
+    select("DISTINCT ON (#{distinct_column}) #{table_name}.*").order(Arel.sql("#{distinct_column}, #{table_name}.time"))
   end
 end
