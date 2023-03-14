@@ -13,6 +13,7 @@ class Series::RoundsController < ResourceController
   end
 
   def show
+    @kind = resource.kind
     @person_assessments = Series::PersonAssessment.where(round: resource).decorate
     @team_assessments_exists = Series::TeamAssessment.where(round: resource).present?
 

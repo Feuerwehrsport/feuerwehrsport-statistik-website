@@ -1,6 +1,6 @@
 - [:female, :male].each do |gender|
-  - assessments = Series::Round.where(name: round_name).map { |r| r.assessments.gender(gender).first }.compact
-  - people_ids = Series::PersonParticipation.joins(assessment: :round).where(series_rounds: { name: round_name}).joins(:person).merge(Person.gender(gender)).uniq.pluck(:person_id).uniq
+  - assessments = kind.rounds.map { |r| r.assessments.gender(gender).first }.compact
+  - people_ids = Series::PersonParticipation.joins(assessment: :round).where(series_rounds: {id: kind.rounds.select(:id)}).joins(:person).merge(Person.gender(gender)).uniq.pluck(:person_id).uniq
 
   = toc.anker("Ewige Tabelle #{g(gender)}", :h3)
   %table.datatable-extra.datatable.table.table-striped.table-bordered.table-condensed
