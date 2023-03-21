@@ -22,6 +22,7 @@ class Backend::CompetitionsController < Backend::BackendController
     by.scope :place, collection: Place.filter_collection
     by.scope :score_type, collection: ScoreType.filter_collection
     by.scope :team, collection: Team.filter_collection
+    by.scope :bla_badge
   end
 
   default_index do |t|

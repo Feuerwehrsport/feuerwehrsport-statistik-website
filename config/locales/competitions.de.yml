@@ -2,6 +2,7 @@ de:
   activerecord:
     attributes:
       competition:
+        bla_badge: Bla-Zeiten
         date: Datum
         date_iso: Datum
         event: Typ

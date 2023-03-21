@@ -44,6 +44,17 @@ class Competition < ApplicationRecord
     joins(:place, :event)
       .where(matches)
   end
+  scope :bla_badge, -> do
+    where(
+      arel_table[:hb_male_for_bla_badge].eq(true).or(
+        arel_table[:hl_male_for_bla_badge].eq(true).or(
+          arel_table[:hb_female_for_bla_badge].eq(true).or(
+            arel_table[:hl_female_for_bla_badge].eq(true),
+          ),
+        ),
+      ),
+    )
+  end
 
   def group_assessment(discipline, gender)
     team_scores = {}
