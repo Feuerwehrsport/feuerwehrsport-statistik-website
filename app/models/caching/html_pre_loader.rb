@@ -24,7 +24,6 @@ class Caching::HtmlPreLoader
       teams_url,
       years_url,
       events_url,
-      series_rounds_url,
       best_of_url,
     ]
     urls += Place.reorder(created_at: :desc).pluck(:id).map { |id| place_url(id) }
