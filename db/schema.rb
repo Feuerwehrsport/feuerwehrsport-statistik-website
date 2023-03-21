@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_12_220019) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_21_121606) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
   enable_extension "plpgsql"
@@ -248,18 +248,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_12_220019) do
   end
 
   create_table "people", id: :serial, force: :cascade do |t|
-    t.string   "last_name",   :limit=>200, :null=>false
-    t.string   "first_name",  :limit=>200, :null=>false
-    t.integer  "gender",      :null=>false, :index=>{:name=>"index_people_on_gender"}
-    t.integer  "nation_id",   :null=>false, :index=>{:name=>"index_people_on_nation_id"}
-    t.datetime "created_at",  :precision=>nil, :null=>false
-    t.datetime "updated_at",  :precision=>nil, :null=>false
-    t.integer  "hb_count",    :default=>0, :null=>false
-    t.integer  "hl_count",    :default=>0, :null=>false
-    t.integer  "la_count",    :default=>0, :null=>false
-    t.integer  "fs_count",    :default=>0, :null=>false
-    t.integer  "gs_count",    :default=>0, :null=>false
-    t.jsonb    "best_scores", :default=>{}
+    t.string   "last_name",              :limit=>200, :null=>false
+    t.string   "first_name",             :limit=>200, :null=>false
+    t.integer  "gender",                 :null=>false, :index=>{:name=>"index_people_on_gender"}
+    t.integer  "nation_id",              :null=>false, :index=>{:name=>"index_people_on_nation_id"}
+    t.datetime "created_at",             :precision=>nil, :null=>false
+    t.datetime "updated_at",             :precision=>nil, :null=>false
+    t.integer  "hb_count",               :default=>0, :null=>false
+    t.integer  "hl_count",               :default=>0, :null=>false
+    t.integer  "la_count",               :default=>0, :null=>false
+    t.integer  "fs_count",               :default=>0, :null=>false
+    t.integer  "gs_count",               :default=>0, :null=>false
+    t.jsonb    "best_scores",            :default=>{}
+    t.integer  "ignore_bla_untill_year"
   end
 
   create_table "person_participations", id: :serial, force: :cascade do |t|

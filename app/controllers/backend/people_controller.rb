@@ -8,6 +8,7 @@ class Backend::PeopleController < Backend::BackendController
     f.input :last_name
     f.input :gender, collection: %i[male female]
     f.association :nation
+    f.input :ignore_bla_untill_year
   end
 
   filter_index do |by|

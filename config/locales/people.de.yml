@@ -6,6 +6,7 @@ de:
   activerecord:
     attributes:
       person:
+        ignore_bla_untill_year: Ignoriere BLA-Zeiten bis Jahr
         first_name: Vorname
         fs_count: FS
         group_scores: Mannschaftszeiten

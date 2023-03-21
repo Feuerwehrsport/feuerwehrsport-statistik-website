@@ -43,8 +43,17 @@ class Bla::BadgeGenerator
                            .find_by(Score.arel_table[:time].lteq(hl_max_time))
 
     scores = scores.where(Competition.arel_table[:date].lteq(Date.new(2016, 1, 1)))
-    badge.hb_score ||= scores.low_and_high_hb.find_by(Score.arel_table[:time].lteq(hb_max_time + 30))
-    badge.hl_score ||= scores.hl.find_by(Score.arel_table[:time].lteq(hl_max_time + 30))
+    badge.hb_score ||= scores.low_and_high_hb.where(competitions: { "hb_#{person.gender}_for_bla_badge": true })
+                             .find_by(Score.arel_table[:time].lteq(hb_max_time + 30))
+    badge.hl_score ||= scores.hl.where(competitions: { "hl_#{person.gender}_for_bla_badge": true })
+                             .find_by(Score.arel_table[:time].lteq(hl_max_time + 30))
+
+    if person.ignore_bla_untill_year.present? &&
+       ([badge.hb_score&.competition&.year, badge.hl_score&.competition&.year, 0].compact.max <=
+         person.ignore_bla_untill_year)
+      badge.hl_score = nil
+      badge.hb_score = nil
+    end
 
     badge
   end

@@ -3,7 +3,7 @@
     %table.table.table-condensed.table-hover.table-bordered
       - resource.people_with_badges.each do |person, badges|
         %tr
-          %td= person.decorate
+          %td= link_to(person.decorate, person)
           %td= person.decorate.gender_translated
           - 3.times do |i|
             - if !badges[i]
