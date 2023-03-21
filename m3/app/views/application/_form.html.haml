@@ -1,6 +1,4 @@
-= render 'before_form'
 = m3_form(m3_form_options.slice(:as, :url, :html)) do |f|
   - m3_form_structure.each do |child|
     = render 'form_structure', child: child, f: f
   = f.actions(**m3_form_options.slice(:abort_url, :abort_label, :submit_label))
-= render 'after_form'
