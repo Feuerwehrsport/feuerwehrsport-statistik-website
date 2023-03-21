@@ -243,7 +243,7 @@ class ScoreParticipation extends EventHandler
         buildSuggestions(result.people)
         add.show()
 
-    add = $('<button/>').text('Neuen Wettkämpfer hinzufügen').on('click', (e) =>
+    add = $('<button/>').addClass('btn btn-default btn-xs').text('Neuen Wettkämpfer hinzufügen').on('click', (e) =>
       popup.close()
       Fss.getResources 'nations', (nations) =>
         genderOptions = [
@@ -267,14 +267,14 @@ class ScoreParticipation extends EventHandler
         .open()
     ).hide()
 
-    remove = $('<button/>').text('Wettkämpfer entfernen').on('click', (e) =>
+    remove = $('<button/>').addClass('btn btn-default btn-xs').text('Wettkämpfer entfernen').on('click', (e) =>
       e.preventDefault()
       @set('NULL', null, null)
       popup.fire('cancel').close()
       @fssWindow.unhide()
     )
 
-    cancel = $('<button/>').text('Abbrechen').on('click', (e) =>
+    cancel = $('<button/>').addClass('btn btn-default btn-xs').text('Abbrechen').on('click', (e) =>
       e.preventDefault()
       popup.fire('cancel').close()
       @fssWindow.unhide()

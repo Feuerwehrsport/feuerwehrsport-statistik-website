@@ -38,11 +38,11 @@ class @FssWindow extends EventHandler
     @darkroom = $('<div/>').addClass('darkroom')
 
     if @handlers['submit']? and @handlers['submit'].length > 0
-      submit = $('<button/>').text('OK').on('click', (e) =>
+      submit = $('<button/>').addClass('btn btn-primary btn-xs').text('OK').on('click', (e) =>
         e.preventDefault()
         @fire('pre-submit')
       )
-      cancel = $('<button/>').text('Abbrechen').on('click', (e) =>
+      cancel = $('<button/>').addClass('btn btn-default btn-xs').text('Abbrechen').on('click', (e) =>
         e.preventDefault()
         @close()
         @fire('cancel')
