@@ -24,7 +24,7 @@
   .section
     .container
       = render 'teams', band:, teams: band.teams
-      = render 'people', band:, people: band.object.people.without_team.decorate
+      = render 'people', band:, people: band.object.people.without_team.accessible_by(current_ability).decorate
 
 - if can?(:edit, resource)
   .section
