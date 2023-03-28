@@ -2,27 +2,21 @@
 
 class Registrations::TeamsController < Registrations::BaseController
   default_actions :show, :edit, :update, :destroy
-  belongs_to Registrations::Competition, url: -> { collection_redirect_url }
+  belongs_to Registrations::Band, url: -> { collection_redirect_url }
 
   default_form do |f|
     f.inputs :allgemein do
       f.input :name
       f.input :team_number
       f.input :shortcut
-      f.input :gender, as: :hidden
-      f.value :gender_translated
-      f.association :federal_state
     end
     f.inputs :team_leader do
       f.input :team_leader
-      f.input :street_with_house_number
-      f.input :postal_code
-      f.input :locality
       f.input :phone_number
       f.input :email_address
     end
     f.inputs :hint do
-      f.value :hint_to_hint, label: '' if parent_resource.hint_to_hint.present?
+      f.value :hint_to_hint, label: '' if parent_resource.competition.hint_to_hint.present?
       f.input :hint
     end
 
@@ -54,7 +48,7 @@ class Registrations::TeamsController < Registrations::BaseController
   protected
 
   def collection_redirect_url
-    url_for(parent_resource)
+    url_for(parent_resource.competition)
   end
 
   def requestable_assessments(team = form_resource)

@@ -3,10 +3,13 @@
     Wertungen
   .panel-body
     %table.table.table-condensed
-      - resource.assessments.each do |assessment|
+      - resource.bands.each do |band|
         %tr
-          %td= discipline_image(assessment.discipline)
-          %td= assessment.with_gender
+          %th{ colspan: 2 }= band.name
+        - band.assessments.each do |assessment|
+          %tr
+            %td= discipline_image(assessment.discipline)
+            %td= assessment
     - if resource.discipline_array.any? { |d| Discipline.single?(d) }
       - if resource.group_score?
         %em Mannschaftswertung bei Einzeldisziplinen
@@ -14,6 +17,6 @@
         %em Keine Mannschaftswertung bei Einzeldisziplinen
   - if can?(:edit, resource)
     .panel-footer
-      = link_to('Bearbeiten', registrations_competition_assessments_path(resource), class: 'btn btn-default btn-xs')
+      = link_to('Bearbeiten', registrations_competition_bands_path(resource), class: 'btn btn-default btn-xs')
       = link_to('Markierungen bearbeiten', edit_registrations_competition_tags_path(resource),
         class: 'btn btn-default btn-xs', remote: true)

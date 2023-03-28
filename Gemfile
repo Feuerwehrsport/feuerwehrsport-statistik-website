@@ -20,6 +20,7 @@ gem 'simple_form' # more form support
 gem 'm3', path: 'm3' # old lichtbit stuff
 gem 'sprockets-rails' # sprockets for rails
 gem 'matrix'
+gem 'acts_as_list' # position of models
 
 # templating
 gem 'haml-rails' # haml templating
@@ -74,6 +75,7 @@ end
 group :development do
   gem 'spring'
 
+  gem 'web-console'
   gem 'm3_capistrano3', git: 'git@gitlab.lichtbit.com:lichtbit/m3_capistrano3.git'
   gem 'capistrano-rsync-plugin', git: 'https://github.com/Lichtbit/capistrano-rsync-plugin'
 end

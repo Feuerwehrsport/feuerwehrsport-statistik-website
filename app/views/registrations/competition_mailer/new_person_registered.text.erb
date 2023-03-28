@@ -4,7 +4,7 @@ Weitere Informationen zu deinem Wettkampf findest du hier:
 <%= registrations_competition_url(@competition) %>
 
 Wettkämpfer: <%= @person.first_name %> <%= @person.last_name %>
-Geschlecht: <%= @person.gender_translated %>
+Wertungsgruppe: <%= @person.band.decorate %>
 Absender: <%= @person.admin_user %>
 
 Bitte beachte, dass du über weitere Änderungen bezüglich dieses Einzelstarters nicht separat informiert wirst.

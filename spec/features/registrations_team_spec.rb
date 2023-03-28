@@ -4,9 +4,10 @@ require 'rails_helper'
 
 describe 'registration feature', js: true do
   let!(:competition) do
-    create(:registrations_competition, admin_user: create(:admin_user, role: :sub_admin), team_tags: 'Kreiswertung')
+    create(:registrations_competition, admin_user: create(:admin_user, role: :sub_admin))
   end
-  let!(:assessment) { create(:registrations_assessment, :la, competition:) }
+  let!(:band) { create(:registrations_band, competition:, team_tags: 'Kreiswertung') }
+  let!(:assessment) { create(:registrations_assessment, :la, band:) }
   let!(:team) { create(:team) }
 
   it 'registers team' do
@@ -23,24 +24,18 @@ describe 'registration feature', js: true do
     expect(find_field('registrations_team[name]').value).to eq 'FF Warin'
     expect(find_field('registrations_team[shortcut]').value).to eq 'Warin'
     expect do
-      select 'männlich', from: 'Geschlecht'
       click_on('Mannschaft erstellen')
 
       fill_in 'Mannschaftsleiter', with: 'Max Mustermann'
-      fill_in 'Straße und Hausnummer', with: 'Musterstraße 123'
-      fill_in 'Postleitzahl', with: '98765'
-      fill_in 'Ort', with: 'Musterstadt'
       fill_in 'Telefonnummer', with: '+1233/234432'
       fill_in 'E-Mail-Adresse', with: 'foo@bar.de'
+      check 'Kreiswertung'
       check 'Löschangriff nass'
       click_on 'Speichern'
     end.to change(Registrations::Team, :count).by(1)
     expect(Registrations::Team.last.team_id).to eq team.id
 
     expect(page).to have_content('Max Mustermann')
-    expect(page).to have_content('Musterstraße 123')
-    expect(page).to have_content('98765')
-    expect(page).to have_content('Musterstadt')
     expect(page).to have_content('+1233/234432')
     expect(page).to have_content('foo@bar.de')
 
@@ -48,6 +43,6 @@ describe 'registration feature', js: true do
     check 'Kreiswertung'
     click_on 'Speichern'
 
-    expect(page).to have_content('männlich, Kreiswertung')
+    expect(page).to have_content('Männer, Kreiswertung')
   end
 end

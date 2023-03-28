@@ -1,0 +1,44 @@
+= render 'hero', actions: []
+- collection.each do |band|
+  .section
+    .container
+      .btn-group.btn-group-xs.pull-right
+        - unless band.first?
+          = link_to( { action: :edit, id: band.id, move: 'up' }, class: 'btn btn-default') do
+            %span.glyphicon.glyphicon-arrow-up
+        - unless band.last?
+          = link_to( { action: :edit, id: band.id, move: 'down' }, class: 'btn btn-default') do
+            %span.glyphicon.glyphicon-arrow-down
+        = link_to 'Wertung hinzufügen', new_assessment_registrations_competition_band_path(id: band.id), class: 'btn btn-default'
+        = link_to 'Bearbeiten', { action: :edit, id: band.id }, class: 'btn btn-default'
+
+      %h2= band.name
+      - if band.person_tags.present?
+        %h4 Markierungen für Wettkämpfer: #{band.person_tag_list.join(', ')}
+      - if band.team_tags.present?
+        %h4 Markierungen für Mannschaften: #{band.team_tag_list.join(', ')}
+      - band.assessments.each_slice(2) do |assessments|
+        .row
+        - assessments.each do |assessment|
+          .col-md-6
+            .panel.panel-default
+              .panel-heading
+                = discipline_image(assessment.discipline)
+                = assessment
+              .panel-body
+                - if assessment.assessment_participations.present?
+                  %ul
+                    - assessment.assessment_participations.each do |participation|
+                      %li= participation.decorate
+                - else
+                  %em Noch keine Anmeldungen für diese Wertung
+              .panel-footer
+                = link_to 'Bearbeiten',edit_registrations_band_assessment_path(id: assessment, band_id: band.id), class: 'btn btn-default btn-xs'
+                = link_to 'Löschen', registrations_band_assessment_path(id: assessment, band_id: band.id), class: 'btn btn-danger btn-xs',
+                  method: :delete, data: { confirm: h.t3('actions.confirm_destroy') }
+
+.section
+  .container
+    .btn-group
+      = link_to 'Zurück zum Wettkampf', parent_resource, class: 'btn btn-default'
+      = link_to 'Wertungsgruppe hinzufügen', url_for(action: :new), class: 'btn btn-default'

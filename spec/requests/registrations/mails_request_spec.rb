@@ -4,7 +4,8 @@ require 'rails_helper'
 
 RSpec.describe 'Registrations::Mails', login: :user do
   let!(:competition) { create(:registrations_competition, admin_user: login_user) }
-  let!(:team) { create(:registrations_team, competition:) }
+  let!(:band) { create(:registrations_band, competition:) }
+  let!(:team) { create(:registrations_team, band:) }
   let(:mail_params) { { subject: 'subject', text: 'text', add_registration_file: true } }
 
   describe 'GET new' do

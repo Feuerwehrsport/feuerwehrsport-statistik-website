@@ -5,10 +5,11 @@ require 'rails_helper'
 describe Registrations::TeamMailer do
   let(:sender) { create(:admin_user) }
   let(:competition) { create(:registrations_competition, admin_user: sender) }
+  let(:band) { create(:registrations_band, competition:) }
   let(:receiver) { create(:admin_user, login: build(:m3_login, email_address: 'receiver@example.com', name: 'hans')) }
 
   describe '#notification_to_creator' do
-    let(:team) { create(:registrations_team, competition:, admin_user: receiver) }
+    let(:team) { create(:registrations_team, band:, admin_user: receiver) }
     let(:mail) { described_class.with(team:).notification_to_creator }
 
     it 'renders the header information and body' do
@@ -25,10 +26,10 @@ describe Registrations::TeamMailer do
         http://test.host/registrations/competitions/#{competition.id}
 
         Du kannst deine Anmeldung auch weiterhin bearbeiten oder wieder entfernen. Nutze dafür die folgende Seite:
-        http://test.host/registrations/competitions/#{competition.id}/teams/#{team.id}
+        http://test.host/registrations/bands/#{band.id}/teams/#{team.id}
 
         Mannschaft: FF Mannschaft 1
-        Geschlecht: männlich
+        Wertungsgruppe: Männer
       HEREDOC
     end
   end

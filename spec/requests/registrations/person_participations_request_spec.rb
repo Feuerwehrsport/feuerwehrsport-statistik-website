@@ -4,12 +4,13 @@ require 'rails_helper'
 
 RSpec.describe 'Registrations::PersonParticipations', login: :user do
   let(:competition) { create(:registrations_competition) }
-  let(:person) { create(:registrations_person, competition:) }
-  let(:assessment) { create(:registrations_assessment, competition:) }
+  let(:band) { create(:registrations_band, competition:) }
+  let(:person) { create(:registrations_person, band:) }
+  let(:assessment) { create(:registrations_assessment, band:) }
 
   describe 'GET edit' do
     it 'renders form' do
-      get "/registrations/competitions/#{competition.id}/person_participations/#{person.id}/edit"
+      get "/registrations/bands/#{band.id}/person_participations/#{person.id}/edit"
       expect(response).to be_successful
     end
   end
@@ -28,20 +29,20 @@ RSpec.describe 'Registrations::PersonParticipations', login: :user do
     end
 
     it 'updates' do
-      patch "/registrations/competitions/#{competition.id}/person_participations/#{person.id}",
+      patch "/registrations/bands/#{band.id}/person_participations/#{person.id}",
             params: { registrations_person: update_params }
       expect(response).to redirect_to(registrations_competition_path(competition))
       expect(person.reload.assessments).to eq [assessment]
     end
 
     context 'when person has team' do
-      let(:team) { create(:registrations_team, competition:) }
-      let(:person) { create(:registrations_person, team:, competition:) }
+      let(:team) { create(:registrations_team, band:) }
+      let(:person) { create(:registrations_person, team:, band:) }
 
       it 'redirect to team page' do
-        patch "/registrations/competitions/#{competition.id}/person_participations/#{person.id}",
+        patch "/registrations/bands/#{band.id}/person_participations/#{person.id}",
               params: { registrations_person: update_params }
-        expect(response).to redirect_to(registrations_competition_team_path(competition, team))
+        expect(response).to redirect_to(registrations_band_team_path(band, team))
       end
     end
   end

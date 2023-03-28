@@ -1,6 +1,5 @@
 .section
   .container
-    = render 'action_line'
     %h3 Beschreibung
   .container
     .col-md-8
@@ -8,18 +7,25 @@
       = render 'panel_url'
     .col-md-4
       = render 'panel_times'
-      = render 'panel_assessments'
+      = render 'panel_bands'
       = render 'panel_tags'
       - if can?(:edit, resource)
         = render 'panel_actions'
     .col-md-12
-      - Genderable::GENDER_KEYS.each do |gender|
-        - if @teams[gender].present?
-          = render 'teams', gender: gender, teams: @teams[gender]
-        - if @people_count[gender].positive?
-          = render 'people', gender: gender, people: @people[gender], people_count: @people_count[gender]
 
-    = render 'action_line'
+- resource.bands.each do |band|
+  .section
+    .container
+      %hr
+      %h3= band.name
+      .btn-group
+        = link_to 'Mannschaft anmelden', new_registrations_band_team_creation_path(band), class: 'btn btn-default btn-sm'
+        = link_to 'Einzelstarter anmelden', new_registrations_band_person_creation_path(band), class: 'btn btn-default btn-sm'
+  .section
+    .container
+      = render 'teams', band:, teams: band.teams
+      = render 'people', band:, people: band.object.people.without_team.decorate
+
 - if can?(:edit, resource)
   .section
     .container

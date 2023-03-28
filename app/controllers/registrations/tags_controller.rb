@@ -5,10 +5,6 @@ class Registrations::TagsController < Registrations::BaseController
   belongs_to Registrations::Competition, url: -> { collection_redirect_url }
 
   default_form do |f|
-    f.inputs 'Markierungen' do
-      f.input :person_tags
-      f.input :team_tags
-    end
     f.inputs 'Mannschaftswertung' do
       f.input :group_score
     end

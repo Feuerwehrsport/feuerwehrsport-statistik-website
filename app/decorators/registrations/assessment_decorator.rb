@@ -1,16 +1,14 @@
 # frozen_string_literal: true
 
 class Registrations::AssessmentDecorator < AppDecorator
+  decorates_association :band
+
   def to_s
     show_only_name? ? name : [name, discipline_name(discipline)].compact_blank.join(' - ')
   end
 
   def shortcut
     show_only_name? ? name : [name, discipline_name_short(discipline)].compact_blank.join(' - ')
-  end
-
-  def with_gender
-    show_only_name? ? name : "#{self} #{g(gender)}"
   end
 
   def with_image

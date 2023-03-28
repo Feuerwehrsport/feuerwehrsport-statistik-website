@@ -5,6 +5,7 @@ class Registrations::PersonMailer < ApplicationMailer
     person = params[:person]
     @person = person.decorate
     @competition = @person.competition
+    @band = @person.band
     @receiver = @person.admin_user
     mail(
       to: email_address_format(@receiver.email_address, @receiver),

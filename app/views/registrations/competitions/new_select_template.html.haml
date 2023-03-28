@@ -1,25 +1,12 @@
 .section
   .container
     %h1 Vorlage für Wettkämpf wählen
-    .row#template-select
-      - @types.each do |type|
-        .col-md-5.template
-          = simple_form_for(type, url: registrations_competitions_path(from_template: true)) do |f|
-            = f.input :name, as: :hidden
-            = f.input :person_tags, as: :hidden
-            = f.input :group_score, as: :hidden
-            %h3= type.name
-            %table.table.table-condensed
-              = f.simple_fields_for :assessments do |assessment|
-                %tr
-                  %td
-                    = discipline_image(assessment.object.discipline)
-                    = discipline_name(assessment.object.discipline)
-                    = assessment.object.name
-                  %td
-                    = g(assessment.object.gender)
-                    = assessment.input :discipline, as: :hidden
-                    = assessment.input :gender, as: :hidden
-                    = assessment.input :name, as: :hidden
-            .pull-right
-              = f.submit 'Als Vorlage wählen', class: 'btn btn-primary'
+    - Registrations::Competition::TEMPLATES.each_with_index.each_slice(2) do |templates_with_index|
+      .row
+        - templates_with_index.each do |template, index|
+          .col-md-5
+            .panel.panel-default
+              .panel-heading= template.name
+              .panel-body
+                = Redcarpet::Markdown.new(Redcarpet::Render::HTML).render(template.markdown).html_safe
+              .panel-footer= button_to "Auswählen", url_for(action: :create, from_template: index, first: 1), class: 'btn btn-default'

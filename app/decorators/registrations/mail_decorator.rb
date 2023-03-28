@@ -5,11 +5,11 @@ class Registrations::MailDecorator < AppDecorator
   decorates_association :admin_user
 
   def team_receivers_count
-    counted_name(Registrations::Team, object.teams.count)
+    counted_name(Registrations::Team, object.competition.bands.sum { |b| b.teams.count })
   end
 
   def person_receivers_count
-    counted_name(Registrations::Person, object.people.count)
+    counted_name(Registrations::Person, object.competition.bands.sum { |b| b.people.count })
   end
 
   private

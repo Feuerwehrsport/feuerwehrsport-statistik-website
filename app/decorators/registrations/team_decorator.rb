@@ -2,6 +2,7 @@
 
 class Registrations::TeamDecorator < AppDecorator
   decorates_association :competition
+  decorates_association :band
   decorates_association :team_assessment_participations
   decorates_association :admin_user
   decorates_association :federal_state
@@ -17,5 +18,9 @@ class Registrations::TeamDecorator < AppDecorator
 
   def hint_to_hint
     h.simple_format(competition.hint_to_hint)
+  end
+
+  def band_with_tags
+    ([band] + tag_names).join(', ')
   end
 end

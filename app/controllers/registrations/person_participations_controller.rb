@@ -2,7 +2,7 @@
 
 class Registrations::PersonParticipationsController < Registrations::BaseController
   default_actions :edit, :update, for_class: Registrations::Person
-  belongs_to Registrations::Competition, url: -> { registrations_competition_path(parent_resource) }
+  belongs_to Registrations::Band, url: -> { collection_redirect_url }
 
   default_form do |f|
     f.fields_for :person_assessment_participations do
@@ -19,9 +19,9 @@ class Registrations::PersonParticipationsController < Registrations::BaseControl
 
   def collection_redirect_url
     if resource.team.present?
-      registrations_competition_team_path(parent_resource, resource.team_id)
+      registrations_band_team_path(parent_resource, resource.team_id)
     else
-      registrations_competition_path(parent_resource)
+      registrations_competition_path(parent_resource.competition)
     end
   end
 end

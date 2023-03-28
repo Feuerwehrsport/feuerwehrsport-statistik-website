@@ -4,7 +4,7 @@ Weitere Informationen zu deinem Wettkampf findest du hier:
 <%= registrations_competition_url(@competition) %>
 
 Mannschaft: <%= @team.with_number %>
-Geschlecht: <%= @team.gender_translated %>
+Wertungsgruppe: <%= @team.band.decorate %>
 Absender: <%= @team.admin_user %>
 
 Bitte beachte, dass du über weitere Änderungen bezüglich dieser Mannschaft nicht separat informiert wirst.

@@ -4,7 +4,7 @@ Weitere Informationen zu diesem Wettkampf findest du hier:
 <%= registrations_competition_url(@competition) %>
 
 Du kannst deine Anmeldung auch weiterhin bearbeiten oder wieder entfernen. Nutze dafür die folgende Seite:
-<%= registrations_competition_team_url(@competition, @team) %>
+<%= registrations_band_team_url(@team.band, @team) %>
 
 Mannschaft: <%= @team.with_number %>
-Geschlecht: <%= @team.gender_translated %>
+Wertungsgruppe: <%= @team.band.decorate %>

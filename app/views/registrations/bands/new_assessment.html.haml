@@ -1,0 +1,56 @@
+.section
+  .container
+    %h1 Neue Wertung
+    %h2 Auswahl der Disziplin
+    .row
+      .col-md-4
+        .panel.panel-default
+          .panel-heading
+            = discipline_image(:la)
+            = discipline_name(:la)
+            %small (Mannschaftsdisziplin)
+          .panel-body
+            7 Personen, die einen simulierten Löschangriff aufbauen. Bei Kindern und Jugendlichen kann die Personenanzahl abweichen.
+          .panel-footer
+            = link_to("Auswählen", new_registrations_band_assessment_path(band_id: resource.id, discipline: :la), class: "btn btn-default")
+      .col-md-4
+        .panel.panel-default
+          .panel-heading
+            = discipline_image(:gs)
+            = discipline_name(:gs)
+            %small (Mannschaftsdisziplin)
+          .panel-body
+            6 Personen, die feuerwehrtechnische Aufgaben absolvieren. Wird meistens nur bei Frauen oder Jugendlichen durchgeführt.
+          .panel-footer
+            = link_to("Auswählen", new_registrations_band_assessment_path(band_id: resource.id, discipline: :gs), class: "btn btn-default")
+      .col-md-4
+        .panel.panel-default
+          .panel-heading
+            = discipline_image(:fs)
+            = discipline_name(:fs)
+            %small (Mannschaftsdisziplin)
+          .panel-body
+            4 Personen, die in einer Staffel zusammenlaufen. Oftmals können zwei Staffeln pro Mannschaft starten.
+          .panel-footer
+            = link_to("Auswählen", new_registrations_band_assessment_path(band_id: resource.id, discipline: :fs), class: "btn btn-default")
+    .row
+      .col-md-6
+        .panel.panel-default
+          .panel-heading
+            = discipline_image(:hl)
+            = discipline_name(:hl)
+            %small (Einzeldisziplin)
+          .panel-body
+            Aufstieg mit der Hakenleiter an einer simulierten Häuserwand. Männer steigen in die 3. und Frauen in die 1. Etage.
+          .panel-footer
+            = link_to("Auswählen", new_registrations_band_assessment_path(band_id: resource.id, discipline: :hl), class: "btn btn-default")
+      .col-md-6
+        .panel.panel-default
+          .panel-heading
+            = discipline_image(:hb)
+            = discipline_name(:hb)
+            %small (Einzeldisziplin)
+          .panel-body
+            Lauf auf einer Strecke mit Hindernisnissen. Bei Erwachsenen überlicherweise 100 Meter lang.
+          .panel-footer
+            = link_to("Auswählen", new_registrations_band_assessment_path(band_id: resource.id, discipline: :hb), class: "btn btn-default")

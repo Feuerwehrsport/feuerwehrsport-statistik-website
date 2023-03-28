@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 class Registrations::CompetitionDecorator < AppDecorator
-  decorates_association :people
   decorates_association :admin_user
   decorates_association :assessments
-  decorates_association :teams
+  decorates_association :bands
 
   localizes :open_at, :close_at, :date
 

@@ -3,9 +3,8 @@
 class Registrations::Competition < ApplicationRecord
   include UrlSupport
   belongs_to :admin_user
-  has_many :assessments, inverse_of: :competition, dependent: :destroy, class_name: 'Registrations::Assessment'
-  has_many :teams, inverse_of: :competition, dependent: :destroy, class_name: 'Registrations::Team'
-  has_many :people, inverse_of: :competition, dependent: :destroy, class_name: 'Registrations::Person'
+  has_many :bands, inverse_of: :competition, dependent: :destroy, class_name: 'Registrations::Band'
+  has_many :assessments, through: :bands, class_name: 'Registrations::Assessment'
 
   validates :slug, allow_blank: true, format: { with: /\A[a-zA-Z0-9\-_+]*\z/ }
   before_save :generate_slug
@@ -25,14 +24,6 @@ class Registrations::Competition < ApplicationRecord
       .where(arel_table[:date].gteq(Date.current))
       .where(arel_table[:open_at].eq(nil).or(arel_table[:open_at].lteq(Time.current)))
       .where(arel_table[:close_at].eq(nil).or(arel_table[:close_at].gteq(Time.current)))
-  end
-
-  def person_tag_list
-    person_tags.split(',').each(&:strip!)
-  end
-
-  def team_tag_list
-    team_tags.split(',').each(&:strip!)
   end
 
   def slug_url
@@ -70,4 +61,105 @@ class Registrations::Competition < ApplicationRecord
   def remove_old_entries
     self.class.old_entries.destroy_all
   end
+
+  Template = Struct.new(:name, :markdown, :block)
+  TEMPLATES = [
+    Template.new('Löschangriff-Wettkampf', <<~MD,
+      * Löschangriff Frauen
+      * Löschangriff Männer
+    MD
+                 ->(c) do
+                   band = c.bands.build(name: 'Frauen', gender: :female)
+                   band.assessments.build(discipline: :la)
+                   band = c.bands.build(name: 'Männer', gender: :male)
+                   band.assessments.build(discipline: :la)
+                 end),
+    Template.new('Löschangriff-Wettkampf mit Jugend', <<~MD,
+      * Löschangriff Frauen
+      * Löschangriff Männer
+      * Löschangriff Jugend
+    MD
+                 ->(c) do
+                   band = c.bands.build(name: 'Frauen', gender: :female)
+                   band.assessments.build(discipline: :la)
+                   band = c.bands.build(name: 'Männer', gender: :male)
+                   band.assessments.build(discipline: :la)
+                   band = c.bands.build(name: 'Jugend', gender: :indifferent)
+                   band.assessments.build(discipline: :la)
+                 end),
+    Template.new('Hindernisbahn-Wettkampf', <<~MD,
+      * Hindernisbahn Frauen
+      * Hindernisbahn Männer
+      * Hindernisbahn AK 1 (ungeschlechtlich)
+      * Hindernisbahn AK 2 Mädchen
+      * Hindernisbahn AK 2 Jungen
+    MD
+                 ->(c) do
+                   band = c.bands.build(name: 'Frauen', gender: :female)
+                   band.assessments.build(discipline: :hb)
+                   band = c.bands.build(name: 'Männer', gender: :male)
+                   band.assessments.build(discipline: :hb)
+                   band = c.bands.build(name: 'AK 1', gender: :indifferent)
+                   band.assessments.build(discipline: :hb)
+                   band = c.bands.build(name: 'AK 2 Mädchen', gender: :female)
+                   band.assessments.build(discipline: :hb)
+                   band = c.bands.build(name: 'AK 2 Jungen', gender: :male)
+                   band.assessments.build(discipline: :hb)
+                 end),
+    Template.new('Hakenleitersteigen-Wettkampf', <<~MD,
+      * Hakenleitersteigen Frauen
+      * Hakenleitersteigen Männer
+      * Hakenleitersteigen AK 1 (ungeschlechtlich)
+      * Hakenleitersteigen AK 2 Mädchen
+      * Hakenleitersteigen AK 2 Jungen
+    MD
+                 ->(c) do
+                   band = c.bands.build(name: 'Frauen', gender: :female)
+                   band.assessments.build(discipline: :hl)
+                   band = c.bands.build(name: 'Männer', gender: :male)
+                   band.assessments.build(discipline: :hl)
+                   band = c.bands.build(name: 'AK 1', gender: :indifferent)
+                   band.assessments.build(discipline: :hl)
+                   band = c.bands.build(name: 'AK 2 Mädchen', gender: :female)
+                   band.assessments.build(discipline: :hl)
+                   band = c.bands.build(name: 'AK 2 Jungen', gender: :male)
+                   band.assessments.build(discipline: :hl)
+                 end),
+    Template.new('Deutschland-Cup', <<~MD,
+      * Löschangriff Frauen/Männer
+      * 4x100-Meter-Staffel Frauen/Männer
+      * Gruppenstafette Frauen
+      * HB/HL Frauen (U20 auswählbar)
+      * HB/HL Männer (U20 auswählbar)
+      * HB/HL AK 1 (ungeschlechtlich)
+      * HB/HL AK 2 Mädchen
+      * HB/HL AK 2 Jungen
+    MD
+                 ->(c) do
+                   band = c.bands.build(name: 'Frauen', gender: :female)
+                   band.assessments.build(discipline: :la)
+                   band.assessments.build(discipline: :fs)
+                   band.assessments.build(discipline: :gs)
+                   band.assessments.build(discipline: :hl)
+                   band.assessments.build(discipline: :hb)
+                   band = c.bands.build(name: 'Männer', gender: :male)
+                   band.assessments.build(discipline: :la)
+                   band.assessments.build(discipline: :fs)
+                   band.assessments.build(discipline: :hl)
+                   band.assessments.build(discipline: :hb)
+                   band = c.bands.build(name: 'AK 1', gender: :indifferent)
+                   band.assessments.build(discipline: :hl)
+                   band.assessments.build(discipline: :hb)
+                   band = c.bands.build(name: 'AK 2 Mädchen', gender: :female)
+                   band.assessments.build(discipline: :hl)
+                   band.assessments.build(discipline: :hb)
+                   band = c.bands.build(name: 'AK 2 Jungen', gender: :male)
+                   band.assessments.build(discipline: :hl)
+                   band.assessments.build(discipline: :hb)
+                 end),
+    Template.new('Leere Vorlage', <<~MD,
+      * Alle Wertungen können manuell angelegt werden
+    MD
+                 ->(c) {}),
+  ].freeze
 end

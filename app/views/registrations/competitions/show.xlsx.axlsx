@@ -1,39 +1,39 @@
 # frozen_string_literal: true
 
 wb = xlsx_package.workbook
-
-team_assessments = resource.assessments
-person_assessments = resource.object.assessments.for_people.decorate
-
-wb.add_worksheet(name: 'Mannschaften') do |sheet|
-  headline = %w[Name Abkürzung Geschlecht]
-  team_assessments.each { |assessment| headline.push(assessment.with_gender) }
-  sheet.add_row(headline)
-
-  resource.teams.each do |team|
-    row = [team.name, team.shortcut, g(team.gender)]
-    team_assessments.each do |assessment|
-      if Discipline.group?(assessment.discipline)
-        row.push(team.assessments.include?(assessment) ? 'x' : '')
-      else
-        row.push(count_or_zero(team.people.with_assessment(assessment).count))
-      end
-    end
-    sheet.add_row(row)
-  end
-end
-
-wb.add_worksheet(name: 'Wettkämpfer') do |sheet|
-  headline = %w[Vorname Nachname Geschlecht Mannschaft]
-  person_assessments.each { |assessment| headline.push(assessment.with_gender) }
-  sheet.add_row(headline)
-
-  resource.people.each do |person|
-    row = [person.first_name, person.last_name, g(person.gender), person.team.try(:with_number) || person.team_name]
-
-    person_assessments.each do |assessment|
-      row.push(person.person_assessment_participations.find_by(assessment:).try(:decorate).try(:short_type))
-    end
-    sheet.add_row(row)
-  end
-end
+#
+# team_assessments = resource.assessments
+# person_assessments = resource.object.assessments.for_people.decorate
+#
+# wb.add_worksheet(name: 'Mannschaften') do |sheet|
+# headline = %w[Name Abkürzung Geschlecht]
+# team_assessments.each { |assessment| headline.push(assessment) }
+# sheet.add_row(headline)
+#
+# resource.teams.each do |team|
+# row = [team.name, team.shortcut, g(team.gender)]
+# team_assessments.each do |assessment|
+# if Discipline.group?(assessment.discipline)
+# row.push(team.assessments.include?(assessment) ? 'x' : '')
+# else
+# row.push(count_or_zero(team.people.with_assessment(assessment).count))
+# end
+# end
+# sheet.add_row(row)
+# end
+# end
+#
+# wb.add_worksheet(name: 'Wettkämpfer') do |sheet|
+# headline = %w[Vorname Nachname Geschlecht Mannschaft]
+# person_assessments.each { |assessment| headline.push(assessment) }
+# sheet.add_row(headline)
+#
+# resource.people.each do |person|
+# row = [person.first_name, person.last_name, g(person.gender), person.team.try(:with_number) || person.team_name]
+#
+# person_assessments.each do |assessment|
+# row.push(person.person_assessment_participations.find_by(assessment:).try(:decorate).try(:short_type))
+# end
+# sheet.add_row(row)
+# end
+# end

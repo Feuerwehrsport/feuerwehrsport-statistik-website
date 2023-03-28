@@ -5,10 +5,9 @@
         = m3_form do |f|
           = f.input :first_name
           = f.input :last_name
-          = f.input :gender, collection: Genderable::GENDER_KEYS.map { |gender| [g(gender), gender] }
           - if resource.team.blank?
             = f.input :team_name
-          - if resource.competition.person_tag_list.present?
+          - if resource.band.person_tag_list.present?
             %fieldset
               %legend Zusätzliche Angaben
               = f.input :tag_names, as: :check_boxes, collection: parent_resource.person_tag_list

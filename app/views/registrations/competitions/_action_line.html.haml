@@ -1,8 +1,0 @@
-- unless can?(:edit, resource)
-  .btn-group.pull-right
-    = image_link_to('team-add', 'Mannschaft anmelden', new_registrations_competition_team_creation_path(resource),
-      image: { width: '18px' }, class: 'btn btn-default btn-sm')
-    - if form_resource.assessments.for_people.present?
-      = image_link_to('person-add', 'Einzelstarter anmelden',
-      new_registrations_competition_person_creation_path(resource), image: { width: '18px' },
-      class: 'btn btn-default btn-sm', remote: true)

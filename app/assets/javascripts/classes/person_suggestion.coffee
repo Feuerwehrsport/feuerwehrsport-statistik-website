@@ -25,7 +25,7 @@ class PersonSuggestion
       name: @lastValue
       team_name: $('#person_suggestion').data('team-name')
     }
-    suggestion_gender = $('#registrations_person_gender').val()
+    suggestion_gender = $('#registrations_person_gender').text()
     params.gender = suggestion_gender if suggestion_gender
 
     $.post '/api/suggestions/people', params, (result) =>
@@ -37,7 +37,6 @@ class PersonSuggestion
     setValues = (team) ->
       $('#registrations_person_first_name').val(entry.first_name)
       $('#registrations_person_last_name').val(entry.last_name)
-      $('#registrations_person_gender').val(entry.gender)
       $('#registrations_person_person_id').val(entry.id)
       $('#registrations_person_team_name').val(team or entry.teams[0])
 

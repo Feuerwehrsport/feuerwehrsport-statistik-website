@@ -2,11 +2,9 @@
   .panel-heading
     Aktionen
   .panel-body
-    = image_link_to('team-add', 'Mannschaft anmelden', new_registrations_competition_team_creation_path(resource),
-      image: { width: '22px' }, class: 'btn btn-default btn-block')
     - if form_resource.assessments.for_people.present?
       = image_link_to('person-add', 'Einzelstarter anmelden',
-        new_registrations_competition_person_creation_path(resource), image: { width: '22px' },
+        new_registrations_band_person_creation_path(resource), image: { width: '22px' },
         class: 'btn btn-default btn-block', remote: true)
     - if can?(:update, resource)
       = image_link_to('configure', 'Wettkampf bearbeiten', { action: :edit }, image: { width: '22px' },

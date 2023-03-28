@@ -43,10 +43,8 @@ Registrations::Teams::Pdf = Struct.new(:team) do
     lines = header_table_head
     {
       'Name:' => team.decorate.with_number,
-      'Wertungsgruppe:' => ([team.decorate.gender_translated] + team.tag_names).join(', '),
+      'Wertungsgruppe:' => team.decorate.band_with_tags,
       'Mannschaftsleiter:' => team.team_leader,
-      'Straße, Nr.:' => team.street_with_house_number,
-      'PLZ, Ort:' => location_line,
       'Telefon:' => team.phone_number,
       'E-Mail-Adresse:' => team.email_address,
       'Wertungen:' => team.team_assessment_participations.decorate.map(&:assessment).join(', '),

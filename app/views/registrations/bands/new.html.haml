@@ -1,0 +1,93 @@
+= render 'hero', actions: false
+.section
+  .container
+    %h2 Vorlagen
+    .row
+      .col-md-6
+        .panel.panel-default
+          .panel-heading Erwachsene
+          .panel-body
+            .col-md-4.text-center
+              = m3_form(m3_form_options.slice(:url)) do |f|
+                = f.input :name, input_html: { value: 'Frauen' }, as: :hidden
+                = f.input :gender, input_html: { value: 'female' }, as: :hidden
+                = f.submit 'Frauen', class: "btn btn-default btn-block"
+            .col-md-4.text-center
+              = m3_form(m3_form_options.slice(:url)) do |f|
+                = f.input :name, input_html: { value: 'Männer' }, as: :hidden
+                = f.input :gender, input_html: { value: 'male' }, as: :hidden
+                = f.submit 'Männer', class: "btn btn-default btn-block"
+            .col-md-4.text-center
+              = m3_form(m3_form_options.slice(:url)) do |f|
+                = f.input :name, input_html: { value: 'Erwachsene' }, as: :hidden
+                = f.input :gender, input_html: { value: 'indifferent' }, as: :hidden
+                = f.submit 'Erwachsene', class: "btn btn-default btn-block"
+              %em.small Geschlechtsunabhängig
+      .col-md-6
+        .panel.panel-default
+          .panel-heading Jugend
+          .panel-body
+            .col-md-4.text-center
+              = m3_form(m3_form_options.slice(:url)) do |f|
+                = f.input :name, input_html: { value: 'Mädchen' }, as: :hidden
+                = f.input :gender, input_html: { value: 'female' }, as: :hidden
+                = f.submit 'Mädchen', class: "btn btn-default btn-block"
+            .col-md-4.text-center
+              = m3_form(m3_form_options.slice(:url)) do |f|
+                = f.input :name, input_html: { value: 'Jungen' }, as: :hidden
+                = f.input :gender, input_html: { value: 'male' }, as: :hidden
+                = f.submit 'Jungen', class: "btn btn-default btn-block"
+            .col-md-4.text-center
+              = m3_form(m3_form_options.slice(:url)) do |f|
+                = f.input :name, input_html: { value: 'Jugend' }, as: :hidden
+                = f.input :gender, input_html: { value: 'indifferent' }, as: :hidden
+                = f.submit 'Jugend', class: "btn btn-default btn-block"
+              %em.small Geschlechtsunabhängig
+    .row
+      .col-md-6
+        .panel.panel-default
+          .panel-heading AK 1
+          .panel-body
+            .col-md-4.text-center
+              = m3_form(m3_form_options.slice(:url)) do |f|
+                = f.input :name, input_html: { value: 'AK 1 - Mädchen' }, as: :hidden
+                = f.input :gender, input_html: { value: 'female' }, as: :hidden
+                = f.submit 'AK 1 - Mädchen', class: "btn btn-default btn-block"
+            .col-md-4.text-center
+              = m3_form(m3_form_options.slice(:url)) do |f|
+                = f.input :name, input_html: { value: 'AK 1 - Jungen' }, as: :hidden
+                = f.input :gender, input_html: { value: 'male' }, as: :hidden
+                = f.submit 'AK 1 - Jungen', class: "btn btn-default btn-block"
+            .col-md-4.text-center
+              = m3_form(m3_form_options.slice(:url)) do |f|
+                = f.input :name, input_html: { value: 'AK 1' }, as: :hidden
+                = f.input :gender, input_html: { value: 'indifferent' }, as: :hidden
+                = f.submit 'AK 1', class: "btn btn-default btn-block"
+              %em.small Geschlechtsunabhängig
+      .col-md-6
+        .panel.panel-default
+          .panel-heading AK 2
+          .panel-body
+            .col-md-4.text-center
+              = m3_form(m3_form_options.slice(:url)) do |f|
+                = f.input :name, input_html: { value: 'AK 2 - Mädchen' }, as: :hidden
+                = f.input :gender, input_html: { value: 'female' }, as: :hidden
+                = f.submit 'AK 2 - Mädchen', class: "btn btn-default btn-block"
+            .col-md-4.text-center
+              = m3_form(m3_form_options.slice(:url)) do |f|
+                = f.input :name, input_html: { value: 'AK 2 - Jungen' }, as: :hidden
+                = f.input :gender, input_html: { value: 'male' }, as: :hidden
+                = f.submit 'AK 2 - Jungen', class: "btn btn-default btn-block"
+            .col-md-4.text-center
+              = m3_form(m3_form_options.slice(:url)) do |f|
+                = f.input :name, input_html: { value: 'AK 2' }, as: :hidden
+                = f.input :gender, input_html: { value: 'indifferent' }, as: :hidden
+                = f.submit 'AK 2', class: "btn btn-default btn-block"
+              %em.small Geschlechtsunabhängig
+.section
+  .container
+    %h2 Eigene Angaben
+    = m3_form(m3_form_options.slice(:as, :url, :html)) do |f|
+      - m3_form_structure.each do |child|
+        = render 'form_structure', child: child, f: f
+      = f.actions(**m3_form_options.slice(:abort_url, :abort_label, :submit_label))

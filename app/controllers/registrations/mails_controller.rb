@@ -30,12 +30,14 @@ class Registrations::MailsController < Registrations::BaseController
     flash[:success] = 'E-Mail wird im Hintergrund versendet'
 
     %i[teams people].each do |type|
-      form_resource.send(type).each do |res|
-        add_file = type == :teams ? form_resource.add_registration_file : false
-        Registrations::CompetitionMailer.with(
-          resource: res, competition: parent_resource, subject: form_resource.subject,
-          text: form_resource.text, file: add_file, sender: form_resource.admin_user
-        ).news.deliver_later
+      parent_resource.bands.each do |band|
+        band.send(type).each do |res|
+          add_file = type == :teams ? form_resource.add_registration_file : false
+          Registrations::CompetitionMailer.with(
+            resource: res, competition: parent_resource, subject: form_resource.subject,
+            text: form_resource.text, file: add_file, sender: form_resource.admin_user
+          ).news.deliver_later
+        end
       end
     end
 

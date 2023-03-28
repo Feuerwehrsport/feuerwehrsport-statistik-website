@@ -52,7 +52,8 @@ class Ability
     api_user_abilities
 
     can :manage, Registrations::Competition, admin_user_id: user.id
-    can :manage, Registrations::Assessment, competition: { admin_user_id: user.id }
+    can :manage, Registrations::Band, competition: { admin_user_id: user.id }
+    can :manage, Registrations::Assessment, band: { competition: { admin_user_id: user.id } }
     can :manage, Registrations::Mail, competition: { admin_user_id: user.id }
     can :participate, Registrations::Competition, Registrations::Competition.open do |competition|
       competition.date >= Date.current &&

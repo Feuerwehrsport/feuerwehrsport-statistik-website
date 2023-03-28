@@ -2,12 +2,11 @@
 
 class Registrations::PersonCreationsController < Registrations::BaseController
   default_actions :new, :create, for_class: Registrations::Person
-  belongs_to Registrations::Competition, url: -> { registrations_competition_path(parent_resource) }
+  belongs_to Registrations::Band, url: -> { collection_redirect_url }
 
   default_form do |f|
     f.input :first_name
     f.input :last_name
-    f.input :gender
     f.input :team_name if resource.team.blank?
     f.permit :team_id
     f.permit :person_id
@@ -33,9 +32,9 @@ class Registrations::PersonCreationsController < Registrations::BaseController
 
   def collection_redirect_url
     if resource.team.present?
-      registrations_competition_team_path(parent_resource, resource.team)
+      registrations_band_team_path(parent_resource, resource.team)
     else
-      registrations_competition_path(parent_resource)
+      registrations_competition_path(parent_resource.competition)
     end
   end
 end

@@ -10,26 +10,29 @@ FactoryBot.define do
     group_score { true }
   end
 
-  factory :registrations_team, class: 'Registrations::Team' do
+  factory :registrations_band, class: 'Registrations::Band' do
     competition { build(:registrations_competition) }
+    name { 'Männer' }
+    gender { :male }
+  end
+
+  factory :registrations_team, class: 'Registrations::Team' do
+    band { build(:registrations_band) }
     name { 'FF Mannschaft' }
     shortcut { 'Mannschaft' }
-    gender { :male }
     admin_user { AdminUser.first || build(:admin_user) }
   end
 
   factory :registrations_person, class: 'Registrations::Person' do
-    competition { build(:registrations_competition) }
+    band { build(:registrations_band) }
     first_name { 'Alfred' }
     last_name { 'Meier' }
-    gender { :male }
     admin_user { AdminUser.first || build(:admin_user) }
   end
 
   factory :registrations_assessment, class: 'Registrations::Assessment' do
-    competition { build(:registrations_competition) }
+    band { build(:registrations_band) }
     discipline { 'hl' }
-    gender { :male }
 
     trait :la do
       discipline { 'la' }

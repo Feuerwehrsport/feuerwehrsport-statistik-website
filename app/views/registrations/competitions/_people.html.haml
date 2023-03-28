@@ -1,20 +1,17 @@
-%h3
-  Einzelstarter #{g(gender)}
-  %small #{g_symbol(gender)} Anzahl: #{people_count}
 - if people.present?
   = count_table(people) do |ct|
     :ruby
       ct.col('Vorname', :first_name, class: 'col-15 small')
       ct.col('Nachname', :last_name, class: 'col-15 small')
       ct.col('Team', :team_name, class: 'col-10 small')
-      ct.col('Attribute') { |person| person.tag_names.join(', ') } if resource.person_tag_list.present?
+      ct.col('Attribute') { |person| person.tag_names.join(', ') } if band.person_tag_list.present?
       ct.col('') do |row|
-        can?(:edit, row) ? link_to('Bearbeiten', edit_registrations_competition_person_path(resource, row)) : ''
+        can?(:edit, row) ? link_to('Bearbeiten', edit_registrations_band_person_path(band, row)) : ''
       end
-      resource.object.assessments.gender(gender).decorate.each do |assessment|
+      band.assessments.each do |assessment|
         unless Discipline.group?(assessment.discipline)
           ct.col(assessment) do |row|
-            edit_participation(row, assessment, resource)
+            edit_participation(row, assessment, band)
           end
         end
       end
