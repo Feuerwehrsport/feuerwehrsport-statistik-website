@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Registrations::CompetitionSerializer < ActiveModel::Serializer
+class Registrations::BandSerializer < ActiveModel::Serializer
   attributes :name, :gender, :teams, :assessments, :people, :person_tag_list, :team_tag_list
 
   def teams
