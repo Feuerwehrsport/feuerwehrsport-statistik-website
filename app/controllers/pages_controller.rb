@@ -74,7 +74,7 @@ class PagesController < ResourceController
       %i[la female],
       %i[la male],
     ].each do |discipline, gender|
-      klass = Discipline.group?(discipline) ? GroupScore.regular : Score
+      klass = Discipline.group?(discipline) ? GroupScore : Score
       @discipline_structs.push OpenStruct.new(
         discipline:,
         gender:,

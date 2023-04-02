@@ -44,7 +44,7 @@ class GroupScore < ApplicationRecord
     from("(#{sql}) AS #{table_name}").where('r=1')
   end
   scope :best_of, ->(discipline, gender) do
-    sql = GroupScore.unscoped.discipline(discipline).gender(gender)
+    sql = GroupScore.unscoped.regular.discipline(discipline).gender(gender)
                     .select("#{table_name}.*, ROW_NUMBER() OVER (PARTITION BY team_id ORDER BY time ) AS r")
                     .to_sql
     from("(#{sql}) AS #{table_name}").where('r=1')
