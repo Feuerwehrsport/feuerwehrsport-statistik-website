@@ -60,7 +60,7 @@ RSpec.describe 'Registrations::Competitions', login: :user do
     end
 
     context 'when pdf requested' do
-      it 'sends pdf', pending: 'todo' do
+      it 'sends pdf' do
         get "/registrations/competitions/#{competition.id}.pdf"
         expect(controller.send(:resource)).to be_a Registrations::Competition
         expect(response).to be_successful
@@ -84,8 +84,7 @@ RSpec.describe 'Registrations::Competitions', login: :user do
     end
 
     context 'when xlsx requested' do
-      #      render_views
-      it 'sends xlsx', pending: 'todo' do
+      it 'sends xlsx' do
         get "/registrations/competitions/#{competition.id}.xlsx"
         expect(controller.send(:resource)).to be_a Registrations::Competition
         expect(response).to be_successful
@@ -93,7 +92,7 @@ RSpec.describe 'Registrations::Competitions', login: :user do
           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8',
         )
         expect(response.headers['Content-Disposition']).to eq('attachment; filename="d-cup-21-03-2018.xlsx"')
-        expect(response.body.length).to be > 4000
+        expect(response.body.length).to be > 2000
       end
     end
   end

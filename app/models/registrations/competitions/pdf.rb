@@ -10,11 +10,13 @@ Registrations::Competitions::Pdf = Struct.new(:competition, :ability) do
     prawn.text("#{competition.place} - Wettkampfanmeldung", align: :center, size: 14)
     prawn.move_down 12
 
-    Genderable::GENDER_KEYS.each { |gender| build_people_table(gender, people_by(gender)) }
+    competition.bands.each { |band| build_people_table(band, people_by(band)) }
 
-    competition.teams.each do |team|
-      prawn.start_new_page
-      Registrations::Teams::Pdf.new(team).tap { |pdf| pdf.build_team_page(prawn) }
+    competition.bands.each do |band|
+      band.teams.each do |team|
+        prawn.start_new_page
+        Registrations::Teams::Pdf.new(team).tap { |pdf| pdf.build_team_page(prawn) }
+      end
     end
 
     footer(competition.decorate.to_s)
@@ -26,16 +28,16 @@ Registrations::Competitions::Pdf = Struct.new(:competition, :ability) do
     super.merge(margin: [50, 40, 40, 40])
   end
 
-  def build_people_table(gender, people)
+  def build_people_table(band, people)
     return if people.blank?
 
     prawn.move_down 12
-    prawn.text "Einzelstarter #{g(gender)}", size: 14, style: :bold
-    lines = [people_table_headline(gender)]
+    prawn.text "Einzelstarter - #{band.name}", size: 14, style: :bold
+    lines = [people_table_headline(band)]
 
     people.each_with_index do |person, index|
       line = [index + 1, person.first_name, person.last_name, person.team_name, person.tag_names.join(', ')]
-      competition.assessments.gender(gender).decorate.each do |assessment|
+      band.assessments.decorate.each do |assessment|
         unless Discipline.group?(assessment.discipline)
           line.push(person.person_assessment_participations.find_by(assessment:)&.decorate&.short_type)
         end
@@ -51,19 +53,15 @@ Registrations::Competitions::Pdf = Struct.new(:competition, :ability) do
     end
   end
 
-  def people_table_headline(gender)
+  def people_table_headline(band)
     headline = ['Nr.', 'Vorname', 'Nachname', 'Mannschaft', 'Attribute']
-    competition.assessments.gender(gender).decorate.each do |assessment|
+    band.assessments.decorate.each do |assessment|
       headline.push(assessment.shortcut) unless Discipline.group?(assessment.discipline)
     end
     headline
   end
 
-  def teams_by(gender)
-    competition.teams.gender(gender).decorate
-  end
-
-  def people_by(gender)
-    competition.people.gender(gender).without_team.accessible_by(ability).decorate
+  def people_by(band)
+    band.people.without_team.accessible_by(ability).decorate
   end
 end

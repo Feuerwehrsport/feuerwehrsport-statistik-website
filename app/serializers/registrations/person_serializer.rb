@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Registrations::PersonSerializer < ActiveModel::Serializer
-  attributes :id, :team_id, :team_name, :first_name, :last_name, :statitics_person_id, :gender,
+  attributes :id, :team_id, :team_name, :first_name, :last_name, :statitics_person_id,
              :assessment_participations, :tag_names
 
   def statitics_person_id

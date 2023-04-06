@@ -32,7 +32,6 @@ RSpec.describe 'Registrations::Teams', login: :user do
     end
 
     context 'when xlsx requested' do
-      #       render_views
       it 'sends xlsx' do
         get "/registrations/bands/#{band.id}/teams/#{team.id}.xlsx"
         expect(controller.send(:resource)).to be_a Registrations::Team

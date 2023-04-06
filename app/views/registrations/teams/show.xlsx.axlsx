@@ -2,15 +2,15 @@
 
 wb = xlsx_package.workbook
 
-team_assessments = resource.competition.assessments
-person_assessments = resource.competition.object.assessments.for_people.decorate
+team_assessments = form_resource.band.assessments.decorate
+person_assessments = form_resource.band.assessments.for_people.decorate
 
-wb.add_worksheet(name: 'Mannschaft') do |sheet|
-  headline = %w[Name Abkürzung Geschlecht]
+wb.add_worksheet(name: form_resource.band.name.gsub(/[^\dA-z\s]/, '')) do |sheet|
+  headline = %w[Name Abkürzung]
   team_assessments.each { |assessment| headline.push(assessment) }
   sheet.add_row(headline)
 
-  row = [resource.name, resource.shortcut, g(resource.gender)]
+  row = [resource.name, resource.shortcut]
   team_assessments.each do |assessment|
     if Discipline.group?(assessment.discipline)
       row.push(resource.assessments.include?(assessment) ? 'x' : '')
@@ -22,12 +22,12 @@ wb.add_worksheet(name: 'Mannschaft') do |sheet|
 end
 
 wb.add_worksheet(name: 'Wettkämpfer') do |sheet|
-  headline = %w[Vorname Nachname Geschlecht]
+  headline = %w[Vorname Nachname]
   person_assessments.each { |assessment| headline.push(assessment) }
   sheet.add_row(headline)
 
   resource.people.each do |person|
-    row = [person.first_name, person.last_name, g(person.gender)]
+    row = [person.first_name, person.last_name]
     person_assessments.each do |assessment|
       row.push(person.assessments.include?(assessment) ? 'x' : '')
     end

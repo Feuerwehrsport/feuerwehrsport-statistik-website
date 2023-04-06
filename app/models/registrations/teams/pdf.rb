@@ -24,6 +24,10 @@ Registrations::Teams::Pdf = Struct.new(:team) do
 
   protected
 
+  def default_prawn_options
+    super.merge(margin: [50, 40, 40, 40])
+  end
+
   def header_table_head
     [
       [
@@ -56,12 +60,6 @@ Registrations::Teams::Pdf = Struct.new(:team) do
                  ])
     end
     prawn.table(lines, cell_style: { borders: [] }, column_widths: [200, 60, 60, 60, 120])
-  end
-
-  def location_line
-    line = "#{team.postal_code} #{team.locality}"
-    line += " / #{team.decorate.federal_state}" if team.federal_state.present?
-    line
   end
 
   def people_line
