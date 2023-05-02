@@ -22,3 +22,4 @@
 /mails/
 /coverage
 /.rake_tasks~
+/.byebug_history
