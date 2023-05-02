@@ -99,7 +99,7 @@ class AssociationSelectController < ApplicationController
       params[:association],
       params[:q].presence,
       nil,
-      params.to_unsafe_h.slice(:limit).symbolize_keys,
+      **params.to_unsafe_h.slice(:limit).symbolize_keys,
     )
     if params[:q].blank? && select.respond_to?("#{params[:association]}_groups")
       payload[:groups] = select.send("#{params[:association]}_groups")
