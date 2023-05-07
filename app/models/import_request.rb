@@ -43,7 +43,7 @@ class ImportRequest < ApplicationRecord
   end
 
   def compressed_data=(data)
-    json = JSON.parse(Zlib::Inflate.inflate(data), symbolize_names: true)
+    json = JSON.parse(Zlib::Inflate.inflate(Base64.decode64(data)), symbolize_names: true)
     self.date = json[:date]
     self.description = json[:name]
     import_data = {
