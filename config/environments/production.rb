@@ -95,7 +95,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.wettkampf_manager_path = '/srv/feuerwehrsport-statistik/shared/public/uploads/wettkampf_manager'
-  config.wettkampf_manager_config_path = '/home/feuerwehrsport-statistik/wms/config.json'
+  config.wettkampf_manager_config_path = '/srv/wms/config.json'
 
   # Basic URL
   config.default_url_options = {
