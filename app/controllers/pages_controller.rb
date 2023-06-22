@@ -32,7 +32,7 @@ class PagesController < ResourceController
     @teams_count = Team.count
     @years_count = Year.with_competitions.group(:year).count.to_a.map { |y| [y[0].to_i, y[1]] }.sort_by(&:first).reverse
     @appointments = Appointment.dashboard.map(&:decorate)
-    @performance_overview_disciplines = Calculation::PerformanceOfYear::Discipline.get(2022, 5).map(&:decorate)
+    @performance_overview_disciplines = Calculation::PerformanceOfYear::Discipline.get(2023, 5).map(&:decorate)
     @charts = Chart::Dashboard.new(context: view_context)
     @wms = WettkampfManager::Instance.all.select(&:current?)
   end
