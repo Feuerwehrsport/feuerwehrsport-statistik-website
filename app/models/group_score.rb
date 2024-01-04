@@ -38,7 +38,7 @@ class GroupScore < ApplicationRecord
     joins(:group_score_category).where(group_score_categories: { group_score_type_id: group_type.id })
   end
   scope :best_of_year, ->(year, discipline, gender) do
-    sql = GroupScore.unscoped.year(year).discipline(discipline).gender(gender)
+    sql = GroupScore.unscoped.regular.year(year).discipline(discipline).gender(gender)
                     .select("#{table_name}.*, ROW_NUMBER() OVER (PARTITION BY team_id ORDER BY time ) AS r")
                     .to_sql
     from("(#{sql}) AS #{table_name}").where('r=1')
