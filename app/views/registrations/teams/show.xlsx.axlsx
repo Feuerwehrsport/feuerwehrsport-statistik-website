@@ -5,7 +5,7 @@ wb = xlsx_package.workbook
 team_assessments = form_resource.band.assessments.decorate
 person_assessments = form_resource.band.assessments.for_people.decorate
 
-wb.add_worksheet(name: form_resource.band.name.gsub(/[^\dA-z\s]/, '')) do |sheet|
+wb.add_worksheet(name: form_resource.band.name.gsub(/[^\dA-z\s]/, '').truncate_bytes(30)) do |sheet|
   headline = %w[Name Abkürzung]
   team_assessments.each { |assessment| headline.push(assessment) }
   sheet.add_row(headline)
