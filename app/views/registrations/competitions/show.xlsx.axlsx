@@ -6,7 +6,7 @@ form_resource.bands.each do |band|
   team_assessments = band.assessments.decorate
   person_assessments = band.assessments.for_people.decorate
 
-  wb.add_worksheet(name: "#{band.name}: Mannschaften".gsub(/[^\dA-z\s]/, '')) do |sheet|
+  wb.add_worksheet(name: "#{band.name}: Mannschaften".gsub(/[^\dA-z\s]/, '').truncate_bytes(30)) do |sheet|
     headline = %w[Name Abkürzung]
     team_assessments.each { |assessment| headline.push(assessment) }
     sheet.add_row(headline)
