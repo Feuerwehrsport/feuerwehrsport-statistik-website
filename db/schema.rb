@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_21_202130) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_10_095145) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
   enable_extension "plpgsql"
@@ -462,6 +462,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_21_202130) do
     t.datetime "checked_at",         :precision=>nil
     t.integer  "members_count",      :default=>0, :null=>false
     t.integer  "competitions_count", :default=>0, :null=>false
+    t.jsonb    "best_scores",        :default=>{}
   end
 
   add_foreign_key "admin_users", "m3_logins", column: "login_id"

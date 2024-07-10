@@ -8,5 +8,6 @@ class Caching::HeavyBuilder
 
     Competition.update_long_names
     Person.update_best_scores
+    Team.update_best_scores
   end
 end

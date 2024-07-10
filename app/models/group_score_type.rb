@@ -9,4 +9,12 @@ class GroupScoreType < ApplicationRecord
   scope :filter_collection, -> { order(:discipline, :name) }
 
   validates :discipline, :name, presence: true
+
+  def self.din_wko
+    @din_wko ||= GroupScoreType.find_by!(name: 'WKO DIN-Pumpe')
+  end
+
+  def self.tgl_wko
+    @tgl_wko ||= GroupScoreType.find_by!(name: 'WKO TGL-Pumpe')
+  end
 end

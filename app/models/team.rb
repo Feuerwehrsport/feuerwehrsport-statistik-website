@@ -4,6 +4,7 @@ class Team < ApplicationRecord
   include GeoPosition
   include ChangeRequestUploader
   include TeamScopes
+  include Teams::CacheBuilder
 
   STATUS = { team: 0, fire_station: 1 }.freeze
   enum status: STATUS
