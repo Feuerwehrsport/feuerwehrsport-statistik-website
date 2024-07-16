@@ -7,7 +7,9 @@ class Caching::HeavyBuilder
     return if same_future_jobs.present?
 
     Competition.update_long_names
+    Rails.logger.info("update_long_names")
     Person.update_best_scores
+    Rails.logger.info("update_best_scores")
     Team.update_best_scores
   end
 end
