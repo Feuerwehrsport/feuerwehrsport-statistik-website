@@ -59,7 +59,7 @@ class ErrorsController < ApplicationController
 
   def redirect_with_log(target, log_message)
     logger.info("ERROR_CONTROLLER_REDIRECT_INFO[#{log_message}]: #{original_fullpath}  [->]  #{target}")
-    redirect_to(target, status: :moved_permanently)
+    redirect_to(target, status: :moved_permanently, allow_other_host: true)
   end
 
   def entity_merge_redirects
