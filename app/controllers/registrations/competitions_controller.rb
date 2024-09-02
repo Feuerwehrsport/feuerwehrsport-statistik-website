@@ -54,6 +54,8 @@ class Registrations::CompetitionsController < Registrations::BaseController
       if request.format.wettkampf_manager_import?
         render body: resource.to_serializer.to_json, content_type: Mime[:wettkampf_manager_import]
       end
+    else
+      flash[:warning] = "Die Online-Anmeldungen werden bald abgeschaltet. Bitte benutzt in Zukunft das neue Portal <b><a href='https://feusport.de'>feusport.de</a></b>"
     end
   end
 

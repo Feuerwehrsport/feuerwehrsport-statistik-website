@@ -255,9 +255,6 @@ GEM
     htmlentities (4.3.4)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
-    icalendar (2.8.0)
-      ice_cube (~> 0.16)
-    ice_cube (0.16.4)
     image_optim (0.31.3)
       exifr (~> 1.2, >= 1.2.2)
       fspath (~> 3.0)
@@ -567,7 +564,6 @@ DEPENDENCIES
   guard
   guard-rspec
   haml-rails
-  icalendar
   image_optim
   image_optim_pack
   jquery-rails

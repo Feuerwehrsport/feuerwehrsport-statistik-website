@@ -43,7 +43,6 @@ gem 'turbo-rails' # hot wire links
 gem 'will_paginate-bootstrap' # pagination with bootstrap layout
 
 # exports
-gem 'icalendar' # ics export
 gem 'active_model_serializers' # model serializer
 gem 'prawn-rails' # pdf export
 gem 'rqrcode' # pdf/png qr code

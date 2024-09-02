@@ -140,7 +140,7 @@ Rails.application.routes.draw do
 
   # following controllers will write html cache
   resources :change_logs, only: %i[index show]
-  resources :appointments, only: %i[index show]
+  resources :appointments, only: %i[index]
   resources :competitions, only: %i[index show]
   resources :people, only: %i[index show]
   resources :places, only: %i[index show]

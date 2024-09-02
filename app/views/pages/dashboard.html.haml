@@ -11,24 +11,8 @@
       .col-md-3= toc.index
     .container
       .col-md-6
-        - if @wms.present?
-          = toc.anker('Live-Ergebnisse', :h3)
-          %table.table
-            - @wms.each do |i|
-              %tr
-                %td= l(i.date)
-                %td= link_to(i.description, i.url)
-            %tr
-              %td
-              %td.small= link_to("Mehr Infos über den Wettkampf-Manager", wettkampf_manager_path)
-        %p.pull-right= link_to('Alle anzeigen', appointments_path)
-        = toc.anker('Termine', :h3)
-        %table.table
-          - @appointments.each do |a|
-            %tr
-              %td= a.dated_at
-              %td= link_to(a.name, a)
-              %td= a.place
+        = toc.anker('feusport.de', :h3)
+        %p Ab sofort werden Termine, Online-Anmeldungen und Live-Ergebnisse auf dem neuen Portal <b>#{link_to("feusport.de", "https://feusport.de")}</b> verwaltet.
       .col-md-6
         %h3 Neu eingetragene Wettkämpfe
         %ul

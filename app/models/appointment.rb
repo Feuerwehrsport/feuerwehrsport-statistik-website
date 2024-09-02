@@ -22,17 +22,4 @@ class Appointment < ApplicationRecord
   def disciplines
     super.downcase
   end
-
-  def to_icalendar_event
-    e = Icalendar::Event.new
-    e.dtstart = dated_at
-    e.summary = name
-    e.summary += " - #{event.name}" if event.present?
-    e.description = description
-    e.location = place if place.present?
-    e.created = created_at
-    e.last_modified = updated_at
-    e.uid = e.url = appointment_url(self)
-    e
-  end
 end
