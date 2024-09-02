@@ -71,18 +71,6 @@ RSpec.describe 'Registrations::Competitions', login: :user do
       end
     end
 
-    context 'when wettkampf_manager_import requested' do
-      it 'sends wettkampf_manager_import' do
-        get "/registrations/competitions/#{competition.id}.wettkampf_manager_import"
-        expect(controller.send(:resource)).to be_a Registrations::Competition
-        expect(response).to be_successful
-        expect(response.content_type).to eq 'text/wettkampf_manager_format; charset=utf-8'
-        expect(response.headers['Content-Disposition']).to eq 'attachment; ' \
-                                                              'filename="d-cup-21-03-2018.wettkampf_manager_import"'
-        expect(response.body).to eq '{"name":"D-Cup","place":"Ort","date":"2018-03-21","description":"","bands":[]}'
-      end
-    end
-
     context 'when xlsx requested' do
       it 'sends xlsx' do
         get "/registrations/competitions/#{competition.id}.xlsx"

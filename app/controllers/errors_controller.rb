@@ -29,9 +29,11 @@ class ErrorsController < ApplicationController
     [%r{^/page/records\.html$}, '/records'],
     [%r{^/page/team-(\d+)\.html$}, '/teams/%1%'],
     [%r{^/page/teams\.html$}, '/teams'],
-    [%r{^/page/wettkampf-manager\.html$}, '/wettkampf_manager'],
+    [%r{^/page/wettkampf-manager\.html$}, 'https://feusport.de/info'],
     [%r{^/page/year-(\d+)\.html$}, '/years/%1%'],
     [%r{^/page/years\.html$}, '/years'],
+    [%r{^/wettkampf_manager$}, 'https://feusport.de/info'],
+    [%r{^/online_anmeldungen$}, 'https://feusport.de/info'],
   ].freeze
 
   def not_found

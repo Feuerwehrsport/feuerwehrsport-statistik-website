@@ -34,17 +34,11 @@ class PagesController < ResourceController
     @appointments = Appointment.dashboard.map(&:decorate)
     @performance_overview_disciplines = Calculation::PerformanceOfYear::Discipline.get(2023, 5).map(&:decorate)
     @charts = Chart::Dashboard.new(context: view_context)
-    @wms = WettkampfManager::Instance.all.select(&:current?)
   end
 
   def last_competitions_overview
     @page_title = 'Neueste Wettkämpfe'
     @last_competitions = last_competitions(100)
-  end
-
-  def wettkampf_manager
-    @page_title = 'Wettkampf-Manager'
-    @wettkampf_manager_versions = WettkampfManager::Version.all
   end
 
   def records
@@ -81,11 +75,6 @@ class PagesController < ResourceController
         scores: klass.best_of(discipline, gender).order(:time).first(100).map(&:decorate),
       )
     end
-  end
-
-  def online_anmeldungen
-    @page_title = 'Hinweise zu Online-Anmeldungen'
-    @registrations_competitions = Registrations::Competition.open.decorate
   end
 
   def about

@@ -47,13 +47,6 @@ class Registrations::CompetitionsController < Registrations::BaseController
     if request.format.pdf?
       authorize!(:export, resource)
       send_pdf(Registrations::Competitions::Pdf, resource, current_ability)
-    elsif request.format.wettkampf_manager_import? || request.format.xlsx?
-      authorize!(:export, resource)
-      response.headers['Content-Disposition'] =
-        "attachment; filename=\"#{resource.decorate.to_s.parameterize}.#{request.format.to_sym}\""
-      if request.format.wettkampf_manager_import?
-        render body: resource.to_serializer.to_json, content_type: Mime[:wettkampf_manager_import]
-      end
     else
       flash[:warning] = "Die Online-Anmeldungen werden bald abgeschaltet. Bitte benutzt in Zukunft das neue Portal <b><a href='https://feusport.de'>feusport.de</a></b>"
     end

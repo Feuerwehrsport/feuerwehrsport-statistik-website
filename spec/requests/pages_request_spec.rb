@@ -60,11 +60,4 @@ RSpec.describe 'Pages' do
       expect(response).to be_successful
     end
   end
-
-  describe 'GET wettkampf_manager' do
-    it 'assigns wettkampf_manager_versions' do
-      get '/wettkampf_manager'
-      expect(controller.instance_variable_get(:@wettkampf_manager_versions).count).to eq 3
-    end
-  end
 end
