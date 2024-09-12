@@ -10,7 +10,6 @@ module ApplicationHelper
   include GenderNames
   include NumberedTeamNames
   include DatatableHelper
-  include Registrations::RegistrationsHelper
 
   def h
     self
@@ -51,10 +50,6 @@ module ApplicationHelper
 
   def backend?
     controller.class.name.split('::').first == 'Backend'
-  end
-
-  def registrations?
-    controller.class.name.split('::').first == 'Registrations'
   end
 
   def numbered_team_link(score, options = {})

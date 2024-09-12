@@ -151,7 +151,7 @@ describe 'people', js: true do
       change_request_content = ChangeRequest.last.content
       expect(change_request_content).to eq(
         key: 'person-other',
-        data: { person_id: person.id.to_s, description: "Beschreibung\n123" },
+        data: { person_id: person.id.to_s, description: "Beschreibung\r\n123" },
       )
     end
   end

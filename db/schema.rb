@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_07_10_095145) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_12_212642) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
   enable_extension "plpgsql"
@@ -289,83 +289,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_10_095145) do
     t.datetime "updated_at", :precision=>nil, :null=>false
   end
 
-  create_table "registrations_assessment_participations", id: :serial, force: :cascade do |t|
-    t.string   "type",                    :null=>false
-    t.integer  "assessment_id",           :null=>false
-    t.integer  "team_id"
-    t.integer  "person_id"
-    t.integer  "assessment_type",         :default=>0, :null=>false
-    t.integer  "single_competitor_order", :default=>0, :null=>false
-    t.integer  "group_competitor_order",  :default=>0, :null=>false
-    t.datetime "created_at",              :precision=>nil, :null=>false
-    t.datetime "updated_at",              :precision=>nil, :null=>false
-    t.integer  "competitor_order",        :default=>0, :null=>false
-  end
-
-  create_table "registrations_assessments", id: :serial, force: :cascade do |t|
-    t.string   "discipline",     :null=>false
-    t.string   "name",           :default=>"", :null=>false
-    t.datetime "created_at",     :precision=>nil, :null=>false
-    t.datetime "updated_at",     :precision=>nil, :null=>false
-    t.boolean  "show_only_name", :default=>false, :null=>false
-    t.bigint   "band_id"
-  end
-
-  create_table "registrations_bands", force: :cascade do |t|
-    t.string   "name",           :limit=>200, :null=>false
-    t.integer  "gender",         :null=>false
-    t.bigint   "competition_id", :null=>false, :index=>{:name=>"index_registrations_bands_on_competition_id"}
-    t.integer  "position"
-    t.string   "person_tags",    :default=>"", :null=>false
-    t.string   "team_tags",      :default=>"", :null=>false
-    t.datetime "created_at",     :null=>false
-    t.datetime "updated_at",     :null=>false
-  end
-
-  create_table "registrations_competitions", id: :serial, force: :cascade do |t|
-    t.string   "name",          :null=>false
-    t.date     "date",          :null=>false
-    t.string   "place",         :null=>false
-    t.text     "description",   :default=>"", :null=>false
-    t.datetime "open_at",       :precision=>nil
-    t.datetime "close_at",      :precision=>nil
-    t.integer  "admin_user_id", :null=>false
-    t.datetime "created_at",    :precision=>nil, :null=>false
-    t.datetime "updated_at",    :precision=>nil, :null=>false
-    t.string   "slug",          :index=>{:name=>"index_registrations_competitions_on_slug", :unique=>true}
-    t.boolean  "published",     :default=>false, :null=>false
-    t.boolean  "group_score",   :default=>false, :null=>false
-    t.text     "hint_to_hint"
-  end
-
-  create_table "registrations_people", id: :serial, force: :cascade do |t|
-    t.integer  "team_id"
-    t.integer  "person_id"
-    t.integer  "admin_user_id",      :null=>false
-    t.string   "first_name",         :null=>false
-    t.string   "last_name",          :null=>false
-    t.datetime "created_at",         :precision=>nil, :null=>false
-    t.datetime "updated_at",         :precision=>nil, :null=>false
-    t.integer  "registration_order", :default=>0, :null=>false
-    t.string   "team_name"
-    t.bigint   "band_id"
-  end
-
-  create_table "registrations_teams", id: :serial, force: :cascade do |t|
-    t.integer  "team_id"
-    t.string   "name",          :null=>false
-    t.string   "shortcut",      :null=>false
-    t.integer  "team_number",   :default=>1, :null=>false
-    t.string   "team_leader",   :default=>"", :null=>false
-    t.string   "phone_number",  :default=>"", :null=>false
-    t.string   "email_address", :default=>"", :null=>false
-    t.integer  "admin_user_id", :null=>false
-    t.datetime "created_at",    :precision=>nil, :null=>false
-    t.datetime "updated_at",    :precision=>nil, :null=>false
-    t.text     "hint"
-    t.bigint   "band_id"
-  end
-
   create_table "score_types", id: :serial, force: :cascade do |t|
     t.integer  "people",     :null=>false
     t.integer  "run",        :null=>false
@@ -487,19 +410,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_10_095145) do
   add_foreign_key "person_participations", "group_scores"
   add_foreign_key "person_participations", "people"
   add_foreign_key "person_spellings", "people"
-  add_foreign_key "registrations_assessment_participations", "registrations_assessments", column: "assessment_id"
-  add_foreign_key "registrations_assessment_participations", "registrations_people", column: "person_id"
-  add_foreign_key "registrations_assessment_participations", "registrations_teams", column: "team_id"
-  add_foreign_key "registrations_assessments", "registrations_bands", column: "band_id"
-  add_foreign_key "registrations_bands", "registrations_competitions", column: "competition_id"
-  add_foreign_key "registrations_competitions", "admin_users"
-  add_foreign_key "registrations_people", "admin_users"
-  add_foreign_key "registrations_people", "people"
-  add_foreign_key "registrations_people", "registrations_bands", column: "band_id"
-  add_foreign_key "registrations_people", "registrations_teams", column: "team_id"
-  add_foreign_key "registrations_teams", "admin_users"
-  add_foreign_key "registrations_teams", "registrations_bands", column: "band_id"
-  add_foreign_key "registrations_teams", "teams"
   add_foreign_key "scores", "competitions"
   add_foreign_key "scores", "people"
   add_foreign_key "scores", "teams"

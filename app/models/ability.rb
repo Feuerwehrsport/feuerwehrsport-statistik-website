@@ -51,24 +51,6 @@ class Ability
   def user_abilities
     api_user_abilities
 
-    can :manage, Registrations::Competition, admin_user_id: user.id
-    can :manage, Registrations::Band, competition: { admin_user_id: user.id }
-    can :manage, Registrations::Assessment, band: { competition: { admin_user_id: user.id } }
-    can :manage, Registrations::Mail, competition: { admin_user_id: user.id }
-    can :participate, Registrations::Competition, Registrations::Competition.open do |competition|
-      competition.date >= Date.current &&
-        (competition.open_at.nil? || competition.open_at <= Time.current) &&
-        (competition.close_at.nil? || competition.close_at >= Time.current)
-    end
-    can :manage, Registrations::Team, Registrations::Team.manageable_by(user) do |team|
-      can?(:participate, team.competition) &&
-        (team.admin_user_id == user.id || team.competition.admin_user_id == user.id)
-    end
-    can :manage, Registrations::Person, Registrations::Person.manageable_by(user) do |person|
-      can?(:participate, person.competition) &&
-        (person.admin_user_id == user.id || person.competition.admin_user_id == user.id)
-    end
-
     can :read, ImportRequest, admin_user_id: user.id
     can %i[create index], ImportRequest
 
@@ -97,8 +79,6 @@ class Ability
     can :read, Series::Participation
     can :read, Series::Round
     can :read, Series::Kind
-
-    can %i[read slug_handle], Registrations::Competition, published: true
 
     can(:manage, M3::Login::Session)
     can(:verify, M3::Login::Base)

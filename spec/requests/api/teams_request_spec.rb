@@ -14,6 +14,7 @@ RSpec.describe 'Api::Teams' do
       state: 'MV',
       status: 'fire_station',
       tile_path: nil,
+      best_scores: {},
     }
   end
 

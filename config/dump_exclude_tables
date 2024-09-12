@@ -7,10 +7,4 @@ import_requests
 import_request_files
 m3_assets
 m3_logins
-registrations_assessment_participations
-registrations_assessments
-registrations_competitions
-registrations_bands
-registrations_people
-registrations_teams
 tags
