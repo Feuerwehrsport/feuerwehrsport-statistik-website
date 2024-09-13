@@ -42,6 +42,10 @@ module IndexStructures
 
   protected
 
+  def m3_index_export_structure
+    raise ActiveRecord::RecordNotFound
+  end
+
   def m3_index_structure
     M3::Index::Structure.new.decorate
   end
