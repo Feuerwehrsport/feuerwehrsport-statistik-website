@@ -7,6 +7,10 @@ class ApplicationController < M3::ApplicationController
   include MapSupport
   helper_method :current_admin_user, :current_user
 
+  rescue_from RangeError, with: -> do
+    raise ActiveRecord::RecordNotFound
+  end
+
   protected
 
   def send_pdf(klass, *args)
