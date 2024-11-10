@@ -68,7 +68,10 @@
                     - if file.transfered?
                       .fa.fa-exchange-alt
             %dl
-              - %i[url_with_link date place event description].each do |field|
+              - %i[url_with_link date place event].each do |field|
                 - if resource.send(field).present?
                   %dt= resource_class.human_attribute_name(field)
                   %dd= resource.send(field)
+
+              %dt= resource_class.human_attribute_name(:description)
+              %dd= simple_format resource.description
