@@ -40,7 +40,7 @@ class Backend::ImportRequestsController < Backend::BackendController
 
   def show
     super
-    @nearby_competitions = Competition.where(date: ((resource.date - 5.days)..(resource.date + 5.days))).decorate
+    @nearby_competitions = Competition.where(date: ((resource.date - 5.days)..(resource.date + 5.days))).reorder(:date).decorate
   end
 
   protected
