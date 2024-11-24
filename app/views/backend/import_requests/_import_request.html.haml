@@ -75,3 +75,22 @@
 
               %dt= resource_class.human_attribute_name(:description)
               %dd= simple_format resource.description
+
+
+      .col-md-12
+        .panel.panel-default
+          .panel-heading Wettkämpfe mit ähnlichem Datum
+          = count_table(@nearby_competitions) do |t|
+            - t.col('Datum', class: 'col-10 info-link') { |row| competition_link(row, type: :date_iso) }
+            - t.col('Ort', class: 'col-10 small') { |row| place_link(row.place) }
+            - t.col('Typ', class: 'col-10 small') { |row| event_link(row.event) }
+            - t.col('Name', class: 'col-20 info-link') { |row| competition_link(row, type: :name) }
+            - t.col('HBw', th_options: { class: 'small' }, class: 'col-5') { |row| count_or_zero(row.hb_female) }
+            - t.col('HBm', th_options: { class: 'small' }, class: 'col-5') { |row| count_or_zero(row.hb_male) }
+            - t.col('HLw', th_options: { class: 'small' }, class: 'col-5') { |row| count_or_zero(row.hl_female) }
+            - t.col('HLm', th_options: { class: 'small' }, class: 'col-5') { |row| count_or_zero(row.hl_male) }
+            - t.col('GS', th_options: { class: 'small' }, class: 'col-5') { |row| count_or_zero(row.gs) }
+            - t.col('FSw', th_options: { class: 'small' }, class: 'col-5') { |row| count_or_zero(row.fs_female) }
+            - t.col('FSm', th_options: { class: 'small' }, class: 'col-5') { |row| count_or_zero(row.fs_male) }
+            - t.col('LAw', th_options: { class: 'small' }, class: 'col-5') { |row| count_or_zero(row.la_female) }
+            - t.col('LAm', th_options: { class: 'small' }, class: 'col-5') { |row| count_or_zero(row.la_male) }

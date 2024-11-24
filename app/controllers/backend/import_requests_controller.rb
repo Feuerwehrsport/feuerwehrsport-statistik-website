@@ -38,6 +38,11 @@ class Backend::ImportRequestsController < Backend::BackendController
     session[:requested_url_before_login] = url_for
   end
 
+  def show
+    super
+    @nearby_competitions = Competition.where(date: ((resource.date - 5.days)..(resource.date + 5.days))).decorate
+  end
+
   protected
 
   def build_resource

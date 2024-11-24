@@ -1,10 +1,10 @@
 - competition_info ||= nil
 .container
   .col-md-2
-    %input#competition-type-sorted{checked: "checked", name: "competition-type", type: "radio", value: "sorted"}/
+    %input#competition-type-sorted{name: "competition-type", type: "radio", value: "sorted"}/
     %label{for: "competition-type-sorted"} Sortiert
     %br/
-    %input#competition-type-latest{name: "competition-type", type: "radio", value: "latest"}/
+    %input#competition-type-latest{checked: "checked", name: "competition-type", type: "radio", value: "latest"}/
     %label{for: "competition-type-latest"} Letzter
     %br/
     %input#competition-type-new{name: "competition-type", type: "radio", value: "new"}/
