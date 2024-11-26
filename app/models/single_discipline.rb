@@ -1,0 +1,2 @@
+class SingleDiscipline < ApplicationRecord
+end

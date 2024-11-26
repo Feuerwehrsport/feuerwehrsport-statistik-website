@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_12_212642) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_26_101049) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
   enable_extension "plpgsql"
@@ -298,14 +298,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_12_212642) do
   end
 
   create_table "scores", id: :serial, force: :cascade do |t|
-    t.integer  "person_id",      :null=>false, :index=>{:name=>"index_scores_on_person_id"}
-    t.string   "discipline",     :null=>false
-    t.integer  "competition_id", :null=>false, :index=>{:name=>"index_scores_on_competition_id"}
-    t.integer  "time",           :null=>false
-    t.integer  "team_id",        :index=>{:name=>"index_scores_on_team_id"}
-    t.integer  "team_number",    :default=>0, :null=>false
-    t.datetime "created_at",     :precision=>nil, :null=>false
-    t.datetime "updated_at",     :precision=>nil, :null=>false
+    t.integer  "person_id",            :null=>false, :index=>{:name=>"index_scores_on_person_id"}
+    t.string   "discipline",           :null=>false
+    t.integer  "competition_id",       :null=>false, :index=>{:name=>"index_scores_on_competition_id"}
+    t.integer  "time",                 :null=>false
+    t.integer  "team_id",              :index=>{:name=>"index_scores_on_team_id"}
+    t.integer  "team_number",          :default=>0, :null=>false
+    t.datetime "created_at",           :precision=>nil, :null=>false
+    t.datetime "updated_at",           :precision=>nil, :null=>false
+    t.bigint   "single_discipline_id", :null=>false, :index=>{:name=>"index_scores_on_single_discipline_id"}
   end
 
   create_table "series_assessments", id: :serial, force: :cascade do |t|
@@ -354,6 +355,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_12_212642) do
     t.boolean  "official",       :default=>false, :null=>false
     t.integer  "full_cup_count", :default=>4, :null=>false
     t.bigint   "kind_id",        :index=>{:name=>"index_series_rounds_on_kind_id"}
+  end
+
+  create_table "single_disciplines", force: :cascade do |t|
+    t.string   "key",                :limit=>2, :null=>false
+    t.string   "short_name",         :limit=>100, :null=>false
+    t.string   "name",               :limit=>200, :null=>false
+    t.text     "description",        :null=>false
+    t.boolean  "default_for_male",   :default=>false, :null=>false
+    t.boolean  "default_for_female", :default=>false, :null=>false
+    t.datetime "created_at",         :null=>false
+    t.datetime "updated_at",         :null=>false
   end
 
   create_table "tags", id: :serial, force: :cascade do |t|
@@ -412,6 +424,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_12_212642) do
   add_foreign_key "person_spellings", "people"
   add_foreign_key "scores", "competitions"
   add_foreign_key "scores", "people"
+  add_foreign_key "scores", "single_disciplines"
   add_foreign_key "scores", "teams"
   add_foreign_key "series_assessments", "series_rounds", column: "round_id"
   add_foreign_key "series_cups", "competitions"
