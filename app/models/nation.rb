@@ -6,4 +6,5 @@ class Nation < ApplicationRecord
   scope :filter_collection, -> { order(:name) }
 
   validates :name, :iso, presence: true
+  schema_validations
 end

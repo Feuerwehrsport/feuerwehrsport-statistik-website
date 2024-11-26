@@ -13,8 +13,8 @@ class ApplicationController < M3::ApplicationController
 
   protected
 
-  def send_pdf(klass, *args)
-    pdf = klass.build(*args)
+  def send_pdf(klass, *)
+    pdf = klass.build(*)
     send_data(pdf.bytestream, filename: pdf.filename, type: 'application/pdf', disposition: 'inline')
   end
 

@@ -10,6 +10,7 @@ class M3::Login::Base < ApplicationRecord
   validates :new_email_address, 'valid_email_2/email': true
   before_validation :normalize_email_address
   before_validation :assign_tokens
+  schema_validations
 
   scope :verified, -> { where.not(verified_at: nil) }
   scope :valid_password_reset, -> do

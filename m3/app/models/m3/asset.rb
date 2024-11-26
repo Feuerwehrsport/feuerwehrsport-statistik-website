@@ -8,4 +8,6 @@ class M3::Asset < ApplicationRecord
     true
   end
   before_validation { self.name = name.presence || file.try(:file).try(:filename) }
+
+  schema_validations
 end

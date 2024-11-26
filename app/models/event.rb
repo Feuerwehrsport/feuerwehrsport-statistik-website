@@ -2,9 +2,9 @@
 
 class Event < ApplicationRecord
   has_many :competitions, dependent: :restrict_with_exception
-  has_many :appointments, dependent: :restrict_with_exception
 
   validates :name, presence: true
+  schema_validations
 
   scope :competition_count, -> do
     select("#{table_name}.*, COUNT(#{Competition.table_name}.id) AS count")

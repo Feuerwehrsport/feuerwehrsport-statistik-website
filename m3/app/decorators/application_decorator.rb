@@ -45,8 +45,8 @@ class ApplicationDecorator < Draper::Decorator
     options = fields.extract_options!
     fields.each do |field|
       define_method(field) do
-        value = object.send("#{field}_#{I18n.locale}")
-        value = value.html_safe if options[:html_safe] && value.respond_to?(:html_safe) # rubocop:disable Rails/OutputSafety
+        value = object.send(:"#{field}_#{I18n.locale}")
+        value = value.html_safe if options[:html_safe] && value.respond_to?(:html_safe)
         value
       end
     end
@@ -56,14 +56,14 @@ class ApplicationDecorator < Draper::Decorator
     fields.each do |field|
       define_method(field) do
         value = object.send(field)
-        if value.present? && object.class.respond_to?(:human_collection)
-          collection = object.class.human_collection(field)
-          unless collection.is_a?(Hash)
-            raise %(Cannot find translation activerecord.collections.#{field} for class #{object.class.name})
-          end
+        return unless value.present? && object.class.respond_to?(:human_collection)
 
-          collection.stringify_keys[value.to_s]
+        collection = object.class.human_collection(field)
+        unless collection.is_a?(Hash)
+          raise %(Cannot find translation activerecord.collections.#{field} for class #{object.class.name})
         end
+
+        collection.stringify_keys[value.to_s]
       end
     end
   end

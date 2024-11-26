@@ -8,7 +8,6 @@ RSpec.describe FeuerwehrsportStatistik do
   let(:dump_tables) do
     %i[
       active_record_views
-      appointments
       ar_internal_metadata
       bla_badges
       competition_files
@@ -33,6 +32,7 @@ RSpec.describe FeuerwehrsportStatistik do
       series_kinds
       series_participations
       series_rounds
+      single_disciplines
       team_spellings
       teams
     ]

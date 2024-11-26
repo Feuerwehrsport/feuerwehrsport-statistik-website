@@ -5,7 +5,7 @@ module M3::Login
     'm3_login_'
   end
 
-  def self.find(*args)
-    M3::Login::Base.find(*args)
+  def self.find(*)
+    M3::Login::Base.find(*)
   end
 end

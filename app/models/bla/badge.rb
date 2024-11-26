@@ -13,6 +13,7 @@ class Bla::Badge < ApplicationRecord
   end
   validate :score_matches
   validates :hl_time, presence: true, if: -> { person&.gender&.to_sym != :female || year > 2015 }
+  schema_validations
 
   def <=>(other)
     status_as_index <=> other.status_as_index

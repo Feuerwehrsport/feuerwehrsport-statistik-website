@@ -9,6 +9,7 @@ class ChangeRequest < ApplicationRecord
   after_create :remove_old_entries
 
   validates :content, presence: true
+  schema_validations
 
   def user=(user)
     case user

@@ -5,7 +5,6 @@ class ChangeLogDecorator < AppDecorator
 
   LINKABLE_CLASSES = [
     'AdminUser',
-    'Appointment',
     'Competition',
     'Event',
     'GroupScore',

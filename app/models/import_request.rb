@@ -13,6 +13,7 @@ class ImportRequest < ApplicationRecord
   scope :old_entries, -> { where(arel_table[:finished_at].lt(3.months.ago)) }
 
   after_create :remove_old_entries
+  schema_validations
 
   def edit_user_id=(id)
     super
@@ -54,7 +55,7 @@ class ImportRequest < ApplicationRecord
       URL: #{json[:url]}
 
       #{json[:hint]}
-      STRING
+    STRING
     self.url = json[:url]
     import_data = {
       date: json[:date],

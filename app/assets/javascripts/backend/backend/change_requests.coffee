@@ -26,7 +26,6 @@ class Error
       when 'competition-change-name', 'competition-add-hint' then @handleCompetition()
       when 'person-correction', 'person-merge', 'person-other', 'person-change-nation' then @handlePerson()
       when 'team-other', 'team-correction', 'team-merge', 'team-logo' then @handleTeam()
-      when 'appointment-edit' then @handleDate()
       when 'report-link' then @handleLink()
 
 
@@ -285,47 +284,6 @@ class Error
           getTeamBox(div)
           @box(5, div).append($('<pre/>').text(@data.description))
           @getActionBox(div)
-      else
-        @openType = (div) =>
-          @getActionBox(div)
-
-  handleDate: =>
-    getAppointmentBox = (appendTo, headline = 'Termin', id = @data.appointment_id) =>
-      box = @box(5, appendTo).append($('<h4/>').text(headline))
-      Fss.getResource 'appointments', id, (appointment) ->
-        box.append(
-          $('<a/>')
-          .attr('href', "/appointments/#{id}")
-          .text("#{appointment.name} (#{parseDateTime(appointment.dated_at).toLocaleDateString()})")
-        )
-        .append("<br/>ID: #{id}")
-        .append("<br/>Ort: #{appointment.place}")
-        .append("<br/>Typ: #{appointment.event}")
-        .append('<br/>')
-        .append($('<pre/>').text(appointment.description))
-        .append("<br/>Disziplinen: #{appointment.disciplines}")
-
-    @headline = 'Termin'
-    switch @key
-      when 'appointment-edit'
-        @headline += ' - Änderung'
-        @openType = (div) =>
-          getAppointmentBox(div)
-          correctBox = @box(5, div)
-          .append($('<h4/>').text('Korrektur'))
-          .append("Name: #{@data.appointment.name}")
-          .append('<br/>')
-          .append($('<pre/>').text(@data.appointment.description))
-          .append("Disziplinen: #{@data.appointment.disciplines}")
-          .append("<br/>Ort: #{@data.appointment.place}")
-          if @data.appointment.event_id
-            Fss.getResource 'events', @data.appointment.event_id, (event) ->
-              correctBox.append("<br/>Typ: #{event.name}")
-          else
-            @data.appointment.event_id = null
-          @getActionBox(div, =>
-            Fss.put("appointments/#{@data.appointment_id}", { appointment: @data.appointment }, => @confirmDone())
-          , 2)
       else
         @openType = (div) =>
           @getActionBox(div)

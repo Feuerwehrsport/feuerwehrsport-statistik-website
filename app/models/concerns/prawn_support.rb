@@ -87,7 +87,7 @@ module PrawnSupport
     end
   end
 
-  def t(*args)
-    I18n.t(*args)
+  def t(*)
+    I18n.t(*)
   end
 end

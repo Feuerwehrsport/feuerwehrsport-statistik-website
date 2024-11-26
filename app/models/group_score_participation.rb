@@ -16,4 +16,5 @@ class GroupScoreParticipation < ApplicationRecord
     distinct_column = "CONCAT(#{table_name}.competition_id, '-', #{table_name}.person_id, #{table_name}.discipline)"
     select("DISTINCT ON (#{distinct_column}) #{table_name}.*").order(Arel.sql("#{distinct_column}, #{table_name}.time"))
   end
+  skip_schema_validations
 end

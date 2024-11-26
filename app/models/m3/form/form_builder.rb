@@ -89,9 +89,9 @@ class M3::Form::FormBuilder < SimpleForm::FormBuilder
 
   private
 
-  def proc_to_value(proc_or_value, *args)
+  def proc_to_value(proc_or_value, *)
     if proc_or_value.is_a?(Proc)
-      proc_or_value.call(*args)
+      proc_or_value.call(*)
     else
       proc_or_value
     end
@@ -122,7 +122,7 @@ class M3::Form::FormBuilder < SimpleForm::FormBuilder
     return unless object.class.respond_to?(:lookup_ancestors)
 
     out = template.t3(attribute_name, scope: type, model: model_name, default:).presence
-    out.respond_to?(:html_safe) ? out.html_safe : out # rubocop:disable Rails/OutputSafety
+    out.respond_to?(:html_safe) ? out.html_safe : out
   end
 
   def default_abort_url

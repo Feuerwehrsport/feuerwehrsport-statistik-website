@@ -5,4 +5,5 @@ class TeamMember < ApplicationRecord
 
   belongs_to :team
   belongs_to :person
+  skip_schema_validations
 end

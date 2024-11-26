@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'competitions features', js: true do
+describe 'competitions features', :js do
   let(:competition) do
     create(:competition, :score_type)
     group_score = create(:group_score, :double)
@@ -14,23 +14,23 @@ describe 'competitions features', js: true do
     it 'shows the competition' do
       visit competition_path(competition)
 
-      expect(page).not_to have_content('Hindernisbahn weiblich')
-      expect(page).not_to have_content('Hindernisbahn weiblich Mannschaftswertung')
+      expect(page).to have_no_content('Hindernisbahn weiblich')
+      expect(page).to have_no_content('Hindernisbahn weiblich Mannschaftswertung')
 
       expect(page).to have_content('Hindernisbahn männlich')
       expect(page).to have_content('1 bis 1 von 1 Einträgen')
       expect(page).to have_content('Hindernisbahn männlich Mannschaftswertung')
 
-      expect(page).not_to have_content('Hakenleitersteigen weiblich')
-      expect(page).not_to have_content('Hakenleitersteigen weiblich Mannschaftswertung')
+      expect(page).to have_no_content('Hakenleitersteigen weiblich')
+      expect(page).to have_no_content('Hakenleitersteigen weiblich Mannschaftswertung')
 
       expect(page).to have_content('Hakenleitersteigen männlich')
       expect(page).to have_content('Hakenleitersteigen männlich Mannschaftswertung')
 
-      expect(page).not_to have_content('Zweikampf weiblich')
+      expect(page).to have_no_content('Zweikampf weiblich')
       expect(page).to have_content('Zweikampf männlich')
 
-      expect(page).not_to have_content('Löschangriff nass weiblich')
+      expect(page).to have_no_content('Löschangriff nass weiblich')
       expect(page).to have_content('Löschangriff nass männlich')
       expect(page).to have_content('Standardwertung WKO')
 

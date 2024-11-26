@@ -21,7 +21,7 @@ class Series::RoundImport
 
     create_cup
     %i[person team group].each do |type|
-      send("#{type}_assessment_disciplines").each do |discipline, names|
+      send(:"#{type}_assessment_disciplines").each do |discipline, names|
         names.each do |name|
           Genderable::GENDERS.each_key do |gender|
             scores = series_participations(type, gender, discipline)
@@ -30,7 +30,7 @@ class Series::RoundImport
             scores = exclude_scores(scores, type, gender, name)
             if scores.present?
               assessment = create_or_find_assessment(type, discipline, gender, name)
-              create_participations(assessment, cup, scores, send("#{type}_class"))
+              create_participations(assessment, cup, scores, send(:"#{type}_class"))
             end
           end
         end

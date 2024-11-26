@@ -34,7 +34,7 @@ module M3::ApplicationHelper
 
   def can?(verb, resource)
     resource = resource.object if resource.is_a?(Draper::Decorator)
-    super(verb, resource)
+    super
   end
 
   def m3_form_for(resource, options = {}, &)

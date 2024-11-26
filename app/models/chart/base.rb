@@ -57,7 +57,7 @@ class Chart::Base
                 end
 
     if defined?(raw)
-      raw(js_output) # rubocop:disable Rails/OutputSafety
+      raw(js_output)
     else
       js_output
     end

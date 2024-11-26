@@ -6,4 +6,5 @@ class ScoreType < ApplicationRecord
   scope :filter_collection, -> { order(:people, :run, :score) }
 
   validates :people, :run, :score, presence: true
+  schema_validations
 end

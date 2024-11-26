@@ -6,7 +6,7 @@ class Chart::About < Chart::Base
     hc.xAxis(type: 'datetime')
     hc.chart(type: 'line', height: 800)
 
-    [Competition, Score, GroupScore, Team, Person, Place, Appointment, PersonParticipation, Link].each do |klass|
+    [Competition, Score, GroupScore, Team, Person, Place, PersonParticipation, Link].each do |klass|
       hc.series(
         name: klass.model_name.human(count: :many),
         data: data(klass),

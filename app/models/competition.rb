@@ -19,6 +19,7 @@ class Competition < ApplicationRecord
 
   validates :date, presence: true
   delegate :year, to: :date
+  schema_validations
 
   scope :with_group_assessment, -> { joins(:score_type) }
   scope :year, ->(year) do

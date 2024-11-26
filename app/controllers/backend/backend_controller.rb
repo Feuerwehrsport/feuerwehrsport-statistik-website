@@ -35,7 +35,7 @@ class Backend::BackendController < ApplicationController
     associations = {}
     resource_class.reflect_on_all_associations.select { |a| a.macro == :has_many }.map do |association|
       collection = resource.send(association.name)
-      collection = collection.is_a?(ApplicationCollectionDecorator) ? collection.object : collection
+      collection = collection.object if collection.is_a?(ApplicationCollectionDecorator)
       next if association.nested?
 
       instance = collection.new

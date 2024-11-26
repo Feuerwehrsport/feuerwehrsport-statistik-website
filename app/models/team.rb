@@ -7,7 +7,7 @@ class Team < ApplicationRecord
   include Teams::CacheBuilder
 
   STATUS = { team: 0, fire_station: 1 }.freeze
-  enum status: STATUS
+  enum :status, STATUS
 
   has_many :group_scores, dependent: :restrict_with_exception
   has_many :scores, dependent: :restrict_with_exception
@@ -45,6 +45,7 @@ class Team < ApplicationRecord
   scope :competition, ->(cid) { joins(:team_competitions).where(team_competitions: { competition_id: cid }) }
   scope :filter_collection, -> { index_order }
   scope :unchecked, -> { where(checked_at: nil) }
+  schema_validations
 
   def self.update_members_and_competitions_count
     update_all("

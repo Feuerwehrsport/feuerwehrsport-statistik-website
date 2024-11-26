@@ -16,6 +16,7 @@ class AdminUser < ApplicationRecord
   scope :where_name_like, ->(value) { joins(:login).where('m3_logins.name ILIKE ?', "%#{value}%") }
 
   validates :role, inclusion: { in: ROLES }
+  schema_validations
 
   def role
     super.try(:to_sym)

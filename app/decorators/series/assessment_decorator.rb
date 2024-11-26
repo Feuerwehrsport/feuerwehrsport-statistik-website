@@ -7,7 +7,7 @@ class Series::AssessmentDecorator < AppDecorator
   localizes_gender
 
   def to_s
-    [discipline_name(discipline), name, gender_translated].select(&:present?).join(' - ')
+    [discipline_name(discipline), name, gender_translated].compact_blank.join(' - ')
   end
 
   def page_title

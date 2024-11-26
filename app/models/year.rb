@@ -9,6 +9,7 @@ class Year < ApplicationRecord
       .with_competitions
       .group("#{table_name}.year")
   end)
+  skip_schema_validations
 
   def self.param_column_name
     :year

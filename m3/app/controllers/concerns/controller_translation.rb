@@ -46,7 +46,7 @@ module ControllerTranslation
       options.reverse_merge!(t3_interpolations)
 
       out = I18n.t(key, **options)
-      out = out.html_safe if out.is_a?(String) && key.to_s.end_with?('_html') # rubocop:disable Rails/OutputSafety
+      out = out.html_safe if out.is_a?(String) && key.to_s.end_with?('_html')
       out
     end
   end

@@ -14,6 +14,7 @@ class Series::Assessment < ApplicationRecord
   scope :round, ->(round_id) { where(round_id:) }
 
   validates :discipline, :gender, presence: true
+  schema_validations
 
   def rows
     @rows ||= calculate_rows

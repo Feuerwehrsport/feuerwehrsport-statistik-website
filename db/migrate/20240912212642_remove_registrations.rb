@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveRegistrations < ActiveRecord::Migration[7.0]
   def change
     drop_table :registrations_assessment_participations

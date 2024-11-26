@@ -6,7 +6,7 @@ describe 'teams features' do
   let(:team) { create(:team) }
   let(:team_without_geo_location) { create(:team, :without_geo_location) }
 
-  before { page.driver.browser.url_blacklist = ['openstreetmap'] }
+  before { page.driver.browser.url_blacklist = [/openstreetmap/] }
 
   context 'when index' do
     it 'can add team' do
@@ -67,8 +67,8 @@ describe 'teams features' do
         find_by_id('add-geo-position').click
         find('.btn.btn-primary').click
       end
-      expect(page).not_to have_content('Bitte warten')
-      expect(page).not_to have_content('Geoposition hinzufügen')
+      expect(page).to have_no_content('Bitte warten')
+      expect(page).to have_no_content('Geoposition hinzufügen')
 
       team = Team.find(team_without_geo_location.id)
       expect(team.latitude).to eq 51

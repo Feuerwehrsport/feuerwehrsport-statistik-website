@@ -50,6 +50,7 @@ class Person < ApplicationRecord
   end
 
   validates :last_name, :gender, presence: true
+  schema_validations
 
   def merge_to(correct_person)
     raise ActiveRecord::ActiveRecordError, 'same id' if id == correct_person.id

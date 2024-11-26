@@ -11,8 +11,8 @@ class ErrorsController < ApplicationController
     [%r{^/page/best-scores-of-year-(\d+)\.html$}, '/years/%1%/best_performance'],
     [%r{^/page/competition-(\d+)\.html$}, '/competitions/%1%'],
     [%r{^/page/competitions\.html$}, '/competitions'],
-    [%r{^/page/date-(\d+)\.html$}, '/appointments/%1%'],
-    [%r{^/page/dates\.html$}, '/appointments'],
+    [%r{^/page/date-(\d+)\.html$}, 'https://feusport.de'],
+    [%r{^/page/dates\.html$}, 'https://feusport.de'],
     [%r{^/page/event-(\d+)\.html$}, '/events/%1%'],
     [%r{^/page/events\.html$}, '/events'],
     [%r{^/page/feeds\.html$}, '/rss'],
@@ -32,6 +32,7 @@ class ErrorsController < ApplicationController
     [%r{^/page/wettkampf-manager\.html$}, 'https://feusport.de/info'],
     [%r{^/page/year-(\d+)\.html$}, '/years/%1%'],
     [%r{^/page/years\.html$}, '/years'],
+    [%r{^/appointments}, 'https://feusport.de'],
     [%r{^/wettkampf_manager$}, 'https://feusport.de/info'],
     [%r{^/online_anmeldungen$}, 'https://feusport.de/info'],
   ].freeze

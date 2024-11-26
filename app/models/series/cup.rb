@@ -9,4 +9,5 @@ class Series::Cup < ApplicationRecord
   has_many :participations, dependent: :destroy, class_name: 'Series::Participation'
 
   default_scope -> { joins(:competition).order(Arel.sql('competitions.date')) }
+  schema_validations
 end

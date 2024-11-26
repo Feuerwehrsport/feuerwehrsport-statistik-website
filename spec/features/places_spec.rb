@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-describe 'places features', js: true do
+describe 'places features', :js do
   let(:place) { create(:place) }
 
-  before { page.driver.browser.url_blacklist = ['openstreetmap'] }
+  before { page.driver.browser.url_blacklist = [/openstreetmap/] }
 
   context 'when index' do
     it 'shows an overview' do
@@ -40,8 +40,8 @@ describe 'places features', js: true do
         find_by_id('change-geo-position').click
         find('.btn.btn-primary').click
       end
-      expect(page).not_to have_content('Bitte warten')
-      expect(page).not_to have_content('Geoposition hinzufügen')
+      expect(page).to have_no_content('Bitte warten')
+      expect(page).to have_no_content('Geoposition hinzufügen')
 
       place = Place.last
       expect(place.latitude).to eq 51

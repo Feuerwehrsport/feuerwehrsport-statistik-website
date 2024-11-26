@@ -9,6 +9,7 @@ class ApiUser < ApplicationRecord
   validates :email_address, 'valid_email_2/email': true, allow_blank: true
   validates :name, presence: true
   after_create :remove_old_entries
+  schema_validations
 
   def user_agent=(user_agent)
     self.user_agent_meta = user_agent&.truncate(10)

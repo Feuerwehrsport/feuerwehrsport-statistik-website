@@ -5,7 +5,6 @@ class Backend::DashboardsController < Backend::BackendController
     ::Bla::Badge,
     ::Series::Round,
     AdminUser,
-    Appointment,
     Competition,
     CompetitionFile,
     Event,

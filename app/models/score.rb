@@ -15,6 +15,7 @@ class Score < ApplicationRecord
   # -5 = Außer der Wertung
 
   belongs_to :person
+  belongs_to :single_discipline
   belongs_to :competition
   belongs_to :team
   has_many :hl_bla_badges, foreign_key: :hl_score_id, class_name: 'Bla::Badge', dependent: :nullify,
@@ -53,6 +54,8 @@ class Score < ApplicationRecord
                .to_sql
     from("(#{sql}) AS #{table_name}").where('r=1')
   end
+
+  schema_validations
 
   def self.yearly_best_times_subquery(competitions)
     Score

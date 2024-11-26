@@ -4,7 +4,7 @@ class FilePreviewInput < SimpleForm::Inputs::FileInput
   def input(_wrapper_options = nil)
     input_html_options.delete(:preview_version)
     out = ActiveSupport::SafeBuffer.new
-    if object.send("#{attribute_name}?") && !has_errors?
+    if object.send(:"#{attribute_name}?") && !has_errors?
       file = object.send(attribute_name)
       out << template.tag.div(file.file.filename, class: 'imagepreview-filename')
       out << js_buttons

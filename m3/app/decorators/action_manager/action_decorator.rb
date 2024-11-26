@@ -23,7 +23,7 @@ class ActionManager::ActionDecorator < ApplicationDecorator
 
   protected
 
-  def can?(*args)
-    object.send(:can?, *args)
+  def can?(*)
+    object.send(:can?, *)
   end
 end

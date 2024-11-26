@@ -14,7 +14,6 @@ Rails.application.routes.draw do
       end
     end
     resources :admin_users, only: %i[show edit update index destroy]
-    resources :appointments
     resources :change_requests, only: [:index]
     namespace :caching do
       resource :cleaner, only: %i[new create]
@@ -64,7 +63,6 @@ Rails.application.routes.draw do
         post :logout
       end
     end
-    resources :appointments, only: %i[create show update index]
     resources :change_requests, only: %i[create index update] do
       get 'files/:id', to: 'change_requests#files'
     end
@@ -116,7 +114,6 @@ Rails.application.routes.draw do
 
   # following controllers will write html cache
   resources :change_logs, only: %i[index show]
-  resources :appointments, only: %i[index]
   resources :competitions, only: %i[index show]
   resources :people, only: %i[index show]
   resources :places, only: %i[index show]

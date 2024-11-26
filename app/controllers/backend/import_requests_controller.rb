@@ -28,6 +28,11 @@ class Backend::ImportRequestsController < Backend::BackendController
     i.col :created_at
   end
 
+  def show
+    super
+    @nearby_competitions = Competition.where(date: ((resource.date - 5.days)..(resource.date + 5.days))).reorder(:date).decorate
+  end
+
   def new
     form_resource.import_request_files.build
     super
@@ -36,11 +41,6 @@ class Backend::ImportRequestsController < Backend::BackendController
   def decide_login
     redirect_to action: :new if current_login.present?
     session[:requested_url_before_login] = url_for
-  end
-
-  def show
-    super
-    @nearby_competitions = Competition.where(date: ((resource.date - 5.days)..(resource.date + 5.days))).reorder(:date).decorate
   end
 
   protected

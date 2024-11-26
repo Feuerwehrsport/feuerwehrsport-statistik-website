@@ -34,14 +34,14 @@ module M3::FormObjectAssociations
     def belongs_to(accessor, id_accessor: "#{accessor}_id", class_name: accessor.to_s.classify)
       attr_reader accessor, id_accessor
 
-      define_method("#{accessor}=") do |record|
-        instance_variable_set("@#{accessor}", record)
-        instance_variable_set("@#{id_accessor}", record.try(:id))
+      define_method(:"#{accessor}=") do |record|
+        instance_variable_set(:"@#{accessor}", record)
+        instance_variable_set(:"@#{id_accessor}", record.try(:id))
       end
 
-      define_method("#{id_accessor}=") do |record_id|
-        instance_variable_set("@#{id_accessor}", record_id)
-        instance_variable_set("@#{accessor}", class_name.constantize.find_by(id: record_id))
+      define_method(:"#{id_accessor}=") do |record_id|
+        instance_variable_set(:"@#{id_accessor}", record_id)
+        instance_variable_set(:"@#{accessor}", class_name.constantize.find_by(id: record_id))
       end
 
       reflections

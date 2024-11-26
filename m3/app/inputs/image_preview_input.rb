@@ -6,7 +6,7 @@ class ImagePreviewInput < FilePreviewInput
     url = input_html_options.delete(:preview_url)
     out = ActiveSupport::SafeBuffer.new
     out << '<div class="imagepreview">'.html_safe
-    if object.send("#{attribute_name}?") && !has_errors?
+    if object.send(:"#{attribute_name}?") && !has_errors?
       image = object.send(attribute_name)
       version = :thumb if version.nil? && image.respond_to?(:thumb)
       version = :thumbnail if version.nil? && image.respond_to?(:thumbnail)

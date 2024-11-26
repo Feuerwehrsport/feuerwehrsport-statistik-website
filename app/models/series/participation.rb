@@ -7,4 +7,5 @@ class Series::Participation < ApplicationRecord
   belongs_to :assessment, class_name: 'Series::Assessment'
 
   validates :time, :points, :rank, presence: true
+  schema_validations
 end

@@ -4,13 +4,10 @@ source 'https://rubygems.org'
 
 gem 'rails', '~> 7.0.0'
 
-# background stuff
 gem 'pg' # postgres adapter
 gem 'bcrypt' # password hashs
-gem 'bootsnap', require: false # boot rails faster
-gem 'daemons' # background jobs
-gem 'delayed_job_active_record' # background jobs
-gem 'whenever' # cronjobs
+
+gem 'sprockets-rails' # asset pipeline
 gem 'puma' # dev web server
 gem 'cancancan' # abilities
 gem 'carrierwave' # uploads
@@ -18,11 +15,17 @@ gem 'mini_magick' # image processing
 gem 'responders' # set of responders
 gem 'simple_form' # more form support
 gem 'm3', path: 'm3' # old lichtbit stuff
-gem 'sprockets-rails' # sprockets for rails
 gem 'matrix'
 gem 'acts_as_list' # position of models
 
-# templating
+gem 'bootsnap', require: false # Reduces boot times through caching; required in config/boot.rb
+
+# # background jobs
+gem 'daemons' # background jobs
+gem 'delayed_job_active_record' # background jobs
+gem 'whenever' # cronjobs
+
+# # templating
 gem 'haml-rails' # haml templating
 gem 'redcarpet' # markdown
 
@@ -50,9 +53,12 @@ gem 'caxlsx_rails' # xlsx exports
 gem 'draper' # model decorators
 
 # validation
-gem 'schema_validations' # validations from database
 gem 'activerecord_views' # save db views in code
+gem 'generated_schema_validations' # validate models by schema
 gem 'valid_email2' # validate emails
+
+gem 'mutex_m' # remove on Rails 7.2
+gem 'drb' # remove on Rails 7.2
 
 group :production do
   gem 'unicorn'
@@ -65,10 +71,12 @@ group :development, :test do
 
   # code beautifier
   gem 'rubocop'
-  gem 'rubocop-daemon'
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
+  gem 'rubocop-rspec_rails'
+  gem 'rubocop-factory_bot'
+  gem 'rubocop-capybara'
 end
 
 group :development do

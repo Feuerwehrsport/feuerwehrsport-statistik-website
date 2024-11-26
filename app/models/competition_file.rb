@@ -11,6 +11,7 @@ class CompetitionFile < ApplicationRecord
   scope :competition, ->(competition_id) { where(competition_id:) }
 
   validates :file, presence: true
+  schema_validations
 
   def keys
     keys_string.split(',')

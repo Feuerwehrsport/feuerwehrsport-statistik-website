@@ -10,4 +10,5 @@ class PersonParticipation < ApplicationRecord
   scope :discipline, ->(discipline) { joins(:group_score).merge(GroupScore.discipline(discipline)) }
 
   validates :position, presence: true
+  schema_validations
 end

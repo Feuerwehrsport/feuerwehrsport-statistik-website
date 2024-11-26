@@ -18,10 +18,10 @@ class Caching::Cache < ActiveSupport::Cache::FileStore
     super(cache_path)
   end
 
-  def fetch(*args, &)
+  def fetch(*, &)
     if Rails.configuration.caching && caching
       begin
-        super(*args, &)
+        super
       rescue Errno::ENOENT
         yield
       end

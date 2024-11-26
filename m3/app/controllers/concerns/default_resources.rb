@@ -16,11 +16,11 @@ module DefaultResources
   end
 
   def collection
-    instance_variable_get("@#{collection_name}")
+    instance_variable_get(:"@#{collection_name}")
   end
 
   def collection=(collection)
-    instance_variable_set("@#{collection_name}", collection)
+    instance_variable_set(:"@#{collection_name}", collection)
   end
 
   def resource_name
@@ -28,11 +28,11 @@ module DefaultResources
   end
 
   def resource
-    instance_variable_get("@#{resource_name}")
+    instance_variable_get(:"@#{resource_name}")
   end
 
   def resource=(resource)
-    instance_variable_set("@#{resource_name}", resource)
+    instance_variable_set(:"@#{resource_name}", resource)
   end
 
   def resource_class

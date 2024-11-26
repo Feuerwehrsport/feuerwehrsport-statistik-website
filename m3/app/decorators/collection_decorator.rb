@@ -3,7 +3,7 @@
 class CollectionDecorator < Draper::CollectionDecorator
   delegate :current_page, :per_page, :offset, :total_entries, :total_pages, :klass
 
-  def order(*args)
-    object.order(*args).decorate
+  def order(*)
+    object.order(*).decorate
   end
 end

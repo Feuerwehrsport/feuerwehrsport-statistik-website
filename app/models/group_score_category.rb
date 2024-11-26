@@ -14,4 +14,5 @@ class GroupScoreCategory < ApplicationRecord
   scope :group_score_type, ->(group_score_type_id) { where(group_score_type_id:) }
 
   validates :name, presence: true
+  schema_validations
 end

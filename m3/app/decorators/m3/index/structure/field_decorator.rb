@@ -26,11 +26,10 @@ class M3::Index::Structure::FieldDecorator < ApplicationDecorator
                        end
       end
     end
-    order_strings = []
-    sort_fields.each do |field|
-      order_strings << "#{field} #{direction} NULLS #{nulls}"
+    order_strings = sort_fields.map do |field|
+      "#{field} #{direction} NULLS #{nulls}"
     end
-    id_sorting = (resource_class.respond_to?(:attribute_names) && resource_class.attribute_names.include?('id'))
+    id_sorting = resource_class.respond_to?(:attribute_names) && resource_class.attribute_names.include?('id')
     order_strings << "\"#{resource_class.table_name}\".id" if id_sorting
     collection.reorder(Arel.sql(order_strings.join(',')))
   end

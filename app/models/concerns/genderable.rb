@@ -5,7 +5,7 @@ module Genderable
   GENDERS = { female: 0, male: 1 }.freeze
   extend ActiveSupport::Concern
   included do
-    enum gender: GENDERS
+    enum :gender, GENDERS
     scope :gender, ->(gender) { where(gender: GENDERS[gender.to_sym]) }
     scope :order_by_gender, ->(gender) do
       order(gender: gender.to_s == 'female' ? :asc : :desc) if gender.to_s.in?(%w[female male])

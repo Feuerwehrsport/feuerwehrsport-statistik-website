@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateSingleDisciplines < ActiveRecord::Migration[7.0]
   def change
     create_table :single_disciplines do |t|
@@ -15,9 +17,9 @@ class CreateSingleDisciplines < ActiveRecord::Migration[7.0]
 
     hl_male = SingleDiscipline.create!(
       key: :hl,
-      short_name: "Hakenleitersteigen",
-      name: "Hakenleitersteigen (3. Etage)",
-      description: "Leiter wird vom Start zum Turm getragen. Danach erfolgt der Aufstieg bis in die 3. Etage.",
+      short_name: 'Hakenleitersteigen',
+      name: 'Hakenleitersteigen (3. Etage)',
+      description: 'Leiter wird vom Start zum Turm getragen. Danach erfolgt der Aufstieg bis in die 3. Etage.',
       default_for_male: true,
     )
 
@@ -25,9 +27,9 @@ class CreateSingleDisciplines < ActiveRecord::Migration[7.0]
 
     hl_female = SingleDiscipline.create!(
       key: :hl,
-      short_name: "Hakenleitersteigen",
-      name: "Hakenleitersteigen (1. Etage)",
-      description: "Leiter hängt beim Start im Turm. Es erfolgt der Aufstieg in die 1. Etage.",
+      short_name: 'Hakenleitersteigen',
+      name: 'Hakenleitersteigen (1. Etage)',
+      description: 'Leiter hängt beim Start im Turm. Es erfolgt der Aufstieg in die 1. Etage.',
       default_for_female: true,
     )
 
@@ -35,9 +37,9 @@ class CreateSingleDisciplines < ActiveRecord::Migration[7.0]
 
     hb_male = SingleDiscipline.create!(
       key: :hb,
-      short_name: "100m-Hindernisbahn",
-      name: "100m-Hindernisbahn (Männer)",
-      description: "Eine 2m hohe Wand und ein 120cm hoher Balken müssen überwunden werden. Die Strecke ist 100 Meter lang.",
+      short_name: '100m-Hindernisbahn',
+      name: '100m-Hindernisbahn (Männer)',
+      description: 'Eine 2m hohe Wand und ein 120cm hoher Balken müssen überwunden werden. Die Strecke ist 100 Meter lang.',
       default_for_male: true,
     )
 
@@ -45,9 +47,9 @@ class CreateSingleDisciplines < ActiveRecord::Migration[7.0]
 
     hb_female = SingleDiscipline.create!(
       key: :hb,
-      short_name: "100m-Hindernisbahn",
-      name: "100m-Hindernisbahn (Frauen)",
-      description: "Eine Hürde und ein 80cm hoher Balken müssen überwunden werden. Die Strecke ist 100 Meter lang.",
+      short_name: '100m-Hindernisbahn',
+      name: '100m-Hindernisbahn (Frauen)',
+      description: 'Eine Hürde und ein 80cm hoher Balken müssen überwunden werden. Die Strecke ist 100 Meter lang.',
       default_for_male: true,
     )
 
@@ -55,9 +57,9 @@ class CreateSingleDisciplines < ActiveRecord::Migration[7.0]
 
     hb_female_old = SingleDiscipline.create!(
       key: :hb,
-      short_name: "100m-Hindernisbahn",
-      name: "100m-Hindernisbahn (Frauen - 120cm Balken)",
-      description: "Eine Hürde und ein 120cm hoher Balken müssen überwunden werden. Die Strecke ist 100 Meter lang.",
+      short_name: '100m-Hindernisbahn',
+      name: '100m-Hindernisbahn (Frauen - 120cm Balken)',
+      description: 'Eine Hürde und ein 120cm hoher Balken müssen überwunden werden. Die Strecke ist 100 Meter lang.',
     )
 
     Score.all.gender(:female).discipline(:hb).update_all(single_discipline_id: hb_female_old.id)

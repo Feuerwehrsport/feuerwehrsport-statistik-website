@@ -2,7 +2,19 @@
 
 require_relative 'boot'
 
-require 'rails/all'
+require 'rails'
+# Pick the frameworks you want:
+require 'active_model/railtie'
+require 'active_job/railtie'
+require 'active_record/railtie'
+require 'active_storage/engine'
+require 'action_controller/railtie'
+require 'action_mailer/railtie'
+# require "action_mailbox/engine"
+# require "action_text/engine"
+require 'action_view/railtie'
+# require "action_cable/engine"
+# require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -13,28 +25,22 @@ module FeuerwehrsportStatistik
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
-    # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration should go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded.
     config.action_controller.include_all_helpers = false
-
-    # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
-    # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     config.time_zone = 'Europe/Berlin'
-
-    # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :de
 
-    config.autoload_paths += %W[#{config.root}/lib #{config.root}/app/models/concerns]
-
     config.active_job.queue_adapter = :delayed_job
+
+    config.active_record.belongs_to_required_by_default = false
+
+    config.x.email_validation = { mx: true }
     config.caching = true
 
     # dynamic error handling
     config.exceptions_app = routes
 
-    Rails.application.config.active_record.belongs_to_required_by_default = false
+    config.default_url_options = {}
+    config.action_mailer.default_options = { from: 'Feuerwehrsport-Statistik <automailer@feuerwehrsport-statistik.de>' }
 
     config.m3.session.login_redirect_url = { controller: '/backend/dashboards', action: :index }
 
@@ -42,14 +48,20 @@ module FeuerwehrsportStatistik
       Rails.application.precompiled_assets if config.assets.compile
     end
 
-    config.action_mailer.default_options = { from: 'Feuerwehrsport-Statistik <automailer@feuerwehrsport-statistik.de>' }
     config.action_mailer.delivery_method = :file
 
     config.generators do |g|
-      g.orm             :active_record
+      g.orm             :active_record, primary_key_type: :uuid
+      g.system_tests    nil
       g.template_engine :haml
-      g.test_framework  :rspec, fixture: false
+      g.test_framework  :rspec,
+                        controller_specs: false,
+                        fixtures: false,
+                        routing_specs: false,
+                        view_specs: false
       g.view_specs      false
+      g.assets          false
+      g.helper          false
       g.helper_specs    false
     end
   end

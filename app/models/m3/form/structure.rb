@@ -42,16 +42,16 @@ class M3::Form::Structure
     node(FieldsFor, args, &)
   end
 
-  def input(*args)
-    push(Input.new(*args))
+  def input(*)
+    push(Input.new(*))
   end
 
-  def association(*args)
-    push(Association.new(*args))
+  def association(*)
+    push(Association.new(*))
   end
 
-  def hint(*args)
-    push(Hint.new(*args))
+  def hint(*)
+    push(Hint.new(*))
   end
 
   # Displays a value within the form.
@@ -67,12 +67,12 @@ class M3::Form::Structure
   #
   #   f.value :foo, value: 'val'  # => value = 'val'
   #   f.value :foo, value: proc{ 'val' } # => label = human_attribute_name
-  def value(*args)
-    push(Value.new(*args))
+  def value(*)
+    push(Value.new(*))
   end
 
-  def permit(*args)
-    push(Permit.new(*args))
+  def permit(*)
+    push(Permit.new(*))
   end
 
   private
@@ -109,7 +109,7 @@ class M3::Form::Structure
 
     def permitted_fields(fields)
       fields.push(name) if options[:as].present? && !name.in?(fields)
-      super(fields)
+      super
     end
 
     def sanitize(params, options = {})
@@ -158,7 +158,7 @@ class M3::Form::Structure
           each do |child|
             next if params["#{name}_attributes"].blank?
 
-            params["#{name}_attributes"].each do |_key, attributes|
+            params["#{name}_attributes"].each_value do |attributes|
               child.sanitize(attributes, resource_class: reflection.klass)
             end
           end

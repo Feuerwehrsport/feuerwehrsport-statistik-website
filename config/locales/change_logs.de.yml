@@ -3,10 +3,6 @@ de:
     admin_user:
       update_adminuser: Verwalter bearbeiten
       destroy_adminuser: Verwalter löschen
-    appointment:
-      create_appointment: Termin hinzufügen
-      destroy_appointment: Termin löschen
-      update_appointment: Termin bearbeiten
     change_request:
       create_changerequest: Fehler erstellen
       update_changerequest: Fehler bearbeiten

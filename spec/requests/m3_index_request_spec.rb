@@ -16,7 +16,7 @@ RSpec.describe 'm3_index_structure' do
   # let(:exclude_controllers) { [Billing::CoursesController] }
   # let(:m3_index_structure_debug) { true }
 
-  before { Dir[Rails.root.join('app/controllers/**/*_controller.rb')].each { |f| require_dependency f } }
+  before { Rails.root.glob('app/controllers/**/*_controller.rb').each { |f| require_dependency f } }
 
   it 'orders all sortable index fields' do
     controllers.each do |controller|

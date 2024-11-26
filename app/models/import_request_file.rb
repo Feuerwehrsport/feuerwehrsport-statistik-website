@@ -5,6 +5,7 @@ class ImportRequestFile < ApplicationRecord
   mount_uploader :file, ImportRequestUploader
   validate :transfer_competition_file_valid
   before_save :save_transfer_competition_file
+  schema_validations
 
   def transfer_competition_id=(competition_id)
     transfer_competition_file.competition = Competition.find(competition_id)

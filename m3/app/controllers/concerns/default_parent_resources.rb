@@ -65,16 +65,16 @@ module DefaultParentResources
     end
 
     def parent_resource
-      instance_variable_get("@#{parent_resource_name}")
+      instance_variable_get(:"@#{parent_resource_name}")
     end
 
     def parent_resource=(resource)
-      instance_variable_set("@#{parent_resource_name}", resource)
+      instance_variable_set(:"@#{parent_resource_name}", resource)
     end
 
     def build_resource
       parent = super
-      parent.send("#{parent_resource_name}=", parent_resource)
+      parent.send(:"#{parent_resource_name}=", parent_resource)
       parent
     end
 

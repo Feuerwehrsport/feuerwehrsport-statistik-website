@@ -22,6 +22,8 @@ class Series::Round < ApplicationRecord
 
   delegate :name, :slug, to: :kind
 
+  schema_validations
+
   def disciplines
     assessments.pluck(:discipline).uniq.sort
   end

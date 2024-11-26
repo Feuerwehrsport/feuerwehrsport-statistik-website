@@ -2,7 +2,6 @@
 
 class ChangeLog < ApplicationRecord
   FREE_ACCESS_CLASSES = %w[
-    Appointment
     Competition
     Event
     Link
@@ -17,6 +16,7 @@ class ChangeLog < ApplicationRecord
   belongs_to :api_user
 
   scope :free_access, -> { where(model_class: FREE_ACCESS_CLASSES) }
+  schema_validations
 
   def content
     (super || {}).deep_symbolize_keys
@@ -46,7 +46,7 @@ class ChangeLog < ApplicationRecord
   end
 
   %i[after before].each do |type|
-    define_method("build_#{type}_model") do
+    define_method(:"build_#{type}_model") do
       object = model_class.constantize.new
       content[:"#{type}_hash"].each do |attribute, value|
         object.send(:"#{attribute}=", value) if object.respond_to?(:"#{attribute}=")

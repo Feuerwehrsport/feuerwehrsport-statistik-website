@@ -106,8 +106,8 @@ Rails.application.configure do
     address: 'mail.lichtbit.com',
     port: 465,
     domain: 'mail.lichtbit.com',
-    user_name: Rails.application.secrets.smtp_user_name,
-    password: Rails.application.secrets.smtp_password,
+    user_name: ENV.fetch('SMTP_USER_NAME', nil),
+    password: ENV.fetch('SMTP_PASSWORD', nil),
     tls: true,
     authentication: :login,
   }

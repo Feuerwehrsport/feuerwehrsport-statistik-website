@@ -9,7 +9,7 @@ class GroupScore < ApplicationRecord
   has_many :persons, through: :person_participations
   delegate :discipline, to: :group_score_category
 
-  enum gender: { female: 0, male: 1 }
+  enum :gender, { female: 0, male: 1 }
 
   scope :gender, ->(gender) { where(gender: GroupScore.genders[gender]) }
   scope :discipline, ->(discipline) do
@@ -49,6 +49,7 @@ class GroupScore < ApplicationRecord
                     .to_sql
     from("(#{sql}) AS #{table_name}").where('r=1')
   end
+  schema_validations
 
   def self.yearly_best_times_subquery(competitions)
     GroupScore

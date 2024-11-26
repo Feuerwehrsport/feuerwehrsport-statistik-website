@@ -19,7 +19,6 @@ class Ability
   def sub_admin_abilities
     user_abilities
 
-    can :manage, Appointment
     can :manage, Caching::Cleaner
     can :manage, ChangeRequest
     can :manage, Competition
@@ -58,8 +57,6 @@ class Ability
   end
 
   def api_user_abilities
-    can :create, Appointment
-    can :update, Appointment, creator: @user
     can :create, ChangeRequest
     can :create, CompetitionFile
     can %i[create show], Link
@@ -89,7 +86,6 @@ class Ability
 
   def basic_stuff
     can %i[create status logout], ApiUser
-    can :read, Appointment
     can :read, Bla::Badge
     can :read, Competition
     can :read, ChangeLog

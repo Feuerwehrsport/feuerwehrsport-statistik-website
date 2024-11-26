@@ -16,7 +16,7 @@ module M3::Delayable
 
     def default_options
       {
-        priority: (@priority || 0),
+        priority: @priority || 0,
         run_at: nil,
       }
     end

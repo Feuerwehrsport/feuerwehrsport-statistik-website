@@ -9,6 +9,8 @@ class ScoreLowDoubleEvent < ApplicationRecord
   scope :gender, ->(gender) { joins(:person).merge(Person.gender(gender)) }
   scope :year, ->(year) { joins(:competition).merge(Competition.year(year)) }
 
+  skip_schema_validations
+
   def time_invalid?
     false
   end

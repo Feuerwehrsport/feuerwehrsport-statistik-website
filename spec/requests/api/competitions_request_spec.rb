@@ -33,7 +33,7 @@ RSpec.describe 'Api::Competitions' do
         place: 'Charlottenthal',
         event: 'D-Cup',
         date: '2017-05-01',
-        hint_content: '',
+        hint_content: nil,
         published_at: nil,
         score_count: {
           hb: { female: 0, male: 0 },
@@ -60,7 +60,7 @@ RSpec.describe 'Api::Competitions' do
         place: 'Charlottenthal',
         event: 'D-Cup',
         date: '2017-05-01',
-        hint_content: '',
+        hint_content: nil,
       )
     end
   end
@@ -77,7 +77,7 @@ RSpec.describe 'Api::Competitions' do
         place: 'Charlottenthal',
         event: 'D-Cup',
         date: '2017-05-01',
-        hint_content: '',
+        hint_content: nil,
       )
       expect_change_log(before: { name: 'Erster Lauf' }, after: { name: 'toller Wettkampf' }, log: 'update-competition')
     end

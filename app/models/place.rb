@@ -6,6 +6,7 @@ class Place < ApplicationRecord
   has_many :competitions, dependent: :restrict_with_exception
 
   validates :name, presence: true
+  schema_validations
 
   default_scope { order(:name) }
   scope :competition_count, -> do
