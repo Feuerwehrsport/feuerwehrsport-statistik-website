@@ -27,30 +27,7 @@
           %tr
             %th{ colspan: 2 } Datum:
             %td= resource.date
-          %tr
-            %th{ colspan: 3 } &nbsp;
-          %tr
-            %td
-            %th Frauen
-            %th Männer
-          - @calc.single_categories.each do |discipline, finals|
-            - finals.each do |final|
-              %tr
-                - if !final
-                  %th= discipline_image_name_short(discipline)
-                - else
-                  %th
-                    = discipline_image(discipline)
-                    = final_name(final)
-                %td= count_or_zero(@calc.discipline(discipline, :female, final).try(:count))
-                %td= count_or_zero(@calc.discipline(discipline, :male, final).try(:count))
 
-          - @calc.group_categories.each do |discipline, types|
-            - types.each do |type|
-              %tr
-                %th= discipline_image_name_short(discipline)
-                %td= count_or_zero(@calc.discipline(discipline, :female, type).try(:count))
-                %td= count_or_zero(@calc.discipline(discipline, :male, type).try(:count))
       .col-md-6
         .pull-right
           = link_to(url_for(format: :xlsx), class: "btn btn-default") do
@@ -67,7 +44,7 @@
         - elsif discipline.discipline == :zk
           = render "double_event_discipline", toc: toc, discipline: discipline
         - else
-          = render "single_discipline", toc: toc, discipline: discipline
+          = render "single_discipline", toc: toc, discipline: discipline, single_discipline: discipline.discipline
         
     - if resource.place.positioned?
       .container

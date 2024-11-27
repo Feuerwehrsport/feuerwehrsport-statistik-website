@@ -3,11 +3,11 @@
 class Year < ApplicationRecord
   is_view
 
-  scope :with_competitions, -> { joins('INNER JOIN competitions on EXTRACT(YEAR FROM DATE(competitions.date)) = year') }
+  scope :with_competitions, -> { joins('INNER JOIN competitions on competitions.year = years.year') }
   scope(:competition_count, -> do
-    select("#{table_name}.*, COUNT(#{Competition.table_name}.id) AS count")
+    select("years.*, COUNT(#{Competition.table_name}.id) AS count")
       .with_competitions
-      .group("#{table_name}.year")
+      .group('years.year')
   end)
   skip_schema_validations
 

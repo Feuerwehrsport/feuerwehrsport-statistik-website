@@ -28,7 +28,7 @@ class PeopleController < ResourceController
       OpenStruct.new(
         team:,
         score_count: team.person_scores_count(resource),
-        hb: team.scores.low_and_high_hb.where(person: resource).count,
+        hb: team.scores.hb.where(person: resource).count,
         hl: team.scores.hl.where(person: resource).count,
         gs: team.group_score_participations.gs.where(person: resource).count,
         fs: team.group_score_participations.fs.where(person: resource).count,

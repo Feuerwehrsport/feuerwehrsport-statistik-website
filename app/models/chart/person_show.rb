@@ -7,13 +7,12 @@ class Chart::PersonShow < Chart::Base
     return '' if person.scores.valid.blank?
 
     hc = lazy_high_chart
-    hc.xAxis(categories: year_overview_data.map(&:fourth), labels: { rotation: 270, style: { fontSize: '8px' } })
-    hc.series(name: 'HB', yAxis: 0,
-              data: year_overview_data.map(&:first), lineWidth: 1, color: discipline_color(:hb))
-    hc.series(name: 'HB flach', yAxis: 0,
-              data: year_overview_data.map(&:third), lineWidth: 1, color: discipline_color(:hb))
-    hc.series(name: 'HL', yAxis: 0,
-              data: year_overview_data.map(&:second), lineWidth: 1, color: discipline_color(:hl))
+    hc.xAxis(categories: year_overview_data.years, labels: { rotation: 270, style: { fontSize: '8px' } })
+    SingleDiscipline.gall.each do |sd|
+      hc.series(name: sd.short_name, yAxis: 0,
+                data: year_overview_data.for(sd.id), lineWidth: 1, color: discipline_color(sd.key))
+    end
+
     hc.yAxis [title: { text: 'Sekunden', margin: 20 }, endOnTick: false]
     hc.legend(enabled: false)
     hc.tooltip(shared: true)
@@ -21,13 +20,13 @@ class Chart::PersonShow < Chart::Base
     render(hc)
   end
 
-  def discipline_invalid(discipline, scores)
+  def discipline_invalid(name, scores)
     invalid = scores.count(&:time_invalid?)
     valid = scores.size - invalid
     data = [{ name: 'Ungültig', y: invalid, color: 'red' }, { name: 'Gültig', y: valid, color: 'green' }]
 
     hc = lazy_high_chart
-    hc.series(name: discipline_name(discipline), data:)
+    hc.series(name: name, data:)
     hc.plotOptions(pie: { size: 70, dataLabels: { distance: 0, format: '{percentage:.1f} % {point.name}' } })
     hc.chart(type: 'pie', height: 90)
     render(hc)
@@ -88,23 +87,42 @@ class Chart::PersonShow < Chart::Base
   private
 
   def year_overview_data
-    @year_overview_data ||= begin
-      years = person.scores.joins(:competition)
-                    .select('EXTRACT(YEAR FROM DATE(competitions.date)) AS year')
-                    .group('year')
-                    .map(&:year)
-                    .map(&:to_i)
-      (years.min..years.max).map do |year|
-        Discipline::SINGLE.map do |discipline|
-          times = person.scores
-                        .where(discipline:)
-                        .valid
-                        .best_of_competition
-                        .joins(:competition)
-                        .where('EXTRACT(YEAR FROM DATE(competitions.date)) = ?', year)
-                        .map(&:time)
-          times.present? ? (times.instance_eval { sum / size.to_f } / 100).round(2) : nil
-        end.push(year)
+    @year_overview_data ||= YearOverviewData.new(person.id)
+  end
+
+  class YearOverviewData
+    def initialize(person_id)
+      @result = ActiveRecord::Base.connection.execute(<<-SQL.squish).to_a
+        SELECT#{' '}
+          c.year AS year,
+          s.single_discipline_id,
+          AVG(s.time) AS average_time
+        FROM#{' '}
+          scores s
+        JOIN#{' '}
+          competitions c ON s.competition_id = c.id
+        WHERE#{' '}
+          s.person_id = #{person_id} and s.time != #{Firesport::INVALID_TIME}
+        GROUP BY#{' '}
+          c.year, s.single_discipline_id
+        ORDER BY#{' '}
+          c.year;
+      SQL
+    end
+
+    def years
+      @years ||= begin
+        ys = @result.pluck('year')
+        (ys.min..ys.max).to_a
+      end
+    end
+
+    def for(sd_id)
+      years.map do |year|
+        average_time = @result.find { |r| r['year'] == year && r['single_discipline_id'] == sd_id }
+                              &.fetch('average_time', nil)
+        average_time = (average_time / 100).round(2).to_f unless average_time.nil?
+        average_time
       end
     end
   end

@@ -10,13 +10,16 @@ class Calculation::CompetitionsScoreOverview
   def disciplines
     ds = {}
 
-    Score.yearly_best(competitions).decorate.each do |score|
-      discipline = score.discipline
-      gender = score.person.gender
-      ds[discipline] ||= {}
-      ds[discipline][gender] ||= DisciplineOverview.new(score.discipline, gender, competitions)
-      ds[discipline][gender].edit_types.years[score.competition.year] ||= []
-      ds[discipline][gender].edit_types.years[score.competition.year].push(score)
+    SingleDiscipline.gall.each do |sd|
+      sd = sd.decorate
+      Score.yearly_best(competitions, sd).decorate.each do |score|
+        discipline = sd.key
+        gender = score.person.gender
+        ds[discipline] ||= {}
+        ds[discipline][gender] ||= DisciplineOverview.new(discipline, gender, competitions)
+        ds[discipline][gender].edit_types(sd).years[score.competition.year] ||= []
+        ds[discipline][gender].edit_types(sd).years[score.competition.year].push(score)
+      end
     end
 
     GroupScore.yearly_best(competitions).decorate.each do |score|
@@ -40,14 +43,13 @@ class Calculation::CompetitionsScoreOverview
     end
 
     def scores_relation(type)
-      Discipline.group?(discipline.to_sym) ? group_scores_relations(type) : single_scores_relations
+      Discipline.group?(discipline.to_sym) ? group_scores_relations(type) : single_scores_relations(type)
     end
 
-    def single_scores_relations
+    def single_scores_relations(sd)
       Score
-        .where(competition: competitions)
+        .where(competition: competitions, single_discipline: sd)
         .german
-        .discipline(discipline)
         .gender(gender)
     end
 

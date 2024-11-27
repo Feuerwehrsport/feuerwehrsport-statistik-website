@@ -29,8 +29,12 @@
     - if resource.bla_badge
       = render('bla_badge', badge: resource.bla_badge)
     .container
-      - People::DisciplineOverview.for(resource).each do |discipline_struct|
-        = render('person_discipline_overview', toc: toc, ds: discipline_struct)
+      - People::SingleDisciplineOverview.for(resource).each do |discipline_struct|
+        = render('person_single_discipline_overview', toc: toc, ds: discipline_struct)
+      - People::DoubleEventDisciplineOverview.for(resource).each do |discipline_struct|
+        = render('person_double_event_discipline_overview', toc: toc, ds: discipline_struct)
+      - People::GroupDisciplineOverview.for(resource).each do |discipline_struct|
+        = render('person_group_discipline_overview', toc: toc, ds: discipline_struct)
 
 
       - if @teams.present?

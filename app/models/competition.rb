@@ -17,14 +17,13 @@ class Competition < ApplicationRecord
   has_many :team_competitions # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :teams, through: :team_competitions
 
-  validates :date, presence: true
-  delegate :year, to: :date
+  before_validation { self.year = date&.year }
   schema_validations
 
   scope :with_group_assessment, -> { joins(:score_type) }
   scope :year, ->(year) do
-    year_value = year.is_a?(Year) ? year.year.to_i : year.to_i
-    where("EXTRACT(YEAR FROM date) = #{year_value}")
+    year = year.is_a?(Year) ? year.year.to_i : year.to_i
+    where(year:)
   end
   scope :event, ->(event_id) { where(event_id:) }
   scope :place, ->(place_id) { where(place_id:) }
@@ -57,9 +56,9 @@ class Competition < ApplicationRecord
     )
   end
 
-  def group_assessment(discipline, gender)
+  def group_assessment(single_discipline, gender)
     team_scores = {}
-    scores.no_finals.best_of_competition.gender(gender).discipline(discipline).each do |score|
+    scores.no_finals.best_of_competition.gender(gender).where(single_discipline:).find_each do |score|
       next if score.team_number < 1 || score.team.nil?
 
       team_scores[score.uniq_team_id] ||=

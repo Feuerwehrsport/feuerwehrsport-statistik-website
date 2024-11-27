@@ -57,14 +57,14 @@ class GroupScore < ApplicationRecord
       .select("
         #{GroupScoreCategory.table_name}.group_score_type_id,
         #{GroupScore.table_name}.gender,
-        EXTRACT(YEAR FROM #{Competition.table_name}.date) AS year,
+        competitions.year,
         MIN(#{GroupScore.table_name}.time) AS time
       ")
       .where(group_score_categories: { competition_id: competitions })
       .group("
         #{GroupScoreCategory.table_name}.group_score_type_id,
         #{GroupScore.table_name}.gender,
-        EXTRACT(YEAR FROM #{Competition.table_name}.date)
+        competitions.year
       ")
       .to_sql
   end
@@ -75,7 +75,7 @@ class GroupScore < ApplicationRecord
       .joins("INNER JOIN times t
         ON t.group_score_type_id = #{GroupScoreCategory.table_name}.group_score_type_id
         AND t.time = #{GroupScore.table_name}.time
-        AND t.year = EXTRACT(YEAR FROM #{Competition.table_name}.date)
+        AND t.year = competitions.year
         AND t.gender = #{GroupScore.table_name}.gender")
       .select("
         #{GroupScore.table_name}.id
@@ -93,7 +93,7 @@ class GroupScore < ApplicationRecord
         #{GroupScoreType.table_name}.regular DESC,
         #{GroupScoreType.table_name}.name,
         #{GroupScore.table_name}.gender,
-        EXTRACT(YEAR FROM #{Competition.table_name}.date)
+        competitions.year
       SQL
   end
   scope :competition, ->(competition_id) do

@@ -4,7 +4,7 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 
-# generated from version 20241126200225
+# generated from version 20241127075044
 
 module SchemaValidations
   extend ActiveSupport::Concern
@@ -128,7 +128,7 @@ module SchemaValidations
     end
 
     def dbv_competitions_validations(enums: [])
-      belongs_to_presence_validations_for([:place_id, :event_id, :hl_female, :hl_male, :hb_female, :hb_male, :gs, :fs_female, :fs_male, :la_female, :la_male, :teams_count, :people_count])
+      belongs_to_presence_validations_for([:place_id, :event_id, :hl_female, :hl_male, :hb_female, :hb_male, :gs, :fs_female, :fs_male, :la_female, :la_male, :teams_count, :people_count, :year])
       validates_with_filter :name, {:length=>{:allow_nil=>true, :maximum=>200}}
       validates_with_filter :place_id, {:presence=>{}}
       validates_with_filter :place_id, {:numericality=>{:allow_nil=>true, :only_integer=>true, :greater_than_or_equal_to=>-2147483648, :less_than=>2147483648}} unless enums.include?(:place_id)
@@ -169,6 +169,8 @@ module SchemaValidations
       validates_with_filter :hl_male_for_bla_badge, {:inclusion=>{:in=>[true, false], :message=>:blank}}
       validates_with_filter :hb_female_for_bla_badge, {:inclusion=>{:in=>[true, false], :message=>:blank}}
       validates_with_filter :hl_female_for_bla_badge, {:inclusion=>{:in=>[true, false], :message=>:blank}}
+      validates_with_filter :year, {:presence=>{}}
+      validates_with_filter :year, {:numericality=>{:allow_nil=>true, :only_integer=>true, :greater_than_or_equal_to=>-2147483648, :less_than=>2147483648}} unless enums.include?(:year)
     end
 
     def dbv_delayed_jobs_validations(enums: [])
@@ -424,7 +426,6 @@ module SchemaValidations
       belongs_to_presence_validations_for([:person_id, :competition_id, :time, :team_number, :single_discipline_id])
       validates_with_filter :person_id, {:presence=>{}}
       validates_with_filter :person_id, {:numericality=>{:allow_nil=>true, :only_integer=>true, :greater_than_or_equal_to=>-2147483648, :less_than=>2147483648}} unless enums.include?(:person_id)
-      validates_with_filter :discipline, {:presence=>{}}
       validates_with_filter :competition_id, {:presence=>{}}
       validates_with_filter :competition_id, {:numericality=>{:allow_nil=>true, :only_integer=>true, :greater_than_or_equal_to=>-2147483648, :less_than=>2147483648}} unless enums.include?(:competition_id)
       validates_with_filter :time, {:presence=>{}}

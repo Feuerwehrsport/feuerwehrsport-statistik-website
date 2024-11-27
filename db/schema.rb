@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_26_200225) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_27_075044) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
   enable_extension "plpgsql"
@@ -115,9 +115,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_26_200225) do
     t.boolean "hl_male_for_bla_badge", default: false, null: false
     t.boolean "hb_female_for_bla_badge", default: false, null: false
     t.boolean "hl_female_for_bla_badge", default: false, null: false
+    t.integer "year", null: false
     t.index ["event_id"], name: "index_competitions_on_event_id"
+    t.index ["id", "year"], name: "index_competitions_on_id_and_year"
     t.index ["place_id"], name: "index_competitions_on_place_id"
     t.index ["score_type_id"], name: "index_competitions_on_score_type_id"
+    t.index ["year"], name: "index_competitions_on_year"
   end
 
   create_table "delayed_jobs", id: :serial, force: :cascade do |t|
@@ -319,7 +322,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_26_200225) do
 
   create_table "scores", id: :serial, force: :cascade do |t|
     t.integer "person_id", null: false
-    t.string "discipline", null: false
     t.integer "competition_id", null: false
     t.integer "time", null: false
     t.integer "team_id"
@@ -328,6 +330,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_26_200225) do
     t.datetime "updated_at", precision: nil, null: false
     t.bigint "single_discipline_id", null: false
     t.index ["competition_id"], name: "index_scores_on_competition_id"
+    t.index ["person_id", "single_discipline_id", "competition_id", "time"], name: "index_scores_for_year_overview"
     t.index ["person_id"], name: "index_scores_on_person_id"
     t.index ["single_discipline_id"], name: "index_scores_on_single_discipline_id"
     t.index ["team_id"], name: "index_scores_on_team_id"
@@ -392,6 +395,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_26_200225) do
     t.boolean "default_for_female", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["id", "key"], name: "single_disciplines_id_key_idx"
   end
 
   create_table "tags", id: :serial, force: :cascade do |t|

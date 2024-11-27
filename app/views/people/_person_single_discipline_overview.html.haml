@@ -1,0 +1,26 @@
+= toc.anker ds.single_discipline.name
+%h2
+  = discipline_image(ds.single_discipline.key)
+  = ds.single_discipline.name
+
+.person-discipline-area
+  .row
+    .col-md-3
+      %table.table.table-condensed
+        %tr
+          %th Bestzeit
+          %td= "#{ds.best_time} s"
+        %tr
+          %th Durchschnitt
+          %td= "#{ds.average_time} s"
+        = @chart.discipline_invalid(ds.single_discipline.name, ds.scores)
+    .col-md-9= @chart.discipline_scores(ds.single_discipline.key, ds.chart_scores)
+
+  = count_table(ds.scores_decorated, class: 'datatable-person-scores') do |t|
+    - t.col('Datum', class: 'col70 info-link') { |row| competition_link(row.competition, type: :date_iso) }
+    - t.col('Typ', class: 'col70 small') { |row| event_link(row.competition.event) }
+    - t.col('Ort', class: 'col70 small') { |row| place_link(row.competition.place) }
+    - t.col('Team', class: 'col70') { |row| link_to(numbered_team_name(row), row.team) }
+    - t.col('Zeit', :second_time, class: 'col70')
+
+%hr

@@ -60,9 +60,9 @@ class Team < ApplicationRecord
 
   def members_with_discipline_count
     all_members = members.to_h { |member| [member.id, member.becomes(Calculation::TeamPerson)] }
-    scores.group(:person_id, :discipline).count.each do |keys, count|
-      all_members[keys.first].increment(keys.last, count)
-    end
+    # scores.group(:person_id, :discipline).count.each do |keys, count|
+    #   all_members[keys.first].increment(keys.last, count)
+    # end
     person_participations.includes(group_score: { group_score_category: :group_score_type })
                          .find_each do |participation|
       discipline = participation.group_score.group_score_category.group_score_type.discipline
@@ -73,9 +73,9 @@ class Team < ApplicationRecord
 
   def competitions_with_discipline_count
     all_competitions = competitions.to_h { |comp| [comp.id, comp.becomes(Calculation::TeamCompetition)] }
-    scores.group(:competition_id, :discipline).count.each do |keys, count|
-      all_competitions[keys.first].increment(keys.last, count)
-    end
+    # scores.group(:competition_id, :discipline).count.each do |keys, count|
+    #   all_competitions[keys.first].increment(keys.last, count)
+    # end
     group_scores.includes(group_score_category: :group_score_type).find_each do |group_score|
       discipline = group_score.group_score_category.group_score_type.discipline
       all_competitions[group_score.group_score_category.competition_id].increment(discipline)
@@ -89,32 +89,32 @@ class Team < ApplicationRecord
     genders = Genderable::GENDER_KEYS.freeze
 
     %i[hl hb hw].map do |discipline|
-      genders.map do |gender|
-        team_scores = {}
-        scores
-          .where(competition_id: competitions.with_group_assessment)
-          .no_finals
-          .best_of_competition
-          .gender(gender)
-          .discipline(discipline)
-          .includes(:competition)
-          .each do |score|
-          next if score.team_number < 1 || score.team_id.nil?
+      # genders.map do |gender|
+      #   team_scores = {}
+      #   scores
+      #     .where(competition_id: competitions.with_group_assessment)
+      #     .no_finals
+      #     .best_of_competition
+      #     .gender(gender)
+      #     .discipline(discipline)
+      #     .includes(:competition)
+      #     .find_each do |score|
+      #     next if score.team_number < 1 || score.team_id.nil?
 
-          team_scores[score.uniq_team_id] ||= Calculation::CompetitionGroupAssessment.new(
-            self,
-            score.team_number,
-            score.competition, gender
-          )
-          team_scores[score.uniq_team_id].add_score(score)
-        end
+      #     team_scores[score.uniq_team_id] ||= Calculation::CompetitionGroupAssessment.new(
+      #       self,
+      #       score.team_number,
+      #       score.competition, gender
+      #     )
+      #     team_scores[score.uniq_team_id].add_score(score)
+      #   end
 
-        GroupAssessment.new(
-          discipline,
-          gender,
-          team_scores.values.map(&:decorate),
-        )
-      end
+      #   GroupAssessment.new(
+      #     discipline,
+      #     gender,
+      #     team_scores.values.map(&:decorate),
+      #   )
+      # end
     end.flatten
   end
 

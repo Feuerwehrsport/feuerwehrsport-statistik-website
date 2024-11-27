@@ -13,7 +13,7 @@ class Chart::PersonIndex < Chart::Base
   end
 
   def disciplines_pie(gender)
-    single_scores_count = Score.joins(:person).merge(Person.gender(gender)).group(:discipline).count
+    single_scores_count = Score.joins(:person).merge(Person.gender(gender)).joins(:single_discipline).group(:'single_disciplines.key').count
     group_scores_count = GroupScoreParticipation.joins(:person).merge(Person.gender(gender)).group(:discipline).count
     scores = single_scores_count.merge(group_scores_count).map do |discipline, count|
       {

@@ -1,0 +1,30 @@
+= toc.anker 'Zweikampf'
+%h2
+  = discipline_image('zk')
+  = "Zweikampf"
+%h4
+  = SingleDiscipline.g(ds.hb_id)&.name
+  &dash;
+  = SingleDiscipline.g(ds.hl_id)&.name
+
+.person-discipline-area
+  .row
+    .col-md-3
+      %table.table.table-condensed
+        %tr
+          %th Bestzeit
+          %td= "#{ds.best_time} s"
+        %tr
+          %th Durchschnitt
+          %td= "#{ds.average_time} s"
+    .col-md-9= @chart.discipline_scores("ds.single_discipline.key", ds.chart_scores)
+
+  = count_table(ds.scores_decorated, class: 'datatable-person-scores') do |t|
+    - t.col('Datum', class: 'col70 info-link') { |row| competition_link(row.competition, type: :date_iso) }
+    - t.col('Typ', class: 'col70 small') { |row| event_link(row.competition.event) }
+    - t.col('Ort', class: 'col70 small') { |row| place_link(row.competition.place) }
+    - t.col('HB', :second_hb, class: 'col70')
+    - t.col('HL', :second_hl, class: 'col70')
+    - t.col('Zeit', :second_time, class: 'col70')
+
+%hr

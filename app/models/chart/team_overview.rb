@@ -16,7 +16,7 @@ class Chart::TeamOverview < Chart::Base
       {
         name: year.to_i.to_s,
         y: TeamCompetition.joins(:competition)
-                          .where("EXTRACT(YEAR FROM competitions.date) = '#{year.to_i}'")
+                          .where("competitions.year = '#{year.to_i}'")
                           .group(:team_id).count.count,
       }
     end

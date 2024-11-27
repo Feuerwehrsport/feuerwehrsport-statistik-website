@@ -1,38 +1,24 @@
 # frozen_string_literal: true
 
 TeamMate = Struct.new(:person, :scores)
-People::DisciplineOverview = Struct.new(:person, :discipline) do
+People::GroupDisciplineOverview = Struct.new(:person, :discipline) do
   def self.for(person)
-    %i[hb hw hl zk zw gs fs la].map { |discipline| new(person, discipline) }.compact_blank
+    %i[gs fs la].map { |discipline| new(person, discipline) }.compact_blank
   end
 
   delegate :blank?, to: :scores
 
   def scores
-    @scores ||= case discipline
-                when :hb, :hw, :hl
-                  person.scores.where(discipline:)
-                when :zk
-                  person.score_double_events
-                when :zw
-                  person.score_low_double_events
-                when :gs, :fs, :la
-                  person.group_score_participations.where(discipline:)
-                end
+    @scores ||= person.group_score_participations.where(discipline:)
   end
 
   def scores_decorated
-    @scores_decorated ||= if discipline.in?(%i[gs fs la])
-                            scores.includes(competition: %i[place event]).includes(:group_score_type).decorate
-                          else
-                            scores.includes(competition: %i[place event]).decorate
-                          end
+    @scores_decorated ||= scores.includes(competition: %i[place event]).includes(:group_score_type).decorate
   end
 
   def chart_scores
-    @chart_scores ||= begin
-      best = discipline.in?(%i[zk zw]) ? scores : scores.valid.best_of_competition
-      best.includes(:competition).sort_by { |s| s.competition.date }.map(&:decorate)
+    @chart_scores ||= scores.valid.best_of_competition.includes(:competition).decorate.sort_by do |s|
+      s.object.competition.date
     end
   end
 

@@ -1,7 +1,7 @@
-= toc.anker("#{discipline_name_short(discipline.discipline)} #{g(discipline.gender)} #{final_name(discipline.category)}")
+= toc.anker("#{discipline_name_short(single_discipline.key)} #{g(discipline.gender)} #{final_name(discipline.category)}")
 %h2
-  = discipline_image(discipline.discipline)
-  = discipline_name(discipline.discipline)
+  = discipline_image(single_discipline.key)
+  = single_discipline.name
   = g(discipline.gender)
   - if discipline.category
     %small= final_name(discipline.category)
@@ -17,8 +17,8 @@
 
 - if !discipline.category && @competition.score_type.present?
   %h2
-    = discipline_image(discipline.discipline)
-    = discipline_name(discipline.discipline)
+    = discipline_image(single_discipline.key)
+    = single_discipline.name
     = g(discipline.gender)
     %small Mannschaftswertung
 

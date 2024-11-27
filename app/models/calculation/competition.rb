@@ -23,7 +23,7 @@ class Calculation::Competition
 
   class Calculation::CompetitionSingleDiscipline < Calculation::CompetitionDiscipline
     def calculate_scores
-      scores = calculation.competition.scores.discipline(discipline).gender(gender)
+      scores = calculation.competition.scores.where(single_discipline: discipline).gender(gender)
       scores = category == false ? scores.no_finals : scores.finals(category)
       @all_scores = scores
       @scores = @all_scores.best_of_competition.decorate
@@ -71,25 +71,25 @@ class Calculation::Competition
 
   def generate_disciplines
     finals = [false, -1, -2, -3, -4]
-    %i[hb hw hl].each do |discipline|
+    SingleDiscipline.gall.each do |single_discipline|
       Genderable::GENDER_KEYS.each do |gender|
         finals.each do |final|
-          single = Calculation::CompetitionSingleDiscipline.new(self, discipline, gender, final, context)
+          single = Calculation::CompetitionSingleDiscipline.new(self, single_discipline, gender, final, context)
           next unless single.count > 0
 
-          @single_categories[discipline] ||= Set.new
-          @single_categories[discipline].add(final)
+          @single_categories[single_discipline.id] ||= Set.new
+          @single_categories[single_discipline.id].add(final)
           @disciplines.push(single)
         end
       end
     end
 
-    Genderable::GENDER_KEYS.each do |gender|
-      double_event = Calculation::CompetitionDoubleEventDiscipline.new(self, :zk, gender, nil, context)
-      @disciplines.push(double_event) if double_event.count > 0
-      low_double_event = Calculation::CompetitionLowDoubleEventDiscipline.new(self, :zk, gender, nil, context)
-      @disciplines.push(low_double_event) if low_double_event.count > 0
-    end
+    # Genderable::GENDER_KEYS.each do |gender|
+    #   double_event = Calculation::CompetitionDoubleEventDiscipline.new(self, :zk, gender, nil, context)
+    #   @disciplines.push(double_event) if double_event.count > 0
+    #   low_double_event = Calculation::CompetitionLowDoubleEventDiscipline.new(self, :zk, gender, nil, context)
+    #   @disciplines.push(low_double_event) if low_double_event.count > 0
+    # end
 
     %i[gs fs la].each do |discipline|
       Genderable::GENDER_KEYS.each do |gender|
