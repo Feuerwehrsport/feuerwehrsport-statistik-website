@@ -577,6 +577,7 @@ DEPENDENCIES
   matrix
   mini_magick
   mutex_m
+  ostruct
   pg
   prawn-rails
   pry
