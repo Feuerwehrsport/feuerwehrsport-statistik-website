@@ -54,27 +54,27 @@
           %tr
             %th Mannschaften:
             %td= @teams_count
-      .col-md-3
-        %h4 Ø Beste 5 pro Wettkampf
-        = @charts.year_overview
-    .container
-      = toc.anker('Super Leistungen vom Jahr 2023', :h2, label_value: 'Leistungen Jahr 2023')
+      -# .col-md-3
+      -#   %h4 Ø Beste 5 pro Wettkampf
+      -#   = @charts.year_overview
+    -# .container
+    -#   = toc.anker('Super Leistungen vom Jahr 2023', :h2, label_value: 'Leistungen Jahr 2023')
     
-      = nav_tab do |nv|
-        - @performance_overview_disciplines.each do |discipline|
-          - nv.tab(discipline_image_name_short(discipline.discipline, discipline.gender)) do
-            %table.table
-              - discipline.entries.each do |entry|
-                %tr
-                  %td.col-5= entry.rank
-                  %td.col-25= person_link(entry.entity, type: :full_name)
-                  %td.col-70= score_links(entry.scores)
-                %tr.hint-line
-                  %td{ colspan: 2 }
-                    %em= "#{entry.rounded_points} Punkte"
-                  %td
-                    Durchschnitt:
-                    %strong= entry.second_valid_time_average
+    -#   = nav_tab do |nv|
+    -#     - @performance_overview_disciplines.each do |discipline|
+    -#       - nv.tab(discipline_image_name_short(discipline.discipline, discipline.gender)) do
+    -#         %table.table
+    -#           - discipline.entries.each do |entry|
+    -#             %tr
+    -#               %td.col-5= entry.rank
+    -#               %td.col-25= person_link(entry.entity, type: :full_name)
+    -#               %td.col-70= score_links(entry.scores)
+    -#             %tr.hint-line
+    -#               %td{ colspan: 2 }
+    -#                 %em= "#{entry.rounded_points} Punkte"
+    -#               %td
+    -#                 Durchschnitt:
+    -#                 %strong= entry.second_valid_time_average
     .container
       .col-md-5
         %p
