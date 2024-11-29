@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Chart::PersonIndex < Chart::Base
+  include GenderNames
+  include DisciplineNamesAndImages
+
   def gender_pie
     data = Genderable::GENDER_KEYS.map do |gender|
       {
@@ -23,10 +26,10 @@ class Chart::PersonIndex < Chart::Base
       }
     end
 
-    hc = lazy_high_chart
-    hc.series(name: 'Anzahl', data: scores)
-    hc.plotOptions(pie: { size: 70, dataLabels: { distance: 5, format: '{percentage:.1f} % {point.name}' } })
-    hc.chart(type: 'pie', height: 150)
-    render(hc)
+    lazy_high_chart do |hc|
+      hc.series(name: 'Anzahl', data: scores)
+      hc.plotOptions(pie: { size: 70, dataLabels: { distance: 5, format: '{percentage:.1f} % {point.name}' } })
+      hc.chart(type: 'pie', height: 150)
+    end
   end
 end

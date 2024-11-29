@@ -17,7 +17,7 @@ class Calculation::Competition
     end
 
     def chart
-      @chart ||= Chart::CompetitionDisciplineCategoryOverview.new(discipline: self, context:)
+      @chart ||= Chart::CompetitionDisciplineCategoryOverview.new(discipline: self, request: context.request)
     end
   end
 

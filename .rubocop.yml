@@ -356,6 +356,8 @@ Rails/ExpandedDateRange:
   Enabled: true
 Rails/FindById:
   Enabled: true
+Rails/FindEach:
+  Enabled: false
 Rails/FreezeTime:
   Enabled: true
 Rails/HelperInstanceVariable:

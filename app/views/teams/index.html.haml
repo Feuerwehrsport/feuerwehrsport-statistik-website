@@ -5,15 +5,16 @@
     = datatable(:teams)
 
   .container
+    - chart = Chart::TeamOverview.new(request:)
     .col-md-6
       %h4 Verteilung der Bundesländer
-      = @charts.federal_states_pie
+      = chart.federal_states_pie
     .col-md-6
       %h4 Verteilung der Staaten
-      = @charts.international_states_pie
+      = chart.international_states_pie
     .col-md-6
       %h4 Aktive Mannschaften pro Jahr
-      = @charts.activities_for_years
+      = chart.activities_for_years
 
   .container
     %h2 Karte der Mannschaften

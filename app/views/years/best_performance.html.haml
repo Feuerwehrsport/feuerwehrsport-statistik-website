@@ -20,14 +20,15 @@
           a = g + u
           t = Zeiten der gültigen Läufe
 
-  - if @performance_overview_disciplines.present?
+  - performance_overview_disciplines = Calc::PerformanceOfYear.get(resource.to_i)
+  - if performance_overview_disciplines.present?
     .container
       = nav_tab do |nv|
-        - @performance_overview_disciplines.each do |discipline|
-          - nv.tab(discipline_image_name_short(discipline.discipline, discipline.gender)) do
+        - performance_overview_disciplines.each do |discipline|
+          - nv.tab(discipline_image_name_short(discipline.key, discipline.gender)) do
             = count_table(discipline.entries, class: 'datatable-best-performance') do |t|
               - t.col('Rang', :rank, class: 'col-10')
-              - t.col('Name', class: 'col-20 info-link') { |row| person_link(row.entity, type: :full_name) }
+              - t.col('Name', class: 'col-20 info-link') { |row| person_link(row.entity.decorate, type: :full_name) }
               - t.col('Punkte', :rounded_points, class: 'col-10')
               - t.col('Durchschnitt', :second_valid_time_average, class: 'col-10')
               - t.col('Zeiten', class: 'col-50 small') { |row| score_links(row.scores) }

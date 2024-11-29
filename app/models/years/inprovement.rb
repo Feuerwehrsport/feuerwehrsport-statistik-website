@@ -24,12 +24,12 @@ Years::Inprovement = Struct.new(:year, :discipline, :gender, :team) do
   def all
     items = {}
     Score.discipline(discipline).year(year).where(person: person_ids)
-         .includes(:person).includes(competition: %i[place event]).find_each do |score|
+         .includes(:person).includes(competition: %i[place event]).each do |score|
       items[score.person_id] ||= Years::InprovementItem.new(score.person, year)
       items[score.person_id].current_scores.push score
     end
     Score.discipline(discipline).year(last_year).where(person: person_ids)
-         .includes(:person).includes(competition: %i[place event]).find_each do |score|
+         .includes(:person).includes(competition: %i[place event]).each do |score|
       items[score.person_id] ||= Years::InprovementItem.new(score.person, year)
       items[score.person_id].last_scores.push score
     end

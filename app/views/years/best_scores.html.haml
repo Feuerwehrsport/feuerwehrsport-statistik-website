@@ -10,12 +10,13 @@
     .col-md-4
       %p= "Die Tabellen zeigen die gesammelten Bestzeiten für das Jahr #{resource} in den einzelnen Disziplinen."
 
-  - if @discipline_structs.present?
+  - best_scores = Calc::YearBestScores.new(year: resource)
+  - if best_scores.disciplines.present?
     .container
       = nav_tab do |nv|
-        - @discipline_structs.each do |struct|
-          - nv.tab(discipline_image_name_short(struct.discipline, struct.gender)) do
-            = count_table(struct.scores, table_class: Ui::RankTable, class: 'datatable-best-scores', rank_options: { class: 'col-10' }) do |t|
+        - best_scores.disciplines.each do |struct|
+          - nv.tab(discipline_image_name_short(struct[:discipline], struct[:gender])) do
+            = count_table(struct[:scores], table_class: Ui::RankTable, class: 'datatable-best-scores', rank_options: { class: 'col-10' }) do |t|
               - t.col('Name', class: 'col-30') { |row| person_link(row.entity, type: :full_name) }
               - t.col('Zeit', :second_time, class: 'col-10')
               - t.col('Wettkampf', class: 'col-40') { |row| competition_link(row.competition) }

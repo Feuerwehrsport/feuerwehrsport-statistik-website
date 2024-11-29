@@ -17,4 +17,12 @@ module GenderNames
     gender = gender == 1 ? :male : :female if gender.in? [0, 1]
     gender
   end
+
+  GENDER_COLORS = {
+    female: '#FEAE97',
+    male: '#97E6FE',
+  }.freeze
+  def gender_color(gender)
+    GENDER_COLORS[normalize_gender(gender)]
+  end
 end

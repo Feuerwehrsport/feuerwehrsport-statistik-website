@@ -20,11 +20,6 @@ class CompetitionsController < ResourceController
     t.col(:la_male, searchable: false, class: 'hidden-xs', th_class: 'small col-5 hidden-xs')
   end
 
-  def index
-    @chart = Chart::CompetitionsScoreOverview.new(competitions: Competition.all, context: view_context)
-    @competitions_discipline_overview = Calculation::CompetitionsScoreOverview.new(Competition.pluck(:id)).disciplines
-  end
-
   def show
     @calc = Calculation::Competition.new(resource, view_context)
   end

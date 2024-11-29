@@ -15,32 +15,6 @@ module ApplicationHelper
     self
   end
 
-  COMPETITOR_POSITION = {
-    la: [
-      'Maschinist',
-      'A-Länge',
-      'Saugkorb',
-      'B-Schlauch',
-      'Strahlrohr links',
-      'Verteiler',
-      'Strahlrohr rechts',
-    ],
-    gs: %w[
-      B-Schlauch
-      Verteiler
-      C-Schlauch
-      Knoten
-      D-Schlauch
-      Läufer
-    ],
-    fs: [
-      { female: 'Leiterwand', male: 'Haus ' },
-      { female: 'Hürde', male: 'Wand' },
-      'Balken',
-      'Feuer',
-    ],
-  }.freeze
-
   FINAL_NAMES = {
     -1 => 'Finale',
     -2 => 'Halbfinale',
@@ -60,12 +34,6 @@ module ApplicationHelper
 
   def final_name(final_count)
     FINAL_NAMES[final_count]
-  end
-
-  def competitor_position(discipline, position, gender)
-    name = COMPETITOR_POSITION[discipline.to_sym][position - 1]
-    name = name[gender.to_sym] if name.is_a? Hash
-    name
   end
 
   def count_or_zero(count)

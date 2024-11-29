@@ -23,16 +23,9 @@ class PagesController < ResourceController
   def dashboard
     @page_title = 'Feuerwehrsport - Die große Auswertung'
     @last_competitions = last_competitions(8)
-    @people_count = Person.count
-    @score_valid_count = Score.valid.count + GroupScore.valid.count
-    @score_invalid_count = Score.invalid.count + GroupScore.invalid.count
-    @places_count = Place.count
-    @events_count = Event.count
-    @competitions_count = Competition.count
-    @teams_count = Team.count
     @years_count = Year.with_competitions.group(:year).count.to_a.map { |y| [y[0].to_i, y[1]] }.sort_by(&:first).reverse
-    # @performance_overview_disciplines = Calculation::PerformanceOfYear::Discipline.get(2023, 5).map(&:decorate)
-    @charts = Chart::Dashboard.new(context: view_context)
+    @best_of_year = Date.current.year
+    @best_of_year -= 1 if Date.current.month < 6
   end
 
   def last_competitions_overview
@@ -56,29 +49,10 @@ class PagesController < ResourceController
 
   def best_of
     @page_title = 'Die 100 schnellsten Zeiten'
-    @discipline_structs = []
-    [
-      %i[hb female],
-      %i[hw female],
-      %i[hb male],
-      %i[hl female],
-      %i[hl male],
-      %i[gs female],
-      %i[la female],
-      %i[la male],
-    ].each do |discipline, gender|
-      klass = Discipline.group?(discipline) ? GroupScore : Score
-      @discipline_structs.push OpenStruct.new(
-        discipline:,
-        gender:,
-        scores: klass.best_of(discipline, gender).order(:time).first(100).map(&:decorate),
-      )
-    end
   end
 
   def about
     @page_title = 'Statistiken über diese Seite'
-    @charts = Chart::About.new(context: view_context)
   end
 
   protected

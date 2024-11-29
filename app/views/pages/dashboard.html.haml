@@ -1,4 +1,6 @@
 = table_of_contents do |toc|
+  - charts = Chart::Dashboard.new(request:)
+
   .section
     .container
       .col-md-3= design_image('statistiken-logo', alt: 'Logo')
@@ -35,46 +37,48 @@
         %table.table
           %tr
             %th Personen:
-            %td= @people_count
+            %td= Person.count
           %tr
             %th Zeiten:
-            %td= @score_valid_count
+            %td= Score.valid.count + GroupScore.valid.count
           %tr
             %th Fehlversuche:
-            %td= @score_invalid_count
+            %td= Score.invalid.count + GroupScore.invalid.count
           %tr
             %th Orte:
-            %td= @places_count
+            %td= Place.count
           %tr
             %th Typen:
-            %td= @events_count
+            %td= Event.count
           %tr
             %th Wettkämpfe:
-            %td= @competitions_count
+            %td= Competition.count
           %tr
             %th Mannschaften:
-            %td= @teams_count
-      -# .col-md-3
-      -#   %h4 Ø Beste 5 pro Wettkampf
-      -#   = @charts.year_overview
-    -# .container
-    -#   = toc.anker('Super Leistungen vom Jahr 2023', :h2, label_value: 'Leistungen Jahr 2023')
+            %td= Team.count
+      .col-md-3
+        %h4 Ø Beste 5 pro Wettkampf
+        = charts.year_overview
+    .container
+
+      = toc.anker("Super Leistungen vom Jahr #{@best_of_year}", :h2, label_value: "Leistungen Jahr #{@best_of_year}")
     
-    -#   = nav_tab do |nv|
-    -#     - @performance_overview_disciplines.each do |discipline|
-    -#       - nv.tab(discipline_image_name_short(discipline.discipline, discipline.gender)) do
-    -#         %table.table
-    -#           - discipline.entries.each do |entry|
-    -#             %tr
-    -#               %td.col-5= entry.rank
-    -#               %td.col-25= person_link(entry.entity, type: :full_name)
-    -#               %td.col-70= score_links(entry.scores)
-    -#             %tr.hint-line
-    -#               %td{ colspan: 2 }
-    -#                 %em= "#{entry.rounded_points} Punkte"
-    -#               %td
-    -#                 Durchschnitt:
-    -#                 %strong= entry.second_valid_time_average
+      - performance_overview_disciplines = Calc::PerformanceOfYear.get(@best_of_year)
+      = nav_tab do |nv|
+        - performance_overview_disciplines.each do |discipline|
+          - nv.tab(discipline_image_name_short(discipline.key, discipline.gender)) do
+            %table.table
+              - discipline.entries.first(5).each do |entry|
+                %tr
+                  %td.col-5= entry.rank
+                  %td.col-25= person_link(entry.entity.decorate, type: :full_name)
+                  %td.col-70= score_links(entry.scores)
+                %tr.hint-line
+                  %td{ colspan: 2 }
+                    %em= "#{entry.rounded_points} Punkte"
+                  %td
+                    Durchschnitt:
+                    %strong= entry.second_valid_time_average
     .container
       .col-md-5
         %p

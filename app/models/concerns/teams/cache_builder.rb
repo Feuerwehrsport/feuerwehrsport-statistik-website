@@ -6,7 +6,7 @@ module Teams::CacheBuilder
   class_methods do
     def update_best_scores
       competitions = Competition.pluck(:id, :long_name).to_h
-      all.find_each { |team| team.update_best_scores(competitions) }
+      all.each { |team| team.update_best_scores(competitions) }
     end
   end
 

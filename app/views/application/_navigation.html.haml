@@ -10,9 +10,8 @@
       .collapse.navbar-collapse
         %ul.nav.navbar-nav
           %li= link_to("Startseite", root_path)
-          %li= link_to("Feuerwehrsport", feuerwehrsport_path)
-          %li= link_to("Serien", series_kinds_path)
           %li= link_to("Wettkämpfe", competitions_path)
+          %li= link_to("Serien", series_kinds_path)
           %li= link_to("Mannschaften", teams_path)
           %li= link_to("Personen", people_path)
           %li.dropdown
@@ -20,6 +19,7 @@
               Weitere Statistiken
               %b.caret
             %ul.dropdown-menu
+              %li= link_to("Feuerwehrsport", feuerwehrsport_path)
               %li= link_to("Orte", places_path)
               %li= link_to("Typen", events_path)
               %li= link_to("Jahre", years_path)
@@ -28,9 +28,8 @@
               %li= link_to("Rekorde", records_path)
               %li= link_to("100 Bestzeiten", best_of_path)
               %li= link_to("Bundesleistungsabzeichen", bla_badges_path)
-              %li= link_to("Statistiken 2022", year_path(id: 2022))
-              %li= link_to("Statistiken 2021", year_path(id: 2021))
-              %li= link_to("Statistiken 2020", year_path(id: 2020))
-              %li= link_to("Statistiken 2019", year_path(id: 2019))
+              - year = Date.current.year
+              - 4.times do |i|
+                %li= link_to("Statistiken #{year - i }", year_path(id: year - i))
               %li= link_to("Letzte Änderungen", change_logs_path)
               %li= link_to('Über', about_path)

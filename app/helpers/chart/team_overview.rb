@@ -20,14 +20,14 @@ class Chart::TeamOverview < Chart::Base
                           .group(:team_id).count.count,
       }
     end
-    hc = lazy_high_chart
-    hc.legend(enabled: false)
-    hc.chart(type: 'column', height: 120)
-    hc.plotOptions(series: { pointWidth: 6 })
-    hc.yAxis(endOnTick: false, title: nil)
-    hc.xAxis(categories: data.pluck(:name))
-    hc.series(name: 'Mannschaften', data:)
-    render(hc)
+    lazy_high_chart do |hc|
+      hc.legend(enabled: false)
+      hc.chart(type: 'column', height: 120)
+      hc.plotOptions(series: { pointWidth: 6 })
+      hc.yAxis(endOnTick: false, title: nil)
+      hc.xAxis(categories: data.pluck(:name))
+      hc.series(name: 'Mannschaften', data:)
+    end
   end
 
   protected
@@ -35,13 +35,13 @@ class Chart::TeamOverview < Chart::Base
   def states_pie(data)
     data = data.map { |k, v| { short_name: k, name: State::ALL[k], y: v } }
     data = data.reject { |a| a[:y].blank? }.sort_by { |a| a[:y] }.reverse
-    hc = lazy_high_chart
-    hc.legend(enabled: false)
-    hc.chart(type: 'column', height: 120)
-    hc.plotOptions(series: { pointWidth: 6 })
-    hc.yAxis(endOnTick: false, title: nil)
-    hc.xAxis(categories: data.pluck(:short_name))
-    hc.series(name: 'Mannschaften', data:)
-    render(hc)
+    lazy_high_chart do |hc|
+      hc.legend(enabled: false)
+      hc.chart(type: 'column', height: 120)
+      hc.plotOptions(series: { pointWidth: 6 })
+      hc.yAxis(endOnTick: false, title: nil)
+      hc.xAxis(categories: data.pluck(:short_name))
+      hc.series(name: 'Mannschaften', data:)
+    end
   end
 end

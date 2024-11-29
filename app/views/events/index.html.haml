@@ -6,4 +6,5 @@
       - t.col('Typ', class: 'col-md-4') { |row| event_link(row) }
       - t.col('Wettkämpfe', :count, class: 'col-md-1')
 
-    = @chart.events_count
+
+    = Chart::EventIndex.new(events: collection, request:).events_count

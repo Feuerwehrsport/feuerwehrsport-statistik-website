@@ -13,17 +13,18 @@
     .container
       = toc.anker('Auswertung')
     .container
+      - chart = Chart::PersonIndex.new(request:)
       .col-md-4
         %h4 Geschlechter
-        = @chart.gender_pie
+        = chart.gender_pie
 
       .col-md-4
         %h4 Disziplinen bei Frauen
-        = @chart.disciplines_pie(:female)
+        = chart.disciplines_pie(:female)
 
       .col-md-4
         %h4 Disziplinen bei Männern
-        = @chart.disciplines_pie(:male)
+        = chart.disciplines_pie(:male)
 
 
     .container

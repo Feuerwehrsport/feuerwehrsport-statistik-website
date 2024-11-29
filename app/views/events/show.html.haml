@@ -23,4 +23,4 @@
         - t.col('LAw', th_options: { class: 'small' }, class: 'col-5') { |row| count_or_zero(row.la_female) }
         - t.col('LAm', th_options: { class: 'small' }, class: 'col-5') { |row| count_or_zero(row.la_male) }
 
-      = render 'calculation/competitions_discipline_overview', toc: toc
+      = render 'calculation/competitions_discipline_overview', toc:, competitions: @competitions

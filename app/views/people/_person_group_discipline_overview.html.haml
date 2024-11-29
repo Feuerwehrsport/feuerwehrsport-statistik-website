@@ -14,8 +14,8 @@
           %th Durchschnitt
           %td= "#{ds.average_time} s"
       - if !ds.discipline.in?([:zk, :zw]) && ds.valid_scores.present?
-        = @chart.discipline_invalid(ds.discipline, ds.scores)
-    .col-md-9= @chart.discipline_scores(ds.discipline, ds.chart_scores)
+        = chart.discipline_invalid(ds.discipline, ds.scores)
+    .col-md-9= chart.discipline_scores(ds.discipline, ds.chart_scores)
 
   = count_table(ds.scores_decorated, class: 'datatable-person-scores') do |t|
     - t.col('Datum', class: 'col70 info-link') { |row| competition_link(row.competition, type: :date_iso) }
@@ -39,7 +39,7 @@
       - t.col('Wettkämpfe', class: 'col-md-9 small') { |row| row.scores.map(&:group_score_category).map(&:competition).uniq.sort_by(&:date).map { |c| link_to(c.short_name, c) }.join(", ").html_safe }
     %h3 #{discipline_name(ds.discipline)} - Gelaufene Positionen
     .row
-      .col-md-4= @chart.discipline_positions(ds.discipline)
+      .col-md-4= chart.discipline_positions(ds.discipline)
       - if ds.discipline == :la
         .col-md-8
           = image_tag(images_person_la_positions_path(@person))

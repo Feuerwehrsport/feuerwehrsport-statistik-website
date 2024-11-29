@@ -15,7 +15,7 @@ module Competitions::CacheBuilder
       Genderable::GENDER_KEYS.each do |gender|
         single = Score.gender(gender).select('COUNT(*)').where('competition_id = competitions.id')
         update_all("hl_#{gender} = (#{single.hl.to_sql})")
-        update_all("hb_#{gender} = (#{single.low_and_high_hb.to_sql})")
+        update_all("hb_#{gender} = (#{single.hb.to_sql})")
 
         update_all("fs_#{gender} = (#{group.discipline(:fs).gender(gender).to_sql})")
         update_all("la_#{gender} = (#{group.discipline(:la).gender(gender).to_sql})")
@@ -36,7 +36,7 @@ module Competitions::CacheBuilder
     end
 
     def update_long_names
-      all.includes(:place, :event).find_each(&:update_long_name)
+      all.includes(:place, :event).each(&:update_long_name)
     end
   end
 

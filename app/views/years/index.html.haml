@@ -7,4 +7,4 @@
       - t.col('Wettkämpfe', :count, class: 'col-md-1')
 
     %h4 Anzahl der Wettkämpfe pro Jahr
-    = @chart.years_count
+    = Chart::YearIndex.new(years: collection, request:).competitions_count

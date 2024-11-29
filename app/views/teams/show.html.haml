@@ -1,4 +1,5 @@
 = table_of_contents do |toc|
+  - chart = Chart::TeamShow.new(team: resource, request:)
   .section
     .container
       .col-md-2
@@ -7,7 +8,7 @@
         - else
           = design_image(:upload_logo, class: 'upload-logo', data: { team_id: resource.id })
         %hr
-        = @chart.gender_pie
+        = chart.gender_pie
       .col-md-7
         .page-header
           %h1= resource.name
@@ -28,8 +29,8 @@
 
     .container= render 'team_members', toc: toc
     .container= render 'team_competitions', toc: toc
-    -# .container= render 'group_assessments', toc: toc
-    .container= render 'group_disciplines', toc: toc
+    .container= render 'group_assessments', toc: toc
+    .container= render 'group_disciplines', toc:, chart:
     .container= render 'group_series', toc: toc
 
     .container= toc.anker('Karte', :h2)

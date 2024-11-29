@@ -15,13 +15,8 @@ class TeamsController < ResourceController
     t.col :competitions_count, th_class: 'col-15 small'
   end
 
-  def index
-    @charts = Chart::TeamOverview.new(context: view_context)
-  end
-
   def show
     super
-    @chart = Chart::TeamShow.new(team: resource.decorate, context: view_context)
     @team_members = resource.members_with_discipline_count.map(&:decorate)
     @team_competitions = resource.competitions_with_discipline_count.map(&:decorate)
     @group_assessments = resource.group_assessments

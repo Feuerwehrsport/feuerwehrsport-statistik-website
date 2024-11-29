@@ -13,8 +13,8 @@
         %tr
           %th Durchschnitt
           %td= "#{ds.average_time} s"
-        = @chart.discipline_invalid(ds.single_discipline.name, ds.scores)
-    .col-md-9= @chart.discipline_scores(ds.single_discipline.key, ds.chart_scores)
+        = chart.discipline_invalid(ds.single_discipline.name, ds.scores)
+    .col-md-9= chart.discipline_scores(ds.single_discipline.key, ds.chart_scores)
 
   = count_table(ds.scores_decorated, class: 'datatable-person-scores') do |t|
     - t.col('Datum', class: 'col70 info-link') { |row| competition_link(row.competition, type: :date_iso) }

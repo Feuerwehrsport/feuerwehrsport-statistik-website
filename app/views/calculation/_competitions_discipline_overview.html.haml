@@ -1,32 +1,32 @@
 = toc.anker 'Auswertung', :h2
+- chart = Chart::CompetitionsScoreOverview.new(competitions:, request:)
 .calculation-area
   .row
     .col-md-4
       %h4 Verteilung der Wettkämpfe über das Jahr
-      = @chart.year_overview
+      = chart.year_overview
     .col-md-4
       %h4 Verteilung der Wettkämpfe über die Woche
-      = @chart.week_overview
+      = chart.week_overview
     .col-md-4
       %h4 Angebotene Disziplinen pro Wettkampf
-      = @chart.disciplines_overview
+      = chart.disciplines_overview
     .col-md-4
       %h4 Mannschaftswertungen der Einzeldisziplinen
-      = @chart.team_scores_overview
+      = chart.team_scores_overview
     .col-md-4
       %h4 Anzahl der Mannschaften pro Wettkampf
-      = @chart.teams_count_overview
+      = chart.teams_count_overview
     .col-md-4
       %h4 Anzahl der Einzelstarter pro Wettkampf
-      = @chart.people_count_overview
-
+      = chart.people_count_overview
 
 = toc.anker 'Bestenliste', :h2
 .calculation-area
   = nav_tab do |t|
-    - @competitions_discipline_overview.each do |discipline, genders|
+    - Calc::CompetitionsScoreOverview.new(competitions:).disciplines.each do |key, genders|
       - genders.each do |gender, overview|
-        - t.tab(discipline_image_name_short(discipline, gender)) do
+        - t.tab(discipline_image_name_short(key, gender)) do
           - overview.types.each do |key, type|
             .row
               .col-md-6

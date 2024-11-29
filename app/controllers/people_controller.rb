@@ -17,15 +17,11 @@ class PeopleController < ResourceController
     end
   end
 
-  def index
-    @chart = Chart::PersonIndex.new(context: view_context)
-  end
-
   def show
     super
     @teams = resource.teams.decorate
     @team_structs = @teams.map do |team|
-      OpenStruct.new(
+      {
         team:,
         score_count: team.person_scores_count(resource),
         hb: team.scores.hb.where(person: resource).count,
@@ -33,9 +29,8 @@ class PeopleController < ResourceController
         gs: team.group_score_participations.gs.where(person: resource).count,
         fs: team.group_score_participations.fs.where(person: resource).count,
         la: team.group_score_participations.la.where(person: resource).count,
-      )
+      }
     end
-    @chart = Chart::PersonShow.new(person: resource, team_structs: @team_structs, context: view_context)
     @series_structs = Series::PersonAssessment.for(resource.id)
     @max_series_cups = @series_structs.values.flatten.map(&:values).flatten.map(&:cups).map(&:count).max
     @person_spellings = resource.person_spellings.official.decorate.to_a

@@ -1,4 +1,5 @@
 = table_of_contents do |toc|
+  - chart = Chart::PersonShow.new(person: resource, team_structs: @team_structs, request:)
   .section
     .container.page-header
       %span.pull-right
@@ -16,7 +17,7 @@
           bekannt
 
     .container
-      .col-md-3= @chart.year_overview
+      .col-md-3= chart.year_overview
       .col-md-6
         - @teams.each do |team|
           - if team.image.present?
@@ -30,18 +31,18 @@
       = render('bla_badge', badge: resource.bla_badge)
     .container
       - People::SingleDisciplineOverview.for(resource).each do |discipline_struct|
-        = render('person_single_discipline_overview', toc: toc, ds: discipline_struct)
+        = render('person_single_discipline_overview', toc:, chart:, ds: discipline_struct)
       - People::DoubleEventDisciplineOverview.for(resource).each do |discipline_struct|
-        = render('person_double_event_discipline_overview', toc: toc, ds: discipline_struct)
+        = render('person_double_event_discipline_overview', toc:, chart:, ds: discipline_struct)
       - People::GroupDisciplineOverview.for(resource).each do |discipline_struct|
-        = render('person_group_discipline_overview', toc: toc, ds: discipline_struct)
+        = render('person_group_discipline_overview', toc:, chart:, ds: discipline_struct)
 
 
       - if @teams.present?
         = toc.anker("Mannschaft", :h2)
         .person-teams-area
           - @team_structs.each do |team_struct|
-            = render('person_team_overview', team_struct: team_struct)
+            = render('person_team_overview', team_struct:, chart:)
 
       = render('series', toc: toc)
 

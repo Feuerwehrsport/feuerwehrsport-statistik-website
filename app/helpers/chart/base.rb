@@ -2,41 +2,25 @@
 
 class Chart::Base
   include ActiveModel::Model
-  include Draper::Decoratable
-  include ApplicationHelper
   include LazyHighCharts::LayoutHelper
-  include ActionView::Helpers::TranslationHelper
-  attr_accessor :context
-
-  delegate :request, to: :context
-
-  GENDER_COLORS = {
-    female: '#FEAE97',
-    male: '#97E6FE',
-  }.freeze
+  delegate :t, to: I18n
+  attr_accessor :request
 
   protected
 
-  def lazy_high_chart
-    LazyHighCharts::HighChart.new
-  end
-
-  def render(hchart)
+  def lazy_high_chart(&)
+    hchart = LazyHighCharts::HighChart.new.tap(&)
     @div_id = "high-chart-#{SecureRandom.hex(6)}"
     high_chart(@div_id, hchart)
   end
 
-  def gender_color(gender)
-    GENDER_COLORS[normalize_gender(gender)]
-  end
-
   def basic_gender_pie(data)
-    hc = lazy_high_chart
-    hc.legend(borderWidth: 0, margin: 0, padding: 5)
-    hc.chart(type: 'pie', height: 150)
-    hc.plotOptions(pie: { dataLabels: { enabled: false }, showInLegend: true })
-    hc.series(name: 'Geschlecht', data:)
-    render(hc)
+    lazy_high_chart do |hc|
+      hc.legend(borderWidth: 0, margin: 0, padding: 5)
+      hc.chart(type: 'pie', height: 150)
+      hc.plotOptions(pie: { dataLabels: { enabled: false }, showInLegend: true })
+      hc.series(name: 'Geschlecht', data:)
+    end
   end
 
   private

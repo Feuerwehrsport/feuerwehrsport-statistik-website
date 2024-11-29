@@ -5,7 +5,7 @@ module People::CacheBuilder
 
   class_methods do
     def update_score_count
-      update_all("hb_count = (#{Score.select('COUNT(*)').low_and_high_hb.where('person_id = people.id').to_sql})")
+      update_all("hb_count = (#{Score.select('COUNT(*)').hb.where('person_id = people.id').to_sql})")
       update_all("hl_count = (#{Score.select('COUNT(*)').hl.where('person_id = people.id').to_sql})")
       update_all("la_count = (#{GroupScoreParticipation.la.select('COUNT(*)').where('person_id = people.id').to_sql})")
       update_all("fs_count = (#{GroupScoreParticipation.fs.select('COUNT(*)').where('person_id = people.id').to_sql})")
@@ -14,7 +14,7 @@ module People::CacheBuilder
 
     def update_best_scores
       competitions = Competition.pluck(:id, :long_name).to_h
-      all.find_each { |person| person.update_best_scores(competitions) }
+      all.each { |person| person.update_best_scores(competitions) }
     end
   end
 
@@ -52,7 +52,7 @@ module People::CacheBuilder
   end
 
   def hb_best_score
-    @hb_best_score ||= best_score_relation(scores.low_and_high_hb)
+    @hb_best_score ||= best_score_relation(scores.hb)
   end
 
   def zk_best_score
@@ -64,7 +64,7 @@ module People::CacheBuilder
   end
 
   def hb_saison_best_score
-    @hb_saison_best_score ||= best_score_relation(scores.low_and_high_hb, saison: true)
+    @hb_saison_best_score ||= best_score_relation(scores.hb, saison: true)
   end
 
   def zk_saison_best_score

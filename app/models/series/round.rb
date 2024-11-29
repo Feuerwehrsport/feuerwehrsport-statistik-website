@@ -86,7 +86,7 @@ class Series::Round < ApplicationRecord
 
   def teams(gender)
     teams = {}
-    Series::TeamParticipation.where(assessment: assessments.gender(gender)).find_each do |participation|
+    Series::TeamParticipation.where(assessment: assessments.gender(gender)).each do |participation|
       teams[participation.entity_id] ||= aggregate_class.new(self, participation.team, participation.team_number)
       teams[participation.entity_id].add_participation(participation)
     end
