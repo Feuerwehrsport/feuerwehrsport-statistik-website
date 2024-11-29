@@ -43,7 +43,6 @@ class @Fss
     gs: 'Gruppenstafette'
     hl: 'Hakenleitersteigen'
     hb: 'Hindernisbahn'
-    hw: 'Hindernisbahn (flach)'
   }
   @genders: {
     male: 'männlich'

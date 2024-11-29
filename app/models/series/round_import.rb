@@ -122,8 +122,10 @@ class Series::RoundImport
       case discipline.to_sym
       when :zk
         competition.score_double_events.gender(gender).sort_by(&:time)
-      else
-        competition.scores.no_finals.gender(gender).discipline(discipline).best_of_competition.sort_by(&:time)
+      when :hb
+        competition.scores.no_finals.gender(gender).hb.best_of_competition.sort_by(&:time)
+      when :hl
+        competition.scores.no_finals.gender(gender).hl.best_of_competition.sort_by(&:time)
       end
     end
   end

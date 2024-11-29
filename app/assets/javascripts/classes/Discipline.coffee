@@ -80,6 +80,12 @@ class @Discipline extends EventHandler
     }
     Fss.getResources('group_score_categories', input, callback)
 
+  getSingleDisciplines: (callback) =>
+    input = {
+      key: @discipline
+    }
+    Fss.getResources('single_disciplines', input, callback)
+
   importRows: (rows) =>
     return unless rows?
     headline = rows.shift()
@@ -97,7 +103,7 @@ class @Discipline extends EventHandler
     @textarea.val(rows.map( (row) -> row.join("\t") ).join("\n"))
 
   selectCategory: =>
-    if not @categoryId and $.inArray(@discipline, ['hl', 'hb', 'hw']) is -1
+    if not @categoryId and $.inArray(@discipline, ['hl', 'hb']) is -1
       @getGroupScoreCategories (categories) =>
         return @addCategory() if categories.length is 0
 
@@ -124,7 +130,21 @@ class @Discipline extends EventHandler
         )
         .open()
     else
-      @addResultScores()
+      @getSingleDisciplines (singleDisciplines) =>
+        options = []
+        for singleDiscipline in singleDisciplines
+          options.push {
+            display: "#{singleDiscipline.name} - #{singleDiscipline.description}"
+            value: singleDiscipline.id
+          }
+
+        currentWindow = FssWindow.build('Disziplin auswählen')
+        .add(new FssFormRowRadio('singleDisciplineId', 'Einzel', singleDisciplines[0].id, options))
+        .on('submit', (data) =>
+          @singleDisciplineId = data.singleDisciplineId
+          @addResultScores()
+        )
+        .open()
 
   addCategory: =>
     Fss.getResources 'group_score_types', { discipline: @discipline }, (groupScoreTypes) =>
@@ -160,6 +180,7 @@ class @Discipline extends EventHandler
           scores: nextScores
           competition_id: $('#competitions').val()
           group_score_category_id: @categoryId
+          single_discipline_id: @singleDisciplineId
           discipline: @discipline
           gender: @gender
         }

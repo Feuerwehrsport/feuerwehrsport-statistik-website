@@ -4,7 +4,7 @@ class Import::Scores
   include ActiveModel::Model
   include ActiveModel::Validations::Callbacks
 
-  attr_accessor :gender, :scores, :competition_id, :group_score_category_id
+  attr_accessor :gender, :scores, :competition_id, :group_score_category_id, :single_discipline_id
   attr_reader :discipline
 
   validates :discipline, :gender, :scores, presence: true
@@ -65,7 +65,7 @@ class Import::Scores
 
     insert_hash[:person] = person
     insert_hash[:competition_id] = competition_id
-    insert_hash[:discipline] = discipline
+    insert_hash[:single_discipline_id] = single_discipline_id
 
     score[:times].each do |time|
       insert_hash[:time] = time

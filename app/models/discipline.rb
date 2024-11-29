@@ -6,9 +6,9 @@ class Discipline
     fs: 4,
     la: 7,
   }.freeze
-  SINGLE               = %i[hb hw hl].freeze
-  WITHOUT_DOUBLE_EVENT = %i[hb hw hl gs fs la].freeze
-  ALL                  = %i[hb hw hl zk gs fs la].freeze
+  SINGLE               = %i[hb hl].freeze
+  WITHOUT_DOUBLE_EVENT = %i[hb hl gs fs la].freeze
+  ALL                  = %i[hb hl zk gs fs la].freeze
   GROUP                = %i[gs fs la].freeze
   def self.group?(discipline)
     discipline.try(:to_sym).in? GROUP

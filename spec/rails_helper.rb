@@ -76,6 +76,7 @@ RSpec.configure do |config|
 
   config.before       { DatabaseCleaner.start }
   config.append_after { DatabaseCleaner.clean }
+  config.before { SingleDiscipline.instance_variable_set(:@single_disciplines, nil) }
 
   config.before(type: :feature) do
     Capybara.current_session # start capybara and puma before feature spec

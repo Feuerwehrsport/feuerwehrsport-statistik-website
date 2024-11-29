@@ -73,13 +73,14 @@ RSpec.describe 'Api::Imports' do
 
   describe 'POST scores' do
     let(:r) { -> { post '/api/imports/scores', params: } }
-    let(:params) { { import: { discipline:, gender: 'male', scores: }.merge(attributes) } }
+    let(:params) { { import: { discipline:, gender: 'male', scores:, single_discipline_id: }.merge(attributes) } }
 
     let(:competition) { create(:competition) }
     let(:team) { create(:team) }
     let(:group_score_category) { create(:group_score_category, competition:) }
     let!(:person) { create(:person) }
     let(:discipline) { 'hb' }
+    let!(:single_discipline_id) { create(:single_discipline, :hb_male).id }
     let(:attributes) { { competition_id: competition.id } }
     let(:scores) { [person_id: person.id, times: ['2200']] }
 

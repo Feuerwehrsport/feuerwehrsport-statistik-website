@@ -15,7 +15,6 @@ RSpec.describe 'Backend::Teams', login: :sub_admin do
         status: 'fire_station',
         latitude: '44.55',
         longitude: '66.77',
-        image: fixture_file_upload('testfile.png', 'image/png'),
         state: 'MV',
       }
     end

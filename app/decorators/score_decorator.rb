@@ -26,7 +26,7 @@ class ScoreDecorator < AppDecorator
   end
 
   def discipline_key
-    @discipline_key ||= single_discipline.key
+    @discipline_key ||= single_discipline&.key
   end
 
   delegate :<=>, to: :object

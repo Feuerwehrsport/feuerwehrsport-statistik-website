@@ -4,7 +4,7 @@ class @InputLine
   constructor: (discipline) ->
     @fields = []
     start = []
-    if $.inArray(discipline, ['hl', 'hb', 'hw']) isnt -1
+    if $.inArray(discipline, ['hl', 'hb']) isnt -1
       start = ['last_name', 'first_name', 'team', 'time', 'time']
     else if discipline is 'la'
       start = ['team', 'time', 'time']

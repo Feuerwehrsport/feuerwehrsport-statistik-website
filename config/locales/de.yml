@@ -102,14 +102,10 @@ de:
   discipline:
     hb: Hindernisbahn
     hb_color: '#7cb5ec'
-    hw: Hindernisbahn flach
-    hw_color: '#7cb5ec'
     hl: Hakenleitersteigen
     hl_color: '#e4d354'
     zk: Zweikampf
     zk_color: '#90ed7d'
-    zw: Zweikampf flach
-    zw_color: '#90ed7d'
     gs: Gruppenstafette
     gs_color: '#f7a35c'
     fs: Feuerwehrstafette

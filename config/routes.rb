@@ -69,6 +69,7 @@ Rails.application.routes.draw do
     resources :competitions, only: %i[create show index update] do
       resource :competition_files, only: [:create]
     end
+    resources :single_disciplines, only: %i[index]
     resources :events, only: %i[create show index]
     resources :group_score_types, only: %i[create index]
     resources :group_score_categories, only: %i[create index]

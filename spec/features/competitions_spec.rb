@@ -14,20 +14,13 @@ describe 'competitions features', :js do
     it 'shows the competition' do
       visit competition_path(competition)
 
-      expect(page).to have_no_content('Hindernisbahn weiblich')
-      expect(page).to have_no_content('Hindernisbahn weiblich Mannschaftswertung')
-
       expect(page).to have_content('100m-Hindernisbahn (Männer)')
       expect(page).to have_content('1 bis 1 von 1 Einträgen')
-      expect(page).to have_content('100m-Hindernisbahn (Männer) Mannschaftswertung')
+      expect(page).to have_content('100m-Hindernisbahn (Männer) männlich Mannschaftswertung')
 
-      expect(page).to have_no_content('Hakenleitersteigen weiblich')
-      expect(page).to have_no_content('Hakenleitersteigen weiblich Mannschaftswertung')
+      expect(page).to have_content('Hakenleitersteigen (3. Etage) männlich')
+      expect(page).to have_content('Hakenleitersteigen (3. Etage) männlich Mannschaftswertung')
 
-      expect(page).to have_content('Hakenleitersteigen männlich')
-      expect(page).to have_content('Hakenleitersteigen männlich Mannschaftswertung')
-
-      expect(page).to have_no_content('Zweikampf weiblich')
       expect(page).to have_content('Zweikampf männlich')
 
       expect(page).to have_no_content('Löschangriff nass weiblich')
