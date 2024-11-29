@@ -86,7 +86,8 @@ class @Discipline extends EventHandler
     }
     Fss.getResources('single_disciplines', input, callback)
 
-  importRows: (rows) =>
+  importRows: (origRows) =>
+    rows = origRows.slice()
     return unless rows?
     headline = rows.shift()
 
