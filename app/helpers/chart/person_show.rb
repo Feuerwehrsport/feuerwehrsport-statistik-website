@@ -36,7 +36,7 @@ class Chart::PersonShow < Chart::Base
 
   def discipline_scores(discipline, chart_scores)
     lazy_high_chart do |hc|
-      hc.xAxis(categories: chart_scores.map(&:competition).map(&:date),
+      hc.xAxis(categories: chart_scores.map { |s| s.competition.date },
                labels: { enabled: false, rotation: 270, style: { fontSize: '8px' } })
       hc.series(name: 'Sekunden', yAxis: 0, data: chart_scores.map { |s| s.time.to_f / 100 }, lineWidth: 1)
       if discipline == :zk

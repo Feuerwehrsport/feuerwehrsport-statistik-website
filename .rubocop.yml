@@ -38,7 +38,7 @@ FactoryBot/AssociationStyle:
 FactoryBot/ConsistentParenthesesStyle:
   Enabled: true
 FactoryBot/ExcessiveCreateList:
-  Enabled: true
+  Enabled: false
 FactoryBot/FactoryAssociationWithStrategy:
   Enabled: true
 FactoryBot/FactoryNameStyle:
@@ -173,6 +173,11 @@ Metrics/PerceivedComplexity:
 Naming/BlockForwarding:
   Enabled: true
 Naming/MethodParameterName:
+  Enabled: false
+Naming/PredicateName:
+  Exclude:
+  - app/controllers/backend/backend_controller.rb
+Naming/VariableNumber:
   Enabled: false
 Performance/AncestorsInclude:
   Enabled: true
@@ -437,11 +442,6 @@ Rails/TopLevelHashWithIndifferentAccess:
   Enabled: true
 Rails/TransactionExitStatement:
   Enabled: true
-Rails/UnknownEnv:
-  Environments:
-  - development
-  - production
-  - test
 Rails/UnusedIgnoredColumns:
   Enabled: true
 Rails/UnusedRenderContent:

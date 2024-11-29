@@ -6,7 +6,7 @@ def sign_in(role = :admin)
   fill_in 'E-Mail-Adresse', with: user.email_address
 
   fill_in 'Passwort', with: 'Secret123'
-  click_button 'Anmelden'
+  click_link_or_button 'Anmelden'
   expect(page).to have_content 'Sie sind angemeldet'
 end
 

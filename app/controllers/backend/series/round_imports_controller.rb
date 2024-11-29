@@ -20,12 +20,12 @@ class Backend::Series::RoundImportsController < Backend::BackendController
         @team_assessments_exists = ::Series::TeamAssessment.where(round: form_resource.round).present?
         @preview_string = render_to_string(partial: 'backend/series/rounds/preview_changes',
                                            locals: { round: form_resource.round.decorate })
-        raise ActiveRecord::Rollback unless form_resource.import_now?
+        raise ActiveRecord::Rollback unless form_resource.import_now
       end
     end
 
     self.resource = form_resource
-    if form_resource.import_now?
+    if form_resource.import_now
       after_create
     else
       render :create

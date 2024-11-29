@@ -33,7 +33,12 @@ class Score < ApplicationRecord
   scope :finals, ->(final_number) { where(team_number: final_number) }
   scope :with_team, -> { where.not(team_id: nil) }
   scope :best_of_competition, -> do
-    sql = select("#{table_name}.*, ROW_NUMBER() OVER (PARTITION BY person_id,competition_id,single_discipline_id ORDER BY time ) AS r").to_sql
+    sql = select(<<~SQL.squish).to_sql
+      #{table_name}.*,#{' '}
+      ROW_NUMBER() OVER (
+        PARTITION BY person_id,competition_id,single_discipline_id ORDER BY time )
+       AS r
+    SQL
     from("(#{sql}) AS #{table_name}").where('r=1')
   end
   scope :german, -> { joins(:person).merge(Person.german) }

@@ -4,6 +4,7 @@ class Backend::Caching::CleanersController < Backend::BackendController
   backend_actions :new, :create, clean_cache_disabled: true
 
   default_form do |f|
+    # do nothing
   end
 
   protected

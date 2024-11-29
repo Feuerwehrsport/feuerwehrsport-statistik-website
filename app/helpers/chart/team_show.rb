@@ -19,7 +19,7 @@ class Chart::TeamShow < Chart::Base
   def group_discipline_scores(scores)
     scores = scores.sort_by { |s| s.object.competition.date }
     lazy_high_chart do |hc|
-      hc.xAxis(categories: scores.map(&:competition).map(&:date),
+      hc.xAxis(categories: scores.map { |s| s.competition.date },
                labels: { enabled: false, rotation: 270, style: { fontSize: '8px' } })
       hc.series(name: 'Sekunden', yAxis: 0, data: scores.map { |s| s.time.to_f / 100 }, lineWidth: 1)
       hc.yAxis [title: { text: 'Sekunden', margin: 20 }, endOnTick: false]

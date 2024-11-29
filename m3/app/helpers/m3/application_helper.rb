@@ -7,7 +7,7 @@ require_dependency 'm3/filter/structure'
 
 module M3::ApplicationHelper
   def resource
-    @decorated_resource ||= begin
+    @resource ||= begin
       res = controller.send(:resource)
       if res && decorator_class
         decorator_class.decorate(res)
@@ -18,11 +18,11 @@ module M3::ApplicationHelper
   end
 
   def parent_resource
-    @decorated_parent_resource ||= ApplicationDecorator.try_to_decorate(controller.send(:parent_resource))
+    @parent_resource ||= ApplicationDecorator.try_to_decorate(controller.send(:parent_resource))
   end
 
   def collection
-    @decorated_collection ||= begin
+    @collection ||= begin
       coll = controller.send(:collection)
       if coll && decorator_class
         decorator_class.decorate_collection(coll)

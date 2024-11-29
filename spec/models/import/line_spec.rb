@@ -26,7 +26,7 @@ describe Import::Line do
     before { check.valid? }
 
     it 'generates out-hash' do
-      expect(line.out.to_h).to eq(
+      expect(line.out).to eq(
         valid: true,
         last_name: 'Meier',
         first_name: 'Alfred',
@@ -133,8 +133,8 @@ describe Import::Line do
     let(:female_person) { create(:person, :female) }
 
     it 'checks return values of find_people' do
-      line.out.last_name = 'Meier'
-      line.out.first_name = 'Alfred'
+      line.out[:last_name] = 'Meier'
+      line.out[:first_name] = 'Alfred'
       expect(line.send(:find_people)).to eq [[person.id, 'Meier', 'Alfred']]
 
       PersonSpelling.create!(

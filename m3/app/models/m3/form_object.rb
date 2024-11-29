@@ -13,7 +13,6 @@ module M3::FormObject
     include ActiveRecord::Callbacks
     include Draper::Decoratable
     include M3::FormObjectAssociations
-    include M3::FormObjectVirtualColumns
 
     define_model_callbacks :initialize, only: :after
   end

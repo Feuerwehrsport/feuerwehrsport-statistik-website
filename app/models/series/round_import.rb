@@ -2,11 +2,12 @@
 
 class Series::RoundImport
   include M3::FormObject
+  include ActiveModel::Attributes
 
   belongs_to :round
   belongs_to :competition
   belongs_to :cup
-  boolean_accessor :import_now
+  attribute :import_now, :boolean
   attr_accessor :selected_entities
   attr_reader :assessment_configs
 

@@ -40,7 +40,7 @@ end
       data = []
       discipline.scores.sort { |a, b| a.sort_method(b, method: :competition_scores_from_team_with_run) }.each do |score|
         line = [numbered_team_name(score)]
-        line += score.competition_scores_from_team_with_run.map(&:decorate).map(&:second_time)
+        line += score.competition_scores_from_team_with_run.map { |s| s.decorate.second_time }
         times = [times, score.competition_scores_from_team_with_run.count].max
         data.push(line)
       end
@@ -67,7 +67,7 @@ end
       data = []
       discipline.scores.sort.each do |score|
         line = [score.person.last_name, score.person.first_name]
-        line += score.similar_scores.map(&:decorate).map(&:second_time)
+        line += score.similar_scores.map { |s| s.decorate.second_time }
         times = [times, score.similar_scores.count].max
         data.push(line)
       end
@@ -87,8 +87,8 @@ end
           sheet.add_row([
                           numbered_team_name(ga),
                           ga.second_time,
-                          ga.score_in_assessment.map(&:person).map(&:short_name).join(', '),
-                          ga.score_out_assessment.map(&:person).map(&:short_name).join(', '),
+                          ga.score_in_assessment.map { |s| s.person.short_name }.join(', '),
+                          ga.score_out_assessment.map { |s| s.person.short_name }.join(', '),
                         ])
         end
       end

@@ -12,7 +12,7 @@ class M3::Login::Session
   validate :valid_login
   validate :session_is_hash
 
-  def self.find_by_session(session)
+  def self.find_by(session:)
     return unless session && session[ID_KEY]
 
     login = M3::Login::Base.where(
@@ -26,7 +26,7 @@ class M3::Login::Session
   end
 
   def persisted?
-    session && self.class.find_by_session(session)
+    session && self.class.find_by(session:)
   end
 
   def save(validate: true)

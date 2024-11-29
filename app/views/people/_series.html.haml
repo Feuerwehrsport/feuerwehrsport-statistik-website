@@ -12,11 +12,11 @@
     - series_row do |name_s, year_s, assessment, row, cups|
       %tr{ class: (year_s.present? ? "other-year" : "") }
         - if name_s.present?
-          %td{ rowspan: name_s.rowspan }= name_s.name
+          %td{ rowspan: name_s[:rowspan] }= name_s[:name]
 
         - if year_s.present?
-          %td{ rowspan: year_s.rowspan, class: assessment.round.complete? ? nil : 'text-muted' }
-            = year_s.year
+          %td{ rowspan: year_s[:rowspan], class: assessment.round.complete? ? nil : 'text-muted' }
+            = year_s[:year]
             - unless assessment.round.complete?
               .small (offen)
 

@@ -8,15 +8,15 @@ class Import::Line
     @cols = cols
 
     if cols.count < check.headline_columns.count
-      out.valid = false
+      out[:valid] = false
     else
       check.headline_columns.each_with_index { |headline, index| check_col(headline, cols[index].strip) }
-      out.people = find_people unless Discipline.group?(check)
+      out[:people] = find_people unless Discipline.group?(check)
     end
   end
 
   def out
-    @out ||= OpenStruct.new(
+    @out ||= {
       valid: true,
       last_name: '',
       first_name: '',
@@ -25,7 +25,7 @@ class Import::Line
       original_team: '',
       run: '',
       team_number: 1,
-    )
+    }
   end
 
   private
@@ -33,15 +33,15 @@ class Import::Line
   def check_col(headline, col)
     case headline
     when 'last_name'
-      out.last_name = normalize_name(col)
+      out[:last_name] = normalize_name(col)
     when 'first_name'
-      out.first_name = normalize_name(col)
+      out[:first_name] = normalize_name(col)
     when 'time'
       time = normalize_time(col)
-      out.times.push(time) if time
+      out[:times].push(time) if time
     when 'run'
       run = col.upcase
-      out.run = run if run.in?(%w[A B C D])
+      out[:run] = run if run.in?(%w[A B C D])
     when 'team'
       check_team_col(col)
     end
@@ -49,23 +49,23 @@ class Import::Line
 
   def check_team_col(col)
     team_name = normalize_name(col)
-    out.original_team = team_name
+    out[:original_team] = team_name
     run = normalize_team_run(team_name)
-    out.run = run if run
-    out.team_number = normalize_team_number(team_name)
+    out[:run] = run if run
+    out[:team_number] = normalize_team_number(team_name)
 
     team = Team.find_by(id: team_name)
     if team
-      out.team_ids = [team.id]
-      out.team_names = [team.shortcut]
+      out[:team_ids] = [team.id]
+      out[:team_names] = [team.shortcut]
     else
       teams = find_teams(team_name).pluck(:id, :shortcut)
       if teams.present?
-        out.team_ids = teams.map(&:first)
-        out.team_names = teams.map(&:second)
+        out[:team_ids] = teams.map(&:first)
+        out[:team_names] = teams.map(&:second)
       else
         check.add_missing_team(team_name)
-        out.correct = false
+        out[:correct] = false
       end
     end
   end
@@ -164,8 +164,9 @@ class Import::Line
   end
 
   def find_people
-    person_ids = Person.gender(check.gender).search_exactly(out.last_name, out.first_name).pluck(:id)
-    person_ids += PersonSpelling.gender(check.gender).search_exactly(out.last_name, out.first_name).pluck(:person_id)
+    person_ids = Person.gender(check.gender).search_exactly(out[:last_name], out[:first_name]).pluck(:id)
+    person_ids += PersonSpelling.gender(check.gender).search_exactly(out[:last_name],
+                                                                     out[:first_name]).pluck(:person_id)
     Person.where(id: person_ids).pluck(:id, :last_name, :first_name)
   end
 end

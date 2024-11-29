@@ -10,7 +10,7 @@ module Authorization
   protected
 
   def current_session
-    @current_session ||= M3::Login::Session.find_by_session(session)
+    @current_session ||= M3::Login::Session.find_by(session:)
   end
 
   def current_login

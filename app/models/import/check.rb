@@ -42,7 +42,7 @@ class Import::Check
     return unless valid?
 
     self.missing_teams = []
-    self.import_lines = lines.map { |line| Import::Line.new(self, line).out.to_h }
+    self.import_lines = lines.map { |line| Import::Line.new(self, line).out }
   end
 
   private

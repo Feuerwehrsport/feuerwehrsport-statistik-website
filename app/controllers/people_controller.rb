@@ -32,7 +32,7 @@ class PeopleController < ResourceController
       }
     end
     @series_structs = Series::PersonAssessment.for(resource.id)
-    @max_series_cups = @series_structs.values.flatten.map(&:values).flatten.map(&:cups).map(&:count).max
+    @max_series_cups = @series_structs.values.flatten.map(&:values).flatten.map { |series| series.cups.count }.max
     @person_spellings = resource.person_spellings.official.decorate.to_a
   end
 
