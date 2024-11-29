@@ -16,15 +16,17 @@
   - t.col('Zeit', :second_time, class: 'col-10 time-col')
 
 - if !discipline.category && @competition.score_type.present?
-  %h2
-    = discipline_image(single_discipline.key)
-    = single_discipline.name
-    = g(discipline.gender)
-    %small Mannschaftswertung
+  - group_scores = resource.group_assessment(discipline.discipline, discipline.gender)
+  - if group_scores.present?
+    %h2
+      = discipline_image(single_discipline.key)
+      = single_discipline.name
+      = g(discipline.gender)
+      %small Mannschaftswertung
 
-  = count_table(resource.group_assessment(discipline.discipline, discipline.gender)) do |ct|
-    - ct.col('Team', helper_method: :numbered_team_link)
-    - ct.col('Summe', :second_time)
-    - ct.col('Wertung', class: 'small') { |row| row.score_in_assessment.map {|s| link_to(s.person.short_name, s.person) }.join(', ').html_safe }
-    - ct.col('Außerhalb', class: 'small') { |row| row.score_out_assessment.map {|s| link_to(s.person.short_name, s.person) }.join(', ').html_safe }
-  
+    = count_table(group_scores) do |ct|
+      - ct.col('Team', helper_method: :numbered_team_link)
+      - ct.col('Summe', :second_time)
+      - ct.col('Wertung', class: 'small') { |row| row.score_in_assessment.map {|s| link_to(s.person.short_name, s.person) }.join(', ').html_safe }
+      - ct.col('Außerhalb', class: 'small') { |row| row.score_out_assessment.map {|s| link_to(s.person.short_name, s.person) }.join(', ').html_safe }
+    
