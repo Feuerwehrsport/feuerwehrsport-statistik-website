@@ -120,13 +120,24 @@ class @FssImport
       for className in ev.target.className.split(' ')
         res = className.match(/^discipline-([a-z]{2})-((?:fe)?male)$/)
         if res
-          discipline = res[1]
+          key = res[1]
           gender = res[2]
-          discipline = new Discipline(discipline, gender)
+          discipline = new Discipline(key, gender)
           discipline.on('refresh-results', -> fssImport.changeCompetition())
           discipline.importRows(button.data('rows'))
 
           return false
+
+        res = className.match(/^discipline-([a-z]{2})-indifferent$/)
+        if res
+          key = res[1]
+          discipline = new Discipline(key, "female")
+          discipline.on('refresh-results', -> fssImport.changeCompetition())
+          discipline.importRows(button.data('rows'))
+
+          discipline = new Discipline(key, "male")
+          discipline.on('refresh-results', -> fssImport.changeCompetition())
+          discipline.importRows(button.data('rows'))
 
     @reloadCompetitions(@selectCompetitionType)
 
