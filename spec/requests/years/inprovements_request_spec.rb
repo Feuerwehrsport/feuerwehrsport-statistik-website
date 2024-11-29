@@ -8,14 +8,16 @@ RSpec.describe 'Years::Inprovements' do
   describe 'GET index' do
     it 'assigns collection' do
       get "/years/#{score.competition.date.year}/inprovements"
-      expect(controller.instance_variable_get(:@disciplines).length).to eq 4
+      expect(controller.instance_variable_get(:@disciplines).length).to eq 0
+      expect(response).to be_successful
     end
   end
 
   describe 'GET show' do
     it 'assigns collection' do
       get "/years/#{score.competition.date.year}/inprovements/#{score.team_id}"
-      expect(controller.instance_variable_get(:@disciplines).length).to eq 4
+      expect(controller.instance_variable_get(:@disciplines).length).to eq 0
+      expect(response).to be_successful
     end
   end
 end

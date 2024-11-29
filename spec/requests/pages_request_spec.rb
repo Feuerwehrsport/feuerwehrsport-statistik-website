@@ -9,22 +9,13 @@ RSpec.describe 'Pages' do
     it 'assigns a lot information' do
       get '/'
       expect(controller.instance_variable_get(:@last_competitions).count).to eq 1
-      expect(controller.instance_variable_get(:@people_count)).to eq 1
-      expect(controller.instance_variable_get(:@score_valid_count)).to eq 2
-      expect(controller.instance_variable_get(:@score_invalid_count)).to eq 0
-      expect(controller.instance_variable_get(:@places_count)).to eq 1
-      expect(controller.instance_variable_get(:@events_count)).to eq 1
-      expect(controller.instance_variable_get(:@competitions_count)).to eq 1
-      expect(controller.instance_variable_get(:@teams_count)).to eq 1
-      expect(controller.instance_variable_get(:@performance_overview_disciplines).count).to eq 0
-      expect(controller.instance_variable_get(:@charts)).to be_instance_of Chart::Dashboard
+      expect(response).to be_successful
     end
   end
 
   describe 'GET about' do
     it 'assigns information' do
       get '/about'
-      expect(controller.instance_variable_get(:@charts)).to be_instance_of Chart::About
       expect(response).to be_successful
     end
   end

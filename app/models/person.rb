@@ -10,7 +10,6 @@ class Person < ApplicationRecord
   has_many :group_scores, through: :person_participations
   has_many :scores, dependent: :restrict_with_exception
   has_many :score_double_events, dependent: :restrict_with_exception
-  has_many :score_low_double_events, dependent: :restrict_with_exception
   has_many :group_score_participations, dependent: :restrict_with_exception
   has_many :team_members, dependent: :restrict_with_exception
   has_many :teams, through: :team_members

@@ -59,6 +59,7 @@ gem 'valid_email2' # validate emails
 
 gem 'mutex_m' # remove on Rails 7.2
 gem 'drb' # remove on Rails 7.2
+gem 'base64' # remove on Rails 7.2
 gem 'ostruct' # remove
 
 group :production do

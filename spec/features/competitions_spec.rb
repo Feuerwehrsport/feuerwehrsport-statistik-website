@@ -6,8 +6,8 @@ describe 'competitions features', :js do
   let(:competition) do
     create(:competition, :score_type)
     group_score = create(:group_score, :double)
-    create(:score, :double, competition: group_score.competition)
-    create(:score, :double, competition: group_score.competition, discipline: :hl).competition
+    create(:score, :hb, :double, competition: group_score.competition)
+    create(:score, :hl, :double, competition: group_score.competition).competition
   end
 
   context 'when show' do
@@ -17,9 +17,9 @@ describe 'competitions features', :js do
       expect(page).to have_no_content('Hindernisbahn weiblich')
       expect(page).to have_no_content('Hindernisbahn weiblich Mannschaftswertung')
 
-      expect(page).to have_content('Hindernisbahn männlich')
+      expect(page).to have_content('100m-Hindernisbahn (Männer)')
       expect(page).to have_content('1 bis 1 von 1 Einträgen')
-      expect(page).to have_content('Hindernisbahn männlich Mannschaftswertung')
+      expect(page).to have_content('100m-Hindernisbahn (Männer) Mannschaftswertung')
 
       expect(page).to have_no_content('Hakenleitersteigen weiblich')
       expect(page).to have_no_content('Hakenleitersteigen weiblich Mannschaftswertung')

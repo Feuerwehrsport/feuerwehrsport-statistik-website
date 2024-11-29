@@ -56,7 +56,7 @@ module People::CacheBuilder
   end
 
   def zk_best_score
-    @zk_best_score ||= best_score_relation(female? ? score_low_double_events : score_double_events)
+    @zk_best_score ||= best_score_relation(score_double_events)
   end
 
   def hl_saison_best_score
@@ -68,6 +68,6 @@ module People::CacheBuilder
   end
 
   def zk_saison_best_score
-    @zk_saison_best_score ||= best_score_relation(female? ? score_low_double_events : score_double_events, saison: true)
+    @zk_saison_best_score ||= best_score_relation(score_double_events, saison: true)
   end
 end

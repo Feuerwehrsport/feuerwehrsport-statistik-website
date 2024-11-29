@@ -8,7 +8,7 @@ class Backend::ScoresController < Backend::BackendController
     f.association :team, as: :association_select
     f.input :team_number
     f.input :time
-    f.input :discipline
+    f.association :single_discipline
     f.association :competition, as: :association_select
   end
 
@@ -23,7 +23,7 @@ class Backend::ScoresController < Backend::BackendController
     t.col :team, sortable: { team: :name }
     t.col :team_number
     t.col :time
-    t.col :discipline
+    t.col :single_discipline_id
     t.col :competition, sortable: { competition: :date }
   end
 end

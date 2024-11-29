@@ -122,8 +122,6 @@ class Series::RoundImport
       case discipline.to_sym
       when :zk
         competition.score_double_events.gender(gender).sort_by(&:time)
-      when :zw
-        competition.score_low_double_events.gender(gender).sort_by(&:time)
       else
         competition.scores.no_finals.gender(gender).discipline(discipline).best_of_competition.sort_by(&:time)
       end

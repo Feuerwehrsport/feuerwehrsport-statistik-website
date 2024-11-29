@@ -11,7 +11,6 @@ class Competition < ApplicationRecord
   has_many :scores, dependent: :restrict_with_exception
   has_many :group_scores, through: :group_score_categories
   has_many :score_double_events # rubocop:disable Rails/HasManyOrHasOneDependent
-  has_many :score_low_double_events # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :links, as: :linkable, dependent: :restrict_with_exception, inverse_of: :linkable
   has_many :competition_files, dependent: :restrict_with_exception, inverse_of: :competition
   has_many :team_competitions # rubocop:disable Rails/HasManyOrHasOneDependent

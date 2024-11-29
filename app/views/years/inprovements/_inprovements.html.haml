@@ -19,7 +19,9 @@
   .container
     = nav_tab do |nv|
       - @disciplines.each do |discipline|
-        - nv.tab(discipline_image_name_short(discipline.discipline_key, discipline.gender)) do
+        - nv.tab(discipline_image_name_short(discipline.single_discipline.key, discipline.gender)) do
+          %h4= discipline.single_discipline.name
+          %p= discipline.single_discipline.description
           = count_table(discipline.all.map(&:decorate), class: 'datatable-years-inprovements') do |t|
             - t.col('Wettkämpfer', class: 'col-10') { |row| person_link(row.person, type: :full_name) }
             - t.col('Unterschied', class: 'col-5') { |row| row.second_difference }

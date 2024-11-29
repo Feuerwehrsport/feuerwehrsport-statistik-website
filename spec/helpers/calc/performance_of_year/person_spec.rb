@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Calculation::PerformanceOfYear::Person do
+describe Calc::PerformanceOfYear::Person do
   describe 'calculation of single performance for one year' do
     let!(:score1) { create(:score, :double) }
     let!(:score2) { create(:score, :double, time: Firesport::INVALID_TIME) }

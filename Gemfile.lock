@@ -545,6 +545,7 @@ DEPENDENCIES
   active_model_serializers
   activerecord_views
   acts_as_list
+  base64
   bcrypt
   bootsnap
   bootstrap-sass

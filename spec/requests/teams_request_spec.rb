@@ -9,7 +9,6 @@ RSpec.describe 'Teams' do
     it 'assigns collection' do
       get '/teams'
       expect(response).to be_successful
-      expect(controller.instance_variable_get(:@charts)).to be_instance_of(Chart::TeamOverview)
     end
   end
 

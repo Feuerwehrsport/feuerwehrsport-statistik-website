@@ -31,7 +31,7 @@ RSpec.describe Person do
 
     context 'when person is female' do
       let(:person) { create(:person, :female) }
-      let!(:hw) { create(:score, :hw, time: 2001, person:) }
+      let!(:hw) { create(:score, :hb, time: 2001, person:) }
 
       it 'calculates best scores and store it' do
         described_class.update_best_scores

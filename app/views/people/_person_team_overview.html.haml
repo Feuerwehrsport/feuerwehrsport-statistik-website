@@ -9,7 +9,7 @@
     %table.table.table-condensed.table-bordered
       %tr
         %th.col-md-7 Gelaufene Zeiten:
-        %td.col-md-2= team_struct.score_count
+        %td.col-md-2= team_struct[:score_count]
       - [:hb, :hl, :gs, :fs, :la].each do |discipline|
         - if team_struct[discipline] > 0
           %tr

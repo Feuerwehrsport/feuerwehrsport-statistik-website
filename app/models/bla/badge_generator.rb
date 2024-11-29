@@ -35,17 +35,19 @@ class Bla::BadgeGenerator
              .order(Competition.arel_table[:date].asc)
     scores = yield(scores) if block_given?
 
-    badge.hb_score = scores.low_and_high_hb
+    badge.hb_score = scores.where(hb(person.gender))
                            .where(competitions: { "hb_#{person.gender}_for_bla_badge": true })
                            .find_by(Score.arel_table[:time].lteq(hb_max_time))
-    badge.hl_score = scores.hl
+    badge.hl_score = scores.where(hl(person.gender))
                            .where(competitions: { "hl_#{person.gender}_for_bla_badge": true })
                            .find_by(Score.arel_table[:time].lteq(hl_max_time))
 
     scores = scores.where(Competition.arel_table[:date].lteq(Date.new(2016, 1, 1)))
-    badge.hb_score ||= scores.low_and_high_hb.where(competitions: { "hb_#{person.gender}_for_bla_badge": true })
+    badge.hb_score ||= scores.where(hb(person.gender))
+                             .where(competitions: { "hb_#{person.gender}_for_bla_badge": true })
                              .find_by(Score.arel_table[:time].lteq(hb_max_time + 30))
-    badge.hl_score ||= scores.hl.where(competitions: { "hl_#{person.gender}_for_bla_badge": true })
+    badge.hl_score ||= scores.where(hl(person.gender))
+                             .where(competitions: { "hl_#{person.gender}_for_bla_badge": true })
                              .find_by(Score.arel_table[:time].lteq(hl_max_time + 30))
 
     if person.ignore_bla_untill_year.present? &&
@@ -62,12 +64,22 @@ class Bla::BadgeGenerator
     scores = Score.select(:person_id).group(:person_id)
                   .gender(gender).joins(:competition)
                   .where(Competition.arel_table[:date].gteq(Date.new(2002, 1, 1)))
-    hb_people = scores.discipline(%i[hb hw]).where(Score.arel_table[:time].lteq(hb_max_time))
+    hb_people = scores.where(hb(gender))
+                      .where(Score.arel_table[:time].lteq(hb_max_time))
                       .where(competitions: { "hb_#{gender}_for_bla_badge": true })
-    hl_people = scores.hl.where(Score.arel_table[:time].lteq(hl_max_time))
+    hl_people = scores.where(hl(gender))
+                      .where(Score.arel_table[:time].lteq(hl_max_time))
                       .where(competitions: { "hl_#{gender}_for_bla_badge": true })
     Person.german.where(id: hb_people.where(person_id: hl_people)).reject do |person|
       person.bla_badge.try(:status) == 'gold'
     end
+  end
+
+  def hl(gender)
+    { single_discipline_id: (gender.to_sym == :male ? 1 : 2) }
+  end
+
+  def hb(gender)
+    { single_discipline_id: (gender.to_sym == :male ? 3 : [3, 4]) }
   end
 end

@@ -14,7 +14,7 @@ class ExtendedCompetitionSerializer < CompetitionSerializer
     %i[hb hl].each do |discipline|
       hash[discipline] = {}
       genders.each do |gender|
-        hash[discipline][gender] = object.scores.discipline(discipline).gender(gender).count
+        hash[discipline][gender] = object.scores.send(discipline).gender(gender).count
       end
     end
     %i[gs fs la].each do |discipline|

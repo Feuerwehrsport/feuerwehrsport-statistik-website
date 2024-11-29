@@ -14,7 +14,7 @@ class ScoreDecorator < AppDecorator
   end
 
   def with_competition
-    "#{competition} - #{discipline_name_short(discipline)}: #{second_time}"
+    "#{competition} - #{discipline_name_short(discipline_key)}: #{second_time}"
   end
 
   def second_time
@@ -22,7 +22,11 @@ class ScoreDecorator < AppDecorator
   end
 
   def translated_discipline_name
-    discipline_name(discipline)
+    discipline_name(discipline_key)
+  end
+
+  def discipline_key
+    @discipline_key ||= single_discipline.key
   end
 
   delegate :<=>, to: :object

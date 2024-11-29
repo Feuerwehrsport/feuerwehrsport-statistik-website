@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Calculation::PerformanceOfYear::Team do
+describe Calc::PerformanceOfYear::Team do
   describe 'calculation of single performance for one year' do
     let!(:group_score1) { create(:group_score, :double) }
     let!(:group_score2) { create(:group_score, :double, time: Firesport::INVALID_TIME) }

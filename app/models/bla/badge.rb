@@ -45,8 +45,8 @@ class Bla::Badge < ApplicationRecord
   private
 
   def score_matches
-    errors.add(:hl_score, :invalid) if hl_score && hl_score.discipline.to_sym != :hl
-    errors.add(:hb_score, :invalid) if hb_score && !hb_score.discipline.to_sym.in?(%i[hb hw])
+    errors.add(:hl_score, :invalid) if hl_score && hl_score.single_discipline.key.to_sym != :hl
+    errors.add(:hb_score, :invalid) if hb_score && hb_score.single_discipline.key.to_sym != :hb
     errors.add(:hl_score, :invalid) if hl_score && hl_score.person != person
     errors.add(:hb_score, :invalid) if hb_score && hb_score.person != person
     errors.add(:hl_time, :invalid) if hl_score && hl_score.time != hl_time

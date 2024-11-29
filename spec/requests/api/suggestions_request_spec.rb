@@ -61,7 +61,7 @@ RSpec.describe 'Api::Suggestions' do
       it 'returns people' do
         post '/api/suggestions/people', params: attributes
         expect_json_response
-        expect(json_body[:people]).to eq [person1_hash, person2_hash, person3_hash, person4_hash]
+        expect(json_body[:people]).to contain_exactly(person1_hash, person2_hash, person3_hash, person4_hash)
       end
     end
 

@@ -2,7 +2,10 @@
 
 FactoryBot.define do
   factory :single_discipline do
+    initialize_with { SingleDiscipline.find_or_initialize_by(id:) }
+
     trait(:hl_male) do
+      id { 1 }
       key { :hl }
       short_name { 'Hakenleitersteigen' }
       name { 'Hakenleitersteigen (3. Etage)' }
@@ -11,6 +14,7 @@ FactoryBot.define do
     end
 
     trait(:hl_female) do
+      id { 2 }
       key { :hl }
       short_name { 'Hakenleitersteigen' }
       name { 'Hakenleitersteigen (1. Etage)' }
@@ -19,6 +23,7 @@ FactoryBot.define do
     end
 
     trait(:hb_male) do
+      id { 3 }
       key { :hb }
       short_name { '100m-Hindernisbahn' }
       name { '100m-Hindernisbahn (Männer)' }
@@ -29,6 +34,7 @@ FactoryBot.define do
     end
 
     trait(:hb_female) do
+      id { 4 }
       key { :hb }
       short_name { '100m-Hindernisbahn' }
       name { '100m-Hindernisbahn (Frauen)' }
@@ -39,6 +45,7 @@ FactoryBot.define do
     end
 
     trait(:hb_female_old) do
+      id { 5 }
       key { :hb }
       short_name { '100m-Hindernisbahn' }
       name { '100m-Hindernisbahn (Frauen - 120cm Balken)' }

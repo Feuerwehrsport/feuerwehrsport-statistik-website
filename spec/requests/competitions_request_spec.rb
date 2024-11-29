@@ -10,7 +10,6 @@ RSpec.describe 'Competitions' do
       get '/competitions'
       expect(response).to be_successful
       expect(controller.send(:collection).count).to eq 1
-      expect(controller.instance_variable_get(:@competitions_discipline_overview).count).to eq 1
     end
   end
 

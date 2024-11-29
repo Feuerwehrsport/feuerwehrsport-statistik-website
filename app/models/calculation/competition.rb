@@ -39,13 +39,6 @@ class Calculation::Competition
     end
   end
 
-  class Calculation::CompetitionLowDoubleEventDiscipline < Calculation::CompetitionDoubleEventDiscipline
-    def calculate_scores
-      @scores = calculation.competition.score_low_double_events.gender(gender).decorate
-      @count = @scores.size
-    end
-  end
-
   class Calculation::CompetitionGroupDiscipline < Calculation::CompetitionDiscipline
     def calculate_scores
       @all_scores = calculation.competition.group_scores.where(group_score_category: category).gender(gender)
@@ -84,12 +77,10 @@ class Calculation::Competition
       end
     end
 
-    # Genderable::GENDER_KEYS.each do |gender|
-    #   double_event = Calculation::CompetitionDoubleEventDiscipline.new(self, :zk, gender, nil, context)
-    #   @disciplines.push(double_event) if double_event.count > 0
-    #   low_double_event = Calculation::CompetitionLowDoubleEventDiscipline.new(self, :zk, gender, nil, context)
-    #   @disciplines.push(low_double_event) if low_double_event.count > 0
-    # end
+    Genderable::GENDER_KEYS.each do |gender|
+      double_event = Calculation::CompetitionDoubleEventDiscipline.new(self, :zk, gender, nil, context)
+      @disciplines.push(double_event) if double_event.count > 0
+    end
 
     %i[gs fs la].each do |discipline|
       Genderable::GENDER_KEYS.each do |gender|
