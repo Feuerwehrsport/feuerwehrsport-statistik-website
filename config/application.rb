@@ -68,47 +68,49 @@ module FeuerwehrsportStatistik
 end
 
 # HACK: for rack 3
-class Unicorn::HttpServer
-  # writes the rack_response to socket as an HTTP response
-  def http_response_write(socket, status, headers, body,
-                          req = Unicorn::HttpRequest.new)
-    hijack = nil
+unless Rails.env.local?
+  class Unicorn::HttpServer
+    # writes the rack_response to socket as an HTTP response
+    def http_response_write(socket, status, headers, body,
+                            req = Unicorn::HttpRequest.new)
+      hijack = nil
 
-    if headers
-      code = status.to_i
-      msg = STATUS_CODES[code]
-      start = req.response_start_sent ? '' : 'HTTP/1.1 '
-      buf = "#{start}#{msg ? %(#{code} #{msg}) : status}\r\n" \
-            "Date: #{httpdate}\r\n" \
-            "Connection: close\r\n"
-      headers.each do |key, value|
-        case key
-        when /\A(?:Date|Connection)\z/i
-          next
-        when 'rack.hijack'
-          # This should only be hit under Rack >= 1.5, as this was an illegal
-          # key in Rack < 1.5
-          hijack = value
-        else
-          case value
-          when Array # Rack 3
-            value.each { |v| buf << "#{key}: #{v}\r\n" }
-          when /\n/ # Rack 2
-            # avoiding blank, key-only cookies with /\n+/
-            value.split(/\n+/).each { |v| buf << "#{key}: #{v}\r\n" }
+      if headers
+        code = status.to_i
+        msg = STATUS_CODES[code]
+        start = req.response_start_sent ? '' : 'HTTP/1.1 '
+        buf = "#{start}#{msg ? %(#{code} #{msg}) : status}\r\n" \
+              "Date: #{httpdate}\r\n" \
+              "Connection: close\r\n"
+        headers.each do |key, value|
+          case key
+          when /\A(?:Date|Connection)\z/i
+            next
+          when 'rack.hijack'
+            # This should only be hit under Rack >= 1.5, as this was an illegal
+            # key in Rack < 1.5
+            hijack = value
           else
-            buf << "#{key}: #{value}\r\n"
+            case value
+            when Array # Rack 3
+              value.each { |v| buf << "#{key}: #{v}\r\n" }
+            when /\n/ # Rack 2
+              # avoiding blank, key-only cookies with /\n+/
+              value.split(/\n+/).each { |v| buf << "#{key}: #{v}\r\n" }
+            else
+              buf << "#{key}: #{value}\r\n"
+            end
           end
         end
+        socket.write(buf << "\r\n")
       end
-      socket.write(buf << "\r\n")
-    end
 
-    if hijack
-      req.hijacked!
-      hijack.call(socket)
-    else
-      body.each { |chunk| socket.write(chunk) }
+      if hijack
+        req.hijacked!
+        hijack.call(socket)
+      else
+        body.each { |chunk| socket.write(chunk) }
+      end
     end
   end
 end
