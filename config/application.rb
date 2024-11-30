@@ -23,7 +23,7 @@ Bundler.require(*Rails.groups)
 module FeuerwehrsportStatistik
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.0
+    config.load_defaults 7.2
 
     config.action_controller.include_all_helpers = false
     config.time_zone = 'Europe/Berlin'

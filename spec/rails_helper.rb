@@ -48,7 +48,7 @@ RSpec.configure do |config|
   config.filter_run focus: true
   config.run_all_when_everything_filtered = true
   config.infer_spec_type_from_file_location!
-  config.fixture_path = Rails.root.join('spec/fixtures')
+  config.fixture_paths = [Rails.root.join('spec/fixtures')]
   config.before(:each, type: :request) { host! 'test.host' }
 
   # Filter lines from Rails gems in backtraces.
@@ -88,6 +88,8 @@ RSpec.configure do |config|
     Rails.configuration.default_url_options[:host] = 'test.host'
     Rails.configuration.default_url_options[:port] = 80
   end
+
+  ActiveJob::Base.queue_adapter = :test
 end
 
 Capybara.register_driver(:cuprite) do |app|

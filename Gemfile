@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '~> 7.0.0'
+gem 'rails', '~> 7.0'
 
 gem 'pg' # postgres adapter
 gem 'bcrypt' # password hashs
@@ -67,8 +67,7 @@ group :production do
 end
 
 group :development, :test do
-  gem 'pry' # debugger
-  gem 'pry-byebug' # debugger
+  gem 'debug' # debugger
 
   # code beautifier
   gem 'rubocop'

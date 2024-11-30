@@ -19,9 +19,8 @@ RSpec.describe 'M3::Login::Verifications' do
 
     context 'when token is invalid' do
       it 'returns http success' do
-        expect do
-          get '/verify_login/other-token'
-        end.to raise_error(ActiveRecord::RecordNotFound)
+        get '/verify_login/other-token'
+        expect(response).to have_http_status(:not_found)
       end
     end
   end

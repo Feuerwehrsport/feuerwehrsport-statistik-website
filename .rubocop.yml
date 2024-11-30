@@ -13,7 +13,7 @@ AllCops:
   - vendor/**/*
   - firesport/**/*
   - firesport-series/**/*
-  TargetRailsVersion: 7
+  TargetRailsVersion: 7.2
   TargetRubyVersion: 3.3.6
 Bundler/OrderedGems:
   Enabled: false
@@ -102,6 +102,8 @@ Lint/EmptyClass:
   Enabled: true
 Lint/EmptyInPattern:
   Enabled: true
+Lint/HashNewWithKeywordArgumentsAsDefault:
+  Enabled: true
 Lint/IncompatibleIoSelectWithFiberScheduler:
   Enabled: true
 Lint/ItWithoutArgumentsInBlock:
@@ -117,6 +119,8 @@ Lint/NoReturnInBeginEndBlocks:
 Lint/NonAtomicFileOperation:
   Enabled: true
 Lint/NumberedParameterAssignment:
+  Enabled: true
+Lint/NumericOperationWithConstantResult:
   Enabled: true
 Lint/OrAssignmentToConstant:
   Enabled: true
@@ -144,6 +148,8 @@ Lint/UnmodifiedReduceAccumulator:
   Enabled: true
 Lint/UselessAssignment:
   AutoCorrect: false
+Lint/UselessDefined:
+  Enabled: true
 Lint/UselessNumericOperation:
   Enabled: true
 Lint/UselessRescue:
@@ -490,6 +496,8 @@ Style/ConcatArrayLiterals:
   Enabled: true
 Style/DataInheritance:
   Enabled: true
+Style/DigChain:
+  Enabled: true
 Style/DirEmpty:
   Enabled: true
 Style/DocumentDynamicEvalDefinition:
@@ -508,7 +516,11 @@ Style/FetchEnvVar:
   Enabled: true
 Style/FileEmpty:
   Enabled: true
+Style/FileNull:
+  Enabled: true
 Style/FileRead:
+  Enabled: true
+Style/FileTouch:
   Enabled: true
 Style/FileWrite:
   Enabled: true

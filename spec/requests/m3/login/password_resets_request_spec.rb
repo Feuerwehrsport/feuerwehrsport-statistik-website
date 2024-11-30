@@ -51,9 +51,8 @@ RSpec.describe 'M3::Login::PasswordResets' do
 
     context 'when token ist correct, but to old' do
       it 'returns' do
-        expect do
-          get "/password_reset/#{login.password_reset_token}/edit"
-        end.to raise_error(ActiveRecord::RecordNotFound)
+        get "/password_reset/#{login.password_reset_token}/edit"
+        expect(response).to have_http_status(:not_found)
       end
     end
   end
