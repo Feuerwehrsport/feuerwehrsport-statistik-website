@@ -62,7 +62,7 @@ gem 'drb' # remove on Rails 7.2
 gem 'base64' # remove on Rails 7.2
 
 group :production do
-  gem 'unicorn', git: 'https://yhbt.net/unicorn.git'
+  gem 'unicorn'
   gem 'rails_log_parser'
 end
 
