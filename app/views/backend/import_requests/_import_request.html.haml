@@ -64,7 +64,7 @@
               - resource.import_request_files.each do |file|
                 %tr
                   %td= file.file_with_link
-                  %td{ data: { id: file.id }, class: file.pdf? && !file.transfered? ? "transfer-file" : nil }
+                  %td{ data: { id: file.id, name: file.name }, class: file.pdf? && !file.transfered? ? "transfer-file" : nil }
                     - if file.transfered?
                       .fa.fa-exchange-alt
             %dl

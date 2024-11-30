@@ -33,23 +33,41 @@ class @FssImport
 
     $("input[name='competition-type']").change(@selectCompetitionType)
 
+    femaleName = (n) ->
+      /Frauen/i.test(n) || /weiblich/i.test(n) || /M.dchen/i.test(n)
+    maleName = (n) ->
+      /M.nner/i.test(n) || /m.nnlich/i.test(n) || /Jungen/i.test(n)
+    zkName = (n) ->
+      /zweikampf/i.test(n)
+    hbName = (n) ->
+      /hindernisbahn/i.test(n) || /hindernislauf/i.test(n)
+    hlName = (n) ->
+      /hakenleiter/i.test(n)
+    gsName = (n) ->
+      /gruppenstafette/i.test(n)
+    fsName = (n) ->
+      /staffel/i.test(n) || /feuerwehrstafette/i.test(n) || /4x100/i.test(n)
+    laName = (n) ->
+      /l.schangriff/i.test(n) || /LA/.test(n)
+
     $('.transfer-file').each (i, td) =>
       td = $(td)
       $('<button/>').text('Übertragen').addClass('btn btn-default btn-xs').appendTo(td).click =>
         competitionId = @selectCompetition.find('option:selected').val()
         fileId = td.data('id')
+        fileName = td.data('name')
         FssWindow.build('Datei übertragen')
-        .add(new FssFormRowCheckbox('zk_female', 'ZK weiblich'))
-        .add(new FssFormRowCheckbox('hb_female', 'HB weiblich'))
-        .add(new FssFormRowCheckbox('hl_female', 'HL weiblich'))
-        .add(new FssFormRowCheckbox('gs_female', 'GS weiblich'))
-        .add(new FssFormRowCheckbox('fs_female', 'FS weiblich'))
-        .add(new FssFormRowCheckbox('la_female', 'LA weiblich'))
-        .add(new FssFormRowCheckbox('zk_male', 'ZK männlich'))
-        .add(new FssFormRowCheckbox('hb_male', 'HB männlich'))
-        .add(new FssFormRowCheckbox('hl_male', 'HL männlich'))
-        .add(new FssFormRowCheckbox('fs_male', 'FS männlich'))
-        .add(new FssFormRowCheckbox('la_male', 'LA männlich'))
+        .add(new FssFormRowCheckbox('zk_female', 'ZK weiblich', femaleName(fileName) && zkName(fileName)))
+        .add(new FssFormRowCheckbox('hb_female', 'HB weiblich', femaleName(fileName) && hbName(fileName)))
+        .add(new FssFormRowCheckbox('hl_female', 'HL weiblich', femaleName(fileName) && hlName(fileName)))
+        .add(new FssFormRowCheckbox('gs_female', 'GS weiblich', femaleName(fileName) && gsName(fileName)))
+        .add(new FssFormRowCheckbox('fs_female', 'FS weiblich', femaleName(fileName) && fsName(fileName)))
+        .add(new FssFormRowCheckbox('la_female', 'LA weiblich', femaleName(fileName) && laName(fileName)))
+        .add(new FssFormRowCheckbox('zk_male', 'ZK männlich', maleName(fileName) && zkName(fileName)))
+        .add(new FssFormRowCheckbox('hb_male', 'HB männlich', maleName(fileName) && hbName(fileName)))
+        .add(new FssFormRowCheckbox('hl_male', 'HL männlich', maleName(fileName) && hlName(fileName)))
+        .add(new FssFormRowCheckbox('fs_male', 'FS männlich', maleName(fileName) && fsName(fileName)))
+        .add(new FssFormRowCheckbox('la_male', 'LA männlich', maleName(fileName) && laName(fileName)))
         .on('submit', (data) =>
           keys = []
           for key, value of data
