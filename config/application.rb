@@ -72,6 +72,8 @@ class Unicorn::HttpServer
   # writes the rack_response to socket as an HTTP response
   def http_response_write(socket, status, headers, _body,
                           req = Unicorn::HttpRequest.new)
+    hijack = nil
+
     if headers
       code = status.to_i
       msg = STATUS_CODES[code]
