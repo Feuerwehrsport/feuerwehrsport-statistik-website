@@ -101,14 +101,14 @@ class Unicorn::HttpServer
           end
         end
       end
+      socket.write(buf << "\r\n")
     end
-    socket.write(buf << "\r\n")
-  end
 
-  if hijack
-    req.hijacked!
-    hijack.call(socket)
-  else
-    body.each { |chunk| socket.write(chunk) }
+    if hijack
+      req.hijacked!
+      hijack.call(socket)
+    else
+      body.each { |chunk| socket.write(chunk) }
+    end
   end
 end
