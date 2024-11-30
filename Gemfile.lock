@@ -15,6 +15,13 @@ GIT
     capistrano-rsync-plugin (0.2.0)
       capistrano (>= 3.0.0.pre)
 
+GIT
+  remote: https://yhbt.net/unicorn.git
+  revision: 1370f52bb0e63575ebaf11b0700751f792cd0e96
+  specs:
+    unicorn (6.1.0)
+      raindrops (~> 0.7)
+
 PATH
   remote: firesport-series
   specs:
@@ -289,7 +296,6 @@ GEM
       thor (>= 0.14, < 2.0)
     json (2.8.2)
     jsonapi-renderer (0.2.2)
-    kgio (2.11.4)
     language_server-protocol (3.17.0.3)
     lazy_high_charts (1.6.1)
       hash-deep-merge
@@ -534,9 +540,6 @@ GEM
     unicode-display_width (3.1.2)
       unicode-emoji (~> 4.0, >= 4.0.4)
     unicode-emoji (4.0.4)
-    unicorn (6.1.0)
-      kgio (~> 2.6)
-      raindrops (~> 0.7)
     useragent (0.16.10)
     valid_email2 (7.0.0)
       activemodel (>= 6.0)
@@ -630,7 +633,7 @@ DEPENDENCIES
   terser
   timecop
   turbo-rails
-  unicorn
+  unicorn!
   valid_email2
   vcr
   web-console
