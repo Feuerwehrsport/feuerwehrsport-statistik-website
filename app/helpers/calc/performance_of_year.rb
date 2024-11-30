@@ -4,17 +4,15 @@ class Calc::PerformanceOfYear < Calc::Base
   attr_accessor :klass, :year, :key, :gender
 
   def self.get(year)
-    Caching::Cache.fetch("performance_of_year-#{year}") do
-      [
-        new(klass: Calc::PerformanceOfYear::Person, year:, key: :hb, gender: :female),
-        new(klass: Calc::PerformanceOfYear::Person, year:, key: :hb, gender: :male),
-        new(klass: Calc::PerformanceOfYear::Person, year:, key: :hl, gender: :female),
-        new(klass: Calc::PerformanceOfYear::Person, year:, key: :hl, gender: :male),
-        new(klass: Calc::PerformanceOfYear::Team, year:, key: :gs, gender: :female),
-        new(klass: Calc::PerformanceOfYear::Team, year:, key: :la, gender: :female),
-        new(klass: Calc::PerformanceOfYear::Team, year:, key: :la, gender: :male),
-      ].select { |performance| performance.entries.present? }
-    end
+    [
+      new(klass: Calc::PerformanceOfYear::Person, year:, key: :hb, gender: :female),
+      new(klass: Calc::PerformanceOfYear::Person, year:, key: :hb, gender: :male),
+      new(klass: Calc::PerformanceOfYear::Person, year:, key: :hl, gender: :female),
+      new(klass: Calc::PerformanceOfYear::Person, year:, key: :hl, gender: :male),
+      new(klass: Calc::PerformanceOfYear::Team, year:, key: :gs, gender: :female),
+      new(klass: Calc::PerformanceOfYear::Team, year:, key: :la, gender: :female),
+      new(klass: Calc::PerformanceOfYear::Team, year:, key: :la, gender: :male),
+    ].select { |performance| performance.entries.present? }
   end
 
   def entries
