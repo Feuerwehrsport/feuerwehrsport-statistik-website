@@ -70,7 +70,7 @@ end
 # HACK: for rack 3
 class Unicorn::HttpServer
   # writes the rack_response to socket as an HTTP response
-  def http_response_write(socket, status, headers, _body,
+  def http_response_write(socket, status, headers, body,
                           req = Unicorn::HttpRequest.new)
     hijack = nil
 
