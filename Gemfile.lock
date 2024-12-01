@@ -396,7 +396,7 @@ GEM
     rails-html-sanitizer (1.6.0)
       loofah (~> 2.21)
       nokogiri (~> 1.14)
-    rails_log_parser (0.0.17)
+    rails_log_parser (0.0.18)
       enumerize (~> 2.4)
       json (>= 2.0)
       rails (>= 2.1)
