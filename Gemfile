@@ -10,7 +10,7 @@ gem 'bcrypt' # password hashs
 gem 'sprockets-rails' # asset pipeline
 gem 'puma' # dev web server
 gem 'cancancan' # abilities
-gem 'carrierwave' # uploads
+gem 'carrierwave', '> 3.0.0' # uploads
 gem 'mini_magick' # image processing
 gem 'responders' # set of responders
 gem 'simple_form' # more form support
