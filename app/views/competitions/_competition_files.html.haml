@@ -2,7 +2,10 @@
   %tr
     %th Dateien
     %th Enthaltene Ergebnisse
+    %th
   - files.each do |file|
     %tr
       %td= link_to(file.file_identifier, file.file.url)
       %td= file.human_keys.join(", ").html_safe
+      %td
+        .file-error.btn.btn-default.btn-xs{ data: { file_id: file.id, competition_id: file.competition_id } } Fehler melden

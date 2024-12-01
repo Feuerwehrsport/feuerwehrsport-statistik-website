@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class Api::CompetitionFilesController < Api::BaseController
-  api_actions :create, change_log: true
+  api_actions :create, :update, :destroy, change_log: true,
+                                          update_form: %i[competition_id]
   belongs_to Competition
 
   def create

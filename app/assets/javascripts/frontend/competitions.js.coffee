@@ -20,6 +20,71 @@ Fss.ready 'competition', ->
       map.fitBounds(L.featureGroup(markers).getBounds(), { padding: [20, 20] })
     , 300)
 
+  $('.btn.file-error').click ->
+    fileId = $(this).data("file-id")
+    competitionId = $(this).data("competition-id")
+
+    addError = () ->
+      FssWindow.build('Fehlerhafte Datei')
+      .add(new FssFormRowDescription('Bitte beschreiben Sie:'))
+      .add(new FssFormRowTextarea('description', 'Beschreibung'))
+      .on('submit', (data) ->
+        requestData = {
+          competition_id: competitionId
+          fileId: fileId
+          description: data.description
+        }
+        Fss.changeRequest('competition-file-error', requestData)
+      )
+      .open()
+
+    Fss.checkLogin ->
+      if Fss.loginUser.type is "admin-user"
+        options = [
+          { value: 'delete', display: 'Datei löschen' },
+          { value: 'move', display: 'Datei in anderen Wettkampf verschieben' },
+          { value: 'error', display: 'Fehler hinzufügen' },
+        ]
+        FssWindow.build('Auswahl der Möglichkeiten')
+        .add(new FssFormRowRadio('what', 'Was wollen Sie tun?', null, options))
+        .on('submit', (data) ->
+          selected = data.what
+
+          if selected is 'error'
+            addError()
+          else if selected is 'delete'
+            FssWindow.build('Datei löschen')
+            new ConfirmFssWindow 'Datei löschen?', 'Wollen Sie die Datei wirklich löschen?', ->
+              Fss.ajaxRequest 'DELETE', "competitions/#{competitionId}/competition_files/#{fileId}", {}, {}, =>
+                new WaitFssWindow()
+                location.reload()
+
+          else if selected is 'move'
+            Fss.getResources 'competitions', (@competitions) =>
+              sortedCompetitions = @competitions.slice()
+              sortedCompetitions.sort((a, b) -> b.date.localeCompare(a.date))
+
+              options = []
+              for c in sortedCompetitions
+                continue if c.id is competitionId
+                options.push {
+                  value: c.id
+                  display: "#{c.date} - #{c.event} - #{c.place}"
+                }
+              FssWindow.build('Datei verschieben')
+              .add(new FssFormRowSelect('competition_id', 'Richtiger Wettkampf', null, options))
+              .on('submit', (data) ->
+                params = { competition_file: data }
+                Fss.put "competitions/#{competitionId}/competition_files/#{fileId}", params, ->
+                  new WaitFssWindow()
+                  location.reload()
+              )
+              .open()
+        )
+        .open()
+      else
+        addError()
+
   $('#add-file').click ->
     Fss.checkLogin ->
       $('#add-file-form').removeClass('hide')
