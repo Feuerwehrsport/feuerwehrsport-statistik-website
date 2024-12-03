@@ -82,7 +82,7 @@ end
 
     if !discipline.category && resource.score_type.present?
       wb.add_worksheet(name: "#{discipline_name_short(discipline.discipline.key)} " \
-                             "#{g_symbol(discipline.gender)} Mannschaft") do |sheet|
+                             "#{g_symbol(discipline.gender)} Mannschaft #{discipline.discipline.id}") do |sheet|
         sheet.add_row(%w[Team Summe Wertung Außerhalb])
         resource.group_assessment(discipline.discipline, discipline.gender).each do |ga|
           sheet.add_row([
