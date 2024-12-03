@@ -62,7 +62,8 @@ end
     end
   else
     wb.add_worksheet(name: "#{discipline_name_short(discipline.discipline.key)} " \
-                           "#{g_symbol(discipline.gender)} #{final_name(discipline.category)}") do |sheet|
+                           "#{g_symbol(discipline.gender)} #{final_name(discipline.category)} " \
+                           "#{discipline.discipline.id}") do |sheet|
       times = 0
       data = []
       discipline.scores.sort.each do |score|
