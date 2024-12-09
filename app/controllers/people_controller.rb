@@ -8,7 +8,7 @@ class PeopleController < ResourceController
     datatable(:index, :"people_#{gender}", Person, collection: Person.gender(gender).includes(:nation)) do |t|
       t.col(:last_name, class: 'col-20', searchable: :last_name) { |row| row.link_to(:last_name) }
       t.col(:first_name, class: 'col-20', searchable: :first_name) { |row| row.link_to(:first_name) }
-      t.col(:nation_flag_with_iso, class: 'col-10')
+      t.col(:nation_flag_with_iso, class: 'col-10', sortable: { nation: :name })
       t.col(:hb_count, class: 'col-10')
       t.col(:hl_count, class: 'col-10')
       t.col(:la_count, class: 'col-10')
