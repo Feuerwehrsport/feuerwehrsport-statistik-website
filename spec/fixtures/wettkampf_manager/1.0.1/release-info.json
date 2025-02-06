@@ -1,5 +1,0 @@
-{
-  "date": "2015-09-20", 
-  "commit-id": "998fc48942f57067194f381ba8072bcaccb47516", 
-  "change-log": "* Personen ohne Mannschaft korrekt anzeigen\n* Fehler beim Startlistenerzeugen korrigieren\n"
-}
