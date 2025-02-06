@@ -99,6 +99,7 @@ class Ability
     can :read, Place
     can :read, Score
     can :read, ScoreType
+    can :read, SingleDiscipline
     can :read, Team
     can :read, TeamMember
     can :read, TeamSpelling
