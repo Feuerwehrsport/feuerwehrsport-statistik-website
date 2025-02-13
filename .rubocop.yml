@@ -14,7 +14,7 @@ AllCops:
   - firesport/**/*
   - firesport-series/**/*
   TargetRailsVersion: 7.2
-  TargetRubyVersion: 3.3.6
+  TargetRubyVersion: 3.3.7
 Bundler/OrderedGems:
   Enabled: false
 Capybara/ClickLinkOrButtonStyle:
@@ -82,7 +82,11 @@ Lint/AmbiguousOperatorPrecedence:
   Enabled: true
 Lint/AmbiguousRange:
   Enabled: true
+Lint/ArrayLiteralInRegexp:
+  Enabled: true
 Lint/ConstantOverwrittenInRescue:
+  Enabled: true
+Lint/ConstantReassignment:
   Enabled: true
 Lint/DeprecatedConstants:
   Enabled: true
@@ -134,6 +138,8 @@ Lint/RequireRangeParentheses:
   Enabled: true
 Lint/RequireRelativeSelfPath:
   Enabled: true
+Lint/SharedMutableDefault:
+  Enabled: true
 Lint/SymbolConversion:
   Enabled: true
 Lint/ToEnumArguments:
@@ -160,6 +166,9 @@ Metrics/AbcSize:
   Enabled: false
 Metrics/BlockLength:
   Enabled: false
+Metrics/BlockNesting:
+  Exclude:
+  - config/application.rb
 Metrics/ClassLength:
   Enabled: false
 Metrics/CollectionLiteralLength:
@@ -299,8 +308,6 @@ RSpec/SpecFilePathFormat:
   Enabled: true
 RSpec/SpecFilePathSuffix:
   Enabled: true
-RSpec/StringAsInstanceDoubleConstant:
-  Enabled: true
 RSpec/StubbedMock:
   Enabled: false
 RSpec/SubjectDeclaration:
@@ -391,6 +398,8 @@ Rails/MatchRoute:
   Enabled: true
 Rails/MigrationClassName:
   Enabled: true
+Rails/MultipleRoutePaths:
+  Enabled: true
 Rails/NegateInclude:
   Enabled: true
 Rails/Output:
@@ -435,6 +444,8 @@ Rails/SkipsModelValidations:
 Rails/SquishedSQLHeredocs:
   Enabled: true
 Rails/StripHeredoc:
+  Enabled: true
+Rails/StrongParametersExpect:
   Enabled: true
 Rails/ThreeStateBooleanColumn:
   Enabled: true
@@ -533,9 +544,13 @@ Style/HashConversion:
   Enabled: true
 Style/HashExcept:
   Enabled: true
+Style/HashSlice:
+  Enabled: true
 Style/IfWithBooleanLiteralBranches:
   Enabled: true
 Style/InPatternThen:
+  Enabled: true
+Style/ItAssignment:
   Enabled: true
 Style/KeywordArgumentsMerging:
   Enabled: true
