@@ -41,7 +41,7 @@ class Backend::ImportRequestsController < Backend::BackendController
 
   def decide_login
     redirect_to action: :new if current_login.present?
-    session[:requested_url_before_login] = url_for
+    session[:requested_url_before_login] = request.fullpath
   end
 
   protected
