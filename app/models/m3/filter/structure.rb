@@ -12,13 +12,9 @@ class M3::Filter::Structure
     @children.each(&)
   end
 
-  def <<(child)
-    @children << child
-  end
+  delegate :<<, to: :@children
 
-  def size
-    @children.size
-  end
+  delegate :size, to: :@children
 
   class Filter
     include Draper::Decoratable

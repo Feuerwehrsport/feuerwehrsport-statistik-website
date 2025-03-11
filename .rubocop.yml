@@ -19,9 +19,13 @@ Bundler/OrderedGems:
   Enabled: false
 Capybara/ClickLinkOrButtonStyle:
   Enabled: true
+Capybara/FindAllFirst:
+  Enabled: true
 Capybara/MatchStyle:
   Enabled: true
 Capybara/NegationMatcher:
+  Enabled: true
+Capybara/NegationMatcherAfterVisit:
   Enabled: true
 Capybara/RSpec/HaveSelector:
   Enabled: true
@@ -88,6 +92,8 @@ Lint/ConstantOverwrittenInRescue:
   Enabled: true
 Lint/ConstantReassignment:
   Enabled: true
+Lint/CopDirectiveSyntax:
+  Enabled: true
 Lint/DeprecatedConstants:
   Enabled: true
 Lint/DuplicateBranch:
@@ -132,6 +138,8 @@ Lint/RedundantDirGlobSort:
   Enabled: true
 Lint/RedundantRegexpQuantifiers:
   Enabled: true
+Lint/RedundantTypeConversion:
+  Enabled: true
 Lint/RefinementImportMethods:
   Enabled: true
 Lint/RequireRangeParentheses:
@@ -139,6 +147,8 @@ Lint/RequireRangeParentheses:
 Lint/RequireRelativeSelfPath:
   Enabled: true
 Lint/SharedMutableDefault:
+  Enabled: true
+Lint/SuppressedExceptionInNumberConversion:
   Enabled: true
 Lint/SymbolConversion:
   Enabled: true
@@ -154,6 +164,8 @@ Lint/UnmodifiedReduceAccumulator:
   Enabled: true
 Lint/UselessAssignment:
   AutoCorrect: false
+Lint/UselessConstantScoping:
+  Enabled: true
 Lint/UselessDefined:
   Enabled: true
 Lint/UselessNumericOperation:
@@ -233,6 +245,8 @@ Performance/StringIdentifierArgument:
 Performance/StringInclude:
   Enabled: true
 Performance/Sum:
+  Enabled: true
+Performance/ZipWithoutBlock:
   Enabled: true
 RSpec/AnyInstance:
   Enabled: false
@@ -607,6 +621,8 @@ Style/RedundantEach:
   Enabled: true
 Style/RedundantFilterChain:
   Enabled: true
+Style/RedundantFormat:
+  Enabled: true
 Style/RedundantHeredocDelimiterQuotes:
   Enabled: true
 Style/RedundantInitialize:
@@ -651,10 +667,10 @@ Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: comma
 Style/YAMLFileRead:
   Enabled: true
-require:
-- rubocop-factory_bot
+plugins:
 - rubocop-performance
 - rubocop-rails
 - rubocop-rspec
+- rubocop-factory_bot
 - rubocop-rspec_rails
 - rubocop-capybara
