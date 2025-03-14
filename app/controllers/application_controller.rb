@@ -7,6 +7,8 @@ class ApplicationController < M3::ApplicationController
   include MapSupport
   helper_method :current_admin_user, :current_user
 
+  before_action :redirect_to_domain
+
   rescue_from RangeError, with: -> do
     raise ActiveRecord::RecordNotFound
   end
@@ -36,5 +38,11 @@ class ApplicationController < M3::ApplicationController
 
   def default_url_options
     Rails.application.config.default_url_options
+  end
+
+  def redirect_to_domain
+    return if request.host == default_url_options[:host]
+
+    redirect_to url_for(default_url_options), status: :moved_permanently, allow_other_host: true
   end
 end
