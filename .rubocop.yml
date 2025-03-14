@@ -515,6 +515,8 @@ Style/CombinableDefined:
   Enabled: true
 Style/CombinableLoops:
   Enabled: false
+Style/ComparableBetween:
+  Enabled: true
 Style/ComparableClamp:
   Enabled: false
 Style/ConcatArrayLiterals:

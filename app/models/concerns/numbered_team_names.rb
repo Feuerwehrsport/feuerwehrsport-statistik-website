@@ -6,7 +6,7 @@ module NumberedTeamNames
 
     number_name = if score.team_number.zero?
                     ' E'
-                  elsif score.team_number <= -1 && score.team_number >= -4
+                  elsif score.team_number.between?(-4, -1)
                     ' F'
                   elsif score.team_number == -5
                     ' A'
