@@ -17,13 +17,17 @@
           %th Zeit
           %th Aufgestellt
         %tr
-          %td= discipline_image(:hl)
-          %td= discipline_name(:hl)
-          %td Albert Loginov
+          %td{rowspan: "2"}= discipline_image(:hl)
+          %td{rowspan: "2"}= discipline_name(:hl)
+          %td Nikita Ukolov
+          %td= @nation_by.nation_flag
+          %td= @nation_by.name
+          %td{rowspan: "2"} 12,47 s
+          %td{rowspan: "2"} 19. WM 2024 - Harbin (China)
+        %tr
+          %td Artem Khabibullin
           %td= @nation_ru.nation_flag
           %td= @nation_ru.name
-          %td 12,56 s
-          %td= competition_find_link(54)
         %tr
           %td= discipline_image(:hb)
           %td= discipline_name(:hb)
@@ -39,10 +43,8 @@
           %td= @nation_ru.nation_flag
           %td= @nation_ru.name
           %td
-            27,75 s
-            %br/
-            %small.times 12,63 s/15,12 s
-          %td 9. WM 2013 - Jinju (Südkorea)
+            27,61 s
+          %td= competition_find_link(1674)
         %tr
           %td= discipline_image(:fs)
           %td= discipline_name(:fs)
@@ -134,32 +136,37 @@
           %th Zeit
           %th Aufgestellt
         %tr
-          %td= discipline_image(:hl)
-          %td= discipline_name(:hl)
+          %td{rowspan: "3"}= discipline_image(:hl)
+          %td{rowspan: "3"}= discipline_name(:hl)
+          %td Karina Bochkareva
+          %td= @nation_ru.nation_flag
+          %td= @nation_ru.name
+          %td{rowspan: "3"} 6,70 s
+          %td{rowspan: "3"} 19. WM 2024 - Harbin (China)
+        %tr
+          %td Elena Balakireva
+          %td= @nation_by.nation_flag
+          %td= @nation_by.name
+        %tr
           %td Ekaterina Chendakova
           %td= @nation_ru.nation_flag
           %td= @nation_ru.name
-          %td 6,71 s
-          %td= competition_find_link(2004)
         %tr
           %td= discipline_image(:hb)
           %td= discipline_name(:hb)
-          %td= persons(3220, type: :full_name)
-          %td= @nation_cz.nation_flag
-          %td= @nation_cz.name
-          %td 15,48 s
-          %td= competition_find_link(1674)
+          %td Gayane Akopova
+          %td= @nation_ru.nation_flag
+          %td= @nation_ru.name
+          %td 14,65 s
+          %td 19. WM 2024 - Harbin (China)
         %tr
           %td= discipline_image(:zk)
           %td= discipline_name(:zk)
-          %td Angelika Dokaneva
+          %td Gayane Akopova
           %td= @nation_ru.nation_flag
           %td= @nation_ru.name
-          %td
-            23,00 s
-            %br/
-            %small.times 7,01 s/15,99 s
-          %td= competition_find_link(2004)
+          %td 21,53 s
+          %td 19. WM 2024 - Harbin (China)
         %tr
           %td= discipline_image(:fs)
           %td= discipline_name(:fs)
@@ -298,4 +305,4 @@
           %td{colspan: "7"}
             %em.small
               Nach der deutschen Wettkampfordnung werden in der Disziplin Löschangriff nass keine Rekorde geführt.
-      %p Stand: 04.10.2023
+      %p Stand: 23.05.2025
