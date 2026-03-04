@@ -21,10 +21,7 @@ gem 'acts_as_list' # position of models
 gem 'bootsnap', require: false # Reduces boot times through caching; required in config/boot.rb
 gem 'rails_log_parser' # to analyise log
 
-# # background jobs
-gem 'daemons' # background jobs
-gem 'delayed_job_active_record' # background jobs
-gem 'whenever' # cronjobs
+gem 'solid_queue' # background jobs
 
 # # templating
 gem 'haml-rails' # haml templating

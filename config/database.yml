@@ -5,6 +5,7 @@ default: &default
   database: feuerwehrsport-statistik
   username: feuerwehrsport-statistik
   password: feuerwehrsport-statistik
+  pool: 40
 
 online_default: &online_default
   <<: *default

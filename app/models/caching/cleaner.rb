@@ -12,8 +12,8 @@ class Caching::Cleaner
       Rails.logger.debug(e.message)
     end
 
-    Caching::Builder.enqueue_with_options(run_at: 5.minutes.from_now) if Rails.configuration.caching
-    Caching::HeavyBuilder.enqueue_with_options(run_at: Date.current.end_of_day) if Rails.configuration.caching
+    Caching::Builder.set(wait: 5.minutes).perform_later if Rails.configuration.caching
+    Caching::HeavyBuilder.set(wait: 10.minutes).perform_later if Rails.configuration.caching
     true
   end
 end

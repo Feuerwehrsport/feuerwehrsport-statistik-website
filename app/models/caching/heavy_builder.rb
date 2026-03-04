@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-class Caching::HeavyBuilder
-  include M3::Delayable
+class Caching::HeavyBuilder < ApplicationJob
+  limits_concurrency key: :caching, group: :caching
 
   def perform
     return if same_future_jobs.present?

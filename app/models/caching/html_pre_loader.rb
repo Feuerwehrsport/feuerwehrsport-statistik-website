@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-class Caching::HtmlPreLoader
-  include M3::Delayable
+class Caching::HtmlPreLoader < ApplicationJob
+  limits_concurrency key: :caching, group: :caching
+
   include UrlSupport
 
   def perform

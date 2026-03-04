@@ -29,7 +29,9 @@ module FeuerwehrsportStatistik
     config.time_zone = 'Europe/Berlin'
     config.i18n.default_locale = :de
 
-    config.active_job.queue_adapter = :delayed_job
+    config.active_job.queue_adapter = :solid_queue
+    config.solid_queue.shutdown_timeout = 30.seconds
+    config.solid_queue.default_concurrency_control_period = 2.hours
 
     config.active_record.belongs_to_required_by_default = false
 

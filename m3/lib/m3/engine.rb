@@ -9,7 +9,6 @@ require 'carrierwave'
 require 'mini_magick'
 require 'bootstrap-sass'
 require 'valid_email2'
-require 'delayed_job_active_record'
 require 'will_paginate'
 require 'will_paginate-bootstrap'
 require 'sassc/rails'
@@ -42,19 +41,7 @@ class M3::Engine < Rails::Engine
     Rails.application.config.exceptions_app = Rails.application.routes
   end
 
-  initializer :delayed do
-    require_dependency 'm3/delayable'
-
-    Delayed::Worker.destroy_failed_jobs = false
-    Delayed::Worker.sleep_delay = 10
-    Delayed::Worker.max_attempts = 1
-    Delayed::Worker.max_run_time = 30.minutes
-    Delayed::Worker.read_ahead = 10
-    Delayed::Worker.default_queue_name = 'default'
-    Delayed::Worker.delay_jobs = !Rails.env.local?
-  end
-
-  initializer :delayed do
+  initializer :will_paginate do
     WillPaginate.per_page = 10
   end
 end

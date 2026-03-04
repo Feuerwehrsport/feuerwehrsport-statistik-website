@@ -9,5 +9,5 @@ set :migration_servers, -> { release_roles(fetch(:migration_role)) }
 
 set :systemd_usage, true
 
-# set :enable_solid_queue, true
+set :enable_solid_queue, true
 set :enable_puma, true
