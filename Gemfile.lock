@@ -308,7 +308,6 @@ GEM
       addressable (~> 2.8)
       bigdecimal (>= 3.1, < 5)
     jsonapi-renderer (0.2.2)
-    kgio (2.11.4)
     language_server-protocol (3.17.0.5)
     lazy_high_charts (1.6.1)
       hash-deep-merge
@@ -340,7 +339,6 @@ GEM
       drb (~> 2.0)
       prism (~> 1.5)
     msgpack (1.8.0)
-    mutex_m (0.3.0)
     nenv (0.3.0)
     net-imap (0.6.3)
       date
@@ -440,7 +438,6 @@ GEM
       tsort (>= 0.2)
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
-    raindrops (0.20.1)
     rake (13.3.1)
     rb-fsevent (0.11.2)
     rb-inotify (0.11.1)
@@ -583,9 +580,6 @@ GEM
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.2.0)
-    unicorn (6.1.0)
-      kgio (~> 2.6)
-      raindrops (~> 0.7)
     useragent (0.16.11)
     valid_email2 (7.0.15)
       activemodel (>= 6.0)
@@ -621,7 +615,6 @@ DEPENDENCIES
   active_model_serializers
   activerecord_views
   acts_as_list
-  base64
   bcrypt
   bootsnap
   bootstrap-sass
@@ -638,7 +631,6 @@ DEPENDENCIES
   debug
   delayed_job_active_record
   draper
-  drb
   factory_bot_rails
   firesport!
   firesport-series!
@@ -654,7 +646,6 @@ DEPENDENCIES
   m3_capistrano3!
   matrix
   mini_magick
-  mutex_m
   pg
   prawn-rails
   puma
@@ -679,7 +670,6 @@ DEPENDENCIES
   terser
   timecop
   turbo-rails
-  unicorn
   valid_email2
   vcr
   web-console

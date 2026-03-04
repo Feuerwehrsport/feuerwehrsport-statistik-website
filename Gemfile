@@ -5,10 +5,10 @@ source 'https://rubygems.org'
 gem 'rails', '~> 7.0'
 
 gem 'pg' # postgres adapter
+gem 'puma' # webserver
 gem 'bcrypt' # password hashs
 
 gem 'sprockets-rails' # asset pipeline
-gem 'puma' # dev web server
 gem 'cancancan' # abilities
 gem 'carrierwave', '> 3.0.0' # uploads
 gem 'mini_magick' # image processing
@@ -19,6 +19,7 @@ gem 'matrix'
 gem 'acts_as_list' # position of models
 
 gem 'bootsnap', require: false # Reduces boot times through caching; required in config/boot.rb
+gem 'rails_log_parser' # to analyise log
 
 # # background jobs
 gem 'daemons' # background jobs
@@ -56,15 +57,6 @@ gem 'draper' # model decorators
 gem 'activerecord_views' # save db views in code
 gem 'generated_schema_validations' # validate models by schema
 gem 'valid_email2' # validate emails
-
-gem 'mutex_m' # remove on Rails 7.2
-gem 'drb' # remove on Rails 7.2
-gem 'base64' # remove on Rails 7.2
-
-group :production do
-  gem 'unicorn'
-  gem 'rails_log_parser'
-end
 
 group :development, :test do
   gem 'debug' # debugger
