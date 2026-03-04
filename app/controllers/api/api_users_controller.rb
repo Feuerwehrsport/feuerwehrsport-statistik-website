@@ -19,6 +19,7 @@ class Api::ApiUsersController < Api::BaseController
 
   def after_create
     session[:api_user_id] = resource.id
+    remove_instance_variable(:@current_api_user)
     success
   end
 

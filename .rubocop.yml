@@ -214,7 +214,7 @@ Naming/BlockForwarding:
 Naming/MethodParameterName:
   Enabled: false
 Naming/PredicateMethod:
-  Enabled: true
+  Enabled: false
 Naming/PredicatePrefix:
   Exclude:
   - app/controllers/backend/backend_controller.rb
@@ -652,6 +652,8 @@ Style/ObjectThen:
   Enabled: true
 Style/OneClassPerFile:
   Enabled: true
+  Exclude:
+  - m3/lib/m3/engine.rb
 Style/OpenStructUse:
   Enabled: true
 Style/OperatorMethodCall:

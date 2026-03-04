@@ -8,7 +8,7 @@ class ImportRequest < ApplicationRecord
   has_many :import_request_files, class_name: 'ImportRequestFile', dependent: :destroy, inverse_of: :import_request
   accepts_nested_attributes_for :import_request_files, reject_if: proc { |attributes| attributes['file'].blank? }
 
-  default_scope -> { order('finished_at DESC, created_at ASC') }
+  default_scope -> { order(finished_at: :desc, created_at: :asc) }
   scope :open, -> { where(finished_at: nil) }
   scope :old_entries, -> { where(arel_table[:finished_at].lt(3.months.ago)) }
 

@@ -126,11 +126,9 @@ class Team < ApplicationRecord
         current_discipline = GroupDiscipline.new(discipline, gender, [])
         group_score_types(discipline).each do |group_type|
           scores = group_scores.gender(gender).group_score_type(group_type).includes(:person_participations).to_a
-          if scores.count.positive?
-            current_discipline.types.push(GroupDisciplineType.new(scores.map(&:decorate), group_type))
-          end
+          current_discipline.types.push(GroupDisciplineType.new(scores.map(&:decorate), group_type)) if scores.any?
         end
-        group_disciplines.push(current_discipline) if current_discipline.types.count.positive?
+        group_disciplines.push(current_discipline) if current_discipline.types.any?
       end
     end
     group_disciplines

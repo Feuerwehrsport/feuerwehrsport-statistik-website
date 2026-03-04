@@ -22,7 +22,11 @@ class ImportRequestFile < ApplicationRecord
   protected
 
   def transfer_competition_file
-    @transfer_competition_file ||= CompetitionFile.new(file: File.open(file.path))
+    @transfer_competition_file ||= begin
+      cf = CompetitionFile.new
+      File.open(file.path) { |file| cf.file = file }
+      cf
+    end
   end
 
   def transfer_competition_file_valid

@@ -18,7 +18,9 @@ class M3::Login::PasswordReset
   delegate :password, :password=, :password_confirmation, :password_confirmation=, to: :login
 
   def login
-    @login ||= M3::Login::Base.find_by(email_address: email_address.try(:downcase))
+    return @login if defined?(@login)
+
+    @login = M3::Login::Base.find_by(email_address: email_address.try(:downcase))
   end
 
   def login=(login)

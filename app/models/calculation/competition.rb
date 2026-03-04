@@ -19,6 +19,10 @@ class Calculation::Competition
     def chart
       @chart ||= Chart::CompetitionDisciplineCategoryOverview.new(discipline: self, request: context.request)
     end
+
+    def any?
+      count > 0
+    end
   end
 
   class Calculation::CompetitionSingleDiscipline < Calculation::CompetitionDiscipline
@@ -68,7 +72,7 @@ class Calculation::Competition
       Genderable::GENDER_KEYS.each do |gender|
         finals.each do |final|
           single = Calculation::CompetitionSingleDiscipline.new(self, single_discipline, gender, final, context)
-          next unless single.count > 0
+          next unless single.any?
 
           @single_categories[single_discipline.id] ||= Set.new
           @single_categories[single_discipline.id].add(final)
@@ -79,14 +83,14 @@ class Calculation::Competition
 
     Genderable::GENDER_KEYS.each do |gender|
       double_event = Calculation::CompetitionDoubleEventDiscipline.new(self, :zk, gender, nil, context)
-      @disciplines.push(double_event) if double_event.count > 0
+      @disciplines.push(double_event) if double_event.any?
     end
 
     %i[gs fs la].each do |discipline|
       Genderable::GENDER_KEYS.each do |gender|
         competition.group_score_categories.discipline(discipline).decorate.each do |category|
           group = Calculation::CompetitionGroupDiscipline.new(self, discipline, gender, category, context)
-          next unless group.count > 0
+          next unless group.any?
 
           @group_categories[discipline] ||= Set.new
           @group_categories[discipline].add(category)

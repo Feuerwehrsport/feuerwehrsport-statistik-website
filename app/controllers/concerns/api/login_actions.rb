@@ -8,10 +8,12 @@ module Api::LoginActions
   end
 
   def current_api_user
-    @current_api_user ||= ApiUser.find_by(id: session[:api_user_id])
+    return @current_api_user if defined?(@current_api_user)
+
+    @current_api_user = ApiUser.find_by(id: session[:api_user_id])
   end
 
-  def login_status
+  def login_status?
     current_user.present?
   end
 end

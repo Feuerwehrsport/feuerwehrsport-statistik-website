@@ -21,7 +21,7 @@ if Rails.env.development?
   begin
     require 'pry'
   rescue LoadError
-    puts 'pry is yet not available'
+    Rails.logger.warn 'pry is yet not available'
   end
 end
 

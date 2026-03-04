@@ -62,7 +62,7 @@ class Calc::PerformanceOfYear < Calc::Base
       @points ||= begin
         # - 1/23 *x^2+ 10
         sum = 0
-        (0..valid_time_count - 1).each do |z|
+        (0..(valid_time_count - 1)).each do |z|
           subtotal = (-1.0 / 23.0 * (z**2)) + 10
           break if subtotal < 0
 

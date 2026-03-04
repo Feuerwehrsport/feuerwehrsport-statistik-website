@@ -72,7 +72,7 @@ class Api::BaseController < ApplicationController
 
   def respond_defaults
     hash = { success: true, login: false }
-    if login_status
+    if login_status?
       hash[:login] = true
       hash[:current_user] = UserSerializer.new(current_user)
     end

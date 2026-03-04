@@ -22,7 +22,9 @@ class M3::Login::Session
   end
 
   def login
-    @login ||= M3::Login::Base.find_by(email_address: email_address.try(:downcase).try(:strip))
+    return @login if defined?(@login)
+
+    @login = M3::Login::Base.find_by(email_address: email_address.try(:downcase).try(:strip))
   end
 
   def persisted?
