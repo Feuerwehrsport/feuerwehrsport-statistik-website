@@ -2,6 +2,7 @@
 
 Calculation::CompetitionGroupAssessment = Struct.new(:team, :team_number, :competition, :gender) do
   include Draper::Decoratable
+
   def add_score(score)
     @unsorted_scores ||= []
     @unsorted_scores.push(score)

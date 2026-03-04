@@ -2,6 +2,7 @@
 
 class PeopleController < ResourceController
   include DatatableSupport
+
   resource_actions :show, cache: %i[show index]
 
   Genderable::GENDER_KEYS.each do |gender|

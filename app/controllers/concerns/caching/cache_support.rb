@@ -2,6 +2,7 @@
 
 module Caching::CacheSupport
   extend ActiveSupport::Concern
+
   class_methods do
     def cache_actions(*actions)
       @cache_actions = actions

@@ -20,7 +20,7 @@ module IndexStructures
       end
     end
 
-    def export_index(*formats, basename: nil, &block)
+    def export_index(*formats, basename: nil, &)
       self.m3_index_export_formats += formats
 
       define_method(:m3_index_export_structure) do
@@ -35,7 +35,7 @@ module IndexStructures
           end
         end
 
-        M3::Index::Structure.build(self, &block).decorate
+        M3::Index::Structure.build(self, &).decorate
       end
     end
   end

@@ -3,6 +3,7 @@
 class M3::Index::Structure
   include Enumerable
   include Draper::Decoratable
+
   attr_accessor :edit_sheet_block, :options, :field_options
 
   def self.build(controller_instance, options = {}, &block)
@@ -48,6 +49,7 @@ class M3::Index::Structure
 
   class Field
     include Draper::Decoratable
+
     attr_accessor :name, :priority, :stringify_relation, :truncate, :options, :block
 
     def initialize(name, options = {}, &block)

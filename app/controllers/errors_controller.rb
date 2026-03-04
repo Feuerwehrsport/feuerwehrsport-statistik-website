@@ -49,7 +49,7 @@ class ErrorsController < ApplicationController
 
   def unacceptable
     @page_title = '422 - Nicht verarbeitbare Werte'
-    render(status: :unprocessable_entity)
+    render(status: :unprocessable_content)
   end
 
   protected

@@ -2,6 +2,7 @@
 
 class People::LaPositionsImage
   include M3::FormObject
+
   belongs_to :person
 
   def create_image

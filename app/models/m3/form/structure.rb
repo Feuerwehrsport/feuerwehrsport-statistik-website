@@ -2,6 +2,7 @@
 
 class M3::Form::Structure
   include Enumerable
+
   attr_reader :children
 
   def initialize(*children)

@@ -4,14 +4,14 @@ module M3::Delayable
   extend ActiveSupport::Concern
 
   class_methods do
-    def enqueue(*arguments)
-      enqueue_with_options({}, *arguments)
+    def enqueue(*)
+      enqueue_with_options({}, *)
     end
 
-    def enqueue_with_options(options, *arguments)
+    def enqueue_with_options(options, *)
       options = default_options.merge(options)
       options[:run_at] = @run_at.call if @run_at.present?
-      Delayed::Job.enqueue new(*arguments), options
+      Delayed::Job.enqueue new(*), options
     end
 
     def default_options
@@ -29,8 +29,8 @@ module M3::Delayable
       @run_at = block
     end
 
-    def perform_now(*arguments)
-      new(*arguments).perform
+    def perform_now(*)
+      new(*).perform
     end
   end
 

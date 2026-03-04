@@ -33,7 +33,7 @@ RSpec.describe 'Api::Events' do
     it 'returns events' do
       get '/api/events'
       expect_json_response
-      expect(json_body[:events]).to eq([id: event.id, name: 'D-Cup'])
+      expect(json_body[:events]).to eq([{ id: event.id, name: 'D-Cup' }])
     end
   end
 end

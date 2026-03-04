@@ -3,6 +3,7 @@
 class Chart::TeamShow < Chart::Base
   include DisciplineNamesAndImages
   include GenderNames
+
   attr_accessor :team
 
   def gender_pie
@@ -22,7 +23,7 @@ class Chart::TeamShow < Chart::Base
       hc.xAxis(categories: scores.map { |s| s.competition.date },
                labels: { enabled: false, rotation: 270, style: { fontSize: '8px' } })
       hc.series(name: 'Sekunden', yAxis: 0, data: scores.map { |s| s.time.to_f / 100 }, lineWidth: 1)
-      hc.yAxis [title: { text: 'Sekunden', margin: 20 }, endOnTick: false]
+      hc.yAxis [{ title: { text: 'Sekunden', margin: 20 }, endOnTick: false }]
       hc.legend(enabled: false)
       hc.tooltip(shared: true)
       hc.chart(type: 'line', height: 220, marginRight: 50)

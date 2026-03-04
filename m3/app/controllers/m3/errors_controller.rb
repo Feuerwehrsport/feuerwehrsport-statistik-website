@@ -6,7 +6,7 @@ class M3::ErrorsController < ApplicationController
   end
 
   def unacceptable
-    render(status: status_or_ok_on_generation(:unprocessable_entity), formats: :html)
+    render(status: status_or_ok_on_generation(:unprocessable_content), formats: :html)
   end
 
   def internal_server_error

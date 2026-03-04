@@ -14,7 +14,7 @@ AllCops:
   - firesport/**/*
   - firesport-series/**/*
   TargetRailsVersion: 7.2
-  TargetRubyVersion: 3.3.7
+  TargetRubyVersion: 3.4.8
 Bundler/OrderedGems:
   Enabled: false
 Capybara/ClickLinkOrButtonStyle:
@@ -55,6 +55,8 @@ FactoryBot/SyntaxMethods:
   Enabled: true
 Gemspec/AddRuntimeDependency:
   Enabled: true
+Gemspec/AttributeAssignment:
+  Enabled: true
 Gemspec/DeprecatedAttributeAssignment:
   Enabled: true
 Gemspec/DevelopmentDependencies:
@@ -64,6 +66,8 @@ Gemspec/RequireMFA:
 Gemspec/RequiredRubyVersion:
   Enabled: false
 Layout/EmptyLineAfterMagicComment:
+  Enabled: true
+Layout/EmptyLinesAfterModuleInclusion:
   Enabled: true
 Layout/LineContinuationLeadingSpace:
   Enabled: true
@@ -93,6 +97,8 @@ Lint/ConstantOverwrittenInRescue:
 Lint/ConstantReassignment:
   Enabled: true
 Lint/CopDirectiveSyntax:
+  Enabled: true
+Lint/DataDefineOverride:
   Enabled: true
 Lint/DeprecatedConstants:
   Enabled: true
@@ -162,13 +168,19 @@ Lint/UnexpectedBlockArity:
   Enabled: true
 Lint/UnmodifiedReduceAccumulator:
   Enabled: true
+Lint/UnreachablePatternBranch:
+  Enabled: true
 Lint/UselessAssignment:
   AutoCorrect: false
 Lint/UselessConstantScoping:
   Enabled: true
+Lint/UselessDefaultValueArgument:
+  Enabled: true
 Lint/UselessDefined:
   Enabled: true
 Lint/UselessNumericOperation:
+  Enabled: true
+Lint/UselessOr:
   Enabled: true
 Lint/UselessRescue:
   Enabled: true
@@ -201,7 +213,9 @@ Naming/BlockForwarding:
   Enabled: true
 Naming/MethodParameterName:
   Enabled: false
-Naming/PredicateName:
+Naming/PredicateMethod:
+  Enabled: true
+Naming/PredicatePrefix:
   Exclude:
   - app/controllers/backend/backend_controller.rb
 Naming/VariableNumber:
@@ -278,9 +292,13 @@ RSpec/Focus:
   AutoCorrect: false
 RSpec/IdenticalEqualityAssertion:
   Enabled: true
+RSpec/IncludeExamples:
+  Enabled: true
 RSpec/IndexedLet:
   Enabled: false
 RSpec/IsExpectedSpecify:
+  Enabled: true
+RSpec/LeakyLocalVariable:
   Enabled: true
 RSpec/LetSetup:
   Enabled: false
@@ -388,12 +406,16 @@ Rails/ExpandedDateRange:
   Enabled: true
 Rails/FindById:
   Enabled: true
+Rails/FindByOrAssignmentMemoization:
+  Enabled: true
 Rails/FindEach:
   Enabled: false
 Rails/FreezeTime:
   Enabled: true
 Rails/HelperInstanceVariable:
   Enabled: false
+Rails/HttpStatusNameConsistency:
+  Enabled: true
 Rails/I18nLazyLookup:
   Enabled: true
 Rails/I18nLocaleAssignment:
@@ -416,11 +438,14 @@ Rails/MultipleRoutePaths:
   Enabled: true
 Rails/NegateInclude:
   Enabled: true
+Rails/OrderArguments:
+  Enabled: true
 Rails/Output:
   AutoCorrect: false
   Exclude:
   - config/deploy/**/*
   - db/migrate/**/*
+  - m3/app/uploaders/m3/application_uploader.rb
 Rails/OutputSafety:
   Enabled: false
 Rails/Pluck:
@@ -429,6 +454,8 @@ Rails/PluckInWhere:
   Enabled: true
 Rails/RakeEnvironment:
   Enabled: false
+Rails/RedirectBackOrTo:
+  Enabled: true
 Rails/RedundantActiveRecordAllMethod:
   Enabled: true
 Rails/RedundantPresenceValidationOnBelongsTo:
@@ -499,6 +526,8 @@ Style/ArgumentsForwarding:
   Enabled: true
 Style/ArrayIntersect:
   Enabled: true
+Style/ArrayIntersectWithSingleElement:
+  Enabled: true
 Style/AsciiComments:
   Enabled: false
 Style/BitwisePredicate:
@@ -510,6 +539,8 @@ Style/ClassAndModuleChildren:
   - config/boot.rb
   - lib/**/*.rb
 Style/CollectionCompact:
+  Enabled: true
+Style/CollectionQuerying:
   Enabled: true
 Style/CombinableDefined:
   Enabled: true
@@ -531,7 +562,11 @@ Style/DocumentDynamicEvalDefinition:
   Enabled: true
 Style/Documentation:
   Enabled: false
+Style/EmptyClassDefinition:
+  Enabled: true
 Style/EmptyHeredoc:
+  Enabled: true
+Style/EmptyStringInsideInterpolation:
   Enabled: true
 Style/EndlessMethod:
   Enabled: true
@@ -544,6 +579,8 @@ Style/FetchEnvVar:
 Style/FileEmpty:
   Enabled: true
 Style/FileNull:
+  Enabled: true
+Style/FileOpen:
   Enabled: true
 Style/FileRead:
   Enabled: true
@@ -560,6 +597,8 @@ Style/HashConversion:
   Enabled: true
 Style/HashExcept:
   Enabled: true
+Style/HashFetchChain:
+  Enabled: true
 Style/HashSlice:
   Enabled: true
 Style/IfWithBooleanLiteralBranches:
@@ -567,6 +606,8 @@ Style/IfWithBooleanLiteralBranches:
 Style/InPatternThen:
   Enabled: true
 Style/ItAssignment:
+  Enabled: true
+Style/ItBlockParameter:
   Enabled: true
 Style/KeywordArgumentsMerging:
   Enabled: true
@@ -578,6 +619,8 @@ Style/MapCompactWithConditionalBlock:
   Enabled: true
 Style/MapIntoArray:
   Enabled: true
+Style/MapJoin:
+  Enabled: true
 Style/MapToHash:
   Enabled: true
 Style/MapToSet:
@@ -587,9 +630,13 @@ Style/MinMaxComparison:
 Style/MixinUsage:
   Exclude:
   - bin/**/*
+Style/ModuleMemberExistenceCheck:
+  Enabled: true
 Style/MultilineInPatternThen:
   Enabled: true
 Style/NegatedIfElseCondition:
+  Enabled: true
+Style/NegativeArrayIndex:
   Enabled: true
 Style/NestedFileDirname:
   Enabled: true
@@ -603,15 +650,25 @@ Style/NumericPredicate:
   Enabled: false
 Style/ObjectThen:
   Enabled: true
+Style/OneClassPerFile:
+  Enabled: true
 Style/OpenStructUse:
   Enabled: true
 Style/OperatorMethodCall:
   Enabled: true
+Style/PartitionInsteadOfDoubleSelect:
+  Enabled: true
+Style/PredicateWithKind:
+  Enabled: true
 Style/QuotedSymbols:
+  Enabled: true
+Style/ReduceToHash:
   Enabled: true
 Style/RedundantArgument:
   Enabled: true
 Style/RedundantArrayConstructor:
+  Enabled: true
+Style/RedundantArrayFlatten:
   Enabled: true
 Style/RedundantConstantBase:
   Enabled: true
@@ -633,6 +690,8 @@ Style/RedundantInterpolationUnfreeze:
   Enabled: true
 Style/RedundantLineContinuation:
   Enabled: true
+Style/RedundantMinMaxBy:
+  Enabled: true
 Style/RedundantRegexpArgument:
   Enabled: true
 Style/RedundantRegexpConstructor:
@@ -641,11 +700,19 @@ Style/RedundantSelfAssignmentBranch:
   Enabled: true
 Style/RedundantStringEscape:
   Enabled: true
+Style/RedundantStructKeywordInit:
+  Enabled: true
 Style/ReturnNilInPredicateMethodDefinition:
+  Enabled: true
+Style/ReverseFind:
   Enabled: true
 Style/SafeNavigation:
   Enabled: false
 Style/SafeNavigationChainLength:
+  Enabled: true
+Style/SelectByKind:
+  Enabled: true
+Style/SelectByRange:
   Enabled: true
 Style/SelectByRegexp:
   Enabled: true
@@ -660,6 +727,8 @@ Style/SuperArguments:
 Style/SuperWithArgsParentheses:
   Enabled: true
 Style/SwapValues:
+  Enabled: true
+Style/TallyMethod:
   Enabled: true
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: comma

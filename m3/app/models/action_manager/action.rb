@@ -2,6 +2,7 @@
 
 ActionManager::Action = Struct.new(:name, :resource_or_class, :ability, :controller) do
   include Draper::Decoratable
+
   attr_accessor :url
 
   def link_to?
@@ -27,7 +28,7 @@ ActionManager::Action = Struct.new(:name, :resource_or_class, :ability, :control
 
   protected
 
-  def can?(*args)
-    ability.can?(*args)
+  def can?(*)
+    ability.can?(*)
   end
 end

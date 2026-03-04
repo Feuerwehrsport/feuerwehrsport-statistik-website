@@ -52,9 +52,11 @@ RSpec.describe 'Api::ChangeRequests' do
     let(:files_data) do
       {
         files: [
-          binary: Base64.encode64('content'),
-          filename: 'content.txt',
-          content_type: 'text/plain',
+          {
+            binary: Base64.encode64('content'),
+            filename: 'content.txt',
+            content_type: 'text/plain',
+          },
         ],
       }
     end

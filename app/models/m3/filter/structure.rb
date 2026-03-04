@@ -18,6 +18,7 @@ class M3::Filter::Structure
 
   class Filter
     include Draper::Decoratable
+
     attr_accessor :name, :options, :block
 
     def initialize(name, options = {}, &block)

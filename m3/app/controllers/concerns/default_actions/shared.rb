@@ -2,6 +2,7 @@
 
 module DefaultActions::Shared
   extend ActiveSupport::Concern
+
   included do
     helper_method :paginate?
     helper_method :resource_params_name

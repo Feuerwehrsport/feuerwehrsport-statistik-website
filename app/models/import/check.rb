@@ -3,6 +3,7 @@
 class Import::Check
   include ActiveModel::Model
   include ActiveModel::Validations::Callbacks
+
   attr_accessor :gender, :raw_lines, :separator, :raw_headline_columns, :lines, :headline_columns, :import_lines,
                 :missing_teams
   attr_reader :discipline

@@ -2,6 +2,7 @@
 
 class LinkSerializer < ActiveModel::Serializer
   include UrlSupport
+
   attributes :id, :label, :linkable_id, :linkable_type, :url, :linkable_url
 
   def linkable_url

@@ -2,6 +2,7 @@
 
 class CompetitionsController < ResourceController
   include DatatableSupport
+
   resource_actions :show, :index, cache: %i[show index]
   map_support_at :show
 

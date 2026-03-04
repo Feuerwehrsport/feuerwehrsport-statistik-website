@@ -4,8 +4,8 @@ module PrawnSupport
   extend ActiveSupport::Concern
 
   class_methods do
-    def build(*args)
-      instance = new(*args)
+    def build(*)
+      instance = new(*)
       instance.unicode { instance.build }
       instance
     end

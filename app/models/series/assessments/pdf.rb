@@ -2,6 +2,7 @@
 
 Series::Assessments::Pdf = Struct.new(:assessment) do
   include PrawnSupport
+
   decorates_assigned :assessment
   delegate :round, :cups, to: :assessment
 

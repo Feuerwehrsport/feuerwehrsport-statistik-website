@@ -82,7 +82,7 @@ RSpec.describe 'Api::Imports' do
     let(:discipline) { 'hb' }
     let!(:single_discipline_id) { create(:single_discipline, :hb_male).id }
     let(:attributes) { { competition_id: competition.id } }
-    let(:scores) { [person_id: person.id, times: ['2200']] }
+    let(:scores) { [{ person_id: person.id, times: ['2200'] }] }
 
     it_behaves_like 'api user get permission error'
 
@@ -93,7 +93,7 @@ RSpec.describe 'Api::Imports' do
       end
 
       context 'when person does not exists' do
-        let(:scores) { [first_name: 'Hans', last_name: 'Wurst', times: %w[2200 2300]] }
+        let(:scores) { [{ first_name: 'Hans', last_name: 'Wurst', times: %w[2200 2300] }] }
 
         it { expect { r.call }.to change(Score, :count).by(2) }
         it { expect { r.call }.to change(Person, :count).by(1) }
@@ -103,14 +103,14 @@ RSpec.describe 'Api::Imports' do
         let(:discipline) { 'la' }
 
         context 'when group_score_category_id is not set' do
-          let(:scores) { [team_id: team.id, team_number: 1, times: ['2200']] }
+          let(:scores) { [{ team_id: team.id, team_number: 1, times: ['2200'] }] }
 
           it { expect { r.call }.not_to change(GroupScore, :count) }
         end
 
         context 'when attributes are valid' do
           let(:attributes) { { group_score_category_id: group_score_category.id } }
-          let(:scores) { [team_id: team.id, team_number: 1, times: ['2200']] }
+          let(:scores) { [{ team_id: team.id, team_number: 1, times: ['2200'] }] }
 
           it do
             expect { r.call }.to change(GroupScore, :count).by(1)

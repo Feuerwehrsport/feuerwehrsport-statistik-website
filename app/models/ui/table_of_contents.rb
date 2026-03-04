@@ -3,6 +3,7 @@
 class Ui::TableOfContents
   include ActionView::Helpers::TagHelper
   include Ui::UniqIdFinder
+
   attr_reader :ankers
   alias elements ankers
 

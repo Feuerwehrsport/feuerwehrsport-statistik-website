@@ -4,6 +4,7 @@ module Genderable
   GENDER_KEYS = %i[female male].freeze
   GENDERS = { female: 0, male: 1 }.freeze
   extend ActiveSupport::Concern
+
   included do
     enum :gender, GENDERS
     scope :gender, ->(gender) { where(gender: GENDERS[gender.to_sym]) }

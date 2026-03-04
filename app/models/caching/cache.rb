@@ -2,6 +2,7 @@
 
 class Caching::Cache < ActiveSupport::Cache::FileStore
   include Singleton
+
   class_attribute :caching
   self.caching = true
 

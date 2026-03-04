@@ -74,16 +74,18 @@ describe Import::Check do
     it 'generates correct results' do
       expect(check.import_lines!.map(&:to_h)).to eq(
         [
-          valid: true,
-          last_name: 'Meier',
-          first_name: 'Alfred',
-          times: [1922, 1899],
-          team_names: ['Warin'],
-          original_team: 'FF Warin',
-          run: 'A',
-          team_number: 1,
-          team_ids: [team.id],
-          people: [[person.id, 'Meier', 'Alfred']],
+          {
+            valid: true,
+            last_name: 'Meier',
+            first_name: 'Alfred',
+            times: [1922, 1899],
+            team_names: ['Warin'],
+            original_team: 'FF Warin',
+            run: 'A',
+            team_number: 1,
+            team_ids: [team.id],
+            people: [[person.id, 'Meier', 'Alfred']],
+          },
         ],
       )
     end

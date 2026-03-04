@@ -13,7 +13,7 @@ RSpec.describe 'Errors' do
   describe 'GET #unacceptable' do
     it 'returns http success' do
       get '/422'
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 

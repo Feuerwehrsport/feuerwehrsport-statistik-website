@@ -3,6 +3,7 @@
 class Chart::CompetitionDisciplineCategoryOverview < Chart::Base
   include DisciplineNamesAndImages
   include NumberedTeamNames
+
   attr_accessor :discipline
 
   def discipline_scores

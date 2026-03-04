@@ -3,6 +3,7 @@
 class Chart::Base
   include ActiveModel::Model
   include LazyHighCharts::LayoutHelper
+
   delegate :t, to: I18n
   attr_accessor :request
 

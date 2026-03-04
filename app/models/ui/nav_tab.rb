@@ -2,6 +2,7 @@
 
 class Ui::NavTab
   include Ui::UniqIdFinder
+
   attr_reader :tabs
   alias elements tabs
 

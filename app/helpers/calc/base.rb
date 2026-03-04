@@ -2,6 +2,7 @@
 
 class Calc::Base
   include ActiveModel::Model
+
   delegate :t, to: I18n
   attr_accessor :view_context
 end

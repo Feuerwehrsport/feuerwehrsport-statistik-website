@@ -3,6 +3,7 @@
 class Chart::PersonShow < Chart::Base
   include DisciplineNamesAndImages
   include Helper::PositionSelectorHelper
+
   attr_accessor :person, :team_structs
 
   def year_overview
@@ -15,7 +16,7 @@ class Chart::PersonShow < Chart::Base
                   data: year_overview_data.for(sd.id), lineWidth: 1, color: discipline_color(sd.key))
       end
 
-      hc.yAxis [title: { text: 'Sekunden', margin: 20 }, endOnTick: false]
+      hc.yAxis [{ title: { text: 'Sekunden', margin: 20 }, endOnTick: false }]
       hc.legend(enabled: false)
       hc.tooltip(shared: true)
       hc.chart(type: 'line', height: 200)
@@ -45,7 +46,7 @@ class Chart::PersonShow < Chart::Base
         hc.series(name: 'HL', yAxis: 0, data: chart_scores.map { |s| s.hl.to_f / 100 },
                   lineWidth: 1, marker: { enabled: false })
       end
-      hc.yAxis [title: { text: 'Sekunden', margin: 20 }, endOnTick: false]
+      hc.yAxis [{ title: { text: 'Sekunden', margin: 20 }, endOnTick: false }]
       hc.legend(enabled: false)
       hc.tooltip(shared: true)
       hc.chart(type: 'line', height: 220, marginRight: 50)
@@ -94,7 +95,7 @@ class Chart::PersonShow < Chart::Base
 
   class YearOverviewData
     def initialize(person_id)
-      @result = ActiveRecord::Base.connection.execute(<<-SQL.squish).to_a
+      @result = ActiveRecord::Base.connection.execute(<<~SQL.squish).to_a
         SELECT#{' '}
           c.year AS year,
           s.single_discipline_id,

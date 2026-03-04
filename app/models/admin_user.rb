@@ -2,6 +2,7 @@
 
 class AdminUser < ApplicationRecord
   include M3::Login::Loginable
+
   delegate :name, :email_address, to: :login, allow_nil: true
 
   ROLES = %i[

@@ -4,6 +4,7 @@ require 'image_optim'
 
 class M3::ApplicationUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
+
   IMAGE_OPTIM_DEFAULT_OPTIONS = {
     skip_missing_workers: true,
     advpng: false,

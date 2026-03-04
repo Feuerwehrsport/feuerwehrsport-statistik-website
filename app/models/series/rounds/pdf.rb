@@ -5,6 +5,7 @@ Series::Rounds::Pdf = Struct.new(:round) do
   include GenderNames
   include NumberedTeamNames
   include DisciplineNamesAndImages
+
   decorates_assigned :round
   delegate :cups, to: :round
 
