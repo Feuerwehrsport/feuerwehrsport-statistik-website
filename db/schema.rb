@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_04_102552) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_05_093534) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
   enable_extension "plpgsql"
@@ -368,6 +368,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_04_102552) do
     t.boolean "official", default: false, null: false
     t.integer "full_cup_count", default: 4, null: false
     t.bigint "kind_id"
+    t.jsonb "team_assessments_config_jsonb", default: []
+    t.jsonb "person_assessments_config_jsonb", default: []
     t.index ["kind_id"], name: "index_series_rounds_on_kind_id"
   end
 

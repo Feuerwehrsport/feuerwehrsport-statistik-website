@@ -4,6 +4,9 @@ class Series::Round < ApplicationRecord
   include Caching::Keys
   include Series::Participationable
 
+  jsonb_as_text :team_assessments_config_jsonb
+  jsonb_as_text :person_assessments_config_jsonb
+
   belongs_to :kind, class_name: 'Series::Kind'
   has_many :cups, class_name: 'Series::Cup', dependent: :destroy
   has_many :assessments, class_name: 'Series::Assessment', dependent: :destroy
@@ -23,6 +26,39 @@ class Series::Round < ApplicationRecord
   delegate :name, :slug, to: :kind
 
   schema_validations
+  validate :validate_assessment_configs
+
+  def team_assessments_configs
+    unless team_assessments_config_jsonb.is_a?(Array)
+      errors.add(:team_assessments_config_jsonb, :invalid)
+      errors.add(:team_assessments_config_jsonb_text, :invalid)
+      return []
+    end
+    team_assessments_config_jsonb.map do |h|
+      unless h.is_a?(Hash)
+        errors.add(:team_assessments_config_jsonb, :invalid)
+        errors.add(:team_assessments_config_jsonb_text, :invalid)
+        return []
+      end
+      Series::AssessmentConfig.new(h)
+    end
+  end
+
+  def person_assessments_configs
+    unless person_assessments_config_jsonb.is_a?(Array)
+      errors.add(:person_assessments_config_jsonb, :invalid)
+      errors.add(:person_assessments_config_jsonb_text, :invalid)
+      return []
+    end
+    person_assessments_config_jsonb.map do |h|
+      unless h.is_a?(Hash)
+        errors.add(:person_assessments_config_jsonb, :invalid)
+        errors.add(:person_assessments_config_jsonb_text, :invalid)
+        return []
+      end
+      Series::AssessmentConfig.new(h)
+    end
+  end
 
   def disciplines
     assessments.pluck(:discipline).uniq.sort
@@ -91,5 +127,26 @@ class Series::Round < ApplicationRecord
       teams[participation.entity_id].add_participation(participation)
     end
     teams
+  end
+
+  private
+
+  def validate_assessment_configs
+    team_assessments_configs.each_with_index do |config, index|
+      next if config.valid?
+
+      config.errors.each do |error|
+        errors.add(:team_assessments_config_jsonb_text, "Eintrag #{index}: #{error.full_message}")
+        errors.add(:team_assessments_config_jsonb, "Eintrag #{index}: #{error.full_message}")
+      end
+    end
+    person_assessments_configs.each_with_index do |config, index|
+      next if config.valid?
+
+      config.errors.each do |error|
+        errors.add(:person_assessments_config_jsonb_text, "Eintrag #{index}: #{error.full_message}")
+        errors.add(:person_assessments_config_jsonb, "Eintrag #{index}: #{error.full_message}")
+      end
+    end
   end
 end
