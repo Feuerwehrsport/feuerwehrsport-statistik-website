@@ -25,8 +25,17 @@ class Series::AssessmentConfig
   attribute :ranking_logic, default: -> { [] }
   validates :ranking_logic, presence: true
 
+  attribute :honor_ranking_logic, default: -> { [] }
+  validates :honor_ranking_logic, presence: true
+
+  attr_accessor :round, :entity_key
+
+  delegate :team_assessments, :person_assessments, :full_cup_count, :cups, to: :round
+
   def initialize(attributes = {})
-    super
+    filtered = attributes.stringify_keys.slice(*Series::AssessmentConfig.attribute_types.keys)
+    super(filtered)
+
     self.disciplines ||= []
     self.points_for_rank ||= []
     self.ranking_logic ||= []
