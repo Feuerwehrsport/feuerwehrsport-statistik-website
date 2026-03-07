@@ -8,7 +8,7 @@ class Series::AssessmentConfig
   validates :key, presence: true
 
   attribute :disciplines, default: -> { [] }
-  validates :disciplines, presence: true
+  validates :disciplines, array: { of: String, min: 1 }
 
   attribute :name, :string
   validates :name, presence: true
@@ -20,13 +20,13 @@ class Series::AssessmentConfig
   validates :min_participations_count, numericality: { only_integer: true }, comparison: { greater_than: 0 }
 
   attribute :points_for_rank, default: -> { [] }
-  validates :points_for_rank, presence: true
+  validates :points_for_rank, array: { of: Integer }
 
   attribute :ranking_logic, default: -> { [] }
-  validates :ranking_logic, presence: true
+  validates :ranking_logic, array: { of: String, min: 1 }
 
   attribute :honor_ranking_logic, default: -> { [] }
-  validates :honor_ranking_logic, presence: true
+  validates :honor_ranking_logic, array: { of: String }
 
   attr_accessor :round, :entity_key
 
