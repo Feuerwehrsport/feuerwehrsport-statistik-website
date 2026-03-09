@@ -41,7 +41,15 @@ class Series::Team
   end
 
   def points
-    @points ||= ordered_participations.sum(&:points)
+    @points ||= begin
+      sum = ordered_participations.sum(&:points)
+      if config.penalty_points.nil?
+        sum
+      else
+        fail_points = (config.round.cups.count - count) * config.penalty_points
+        sum + fail_points
+      end
+    end
   end
 
   def best_time

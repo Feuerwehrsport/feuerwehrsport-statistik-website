@@ -16,6 +16,7 @@ class Series::AssessmentConfig
     'rank' => { name: 'Platz (kleiner zuerst)' },
     'participation_count' => { name: 'Teilnahmen (mehr zuerst)' },
     'points' => { name: 'Punkte (mehr zuerst)' },
+    'points_reverse' => { name: 'Punkte (weniger zuerst)' },
     'all_points' => { name: 'Punkte (mehr zuerst)' },
     'best_time' => { name: 'Beste Zeit (kleiner zuerst)' },
     'sum_time' => { name: 'Summe der Zeiten (kleiner zuerst)' },
@@ -49,6 +50,9 @@ class Series::AssessmentConfig
 
   attribute :show_columns, default: -> { %w[participation_count points] }
   validates :show_columns, array: { of: String, min: 1, in: SHOW_COLUMNS.keys }
+
+  attribute :penalty_points, :integer, default: nil
+  validates :penalty_points, numericality: { only_integer: true }, allow_nil: true
 
   attr_accessor :round, :entity_key
 
@@ -173,6 +177,11 @@ class Series::AssessmentConfig
   # Summe Punkte der gezählten Wettkämpfe (mehr vor weniger)
   def sort_points(e1, e2)
     e2.points <=> e1.points
+  end
+
+  # Summe Punkte der gezählten Wettkämpfe (weniger vor mehr)
+  def sort_points_reverse(e1, e2)
+    e1.points <=> e2.points
   end
 
   # Summe Punkte der aller Wettkämpfe (mehr vor weniger)
