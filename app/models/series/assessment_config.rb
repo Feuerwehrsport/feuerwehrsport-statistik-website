@@ -12,6 +12,17 @@ class Series::AssessmentConfig
     'sum_time' => { name: 'Summe', method: :second_sum_time },
   }.freeze
 
+  RANKING_LOGICS = {
+    'rank' => { name: 'Platz (kleiner zuerst)' },
+    'participation_count' => { name: 'Teilnahmen (mehr zuerst)' },
+    'points' => { name: 'Punkte (mehr zuerst)' },
+    'all_points' => { name: 'Punkte (mehr zuerst)' },
+    'best_time' => { name: 'Beste Zeit (kleiner zuerst)' },
+    'sum_time' => { name: 'Summe der Zeiten (kleiner zuerst)' },
+    'best_rank' => { name: 'Beste Platzierung (kleiner zuerst)' },
+    'best_rank_count' => { name: 'Anzahl der besten Platzierungen (mehr zuerst)' },
+  }.freeze
+
   attribute :key, :string
   validates :key, presence: true
 
@@ -31,10 +42,10 @@ class Series::AssessmentConfig
   validates :points_for_rank, array: { of: Integer }
 
   attribute :ranking_logic, default: -> { [] }
-  validates :ranking_logic, array: { of: String, min: 1 }
+  validates :ranking_logic, array: { of: String, min: 1, in: RANKING_LOGICS.keys }
 
   attribute :honor_ranking_logic, default: -> { [] }
-  validates :honor_ranking_logic, array: { of: String }
+  validates :honor_ranking_logic, array: { of: String, in: RANKING_LOGICS.keys }
 
   attribute :show_columns, default: -> { %w[participation_count points] }
   validates :show_columns, array: { of: String, min: 1, in: SHOW_COLUMNS.keys }
@@ -54,6 +65,14 @@ class Series::AssessmentConfig
 
   def show_columns_config
     show_columns.map { |k| SHOW_COLUMNS[k] }
+  end
+
+  def ranking_logic_config
+    ranking_logic.map { |k| RANKING_LOGICS[k] }
+  end
+
+  def honor_ranking_logic_config
+    honor_ranking_logic.map { |k| RANKING_LOGICS[k] }
   end
 
   def completed?

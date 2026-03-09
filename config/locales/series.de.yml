@@ -30,3 +30,8 @@ de:
     backend/series/round_imports:
       inline_labels:
         import_now: Jetzt importieren
+
+  series:
+    points:
+      one: 1 Punkt
+      other: '%{count} Punkte'
