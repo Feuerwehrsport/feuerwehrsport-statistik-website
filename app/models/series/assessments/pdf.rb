@@ -17,7 +17,7 @@ Series::Assessments::Pdf = Struct.new(:assessment) do
 
     lines.push(headline)
     assessment.rows.each do |row|
-      line = [row.rank, "#{row.entity.last_name}, #{row.entity.first_name}"]
+      line = [row.rank, "#{row.person.last_name}, #{row.person.first_name}"]
       cups.each do |cup|
         line.push(series_assessment_cup_participation(cup, row))
       end
