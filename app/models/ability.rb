@@ -72,9 +72,11 @@ class Ability
   def all_users
     basic_stuff
 
-    can :read, Series::Assessment
+    can :read, Series::TeamAssessment
+    can :read, Series::PersonAssessment
     can :read, Series::Cup
-    can :read, Series::Participation
+    can :read, Series::TeamParticipation
+    can :read, Series::PersonParticipation
     can :read, Series::Round
     can :read, Series::Kind
 

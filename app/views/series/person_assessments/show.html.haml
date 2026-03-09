@@ -15,6 +15,4 @@
   .container
     = render('show_assessment_table', rows: resource.rows, cups: resource.cups)
   .container
-    = render("aggregate_type_#{resource.round.aggregate_type.underscore}") rescue ""
-  .container
     = render('series/round_footer', official: resource.round.official?, pdf: true)

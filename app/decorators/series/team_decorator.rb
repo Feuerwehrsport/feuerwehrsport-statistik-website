@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Firesport::Series::Team::BaseDecorator < AppDecorator
+class Series::TeamDecorator < AppDecorator
   decorates_association :team
 
   def participations_for_cup(cup)

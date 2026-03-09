@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Series::ParticipationDecorator < AppDecorator
+class Series::PersonParticipationDecorator < AppDecorator
   def second_time_with_points
     "#{second_time} (#{points})"
   end

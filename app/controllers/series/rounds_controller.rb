@@ -14,7 +14,7 @@ class Series::RoundsController < ResourceController
 
   def show
     @kind = resource.kind
-    @person_assessments = Series::PersonAssessment.where(round: resource).decorate
+    @person_assessments = Series::PersonAssessment.where(round: resource).reorder(:name).decorate
     @team_assessments_exists = Series::TeamAssessment.where(round: resource).present?
 
     send_pdf(Series::Rounds::Pdf, resource) if request.format.pdf?

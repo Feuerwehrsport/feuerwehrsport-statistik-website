@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class Firesport::Series::Person::BaseDecorator < AppDecorator
+class Series::PersonDecorator < AppDecorator
   decorates_association :round
-  decorates_association :entity
+  decorates_association :person
 
   def participation_for_cup(cup)
     object.participation_for_cup(cup).try(:decorate)

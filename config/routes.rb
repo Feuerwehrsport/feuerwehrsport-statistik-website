@@ -133,7 +133,8 @@ Rails.application.routes.draw do
     resources :kinds, only: %i[index]
     get ':slug', to: 'rounds#index'
     resources :rounds, only: %i[show]
-    resources :assessments, only: [:show]
+    resources :person_assessments, only: [:show]
+    resources :team_assessments, only: [:show]
   end
   scope :images do
     get 'person_la_positions/:person_id', controller: :images, action: :la_positions, as: :images_person_la_positions

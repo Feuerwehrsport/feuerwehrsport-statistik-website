@@ -16,17 +16,6 @@ GIT
       capistrano (>= 3.0.0.pre)
 
 PATH
-  remote: firesport-series
-  specs:
-    firesport-series (0.0.0)
-      firesport
-
-PATH
-  remote: firesport
-  specs:
-    firesport (0.0.0)
-
-PATH
   remote: m3
   specs:
     m3 (1.0.13)
@@ -632,8 +621,6 @@ DEPENDENCIES
   debug
   draper
   factory_bot_rails
-  firesport!
-  firesport-series!
   generated_schema_validations
   guard
   guard-rspec

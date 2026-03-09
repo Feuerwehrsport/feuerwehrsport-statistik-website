@@ -7,4 +7,4 @@
       .add-person-participation.btn.btn-info.btn-sm{ data: { assessment_id: assessment.id, cup_id: cup.id } } Eintrag zu #{cup} hinzufügen
 
   = toc.anker(assessment.to_s, :h3)
-  = render 'series/assessments/show_assessment_table', rows: assessment.rows, cups: assessment.cups, round: round
+  = render 'series/person_assessments/show_assessment_table', rows: assessment.rows, cups: assessment.cups, round: round

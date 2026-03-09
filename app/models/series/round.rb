@@ -4,13 +4,13 @@ class Series::Round < ApplicationRecord
   include Caching::Keys
   include Series::Participationable
 
-  jsonb_as_text :team_assessments_config_jsonb
-  jsonb_as_text :person_assessments_config_jsonb
-
   belongs_to :kind, class_name: 'Series::Kind'
   has_many :cups, class_name: 'Series::Cup', dependent: :destroy
-  has_many :assessments, class_name: 'Series::Assessment', dependent: :destroy
-  has_many :participations, through: :assessments, class_name: 'Series::Participation'
+  has_many :team_assessments, class_name: 'Series::TeamAssessment', dependent: :destroy
+  has_many :team_participations, through: :team_assessments, class_name: 'Series::TeamParticipation'
+  has_many :person_assessments, class_name: 'Series::PersonAssessment', dependent: :destroy
+  has_many :person_participations, through: :person_assessments, class_name: 'Series::PersonParticipation',
+                                   source: :person_participations
 
   default_scope -> { order(year: :desc) }
   scope :cup_count, -> do
@@ -26,51 +26,47 @@ class Series::Round < ApplicationRecord
   delegate :name, :slug, to: :kind
 
   schema_validations
-  validate :validate_assessment_configs
 
-  def team_assessments_configs
-    unless team_assessments_config_jsonb.is_a?(Array)
-      errors.add(:team_assessments_config_jsonb, :invalid)
-      errors.add(:team_assessments_config_jsonb_text, :invalid)
-      return []
+  %i[team person].each do |entity_key|
+    jsonb_as_text :"#{entity_key}_assessments_config_jsonb"
+    validate do
+      send("#{entity_key}_assessments_configs").each_with_index do |config, index|
+        next if config.valid?
+
+        config.errors.each do |error|
+          errors.add(:"#{entity_key}_assessments_config_jsonb_text", "Eintrag #{index}: #{error.full_message}")
+          errors.add(:"#{entity_key}_assessments_config_jsonb", "Eintrag #{index}: #{error.full_message}")
+        end
+      end
     end
-    team_assessments_config_jsonb.map do |h|
-      unless h.is_a?(Hash)
-        errors.add(:team_assessments_config_jsonb, :invalid)
-        errors.add(:team_assessments_config_jsonb_text, :invalid)
+
+    define_method("#{entity_key}_assessments_configs") do
+      unless send("#{entity_key}_assessments_config_jsonb").is_a?(Array)
+        errors.add(:"#{entity_key}_assessments_config_jsonb", :invalid)
+        errors.add(:"#{entity_key}_assessments_config_jsonb_text", :invalid)
         return []
       end
-      Series::AssessmentConfig.new(h)
-    end
-  end
-
-  def person_assessments_configs
-    unless person_assessments_config_jsonb.is_a?(Array)
-      errors.add(:person_assessments_config_jsonb, :invalid)
-      errors.add(:person_assessments_config_jsonb_text, :invalid)
-      return []
-    end
-    person_assessments_config_jsonb.map do |h|
-      unless h.is_a?(Hash)
-        errors.add(:person_assessments_config_jsonb, :invalid)
-        errors.add(:person_assessments_config_jsonb_text, :invalid)
-        return []
+      send("#{entity_key}_assessments_config_jsonb").map do |h|
+        unless h.is_a?(Hash)
+          errors.add(:"#{entity_key}_assessments_config_jsonb", :invalid)
+          errors.add(:"#{entity_key}_assessments_config_jsonb_text", :invalid)
+          return []
+        end
+        Series::AssessmentConfig.new(h).tap do |config|
+          config.round = self
+          config.entity_key = entity_key
+        end
       end
-      Series::AssessmentConfig.new(h)
     end
   end
 
   def disciplines
-    assessments.pluck(:discipline).uniq.sort
+    (team_assessments.distinct.pluck(:discipline) + person_assessments.distinct.pluck(:discipline)).uniq.sort
   end
 
   def team_assessment_rows(gender, cache: true)
     @team_assessment_rows ||= calculate_rows(cache)
     @team_assessment_rows[gender]
-  end
-
-  def aggregate_class
-    @aggregate_class ||= Firesport::Series::Handler.team_class_for(aggregate_type)
   end
 
   TeamRound = Struct.new(:round, :cups, :row, :team_number)
@@ -111,42 +107,12 @@ class Series::Round < ApplicationRecord
   def calculate_rows(cache)
     Caching::Cache.fetch(caching_key(:calculate_rows), force: !cache) do
       rows = {}
-      Genderable::GENDER_KEYS.each do |gender|
-        rows[gender] = teams(gender).values.sort
-        rows[gender].each { |row| row.calculate_rank!(rows[gender]) }
-        aggregate_class.special_sort!(rows[gender])
+      team_assessments_configs.each do |config|
+        rows[config.key] = teams(config.key).values.sort
+        rows[config.key].each { |row| row.calculate_rank!(rows[config.key]) }
+        aggregate_class.special_sort!(rows[config.key])
       end
       rows
-    end
-  end
-
-  def teams(gender)
-    teams = {}
-    Series::TeamParticipation.where(assessment: assessments.gender(gender)).each do |participation|
-      teams[participation.entity_id] ||= aggregate_class.new(self, participation.team, participation.team_number)
-      teams[participation.entity_id].add_participation(participation)
-    end
-    teams
-  end
-
-  private
-
-  def validate_assessment_configs
-    team_assessments_configs.each_with_index do |config, index|
-      next if config.valid?
-
-      config.errors.each do |error|
-        errors.add(:team_assessments_config_jsonb_text, "Eintrag #{index}: #{error.full_message}")
-        errors.add(:team_assessments_config_jsonb, "Eintrag #{index}: #{error.full_message}")
-      end
-    end
-    person_assessments_configs.each_with_index do |config, index|
-      next if config.valid?
-
-      config.errors.each do |error|
-        errors.add(:person_assessments_config_jsonb_text, "Eintrag #{index}: #{error.full_message}")
-        errors.add(:person_assessments_config_jsonb, "Eintrag #{index}: #{error.full_message}")
-      end
     end
   end
 end

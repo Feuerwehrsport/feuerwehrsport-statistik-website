@@ -7,7 +7,6 @@ class Backend::Series::RoundsController < Backend::BackendController
   default_form do |f|
     f.association :kind
     f.input :year
-    f.input :aggregate_type, collection: Firesport::Series::Handler.class_names
     f.input :official
     f.input :full_cup_count
     f.input :team_assessments_config_jsonb_text, as: :text
@@ -23,7 +22,7 @@ class Backend::Series::RoundsController < Backend::BackendController
 
   def show
     super
-    @person_assessments = Series::PersonAssessment.where(round: resource).decorate
+    @person_assessments = Series::PersonAssessment.where(round: resource).decorate.select { |pa| pa.config.present? }
     @team_assessments_exists = Series::TeamAssessment.where(round: resource).present?
   end
 end

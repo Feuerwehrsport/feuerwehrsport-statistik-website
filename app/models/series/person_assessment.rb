@@ -1,6 +1,19 @@
 # frozen_string_literal: true
 
-class Series::PersonAssessment < Series::Assessment
+class Series::PersonAssessment < ApplicationRecord
+  include Caching::Keys
+
+  belongs_to :round, class_name: 'Series::Round'
+  has_many :cups, through: :round, class_name: 'Series::Cup'
+  has_many :person_participations, class_name: 'Series::PersonParticipation', dependent: :destroy
+
+  scope :with_person, ->(person_id) do
+                        joins(:participations).where(series_participations: { person_id: }).distinct
+                      end
+  scope :round, ->(round_id) { where(round_id:) }
+
+  skip_schema_validations
+
   PersonRound = Struct.new(:assessment, :round, :cups, :row)
 
   def self.for(person_id)
@@ -19,5 +32,29 @@ class Series::PersonAssessment < Series::Assessment
                                                                                  ))
     end
     assessment_structs
+  end
+
+  delegate :rows, to: :config
+
+  def config
+    round.person_assessments_configs.find { |c| c.key == key }
+  end
+
+  protected
+
+  def calculate_rows
+    Caching::Cache.fetch(caching_key(:calculate_rows)) do
+      @rows = entities.values.sort
+      @rows.each { |row| row.calculate_rank!(@rows) }
+    end
+  end
+
+  def entities
+    entities = {}
+    person_participations.each do |participation|
+      entities[participation.entity_id] ||= aggregate_class.new(round, participation.entity)
+      entities[participation.entity_id].add_participation(participation)
+    end
+    entities
   end
 end

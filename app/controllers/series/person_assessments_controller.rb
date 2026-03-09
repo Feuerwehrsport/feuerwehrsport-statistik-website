@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Series::AssessmentsController < ResourceController
+class Series::PersonAssessmentsController < ResourceController
   resource_actions :show, cache: [:show]
 
   def show

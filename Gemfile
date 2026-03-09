@@ -27,8 +27,8 @@ gem 'solid_queue' # background jobs
 gem 'haml-rails' # haml templating
 gem 'redcarpet' # markdown
 
-gem 'firesport', path: 'firesport'
-gem 'firesport-series', path: 'firesport-series'
+# gem 'firesport', path: 'firesport'
+# gem 'firesport-series', path: 'firesport-series'
 
 # assets
 gem 'jquery-rails' # jquery js

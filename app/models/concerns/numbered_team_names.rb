@@ -11,11 +11,10 @@ module NumberedTeamNames
                   elsif score.team_number == -5
                     ' A'
                   else
-                    options = {
-                      competition_id: score.try(:competition).try(:id),
-                      team_id: score.try(:team_id),
-                      gender: score.try(:gender) || score.try(:person).try(:gender),
-                    }.merge(options)
+                    options[:competition_id] ||= score.try(:competition).try(:id)
+                    options[:team_id] ||= score.try(:team_id)
+                    options[:gender] ||= score.try(:gender) || score.try(:person).try(:gender)
+
                     c = CompetitionTeamNumber
                         .gender(options[:gender])
                         .where(competition_id: options[:competition_id], team_id: options[:team_id])

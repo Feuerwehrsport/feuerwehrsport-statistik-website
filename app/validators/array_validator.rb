@@ -11,6 +11,10 @@ class ArrayValidator < ActiveModel::EachValidator
       record.errors.add(attribute, options[:message] || "must contain at least #{options[:min]} element(s)")
     end
 
+    if options[:in] && !value.all? { |v| v.in?(options[:in]) }
+      record.errors.add(attribute, options[:message] || "must all in #{options[:in].inspect}")
+    end
+
     return unless options[:of]
 
     klass = options[:of]
