@@ -2,7 +2,6 @@
 
 Series::Rounds::Pdf = Struct.new(:round) do
   include PrawnSupport
-  include GenderNames
   include NumberedTeamNames
   include DisciplineNamesAndImages
 
@@ -11,13 +10,14 @@ Series::Rounds::Pdf = Struct.new(:round) do
 
   def build
     first_page = true
-    Genderable::GENDER_KEYS.each do |gender|
-      next if round.team_assessment_rows(gender, cache: true).blank?
+
+    round.team_assessments_configs.each do |config|
+      next if config.rows.blank?
 
       prawn.start_new_page unless first_page
       first_page = false
 
-      build_gender_table(gender)
+      build_assessment_table(config)
     end
     footer(round.to_s)
   end
@@ -28,30 +28,36 @@ Series::Rounds::Pdf = Struct.new(:round) do
     super.merge(margin: [50, 40, 40, 40], page_layout: :landscape)
   end
 
-  def build_gender_table(gender)
-    header(round.to_s, "Mannschaft #{g(gender)}")
+  def build_assessment_table(config)
+    header(round.to_s, "Mannschaft #{config.name}")
 
     headline = %w[Platz Team]
     cups.each do |cup|
       headline.push(cup.competition.place.to_s)
     end
-    headline.push('Teil.', 'Bestzeit', 'Punkte')
+    config.show_columns_config.each do |col|
+      headline.push(col[:name])
+    end
     lines = [headline]
 
-    round.team_assessment_rows(gender, cache: true).map(&:decorate).each do |row|
-      line = [row.rank, numbered_team_name(row, competition_id: round.cups.map(&:competition_id), gender:)]
+    config.rows.map(&:decorate).each do |row|
+      line = [row.rank,
+              numbered_team_name(row, competition_id: round.cups.map(&:competition_id), gender: row.team_gender)]
       cups.each do |cup|
         participations = row.participations_for_cup(cup)
         if participations.present?
           participation_lines = participations.map do |participation|
-            [discipline_name_short(participation.assessment.discipline), participation.second_time_with_points]
+            [discipline_name_short(participation.team_assessment.discipline), participation.second_time_with_points]
           end
           line.push(prawn.make_table(participation_lines, cell_style: { size: 9, borders: [], padding: [1, 1, 2, 7] }))
         else
           line.push('')
         end
       end
-      line.push(row.count, row.second_best_time, row.points)
+
+      config.show_columns_config.each do |col|
+        line.push(row.public_send(col[:method]))
+      end
       lines.push(line)
     end
 
