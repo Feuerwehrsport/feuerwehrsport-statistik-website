@@ -15,6 +15,7 @@ class Series::AssessmentConfig
   RANKING_LOGICS = {
     'rank' => { name: 'Platz (kleiner zuerst)' },
     'participation_count' => { name: 'Teilnahmen (mehr zuerst)' },
+    'valid_participation_count' => { name: 'Gültige Teilnahmen (mehr zuerst)' },
     'points' => { name: 'Punkte (mehr zuerst)' },
     'points_reverse' => { name: 'Punkte (weniger zuerst)' },
     'all_points' => { name: 'Punkte (mehr zuerst)' },
@@ -172,6 +173,11 @@ class Series::AssessmentConfig
   # Anzahl der Teilnahmen (mehr vor weniger)
   def sort_participation_count(e1, e2)
     e2.ordered_participations.count <=> e1.ordered_participations.count
+  end
+
+  # Anzahl der gültigen Teilnahmen (mehr vor weniger)
+  def sort_valid_participation_count(e1, e2)
+    e2.valid_participations.count <=> e1.valid_participations.count
   end
 
   # Summe Punkte der gezählten Wettkämpfe (mehr vor weniger)

@@ -53,7 +53,11 @@ class Series::Team
   end
 
   def best_time
-    @best_time ||= @cups.values.flatten.select { |p| p.team_assessment.discipline == 'la' }.map(&:time).min
+    @best_time ||= begin
+      scores = @cups.values.flatten
+      scores.select! { |p| p.team_assessment.discipline == 'la' } if config.disciplines.include?('la')
+      scores.map(&:time).min
+    end
   end
 
   def best_time_without_nil
@@ -80,6 +84,10 @@ class Series::Team
       compare = b.points <=> a.points
       compare.zero? ? a.time <=> b.time : compare
     end.first(config.calc_participations_count)
+  end
+
+  def valid_participations
+    @valid_participations ||= ordered_participations.select { |part| part.time < Firesport::INVALID_TIME }
   end
 
   def participation_count
