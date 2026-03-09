@@ -23,7 +23,7 @@
                   .small (offen)
               .small Mannschaft #{struct.team_number}
             %td{ class: struct.round.complete? ? nil : 'text-muted' }
-              - if struct.row.rank <= struct.round.aggregate_class.honor_rank
+              - if struct.row.rank <= struct.row.config.honor_rank
                 %strong #{struct.row.rank}.
               - else
                 #{struct.row.rank}.

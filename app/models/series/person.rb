@@ -7,6 +7,8 @@ class Series::Person
 
   attr_accessor :config, :person, :rank
 
+  delegate :id, to: :person, prefix: true
+
   def initialize(*)
     @rank = 0
     super

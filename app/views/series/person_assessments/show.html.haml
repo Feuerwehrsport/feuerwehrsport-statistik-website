@@ -14,5 +14,7 @@
     .col-md-4= render("series/cups_overview", cups: resource.cups)
   .container
     = render('show_assessment_table', rows: resource.rows, cups: resource.cups)
+    = render('series/calculation_hint_btn', config: resource.config)
+  = render('series/calculation_hint', config: resource.config)
   .container
     = render('series/round_footer', official: resource.round.official?, pdf: true)

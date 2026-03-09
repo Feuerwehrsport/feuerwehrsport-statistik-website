@@ -19,8 +19,13 @@ class Series::Round < ApplicationRecord
       .group("#{table_name}.id")
   end
   scope :with_team, ->(team_id, gender) do
-    joins(:participations).where(series_participations: { team_id: })
-                          .merge(Series::TeamAssessment.gender(gender)).distinct
+    if gender.in?([:female, 'female'])
+      gender = 0
+    elsif gender.in?([:male, 'male'])
+      gender = 1
+    end
+    joins(:team_participations).where(series_team_participations: { team_id:, team_gender: gender })
+                               .distinct
   end
 
   delegate :name, :slug, to: :kind
@@ -61,31 +66,32 @@ class Series::Round < ApplicationRecord
   end
 
   def disciplines
-    (team_assessments.distinct.pluck(:discipline) + person_assessments.distinct.pluck(:discipline)).uniq.sort
-  end
-
-  def team_assessment_rows(gender, cache: true)
-    @team_assessment_rows ||= calculate_rows(cache)
-    @team_assessment_rows[gender]
+    (team_assessments_configs + person_assessments_configs).map(&:disciplines).flatten.uniq.sort
   end
 
   TeamRound = Struct.new(:round, :cups, :row, :team_number)
 
   def self.for_team(team_id, gender)
+    if gender.in?([:female, 'female'])
+      gender = 0
+    elsif gender.in?([:male, 'male'])
+      gender = 1
+    end
     round_structs = {}
     Series::Round.with_team(team_id, gender).decorate.each do |round|
-      round_structs[round.name] ||= []
-      round.team_assessment_rows(gender).select { |r| r.team.id == team_id }.each do |row|
-        next if row.rank.nil?
+      round.team_assessments_configs.each do |config|
+        config.rows.select { |r| r.team.id == team_id && r.team_gender == gender }.each do |row|
+          next if row.rank.nil?
 
-        round_structs[round.name].push(TeamRound.new(
-                                         round,
-                                         round.cups,
-                                         row.decorate,
-                                         row.team_number,
-                                       ))
+          round_structs[round.name] ||= []
+          round_structs[round.name].push(TeamRound.new(
+                                           round,
+                                           round.cups,
+                                           row.decorate,
+                                           row.team_number,
+                                         ))
+        end
       end
-      round_structs.delete(round.name) if round_structs[round.name].empty?
     end
     round_structs
   end
@@ -100,19 +106,5 @@ class Series::Round < ApplicationRecord
 
   def complete?
     cups_left&.zero? || false
-  end
-
-  protected
-
-  def calculate_rows(cache)
-    Caching::Cache.fetch(caching_key(:calculate_rows), force: !cache) do
-      rows = {}
-      team_assessments_configs.each do |config|
-        rows[config.key] = teams(config.key).values.sort
-        rows[config.key].each { |row| row.calculate_rank!(rows[config.key]) }
-        aggregate_class.special_sort!(rows[config.key])
-      end
-      rows
-    end
   end
 end

@@ -27,11 +27,13 @@ RSpec.describe FeuerwehrsportStatistik do
       schema_migrations
       score_types
       scores
-      series_assessments
       series_cups
       series_kinds
-      series_participations
+      series_person_assessments
+      series_person_participations
       series_rounds
+      series_team_assessments
+      series_team_participations
       single_disciplines
       team_spellings
       teams

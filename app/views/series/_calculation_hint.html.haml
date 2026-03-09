@@ -1,0 +1,44 @@
+.container.collapse{ id: "calculation-hint-#{config.key}", style: "margin-top: 20px" }
+  .col-md-3
+    .panel.panel-default
+      .panel-heading
+        Allgemein
+      %table.table
+        %tr
+          %th Teilnahmen in der Wertung:
+          %td= config.calc_participations_count
+        %tr
+          %th Mindestteilnahmen für Platzierung:
+          %td= config.min_participations_count
+
+  .col-md-3
+    .panel.panel-default
+      .panel-heading
+        Berechnung der Plätze
+      .panel-body
+        %p Für die Berechnung der Plätze werden folgende Daten nacheinander verglichen:
+        %ul
+          - config.ranking_logic_config.each do |c|
+            %li= c[:name]
+
+  - if config.honor_ranking_logic_config.present?
+    .col-md-3
+      .panel.panel-default
+        .panel-heading
+          Berechnung der besten drei Plätze
+        .panel-body
+          %p Zusätzlich werden die besten drei Plätze wie folgt verglichen:
+          %ul
+            - config.honor_ranking_logic_config.each do |c|
+              %li= c[:name]
+
+  - if config.points_for_rank.present?
+    .col-md-3
+      .panel.panel-default
+        .panel-heading
+          Punktevergabe
+        %table.table
+          - config.points_for_rank.each_with_index do |points, index|
+            %tr
+              %td= "#{index + 1}. Platz"
+              %td= t('series.points', count: points)

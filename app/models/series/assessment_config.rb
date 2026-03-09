@@ -55,6 +55,9 @@ class Series::AssessmentConfig
   attribute :penalty_points, :integer, default: nil
   validates :penalty_points, numericality: { only_integer: true }, allow_nil: true
 
+  attribute :honor_rank, :integer, default: 3
+  validates :penalty_points, numericality: { only_integer: true }, comparison: { greater_than: 0 }
+
   attr_accessor :round, :entity_key
 
   delegate :team_assessments, :person_assessments, :full_cup_count, :cups, to: :round
@@ -84,8 +87,8 @@ class Series::AssessmentConfig
     @completed ||= full_cup_count == cups.count
   end
 
-  def rows
-    @rows ||= begin
+  def rows(cache: true)
+    @rows ||= Caching::Cache.fetch("series-#{entity_key}-#{key}-#{round.id}", force: !cache) do
       # Sortieren nach Config
       rows = entities.values.sort
 
@@ -111,10 +114,10 @@ class Series::AssessmentConfig
     people = {}
 
     Series::PersonParticipation.where(person_assessment: person_assessments.where(key:)).each do |participation|
-      people[participation.entity_id] ||= Series::Person.new(
+      people[participation.person_id] ||= Series::Person.new(
         config: self, person: participation.person,
       )
-      people[participation.entity_id].add_participation(participation)
+      people[participation.person_id].add_participation(participation)
     end
     people
   end

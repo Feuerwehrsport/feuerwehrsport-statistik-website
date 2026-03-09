@@ -23,11 +23,10 @@
         %td
           %a{ href: url_for(assessment) }
             = discipline_image(assessment.discipline)
-            = discipline_name(assessment.discipline)
             = assessment.name
         %td{ class: assessment.round.complete? ? nil : 'text-muted' }
 
-          - if row.rank <= assessment.aggregate_class.honor_rank
+          - if row.rank <= assessment.config.honor_rank
             %strong= "#{row.rank}."
           - else
             = "#{row.rank}."

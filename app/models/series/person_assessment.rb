@@ -8,20 +8,23 @@ class Series::PersonAssessment < ApplicationRecord
   has_many :person_participations, class_name: 'Series::PersonParticipation', dependent: :destroy
 
   scope :with_person, ->(person_id) do
-                        joins(:participations).where(series_participations: { person_id: }).distinct
+                        joins(:person_participations).where(series_person_participations: { person_id: }).distinct
                       end
   scope :round, ->(round_id) { where(round_id:) }
 
-  skip_schema_validations
+  schema_validations
 
   PersonRound = Struct.new(:assessment, :round, :cups, :row)
 
   def self.for(person_id)
     assessment_structs = {}
-    with_person(person_id).includes(round: :kind)
-                          .order(Arel.sql('series_kinds.name, series_rounds.year DESC, series_assessments.discipline'))
-                          .decorate.each do |assessment|
-      row = assessment.rows.find { |r| r.entity.id == person_id }
+    with_person(person_id)
+      .includes(round: :kind)
+      .order(Arel.sql('series_kinds.name, series_rounds.year DESC, series_person_assessments.discipline'))
+      .decorate.each do |assessment|
+      row = assessment.rows.find { |r| r.person_id == person_id }
+      next if row.rank.nil?
+
       assessment_structs[assessment.round.kind.name] ||= {}
       assessment_structs[assessment.round.kind.name][assessment.round.year] ||= []
       assessment_structs[assessment.round.kind.name][assessment.round.year].push(PersonRound.new(
@@ -34,7 +37,7 @@ class Series::PersonAssessment < ApplicationRecord
     assessment_structs
   end
 
-  delegate :rows, to: :config
+  delegate :rows, :name, to: :config
 
   def config
     round.person_assessments_configs.find { |c| c.key == key }
