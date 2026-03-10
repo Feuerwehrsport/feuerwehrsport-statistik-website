@@ -52,7 +52,8 @@ module ApplicationHelper
     result = row.participation_for_cup(cup)
     if result
       if html
-        content_tag(:div, result.second_time_with_points, class: 'series-participation', data: { id: result.id })
+        content_tag(:div, result.second_time_with_points, class: 'series-participation',
+                                                          data: { id: result.id, type: 'person' })
       else
         result.second_time_with_points
       end

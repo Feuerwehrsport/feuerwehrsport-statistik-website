@@ -14,6 +14,7 @@ RSpec.describe 'Api::Series::TeamAssessments' do
         discipline: 'la',
         round_id: assessment.round_id,
         id: assessment.id,
+        name: 'Frauen',
       )
     end
   end

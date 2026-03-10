@@ -162,28 +162,4 @@ class Series::RoundImport
       entities.select { |entity| entity[2] }
     end
   end
-
-  def person_class
-    @person_class ||= Firesport::Series::Handler.person_class_for(round.aggregate_type)
-  end
-
-  def team_class
-    @team_class ||= Firesport::Series::Handler.team_class_for(round.aggregate_type)
-  end
-
-  def group_class
-    team_class
-  end
-
-  def group_assessment_disciplines
-    team_class.try(:group_assessment_disciplines) || {}
-  end
-
-  def person_assessment_disciplines
-    person_class.try(:assessment_disciplines) || {}
-  end
-
-  def team_assessment_disciplines
-    team_class.try(:assessment_disciplines) || {}
-  end
 end

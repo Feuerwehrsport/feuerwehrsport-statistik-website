@@ -4,6 +4,6 @@
     - participations.each do |participation|
       %tr
         %th.small= discipline_name_short(participation.team_assessment.discipline)
-        %td.series-participation{ data: { id: participation.id } }= participation.second_time_with_points
+        %td.series-participation{ data: { id: participation.id, type: "team" } }= participation.second_time_with_points
 - else
   %div= free

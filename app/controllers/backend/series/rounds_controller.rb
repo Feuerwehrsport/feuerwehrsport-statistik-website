@@ -5,7 +5,7 @@ class Backend::Series::RoundsController < Backend::BackendController
   member_actions :import, :show, :edit, :destroy
 
   default_form do |f|
-    f.association :kind
+    f.association :kind, collection: Series::Kind.reorder(:name)
     f.input :year
     f.input :official
     f.input :full_cup_count
