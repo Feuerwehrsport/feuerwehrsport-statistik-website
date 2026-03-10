@@ -15,10 +15,6 @@ class Series::TeamAssessment < ApplicationRecord
     @rows ||= calculate_rows
   end
 
-  def aggregate_class
-    @aggregate_class ||= Firesport::Series::Handler.person_class_for(round.aggregate_type)
-  end
-
   protected
 
   def calculate_rows

@@ -10,7 +10,6 @@ RSpec.describe 'Backend::Series::Rounds', login: :admin do
       {
         kind_id: kind.id,
         year: 2016,
-        aggregate_type: 'DCup',
       }
     end
   end

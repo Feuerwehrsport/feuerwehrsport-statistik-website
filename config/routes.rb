@@ -94,11 +94,12 @@ Rails.application.routes.draw do
     resources :score_types, only: [:index]
     resources :scores, only: %i[show index update]
     namespace :series do
-      resources :assessments, only: [:index]
       resources :cups, only: [:index]
-      resources :participations, only: %i[create show index update destroy]
+      resources :person_assessments, only: [:index]
+      resources :person_participations, only: %i[create show index update destroy]
       resources :rounds, only: %i[show index]
       resources :team_assessments, only: [:index]
+      resources :team_participations, only: %i[create show index update destroy]
     end
     resources :suggestions, only: [] do
       collection do

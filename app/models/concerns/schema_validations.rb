@@ -4,7 +4,7 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 
-# generated from version 20260309201847
+# generated from version 20260310080734
 
 module SchemaValidations
   extend ActiveSupport::Concern
@@ -485,7 +485,6 @@ module SchemaValidations
 
     def dbv_series_rounds_validations(enums: [])
       belongs_to_presence_validations_for([:full_cup_count, :year])
-      validates_with_filter :aggregate_type, {presence: {}}
       validates_with_filter :created_at, {date_time_in_db_range: {}}
       validates_with_filter :created_at, {presence: {}}
       validates_with_filter :full_cup_count, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:full_cup_count)

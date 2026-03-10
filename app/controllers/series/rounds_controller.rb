@@ -9,7 +9,6 @@ class Series::RoundsController < ResourceController
     raise ActiveRecord::RecordNotFound if @rounds.empty?
 
     @page_title = @kind.name
-    @aggregate_type = @rounds.first.aggregate_type
   end
 
   def show

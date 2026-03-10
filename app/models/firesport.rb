@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Firesport
   INVALID_TIME = 99_999_999
 

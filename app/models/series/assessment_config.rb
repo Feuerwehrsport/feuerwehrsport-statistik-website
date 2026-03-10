@@ -56,7 +56,7 @@ class Series::AssessmentConfig
   validates :penalty_points, numericality: { only_integer: true }, allow_nil: true
 
   attribute :honor_rank, :integer, default: 3
-  validates :penalty_points, numericality: { only_integer: true }, comparison: { greater_than: 0 }
+  validates :honor_rank, numericality: { only_integer: true }, comparison: { greater_than: 0 }
 
   attr_accessor :round, :entity_key
 
