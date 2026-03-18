@@ -42,22 +42,4 @@ class Series::PersonAssessment < ApplicationRecord
   def config
     round.person_assessments_configs.find { |c| c.key == key }
   end
-
-  protected
-
-  def calculate_rows
-    Caching::Cache.fetch(caching_key(:calculate_rows)) do
-      @rows = entities.values.sort
-      @rows.each { |row| row.calculate_rank!(@rows) }
-    end
-  end
-
-  def entities
-    entities = {}
-    person_participations.each do |participation|
-      entities[participation.entity_id] ||= aggregate_class.new(round, participation.entity)
-      entities[participation.entity_id].add_participation(participation)
-    end
-    entities
-  end
 end
