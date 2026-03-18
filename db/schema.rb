@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_10_080734) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_18_132127) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
   enable_extension "plpgsql"
@@ -356,6 +356,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_10_080734) do
     t.integer "rank", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "points_correction"
+    t.string "points_correction_hint", limit: 200
     t.index ["cup_id"], name: "index_series_person_participations_on_cup_id"
     t.index ["person_assessment_id"], name: "index_series_person_participations_on_person_assessment_id"
     t.index ["person_id"], name: "index_series_person_participations_on_person_id"
@@ -395,6 +397,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_10_080734) do
     t.integer "rank", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "points_correction"
+    t.string "points_correction_hint", limit: 200
     t.index ["cup_id"], name: "index_series_team_participations_on_cup_id"
     t.index ["team_assessment_id"], name: "index_series_team_participations_on_team_assessment_id"
     t.index ["team_id"], name: "index_series_team_participations_on_team_id"

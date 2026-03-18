@@ -28,7 +28,7 @@ class Series::Team
   def points_for_cup(cup)
     @cups ||= {}
     @cups[cup.id] ||= []
-    @cups[cup.id].sum(&:points)
+    @cups[cup.id].sum(&:points_with_correction)
   end
 
   def count
@@ -37,12 +37,12 @@ class Series::Team
   end
 
   def all_points
-    @cups.values.sum { |cup| cup.sum(&:points) }
+    @cups.values.sum { |cup| cup.sum(&:points_with_correction) }
   end
 
   def points
     @points ||= begin
-      sum = ordered_participations.sum(&:points)
+      sum = ordered_participations.sum(&:points_with_correction)
       if config.penalty_points.nil?
         sum
       else
@@ -81,7 +81,7 @@ class Series::Team
 
   def ordered_participations
     @ordered_participations ||= @cups.values.map(&:first).sort do |a, b|
-      compare = b.points <=> a.points
+      compare = b.points_with_correction <=> a.points_with_correction
       compare.zero? ? a.time <=> b.time : compare
     end.first(config.calc_participations_count)
   end

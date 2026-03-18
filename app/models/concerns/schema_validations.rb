@@ -4,7 +4,7 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 
-# generated from version 20260310080734
+# generated from version 20260318132127
 
 module SchemaValidations
   extend ActiveSupport::Concern
@@ -475,6 +475,8 @@ module SchemaValidations
       validates_with_filter :person_id, {presence: {}}
       validates_with_filter :points, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:points)
       validates_with_filter :points, {presence: {}}
+      validates_with_filter :points_correction, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:points_correction)
+      validates_with_filter :points_correction_hint, {length: {allow_nil: true, maximum: 200}}
       validates_with_filter :rank, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:rank)
       validates_with_filter :rank, {presence: {}}
       validates_with_filter :time, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:time)
@@ -518,6 +520,8 @@ module SchemaValidations
       validates_with_filter :cup_id, {presence: {}}
       validates_with_filter :points, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:points)
       validates_with_filter :points, {presence: {}}
+      validates_with_filter :points_correction, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:points_correction)
+      validates_with_filter :points_correction_hint, {length: {allow_nil: true, maximum: 200}}
       validates_with_filter :rank, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:rank)
       validates_with_filter :rank, {presence: {}}
       validates_with_filter :team_assessment_id, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:team_assessment_id)

@@ -44,6 +44,8 @@ RSpec.describe 'Api::Series::PersonParticipations' do
         rank: 2,
         second_time: '18,99',
         time: 1899,
+        points_correction: nil,
+        points_correction_hint: nil,
       )
     end
   end
@@ -63,6 +65,8 @@ RSpec.describe 'Api::Series::PersonParticipations' do
         rank: 2,
         second_time: '18,99',
         time: 1899,
+        points_correction: nil,
+        points_correction_hint: nil,
       )
     end
   end

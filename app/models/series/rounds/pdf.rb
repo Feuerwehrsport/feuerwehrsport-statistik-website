@@ -47,7 +47,8 @@ Series::Rounds::Pdf = Struct.new(:round) do
         participations = row.participations_for_cup(cup)
         if participations.present?
           participation_lines = participations.map do |participation|
-            [discipline_name_short(participation.team_assessment.discipline), participation.second_time_with_points]
+            [discipline_name_short(participation.team_assessment.discipline),
+             participation.second_time_with_points(html: false)]
           end
           line.push(prawn.make_table(participation_lines, cell_style: { size: 9, borders: [], padding: [1, 1, 2, 7] }))
         else

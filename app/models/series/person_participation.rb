@@ -8,4 +8,8 @@ class Series::PersonParticipation < ApplicationRecord
   belongs_to :person, class_name: '::Person'
 
   schema_validations
+
+  def points_with_correction
+    points + (points_correction || 0)
+  end
 end

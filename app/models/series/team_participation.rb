@@ -9,6 +9,10 @@ class Series::TeamParticipation < ApplicationRecord
 
   schema_validations
 
+  def points_with_correction
+    points + (points_correction || 0)
+  end
+
   def entity_id
     "#{team_id}-#{team_number}"
   end
