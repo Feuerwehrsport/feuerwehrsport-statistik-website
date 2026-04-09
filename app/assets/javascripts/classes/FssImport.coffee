@@ -168,19 +168,25 @@ class @FssImport
 
   changeCompetition: =>
     option = @selectCompetition.find('option:selected')
-    if option.length
-      $('#competition-link')
-        .attr('href', "/competitions/#{option.val()}")
-        .text(option.text())
-      $('#competition-link-admin')
-        .attr('href', "/backend/competitions/#{option.val()}")
-        .text("#{option.text()} - Admin")
-      $('#series-add-links a').each ->
-        a = $(this)
-        a.data("origin-href", a.attr("href")) unless a.data("origin-href")?
-        a.attr("href", a.data("origin-href").replace(/TOCHANGE/, option.val()))
 
-      @loadCompetition(option.val())
+    if option.val() is "to-select"
+      sessionStorage.removeItem(@sessionStorageKey())
+    else
+      sessionStorage.setItem(@sessionStorageKey(), option.val())
+
+      if option.length
+        $('#competition-link')
+          .attr('href', "/competitions/#{option.val()}")
+          .text(option.text())
+        $('#competition-link-admin')
+          .attr('href', "/backend/competitions/#{option.val()}")
+          .text("#{option.text()} - Admin")
+        $('#series-add-links a').each ->
+          a = $(this)
+          a.data("origin-href", a.attr("href")) unless a.data("origin-href")?
+          a.attr("href", a.data("origin-href").replace(/TOCHANGE/, option.val()))
+
+        @loadCompetition(option.val())
 
   loadCompetition: (competitionId) =>
     Fss.getResource 'competitions', competitionId, (@competition) =>
@@ -215,9 +221,18 @@ class @FssImport
       $('#competition-scores').hide()
       $('#competition-published').hide()
     
+    savedItem = sessionStorage.getItem(@sessionStorageKey())
+    option = $('<option/>').val('to-select').text("Bitte wählen")
+    option.prop("selected", true) if savedItem is null
+    select.append(option)
     for c in sortedCompetitions
-      select.append($('<option/>').val(c.id).text("#{c.date} - #{c.event} - #{c.place}"))
+      option = $('<option/>').val(c.id).text("#{c.date} - #{c.event} - #{c.place}")
+      option.prop("selected", true) if savedItem == "#{c.id}"
+      select.append(option)
     @changeCompetition()
+
+  sessionStorageKey: =>
+    "selected-competition-#{location.pathname}"
 
   loadScores: =>
     container = $('#competition-scores')
