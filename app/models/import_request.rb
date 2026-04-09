@@ -41,10 +41,10 @@ class ImportRequest < ApplicationRecord
 
   def import_data_series_rounds
     @import_data_series_rounds ||= import_data_results.map do |result|
-      keys = result[:series_person_round_keys] + result[:series_team_round_keys]
+      keys = (result[:series_person_round_keys] || []) + (result[:series_team_round_keys] || [])
       keys.map do |k|
         res = k.match(/\A(\d+)-(.+)\z/)
-        res[1]
+        res[1] if res
       end
       Series::Round.where(id: keys.uniq)
     end.flatten.uniq
