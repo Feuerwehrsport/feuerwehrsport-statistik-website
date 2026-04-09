@@ -75,6 +75,7 @@ class Series::RoundImport
 
   def create_person_participations(result, round_key)
     config = Series::AssessmentConfig.find_by_round_key(round_key, :person)
+    return if config.nil?
     raise config.disciplines if config.disciplines.count != 1
 
     person_assessment = Series::PersonAssessment.find_or_create_by!(
@@ -122,6 +123,7 @@ class Series::RoundImport
 
   def create_team_participations(result, round_key)
     config = Series::AssessmentConfig.find_by_round_key(round_key, :team)
+    return if config.nil?
 
     rows = result[:group_rows].presence || result[:rows]
 
