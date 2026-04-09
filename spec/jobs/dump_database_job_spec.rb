@@ -7,10 +7,14 @@ RSpec.describe DumpDatabaseJob do
     it 'builds the correct command and calls system' do
       expected_excludes = '--exclude-table-data=admin_users ' \
                           '--exclude-table-data=api_users ' \
+                          '--exclude-table-data=api_users_id_seq ' \
                           '--exclude-table-data=change_logs ' \
+                          '--exclude-table-data=change_logs_id_seq ' \
                           '--exclude-table-data=change_requests ' \
                           '--exclude-table-data=import_request_files ' \
+                          '--exclude-table-data=import_request_files_id_seq ' \
                           '--exclude-table-data=import_requests ' \
+                          '--exclude-table-data=import_requests_id_seq ' \
                           '--exclude-table-data=m3_assets ' \
                           '--exclude-table-data=m3_logins ' \
                           '--exclude-table-data=solid_queue_blocked_executions ' \

@@ -1,9 +1,13 @@
 admin_users
 api_users
+api_users_id_seq
 change_logs
+change_logs_id_seq
 change_requests
 import_request_files
+import_request_files_id_seq
 import_requests
+import_requests_id_seq
 m3_assets
 m3_logins
 solid_queue_blocked_executions
