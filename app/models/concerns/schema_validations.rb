@@ -4,7 +4,7 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 
-# generated from version 20260318132127
+# generated from version 20260409204540
 
 module SchemaValidations
   extend ActiveSupport::Concern
@@ -696,18 +696,6 @@ module SchemaValidations
       validates_with_filter :updated_at, {presence: {}}
       validates_with_filter :value, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:value)
       validates_with_filter :value, {presence: {}}
-    end
-
-    def dbv_tags_validations(enums: [])
-      belongs_to_presence_validations_for([:taggable_id])
-      validates_with_filter :created_at, {date_time_in_db_range: {}}
-      validates_with_filter :created_at, {presence: {}}
-      validates_with_filter :name, {presence: {}}
-      validates_with_filter :taggable_id, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:taggable_id)
-      validates_with_filter :taggable_id, {presence: {}}
-      validates_with_filter :taggable_type, {presence: {}}
-      validates_with_filter :updated_at, {date_time_in_db_range: {}}
-      validates_with_filter :updated_at, {presence: {}}
     end
 
     def dbv_team_spellings_validations(enums: [])

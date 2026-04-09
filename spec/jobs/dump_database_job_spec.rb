@@ -34,8 +34,7 @@ RSpec.describe DumpDatabaseJob do
                           '--exclude-table-data=solid_queue_scheduled_executions ' \
                           '--exclude-table-data=solid_queue_scheduled_executions_id_seq ' \
                           '--exclude-table-data=solid_queue_semaphores ' \
-                          '--exclude-table-data=solid_queue_semaphores_id_seq ' \
-                          '--exclude-table-data=tags'
+                          '--exclude-table-data=solid_queue_semaphores_id_seq'
 
       script_path = Rails.root.join('etc/store_dump.sh')
       expected_command = %(#{script_path} "#{expected_excludes}" "feuerwehrsport-statistik")

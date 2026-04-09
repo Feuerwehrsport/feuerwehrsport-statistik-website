@@ -28,4 +28,3 @@ solid_queue_scheduled_executions
 solid_queue_scheduled_executions_id_seq
 solid_queue_semaphores
 solid_queue_semaphores_id_seq
-tags

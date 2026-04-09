@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_18_132127) do
+ActiveRecord::Schema[7.2].define(version: 2026_04_09_204540) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
   enable_extension "plpgsql"
@@ -535,14 +535,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_18_132127) do
     t.index ["expires_at"], name: "index_solid_queue_semaphores_on_expires_at"
     t.index ["key", "value"], name: "index_solid_queue_semaphores_on_key_and_value"
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
-  end
-
-  create_table "tags", id: :serial, force: :cascade do |t|
-    t.integer "taggable_id", null: false
-    t.string "taggable_type", null: false
-    t.string "name", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "team_spellings", id: :serial, force: :cascade do |t|
