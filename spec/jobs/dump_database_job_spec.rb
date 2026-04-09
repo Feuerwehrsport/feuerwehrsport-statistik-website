@@ -14,16 +14,27 @@ RSpec.describe DumpDatabaseJob do
                           '--exclude-table-data=m3_assets ' \
                           '--exclude-table-data=m3_logins ' \
                           '--exclude-table-data=solid_queue_blocked_executions ' \
+                          '--exclude-table-data=solid_queue_blocked_executions_id_seq ' \
                           '--exclude-table-data=solid_queue_claimed_executions ' \
+                          '--exclude-table-data=solid_queue_claimed_executions_id_seq ' \
                           '--exclude-table-data=solid_queue_failed_executions ' \
+                          '--exclude-table-data=solid_queue_failed_executions_id_seq ' \
                           '--exclude-table-data=solid_queue_jobs ' \
+                          '--exclude-table-data=solid_queue_jobs_id_seq ' \
                           '--exclude-table-data=solid_queue_pauses ' \
+                          '--exclude-table-data=solid_queue_pauses_id_seq ' \
                           '--exclude-table-data=solid_queue_processes ' \
+                          '--exclude-table-data=solid_queue_processes_id_seq ' \
                           '--exclude-table-data=solid_queue_ready_executions ' \
+                          '--exclude-table-data=solid_queue_ready_executions_id_seq ' \
                           '--exclude-table-data=solid_queue_recurring_executions ' \
+                          '--exclude-table-data=solid_queue_recurring_executions_id_seq ' \
                           '--exclude-table-data=solid_queue_recurring_tasks ' \
+                          '--exclude-table-data=solid_queue_recurring_tasks_id_seq ' \
                           '--exclude-table-data=solid_queue_scheduled_executions ' \
+                          '--exclude-table-data=solid_queue_scheduled_executions_id_seq ' \
                           '--exclude-table-data=solid_queue_semaphores ' \
+                          '--exclude-table-data=solid_queue_semaphores_id_seq ' \
                           '--exclude-table-data=tags'
 
       script_path = Rails.root.join('etc/store_dump.sh')
