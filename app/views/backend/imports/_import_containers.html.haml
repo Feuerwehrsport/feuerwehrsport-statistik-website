@@ -29,6 +29,9 @@
     %button.add-group-score-type Gruppen-Typ
   #show-group-score-types.col-md-3
     %table.table
+%hr
+- if block_given?
+  = yield
 .container
   .col-md-2
     %h4 Löschangriff

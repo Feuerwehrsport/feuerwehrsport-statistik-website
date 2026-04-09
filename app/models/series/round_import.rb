@@ -6,160 +6,166 @@ class Series::RoundImport
 
   belongs_to :round
   belongs_to :competition
+  belongs_to :import_request
   belongs_to :cup
   attribute :import_now, :boolean
-  attr_accessor :selected_entities
-  attr_reader :assessment_configs
+  attribute :person_assignments
+  attribute :person_assignment_hints
+  attribute :team_assignments
+  attribute :team_assignment_hints
+
+  validates :competition, :import_request, presence: true
 
   def save
-    configure_assessments
-
-    if selected_entities.is_a? Hash
-      selected_entities.each do |key, entities|
-        find_assessment_config(key).selected_entities = entities.select { |_k, v| v == '1' }.keys
-      end
-    end
+    return false unless valid?
 
     create_cup
-    %i[person team group].each do |type|
-      send(:"#{type}_assessment_disciplines").each do |discipline, names|
-        names.each do |name|
-          Genderable::GENDERS.each_key do |gender|
-            scores = series_participations(type, gender, discipline)
-            next if scores.blank?
 
-            scores = exclude_scores(scores, type, gender, name)
-            if scores.present?
-              assessment = create_or_find_assessment(type, discipline, gender, name)
-              create_participations(assessment, cup, scores, send(:"#{type}_class"))
-            end
-          end
-        end
+    import_request.import_data_results.each do |result|
+      result[:series_person_round_keys].each do |round_key|
+        create_person_participations(result, round_key)
+      end
+
+      result[:series_team_round_keys].each do |round_key|
+        create_team_participations(result, round_key)
       end
     end
   end
 
   protected
 
-  def exclude_scores(scores, type, gender, name)
-    if type.in?(%i[team group])
-      selected_teams = find_assessment_config("#{gender}-team").selected_entities.map do |key, _name, _selected|
-        key.split('-')
-      end
-      scores = scores.select do |score|
-        [score.team_id.to_s, score.team_number.to_s].in?(selected_teams)
-      end
-    end
-    if type == :team
-      selected_categories = find_assessment_config('categories').selected_entities.map { |key, _name, _selected| key }
-      scores = scores.select do |score|
-        score.group_score_category_id.to_s.in?(selected_categories)
-      end
-    end
-    if type == :person
-      selected_people = find_assessment_config("#{gender}-person#{name}")
-                        .selected_entities.map { |key, _name, _selected| key }
-      scores = scores.select { |score| score.person_id.to_s.in?(selected_people) }
-    end
-    scores
-  end
-
-  def add_assessment_config(id, entities, &block)
-    @assessment_configs.push(AssessmentConfig.new(id.to_s, entities.deep_dup, block))
-  end
-
-  def find_assessment_config(id)
-    @assessment_configs.find { |assessment_config| assessment_config.id == id.to_s }
-  end
-
   def create_cup
     @cup = Series::Cup.create!(round:, competition_id:)
   end
 
-  def configure_assessments
-    @assessment_configs = []
-    add_assessment_config(
-      'categories',
-      competition.group_score_categories.map { |c| [c.id.to_s, "#{c.name} #{c.group_score_type.name}", true] },
-    )
+  def find_person_assignment(person_id, first_name, last_name)
+    person = Person.find_by(id: person_id)
+    person || begin
+      person_id = Person.search_exactly(last_name, first_name).pick(:id)
+      person_id ||= PersonSpelling.search_exactly(last_name, first_name).pick(:person_id)
+      person_id ||= Person.pick(:id)
 
-    Genderable::GENDER_KEYS.each do |gender|
-      group_teams = competition.group_assessment(group_assessment_disciplines.keys, gender)
-                               .map { |ga| [ga.team.id, ga.team_number] }
-      team_teams = competition.group_scores.gender(gender).pluck(:team_id, :team_number)
-      teams = (group_teams + team_teams).uniq.map do |team_id, team_number|
-        ["#{team_id}-#{team_number}", "#{Team.find(team_id).name} #{team_number}", true]
-      end
-      add_assessment_config("#{gender}-team", teams) if teams.present?
+      key = "#{first_name}__#{last_name}".parameterize
+      self.person_assignments ||= {}
+      self.person_assignments[key] ||= person_id
+      self.person_assignment_hints ||= {}
+      self.person_assignment_hints[key] ||= "#{first_name} #{last_name}"
 
-      person_ids = competition.scores.gender(gender).pluck(:person_id).uniq
-      people = Person.where(id: person_ids).order(:last_name, :first_name).decorate.map do |person|
-        [person.id.to_s, person.full_name, true]
-      end
-      person_assessment_disciplines.values.flatten.uniq.each do |assessment_name|
-        add_assessment_config("#{gender}-person#{assessment_name}", people) if people.present?
-      end
+      Person.find_by(id: self.person_assignments[key]) || Person.first
     end
   end
 
-  def create_or_find_assessment(type, discipline, gender, name)
-    ::Series::Assessment.find_or_create_by!(
-      type: type == :person ? 'Series::PersonAssessment' : 'Series::TeamAssessment',
-      round:,
-      discipline:,
-      gender: Genderable::GENDERS[gender],
-      name:,
-    )
-  end
+  def find_team_assignment(team_id, orig_team_name)
+    team = Team.find_by(id: team_id)
+    team || begin
+      team_name = Team.normalize_name(orig_team_name)
+      team_id = Team.search(team_name).pick(:id)
+      team_id ||= TeamSpelling.search(team_name).pick(:team_id)
+      team_id ||= Team.pick(:id)
 
-  def series_participations(type, gender, discipline)
-    case type
-    when :team
-      scores = competition.group_scores.gender(gender).discipline(discipline).best_of_competition(true)
-      scores.sort
-    when :group
-      competition.group_assessment(discipline, gender)
-    when :person
-      case discipline.to_sym
-      when :zk
-        competition.score_double_events.gender(gender).sort_by(&:time)
-      when :hb
-        competition.scores.no_finals.gender(gender).hb.best_of_competition.sort_by(&:time)
-      when :hl
-        competition.scores.no_finals.gender(gender).hl.best_of_competition.sort_by(&:time)
-      end
+      key = team_name.parameterize
+      self.team_assignments ||= {}
+      self.team_assignments[key] ||= team_id
+      self.team_assignment_hints ||= {}
+      self.team_assignment_hints[key] ||= orig_team_name
+
+      Team.find_by(id: self.team_assignments[key]) || Team.first
     end
   end
 
-  def create_participations(assessment, cup, scores, klass)
-    rank = 1
-    scores.each do |score|
-      hash = {
-        assessment:,
+  def create_person_participations(result, round_key)
+    config = Series::AssessmentConfig.find_by_round_key(round_key, :person)
+    raise config.disciplines if config.disciplines.count != 1
+
+    person_assessment = Series::PersonAssessment.find_or_create_by!(
+      round:, discipline: config.disciplines.first, key: config.key,
+    )
+
+    rows = result[:rows]
+
+    headers = rows.first
+    index = headers.each_with_index.to_h
+    # => { "Platz"=>0, "Vorname"=>1, ... }
+
+    rows.drop(1).map do |row|
+      # Platz als Integer
+      rank = row[index['Platz']].to_s.delete('.').to_i
+      points = config.points_for_rank[rank - 1] || 0
+
+      # person_id als Integer
+      person_id = row[index['statistik_person_id']].to_i
+      person = find_person_assignment(person_id, row[index['Vorname']], row[index['Nachname']])
+
+      # Ergebnis als Hundertstel oder 999999
+      raw_time = row[index['Bestzeit'] || index['Ergebnis']].to_s.strip
+
+      time = if raw_time.match?(/\A\d+[,.]\d{2}\z/)
+               raw_time.delete('.').delete(',')
+             else
+               Firesport::INVALID_TIME
+             end
+
+      correction = import_request.person_points_corrections(round_key, person.id)
+
+      Series::PersonParticipation.create!(
+        person_assessment:,
         cup:,
-        time: score.time,
-        points: klass.points_for_result(rank, score.time, cup.round, gender: assessment.gender),
+        person:,
+        time:,
+        points:,
         rank:,
-      }
-      if score.is_a?(GroupScore) || score.is_a?(Calculation::CompetitionGroupAssessment)
-        ::Series::TeamParticipation.create!(hash.merge(team: score.team, team_number: score.team_number))
-      else
-        ::Series::PersonParticipation.create!(hash.merge(person: score.person))
-      end
-      rank += 1
+        points_correction: correction&.dig(:points_correction),
+        points_correction_hint: correction&.dig(:points_correction_hint),
+      )
     end
   end
 
-  AssessmentConfig = Struct.new(:id, :entities, :block, :selected_entities) do
-    def selected_entities=(new_entities)
-      self.entities = entities.map do |entity|
-        entity[2] = entity.first.in?(new_entities)
-        entity
-      end
-    end
+  def create_team_participations(result, round_key)
+    config = Series::AssessmentConfig.find_by_round_key(round_key, :team)
 
-    def selected_entities
-      entities.select { |entity| entity[2] }
+    rows = result[:group_rows].presence || result[:rows]
+
+    team_assessment = Series::TeamAssessment.find_or_create_by!(round:, discipline: result[:discipline],
+                                                                key: config.key)
+
+    headers = rows.first
+    index = headers.each_with_index.to_h
+    # => { "Platz"=>0, "Vorname"=>1, ... }
+
+    rows.drop(1).map do |row|
+      # Platz als Integer
+      rank = row[index['Platz']].to_s.delete('.').to_i
+      points = config.points_for_rank[rank - 1] || 0
+
+      # team_id als Integer
+      team_id = row[index['statistik_team_id']].to_i
+      team_number = row[index['statistik_team_number']].to_i
+      team = find_team_assignment(team_id, row[index['Mannschaft'] || index['Name']])
+      team_gender = row[index['gender']] == 'female' ? 0 : 1
+
+      # Ergebnis als Hundertstel oder 999999
+      raw_time = row[index['Bestzeit'] || index['Ergebnis'] || index['Summe']].to_s.strip
+
+      time = if raw_time.match?(/\A\d+[,.]\d{2}\z/)
+               raw_time.delete('.').delete(',')
+             else
+               Firesport::INVALID_TIME
+             end
+
+      correction = import_request.team_points_corrections(round_key, team.id, team_number, team_assessment.discipline)
+
+      Series::TeamParticipation.create!(
+        team_assessment:,
+        cup:,
+        team:,
+        team_number:,
+        team_gender:,
+        time:,
+        points:,
+        rank:,
+        points_correction: correction&.dig(:points_correction),
+        points_correction_hint: correction&.dig(:points_correction_hint),
+      )
     end
   end
 end

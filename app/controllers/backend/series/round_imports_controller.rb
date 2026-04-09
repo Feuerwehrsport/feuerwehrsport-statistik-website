@@ -7,6 +7,7 @@ class Backend::Series::RoundImportsController < Backend::BackendController
   default_form do |f|
     f.value :round
     f.association :competition, as: :association_select
+    f.association :import_request, as: :select
   end
 
   def create

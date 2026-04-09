@@ -175,6 +175,11 @@ class @FssImport
       $('#competition-link-admin')
         .attr('href', "/backend/competitions/#{option.val()}")
         .text("#{option.text()} - Admin")
+      $('#series-add-links a').each ->
+        a = $(this)
+        a.data("origin-href", a.attr("href")) unless a.data("origin-href")?
+        a.attr("href", a.data("origin-href").replace(/TOCHANGE/, option.val()))
+
       @loadCompetition(option.val())
 
   loadCompetition: (competitionId) =>

@@ -69,6 +69,14 @@ class Series::Round < ApplicationRecord
     (team_assessments_configs + person_assessments_configs).map(&:disciplines).flatten.uniq.sort
   end
 
+  def team_config_for(key)
+    team_assessments_configs.find { |c| c.key == key }
+  end
+
+  def person_config_for(key)
+    person_assessments_configs.find { |c| c.key == key }
+  end
+
   TeamRound = Struct.new(:round, :cups, :row, :team_number)
 
   def self.for_team(team_id, gender)

@@ -4,6 +4,16 @@ class Series::AssessmentConfig
   include ActiveModel::Model
   include ActiveModel::Attributes
 
+  def self.find_by_round_key(round_key, entity_key)
+    return if round_key.blank?
+    return unless (res = round_key.match(/\A(\d+)-(.+)\z/))
+
+    round_id = res[1]
+    round = Series::Round.find(round_id)
+    key = res[2]
+    round.public_send("#{entity_key}_config_for", key)
+  end
+
   SHOW_COLUMNS = {
     'participation_count' => { name: 'Teil.', method: :count },
     'points' => { name: 'Punkte', method: :points },
@@ -37,7 +47,7 @@ class Series::AssessmentConfig
   attribute :calc_participations_count, :integer
   validates :calc_participations_count, numericality: { only_integer: true }, comparison: { greater_than: 0 }
 
-  attribute :min_participations_count, :integer
+  attribute :min_participations_count, :integer, default: 1
   validates :min_participations_count, numericality: { only_integer: true }, comparison: { greater_than: 0 }
 
   attribute :points_for_rank, default: -> { [] }
@@ -83,55 +93,10 @@ class Series::AssessmentConfig
     honor_ranking_logic.map { |k| RANKING_LOGICS[k] }
   end
 
-  def completed?
-    @completed ||= full_cup_count == cups.count
-  end
-
   def rows(cache: true)
     @rows ||= Caching::Cache.fetch("series-#{entity_key}-#{key}-#{round.id}", force: !cache) do
-      # Sortieren nach Config
-      rows = entities.values.sort
-
-      # Plätze vergeben
-      calculate_ranks!(rows)
-
-      # Besondere Beachtung der ersten drei Plätze und erneut vergeben
-      if honor_ranking_logic.present?
-        honor_rows = rows.select { |row| row.rank.present? && row.rank <= 3 }
-                         .sort { |row, other| sort(row, other, logic_array: honor_ranking_logic) }
-        calculate_ranks!(honor_rows, logic_array: honor_ranking_logic)
-        rows.sort! { |row, other| sort(row, other, with_rank: true) }
-      end
-      rows
+      Series::AssessmentCalculation.new(self).rows
     end
-  end
-
-  def entities
-    entity_key == :team ? teams : people
-  end
-
-  def people
-    people = {}
-
-    Series::PersonParticipation.where(person_assessment: person_assessments.where(key:)).each do |participation|
-      people[participation.person_id] ||= Series::Person.new(
-        config: self, person: participation.person,
-      )
-      people[participation.person_id].add_participation(participation)
-    end
-    people
-  end
-
-  def teams
-    teams = {}
-    Series::TeamParticipation.where(team_assessment: team_assessments.where(key:)).each do |participation|
-      teams[participation.entity_id] ||= Series::Team.new(
-        config: self, team: participation.team, team_number: participation.team_number,
-        team_gender: participation.team_gender
-      )
-      teams[participation.entity_id].add_participation(participation)
-    end
-    teams
   end
 
   def sort(e1, e2, logic_array: ranking_logic, with_rank: false)
@@ -146,27 +111,6 @@ class Series::AssessmentConfig
   end
 
   private
-
-  def calculate_ranks!(rows, logic_array: ranking_logic)
-    current_rank = 1
-    last_row = nil
-    rank = 1
-
-    rows.each do |row|
-      if completed? && row.participation_count < min_participations_count
-        row.rank = nil
-        next
-      end
-
-      current_rank = rank unless last_row && sort(row, last_row, logic_array:).zero?
-      row.rank = current_rank
-
-      last_row = row
-      rank += 1
-    end
-
-    rows
-  end
 
   # Platzierung (weniger vor mehr)
   def sort_rank(e1, e2)

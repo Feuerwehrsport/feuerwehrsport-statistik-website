@@ -11,4 +11,8 @@ class Api::CompetitionsController < Api::BaseController
   def resource_show_object
     ExtendedCompetitionSerializer.new(resource.decorate)
   end
+
+  def base_collection
+    super.includes(:place, :event)
+  end
 end

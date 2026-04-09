@@ -1,5 +1,5 @@
 class @InputLineField
-  @singleFields: ['last_name', 'first_name', 'team', 'run']
+  @singleFields: ['last_name', 'first_name', 'given_person_id', 'team', 'run', 'given_team_id', 'given_team_number']
   @multipleFields: ['time', 'col']
 
   constructor: (line, name) ->

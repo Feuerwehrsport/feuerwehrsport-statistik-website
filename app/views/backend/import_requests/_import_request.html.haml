@@ -38,22 +38,31 @@
                 = button_to 'Bearbeitung abschließen', { action: :update }, method: :patch, params: { 'import_request[finished]' => '1' }, class: 'btn btn-default'
             - else
               = button_to 'Bearbeitung übernehmen', { action: :update }, method: :patch, params: { 'import_request[edit_user_id]' => current_admin_user.id }, class: 'btn btn-default'
-      
-      - if resource.import_data.present? && resource.edited_at.present? && can?(:create, Import::Scores)
-        .col-md-6
-          .panel.panel-default
-            .panel-heading Direkt-Import
-            .panel-body
-              - resource.import_data[:results].each do |result|
-                - if result[:rows].count > 1 && result[:discipline] != 'zk'
-                  %button.add-discipline{ class: "discipline-#{result[:discipline]}-#{result[:gender]}", data: { rows: result[:rows] }}
-                    = result[:discipline]
-                    = result[:gender]
-                    = result[:rows].count
-                    = result[:name]
 
   - if resource.edited_at.present? && resource.edit_user == current_admin_user && can?(:create, Import::Scores)
-    = render('backend/imports/import_containers', competition_info: resource.competition_info)
+    = render('backend/imports/import_containers', competition_info: resource.competition_info) do
+      - if resource.import_data.present? && resource.edited_at.present? && can?(:create, Import::Scores)
+        .container  
+          .row
+          .col-md-6
+            .panel.panel-default
+              .panel-heading Direkt-Import
+              .panel-body
+                - resource.import_data_results.each do |result|
+                  - if result[:discipline] != 'zk'
+                    %button.add-discipline{ class: "discipline-#{result[:discipline]}-#{result[:gender]}", data: { rows: result[:rows].to_json }}
+                      = result[:discipline]
+                      = result[:gender]
+                      = result[:rows].count
+                      = result[:name]
+
+          - if resource.import_data_series_rounds.present?
+            .col-md-6
+              .panel.panel-default
+                .panel-heading Serien-Import
+                .panel-body#series-add-links
+                  - resource.import_data_series_rounds.each do |round|
+                    = link_to(round.name, new_backend_series_round_import_path(round_id: round.id, series_round_import: { import_request_id: resource.id, competition_id: "TOCHANGE" } ), class: "btn btn-default btn-sm")
   .container
     .row
       .col-md-12
@@ -75,6 +84,7 @@
 
               %dt= resource_class.human_attribute_name(:description)
               %dd= simple_format resource.description
+
 
 
       .col-md-12

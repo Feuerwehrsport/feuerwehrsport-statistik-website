@@ -96,7 +96,10 @@ class @Discipline extends EventHandler
       type = switch headlineColumn
         when 'Vorname' then 'first_name'
         when 'Nachname' then 'last_name'
+        when 'statistik_person_id' then 'given_person_id'
         when 'Mannschaft' then 'team'
+        when 'statistik_team_id' then 'given_team_id'
+        when 'statistik_team_number' then 'given_team_number'
         when 'Lauf' then 'run'
         when 'time' then 'time'
         else 'col'

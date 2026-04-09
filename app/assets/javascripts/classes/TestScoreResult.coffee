@@ -35,10 +35,11 @@ class @TestScoreResult
         $('<td/>').append(@personSelect()).appendTo(tr)
       else if @raw.people? and @raw.people.length
         appendTd("#{@raw.last_name} #{@raw.first_name}")
-        @raw.person_id = @raw.people[0].id
+        @raw.person_id = @raw.people[0][0]
       else
         appendTd("#{@raw.last_name} #{@raw.first_name}").addClass('person-not-found')
-      $('<td/>').append(@personLinks()).appendTo(tr)
+      td = $('<td/>').append(@personLinks()).appendTo(tr)
+      td.addClass("danger").attr("title", "given: #{@raw.given_person_id}") if @raw.given_person_id? && @raw.given_person_id isnt @raw.person_id
     else if fields.last_name
       appendTd('')
       appendTd('')
@@ -53,14 +54,22 @@ class @TestScoreResult
       appendTd('')
 
     if @raw.team_ids?
-      @raw.team_id = @raw.team_ids[0]
+      if @raw.team_ids.includes(@raw.given_team_id)
+        @raw.team_id = @raw.given_team_id
+      else
+        @raw.team_id = @raw.team_ids[0]
       td = $('<td/>').append(@teamLinks()).appendTo(tr)
-      td.addClass('null') if @raw.team_ids.length > 1
+      if @raw.given_team_id? && @raw.given_team_id isnt @raw.team_id
+        td.addClass('danger').attr("title", "given: #{@raw.given_team_id}") 
+      else if @raw.team_ids.length > 1 && !@raw.given_team_id?
+        td.addClass('null')
     else if fields.team_id
       appendTd('')
 
     if @raw.team_number?
-      appendTd(@raw['team_number'])
+      td = appendTd(@raw['team_number'])
+      if @raw.given_team_number? && @raw.given_team_number isnt @raw.team_number
+        td.addClass('danger').attr("title", "given: #{@raw.given_team_number}") 
     else if fields.team_number
       appendTd('')
 
@@ -95,7 +104,8 @@ class @TestScoreResult
     team_names = @raw.team_names
     select = $('<select/>')
     for team, i in team_names
-      $('<option/>').text("#{team} #{teamIds[i]}").val(i).appendTo(select)
+      option = $('<option/>').text("#{team} #{teamIds[i]}").val(i).appendTo(select)
+      option.prop("selected", true) if @raw.given_team_id == teamIds[i]
     select.change =>
       @raw.team_id = teamIds[parseInt(select.val())]
       @raw.team = team_names[parseInt(select.val())]
@@ -103,7 +113,11 @@ class @TestScoreResult
   personSelect: =>
     select = $('<select/>')
     for p in @raw.people
-      $('<option/>').text("#{p[1]} #{p[2]} #{p[0]}").val(p[0]).appendTo(select)
+      option = $('<option/>').text("#{p[1]} #{p[2]} #{p[0]}").val(p[0]).appendTo(select)
+      if @raw.given_person_id == p[0]
+        option.prop("selected", true) 
+        @raw.person_id = p[0]
+
     select.change =>
       @raw.person_id = select.val()
 

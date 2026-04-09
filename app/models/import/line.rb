@@ -13,6 +13,7 @@ class Import::Line
       check.headline_columns.each_with_index { |headline, index| check_col(headline, cols[index].strip) }
       out[:people] = find_people unless Discipline.group?(check)
     end
+    check_team
   end
 
   def out
@@ -42,14 +43,16 @@ class Import::Line
     when 'run'
       run = col.upcase
       out[:run] = run if run.in?(%w[A B C D])
+    when 'given_person_id', 'given_team_id', 'given_team_number'
+      out[headline.to_sym] = col.presence&.to_i
     when 'team'
-      check_team_col(col)
+      team_name = normalize_name(col)
+      out[:original_team] = team_name
     end
   end
 
-  def check_team_col(col)
-    team_name = normalize_name(col)
-    out[:original_team] = team_name
+  def check_team
+    team_name = out[:original_team]
     run = normalize_team_run(team_name)
     out[:run] = run if run
     out[:team_number] = normalize_team_number(team_name)
@@ -63,6 +66,9 @@ class Import::Line
       if teams.present?
         out[:team_ids] = teams.map(&:first)
         out[:team_names] = teams.map(&:second)
+      elsif out[:given_team_id].present? && (team = Team.find_by(id: out[:given_team_id]))
+        out[:team_ids] = [team.id]
+        out[:team_names] = [team.shortcut]
       else
         check.add_missing_team(team_name)
         out[:correct] = false
@@ -95,23 +101,7 @@ class Import::Line
   end
 
   def find_teams(team_name)
-    team_name = team_name.gsub(/^FF /i, '')
-    team_name = team_name.gsub(/^Feuerwehr /i, '')
-    team_name = team_name.gsub(/^Team /i, '')
-    team_name = team_name.gsub(/ I$/, '')
-    team_name = team_name.gsub(/ II$/, '')
-    team_name = team_name.gsub(/ III$/, '')
-    team_name = team_name.gsub(/ IV$/, '')
-    2.times do
-      team_name = team_name.gsub(/ E$/, '')
-      team_name = team_name.gsub(/ A$/, '')
-      team_name = team_name.gsub(/ B$/, '')
-      team_name = team_name.gsub(/ C$/, '')
-      team_name = team_name.gsub(/ 1$/, '')
-      team_name = team_name.gsub(/ 2$/, '')
-      team_name = team_name.gsub(/ 3$/, '')
-      team_name = team_name.gsub(/ 4$/, '')
-    end
+    team_name = Team.normalize_name(team_name)
     team_ids = Team.search(team_name).pluck(:id)
     team_ids += TeamSpelling.search(team_name).pluck(:team_id)
     Team.where(id: team_ids)

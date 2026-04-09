@@ -1,28 +1,42 @@
 = @preview_string.html_safe
 
-%h4
-.row
-  .col-md-4
-    %table.table
-      %tr
-        %th Wettkampf
-        %td= competition_link(resource.competition.decorate)
-      %tr
-        %th Wettkampfserie
-        %td= link_to(resource.round.decorate, resource.round)
-
-
 = m3_form(m3_form_options.slice(:as, :url, :html)) do |f|
   = f.input :competition_id, as: :hidden
+  = f.input :import_request_id, as: :hidden
 
-  = nav_tab do |t|
-    - resource.assessment_configs.each do |assessment_config|
-      - t.tab(assessment_config.id) do
-        - assessment_config.entities.each do |entity|
-          .div
-            %label
-              = check_box "series_round_import[selected_entities][#{assessment_config.id}]", entity.first, checked: entity.last
-              = entity.second
-  .alert.alert-danger
-    = f.input :import_now
-  = f.actions(**m3_form_options.slice(:abort_url))
+  - if form_resource.person_assignment_hints.present?
+    %hr
+    .container
+      %h4 Zuordnung von Wettkämpfern
+      .row
+        - form_resource.person_assignment_hints.each do |key, hint|
+          .col-md-6
+            = label_tag "series_round_import_person_assignments_#{key}", hint
+            = select_tag "series_round_import[person_assignments][#{key}]",    options_from_collection_for_select(Person.index_order.decorate, :id, :searchable_name, form_resource.person_assignments&.[](key))
+
+  - if form_resource.team_assignment_hints.present?
+    %hr
+    .container
+      %h4 Zuordnung von Mannschaften
+      .row
+        - form_resource.team_assignment_hints.each do |key, hint|
+          .col-md-6
+            = label_tag "series_round_import_team_assignments_#{key}", hint
+            = select_tag "series_round_import[team_assignments][#{key}]",    options_from_collection_for_select(Team.index_order, :id, :name, form_resource.team_assignments&.[](key))
+
+  %hr
+  .container
+    .row
+      .col-md-4
+        %table.table
+          %tr
+            %th Wettkampf
+            %td= competition_link(resource.competition.decorate)
+          %tr
+            %th Wettkampfserie
+            %td= link_to(resource.round.decorate, resource.round)
+
+  .container
+    .alert.alert-danger
+      = f.input :import_now, as: :boolean
+    = f.actions(**m3_form_options.slice(:abort_url))

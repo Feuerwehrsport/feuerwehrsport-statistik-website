@@ -35,6 +35,36 @@ class ImportRequest < ApplicationRecord
     super.try(:with_indifferent_access)
   end
 
+  def import_data_results
+    @import_data_results ||= import_data[:results].select { |result| result[:rows].many? }
+  end
+
+  def import_data_series_rounds
+    @import_data_series_rounds ||= import_data_results.map do |result|
+      keys = result[:series_person_round_keys] + result[:series_team_round_keys]
+      keys.map do |k|
+        res = k.match(/\A(\d+)-(.+)\z/)
+        res[1]
+      end
+      Series::Round.where(id: keys.uniq)
+    end.flatten.uniq
+  end
+
+  def person_points_corrections(round_key, person_id)
+    (import_data[:person_points_corrections] || []).find do |c|
+      c[:round_key] == round_key && c[:person_id] == person_id
+    end
+  end
+
+  def team_points_corrections(round_key, team_id, team_number, discipline)
+    (import_data[:team_points_corrections] || []).find do |c|
+      c[:round_key] == round_key &&
+        c[:team_id] == team_id &&
+        c[:team_number] == team_number &&
+        c[:discipline] == discipline
+    end
+  end
+
   def competition_info
     info = import_data&.except(:results) || {}
     info[:place] ||= place.name if place.present?
@@ -62,6 +92,8 @@ class ImportRequest < ApplicationRecord
       name: json[:name],
       place: json[:place],
       results: [],
+      person_points_corrections: json[:person_points_corrections],
+      team_points_corrections: json[:team_points_corrections],
     }
     json[:files].try(:each) do |file|
       data = Base64.decode64(file[:base64_data])

@@ -54,6 +54,27 @@ class Team < ApplicationRecord
     ")
   end
 
+  def self.normalize_name(team_name)
+    team_name = team_name.gsub(/^FF /i, '')
+    team_name = team_name.gsub(/^Feuerwehr /i, '')
+    team_name = team_name.gsub(/^Team /i, '')
+    team_name = team_name.gsub(/ I$/, '')
+    team_name = team_name.gsub(/ II$/, '')
+    team_name = team_name.gsub(/ III$/, '')
+    team_name = team_name.gsub(/ IV$/, '')
+    2.times do
+      team_name = team_name.gsub(/ E$/, '')
+      team_name = team_name.gsub(/ A$/, '')
+      team_name = team_name.gsub(/ B$/, '')
+      team_name = team_name.gsub(/ C$/, '')
+      team_name = team_name.gsub(/ 1$/, '')
+      team_name = team_name.gsub(/ 2$/, '')
+      team_name = team_name.gsub(/ 3$/, '')
+      team_name = team_name.gsub(/ 4$/, '')
+    end
+    team_name
+  end
+
   def person_scores_count(person)
     scores.where(person:).count + person_participations.where(person:).count
   end
