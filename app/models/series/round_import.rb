@@ -99,7 +99,7 @@ class Series::RoundImport
       person = find_person_assignment(person_id, row[index['Vorname']], row[index['Nachname']])
 
       # Ergebnis als Hundertstel oder 999999
-      raw_time = row[index['Bestzeit'] || index['Ergebnis']].to_s.strip
+      raw_time = row[index['Bestzeit'] || index['Ergebnis'] || index['time']].to_s.strip
 
       time = if raw_time.match?(/\A\d+[,.]\d{2}\z/)
                raw_time.delete('.').delete(',')
@@ -147,7 +147,7 @@ class Series::RoundImport
       team_gender = row[index['gender']] == 'female' ? 0 : 1
 
       # Ergebnis als Hundertstel oder 999999
-      raw_time = row[index['Bestzeit'] || index['Ergebnis'] || index['Summe']].to_s.strip
+      raw_time = row[index['Bestzeit'] || index['Ergebnis'] || index['Summe'] || index['time']].to_s.strip
 
       time = if raw_time.match?(/\A\d+[,.]\d{2}\z/)
                raw_time.delete('.').delete(',')
