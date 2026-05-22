@@ -31,10 +31,14 @@
         %table.table
           %tr
             %th Wettkampf
-            %td= competition_link(resource.competition.decorate)
+            %td
+              - if resource.competition.present?
+                = competition_link(resource.competition.decorate)
           %tr
             %th Wettkampfserie
-            %td= link_to(resource.round.decorate, resource.round)
+            %td
+              - if resource.round.present?
+                = link_to(resource.round.decorate, resource.round)
 
   .container
     .alert.alert-danger
