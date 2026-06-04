@@ -125,6 +125,7 @@ class Series::RoundImport
   def create_team_participations(result, round_key)
     config = Series::AssessmentConfig.find_by_round_key(round_key, :team)
     return if config.nil?
+    return if config.round != round
 
     rows = result[:group_rows].presence || result[:rows]
 
