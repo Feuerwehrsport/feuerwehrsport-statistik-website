@@ -41,6 +41,16 @@ module People::CacheBuilder
     score
   end
 
+  def scores_by_key(key)
+    default_discipline = SingleDiscipline.default_for(key, gender.to_sym, Date.current.year)
+
+    if scores.exists?(single_discipline: default_discipline)
+      scores.where(single_discipline: default_discipline)
+    else
+      scores.send(key)
+    end
+  end
+
   def best_score_relation(relation, saison: false)
     relation = relation.reorder(:time)
     relation = relation.year(Date.current.year) if saison
@@ -48,11 +58,11 @@ module People::CacheBuilder
   end
 
   def hl_best_score
-    @hl_best_score ||= best_score_relation(scores.hl)
+    @hl_best_score ||= best_score_relation(scores_by_key(:hl))
   end
 
   def hb_best_score
-    @hb_best_score ||= best_score_relation(scores.hb)
+    @hb_best_score ||= best_score_relation(scores_by_key(:hb))
   end
 
   def zk_best_score
@@ -60,11 +70,11 @@ module People::CacheBuilder
   end
 
   def hl_saison_best_score
-    @hl_saison_best_score ||= best_score_relation(scores.hl, saison: true)
+    @hl_saison_best_score ||= best_score_relation(scores_by_key(:hl), saison: true)
   end
 
   def hb_saison_best_score
-    @hb_saison_best_score ||= best_score_relation(scores.hb, saison: true)
+    @hb_saison_best_score ||= best_score_relation(scores_by_key(:hb), saison: true)
   end
 
   def zk_saison_best_score
