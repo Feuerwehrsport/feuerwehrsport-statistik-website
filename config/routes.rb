@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  mount MissionControl::Jobs::Engine, at: '/admin-jobs'
+
   # backend: area for admin users
   namespace :backend do
     root to: 'dashboards#index'

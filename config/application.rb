@@ -41,6 +41,10 @@ module FeuerwehrsportStatistik
     # dynamic error handling
     config.exceptions_app = routes
 
+    config.mission_control.jobs.http_basic_auth_enabled = false
+    config.mission_control.jobs.base_controller_class = 'AdminController'
+    config.debug_email_address = 'georf@georf.de'
+
     config.default_url_options = {}
     config.action_mailer.default_options = { from: 'Feuerwehrsport-Statistik <automailer@feuerwehrsport-statistik.de>' }
 

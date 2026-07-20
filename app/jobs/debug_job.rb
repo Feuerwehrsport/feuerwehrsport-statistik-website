@@ -37,8 +37,8 @@ class DebugJob < ApplicationJob
 
     send_message(
       "#{failed_jobs.count} solid queue jobs failed on #{`hostname`}",
-      errors.map { |e| JSON.pretty_generate(e) }.join("\n\n--NEXT--\n\n") +
-      "\n\nLink: #{Platform.path_to_url('/mission-control-jobs')}",
+      "#{errors.map { |e| JSON.pretty_generate(e) }.join("\n\n--NEXT--\n\n")}" \
+      "\n\nLink: https://feuerwehrsport-statistik.de/admin-jobs",
     )
   end
 

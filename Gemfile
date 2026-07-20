@@ -22,6 +22,7 @@ gem 'bootsnap', require: false # Reduces boot times through caching; required in
 gem 'rails_log_parser' # to analyise log
 
 gem 'solid_queue' # background jobs
+gem 'mission_control-jobs' # control page for background jobs
 
 # # templating
 gem 'haml-rails' # haml templating
