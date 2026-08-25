@@ -7,6 +7,7 @@ class AdminUser < ApplicationRecord
 
   ROLES = %i[
     user
+    sub_admin_with_series
     sub_admin
     admin
   ].freeze

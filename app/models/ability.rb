@@ -8,13 +8,24 @@ class Ability
   def initialize(user, _login)
     @user = user
     all_users
-    send(:"#{user.role}_abilities") if user.try(:role).in?(%i[admin sub_admin user api_user])
+    send(:"#{user.role}_abilities") if user.try(:role).in?(%i[admin sub_admin_with_series sub_admin user api_user])
   end
 
   private
 
   def admin_abilities
     can :manage, :all
+  end
+
+  def sub_admin_with_series_abilities
+    sub_admin_abilities
+
+    can :manage, Series::TeamAssessment
+    can :manage, Series::PersonAssessment
+    can :manage, Series::Cup
+    can :manage, Series::TeamParticipation
+    can :manage, Series::PersonParticipation
+    can :manage, Series::Round
   end
 
   def sub_admin_abilities
