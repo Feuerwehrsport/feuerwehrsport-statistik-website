@@ -4,6 +4,13 @@ class ApplicationMailer < ActionMailer::Base
   layout 'mailer'
   helper ApplicationHelper
 
+  class DeliveryJob < ActionMailer::MailDeliveryJob
+    retry_on Net::SMTPError, Timeout::Error, OpenSSL::OpenSSLError, SystemCallError, IOError, SocketError,
+             wait: :polynomially_longer, attempts: 10
+  end
+
+  self.delivery_job = DeliveryJob
+
   protected
 
   def default_url_options
