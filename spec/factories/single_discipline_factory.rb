@@ -41,7 +41,7 @@ FactoryBot.define do
       description do
         'Eine Hürde und ein 80cm hoher Balken müssen überwunden werden. Die Strecke ist 100 Meter lang.'
       end
-      default_for_male { true }
+      default_for_female { true }
     end
 
     trait(:hb_female_old) do

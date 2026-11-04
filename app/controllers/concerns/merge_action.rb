@@ -14,7 +14,7 @@ module MergeAction
       merge_change_log
       create_entity_merge
       unless resource.reload.destroy
-        raise ActiveRecord::ActiveRecordError, "Could not destroy #{resource_variable_name} with id ##{resource.id}"
+        raise ActiveRecord::ActiveRecordError, "Could not destroy #{resource_modulized_name} with id ##{resource.id}"
       end
 
       clean_cache_and_build_new

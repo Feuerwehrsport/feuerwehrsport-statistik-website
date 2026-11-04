@@ -16,7 +16,7 @@ class DebugJob < ApplicationJob
     return if message&.strip.blank?
 
     send_message(
-      "Interesting log lines on #{`hostname`}",
+      "Interesting log lines on #{Socket.gethostname}",
       message,
     )
   end
@@ -36,7 +36,7 @@ class DebugJob < ApplicationJob
     errors.each { |e| e['backtrace'] = e.fetch('backtrace', []).first(5) }
 
     send_message(
-      "#{failed_jobs.count} solid queue jobs failed on #{`hostname`}",
+      "#{failed_jobs.count} solid queue jobs failed on #{Socket.gethostname}",
       "#{errors.map { |e| JSON.pretty_generate(e) }.join("\n\n--NEXT--\n\n")}" \
       "\n\nLink: https://feuerwehrsport-statistik.de/admin-jobs",
     )

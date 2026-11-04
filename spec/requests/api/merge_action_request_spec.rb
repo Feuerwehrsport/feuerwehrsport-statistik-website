@@ -28,7 +28,6 @@ RSpec.describe 'MergeAction (Api::People/Api::Teams merge)', login: :sub_admin d
   end
 
   it 'rolls back when source can not be destroyed' do
-    pending 'Bug: merge_action.rb:17 nutzt undefinierte Methode resource_variable_name -> NameError statt JSON-Fehler'
     allow_any_instance_of(Person).to receive(:destroy).and_return(false)
     merge
     expect(Person.count).to eq 2

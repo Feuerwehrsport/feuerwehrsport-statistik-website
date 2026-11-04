@@ -97,7 +97,6 @@ RSpec.describe Bla::Badge do
     end
 
     it 'nullifies hb score' do
-      pending 'Bug: Score has_many :hb_bla_badges nutzt foreign_key :hl_score_id (app/models/score.rb:23)'
       hb_score.destroy!
       expect(badge.reload.hb_score_id).to be_nil
     end

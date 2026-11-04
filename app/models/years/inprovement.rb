@@ -8,7 +8,7 @@ Years::Inprovement = Struct.new(:year, :single_discipline, :gender, :team) do
   end
 
   def person_ids
-    @person_ids || begin
+    @person_ids ||= begin
       scores = Score.valid.where(single_discipline:).gender(gender).group(:person_id)
       scores = scores.where(person_id: team.people) if team.present?
       year_count = year == 2020 ? 2 : 3

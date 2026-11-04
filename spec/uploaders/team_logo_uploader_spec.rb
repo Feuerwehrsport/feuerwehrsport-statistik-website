@@ -15,7 +15,6 @@ describe TeamLogoUploader do
   end
 
   it 'allows only images' do
-    pending 'Bug: extension_white_list wird von CarrierWave 3 ignoriert (heißt jetzt extension_allowlist)'
     text_file = Tempfile.new(['logo', '.txt'])
     text_file.write('no image')
     text_file.rewind
