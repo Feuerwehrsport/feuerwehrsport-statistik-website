@@ -15,7 +15,6 @@ RSpec.describe DumpDatabaseJob do
                           '--exclude-table-data=import_request_files_id_seq ' \
                           '--exclude-table-data=import_requests ' \
                           '--exclude-table-data=import_requests_id_seq ' \
-                          '--exclude-table-data=assets ' \
                           '--exclude-table-data=logins ' \
                           '--exclude-table-data=solid_queue_blocked_executions ' \
                           '--exclude-table-data=solid_queue_blocked_executions_id_seq ' \

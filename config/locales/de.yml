@@ -122,9 +122,6 @@ de:
 
   activerecord: &activerecord
     models:
-      asset:
-        one: Datei
-        other: Dateien
       api_user: Benuter
       event:
         one: Wettkampftyp
@@ -163,10 +160,6 @@ de:
         one: Jahr
         other: Jahre
     attributes:
-      asset:
-        file: Datei
-        file_name: Dateiname
-        image_preview: Bildvorschau
       api_user:
         email_address: E-Mail-Adresse
         name: Name

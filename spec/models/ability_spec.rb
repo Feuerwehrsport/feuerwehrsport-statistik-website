@@ -23,7 +23,7 @@ describe Ability do
   let(:sub_admin_classes) do
     [
       Caching::Cleaner, ChangeRequest, Competition, CompetitionFile, Event, GroupScore, GroupScoreCategory,
-      GroupScoreType, Import::Scores, ImportRequest, ImportRequestFile, Link, Asset, ImageAsset, Nation,
+      GroupScoreType, Import::Scores, ImportRequest, ImportRequestFile, Link, Nation,
       People::Cleaner, Person, PersonParticipation, PersonSpelling, Place, Repairs::TeamScoreMove, Score, ScoreType,
       Team, TeamSpelling
     ]
