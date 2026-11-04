@@ -9,10 +9,7 @@ Stand: 2026-11-04. Reihenfolge ≈ empfohlene Priorität. Erledigtes wird entfer
 - [ ] Offene Punkte unten in [Bugs.md](Bugs.md) entscheiden
 - [ ] Bug in capistrano3_featureset 1.2.0 (eigenes Gem): `Capistrano::Error` existiert nicht (version_manager.rake) →
       NameError statt sauberer Meldung
-- [ ] `.byebug_history` löschen; `README.md` um Setup-Anleitung (mise, DB, Solid Queue) ergänzen
 - [ ] TODO in `app/controllers/backend/backend_controller.rb:44` (leerer `begin`-Block) klären
-- [ ] Prüfen, ob `rails_log_parser` und `DebugJob` (alle 20 min) noch gebraucht werden
-- [ ] `guard`/`guard-rspec` – noch genutzt? sonst entfernen
 - [ ] Optional: `parallel_tests` (DB-Name nutzt schon `TEST_ENV_NUMBER`)
 
 ## 2. Frontend-Modernisierung (größter Brocken)

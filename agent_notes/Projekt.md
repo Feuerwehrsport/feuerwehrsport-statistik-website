@@ -13,7 +13,7 @@ Repo: `git@github.com:Feuerwehrsport/feuerwehrsport-statistik-website.git`
 - Rails 8.1.4.1 (`config.load_defaults 8.1`), Gemfile: `rails ~> 8.1.4`; Health-Check unter `/up`
 - PostgreSQL (`pg`), Puma 8
 - Hintergrundjobs: Solid Queue (DB-basiert) + Mission Control (`/admin-jobs`, Basis `AdminController`)
-  - Recurring (`config/recurring.yml`): Aufräumen fertiger Jobs, `DebugJob`, nächtlicher `DumpDatabaseJob`
+  - Recurring (`config/recurring.yml`): Aufräumen fertiger Jobs, `DebugJob` (Log-Auswertung mit `rails_log_parser` + fehlgeschlagene Jobs per Mail, wird gebraucht), nächtlicher `DumpDatabaseJob`
 - Views: HAML (`haml-rails`), Formulare: `simple_form`, Decorators: `draper`
 - Rechte: `cancancan` (`app/models/ability.rb`; Rollen user < sub_admin < sub_admin_with_series < admin; `UncheckedTeam` erst ab sub_admin, Import-Requests für user nur eigene)
 - Uploads: `carrierwave` + `mini_magick`; `image_optim`
@@ -56,7 +56,7 @@ Früher lokales Engine-Gem `m3/` (Lichtbit/mgvmedia). Jetzt vollständig Teil de
 - Kein `lib/`-Verzeichnis
 
 ## Tests & Qualität
-- RSpec (request specs, features mit Cuprite/Capybara, WebMock, FactoryBot), SimpleCov 1.x (`.simplecov` nur Konfiguration), Guard
+- RSpec (request specs, features mit Cuprite/Capybara, WebMock, FactoryBot), SimpleCov 1.x (`.simplecov` nur Konfiguration)
 - Transaktionale Fixtures (kein DatabaseCleaner), Zeitreisen mit `travel_to` (globales `travel_back` in `rails_helper`)
 - Lokaler Lauf (2026-11-04, vor neuen Tests): 384 Beispiele, 0 Fehlschläge (4 Mail-Job-Specs auf `ApplicationMailer::DeliveryJob` korrigiert), Coverage 78,8 %
 - Nach Testoffensive, Bugfixes und Rails-8.1-Update (2026-11-04): **1057 Beispiele, 0 Fehlschläge, 1 skip**, Coverage 96,9 % (vorher 78,8 %),
