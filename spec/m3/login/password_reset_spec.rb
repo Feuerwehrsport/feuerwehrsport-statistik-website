@@ -65,7 +65,6 @@ RSpec.describe M3::Login::PasswordReset do
     end
 
     it 'copies errors from invalid login' do
-      pending 'Bug: errors.each mit |attribute, message| liefert seit Rails 6.1 ActiveModel::Error -> NoMethodError'
       reset.password = 'NewSecret456'
       reset.password_confirmation = 'other'
       expect(reset.save).to be false

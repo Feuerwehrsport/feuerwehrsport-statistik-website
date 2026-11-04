@@ -7,8 +7,8 @@ class ErrorsController < ApplicationController
   OLD_PATHS = [
     [%r{^/page/administration\.html$}, '/backend'],
     [%r{^/page/best-of\.html$}, '/best_of'],
-    [%r{^/page/best-performance-of-year-(\d+)\.html$}, '/years/%1%/best_scores'],
-    [%r{^/page/best-scores-of-year-(\d+)\.html$}, '/years/%1%/best_performance'],
+    [%r{^/page/best-performance-of-year-(\d+)\.html$}, '/years/%1%/best_performance'],
+    [%r{^/page/best-scores-of-year-(\d+)\.html$}, '/years/%1%/best_scores'],
     [%r{^/page/competition-(\d+)\.html$}, '/competitions/%1%'],
     [%r{^/page/competitions\.html$}, '/competitions'],
     [%r{^/page/date-(\d+)\.html$}, 'https://feusport.de'],

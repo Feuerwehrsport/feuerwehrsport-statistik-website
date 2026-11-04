@@ -9,8 +9,8 @@ class M3::Login::PasswordReset
   validate do
     errors.add(:email_address, :invalid) if email_address.present? && login.blank?
     if login.present? && login.invalid?
-      login.errors.each do |attribute, message|
-        errors.add(attribute, message)
+      login.errors.each do |error|
+        errors.import(error)
       end
     end
   end

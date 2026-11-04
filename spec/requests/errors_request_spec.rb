@@ -65,8 +65,8 @@ RSpec.describe 'Errors' do
       '/wettkampf_manager' => 'https://feusport.de/info',
       '/online_anmeldungen' => 'https://feusport.de/info',
       # NOTE: best-performance/best-scores are mapped crosswise in ErrorsController::OLD_PATHS
-      '/page/best-performance-of-year-2015.html' => 'http://test.host/years/2015/best_scores',
-      '/page/best-scores-of-year-2015.html' => 'http://test.host/years/2015/best_performance',
+      '/page/best-performance-of-year-2015.html' => 'http://test.host/years/2015/best_performance',
+      '/page/best-scores-of-year-2015.html' => 'http://test.host/years/2015/best_scores',
     }.each do |old_path, new_path|
       it "redirects #{old_path} permanently to #{new_path}" do
         get_not_found_for(old_path)
