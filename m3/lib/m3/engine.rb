@@ -10,19 +10,10 @@ require 'mini_magick'
 require 'bootstrap-sass'
 require 'valid_email2'
 require 'will_paginate'
-require 'will_paginate-bootstrap'
 require 'sassc/rails'
 
 # exports
 require 'caxlsx_rails'
-
-if Rails.env.development?
-  begin
-    require 'pry'
-  rescue LoadError
-    Rails.logger.warn 'pry is yet not available'
-  end
-end
 
 module M3
 end

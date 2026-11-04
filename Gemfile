@@ -38,7 +38,7 @@ gem 'image_optim_pack' # image optimazing binaries
 gem 'bootstrap-sass' # bootstrap with sass support
 gem 'sassc-rails' # sass for rails
 gem 'turbo-rails' # hot wire links
-gem 'will_paginate-bootstrap' # pagination with bootstrap layout
+gem 'will_paginate' # pagination
 
 # exports
 gem 'prawn-rails' # pdf export
