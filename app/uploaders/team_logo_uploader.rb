@@ -18,7 +18,7 @@ class TeamLogoUploader < M3::ApplicationUploader
     process_optimize_images
   end
 
-  def extension_white_list
+  def extension_allowlist
     %w[jpg jpeg gif png]
   end
 end

@@ -67,7 +67,7 @@ describe Caching::HeavyBuilder do
     described_class.perform_now
     expect(female.reload.best_scores['pb']['hb']).to eq [1600, competition.reload.long_name]
 
-    hb_female = create(:single_discipline, :hb_female, default_for_male: false, default_for_female: true)
+    hb_female = create(:single_discipline, :hb_female)
     create(:score, person: female, team:, competition:, single_discipline: hb_female, time: 1900)
     SingleDiscipline.instance_variable_set(:@single_disciplines, nil)
     described_class.perform_now

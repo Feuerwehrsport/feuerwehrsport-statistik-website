@@ -12,7 +12,7 @@ describe Calc::BestOf do
   let(:competition2016) { create(:competition, date: Date.parse('2016-06-01')) }
 
   let(:hb_male) { create(:single_discipline, :hb_male) }
-  let(:hb_female) { create(:single_discipline, :hb_female, default_for_male: false, default_for_female: true) }
+  let(:hb_female) { create(:single_discipline, :hb_female) }
   let(:hb_female_old) { create(:single_discipline, :hb_female_old) }
 
   def entry(disciplines, discipline, gender, year = nil)

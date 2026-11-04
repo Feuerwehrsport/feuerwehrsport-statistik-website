@@ -128,7 +128,6 @@ RSpec.describe Score do
     end
 
     it 'finds badges by hb score' do
-      pending 'Bug: has_many :hb_bla_badges uses foreign_key :hl_score_id instead of :hb_score_id'
       expect(hb.hb_bla_badges).to eq [badge]
     end
   end

@@ -20,7 +20,7 @@ class Score < ApplicationRecord
   belongs_to :team
   has_many :hl_bla_badges, foreign_key: :hl_score_id, class_name: 'Bla::Badge', dependent: :nullify,
                            inverse_of: :hl_score
-  has_many :hb_bla_badges, foreign_key: :hl_score_id, class_name: 'Bla::Badge', dependent: :nullify,
+  has_many :hb_bla_badges, foreign_key: :hb_score_id, class_name: 'Bla::Badge', dependent: :nullify,
                            inverse_of: :hb_score
 
   schema_validations

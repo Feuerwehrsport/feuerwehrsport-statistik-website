@@ -38,12 +38,8 @@ class Caching::Cache < ActiveSupport::Cache::FileStore
   def self.disable
     caching_before = caching
     self.caching = false
-    begin
-      yield
-    rescue StandardError => e
-      self.caching = caching_before
-      raise e
-    end
+    yield
+  ensure
     self.caching = caching_before
   end
 end

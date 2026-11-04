@@ -13,7 +13,7 @@ RSpec.describe DebugJob do
     FileUtils.mkdir_p(tmp_root.join('tmp'))
     allow(Rails).to receive(:root).and_return(tmp_root)
     allow(RailsLogParser::Parser).to receive_messages(log_path: '/path/to/log', from_file: parser)
-    allow(job).to receive(:`).with('hostname').and_return("myhost\n")
+    allow(Socket).to receive(:gethostname).and_return('myhost')
     allow(IO).to receive(:popen) do |command, mode, &block|
       io = StringIO.new
       block.call(io)
@@ -56,7 +56,7 @@ RSpec.describe DebugJob do
       job.perform_now
       expect(sent_messages.count).to eq 1
       expect(sent_messages.first[:command]).to eq(
-        "/usr/bin/mail -s #{Shellwords.escape("Interesting log lines on myhost\n")} georf@georf.de",
+        "/usr/bin/mail -s #{Shellwords.escape('Interesting log lines on myhost')} georf@georf.de",
       )
       expect(sent_messages.first[:body]).to eq "Error in line 4\n"
       expect(sent_messages.first[:mode]).to eq 'w'
@@ -72,7 +72,7 @@ RSpec.describe DebugJob do
 
       expect(sent_messages.count).to eq 1
       expect(sent_messages.first[:command]).to eq(
-        "/usr/bin/mail -s #{Shellwords.escape("2 solid queue jobs failed on myhost\n")} georf@georf.de",
+        "/usr/bin/mail -s #{Shellwords.escape('2 solid queue jobs failed on myhost')} georf@georf.de",
       )
       body = sent_messages.first[:body]
       errors = body.split("\n\n--NEXT--\n\n")
