@@ -68,21 +68,4 @@ module Series::EntitySupport
   def <=>(other)
     config.sort(self, other)
   end
-
-  def storage_support_get(position)
-    case position.key
-    when :rank
-      "#{rank}."
-    when :rank_with_rank
-      "#{rank}. Platz"
-    when :rank_with_rank2
-      "den #{rank}. Platz"
-    when :rank_without_dot
-      rank.to_s
-    when :result_name
-      round.name
-    else
-      super
-    end
-  end
 end
