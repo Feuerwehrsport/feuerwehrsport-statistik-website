@@ -14,7 +14,6 @@ gem 'carrierwave', '> 3.0.0' # uploads
 gem 'mini_magick' # image processing
 gem 'simple_form' # more form support
 gem 'm3', path: 'm3' # old lichtbit stuff
-gem 'acts_as_list' # position of models
 
 gem 'bootsnap', require: false # Reduces boot times through caching; required in config/boot.rb
 gem 'rails_log_parser' # to analyise log
@@ -24,7 +23,6 @@ gem 'mission_control-jobs' # control page for background jobs
 
 # # templating
 gem 'haml-rails' # haml templating
-gem 'redcarpet' # markdown
 
 # gem 'firesport', path: 'firesport'
 # gem 'firesport-series', path: 'firesport-series'
@@ -37,12 +35,10 @@ gem 'image_optim' # image optimazing
 gem 'image_optim_pack' # image optimazing binaries
 gem 'bootstrap-sass' # bootstrap with sass support
 gem 'sassc-rails' # sass for rails
-gem 'turbo-rails' # hot wire links
 gem 'will_paginate' # pagination
 
 # exports
 gem 'prawn-rails' # pdf export
-gem 'rqrcode' # pdf/png qr code
 gem 'caxlsx_rails' # xlsx exports
 gem 'draper' # model decorators
 
@@ -73,7 +69,6 @@ end
 group :test do
   gem 'rspec-rails' # rspec for rails
   gem 'simplecov', require: false # test coverage
-  gem 'vcr' # record http requests
   gem 'webmock' # mock http requests
   gem 'cuprite' # headless chrome driver for capybara
   gem 'guard', require: false # on demand tests

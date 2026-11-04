@@ -85,9 +85,6 @@ GEM
       minitest (>= 5.1)
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
-    acts_as_list (1.2.6)
-      activerecord (>= 6.1)
-      activesupport (>= 6.1)
     addressable (2.9.0)
       public_suffix (>= 2.0.2, < 8.0)
     airbrussh (1.6.1)
@@ -148,7 +145,6 @@ GEM
       actionpack (>= 6.1)
       caxlsx (>= 4.0)
     cgi (0.5.1)
-    chunky_png (1.4.0)
     coderay (1.1.3)
     coffee-rails (5.0.0)
       coffee-script (>= 2.2.0)
@@ -412,17 +408,12 @@ GEM
       erb
       psych (>= 4.0.0)
       tsort
-    redcarpet (3.6.1)
     regexp_parser (2.12.0)
     reline (0.6.3)
       io-console (~> 0.5)
     request_store (1.7.0)
       rack (>= 1.4)
     rexml (3.4.4)
-    rqrcode (3.2.0)
-      chunky_png (~> 1.0)
-      rqrcode_core (~> 2.0)
-    rqrcode_core (2.1.0)
     rspec (3.13.2)
       rspec-core (~> 3.13.0)
       rspec-expectations (~> 3.13.0)
@@ -553,7 +544,6 @@ GEM
     valid_email2 (7.0.15)
       activemodel (>= 6.0)
       mail (~> 2.5)
-    vcr (6.4.0)
     web-console (4.2.1)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -578,7 +568,6 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord_views
-  acts_as_list
   bcrypt
   bootsnap
   bootstrap-sass
@@ -607,8 +596,6 @@ DEPENDENCIES
   puma
   rails (~> 7.0)
   rails_log_parser
-  redcarpet
-  rqrcode
   rspec-rails
   rubocop
   rubocop-capybara
@@ -623,9 +610,7 @@ DEPENDENCIES
   solid_queue
   sprockets-rails
   terser
-  turbo-rails
   valid_email2
-  vcr
   web-console
   webmock
   will_paginate
