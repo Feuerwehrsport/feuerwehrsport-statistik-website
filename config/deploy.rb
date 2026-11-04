@@ -4,7 +4,7 @@ set :application, 'feuerwehrsport-statistik'
 set :repo_url, 'git@github.com:Feuerwehrsport/feuerwehrsport-statistik-website.git'
 set :deploy_to, '/srv/feuerwehrsport-statistik'
 
-set :rvm_ruby_version, '3.4.8'
+set :ruby_version, File.read(File.expand_path('../mise.toml', __dir__))[/ruby\s*=\s*"([^"]+)"/, 1]
 set :migration_servers, -> { release_roles(fetch(:migration_role)) }
 
 set :systemd_usage, true

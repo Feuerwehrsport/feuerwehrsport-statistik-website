@@ -18,7 +18,7 @@ development:
 
 test:
   <<: *default
-  database: feuerwehrsport-statistik-test
+  database: feuerwehrsport-statistik-test<%= ENV['TEST_ENV_NUMBER'] %>
   host: <%= ENV['POSTGRES_HOST'].presence || 'localhost' %>
 
 production:
