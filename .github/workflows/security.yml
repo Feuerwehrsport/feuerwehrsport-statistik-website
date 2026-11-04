@@ -1,0 +1,20 @@
+name: Security audit
+
+# runs regularly without commit/push to find newly published vulnerabilities
+on:
+  schedule:
+    - cron: '0 5 * * *'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - name: Bundle install
+        run: bundle install --jobs 4
+      - name: Security audit dependencies
+        run: bin/bundler-audit check --update
+      - name: Security audit Ruby and RubyGems
+        run: bundle exec ruby-audit check

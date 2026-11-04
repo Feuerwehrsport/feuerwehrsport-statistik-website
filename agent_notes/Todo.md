@@ -21,6 +21,7 @@ Stand: 2026-11-04. Reihenfolge ≈ empfohlene Priorität.
       timecop → `ActiveSupport::Testing::TimeHelpers`; database_cleaner → transaktionale Fixtures; vcr → webmock direkt
 - [x] Gems entfernt (ungenutzt): matrix, responders, cocoon, spring, rqrcode, redcarpet, acts_as_list, turbo-rails
 - [x] brakeman + bundler-audit ergänzt (bundler-audit in CI)
+- [x] Täglicher Sicherheits-Workflow `.github/workflows/security.yml` (5:00 UTC, manuell startbar): bundler-audit + ruby_audit (wie bei feusport)
 - [x] Regel für Updates: nur Versionen, die ein paar Tage alt sind, oder Sicherheitsupdates.
       Stand: nokogiri 1.19.5, addressable 2.9.1, haml 7.5.1, solid_queue 1.7.0, net-ssh 8.0.4, net-scp 4.2.0 bewusst
       nicht auf der allerneuesten Version – beim nächsten `bundle update` anheben
