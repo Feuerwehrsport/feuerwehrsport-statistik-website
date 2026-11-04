@@ -49,7 +49,7 @@ RSpec.describe M3::Login::Base do
     end
 
     it 'can be verified' do
-      Timecop.freeze(Time.zone.local(2020, 1, 1, 10)) do
+      travel_to(Time.zone.local(2020, 1, 1, 10)) do
         login.verify!
         expect(login.reload.verified_at).to eq Time.zone.local(2020, 1, 1, 10)
       end
@@ -98,7 +98,7 @@ RSpec.describe M3::Login::Base do
   describe '#new_email_address=' do
     it 'stores changed email address and generates a token' do
       old_token = login.changed_email_address_token
-      Timecop.freeze(Time.zone.local(2020, 1, 1, 10)) do
+      travel_to(Time.zone.local(2020, 1, 1, 10)) do
         login.new_email_address = 'new@example.com'
         expect(login.changed_email_address_requested_at).to eq Time.zone.local(2020, 1, 1, 10)
       end

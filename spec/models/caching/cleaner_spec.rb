@@ -31,7 +31,7 @@ describe Caching::Cleaner do
     before { allow(Rails.configuration).to receive(:caching).and_return(true) }
 
     it 'schedules rebuild jobs' do
-      Timecop.freeze(Time.zone.local(2020, 1, 1, 12, 0, 0)) do
+      travel_to(Time.zone.local(2020, 1, 1, 12, 0, 0)) do
         expect { described_class.new.save }
           .to have_enqueued_job(Caching::Builder).at(Time.zone.local(2020, 1, 1, 12, 5, 0))
           .and have_enqueued_job(Caching::HeavyBuilder).at(Time.zone.local(2020, 1, 1, 12, 10, 0))

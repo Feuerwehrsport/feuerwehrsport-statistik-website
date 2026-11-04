@@ -14,7 +14,7 @@ RSpec.describe ChangeRequestSerializer do
     )
   end
   let(:change_request) do
-    Timecop.freeze(Time.zone.local(2020, 1, 2, 3, 4, 5)) do
+    travel_to(Time.zone.local(2020, 1, 2, 3, 4, 5)) do
       ChangeRequest.create!(content: { 'key' => 'value' }, user: admin_user, files: [file])
     end
   end

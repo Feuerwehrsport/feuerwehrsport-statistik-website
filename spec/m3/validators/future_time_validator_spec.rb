@@ -20,7 +20,7 @@ RSpec.describe FutureTimeValidator do
 
   let(:model) { build_model { validates :value, future_time: true } }
 
-  around { |example| Timecop.freeze(Time.zone.local(2020, 5, 5, 12)) { example.run } }
+  around { |example| travel_to(Time.zone.local(2020, 5, 5, 12)) { example.run } }
 
   it 'accepts future times' do
     expect(model.new(value: 1.minute.from_now)).to be_valid

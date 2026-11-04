@@ -15,7 +15,7 @@ RSpec.describe Bla::BadgeGenerator do
   end
   let(:person) { create(:person) }
 
-  around { |example| Timecop.freeze(Time.zone.local(2018, 3, 1)) { example.run } }
+  around { |example| travel_to(Time.zone.local(2018, 3, 1)) { example.run } }
 
   def score(discipline, time, competition: bla_competition, person: self.person)
     create(:score, discipline, person:, competition:, time:)
