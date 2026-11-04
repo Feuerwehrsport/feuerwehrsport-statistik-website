@@ -2,7 +2,7 @@
 
 class M3::Login::Base < ApplicationRecord
   self.table_name = 'm3_logins'
-  has_secure_password
+  has_secure_password reset_token: false # m3 keeps its own password_reset_token column
   has_secure_token :verify_token
   has_secure_token :password_reset_token
   has_secure_token :changed_email_address_token

@@ -14,18 +14,18 @@ describe 'teams features' do
 
       # add one
       visit teams_path
-      expect(page).to have_content('Verteilung der Bundesländer')
+      expect(page).to have_text('Verteilung der Bundesländer')
       find_by_id('add-team').click
-      expect(page).to have_content('maximal 10 Zeichen')
+      expect(page).to have_text('maximal 10 Zeichen')
       within('.fss-window') do
-        expect(page).to have_content('Mannschaft anlegen')
+        expect(page).to have_text('Mannschaft anlegen')
         fill_in 'Name', with: '00Mannschaft_xyz'
         fill_in 'Abkürzung', with: 'Abk789'
         select('Einzelne Feuerwehr', from: 'Typ der Mannschaft')
         click_on('OK')
       end
-      expect(page).to have_content('00Mannschaft_xyz')
-      expect(page).to have_content('Abk789')
+      expect(page).to have_text('00Mannschaft_xyz')
+      expect(page).to have_text('Abk789')
 
       team = Team.where(name: '00Mannschaft_xyz')
       expect(team.count).to eq 1
@@ -48,7 +48,7 @@ describe 'teams features' do
         attach_file('logo_files', File.expand_path(file_fixture('testfile.pdf')))
         click_on('OK')
       end
-      expect(page).to have_content('Der Fehlerbericht wurde gespeichert')
+      expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
 
       change_request = ChangeRequest.last
       expect(change_request.content).to eq(key: 'team-logo', data: { team_id: team.id.to_s })
@@ -67,8 +67,8 @@ describe 'teams features' do
         find_by_id('add-geo-position').click
         find('.btn.btn-primary').click
       end
-      expect(page).to have_no_content('Bitte warten')
-      expect(page).to have_no_content('Geoposition hinzufügen')
+      expect(page).to have_no_text('Bitte warten')
+      expect(page).to have_no_text('Geoposition hinzufügen')
 
       team = Team.find(team_without_geo_location.id)
       expect(team.latitude).to eq 51
@@ -89,10 +89,10 @@ describe 'teams features' do
         click_on('OK')
 
         select('FF Warin', from: 'Richtiges Team:')
-        expect(page).to have_content('Mannschaft zusammenführen')
+        expect(page).to have_text('Mannschaft zusammenführen')
         click_on('OK')
       end
-      expect(page).to have_content('Der Fehlerbericht wurde gespeichert')
+      expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
 
       change_request_content = ChangeRequest.last.content
       expect(change_request_content).to include key: 'team-merge'
@@ -111,10 +111,10 @@ describe 'teams features' do
         choose('Team ist falsch geschrieben')
         click_on('OK')
 
-        expect(page).to have_content('Mannschaft korrigieren')
+        expect(page).to have_text('Mannschaft korrigieren')
         click_on('OK')
       end
-      expect(page).to have_content('Der Fehlerbericht wurde gespeichert')
+      expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
 
       change_request_content = ChangeRequest.last.content
       expect(change_request_content).to include key: 'team-correction'

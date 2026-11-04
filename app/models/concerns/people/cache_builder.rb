@@ -19,17 +19,19 @@ module People::CacheBuilder
   end
 
   def update_best_scores(competitions)
-    update_column(:best_scores,
-                  pb: {
-                    hl: inject_competition(hl_best_score, competitions),
-                    hb: inject_competition(hb_best_score, competitions),
-                    zk: inject_competition(zk_best_score, competitions),
-                  },
-                  sb: {
-                    hl: inject_competition(hl_saison_best_score, competitions),
-                    hb: inject_competition(hb_saison_best_score, competitions),
-                    zk: inject_competition(zk_saison_best_score, competitions),
-                  })
+    best_scores = {
+      pb: {
+        hl: inject_competition(hl_best_score, competitions),
+        hb: inject_competition(hb_best_score, competitions),
+        zk: inject_competition(zk_best_score, competitions),
+      },
+      sb: {
+        hl: inject_competition(hl_saison_best_score, competitions),
+        hb: inject_competition(hb_saison_best_score, competitions),
+        zk: inject_competition(zk_saison_best_score, competitions),
+      },
+    }
+    update_column(:best_scores, best_scores)
   end
 
   private

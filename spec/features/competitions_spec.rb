@@ -14,21 +14,21 @@ describe 'competitions features', :js do
     it 'shows the competition' do
       visit competition_path(competition)
 
-      expect(page).to have_content('100m-Hindernisbahn (Männer)')
-      expect(page).to have_content('1 bis 1 von 1 Einträgen')
-      expect(page).to have_content('100m-Hindernisbahn (Männer) männlich Mannschaftswertung')
+      expect(page).to have_text('100m-Hindernisbahn (Männer)')
+      expect(page).to have_text('1 bis 1 von 1 Einträgen')
+      expect(page).to have_text('100m-Hindernisbahn (Männer) männlich Mannschaftswertung')
 
-      expect(page).to have_content('Hakenleitersteigen (3. Etage) männlich')
-      expect(page).to have_content('Hakenleitersteigen (3. Etage) männlich Mannschaftswertung')
+      expect(page).to have_text('Hakenleitersteigen (3. Etage) männlich')
+      expect(page).to have_text('Hakenleitersteigen (3. Etage) männlich Mannschaftswertung')
 
-      expect(page).to have_content('Zweikampf männlich')
+      expect(page).to have_text('Zweikampf männlich')
 
-      expect(page).to have_no_content('Löschangriff nass weiblich')
-      expect(page).to have_content('Löschangriff nass männlich')
-      expect(page).to have_content('Standardwertung WKO')
+      expect(page).to have_no_text('Löschangriff nass weiblich')
+      expect(page).to have_text('Löschangriff nass männlich')
+      expect(page).to have_text('Standardwertung WKO')
 
       within('.missed-3') do
-        expect(page).to have_content('Folgende Informationen fehlen:')
+        expect(page).to have_text('Folgende Informationen fehlen:')
       end
     end
 
@@ -46,17 +46,17 @@ describe 'competitions features', :js do
       find_by_id('add-change-request').click
 
       within('.fss-window') do
-        expect(page).to have_content('Auswahl des Fehlers')
+        expect(page).to have_text('Auswahl des Fehlers')
         choose('Name des Wettkampfs vorschlagen')
         click_on('OK')
       end
 
       within('.fss-window') do
-        expect(page).to have_content('Namen vorschlagen')
+        expect(page).to have_text('Namen vorschlagen')
         fill_in 'Name', with: 'Superduperwettkampf'
         click_on('OK')
       end
-      expect(page).to have_content('Der Fehlerbericht wurde gespeichert')
+      expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
       click_on('OK')
 
       change_request_content = ChangeRequest.last.content
@@ -66,17 +66,17 @@ describe 'competitions features', :js do
       find_by_id('add-change-request').click
 
       within('.fss-window') do
-        expect(page).to have_content('Auswahl des Fehlers')
+        expect(page).to have_text('Auswahl des Fehlers')
         choose('Hinweis geben')
         click_on('OK')
       end
 
       within('.fss-window') do
-        expect(page).to have_content('Hinweis beschreiben')
+        expect(page).to have_text('Hinweis beschreiben')
         fill_in 'Beschreibung', with: 'Wetterbericht'
         click_on('OK')
       end
-      expect(page).to have_content('Der Fehlerbericht wurde gespeichert')
+      expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
       click_on('OK')
 
       change_request_content = ChangeRequest.last.content
@@ -92,11 +92,11 @@ describe 'competitions features', :js do
       visit competition_path(competition)
       find_by_id('add-file').click
 
-      expect(page).to have_content('Es dürfen nur PDFs hochgeladen werden.')
+      expect(page).to have_text('Es dürfen nur PDFs hochgeladen werden.')
       attach_file('competition_file[0][file]', File.expand_path(file_fixture('testfile.pdf')))
       check('competition_file[0][fs_female]')
       click_on('Hochladen')
-      expect(page).to have_content('testfile.pdf')
+      expect(page).to have_text('testfile.pdf')
     end
   end
 end

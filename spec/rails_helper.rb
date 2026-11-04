@@ -62,7 +62,8 @@ RSpec.configure do |config|
   # every example runs in a transaction; the in-process server of feature specs shares the connection
   config.use_transactional_fixtures = true
   config.include ActiveSupport::Testing::TimeHelpers
-  config.after { travel_back }
+  # also for specs without rails type (e.g. spec/m3)
+  config.after { travel_back } # rubocop:disable Rails/RedundantTravelBack
 
   config.before(:each, type: :feature) { travel_to(Time.zone.local(2016, 2, 29, 12, 20, 42)) }
   config.before { SingleDiscipline.instance_variable_set(:@single_disciplines, nil) }

@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-SimpleCov.start do
-  track_files '{app,lib}/**/*.rb'
-
-  add_filter '/spec/'
-  add_filter '/m3/'
-  add_filter '/firesport/'
-  add_filter '/firesport-series/'
+# configuration only, SimpleCov.start is called in spec/rails_helper.rb
+SimpleCov.configure do
+  cover '{app,lib}/**/*.rb'
+  skip '/spec/'
+  skip '/m3/'
 end

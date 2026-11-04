@@ -19,7 +19,7 @@ RSpec.describe 'Years' do
     it 'assigns resource' do
       get "/years/#{competition.date.year}"
       expect(response).to be_successful
-      expect(controller.send(:resource).year).to eq Year.first.year
+      expect(controller.send(:resource).year).to eq Year.take.year
     end
   end
 
@@ -27,7 +27,7 @@ RSpec.describe 'Years' do
     it 'assigns resource' do
       get "/years/#{competition.date.year}/best_performance"
       expect(response).to be_successful
-      expect(controller.send(:resource).year).to eq Year.first.year
+      expect(controller.send(:resource).year).to eq Year.take.year
     end
   end
 
@@ -35,7 +35,7 @@ RSpec.describe 'Years' do
     it 'assigns resource' do
       get "/years/#{competition.date.year}/best_scores"
       expect(response).to be_successful
-      expect(controller.send(:resource).year).to eq Year.first.year
+      expect(controller.send(:resource).year).to eq Year.take.year
     end
   end
 end

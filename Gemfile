@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '~> 7.0'
+gem 'rails', '~> 8.1.4'
 
 gem 'pg' # postgres adapter
 gem 'puma' # webserver
