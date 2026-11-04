@@ -87,7 +87,7 @@ class AssociationSelectController < ApplicationController
     if valid?
       render json: { association: params[:association], payload: }
     else
-      render status: :not_found, text: ''
+      head :not_found
     end
   end
 
