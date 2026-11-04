@@ -13,7 +13,6 @@ gem 'cancancan' # abilities
 gem 'carrierwave', '> 3.0.0' # uploads
 gem 'mini_magick' # image processing
 gem 'simple_form' # more form support
-gem 'm3', path: 'm3' # old lichtbit stuff
 
 gem 'bootsnap', require: false # Reduces boot times through caching; required in config/boot.rb
 gem 'rails_log_parser' # to analyise log

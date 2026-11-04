@@ -4,5 +4,4 @@
 SimpleCov.configure do
   cover '{app,lib}/**/*.rb'
   skip '/spec/'
-  skip '/m3/'
 end

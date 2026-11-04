@@ -10,4 +10,3 @@
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-Rails.application.config.assets.precompile += %w[m3/i18n_de.js m3/i18n_en.js]
