@@ -15,7 +15,7 @@ Repo: `git@github.com:Feuerwehrsport/feuerwehrsport-statistik-website.git`
 - Hintergrundjobs: Solid Queue (DB-basiert) + Mission Control (`/admin-jobs`, Basis `AdminController`)
   - Recurring (`config/recurring.yml`): Aufräumen fertiger Jobs, `DebugJob`, nächtlicher `DumpDatabaseJob`
 - Views: HAML (`haml-rails`), Formulare: `simple_form`, Decorators: `draper`
-- Rechte: `cancancan` (`app/models/ability.rb`)
+- Rechte: `cancancan` (`app/models/ability.rb`; Rollen user < sub_admin < sub_admin_with_series < admin; `UncheckedTeam` erst ab sub_admin, Import-Requests für user nur eigene)
 - Uploads: `carrierwave` + `mini_magick`; `image_optim`
 - Exporte: `prawn-rails` (PDF), `caxlsx_rails` (XLSX), `active_model_serializers` (JSON-API), `rqrcode`
 - DB-Views im Code: `activerecord_views` (`*.sql` neben Models, z. B. `team_member.sql`, `year.sql`)
@@ -47,8 +47,8 @@ Filter-/ActionManager-Decorators, Inputs, Uploader, Layouts, Fontawesome + JS-Ba
 ## Tests & Qualität
 - RSpec (request specs, features mit Cuprite/Capybara, VCR/WebMock, FactoryBot, Timecop), SimpleCov, Guard
 - Lokaler Lauf (2026-11-04, vor neuen Tests): 384 Beispiele, 0 Fehlschläge (4 Mail-Job-Specs auf `ApplicationMailer::DeliveryJob` korrigiert), Coverage 78,8 %
-- Nach Testoffensive (2026-11-04): **1045 Beispiele, 0 Fehlschläge, 32 pending** (= dokumentierte Bugs, siehe [Bugs.md](Bugs.md)),
-  Coverage 95,7 % (vorher 78,8 %), Laufzeit ~4 min; auch mit `CI=1` (eager_load) grün
+- Nach Testoffensive + Bugfixes (2026-11-04): **1052 Beispiele, 0 Fehlschläge, 1 skip**, Coverage 96,8 % (vorher 78,8 %),
+  Laufzeit ~4 min; auch mit `CI=1` (eager_load) grün. Bugs: siehe [Bugs.md](Bugs.md)
   - Neue Spec-Ordner: `spec/decorators`, `spec/serializers` (JSON-Snapshots, Absicherung für AMS-Ablösung), `spec/m3`, `spec/helpers/{calc,chart,backend}`, `spec/validators`, `spec/uploaders`
   - Feature-Specs (Cuprite) nicht parallel in zwei Prozessen laufen lassen (Port/Browser-Konflikt)
 - Test-DB-Name: `feuerwehrsport-statistik-test<TEST_ENV_NUMBER>` → parallele Läufe mit eigener DB möglich

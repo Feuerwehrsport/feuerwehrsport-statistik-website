@@ -15,8 +15,10 @@ Stand: 2026-11-04. Reihenfolge ≈ empfohlene Priorität.
 - [ ] `config/environments/production.rb`: veraltetes `config.cache_classes` entfernen (`enable_reloading = false` reicht),
       doppeltes `log_level` aufräumen
 - [ ] TODO in `app/controllers/backend/backend_controller.rb:44` (leerer `begin`-Block) klären
+- [ ] Commits pushen (lokal, Stand 2026-11-04 noch nicht gepusht)
 
-- [ ] Bugs aus [Bugs.md](Bugs.md) abarbeiten (32 pending-Specs), Rechtefragen in `ability.rb` entscheiden
+- [x] Bugs aus [Bugs.md](Bugs.md) behoben (32 pending-Specs), Rechte für Import-Requests/Team-Prüfung umgesetzt
+- [ ] Offene Punkte unten in [Bugs.md](Bugs.md) entscheiden
 - [ ] Optional: `parallel_tests` einführen (DB-Name nutzt schon `TEST_ENV_NUMBER`)
 
 ## 2. Rails-Upgrade 7.2 → 8.x
