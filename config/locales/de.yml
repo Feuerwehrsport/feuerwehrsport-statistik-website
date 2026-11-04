@@ -20,18 +20,6 @@ de:
   "yes": Ja
   "no": Nein
 
-  m3:
-    errors:
-      not_found:
-        not_found: Fehler 404 - Seite nicht gefunden
-        back_to_root_path: Zurück zur Startseite
-      internal_server_error:
-        internal_server_error: Fehler 500 - Fehler beim Verarbeiten der Anfrage
-        back_to_root_path: Zurück zur Startseite
-      unacceptable:
-        unacceptable: Fehler 422 - Fehler beim Verarbeiten der Anfrage
-        back_to_root_path: Zurück zur Startseite
-
   t3:
     application:
       errors:

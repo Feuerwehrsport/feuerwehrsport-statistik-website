@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# session handling for logins (replacement for the former m3 login session)
+# session handling for logins
 module Authentication
   extend ActiveSupport::Concern
 

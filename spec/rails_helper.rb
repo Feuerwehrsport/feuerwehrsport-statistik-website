@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# This file is copied to spec/ when you run 'rails generate m3:rspec:install'
 require 'simplecov'
 SimpleCov.start 'rails'
 
@@ -66,7 +65,7 @@ RSpec.configure do |config|
   config.before(:suite) { Rails.autoloaders.main.eager_load_dir(Rails.root.join('app/models').to_s) }
   config.include ActiveSupport::Testing::TimeHelpers
   config.before { ActionController::Base.cache_store.clear }
-  # also for specs without rails type (e.g. spec/m3)
+  # also for specs without rails type (e.g. spec/renderers)
   config.after { travel_back } # rubocop:disable Rails/RedundantTravelBack
 
   config.before(:each, type: :feature) { travel_to(Time.zone.local(2016, 2, 29, 12, 20, 42)) }

@@ -10,6 +10,7 @@ class AssetUploader < ApplicationUploader
   end
 
   def store_dir
+    # path from former m3 engine, existing files are stored there
     "uploads/m3/assets/#{mounted_as}/#{model.id}"
   end
 end
