@@ -32,7 +32,7 @@ end
       login = login_user.login
 
       patch_session = proc { |session, key|
-        if key == M3::Login::Session::ID_KEY
+        if key.to_s == Authentication::SESSION_KEY.to_s
           login.id
         elsif session.key?(key)
           session.fetch(key)

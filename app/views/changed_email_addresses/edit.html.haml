@@ -1,0 +1,13 @@
+- @page_title = 'E-Mail-Adresse ändern'
+.hero
+  .container
+    %h1 E-Mail-Adresse ändern
+.section
+  .container
+    .col-md-7
+      %dl
+        %dt Alte E-Mail-Adresse
+        %dd= @login.email_address
+        %dt Neue E-Mail-Adresse
+        %dd= @login.changed_email_address
+      = button_to 'Bestätigen', changed_email_address_path(params[:id]), method: :patch, class: 'btn btn-primary'

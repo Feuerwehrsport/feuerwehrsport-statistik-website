@@ -1,0 +1,12 @@
+- @page_title = 'Neues Passwort anfordern'
+.hero
+  .container
+    %h1 Neues Passwort anfordern
+    = content_for(:header)
+.section
+  .container
+    .col-md-7
+      = simple_form_for :password_reset, url: { action: :create } do |f|
+        = f.input :email_address, label: 'E-Mail-Adresse', required: true, input_html: { value: @email_address, autocomplete: 'username' }
+        .form-actions
+          = f.button :submit, 'Neues Passwort anfordern', class: 'btn-primary'

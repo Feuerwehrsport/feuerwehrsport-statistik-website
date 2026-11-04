@@ -62,7 +62,7 @@ describe ChangeRequestMailer do
     context 'with sub_admin_with_series' do
       before do
         create(:admin_user, role: :sub_admin_with_series,
-                            login: create(:m3_login, email_address: 'series@example.com', name: 'series'))
+                            login: create(:login, email_address: 'series@example.com', name: 'series'))
       end
 
       it 'sends also to sub admins with series' do

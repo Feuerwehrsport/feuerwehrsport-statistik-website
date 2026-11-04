@@ -1,0 +1,13 @@
+- @page_title = 'Neues Passwort setzen'
+.hero
+  .container
+    %h1 Neues Passwort setzen
+    %p= @login.decorate
+.section
+  .container
+    .col-md-7
+      = simple_form_for @login, as: :password_reset, url: password_reset_path(params[:id]), method: :patch do |f|
+        = f.input :password, label: 'Passwort', required: true, input_html: { autocomplete: 'new-password' }
+        = f.input :password_confirmation, label: 'Passwortbestätigung', required: true, input_html: { autocomplete: 'new-password' }
+        .form-actions
+          = f.button :submit, 'Passwort speichern', class: 'btn-primary'

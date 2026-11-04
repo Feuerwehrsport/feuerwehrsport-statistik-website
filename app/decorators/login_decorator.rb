@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class M3::Login::BaseDecorator < ApplicationDecorator
+class LoginDecorator < ApplicationDecorator
   localizes :verified_at, :expired_at
 
   def to_s
