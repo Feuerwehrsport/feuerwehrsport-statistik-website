@@ -33,7 +33,6 @@ gem 'redcarpet' # markdown
 gem 'jquery-rails' # jquery js
 gem 'terser' # asset compressor
 gem 'coffee-rails' # coffee script
-gem 'lazy_high_charts' # charts
 gem 'image_optim' # image optimazing
 gem 'image_optim_pack' # image optimazing binaries
 gem 'bootstrap-sass' # bootstrap with sass support
