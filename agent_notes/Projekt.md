@@ -21,10 +21,10 @@ Repo: `git@github.com:Feuerwehrsport/feuerwehrsport-statistik-website.git`
   (`app/serializers/`, Lookup `ApplicationSerializer.for(klass)`, nur `attributes` + Methoden)
 - DB-Views im Code: `activerecord_views` (`*.sql` neben Models, z. B. `team_member.sql`, `year.sql`)
 - Validierung aus Schema: `generated_schema_validations` (hat auch Capistrano-Task)
-- Frontend (Sprockets!): CoffeeScript, Sass (`sassc`), `bootstrap-sass` 3.4.1, jQuery (über m3: `jquery2` + `jquery_ujs`),
+- Frontend (Sprockets!): CoffeeScript, Sass (`sassc`), `bootstrap-sass` 3.4.1, jQuery (`jquery2` + `jquery_ujs` in `app/assets/javascripts/m3/application.js.coffee`),
   DataTables 1.10.9 (vendort in `app/assets/javascripts/dataTables`), Highcharts 10.3.3 (vendort in
   `vendor/assets/javascripts/highcharts`; Optionen über eigene Klasse `Chart::HighChart`, Ausgabe in `Chart::Base#high_chart`)
-- Pagination: `will_paginate` mit eigenem `BootstrapPaginationRenderer` (`m3/app/renderers/`)
+- Pagination: `will_paginate` mit eigenem `BootstrapPaginationRenderer` (`app/renderers/`)
 - Deployment: Capistrano über `capistrano3_featureset` 1.2.0 (mise, systemd, Puma, Solid Queue), Server `hanse-ff`, `/srv/feuerwehrsport-statistik`
   - `config/deploy.rb` liest `:ruby_version` aus `mise.toml`
   - Server erwartet: `/usr/bin/mise`, Ruby via mise, `/home/feuerwehrsport-statistik/feuerwehrsport-statistik.mise.toml`,
@@ -32,13 +32,20 @@ Repo: `git@github.com:Feuerwehrsport/feuerwehrsport-statistik-website.git`
   - Stand 2026-11-04: auf `hanse-ff` ist **noch kein Ruby via mise installiert** → `cap production version_manager:check` schlägt fehl
 - Mails: SMTP `mail.lichtbit.com`; `ApplicationMailer::DeliveryJob` mit Retry
 - Sicherheit: `bin/bundler-audit` (in CI), `bin/brakeman` (19 Warnungen, noch nicht gesichtet)
-- Achtung Rails 8: `has_secure_password reset_token: false` in `M3::Login::Base`, weil m3 eine eigene Spalte `password_reset_token` hat
 
-## m3 (lokales Engine-Gem unter `m3/`)
-Altes Lichtbit/mgvmedia-Framework (Autor Sebastian Gaul), per `path:` eingebunden. Liefert:
-Login/Sessions/Passwort-Reset (`M3::Login::*`), Default-CRUD-Actions (`controllers/concerns/default_actions`),
-Filter-/ActionManager-Decorators, Inputs, Uploader, Layouts, Fontawesome + JS-Basis (jQuery 2, jquery_ujs, autosize).
-→ Große, eigene Altlast; viele Teile der App hängen davon ab.
+## Ehemalige m3-Engine (am 2026-11-04 aufgelöst)
+Früher lokales Engine-Gem `m3/` (Lichtbit/mgvmedia). Jetzt vollständig Teil der App:
+- **CRUD-Framework** (in `ApplicationController` eingebunden): `controllers/concerns/default_actions*`, `default_resources`,
+  `default_parent_resources`, `action_manager`, `index_structures`/`form_structures`/`filter_structures`,
+  `controller_translation` (`t3`), Strukturen unter `Ui::Index`, `Ui::Filter`, `Ui::Form` (+ Decorators unter `app/decorators/ui/`),
+  View-Helfer `ResourceHelper` (`resource_form`, `ca_title` …), generische Views in `app/views/application/`
+- **Login** mit Rails-Bordmitteln: Model `Login` (Tabelle `logins`), Concern `Authentication` (`current_login`,
+  `start_session` mit `reset_session`, Session-Key `:login_id`), Controller `Sessions`, `Verifications`, `PasswordResets`,
+  `ExpiredLogins`, `ChangedEmailAddresses`. Tokens per `generates_token_for`/`has_secure_password reset_token: { expires_in: 1.day }`,
+  `rate_limit` auf Anmeldung (10/3 min) und Passwort-Reset (5/10 min). `AdminUser belongs_to :login`.
+- Sonstiges: `FormObject`/`FormObjectAssociations` (Concerns), `ApplicationUploader`, `Asset`/`ImageAsset` (Tabelle `assets`,
+  Dateien weiterhin unter `uploads/m3/assets/…`) für CKEditor-Bilder, Inputs in `app/inputs/`, `BootstrapPaginationRenderer`
+- Noch übrig (Frontend): JS-Global `M3` (`M3.ready`, `app/assets/javascripts/m3/`), Sass unter `app/assets/stylesheets/m3/`
 
 ## Code-Struktur (app/)
 - `models/`: Kernmodelle (Person, Team, Competition, Score, GroupScore, Event, Place, …), `series/` (Cups, Rounds,
@@ -54,7 +61,7 @@ Filter-/ActionManager-Decorators, Inputs, Uploader, Layouts, Fontawesome + JS-Ba
 - Lokaler Lauf (2026-11-04, vor neuen Tests): 384 Beispiele, 0 Fehlschläge (4 Mail-Job-Specs auf `ApplicationMailer::DeliveryJob` korrigiert), Coverage 78,8 %
 - Nach Testoffensive, Bugfixes und Rails-8.1-Update (2026-11-04): **1057 Beispiele, 0 Fehlschläge, 1 skip**, Coverage 96,9 % (vorher 78,8 %),
   Laufzeit ~4 min; auch mit `CI=1` (eager_load) grün. Bugs: siehe [Bugs.md](Bugs.md)
-  - Neue Spec-Ordner: `spec/decorators`, `spec/serializers` (JSON-Snapshots, Absicherung für AMS-Ablösung), `spec/m3`, `spec/helpers/{calc,chart,backend}`, `spec/validators`, `spec/uploaders`
+  - Neue Spec-Ordner: `spec/decorators`, `spec/serializers` (JSON-Snapshots, Absicherung für AMS-Ablösung), `spec/renderers`, `spec/helpers/{calc,chart,backend}`, `spec/validators`, `spec/uploaders`
   - Feature-Specs (Cuprite) nicht parallel in zwei Prozessen laufen lassen (Port/Browser-Konflikt)
 - Test-DB-Name: `feuerwehrsport-statistik-test<TEST_ENV_NUMBER>` → parallele Läufe mit eigener DB möglich
 - RuboCop (`.rubocop.yml`): 609 Dateien, keine Offenses

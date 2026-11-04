@@ -45,10 +45,12 @@ Stand: 2026-11-04. Reihenfolge ≈ empfohlene Priorität.
 - [ ] Content Security Policy aktivieren, sobald Inline-JS (u. a. Chart-Skripte) weg ist
 
 ## 5. m3-Engine abbauen
-- [ ] Inventur, welche m3-Teile wirklich genutzt werden (Login, Default-Actions, Filter, ActionManager, Inputs, Layouts)
-- [ ] Login evtl. auf Rails-8-Authentication-Generator umstellen
-- [ ] Default-Actions/Filter schrittweise in die App übernehmen, m3 am Ende entfernen
-- [ ] Fontawesome-Version in m3 prüfen/aktualisieren
+- [x] Engine aufgelöst, Ungenutztes entfernt, Namensräume aufgelöst, Login mit Rails-Bordmitteln (2026-11-04)
+- [ ] Beim Deploy: Migrationen benennen `m3_logins` → `logins` und `m3_assets` → `assets` um (Token-Spalten entfallen);
+      alle Nutzer werden einmal abgemeldet (neuer Session-Key), alte Links aus Verifizierungs-/Reset-/E-Mail-Änderungsmails sind ungültig
+- [ ] Nach Deploy prüfen: Anmelden, Passwort vergessen, Registrierung, E-Mail-Änderung, CKEditor-Bilderauswahl (`/image_assets`)
+- [ ] JS-Global `M3` und Sass-Ordner `m3/` bei der Frontend-Modernisierung umbenennen/auflösen
+- [ ] Fontawesome-Version prüfen/aktualisieren
 
 ## 6. Optional
 - [ ] Solid Cache / Solid Cable, Kamal statt Capistrano prüfen
