@@ -38,7 +38,8 @@ gem 'sassc-rails' # sass for rails
 gem 'will_paginate' # pagination
 
 # exports
-gem 'prawn-rails' # pdf export
+gem 'prawn' # pdf export
+gem 'prawn-table', require: 'prawn/table' # tables in pdf export
 gem 'caxlsx_rails' # xlsx exports
 gem 'draper' # model decorators
 
