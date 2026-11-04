@@ -20,7 +20,7 @@ RSpec.describe TodayOrFutureDateValidator do
 
   let(:model) { build_model { validates :value, today_or_future_date: true } }
 
-  around { |example| travel_to(Time.zone.local(2020, 5, 5, 12)) { example.run } }
+  before { travel_to(Time.zone.local(2020, 5, 5, 12)) }
 
   it 'accepts today and future dates' do
     expect(model.new(value: Date.new(2020, 5, 5))).to be_valid
