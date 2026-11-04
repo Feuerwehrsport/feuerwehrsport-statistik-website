@@ -27,7 +27,6 @@ RSpec.describe 'Api::Imports' do
             run: 'A',
             team_number: 1,
             team_ids: [warin.id],
-            people: [],
           }, {
             valid: true,
             last_name: '',
@@ -38,7 +37,6 @@ RSpec.describe 'Api::Imports' do
             run: 'A',
             team_number: 1,
             correct: false,
-            people: [],
           }, {
             valid: true,
             last_name: '',
@@ -49,7 +47,6 @@ RSpec.describe 'Api::Imports' do
             run: 'A',
             team_number: 1,
             correct: false,
-            people: [],
           }
         ],
       )

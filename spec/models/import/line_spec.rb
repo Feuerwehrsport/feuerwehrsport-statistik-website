@@ -189,7 +189,6 @@ describe Import::Line do
       expect(out[:run]).to eq 'C'
       expect(out[:team_number]).to eq 2
 
-      pending 'Bug: Team.normalize_name entfernt römische Nummern nur am Ende, nicht vor dem Lauf-Buchstaben'
       expect(out[:team_ids]).to eq [team.id]
     end
 
@@ -233,7 +232,6 @@ describe Import::Line do
     before { check.valid? }
 
     it 'does not search people' do
-      pending 'Bug: Discipline.group?(check) statt Discipline.group?(check.discipline) in Import::Line#initialize'
       out = described_class.new(check, ['FF Warin', '22,00']).out
       expect(out[:times]).to eq [2200]
       expect(out[:team_ids]).to eq [team.id]
