@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class SuggestionTeamSerializer < ActiveModel::Serializer
+class SuggestionTeamSerializer < ApplicationSerializer
   attributes :id, :name, :shortcut
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ChangeRequestSerializer < ActiveModel::Serializer
+class ChangeRequestSerializer < ApplicationSerializer
   attributes :id, :content, :done_at, :created_at, :files, :user
 
   def files

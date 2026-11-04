@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class ImportRequestFileSerializer < ActiveModel::Serializer
+class ImportRequestFileSerializer < ApplicationSerializer
   attributes :id, :file
 end

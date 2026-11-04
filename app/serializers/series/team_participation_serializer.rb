@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Series::TeamParticipationSerializer < ActiveModel::Serializer
+class Series::TeamParticipationSerializer < ApplicationSerializer
   attributes :id, :points, :rank, :time, :second_time, :team_assessment_id, :cup_id, :team_id, :team_number,
              :team_gender, :points_correction, :points_correction_hint
 end

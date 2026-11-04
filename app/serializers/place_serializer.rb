@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class PlaceSerializer < ActiveModel::Serializer
+class PlaceSerializer < ApplicationSerializer
   attributes :id, :name
 end
