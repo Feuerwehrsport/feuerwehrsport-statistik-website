@@ -60,9 +60,13 @@ RSpec.configure do |config|
 
   # every example runs in a transaction; the in-process server of feature specs shares the connection
   config.use_transactional_fixtures = true
-  # activerecord_views creates the SQL views when a model class is loaded. Load all models before the suite,
-  # otherwise the views are created inside the first example's transaction and rolled back afterwards.
-  config.before(:suite) { Rails.autoloaders.main.eager_load_dir(Rails.root.join('app/models').to_s) }
+  # activerecord_views creates the SQL views when a model class is loaded. Load all models before the suite and
+  # (re)create missing views: with eager loading (CI=1) the classes are loaded before maintain_test_schema! may
+  # reload the test database, which drops the views again.
+  config.before(:suite) do
+    Rails.autoloaders.main.eager_load_dir(Rails.root.join('app/models').to_s)
+    ActiveRecordViews.registered_views.each(&:reload!)
+  end
   config.include ActiveSupport::Testing::TimeHelpers
   config.before { ActionController::Base.cache_store.clear }
   # also for specs without rails type (e.g. spec/renderers)
