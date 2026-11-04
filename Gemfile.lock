@@ -103,7 +103,12 @@ GEM
     bootstrap-sass (3.4.1)
       autoprefixer-rails (>= 5.2.1)
       sassc (>= 2.0.0)
+    brakeman (8.1.0)
+      racc
     builder (3.3.0)
+    bundler-audit (0.9.3)
+      bundler (>= 1.2.0)
+      thor (~> 1.0)
     cancancan (3.7.0)
     capistrano (3.20.1)
       airbrussh (>= 1.0.0)
@@ -556,6 +561,8 @@ DEPENDENCIES
   bcrypt
   bootsnap
   bootstrap-sass
+  brakeman
+  bundler-audit
   cancancan
   capistrano3_featureset
   capybara

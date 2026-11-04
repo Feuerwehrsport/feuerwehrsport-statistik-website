@@ -50,6 +50,8 @@ gem 'valid_email2' # validate emails
 
 group :development, :test do
   gem 'debug' # debugger
+  gem 'brakeman', require: false # static security analysis
+  gem 'bundler-audit', require: false # gems with known security issues
 
   # code beautifier
   gem 'rubocop'
