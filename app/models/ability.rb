@@ -9,6 +9,9 @@ class Ability
     @user = user
     all_users
     send(:"#{user.role}_abilities") if user.try(:role).in?(%i[admin sub_admin_with_series sub_admin user api_user])
+
+    # checking teams is only allowed for sub admins and above
+    cannot :manage, UncheckedTeam unless user.try(:role).in?(%i[admin sub_admin_with_series sub_admin])
   end
 
   private
@@ -43,7 +46,6 @@ class Ability
     can :manage, ImportRequest
     can :manage, ImportRequestFile
     can :manage, Link
-    can :manage, Link
     can :manage, M3::Asset
     can :manage, M3::ImageAsset
     can :manage, Nation
@@ -62,8 +64,9 @@ class Ability
   def user_abilities
     api_user_abilities
 
+    # only own import requests
     can :read, ImportRequest, admin_user_id: user.id
-    can %i[create index], ImportRequest
+    can :create, ImportRequest
 
     can %i[logout show update], AdminUser, id: user.id
   end

@@ -52,11 +52,15 @@ RSpec.describe 'Backend::UncheckedTeams', login: :sub_admin do
       expect(response).to redirect_to('/')
     end
 
-    # NOTE: Ability gives every user (and API user) :update on Team, so also UncheckedTeam can be updated
-    it 'allows update (Team update ability)' do
+    it 'denies marking as checked' do
       put "/backend/unchecked_teams/#{unchecked_team.id}", params: { unchecked_team: { checked_at: Time.current } }
-      expect(response).to redirect_to(action: :index)
-      expect(unchecked_team.reload.checked_at).to be_present
+      expect(response).to redirect_to('/')
+      expect(unchecked_team.reload.checked_at).to be_nil
+    end
+
+    it 'denies index' do
+      get '/backend/unchecked_teams'
+      expect(response).to redirect_to('/')
     end
   end
 end
