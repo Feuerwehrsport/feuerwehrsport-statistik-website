@@ -14,7 +14,7 @@ AllCops:
   - firesport/**/*
   - firesport-series/**/*
   TargetRailsVersion: 8.1
-  TargetRubyVersion: 3.4.8
+  TargetRubyVersion: 4.0
 Bundler/OrderedGems:
   Enabled: false
 Capybara/AbsoluteXPathInElementScope:
