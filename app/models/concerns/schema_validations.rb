@@ -9,14 +9,27 @@
 module SchemaValidations
   extend ActiveSupport::Concern
 
+  mattr_accessor :relaxed, default: false
+
+  def self.relaxed!
+    self.relaxed = true
+  end
+
+  def self.relaxed?
+    relaxed
+  end
+
   included do
     class_attribute :schema_validations_excluded_columns, default: %i[id created_at updated_at type]
     class_attribute :schema_validations_called, default: false
 
     if defined?(Rails::Railtie) && (Rails.env.development? || Rails.env.test?)
       TracePoint.trace(:end) do |t|
-        if t.self.respond_to?(:schema_validations_called) && t.self < ApplicationRecord &&
-           !t.self.schema_validations_called
+        if t.self.respond_to?(:schema_validations_called) &&
+           t.self < ApplicationRecord &&
+           !t.self.abstract_class? &&
+           !t.self.schema_validations_called &&
+           !SchemaValidations.relaxed?
           raise "#{t.self}: schema_validations or skip_schema_validations missing"
         end
       end
@@ -27,20 +40,24 @@ module SchemaValidations
     def schema_validations(exclude: [], schema_table_name: table_name)
       self.schema_validations_called = true
       self.schema_validations_excluded_columns += exclude.map(&:to_sym)
-      send("dbv_#{schema_table_name}_validations", enums: defined_enums.keys.map(&:to_sym))
+
+      if SchemaValidations.relaxed?
+        try("dbv_#{schema_table_name}_validations", enums: defined_enums.keys.map(&:to_sym))
+      else
+        send("dbv_#{schema_table_name}_validations", enums: defined_enums.keys.map(&:to_sym))
+      end
     end
 
     def skip_schema_validations
       self.schema_validations_called = true
     end
 
-
     def dbv_active_record_views_validations(enums: [])
       belongs_to_uniqueness_validations_for([["class_name"]])
       uniqueness_validations_for([["class_name"]])
       validates_with_filter :checksum, {presence: {}}
       validates_with_filter :class_name, {presence: {}}
-      validates_with_filter :options, {exclusion: {in: [nil], message: :blank}}
+      validates_with_filter :options, {not_null: {}}
       validates_with_filter :refreshed_at, {date_time_in_db_range: {}}
     end
 
@@ -96,7 +113,7 @@ module SchemaValidations
       validates_with_filter :action, {presence: {}}
       validates_with_filter :admin_user_id, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:admin_user_id)
       validates_with_filter :api_user_id, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:api_user_id)
-      validates_with_filter :content, {exclusion: {in: [nil], message: :blank}}
+      validates_with_filter :content, {not_null: {}}
       validates_with_filter :created_at, {date_time_in_db_range: {}}
       validates_with_filter :created_at, {presence: {}}
       validates_with_filter :model_class, {presence: {}}
@@ -107,7 +124,7 @@ module SchemaValidations
     def dbv_change_requests_validations(enums: [])
       validates_with_filter :admin_user_id, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:admin_user_id)
       validates_with_filter :api_user_id, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:api_user_id)
-      validates_with_filter :content, {exclusion: {in: [nil], message: :blank}}
+      validates_with_filter :content, {not_null: {}}
       validates_with_filter :created_at, {date_time_in_db_range: {}}
       validates_with_filter :created_at, {presence: {}}
       validates_with_filter :done_at, {date_time_in_db_range: {}}
@@ -416,7 +433,7 @@ module SchemaValidations
       validates_with_filter :created_at, {presence: {}}
       validates_with_filter :person_id, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:person_id)
       validates_with_filter :person_id, {presence: {}}
-      validates_with_filter :single_discipline_id, {numericality: {allow_nil: true}} unless enums.include?(:single_discipline_id)
+      validates_with_filter :single_discipline_id, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -9223372036854775808, less_than: 9223372036854775808}} unless enums.include?(:single_discipline_id)
       validates_with_filter :single_discipline_id, {presence: {}}
       validates_with_filter :team_id, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:team_id)
       validates_with_filter :team_number, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:team_number)
@@ -491,7 +508,7 @@ module SchemaValidations
       validates_with_filter :created_at, {presence: {}}
       validates_with_filter :full_cup_count, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:full_cup_count)
       validates_with_filter :full_cup_count, {presence: {}}
-      validates_with_filter :kind_id, {numericality: {allow_nil: true}} unless enums.include?(:kind_id)
+      validates_with_filter :kind_id, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -9223372036854775808, less_than: 9223372036854775808}} unless enums.include?(:kind_id)
       validates_with_filter :official, {inclusion: {in: [true, false], message: :blank}}
       validates_with_filter :updated_at, {date_time_in_db_range: {}}
       validates_with_filter :updated_at, {presence: {}}
@@ -563,7 +580,7 @@ module SchemaValidations
       validates_with_filter :created_at, {presence: {}}
       validates_with_filter :expires_at, {date_time_in_db_range: {}}
       validates_with_filter :expires_at, {presence: {}}
-      validates_with_filter :job_id, {numericality: {allow_nil: true}} unless enums.include?(:job_id)
+      validates_with_filter :job_id, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -9223372036854775808, less_than: 9223372036854775808}} unless enums.include?(:job_id)
       validates_with_filter :job_id, {presence: {}}
       validates_with_filter :priority, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:priority)
       validates_with_filter :priority, {presence: {}}
@@ -576,9 +593,9 @@ module SchemaValidations
       uniqueness_validations_for([["job_id"]])
       validates_with_filter :created_at, {date_time_in_db_range: {}}
       validates_with_filter :created_at, {presence: {}}
-      validates_with_filter :job_id, {numericality: {allow_nil: true}} unless enums.include?(:job_id)
+      validates_with_filter :job_id, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -9223372036854775808, less_than: 9223372036854775808}} unless enums.include?(:job_id)
       validates_with_filter :job_id, {presence: {}}
-      validates_with_filter :process_id, {numericality: {allow_nil: true}} unless enums.include?(:process_id)
+      validates_with_filter :process_id, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -9223372036854775808, less_than: 9223372036854775808}} unless enums.include?(:process_id)
     end
 
     def dbv_solid_queue_failed_executions_validations(enums: [])
@@ -587,7 +604,7 @@ module SchemaValidations
       uniqueness_validations_for([["job_id"]])
       validates_with_filter :created_at, {date_time_in_db_range: {}}
       validates_with_filter :created_at, {presence: {}}
-      validates_with_filter :job_id, {numericality: {allow_nil: true}} unless enums.include?(:job_id)
+      validates_with_filter :job_id, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -9223372036854775808, less_than: 9223372036854775808}} unless enums.include?(:job_id)
       validates_with_filter :job_id, {presence: {}}
     end
 
@@ -625,7 +642,7 @@ module SchemaValidations
       validates_with_filter :name, {presence: {}}
       validates_with_filter :pid, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:pid)
       validates_with_filter :pid, {presence: {}}
-      validates_with_filter :supervisor_id, {numericality: {allow_nil: true}} unless enums.include?(:supervisor_id)
+      validates_with_filter :supervisor_id, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -9223372036854775808, less_than: 9223372036854775808}} unless enums.include?(:supervisor_id)
     end
 
     def dbv_solid_queue_ready_executions_validations(enums: [])
@@ -634,7 +651,7 @@ module SchemaValidations
       uniqueness_validations_for([["job_id"]])
       validates_with_filter :created_at, {date_time_in_db_range: {}}
       validates_with_filter :created_at, {presence: {}}
-      validates_with_filter :job_id, {numericality: {allow_nil: true}} unless enums.include?(:job_id)
+      validates_with_filter :job_id, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -9223372036854775808, less_than: 9223372036854775808}} unless enums.include?(:job_id)
       validates_with_filter :job_id, {presence: {}}
       validates_with_filter :priority, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:priority)
       validates_with_filter :priority, {presence: {}}
@@ -647,7 +664,7 @@ module SchemaValidations
       uniqueness_validations_for([["job_id"], ["task_key", "run_at"]])
       validates_with_filter :created_at, {date_time_in_db_range: {}}
       validates_with_filter :created_at, {presence: {}}
-      validates_with_filter :job_id, {numericality: {allow_nil: true}} unless enums.include?(:job_id)
+      validates_with_filter :job_id, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -9223372036854775808, less_than: 9223372036854775808}} unless enums.include?(:job_id)
       validates_with_filter :job_id, {presence: {}}
       validates_with_filter :run_at, {date_time_in_db_range: {}}
       validates_with_filter :run_at, {presence: {}}
@@ -674,7 +691,7 @@ module SchemaValidations
       uniqueness_validations_for([["job_id"]])
       validates_with_filter :created_at, {date_time_in_db_range: {}}
       validates_with_filter :created_at, {presence: {}}
-      validates_with_filter :job_id, {numericality: {allow_nil: true}} unless enums.include?(:job_id)
+      validates_with_filter :job_id, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -9223372036854775808, less_than: 9223372036854775808}} unless enums.include?(:job_id)
       validates_with_filter :job_id, {presence: {}}
       validates_with_filter :priority, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:priority)
       validates_with_filter :priority, {presence: {}}
@@ -734,7 +751,6 @@ module SchemaValidations
       validates_with_filter :updated_at, {presence: {}}
     end
 
-
     def validates_with_filter(attribute, options)
       return if attribute.to_sym.in?(schema_validations_excluded_columns)
 
@@ -755,7 +771,7 @@ module SchemaValidations
         names.each do |name|
           next if name.to_sym.in?(schema_validations_excluded_columns)
           next unless defined?(Rails::Railtie)
-          next unless (Rails.env.development? || Rails.env.test?)
+          next unless Rails.env.development? || Rails.env.test?
 
           raise "Unique index with where clause is outside the scope of this gem.\n\n" \
                 "You can exclude this column: `schema_validations exclude: [:#{name}]`"
@@ -819,19 +835,10 @@ module SchemaValidations
     end
   end
 
-  class TimeInDbRangeValidator < ActiveModel::EachValidator
+  # Like presence, but accepts blank values like an empty hash or array
+  class NotNullValidator < ActiveModel::EachValidator
     def validate_each(record, attr_name, value)
-      return if value.nil?
-
-      unless value.is_a?(Time) || value.is_a?(ActiveSupport::TimeWithZone)
-        record.errors.add(attr_name, :invalid)
-        return
-      end
-
-      # PostgreSQL allows only times in one day
-      return if value.to_date == Date.new(2000, 1, 1)
-
-      record.errors.add(attr_name, :invalid)
+      record.errors.add(attr_name, :blank) if value.nil?
     end
   end
 end
