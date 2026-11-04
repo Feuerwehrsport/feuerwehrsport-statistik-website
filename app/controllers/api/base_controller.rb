@@ -8,7 +8,6 @@ class Api::BaseController < ApplicationController
   rescue_from CanCan::AccessDenied do |exception|
     failed(message: exception.message)
   end
-  respond_to :json
 
   def self.api_actions(*action_names)
     options              = action_names.extract_options!

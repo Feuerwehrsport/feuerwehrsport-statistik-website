@@ -63,19 +63,11 @@ RSpec.configure do |config|
   config.before(js: false) { Capybara.default_driver = :rack_test }
   config.after(js: false)  { Capybara.default_driver = Capybara.javascript_driver }
 
-  config.before(:suite) { DatabaseCleaner.clean_with(:truncation) }
-  config.before { DatabaseCleaner.strategy = :transaction }
+  # every example runs in a transaction; the in-process server of feature specs shares the connection
+  config.use_transactional_fixtures = true
+  config.include ActiveSupport::Testing::TimeHelpers
 
-  config.before(:each, type: :feature) do
-    Timecop.freeze(Time.zone.local(2016, 2, 29, 12, 20, 42))
-
-    driver_shares_db_connection_with_specs = Capybara.current_driver == :rack_test
-    DatabaseCleaner.strategy = :truncation unless driver_shares_db_connection_with_specs
-  end
-  config.after(:each, type: :feature) { Timecop.return }
-
-  config.before       { DatabaseCleaner.start }
-  config.append_after { DatabaseCleaner.clean }
+  config.before(:each, type: :feature) { travel_to(Time.zone.local(2016, 2, 29, 12, 20, 42)) }
   config.before { SingleDiscipline.instance_variable_set(:@single_disciplines, nil) }
 
   config.before(type: :feature) do

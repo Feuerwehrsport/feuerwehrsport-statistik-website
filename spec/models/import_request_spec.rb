@@ -29,7 +29,7 @@ describe ImportRequest do
     let(:edit_user) { create(:admin_user, :sub_admin) }
 
     it 'sets and resets edited_at' do
-      Timecop.freeze(Time.zone.local(2020, 1, 2, 3, 4, 5)) do
+      travel_to(Time.zone.local(2020, 1, 2, 3, 4, 5)) do
         import_request.edit_user_id = edit_user.id
         expect(import_request.edited_at).to eq Time.zone.local(2020, 1, 2, 3, 4, 5)
       end
@@ -53,7 +53,7 @@ describe ImportRequest do
     it 'sets finished_at from form value' do
       expect(import_request.finished).to be false
 
-      Timecop.freeze(Time.zone.local(2020, 1, 2, 3, 4, 5)) do
+      travel_to(Time.zone.local(2020, 1, 2, 3, 4, 5)) do
         import_request.finished = '1'
         expect(import_request.finished_at).to eq Time.zone.local(2020, 1, 2, 3, 4, 5)
       end

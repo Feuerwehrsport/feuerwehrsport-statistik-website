@@ -12,10 +12,8 @@ gem 'sprockets-rails' # asset pipeline
 gem 'cancancan' # abilities
 gem 'carrierwave', '> 3.0.0' # uploads
 gem 'mini_magick' # image processing
-gem 'responders' # set of responders
 gem 'simple_form' # more form support
 gem 'm3', path: 'm3' # old lichtbit stuff
-gem 'matrix'
 gem 'acts_as_list' # position of models
 
 gem 'bootsnap', require: false # Reduces boot times through caching; required in config/boot.rb
@@ -35,7 +33,6 @@ gem 'redcarpet' # markdown
 gem 'jquery-rails' # jquery js
 gem 'terser' # asset compressor
 gem 'coffee-rails' # coffee script
-gem 'cocoon' # nested_form helper
 gem 'lazy_high_charts' # charts
 gem 'image_optim' # image optimazing
 gem 'image_optim_pack' # image optimazing binaries
@@ -70,7 +67,6 @@ group :development, :test do
 end
 
 group :development do
-  gem 'spring'
   gem 'web-console'
 
   gem 'capistrano3_featureset' # Deployment
@@ -79,13 +75,11 @@ end
 group :test do
   gem 'rspec-rails' # rspec for rails
   gem 'simplecov', require: false # test coverage
-  gem 'timecop' # hold specific time
   gem 'vcr' # record http requests
   gem 'webmock' # mock http requests
   gem 'cuprite' # headless chrome driver for capybara
   gem 'guard', require: false # on demand tests
   gem 'guard-rspec', require: false # on demand tests
   gem 'factory_bot_rails' # factories for models
-  gem 'database_cleaner-active_record' # cleaning strategies for specs
   gem 'capybara' # feature test helper
 end

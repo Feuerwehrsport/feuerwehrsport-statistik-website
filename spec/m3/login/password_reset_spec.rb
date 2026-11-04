@@ -9,7 +9,7 @@ RSpec.describe M3::Login::PasswordReset do
     it 'regenerates password reset token' do
       reset = described_class.new(email_address: 'MY_ACCOUNT1994@gmail.com')
       old_token = login.password_reset_token
-      Timecop.freeze(Time.zone.local(2020, 1, 1, 10)) do
+      travel_to(Time.zone.local(2020, 1, 1, 10)) do
         expect(reset.save).to be true
       end
       login.reload

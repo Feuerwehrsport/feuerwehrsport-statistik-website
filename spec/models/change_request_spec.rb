@@ -66,7 +66,7 @@ describe ChangeRequest do
 
   describe '#done=' do
     it 'sets done_at once and resets it' do
-      Timecop.freeze(Time.zone.local(2020, 1, 2, 3, 4, 5)) do
+      travel_to(Time.zone.local(2020, 1, 2, 3, 4, 5)) do
         change_request.done = '1'
       end
       expect(change_request.done_at).to eq Time.zone.local(2020, 1, 2, 3, 4, 5)

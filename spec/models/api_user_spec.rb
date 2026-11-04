@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe ApiUser do
   it 'destroys old entries automaticly' do
-    Timecop.freeze(40.days.ago) do
+    travel_to(40.days.ago) do
       create(:api_user)
     end
     expect(described_class.count).to eq 1
