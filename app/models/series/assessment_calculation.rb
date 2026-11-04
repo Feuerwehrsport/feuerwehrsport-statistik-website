@@ -4,7 +4,7 @@ class Series::AssessmentCalculation
   attr_reader :config
 
   delegate :entity_key, :key, :round, :round_key, :points_for_rank, :sort, :ranking_logic, :honor_ranking_logic,
-           :min_participations_count, to: :config
+           :honor_rank, :min_participations_count, to: :config
   delegate :cups, :team_assessments, :person_assessments, :full_cup_count, to: :round
 
   def initialize(config)
@@ -19,14 +19,15 @@ class Series::AssessmentCalculation
       # Plätze vergeben
       calculate_ranks!(rows)
 
-      # Besondere Beachtung der ersten drei Plätze und erneut vergeben
+      # Besondere Beachtung der ersten Plätze (honor_rank) und erneut vergeben
       if honor_ranking_logic.present?
-        honor_rows = rows.select { |row| row.rank.present? && row.rank <= 3 }
+        honor_rows = rows.select { |row| row.rank.present? && row.rank <= honor_rank }
                          .sort { |row, other| sort(row, other, logic_array: honor_ranking_logic) }
         calculate_ranks!(honor_rows, logic_array: honor_ranking_logic)
-        rows.sort! { |row, other| sort(row, other, with_rank: true) }
       end
-      rows
+
+      # Nach Rang sortieren (stabil), Einträge ohne Rang (zu wenige Teilnahmen) ans Ende
+      rows.sort_by.with_index { |row, index| [row.rank || Float::INFINITY, index] }
     end
   end
 

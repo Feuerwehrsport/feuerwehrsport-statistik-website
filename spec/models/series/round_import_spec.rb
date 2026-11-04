@@ -46,7 +46,6 @@ RSpec.describe Series::RoundImport do
 
   describe 'id assignment' do
     it 'finds round and cup by id' do
-      pending 'Bug: belongs_to without class_name resolves to ::Round/::Cup which does not exist'
       import = described_class.new(round_id: round.id)
       expect(import.round).to eq round
     end
@@ -177,7 +176,6 @@ RSpec.describe Series::RoundImport do
         end
 
         it 'gives no points' do
-          pending 'Bug: rank 0 uses points_for_rank[-1] and gets points of the last configured rank'
           import.save
           expect(Series::PersonParticipation.find_by(person: berta).points).to eq 0
         end
@@ -188,7 +186,6 @@ RSpec.describe Series::RoundImport do
       let(:results) { [{ discipline: 'hb', rows: person_rows }] }
 
       it 'ignores result' do
-        pending 'Bug: missing series_person_round_keys/series_team_round_keys raises NoMethodError on nil'
         expect { import.save }.not_to change(Series::PersonParticipation, :count)
       end
     end
