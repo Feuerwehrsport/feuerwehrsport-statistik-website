@@ -48,6 +48,10 @@ module FeuerwehrsportStatistik
     config.default_url_options = {}
     config.action_mailer.default_options = { from: 'Feuerwehrsport-Statistik <automailer@feuerwehrsport-statistik.de>' }
 
+    # login (formerly m3 engine)
+    config.m3 = ActiveSupport::OrderedOptions.new
+    config.m3.session = ActiveSupport::OrderedOptions.new
+    config.m3.session.login_url = { controller: 'm3/login/sessions', action: :new }
     config.m3.session.login_redirect_url = { controller: '/backend/dashboards', action: :index }
 
     config.after_initialize do

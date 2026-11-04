@@ -5,7 +5,6 @@ AllCops:
   - config/initializers/simple_form_bootstrap.rb
   - db/schema.rb
   - lib/generators/**/templates/**/*
-  - m3/lib/generators/**/templates/**/*
   - lib/templates/**/*
   - node_modules/**/*
   - spec/fixtures/**/*
@@ -485,7 +484,7 @@ Rails/Output:
   Exclude:
   - config/deploy/**/*
   - db/migrate/**/*
-  - m3/app/uploaders/m3/application_uploader.rb
+  - app/uploaders/m3/application_uploader.rb
 Rails/OutputSafety:
   Enabled: false
 Rails/Pluck:
@@ -695,8 +694,6 @@ Style/ObjectThen:
   Enabled: true
 Style/OneClassPerFile:
   Enabled: true
-  Exclude:
-  - m3/lib/m3/engine.rb
 Style/OpenStructUse:
   Enabled: true
 Style/OperatorMethodCall:
