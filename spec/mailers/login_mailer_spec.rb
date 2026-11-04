@@ -31,7 +31,6 @@ describe LoginMailer do
     end
 
     it 'uses the translated subject' do
-      pending 'Bug: Übersetzungen liegen unter de.m3.login_mailer, LoginMailer sucht unter de.login_mailer'
       expect(mail.subject).to eq 'Validierung der E-Mail-Adresse'
     end
   end
@@ -53,7 +52,6 @@ describe LoginMailer do
     end
 
     it 'uses the translated subject' do
-      pending 'Bug: Übersetzungen liegen unter de.m3.login_mailer, LoginMailer sucht unter de.login_mailer'
       expect(mail.subject).to eq 'Zurücksetzen des Passworts'
     end
   end
@@ -75,7 +73,6 @@ describe LoginMailer do
     end
 
     it 'uses the translated subject' do
-      pending 'Bug: Übersetzungen liegen unter de.m3.login_mailer, LoginMailer sucht unter de.login_mailer'
       expect(mail.subject).to eq 'Änderung der E-Mail-Adresse'
     end
   end

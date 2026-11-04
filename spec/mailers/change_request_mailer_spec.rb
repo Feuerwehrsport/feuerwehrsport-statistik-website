@@ -66,7 +66,6 @@ describe ChangeRequestMailer do
       end
 
       it 'sends also to sub admins with series' do
-        pending 'Bug: AdminUser.admins enthält die Rolle sub_admin_with_series nicht'
         expect(mail.to).to contain_exactly('sub_admin@example.com', 'series@example.com')
       end
     end
