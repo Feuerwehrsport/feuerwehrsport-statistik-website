@@ -234,7 +234,6 @@ GEM
       activesupport (>= 5.1)
       haml (>= 4.0.6)
       railties (>= 5.1)
-    hash-deep-merge (0.1.1)
     hashdiff (1.2.1)
     htmlentities (4.4.2)
     i18n (1.14.8)
@@ -269,8 +268,6 @@ GEM
       thor (>= 0.14, < 2.0)
     json (2.19.3)
     language_server-protocol (3.17.0.5)
-    lazy_high_charts (1.6.1)
-      hash-deep-merge
     lint_roller (1.1.0)
     listen (3.10.0)
       logger
@@ -604,7 +601,6 @@ DEPENDENCIES
   image_optim
   image_optim_pack
   jquery-rails
-  lazy_high_charts
   m3!
   mini_magick
   mission_control-jobs
