@@ -17,7 +17,23 @@ AllCops:
   TargetRubyVersion: 3.4.8
 Bundler/OrderedGems:
   Enabled: false
+Capybara/AbsoluteXPathInElementScope:
+  Enabled: true
+Capybara/AlwaysTrueCountQuery:
+  Enabled: true
+Capybara/ChainedFind:
+  Enabled: true
 Capybara/FindAllFirst:
+  Enabled: true
+Capybara/IgnoredQueryOption:
+  Enabled: true
+Capybara/ModalMethodWithoutBlock:
+  Enabled: true
+Capybara/NativeAttribute:
+  Enabled: true
+Capybara/RSpec/CurrentUrlExpectation:
+  Enabled: true
+Capybara/RSpec/FindElementValueEq:
   Enabled: true
 Capybara/RSpec/MatchStyle:
   Enabled: true
@@ -34,6 +50,10 @@ Capybara/SpecificActions:
 Capybara/SpecificFinders:
   Enabled: true
 Capybara/RSpec/SpecificMatcher:
+  Enabled: true
+Capybara/UnorderedWindowAccess:
+  Enabled: true
+Capybara/VisibilityOption:
   Enabled: true
 FactoryBot/AssociationStyle:
   Enabled: true
@@ -88,6 +108,8 @@ Lint/AmbiguousOperatorPrecedence:
   Enabled: true
 Lint/AmbiguousRange:
   Enabled: true
+Lint/ArgumentMismatch:
+  Enabled: true
 Lint/ArrayLiteralInRegexp:
   Enabled: true
 Lint/ConstantOverwrittenInRescue:
@@ -99,6 +121,8 @@ Lint/CopDirectiveSyntax:
 Lint/DataDefineOverride:
   Enabled: true
 Lint/DeprecatedConstants:
+  Enabled: true
+Lint/DeprecatedReference:
   Enabled: true
 Lint/DuplicateBranch:
   Enabled: true
@@ -126,7 +150,11 @@ Lint/LambdaWithoutLiteralBlock:
   Enabled: true
 Lint/LiteralAssignmentInCondition:
   Enabled: true
+Lint/MisplacedMagicComment:
+  Enabled: true
 Lint/MixedCaseRange:
+  Enabled: true
+Lint/NameTypo:
   Enabled: true
 Lint/NoReturnInBeginEndBlocks:
   Enabled: true
@@ -151,6 +179,8 @@ Lint/RequireRangeParentheses:
 Lint/RequireRelativeSelfPath:
   Enabled: true
 Lint/SharedMutableDefault:
+  Enabled: true
+Lint/SuperArgumentMismatch:
   Enabled: true
 Lint/SuppressedExceptionInNumberConversion:
   Enabled: true
@@ -272,6 +302,8 @@ RSpec/ChangeByZero:
   Enabled: true
 RSpec/ContainExactly:
   Enabled: true
+RSpec/DiscardedMatcher:
+  Enabled: true
 RSpec/DuplicatedMetadata:
   Enabled: true
 RSpec/EmptyExampleGroup:
@@ -302,6 +334,8 @@ RSpec/LetSetup:
   Enabled: false
 RSpec/MatchArray:
   Enabled: true
+RSpec/MatchWithSimpleRegex:
+  Enabled: true
 RSpec/MessageSpies:
   Enabled: false
 RSpec/MetadataStyle:
@@ -313,6 +347,8 @@ RSpec/MultipleMemoizedHelpers:
 RSpec/NestedGroups:
   Enabled: false
 RSpec/NoExpectationExample:
+  Enabled: true
+RSpec/Output:
   Enabled: true
 RSpec/PendingWithoutReason:
   Enabled: true
@@ -348,13 +384,19 @@ RSpec/VerifiedDoubleReference:
   Enabled: true
 RSpecRails/AvoidSetupHook:
   Enabled: true
+RSpecRails/FileFixture:
+  Enabled: true
 RSpecRails/HaveHttpStatus:
+  Enabled: true
+RSpecRails/HttpStatusNameConsistency:
   Enabled: true
 RSpecRails/InferredSpecType:
   Enabled: true
 RSpecRails/MinitestAssertions:
   Enabled: true
 RSpecRails/NegationBeValid:
+  Enabled: true
+RSpecRails/ReceivePerformLater:
   Enabled: true
 RSpecRails/TravelAround:
   Enabled: true
@@ -557,6 +599,8 @@ Style/DigChain:
   Enabled: true
 Style/DirEmpty:
   Enabled: true
+Style/DirectiveScope:
+  Enabled: true
 Style/DocumentDynamicEvalDefinition:
   Enabled: true
 Style/Documentation:
@@ -730,6 +774,8 @@ Style/SuperWithArgsParentheses:
 Style/SwapValues:
   Enabled: true
 Style/TallyMethod:
+  Enabled: true
+Style/TimeNow:
   Enabled: true
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: comma

@@ -14,7 +14,6 @@ RSpec.describe 'm3_index_structure' do
   let(:directions) { %i[asc desc] }
 
   # let(:exclude_controllers) { [Billing::CoursesController] }
-  # let(:m3_index_structure_debug) { true }
 
   before { Rails.root.glob('app/controllers/**/*_controller.rb').each { |f| require_dependency f } }
 
@@ -22,7 +21,6 @@ RSpec.describe 'm3_index_structure' do
     controllers.each do |controller|
       next if respond_to?(:exclude_controllers) && controller.in?(exclude_controllers)
 
-      puts controller.name if respond_to?(:m3_index_structure_debug) && m3_index_structure_debug
       instance = controller.new
       next unless instance.respond_to?(:m3_index_structure)
 
