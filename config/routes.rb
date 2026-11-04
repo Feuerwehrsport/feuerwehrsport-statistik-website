@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  # health check for load balancers and uptime monitors
+  get 'up' => 'rails/health#show', as: :rails_health_check
+
   mount MissionControl::Jobs::Engine, at: '/admin-jobs'
 
   # backend: area for admin users
