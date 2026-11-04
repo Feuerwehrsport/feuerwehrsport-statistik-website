@@ -2,7 +2,6 @@
 
 class ApplicationController < M3::ApplicationController
   include Caching::CacheSupport
-  include PdfSupport
   include PageTitleHelper
   include MapSupport
 

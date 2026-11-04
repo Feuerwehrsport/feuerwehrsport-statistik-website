@@ -44,7 +44,6 @@ RSpec.describe 'Exports (xlsx, atom, datatable json)' do
     end
 
     it 'returns spreadsheet with badges' do
-      pending 'Bug: export_index ohne Formate (bla/badges_controller.rb:6) -> Excel-Datei enthält nur leere Zeilen'
       get '/bla/badges.xlsx'
       expect(response).to have_http_status(:ok)
       expect(response.media_type).to eq xlsx_content_type
@@ -101,15 +100,6 @@ RSpec.describe 'Exports (xlsx, atom, datatable json)' do
       get '/people.json', params: datatable_params.merge(datatable: 'people_female')
       expect(json_body).to include(recordsTotal: 1, recordsFiltered: 1)
       expect(json_body[:data].first.first).to eq "<a href=\"/people/#{female.id}\">Meyer</a>"
-    end
-  end
-
-  describe PdfSupport do
-    it 'configures prawn document' do
-      pending 'Bug/toter Code: configure_prawn ruft prawnto auf, das prawn-rails 1.6 nicht mehr bereitstellt'
-      controller = PagesController.new
-      allow(controller).to receive(:page_title).and_return('Test Titel')
-      expect { controller.configure_prawn }.not_to raise_error
     end
   end
 end

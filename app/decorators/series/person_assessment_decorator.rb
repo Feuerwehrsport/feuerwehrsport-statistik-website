@@ -2,7 +2,6 @@
 
 class Series::PersonAssessmentDecorator < AppDecorator
   decorates_association :cups
-  decorates_association :participations
   decorates_association :round
   localizes_gender
 

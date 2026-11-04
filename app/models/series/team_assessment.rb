@@ -11,6 +11,8 @@ class Series::TeamAssessment < ApplicationRecord
 
   schema_validations
 
+  delegate :rows, :name, to: :config
+
   def config
     round.team_assessments_configs.find { |c| c.key == key }
   end
