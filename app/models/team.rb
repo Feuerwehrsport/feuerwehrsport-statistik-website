@@ -54,24 +54,13 @@ class Team < ApplicationRecord
     ")
   end
 
+  TEAM_NAME_PREFIX = /\A(FF|Feuerwehr|Team) /i
+  # roman or arabic team number and run letter, e.g. "Warin II C" or "Warin 2 A"
+  TEAM_NAME_SUFFIX = / (I|II|III|IV|[1-4]|[A-E])\z/
+
   def self.normalize_name(team_name)
-    team_name = team_name.gsub(/^FF /i, '')
-    team_name = team_name.gsub(/^Feuerwehr /i, '')
-    team_name = team_name.gsub(/^Team /i, '')
-    team_name = team_name.gsub(/ I$/, '')
-    team_name = team_name.gsub(/ II$/, '')
-    team_name = team_name.gsub(/ III$/, '')
-    team_name = team_name.gsub(/ IV$/, '')
-    2.times do
-      team_name = team_name.gsub(/ E$/, '')
-      team_name = team_name.gsub(/ A$/, '')
-      team_name = team_name.gsub(/ B$/, '')
-      team_name = team_name.gsub(/ C$/, '')
-      team_name = team_name.gsub(/ 1$/, '')
-      team_name = team_name.gsub(/ 2$/, '')
-      team_name = team_name.gsub(/ 3$/, '')
-      team_name = team_name.gsub(/ 4$/, '')
-    end
+    team_name = team_name.sub(TEAM_NAME_PREFIX, '')
+    2.times { team_name = team_name.sub(TEAM_NAME_SUFFIX, '') }
     team_name
   end
 

@@ -11,7 +11,8 @@ class Import::Line
       out[:valid] = false
     else
       check.headline_columns.each_with_index { |headline, index| check_col(headline, cols[index].strip) }
-      out[:people] = find_people unless Discipline.group?(check)
+      # group disciplines only search people if names are given
+      out[:people] = find_people unless Discipline.group?(check.discipline) && out[:last_name].blank?
     end
     check_team
   end
