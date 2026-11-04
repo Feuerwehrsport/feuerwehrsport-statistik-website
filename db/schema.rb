@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_04_150000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_04_160000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
   enable_extension "pg_catalog.plpgsql"
@@ -37,14 +37,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_04_150000) do
     t.string "ip_address_hash", limit: 200, null: false
     t.string "user_agent_hash", limit: 200, null: false
     t.string "user_agent_meta", limit: 1000
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-  end
-
-  create_table "assets", id: :serial, force: :cascade do |t|
-    t.string "file"
-    t.string "name", limit: 200
-    t.boolean "image", default: false, null: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
   end

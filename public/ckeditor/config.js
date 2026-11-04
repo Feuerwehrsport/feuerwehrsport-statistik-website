@@ -12,9 +12,6 @@ CKEDITOR.editorConfig = function( config ) {
 
   config.format_tags = 'p;h2;h3';
 
-  config.filebrowserBrowseUrl = '/assets/';
-  config.filebrowserImageBrowseUrl = '/image_assets/';
-
   config.toolbar_mini = config.toolbar;
 
 };

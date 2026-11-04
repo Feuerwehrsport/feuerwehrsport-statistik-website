@@ -23,10 +23,6 @@ replacePlaceholder = (url, placeholder) ->
           replacePlaceholder(url, placeholder)
 
 M3.ready ->
-  $.urlParam = (name) ->
-    results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href)
-    results[1] if results
-
   $('div[data-remote-index-table]').each ->
     placeholder = $(@)
     url = placeholder.data('remote-index-table')
