@@ -17,7 +17,7 @@ describe 'people', :js do
       sleep 0.1
       find_by_id('add-person').click
       within('.fss-window') do
-        expect(page).to have_content('Person hinzufügen')
+        expect(page).to have_text('Person hinzufügen')
         fill_in 'Vorname', with: 'Vorname'
         fill_in 'Nachname', with: '00AABBCC'
         select('weiblich', from: 'Geschlecht')
@@ -54,19 +54,19 @@ describe 'people', :js do
       visit person_path(person)
       find_by_id('add-change-request').click
       within('.fss-window') do
-        expect(page).to have_content('Auswahl des Fehlers')
+        expect(page).to have_text('Auswahl des Fehlers')
         choose('Person ist falsch geschrieben')
         click_on('OK')
 
-        expect(page).to have_content('Korrektur des Fehlers')
+        expect(page).to have_text('Korrektur des Fehlers')
         choose('Richtige Schreibweise auswählen (für Administrator VIEL einfacher)')
         click_on('OK')
 
-        expect(page).to have_content('Namen korrigieren')
+        expect(page).to have_text('Namen korrigieren')
         select('Meier, Alfredo (männlich)', from: 'Richtige Person')
         click_on('OK')
       end
-      expect(page).to have_content('Der Fehlerbericht wurde gespeichert')
+      expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
 
       change_request_content = ChangeRequest.last.content
       expect(change_request_content).to eq(
@@ -82,20 +82,20 @@ describe 'people', :js do
       visit person_path(person)
       find_by_id('add-change-request').click
       within('.fss-window') do
-        expect(page).to have_content('Auswahl des Fehlers')
+        expect(page).to have_text('Auswahl des Fehlers')
         choose('Person ist falsch geschrieben')
         click_on('OK')
 
-        expect(page).to have_content('Korrektur des Fehlers')
+        expect(page).to have_text('Korrektur des Fehlers')
         choose('Selbst korrekte Schreibweise hinzufügen')
         click_on('OK')
 
-        expect(page).to have_content('Namen korrigieren')
+        expect(page).to have_text('Namen korrigieren')
         fill_in 'Vorname', with: 'Vorname'
         fill_in 'Nachname', with: '00AABBCC'
         click_on('OK')
       end
-      expect(page).to have_content('Der Fehlerbericht wurde gespeichert')
+      expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
 
       change_request_content = ChangeRequest.last.content
       expect(change_request_content).to eq(
@@ -114,15 +114,15 @@ describe 'people', :js do
       visit person_path(person)
       find_by_id('add-change-request').click
       within('.fss-window') do
-        expect(page).to have_content('Auswahl des Fehlers')
+        expect(page).to have_text('Auswahl des Fehlers')
         choose('Person ist falscher Nation zugeordnet')
         click_on('OK')
 
-        expect(page).to have_content('Andere Nation')
+        expect(page).to have_text('Andere Nation')
         select('Ungarn', from: 'Nation')
         click_on('OK')
       end
-      expect(page).to have_content('Der Fehlerbericht wurde gespeichert')
+      expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
 
       change_request_content = ChangeRequest.last.content
       expect(change_request_content).to eq(
@@ -138,15 +138,15 @@ describe 'people', :js do
       visit person_path(person)
       find_by_id('add-change-request').click
       within('.fss-window') do
-        expect(page).to have_content('Auswahl des Fehlers')
+        expect(page).to have_text('Auswahl des Fehlers')
         choose('Etwas anderes')
         click_on('OK')
 
-        expect(page).to have_content('Fehler beschreiben')
+        expect(page).to have_text('Fehler beschreiben')
         fill_in('Beschreibung', with: "Beschreibung\n123")
         click_on('OK')
       end
-      expect(page).to have_content('Der Fehlerbericht wurde gespeichert')
+      expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
 
       change_request_content = ChangeRequest.last.content
       expect(change_request_content).to eq(

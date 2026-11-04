@@ -47,11 +47,11 @@ class Series::RoundImport
 
       key = "#{first_name}__#{last_name}".parameterize
       self.person_assignments ||= {}
-      self.person_assignments[key] ||= person_id
+      person_assignments[key] ||= person_id
       self.person_assignment_hints ||= {}
-      self.person_assignment_hints[key] ||= "#{first_name} #{last_name}"
+      person_assignment_hints[key] ||= "#{first_name} #{last_name}"
 
-      Person.find_by(id: self.person_assignments[key]) || Person.first
+      Person.find_by(id: person_assignments[key]) || Person.first
     end
   end
 
@@ -65,11 +65,11 @@ class Series::RoundImport
 
       key = team_name.parameterize
       self.team_assignments ||= {}
-      self.team_assignments[key] ||= team_id
+      team_assignments[key] ||= team_id
       self.team_assignment_hints ||= {}
-      self.team_assignment_hints[key] ||= orig_team_name
+      team_assignment_hints[key] ||= orig_team_name
 
-      Team.find_by(id: self.team_assignments[key]) || Team.first
+      Team.find_by(id: team_assignments[key]) || Team.first
     end
   end
 

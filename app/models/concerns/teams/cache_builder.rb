@@ -11,27 +11,29 @@ module Teams::CacheBuilder
   end
 
   def update_best_scores(competitions)
-    update_column(:best_scores,
-                  female: {
-                    din: {
-                      pb: inject_competition(la_best_score(:din_wko, :female), competitions),
-                      sb: inject_competition(la_best_score(:din_wko, :female, saison: true), competitions),
-                    },
-                    tgl: {
-                      pb: inject_competition(la_best_score(:tgl_wko, :female), competitions),
-                      sb: inject_competition(la_best_score(:tgl_wko, :female, saison: true), competitions),
-                    },
-                  },
-                  male: {
-                    din: {
-                      pb: inject_competition(la_best_score(:din_wko, :male), competitions),
-                      sb: inject_competition(la_best_score(:din_wko, :male, saison: true), competitions),
-                    },
-                    tgl: {
-                      pb: inject_competition(la_best_score(:tgl_wko, :male), competitions),
-                      sb: inject_competition(la_best_score(:tgl_wko, :male, saison: true), competitions),
-                    },
-                  })
+    best_scores = {
+      female: {
+        din: {
+          pb: inject_competition(la_best_score(:din_wko, :female), competitions),
+          sb: inject_competition(la_best_score(:din_wko, :female, saison: true), competitions),
+        },
+        tgl: {
+          pb: inject_competition(la_best_score(:tgl_wko, :female), competitions),
+          sb: inject_competition(la_best_score(:tgl_wko, :female, saison: true), competitions),
+        },
+      },
+      male: {
+        din: {
+          pb: inject_competition(la_best_score(:din_wko, :male), competitions),
+          sb: inject_competition(la_best_score(:din_wko, :male, saison: true), competitions),
+        },
+        tgl: {
+          pb: inject_competition(la_best_score(:tgl_wko, :male), competitions),
+          sb: inject_competition(la_best_score(:tgl_wko, :male, saison: true), competitions),
+        },
+      },
+    }
+    update_column(:best_scores, best_scores)
   end
 
   private

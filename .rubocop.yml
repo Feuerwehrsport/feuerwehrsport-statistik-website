@@ -13,19 +13,17 @@ AllCops:
   - vendor/**/*
   - firesport/**/*
   - firesport-series/**/*
-  TargetRailsVersion: 7.2
+  TargetRailsVersion: 8.1
   TargetRubyVersion: 3.4.8
 Bundler/OrderedGems:
   Enabled: false
-Capybara/ClickLinkOrButtonStyle:
-  Enabled: true
 Capybara/FindAllFirst:
   Enabled: true
-Capybara/MatchStyle:
+Capybara/RSpec/MatchStyle:
   Enabled: true
-Capybara/NegationMatcher:
+Capybara/RSpec/NegationMatcher:
   Enabled: true
-Capybara/NegationMatcherAfterVisit:
+Capybara/RSpec/NegationMatcherAfterVisit:
   Enabled: true
 Capybara/RSpec/HaveSelector:
   Enabled: true
@@ -35,7 +33,7 @@ Capybara/SpecificActions:
   Enabled: true
 Capybara/SpecificFinders:
   Enabled: true
-Capybara/SpecificMatcher:
+Capybara/RSpec/SpecificMatcher:
   Enabled: true
 FactoryBot/AssociationStyle:
   Enabled: true
@@ -486,8 +484,9 @@ Rails/SquishedSQLHeredocs:
   Enabled: true
 Rails/StripHeredoc:
   Enabled: true
+# expect() raises for missing scalar params (e.g. params[:association].present?) and changes behavior
 Rails/StrongParametersExpect:
-  Enabled: true
+  Enabled: false
 Rails/ThreeStateBooleanColumn:
   Enabled: true
 Rails/TimeZoneAssignment:

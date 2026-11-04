@@ -7,7 +7,7 @@ def sign_in(role = :admin)
 
   fill_in 'Passwort', with: 'Secret123'
   click_link_or_button 'Anmelden'
-  expect(page).to have_content 'Sie sind angemeldet'
+  expect(page).to have_text 'Sie sind angemeldet'
 end
 
 def api_sign_in
@@ -15,13 +15,13 @@ def api_sign_in
   page.execute_script(
     "Fss.post('api_users', { api_user: { name: 'test' } }, function () { $('h1').text('logged_in') });",
   )
-  expect(page).to have_content('logged_in')
+  expect(page).to have_text('logged_in')
 end
 
 def api_sign_out
   visit root_path
   page.execute_script("Fss.post('api_users/logout', {}, function () { $('h1').text('logged_out') });")
-  expect(page).to have_content('logged_out')
+  expect(page).to have_text('logged_out')
 end
 
 def sign_out
@@ -29,5 +29,5 @@ def sign_out
     click_on('Anmelden')
   end
   click_on('Ausloggen')
-  expect(page).to have_content('Erfolgreich abgemeldet')
+  expect(page).to have_text('Erfolgreich abgemeldet')
 end

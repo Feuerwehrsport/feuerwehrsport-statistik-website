@@ -47,7 +47,7 @@ RSpec.describe TeamSerializer do
   describe TeamMemberSerializer do
     it 'serializes team member' do
       score = create(:score, team:)
-      expect(api_json(TeamMember.first)).to eq(person_id: score.person_id, team_id: team.id)
+      expect(api_json(TeamMember.take)).to eq(person_id: score.person_id, team_id: team.id)
     end
   end
 end

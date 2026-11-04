@@ -77,8 +77,8 @@ describe NumberedTeamNames do
       expect(described_class.gender('female').pluck(:team_number)).to eq [2]
       expect(described_class.gender(0).pluck(:team_number)).to eq [2]
       expect(described_class.gender(nil)).to be_empty
-      expect(described_class.first.team).to eq team
-      expect(described_class.first.competition).to eq competition
+      expect(described_class.take.team).to eq team
+      expect(described_class.take.competition).to eq competition
     end
   end
 end

@@ -5,6 +5,7 @@ shared_context 'when api user', login: :api do
     ApiUser.first || ApiUser.create!(name: 'hans', ip_address_hash: 'a', user_agent_hash: 'a',
                                      email_address: 'hans@wurst.de')
   end
+
   before do |example|
     if example.metadata[:type] == :request
 
@@ -26,6 +27,7 @@ end
 %i[user sub_admin admin].each do |user_type|
   shared_context "when #{user_type} user", login: user_type do
     let(:login_user) { AdminUser.where(role: user_type).first || create(:admin_user, user_type) }
+
     before do
       login = login_user.login
 
