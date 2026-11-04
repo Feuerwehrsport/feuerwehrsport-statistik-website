@@ -25,7 +25,7 @@ RSpec.describe 'Api::ChangeRequests' do
       expect do
         r.call
         expect_api_login_response(created_id: ChangeRequest.last.id)
-      end.to have_enqueued_job.exactly(:once).and have_enqueued_job(ActionMailer::MailDeliveryJob)
+      end.to have_enqueued_job.exactly(:once).and have_enqueued_job(ApplicationMailer::DeliveryJob)
     end
   end
 

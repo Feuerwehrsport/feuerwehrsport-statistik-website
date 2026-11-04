@@ -26,7 +26,7 @@ RSpec.describe 'Api::ImportRequests' do
             expect_api_login_response(created_id: ImportRequest.last.id)
           end.to change(ImportRequest, :count).by(1)
         end.to change(ImportRequestFile, :count).by(1)
-      end.to have_enqueued_job.exactly(:once).and have_enqueued_job(ActionMailer::MailDeliveryJob)
+      end.to have_enqueued_job.exactly(:once).and have_enqueued_job(ApplicationMailer::DeliveryJob)
     end
   end
 end

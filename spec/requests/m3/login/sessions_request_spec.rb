@@ -57,7 +57,7 @@ RSpec.describe 'M3::Login::Sessions' do
         let(:login) { create(:m3_login, :not_verified) }
 
         it 'resend mail' do
-          expect(&r).to have_enqueued_job.exactly(:once).and have_enqueued_job(ActionMailer::MailDeliveryJob)
+          expect(&r).to have_enqueued_job.exactly(:once).and have_enqueued_job(ApplicationMailer::DeliveryJob)
           expect(response).to be_successful
           expect(controller.session['m3_login_id']).to be_nil
         end

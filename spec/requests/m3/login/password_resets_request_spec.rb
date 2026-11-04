@@ -30,7 +30,7 @@ RSpec.describe 'M3::Login::PasswordResets' do
 
     context 'when credentials are correct' do
       it 'creates password reset' do
-        expect(&r).to have_enqueued_job.exactly(:once).and have_enqueued_job(ActionMailer::MailDeliveryJob)
+        expect(&r).to have_enqueued_job.exactly(:once).and have_enqueued_job(ApplicationMailer::DeliveryJob)
         expect(response).to redirect_to(action: :index)
         login.reload
         expect(login.password_reset_requested_at).not_to be_nil
