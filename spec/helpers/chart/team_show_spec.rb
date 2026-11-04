@@ -37,7 +37,6 @@ describe Chart::TeamShow do
     end
 
     it 'colors the gender slices' do
-      pending 'Bug: group(:gender).count returns string keys, GenderNames#gender_color only knows symbols'
       chart.gender_pie
       expect(series.first[:data]).to contain_exactly(
         { name: I18n.t('gender.male'), y: 2, color: '#97E6FE' },

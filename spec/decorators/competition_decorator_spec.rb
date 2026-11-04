@@ -68,7 +68,6 @@ RSpec.describe CompetitionDecorator do
     end
 
     it 'returns empty string for zero hl_male count' do
-      pending 'Bug: hl_male fehlt in der count_or_zero-Liste (hb_male doppelt), competition_decorator.rb:64'
       competition.hl_male = 0
       expect(decorated.hl_male).to eq ''
     end

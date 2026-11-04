@@ -39,7 +39,6 @@ RSpec.describe ChangeLogDecorator do
     end
 
     it 'falls back to model class and action' do
-      pending 'Bug: I18n-Option heißt default_ab statt default (change_log_decorator.rb:45)'
       expect(change_log(model_class: 'Foo', action: 'bar').translated_action).to eq 'Foo bar'
     end
   end
@@ -101,21 +100,20 @@ RSpec.describe ChangeLogDecorator do
     end
 
     it 'describes person merge' do
-      pending 'Bug: before_model/after_model sind nicht persistiert -> Links zeigen auf /people statt /people/:id'
       decorated = change_log(model_class: 'Person', action: 'merge',
                              before: { id: 1, first_name: 'Alfred', last_name: 'Meier' },
                              after: { id: 2, first_name: 'Alfredo', last_name: 'Mayer' })
       expect(decorated.readable_content).to eq(
-        'Integriere <a href="/people/1">Alfred Meier</a> in <a href="/people/2">Alfredo Mayer</a>',
+        'Integriere <a href="http://test.host/people/1">Alfred Meier</a> in ' \
+        '<a href="http://test.host/people/2">Alfredo Mayer</a>',
       )
     end
 
     it 'describes team merge' do
-      pending 'Bug: before_model/after_model sind nicht persistiert -> Links zeigen auf /teams statt /teams/:id'
       decorated = change_log(model_class: 'Team', action: 'merge',
                              before: { id: 1, name: 'FF A' }, after: { id: 2, name: 'FF B' })
       expect(decorated.readable_content).to eq(
-        'Integriere <a href="/teams/1">FF A</a> in <a href="/teams/2">FF B</a>',
+        'Integriere <a href="http://test.host/teams/1">FF A</a> in <a href="http://test.host/teams/2">FF B</a>',
       )
     end
 
@@ -172,12 +170,10 @@ RSpec.describe ChangeLogDecorator do
       expect(decorated.readable_content).to end_with('Objekt-ID: 1 ID: von »« zu »1«')
     end
 
-    it 'returns error message for not existing model classes' do
-      pending 'Bug: rescue-Zweig in readable_content ruft translated_diff_hash auf, das erneut NameError wirft ' \
-              '(LINKABLE_CLASSES enthält nicht existierendes Series::Participation)'
+    it 'returns diff for not existing model classes' do
       decorated = change_log(model_class: 'Series::Participation', action: 'create-series-participation',
                              after: { id: 1 })
-      expect(decorated.readable_content).to start_with('NameError: ')
+      expect(decorated.readable_content).to eq 'Objekt-ID: 1 Id: von »« zu »1«'
     end
   end
 end
