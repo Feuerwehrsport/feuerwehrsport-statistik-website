@@ -469,6 +469,8 @@ GEM
       rubocop-rspec (~> 3.5)
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
+    ruby_audit (3.1.0)
+      bundler-audit (~> 0.9.0)
     rubyzip (3.7.0)
     sassc (2.4.0)
       ffi (~> 1.9)
@@ -591,6 +593,7 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rspec
   rubocop-rspec_rails
+  ruby_audit
   sassc-rails
   simple_form
   simplecov
