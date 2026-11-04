@@ -74,8 +74,6 @@ group :test do
   gem 'simplecov', require: false # test coverage
   gem 'webmock' # mock http requests
   gem 'cuprite' # headless chrome driver for capybara
-  gem 'guard', require: false # on demand tests
-  gem 'guard-rspec', require: false # on demand tests
   gem 'factory_bot_rails' # factories for models
   gem 'capybara' # feature test helper
 end
