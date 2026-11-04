@@ -13,6 +13,8 @@ class Backend::Series::RoundImportsController < Backend::BackendController
   def create
     form_resource.assign_attributes(params[resource_params_name].permit!)
     authorize!(:create, form_resource)
+    return after_create_failed unless form_resource.valid?
+
     Caching::Cache.disable do
       ActiveRecord::Base.transaction do
         form_resource.save

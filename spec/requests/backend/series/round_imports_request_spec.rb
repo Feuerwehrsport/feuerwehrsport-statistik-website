@@ -76,7 +76,6 @@ RSpec.describe 'Backend::Series::RoundImports', login: :admin do
       let(:import_now) { '1' }
 
       it 'does not report success' do
-        pending 'Bug: controller ignores result of form_resource.save and redirects like a successful import'
         params[:series_round_import].delete(:competition_id)
         expect do
           post "/backend/series/rounds/#{round.id}/import", params:

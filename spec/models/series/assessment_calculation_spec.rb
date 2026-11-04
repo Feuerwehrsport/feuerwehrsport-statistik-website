@@ -74,7 +74,6 @@ RSpec.describe Series::AssessmentCalculation do
     end
 
     it 'lists entities without rank after ranked entities' do
-      pending 'Bug: rows are only re-sorted by rank if honor_ranking_logic is present'
       dora = create(:person, :female, first_name: 'Dora')
       participate(dora, cup1, points: 1, time: 2000)
       participate(dora, cup2, points: 1, time: 2000)

@@ -4,10 +4,10 @@ class Series::RoundImport
   include M3::FormObject
   include ActiveModel::Attributes
 
-  belongs_to :round
+  belongs_to :round, class_name: 'Series::Round'
   belongs_to :competition
   belongs_to :import_request
-  belongs_to :cup
+  belongs_to :cup, class_name: 'Series::Cup'
   attribute :import_now, :boolean
   attribute :person_assignments
   attribute :person_assignment_hints
@@ -22,11 +22,11 @@ class Series::RoundImport
     create_cup
 
     import_request.import_data_results.each do |result|
-      result[:series_person_round_keys].each do |round_key|
+      Array(result[:series_person_round_keys]).each do |round_key|
         create_person_participations(result, round_key)
       end
 
-      result[:series_team_round_keys].each do |round_key|
+      Array(result[:series_team_round_keys]).each do |round_key|
         create_team_participations(result, round_key)
       end
     end
@@ -77,7 +77,9 @@ class Series::RoundImport
     config = Series::AssessmentConfig.find_by_round_key(round_key, :person)
     return if config.nil?
     return if config.round != round
-    raise config.disciplines if config.disciplines.count != 1
+    if config.disciplines.count != 1
+      raise ArgumentError, "Expected exactly one discipline for #{round_key}, got #{config.disciplines.inspect}"
+    end
 
     person_assessment = Series::PersonAssessment.find_or_create_by!(
       round:, discipline: config.disciplines.first, key: config.key,
@@ -92,7 +94,7 @@ class Series::RoundImport
     rows.drop(1).map do |row|
       # Platz als Integer
       rank = row[index['Platz']].to_s.delete('.').to_i
-      points = config.points_for_rank[rank - 1] || 0
+      points = rank.positive? ? config.points_for_rank[rank - 1] || 0 : 0
 
       # person_id als Integer
       person_id = row[index['statistik_person_id']].to_i
@@ -139,7 +141,7 @@ class Series::RoundImport
     rows.drop(1).map do |row|
       # Platz als Integer
       rank = row[index['Platz']].to_s.delete('.').to_i
-      points = config.points_for_rank[rank - 1] || 0
+      points = rank.positive? ? config.points_for_rank[rank - 1] || 0 : 0
 
       # team_id als Integer
       team_id = row[index['statistik_team_id']].to_i
