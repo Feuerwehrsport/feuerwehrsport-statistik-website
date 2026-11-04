@@ -334,11 +334,6 @@ GEM
       matrix (~> 0.4)
       pdf-core (~> 0.10.0)
       ttfunk (~> 1.8)
-    prawn-rails (1.6.0)
-      actionview (>= 3.1.0)
-      activesupport (>= 3.1.0)
-      prawn
-      prawn-table
     prawn-table (0.2.2)
       prawn (>= 1.3.0, < 3.0.0)
     prettyprint (0.2.1)
@@ -582,7 +577,8 @@ DEPENDENCIES
   mini_magick
   mission_control-jobs
   pg
-  prawn-rails
+  prawn
+  prawn-table
   puma
   rails (~> 8.1.4)
   rails_log_parser
@@ -606,4 +602,4 @@ DEPENDENCIES
   will_paginate
 
 BUNDLED WITH
-   4.0.20
+  4.0.20
