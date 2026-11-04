@@ -167,8 +167,8 @@ Rails.application.routes.draw do
 
   get 'association_select/:association', as: :association_select, to: 'association_select#show'
 
-  resources :assets, controller: 'm3/assets', only: %i[index new create edit update destroy]
-  resources :image_assets, controller: 'm3/image_assets', only: %i[index new create edit update destroy]
+  resources :assets, only: %i[index new create edit update destroy]
+  resources :image_assets, only: %i[index new create edit update destroy]
 
   get 'wk-linux-install', to: redirect('https://raw.githubusercontent.com/Feuerwehrsport/wettkampf-manager/release/doc/scripts/basic-install.sh')
 

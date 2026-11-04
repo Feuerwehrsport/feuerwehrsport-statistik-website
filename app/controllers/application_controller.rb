@@ -1,6 +1,37 @@
 # frozen_string_literal: true
 
-class ApplicationController < M3::ApplicationController
+class ApplicationController < ActionController::Base
+  include CallbackHelpers
+  include DefaultResources
+  include DefaultParentResources
+  include ActionManager
+  include DefaultActions
+  include ReturnToPage
+  include IndexStructures
+  include FormStructures
+  include FilterStructures
+  include Authentication
+  include ControllerTranslation
+
+  # Prevent CSRF attacks by raising an exception.
+  # For APIs, you may want to use :null_session instead.
+  protect_from_forgery with: :exception
+  layout :select_layout
+
+  # handle access denied
+  rescue_from CanCan::AccessDenied do |_exception|
+    if current_login.present?
+      flash[:alert] = t3(:access_denied, scope: :errors)
+      redirect_to access_denied_redirect_path
+    else
+      flash[:alert] = t3(:login_required, scope: :errors)
+      session[:requested_url_before_login] = request.fullpath if request.format == :html
+      redirect_to access_denied_login_path
+    end
+  end
+
+  helper ResourceHelper
+
   include Caching::CacheSupport
   include PageTitleHelper
   include MapSupport
@@ -14,6 +45,15 @@ class ApplicationController < M3::ApplicationController
   end
 
   protected
+
+  # main_app: also resolve correctly inside mounted engines (e.g. mission control)
+  def access_denied_redirect_path
+    main_app.root_path
+  end
+
+  def access_denied_login_path
+    main_app.new_session_path
+  end
 
   def send_pdf(klass, *)
     pdf = klass.build(*)

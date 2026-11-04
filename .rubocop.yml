@@ -486,7 +486,7 @@ Rails/Output:
   Exclude:
   - config/deploy/**/*
   - db/migrate/**/*
-  - app/uploaders/m3/application_uploader.rb
+  - app/uploaders/application_uploader.rb
 Rails/OutputSafety:
   Enabled: false
 Rails/Pluck:

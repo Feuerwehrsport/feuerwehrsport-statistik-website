@@ -8,7 +8,7 @@ module ActionManager
     helper_method :collection_actions
     helper_method :member_action
     helper_method :member_actions
-    helper_method :m3_hero_max_actions
+    helper_method :hero_max_actions
 
     collection_actions :index, :new, check_existence: true
     member_actions :show, :edit, :destroy, check_existence: true
@@ -58,7 +58,7 @@ module ActionManager
     add_action(name, MemberAction, resource, check_existence:)
   end
 
-  def m3_hero_max_actions
+  def hero_max_actions
     3
   end
 

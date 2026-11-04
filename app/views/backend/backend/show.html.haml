@@ -5,7 +5,7 @@
   .section
     .container
       %dl
-        - m3_show_structure.each do |field|
+        - show_structure.each do |field|
           %dt= resource_class.human_attribute_name(field.name)
           %dd
             - if belongs_to_associations[field.name].present?

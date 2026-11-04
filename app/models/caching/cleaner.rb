@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Caching::Cleaner
-  include M3::FormObject
+  include FormObject
 
   def save
     Rails.logger.debug('CACHING: CLEAN')

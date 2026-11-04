@@ -12,7 +12,7 @@ class Backend::BackendController < ApplicationController
     define_method(:show_associations?) { false } if options.delete(:disable_show_associations)
     default_actions(*action_names, **options)
     include SerializerSupport
-    include ChangeLogSupport unless for_class < M3::FormObject || disable_logging
+    include ChangeLogSupport unless for_class < FormObject || disable_logging
     include CleanCacheSupport unless clean_cache_disabled
 
     collection_actions :live_resource, :index, :new, check_existence: true
@@ -20,8 +20,8 @@ class Backend::BackendController < ApplicationController
   end
 
   def self.default_show(&)
-    define_method(:m3_show_structure) do
-      @m3_show_structure ||= M3::Index::Structure.build(self, &).decorate
+    define_method(:show_structure) do
+      @show_structure ||= Ui::Index::Structure.build(self, &).decorate
     end
   end
 

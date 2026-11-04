@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class People::LaPositionsImage
-  include M3::FormObject
+  include FormObject
 
   belongs_to :person
 

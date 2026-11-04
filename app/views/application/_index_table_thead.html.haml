@@ -1,6 +1,6 @@
 %thead
   %tr
-    - m3_index_structure.each do |field|
+    - index_structure.each do |field|
       - label = field.options[:label] || field.name
       %th{ class: "priority-#{field.priority}" }
         - if field.sortable?

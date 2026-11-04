@@ -46,8 +46,8 @@ class Ability
     can :manage, ImportRequest
     can :manage, ImportRequestFile
     can :manage, Link
-    can :manage, M3::Asset
-    can :manage, M3::ImageAsset
+    can :manage, Asset
+    can :manage, ImageAsset
     can :manage, Nation
     can :manage, People::Cleaner
     can :manage, Person

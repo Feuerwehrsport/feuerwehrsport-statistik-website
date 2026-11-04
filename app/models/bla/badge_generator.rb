@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Bla::BadgeGenerator
-  include M3::FormObject
+  include FormObject
 
   def people_with_badges
     output = {}
