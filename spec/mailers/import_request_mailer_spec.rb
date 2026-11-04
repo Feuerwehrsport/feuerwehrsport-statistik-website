@@ -27,5 +27,23 @@ describe ImportRequestMailer do
         "http://test.host/backend/import_requests\n",
       )
     end
+
+    context 'with multiple receivers' do
+      before { create(:admin_user, :admin) }
+
+      it 'sends to all admins except the sender' do
+        expect(mail.to).to contain_exactly('sub_admin@example.com', 'admin@example.com')
+      end
+    end
+
+    context 'when sender is the only admin' do
+      let(:import_request) { create(:import_request, admin_user:) }
+
+      it 'sends no mail' do
+        pending 'Bug: ImportRequestMailer liefert anders als ChangeRequestMailer keine NullMail ohne Empfänger'
+        expect(mail.message).to be_a(ActionMailer::Base::NullMail)
+        expect { mail.deliver_now }.not_to raise_error
+      end
+    end
   end
 end

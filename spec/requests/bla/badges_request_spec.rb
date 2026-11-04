@@ -10,6 +10,7 @@ RSpec.describe 'Bla::Badges' do
       get '/bla/badges'
       expect(response).to be_successful
       expect(controller.send(:collection).length).to eq 1
+      expect(response.body).to include(%(href="/people/#{badge.person_id}"), 'Silber', '2017')
     end
 
     context 'when xlsx requested' do

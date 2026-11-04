@@ -51,4 +51,37 @@ RSpec.describe 'Pages' do
       expect(response).to be_successful
     end
   end
+
+  {
+    '/rss' => 'RSS-Feeds',
+    '/impressum' => 'Impressum',
+    '/datenschutz' => 'Datenschutzerklärung',
+    '/best_of' => 'Die 100 schnellsten Zeiten',
+    '/feuerwehrsport' => 'Feuerwehrsport - verschiedene Angebote',
+    '/about' => 'Statistiken über diese Seite',
+  }.each do |path, title|
+    describe "GET #{path}" do
+      it 'renders page with title' do
+        get path
+        expect(response).to be_successful
+        expect(response.body).to include("<title>#{title}")
+      end
+    end
+  end
+
+  describe 'GET dashboard with title' do
+    it 'renders dashboard' do
+      get '/'
+      expect(response.body).to include('<title>Feuerwehrsport - Die große Auswertung')
+    end
+  end
+
+  describe 'domain redirect' do
+    it 'redirects requests for another host permanently to same path on default host' do
+      host! 'www.other-domain.de'
+      get '/about'
+      expect(response).to have_http_status(:moved_permanently)
+      expect(response.location).to eq 'http://test.host/about'
+    end
+  end
 end

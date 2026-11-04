@@ -49,5 +49,22 @@ RSpec.describe DumpDatabaseJob do
 
       described_class.perform_now
     end
+
+    it 'ignores blank lines in exclude file and logs the command' do
+      exclude_file = Rails.root.join('config/dump_exclude_tables')
+      allow(File).to receive(:read).and_call_original
+      allow(File).to receive(:read).with(exclude_file).and_return("foo\n\nbar\n\n")
+      allow(Rails.logger).to receive(:info)
+
+      job = described_class.new
+      allow(job).to receive(:system).and_return(true)
+      job.perform_now
+
+      script_path = Rails.root.join('etc/store_dump.sh')
+      excludes = '--exclude-table-data=foo --exclude-table-data=bar'
+      expected_command = %(#{script_path} "#{excludes}" "feuerwehrsport-statistik")
+      expect(job).to have_received(:system).with(expected_command)
+      expect(Rails.logger).to have_received(:info).with("Executing dump command: #{expected_command}")
+    end
   end
 end

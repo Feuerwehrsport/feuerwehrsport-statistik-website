@@ -50,4 +50,70 @@ RSpec.describe Person do
       end
     end
   end
+
+  describe 'scopes' do
+    let!(:johanna) { create(:person, :female) }
+    let!(:foreigner) { create(:person, first_name: 'Istvan', last_name: 'Nagy', nation: create(:nation, :ungarn)) }
+
+    it 'searches by name' do
+      expect(described_class.search('meier')).to eq [person]
+      expect(described_class.search('Johanna')).to eq [johanna]
+      expect(described_class.search_exactly('MEIER', 'alfred')).to eq [person]
+      expect(described_class.search_exactly('Meier', 'Alf')).to be_empty
+      expect(described_class.where_name_like('afmei')).to eq [person]
+    end
+
+    it 'searches by spelling' do
+      create(:person_spelling, person: johanna, first_name: 'Hanna', last_name: 'Maier')
+      expect(described_class.where_name_like('Hanna Maier')).to eq [johanna]
+    end
+
+    it 'filters by nation and gender' do
+      expect(described_class.german).to contain_exactly(person, johanna)
+      expect(described_class.nation(2)).to eq [foreigner]
+      expect(described_class.gender(:female)).to eq [johanna]
+    end
+
+    it 'orders by name' do
+      expect(described_class.index_order).to eq [person, johanna, foreigner]
+      expect(described_class.filter_collection).to eq [person, johanna, foreigner]
+    end
+
+    it 'filters and orders by teams' do
+      team = person.scores.first.team
+      expect(described_class.team(team.id).distinct).to eq [person]
+      expect(described_class.order_by_teams(Team.where(id: team.id)).first).to eq person
+      expect(described_class.order_by_gender(:female).first).to eq johanna
+    end
+
+    it 'finds unused people' do
+      expect(described_class.unused).to contain_exactly(johanna, foreigner)
+    end
+  end
+
+  describe 'validation' do
+    it 'requires last name and gender' do
+      expect(described_class.new(first_name: 'X', nation: Nation.first)).not_to be_valid
+    end
+  end
+
+  describe '#merge_to' do
+    let(:other) { create(:person, first_name: 'Alfredo') }
+
+    it 'raises for same person' do
+      expect { person.merge_to(person) }.to raise_error(ActiveRecord::ActiveRecordError, 'same id')
+    end
+
+    it 'moves all associated records' do
+      participation = create(:person_participation, person:)
+      spelling = create(:person_spelling, person:)
+
+      person.merge_to(other)
+
+      expect(hl.reload.person).to eq other
+      expect(hl_today.reload.person).to eq other
+      expect(participation.reload.person).to eq other
+      expect(spelling.reload.person).to eq other
+    end
+  end
 end

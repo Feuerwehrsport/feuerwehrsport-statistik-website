@@ -114,6 +114,57 @@ RSpec.describe 'Api::Suggestions' do
         expect(json_body[:people]).to eq [person1_hash, person3_hash]
       end
     end
+
+    context 'when person_id given' do
+      let(:attributes) { { person_id: person2.id } }
+
+      it 'returns only this person' do
+        post '/api/suggestions/people', params: attributes
+        expect(json_body[:people]).to eq [person2_hash]
+      end
+    end
+
+    context 'when order_team_id given' do
+      let(:attributes) { { name: 'alfmeier', order_team_id: score1.team_id } }
+
+      it 'returns team members first' do
+        post '/api/suggestions/people', params: attributes
+        expect(json_body[:people]).to eq [person1_hash, person3_hash, person2_hash]
+      end
+    end
+
+    context 'when invalid real_gender given' do
+      let(:attributes) { { real_gender: 'unknown' } }
+
+      it 'ignores gender filter' do
+        post '/api/suggestions/people', params: attributes
+        expect(json_body[:people].count).to eq 4
+      end
+    end
+
+    context 'when score and position given' do
+      let(:attributes) { { score_id: group_score.id, position: 3 } }
+
+      it 'returns people of this position first, then team members' do
+        create(:person_participation, person: person3, group_score:, position: 4)
+        post '/api/suggestions/people', params: attributes
+        expect(json_body[:people]).to eq [person1_hash, person3_hash]
+      end
+    end
+
+    context 'when at least 10 people participated' do
+      let(:attributes) { { score_id: group_score.id } }
+
+      it 'returns only 10 participation suggestions and no further team members' do
+        people = create_list(:person, 11) { |p, i| p.first_name = "Person#{i}" }
+        people.each do |person|
+          create(:person_participation, person:, group_score:, position: 2)
+        end
+        post '/api/suggestions/people', params: attributes
+        expect(json_body[:people].count).to eq 10
+        expect(json_body[:people].pluck(:id)).not_to include(person3.id)
+      end
+    end
   end
 
   describe 'POST teams' do
