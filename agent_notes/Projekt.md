@@ -1,6 +1,6 @@
 # Projektnotizen: feuerwehrsport-statistik
 
-Stand der Analyse: 2026-11-04 (Commit `356ef2e`)
+Stand der Analyse: 2026-11-04 (aktualisiert nach Rails-8.1-/Ruby-4-Update)
 
 ## Was ist das?
 Rails-Webseite für https://feuerwehrsport-statistik.de – Ergebnisse, Personen, Teams,
@@ -9,26 +9,30 @@ seit Januar 2016 Rails). Liefert außerdem eine API für den Wettkampf-Manager.
 Repo: `git@github.com:Feuerwehrsport/feuerwehrsport-statistik-website.git`
 
 ## Technischer Stack
-- Ruby 3.4.8, Versionsverwaltung ausschließlich über mise (`mise.toml`; RVM-Datei `.versions.conf` am 2026-11-04 entfernt)
-- Rails 7.2.3 (`config.load_defaults 7.2`), Gemfile: `rails ~> 7.0`
+- Ruby 4.0.9 + Bundler 4, Versionsverwaltung ausschließlich über mise (`mise.toml`)
+- Rails 8.1.4.1 (`config.load_defaults 8.1`), Gemfile: `rails ~> 8.1.4`; Health-Check unter `/up`
 - PostgreSQL (`pg`), Puma 8
 - Hintergrundjobs: Solid Queue (DB-basiert) + Mission Control (`/admin-jobs`, Basis `AdminController`)
   - Recurring (`config/recurring.yml`): Aufräumen fertiger Jobs, `DebugJob`, nächtlicher `DumpDatabaseJob`
 - Views: HAML (`haml-rails`), Formulare: `simple_form`, Decorators: `draper`
 - Rechte: `cancancan` (`app/models/ability.rb`; Rollen user < sub_admin < sub_admin_with_series < admin; `UncheckedTeam` erst ab sub_admin, Import-Requests für user nur eigene)
 - Uploads: `carrierwave` + `mini_magick`; `image_optim`
-- Exporte: `prawn-rails` (PDF), `caxlsx_rails` (XLSX), `active_model_serializers` (JSON-API), `rqrcode`
+- Exporte: `prawn` + `prawn-table` (PDF, `PrawnSupport`), `caxlsx_rails` (XLSX), JSON-API über eigene `ApplicationSerializer`-Basisklasse
+  (`app/serializers/`, Lookup `ApplicationSerializer.for(klass)`, nur `attributes` + Methoden)
 - DB-Views im Code: `activerecord_views` (`*.sql` neben Models, z. B. `team_member.sql`, `year.sql`)
 - Validierung aus Schema: `generated_schema_validations` (hat auch Capistrano-Task)
 - Frontend (Sprockets!): CoffeeScript, Sass (`sassc`), `bootstrap-sass` 3.4.1, jQuery (über m3: `jquery2` + `jquery_ujs`),
   DataTables 1.10.9 (vendort in `app/assets/javascripts/dataTables`), Highcharts 10.3.3 (vendort in
-  `vendor/assets/javascripts/highcharts`, eingebunden über `lazy_high_charts`), `turbo-rails` im Gemfile
+  `vendor/assets/javascripts/highcharts`; Optionen über eigene Klasse `Chart::HighChart`, Ausgabe in `Chart::Base#high_chart`)
+- Pagination: `will_paginate` mit eigenem `BootstrapPaginationRenderer` (`m3/app/renderers/`)
 - Deployment: Capistrano über `capistrano3_featureset` 1.2.0 (mise, systemd, Puma, Solid Queue), Server `hanse-ff`, `/srv/feuerwehrsport-statistik`
   - `config/deploy.rb` liest `:ruby_version` aus `mise.toml`
   - Server erwartet: `/usr/bin/mise`, Ruby via mise, `/home/feuerwehrsport-statistik/feuerwehrsport-statistik.mise.toml`,
     Env-Datei `/home/feuerwehrsport-statistik/feuerwehrsport-statistik_env_vars` (ohne `export`)
   - Stand 2026-11-04: auf `hanse-ff` ist **noch kein Ruby via mise installiert** → `cap production version_manager:check` schlägt fehl
-- Mails: SMTP `mail.lichtbit.com`; `ApplicationMailer` hat seit letztem Commit eine eigene `DeliveryJob`-Klasse mit Retry
+- Mails: SMTP `mail.lichtbit.com`; `ApplicationMailer::DeliveryJob` mit Retry
+- Sicherheit: `bin/bundler-audit` (in CI), `bin/brakeman` (19 Warnungen, noch nicht gesichtet)
+- Achtung Rails 8: `has_secure_password reset_token: false` in `M3::Login::Base`, weil m3 eine eigene Spalte `password_reset_token` hat
 
 ## m3 (lokales Engine-Gem unter `m3/`)
 Altes Lichtbit/mgvmedia-Framework (Autor Sebastian Gaul), per `path:` eingebunden. Liefert:
@@ -45,9 +49,10 @@ Filter-/ActionManager-Decorators, Inputs, Uploader, Layouts, Fontawesome + JS-Ba
 - Kein `lib/`-Verzeichnis
 
 ## Tests & Qualität
-- RSpec (request specs, features mit Cuprite/Capybara, VCR/WebMock, FactoryBot, Timecop), SimpleCov, Guard
+- RSpec (request specs, features mit Cuprite/Capybara, WebMock, FactoryBot), SimpleCov 1.x (`.simplecov` nur Konfiguration), Guard
+- Transaktionale Fixtures (kein DatabaseCleaner), Zeitreisen mit `travel_to` (globales `travel_back` in `rails_helper`)
 - Lokaler Lauf (2026-11-04, vor neuen Tests): 384 Beispiele, 0 Fehlschläge (4 Mail-Job-Specs auf `ApplicationMailer::DeliveryJob` korrigiert), Coverage 78,8 %
-- Nach Testoffensive + Bugfixes (2026-11-04): **1052 Beispiele, 0 Fehlschläge, 1 skip**, Coverage 96,8 % (vorher 78,8 %),
+- Nach Testoffensive, Bugfixes und Rails-8.1-Update (2026-11-04): **1057 Beispiele, 0 Fehlschläge, 1 skip**, Coverage 96,9 % (vorher 78,8 %),
   Laufzeit ~4 min; auch mit `CI=1` (eager_load) grün. Bugs: siehe [Bugs.md](Bugs.md)
   - Neue Spec-Ordner: `spec/decorators`, `spec/serializers` (JSON-Snapshots, Absicherung für AMS-Ablösung), `spec/m3`, `spec/helpers/{calc,chart,backend}`, `spec/validators`, `spec/uploaders`
   - Feature-Specs (Cuprite) nicht parallel in zwei Prozessen laufen lassen (Port/Browser-Konflikt)
