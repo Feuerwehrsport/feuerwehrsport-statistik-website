@@ -58,13 +58,10 @@ RSpec.describe 'Errors' do
       '/page/person-77.html' => 'http://test.host/people/77',
       '/page/place-5.html' => 'http://test.host/places/5',
       '/page/team-42.html' => 'http://test.host/teams/42',
-      '/page/wettkampf-manager.html' => 'https://feusport.de/info',
       '/page/year-2014.html' => 'http://test.host/years/2014',
       '/page/years.html' => 'http://test.host/years',
       '/appointments/foo' => 'https://feusport.de',
-      '/wettkampf_manager' => 'https://feusport.de/info',
       '/online_anmeldungen' => 'https://feusport.de/info',
-      # NOTE: best-performance/best-scores are mapped crosswise in ErrorsController::OLD_PATHS
       '/page/best-performance-of-year-2015.html' => 'http://test.host/years/2015/best_performance',
       '/page/best-scores-of-year-2015.html' => 'http://test.host/years/2015/best_scores',
     }.each do |old_path, new_path|
@@ -78,6 +75,13 @@ RSpec.describe 'Errors' do
     it 'does not redirect unknown old pages' do
       get_not_found_for('/page/unknown.html')
       expect(response).to have_http_status(:not_found)
+    end
+
+    it 'does not redirect removed wettkampf manager pages' do
+      %w[/page/wettkampf-manager.html /wettkampf_manager /wk-linux-install].each do |path|
+        get_not_found_for(path)
+        expect(response).to have_http_status(:not_found)
+      end
     end
   end
 

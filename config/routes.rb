@@ -167,8 +167,6 @@ Rails.application.routes.draw do
 
   get 'association_select/:association', as: :association_select, to: 'association_select#show'
 
-  get 'wk-linux-install', to: redirect('https://raw.githubusercontent.com/Feuerwehrsport/wettkampf-manager/release/doc/scripts/basic-install.sh')
-
   # error handling
   match '/404' => 'errors#not_found', via: :all
   match '/422' => 'errors#unacceptable', via: :all
