@@ -37,12 +37,8 @@ ActiveRecord::Migration.maintain_test_schema!
 support_path = File.expand_path('support', __dir__)
 Dir["#{support_path}/**/*.rb"].each { |f| require f }
 
-VCR.configure do |config|
-  config.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
-  config.hook_into :webmock
-  config.ignore_localhost = true
-  config.configure_rspec_metadata!
-end
+require 'webmock/rspec'
+WebMock.disable_net_connect!(allow_localhost: true)
 
 RSpec.configure do |config|
   config.filter_run focus: true
