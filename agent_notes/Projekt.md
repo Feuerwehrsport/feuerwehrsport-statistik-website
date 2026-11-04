@@ -43,8 +43,8 @@ Früher lokales Engine-Gem `m3/` (Lichtbit/mgvmedia). Jetzt vollständig Teil de
   `start_session` mit `reset_session`, Session-Key `:login_id`), Controller `Sessions`, `Verifications`, `PasswordResets`,
   `ExpiredLogins`, `ChangedEmailAddresses`. Tokens per `generates_token_for`/`has_secure_password reset_token: { expires_in: 1.day }`,
   `rate_limit` auf Anmeldung (10/3 min) und Passwort-Reset (5/10 min). `AdminUser belongs_to :login`.
-- Sonstiges: `FormObject`/`FormObjectAssociations` (Concerns), `ApplicationUploader`, `Asset`/`ImageAsset` (Tabelle `assets`,
-  Dateien weiterhin unter `uploads/m3/assets/…`) für CKEditor-Bilder, Inputs in `app/inputs/`, `BootstrapPaginationRenderer`
+- Sonstiges: `FormObject`/`FormObjectAssociations` (Concerns), `ApplicationUploader`, Inputs in `app/inputs/`, `BootstrapPaginationRenderer`
+- Asset-Verwaltung für CKEditor-Bilder (`m3_assets`) am 2026-11-04 entfernt (letzter Upload 2018, keine Verweise in Inhalten)
 - Noch übrig (Frontend): JS-Global `M3` (`M3.ready`, `app/assets/javascripts/m3/`), Sass unter `app/assets/stylesheets/m3/`
 
 ## Code-Struktur (app/)

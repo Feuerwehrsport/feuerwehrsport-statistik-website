@@ -46,9 +46,11 @@ Stand: 2026-11-04. Reihenfolge ≈ empfohlene Priorität.
 
 ## 5. m3-Engine abbauen
 - [x] Engine aufgelöst, Ungenutztes entfernt, Namensräume aufgelöst, Login mit Rails-Bordmitteln (2026-11-04)
-- [ ] Beim Deploy: Migrationen benennen `m3_logins` → `logins` und `m3_assets` → `assets` um (Token-Spalten entfallen);
+- [ ] Beim Deploy: Migrationen benennen `m3_logins` → `logins` um (Token-Spalten entfallen) und löschen die Asset-Tabelle;
       alle Nutzer werden einmal abgemeldet (neuer Session-Key), alte Links aus Verifizierungs-/Reset-/E-Mail-Änderungsmails sind ungültig
-- [ ] Nach Deploy prüfen: Anmelden, Passwort vergessen, Registrierung, E-Mail-Änderung, CKEditor-Bilderauswahl (`/image_assets`)
+- [ ] Vor Deploy auf Produktion prüfen: `bin/rails runner 'p Asset.unscoped.maximum(:created_at), Asset.unscoped.count'` (vor dem Deploy, solange das Model noch existiert)
+- [ ] Nach Deploy: Dateien unter `public/uploads/m3/assets` auf dem Server löschen
+- [ ] Nach Deploy prüfen: Anmelden, Passwort vergessen, Registrierung, E-Mail-Änderung, Wettkampf-Hinweis im CKEditor
 - [ ] JS-Global `M3` und Sass-Ordner `m3/` bei der Frontend-Modernisierung umbenennen/auflösen
 - [ ] Fontawesome-Version prüfen/aktualisieren
 
