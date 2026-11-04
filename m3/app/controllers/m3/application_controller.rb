@@ -30,11 +30,12 @@ class M3::ApplicationController < ActionController::Base
     end
   end
 
+  # main_app: also resolve correctly inside mounted engines (e.g. mission control)
   def access_denied_redirect_path
-    root_path
+    main_app.root_path
   end
 
   def access_denied_login_path
-    Rails.application.config.m3.session.login_url
+    main_app.url_for(Rails.application.config.m3.session.login_url.merge(only_path: true))
   end
 end

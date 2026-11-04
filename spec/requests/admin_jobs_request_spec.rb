@@ -18,8 +18,6 @@ RSpec.describe 'Admin jobs (Mission Control)' do
     end
 
     it 'redirects to login page' do
-      pending 'Bug: CanCan::AccessDenied im Engine-Kontext -> login_url wird gegen Engine-Routen aufgelöst ' \
-              '(UrlGenerationError statt Redirect auf /session/new)'
       get '/admin-jobs'
       expect(response).to redirect_to('/session/new')
     end
@@ -34,7 +32,6 @@ RSpec.describe 'Admin jobs (Mission Control)' do
       end
 
       it 'redirects to main root page' do
-        pending 'Bug: root_path wird im Engine-Kontext zu /admin-jobs/ aufgelöst -> Redirect-Schleife'
         get '/admin-jobs'
         expect(response).to redirect_to('/')
       end
