@@ -83,6 +83,15 @@ RSpec.describe 'Backend::ImportRequests', login: :sub_admin do
       expect(response).to be_successful
     end
 
+    it 'lists only own requests' do
+      own_request.update!(description: 'Mein eigener Wettkampf')
+      foreign_request.update!(description: 'Fremder Wettkampf')
+      get '/backend/import_requests'
+      expect(response).to be_successful
+      expect(response.body).to include('Mein eigener Wettkampf')
+      expect(response.body).not_to include('Fremder Wettkampf')
+    end
+
     it 'denies foreign request' do
       get "/backend/import_requests/#{foreign_request.id}"
       expect(response).to redirect_to('/')

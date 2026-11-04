@@ -75,6 +75,7 @@ describe Ability do
       expect(ability).not_to be_able_to(:create, Person)
       expect(ability).not_to be_able_to(:show, AdminUser)
       expect(ability).not_to be_able_to(:manage, Caching::Cleaner)
+      expect(ability).not_to be_able_to(:index, UncheckedTeam)
     end
   end
 
@@ -96,6 +97,10 @@ describe Ability do
       expect(ability).to be_able_to(:update, Team)
       expect(ability).to be_able_to(:person_participation, GroupScore)
       expect(ability).to be_able_to(:create, ImportRequest)
+    end
+
+    it 'can not check teams' do
+      expect(ability).not_to be_able_to(:update, UncheckedTeam.new)
     end
 
     it 'can not do admin actions' do
@@ -121,6 +126,19 @@ describe Ability do
       expect(ability).to be_able_to(:create, ChangeRequest)
       expect(ability).to be_able_to(:update, Score)
       expect(ability).to be_able_to(:create, Team)
+    end
+
+    it 'can not check teams' do
+      expect(ability).to be_able_to(:update, Team.new)
+      expect(ability).not_to be_able_to(:index, UncheckedTeam)
+      expect(ability).not_to be_able_to(:update, UncheckedTeam.new)
+    end
+
+    it 'lists own import requests only' do
+      own = create(:import_request, admin_user: create(:admin_user, :user))
+      create(:import_request, admin_user: create(:admin_user, :admin))
+      own_ability = described_class.new(own.admin_user, nil)
+      expect(ImportRequest.accessible_by(own_ability, :index)).to eq [own]
     end
 
     it 'can manage own import requests only' do
@@ -158,6 +176,11 @@ describe Ability do
       sub_admin_classes.each do |klass|
         expect(ability).to be_able_to(:manage, klass), "expected to manage #{klass}"
       end
+    end
+
+    it 'can check teams' do
+      expect(ability).to be_able_to(:index, UncheckedTeam)
+      expect(ability).to be_able_to(:update, UncheckedTeam.new)
     end
 
     it 'can manage all import requests' do
