@@ -17,7 +17,6 @@ class ChangeLogDecorator < AppDecorator
     'Place',
     'Score',
     'ScoreType',
-    'Series::Participation',
     'Series::PersonParticipation',
     'Series::TeamParticipation',
     'Team',
@@ -42,7 +41,7 @@ class ChangeLogDecorator < AppDecorator
 
   def translated_action
     default = "#{object.model_class} #{object.action}"
-    I18n.t("change_logs.#{object.model_class.underscore}.#{object.action.underscore}", default_ab: default)
+    I18n.t("change_logs.#{object.model_class.underscore}.#{object.action.underscore}", default:)
   end
 
   def user_name
@@ -51,10 +50,15 @@ class ChangeLogDecorator < AppDecorator
 
   def translated_diff_hash(*only)
     diff_sentences = diff_hash.reject { |key, _c| only.present? && !key.in?(only) }.map do |key, changes|
-      "#{model_class.constantize.human_attribute_name(key)}: von »#{changes.first}« zu »#{changes.last}«"
+      "#{human_attribute_name(key)}: von »#{changes.first}« zu »#{changes.last}«"
     end.to_sentence
 
     "Objekt-ID: #{related_id} #{diff_sentences}"
+  end
+
+  def human_attribute_name(key)
+    klass = model_class.safe_constantize
+    klass.respond_to?(:human_attribute_name) ? klass.human_attribute_name(key) : key.to_s.humanize
   end
 
   def readable_content
@@ -113,7 +117,8 @@ class ChangeLogDecorator < AppDecorator
 
   def readable_team
     if action == 'merge'
-      h.safe_join(['Integriere ', link_to(before_model, before_model), ' in ', link_to(after_model, after_model)])
+      h.safe_join(['Integriere ', link_to(before_model, default_model_url(before_model)),
+                   ' in ', link_to(after_model, default_model_url(after_model))])
     else
       default_readable_link || translated_diff_hash
     end
@@ -121,7 +126,8 @@ class ChangeLogDecorator < AppDecorator
 
   def readable_person
     if action == 'merge'
-      h.safe_join(['Integriere ', link_to(before_model, before_model), ' in ', link_to(after_model, after_model)])
+      h.safe_join(['Integriere ', link_to(before_model, default_model_url(before_model)),
+                   ' in ', link_to(after_model, default_model_url(after_model))])
     else
       default_readable_link || translated_diff_hash
     end

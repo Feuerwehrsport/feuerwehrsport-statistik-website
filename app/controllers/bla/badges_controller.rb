@@ -3,7 +3,7 @@
 class Bla::BadgesController < ResourceController
   resource_actions :index, cache: %i[index]
 
-  export_index do |t|
+  export_index :xlsx do |t|
     t.col(:person)
     t.col(:year)
     t.col(:status)

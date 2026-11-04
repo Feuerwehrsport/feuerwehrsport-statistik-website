@@ -15,6 +15,7 @@ module GenderNames
 
   def normalize_gender(gender)
     gender = gender == 1 ? :male : :female if gender.in? [0, 1]
+    gender = gender.to_sym if gender.is_a?(String)
     gender
   end
 

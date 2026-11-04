@@ -61,7 +61,7 @@ class CompetitionDecorator < AppDecorator
     h.link_to(title.truncate(60), h.competition_path(self), title:)
   end
 
-  %i[hb_female hb_male hl_female hb_male gs fs_female fs_male la_female la_male].each do |method|
+  %i[hb_female hb_male hl_female hl_male gs fs_female fs_male la_female la_male].each do |method|
     define_method method do
       h.count_or_zero(object.public_send(method))
     end

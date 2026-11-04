@@ -6,7 +6,7 @@ class Chart::CompetitionsScoreOverview < Chart::Base
   def year_overview
     month_counts = (1..12).map do |month|
       {
-        name: t('date.month_names')[month - 1],
+        name: t('date.month_names')[month],
         y: competitions.count { |c| c.object.date.month == month },
       }
     end
@@ -19,7 +19,7 @@ class Chart::CompetitionsScoreOverview < Chart::Base
   def week_overview
     week_counts = (1..7).map do |wday|
       {
-        name: t('date.day_names')[wday],
+        name: t('date.day_names')[wday % 7],
         y: competitions.count { |c| c.object.date.wday == (wday % 7) },
       }
     end

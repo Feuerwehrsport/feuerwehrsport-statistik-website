@@ -45,7 +45,6 @@ describe Chart::CompetitionsScoreOverview do
     end
 
     it 'names the months' do
-      pending 'Bug: date.month_names starts with nil (rails_i18n), names are shifted by one month'
       chart.year_overview
       expect(series_data.pluck(:name).first(5)).to eq %w[Januar Februar März April Mai]
     end
@@ -67,7 +66,6 @@ describe Chart::CompetitionsScoreOverview do
     end
 
     it 'names the weekdays' do
-      pending 'Bug: date.day_names starts with Sonntag, index 7 is nil'
       chart.week_overview
       expect(series_data.pluck(:name)).to eq %w[Montag Dienstag Mittwoch Donnerstag Freitag Samstag Sonntag]
     end

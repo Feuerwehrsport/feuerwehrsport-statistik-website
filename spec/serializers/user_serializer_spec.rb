@@ -23,7 +23,6 @@ RSpec.describe UserSerializer do
     end
 
     it 'serializes type without decorator suffix' do
-      pending 'Bug: UserSerializer#type nutzt object.class -> bei dekorierten Objekten "admin-user-decorator"'
       expect(api_json(admin_user)[:type]).to eq 'admin-user'
     end
 
