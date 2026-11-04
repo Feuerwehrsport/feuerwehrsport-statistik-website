@@ -40,7 +40,6 @@ describe ImportRequestMailer do
       let(:import_request) { create(:import_request, admin_user:) }
 
       it 'sends no mail' do
-        pending 'Bug: ImportRequestMailer liefert anders als ChangeRequestMailer keine NullMail ohne Empfänger'
         expect(mail.message).to be_a(ActionMailer::Base::NullMail)
         expect { mail.deliver_now }.not_to raise_error
       end
