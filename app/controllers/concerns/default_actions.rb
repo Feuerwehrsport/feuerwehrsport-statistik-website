@@ -33,7 +33,6 @@ module DefaultActions
       include DefaultActions::Edit    if action_names.include?(:edit)
       include DefaultActions::Update  if action_names.include?(:update)
       include DefaultActions::Destroy if action_names.include?(:destroy)
-      include DefaultActions::Move    if action_names.include?(:move)
       before_action :authorize_action
 
       return unless singleton
