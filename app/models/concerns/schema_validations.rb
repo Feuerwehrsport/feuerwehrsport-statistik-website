@@ -4,7 +4,7 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 
-# generated from version 20260409204540
+# generated from version 20261104140000
 
 module SchemaValidations
   extend ActiveSupport::Concern
@@ -307,6 +307,16 @@ module SchemaValidations
       validates_with_filter :url, {presence: {}}
     end
 
+    def dbv_logins_validations(enums: [])
+      validates_with_filter :created_at, {date_time_in_db_range: {}}
+      validates_with_filter :created_at, {presence: {}}
+      validates_with_filter :email_address, {presence: {}}
+      validates_with_filter :expired_at, {date_time_in_db_range: {}}
+      validates_with_filter :updated_at, {date_time_in_db_range: {}}
+      validates_with_filter :updated_at, {presence: {}}
+      validates_with_filter :verified_at, {date_time_in_db_range: {}}
+    end
+
     def dbv_m3_assets_validations(enums: [])
       validates_with_filter :created_at, {date_time_in_db_range: {}}
       validates_with_filter :created_at, {presence: {}}
@@ -314,21 +324,6 @@ module SchemaValidations
       validates_with_filter :name, {length: {allow_nil: true, maximum: 200}}
       validates_with_filter :updated_at, {date_time_in_db_range: {}}
       validates_with_filter :updated_at, {presence: {}}
-    end
-
-    def dbv_m3_logins_validations(enums: [])
-      belongs_to_uniqueness_validations_for([["changed_email_address_token"], ["password_reset_token"], ["verify_token"]])
-      uniqueness_validations_for([["changed_email_address_token"], ["password_reset_token"], ["verify_token"]])
-      validates_with_filter :changed_email_address_requested_at, {date_time_in_db_range: {}}
-      validates_with_filter :changed_email_address_token, {presence: {}}
-      validates_with_filter :created_at, {date_time_in_db_range: {}}
-      validates_with_filter :created_at, {presence: {}}
-      validates_with_filter :email_address, {presence: {}}
-      validates_with_filter :expired_at, {date_time_in_db_range: {}}
-      validates_with_filter :password_reset_requested_at, {date_time_in_db_range: {}}
-      validates_with_filter :updated_at, {date_time_in_db_range: {}}
-      validates_with_filter :updated_at, {presence: {}}
-      validates_with_filter :verified_at, {date_time_in_db_range: {}}
     end
 
     def dbv_nations_validations(enums: [])

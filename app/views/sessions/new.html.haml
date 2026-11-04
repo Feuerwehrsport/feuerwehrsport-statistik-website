@@ -1,8 +1,16 @@
-= render 'hero', actions: false
+- @page_title = 'Anmelden'
+.hero
+  .container
+    %h1 Anmelden
 .section
   .container
     .col-md-7
-      = render 'form'
+      = simple_form_for :session, url: session_path do |f|
+        = f.input :email_address, label: 'E-Mail-Adresse', required: true, input_html: { value: @email_address, autocomplete: 'username' }
+        = f.input :password, label: 'Passwort', required: true, input_html: { autocomplete: 'current-password' }
+        .form-actions
+          = f.button :submit, 'Anmelden', class: 'btn-primary'
+          = link_to 'Passwort vergessen?', new_password_reset_path, class: 'btn btn-link'
     .col-md-5
       %ul
         %li= link_to 'Konto erstellen', new_backend_registration_path

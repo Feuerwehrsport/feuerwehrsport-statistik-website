@@ -42,10 +42,6 @@ describe Ability do
       expect(ability).to be_able_to(:create, ApiUser)
       expect(ability).to be_able_to(:status, ApiUser)
       expect(ability).to be_able_to(:logout, ApiUser)
-      expect(ability).to be_able_to(:manage, M3::Login::Session)
-      expect(ability).to be_able_to(:verify, M3::Login::Base)
-      expect(ability).to be_able_to(:manage, M3::Login::PasswordReset)
-      expect(ability).to be_able_to(:manage, M3::Login::ChangedEmailAddress)
       expect(ability).to be_able_to(:create, AdminUsers::Registration)
     end
   end

@@ -10,7 +10,7 @@ class M3::ApplicationController < ActionController::Base
   include IndexStructures
   include FormStructures
   include FilterStructures
-  include Authorization
+  include Authentication
   include ControllerTranslation
 
   # Prevent CSRF attacks by raising an exception.
@@ -36,6 +36,6 @@ class M3::ApplicationController < ActionController::Base
   end
 
   def access_denied_login_path
-    main_app.url_for(Rails.application.config.m3.session.login_url.merge(only_path: true))
+    main_app.new_session_path
   end
 end

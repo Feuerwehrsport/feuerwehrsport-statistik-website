@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_09_204540) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_04_140000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
   enable_extension "pg_catalog.plpgsql"
@@ -216,31 +216,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_09_204540) do
     t.datetime "updated_at", precision: nil, null: false
   end
 
+  create_table "logins", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.string "email_address", null: false
+    t.string "password_digest"
+    t.datetime "verified_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "expired_at", precision: nil
+    t.string "changed_email_address"
+  end
+
   create_table "m3_assets", id: :serial, force: :cascade do |t|
     t.string "file"
     t.string "name", limit: 200
     t.boolean "image", default: false, null: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-  end
-
-  create_table "m3_logins", id: :serial, force: :cascade do |t|
-    t.string "name"
-    t.string "email_address", null: false
-    t.string "password_digest"
-    t.datetime "verified_at", precision: nil
-    t.string "verify_token"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.datetime "password_reset_requested_at", precision: nil
-    t.string "password_reset_token"
-    t.datetime "expired_at", precision: nil
-    t.string "changed_email_address"
-    t.string "changed_email_address_token", null: false
-    t.datetime "changed_email_address_requested_at", precision: nil
-    t.index ["changed_email_address_token"], name: "index_m3_logins_on_changed_email_address_token", unique: true
-    t.index ["password_reset_token"], name: "index_m3_logins_on_password_reset_token", unique: true
-    t.index ["verify_token"], name: "index_m3_logins_on_verify_token", unique: true
   end
 
   create_table "nations", id: :serial, force: :cascade do |t|
@@ -562,7 +554,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_09_204540) do
     t.jsonb "best_scores", default: {}
   end
 
-  add_foreign_key "admin_users", "m3_logins", column: "login_id"
+  add_foreign_key "admin_users", "logins"
   add_foreign_key "bla_badges", "people"
   add_foreign_key "bla_badges", "scores", column: "hb_score_id"
   add_foreign_key "bla_badges", "scores", column: "hl_score_id"

@@ -4,8 +4,8 @@ require 'rails_helper'
 
 describe LoginMailer do
   let(:login) do
-    create(:m3_login, email_address: 'alfred@example.com', name: "Alfred\r\nMeier",
-                      changed_email_address: 'new@example.com')
+    create(:login, email_address: 'alfred@example.com', name: "Alfred\r\nMeier",
+                   changed_email_address: 'new@example.com')
   end
 
   shared_examples 'a login mail' do |to:|
@@ -22,12 +22,11 @@ describe LoginMailer do
 
     it_behaves_like 'a login mail', to: 'AlfredMeier <alfred@example.com>'
 
-    it 'renders the body' do
-      expect_with_mailer_signature(
-        "Um Ihre E-Mail-Adresse zu bestätigen, rufen Sie bitte die nachfolgende URL auf:\n" \
-        "\n" \
-        "http://test.host/verify_login/#{login.verify_token}\n",
-      )
+    it 'renders the body with a valid verification link' do
+      login.update!(verified_at: nil)
+      token = mail.body.to_s[%r{http://test.host/verify_login/(\S+)}, 1]
+      expect(mail.body.to_s).to start_with('Um Ihre E-Mail-Adresse zu bestätigen')
+      expect(Login.find_by_token_for(:verification, token)).to eq login
     end
 
     it 'uses the translated subject' do
@@ -40,15 +39,10 @@ describe LoginMailer do
 
     it_behaves_like 'a login mail', to: 'AlfredMeier <alfred@example.com>'
 
-    it 'renders the body' do
-      expect_with_mailer_signature(
-        "Um Ihr Passwort zu ändern, rufen Sie bitte die nachfolgende URL auf:\n" \
-        "\n" \
-        "http://test.host/password_reset/#{login.password_reset_token}/edit\n" \
-        "\n" \
-        'Diese URL ist 24 Stunden gültig. Sollte Sie diese E-Mail nicht beauftragt haben, ' \
-        "können Sie diese einfach ignorieren.\n",
-      )
+    it 'renders the body with a valid reset link' do
+      token = mail.body.to_s[%r{http://test.host/password_reset/(\S+)/edit}, 1]
+      expect(mail.body.to_s).to include('Diese URL ist 24 Stunden gültig.')
+      expect(Login.find_by_password_reset_token(token)).to eq login
     end
 
     it 'uses the translated subject' do
@@ -61,15 +55,10 @@ describe LoginMailer do
 
     it_behaves_like 'a login mail', to: 'AlfredMeier <new@example.com>'
 
-    it 'renders the body' do
-      expect_with_mailer_signature(
-        "Um Ihre E-Mail-Adresse zu ändern, rufen Sie bitte die nachfolgende URL auf:\n" \
-        "\n" \
-        "http://test.host/changed_email_addresses/#{login.changed_email_address_token}/edit\n" \
-        "\n" \
-        'Diese URL ist 24 Stunden gültig. Sollten Sie diese E-Mail nicht beauftragt haben, ' \
-        "können Sie diese einfach ignorieren.\n",
-      )
+    it 'renders the body with a valid confirmation link' do
+      token = mail.body.to_s[%r{http://test.host/changed_email_addresses/(\S+)/edit}, 1]
+      expect(mail.body.to_s).to include('Diese URL ist 24 Stunden gültig.')
+      expect(Login.find_by_token_for(:email_change, token)).to eq login
     end
 
     it 'uses the translated subject' do
@@ -78,7 +67,7 @@ describe LoginMailer do
   end
 
   describe 'without name' do
-    let(:login) { create(:m3_login, email_address: 'alfred@example.com', name: '') }
+    let(:login) { create(:login, email_address: 'alfred@example.com', name: '') }
     let(:mail) { described_class.with(login:).verify }
 
     it 'uses plain email address' do

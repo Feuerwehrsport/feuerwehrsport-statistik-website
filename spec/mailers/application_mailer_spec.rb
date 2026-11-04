@@ -6,7 +6,7 @@ describe ApplicationMailer do
   include ActiveJob::TestHelper
 
   describe 'delivery job' do
-    let(:login) { create(:m3_login) }
+    let(:login) { create(:login) }
 
     it 'uses own delivery job for deliver_later' do
       expect(described_class.delivery_job).to eq ApplicationMailer::DeliveryJob

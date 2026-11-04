@@ -65,6 +65,7 @@ RSpec.configure do |config|
   # otherwise the views are created inside the first example's transaction and rolled back afterwards.
   config.before(:suite) { Rails.autoloaders.main.eager_load_dir(Rails.root.join('app/models').to_s) }
   config.include ActiveSupport::Testing::TimeHelpers
+  config.before { ActionController::Base.cache_store.clear }
   # also for specs without rails type (e.g. spec/m3)
   config.after { travel_back } # rubocop:disable Rails/RedundantTravelBack
 
