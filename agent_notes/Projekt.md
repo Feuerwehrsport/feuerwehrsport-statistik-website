@@ -29,7 +29,7 @@ Repo: `git@github.com:Feuerwehrsport/feuerwehrsport-statistik-website.git`
   - `config/deploy.rb` liest `:ruby_version` aus `mise.toml`
   - Server erwartet: `/usr/bin/mise`, Ruby via mise, `/home/feuerwehrsport-statistik/feuerwehrsport-statistik.mise.toml`,
     Env-Datei `/home/feuerwehrsport-statistik/feuerwehrsport-statistik_env_vars` (ohne `export`)
-  - Stand 2026-11-04: auf `hanse-ff` ist **noch kein Ruby via mise installiert** → `cap production version_manager:check` schlägt fehl
+  - Seit 2026-11-04 läuft `hanse-ff` mit mise und Ruby 4.0.9
 - Mails: SMTP `mail.lichtbit.com`; `ApplicationMailer::DeliveryJob` mit Retry
 - Sicherheit: `bin/bundler-audit` (in CI), `bin/brakeman` (19 Warnungen, noch nicht gesichtet)
 
@@ -65,7 +65,8 @@ Früher lokales Engine-Gem `m3/` (Lichtbit/mgvmedia). Jetzt vollständig Teil de
   - Feature-Specs (Cuprite) nicht parallel in zwei Prozessen laufen lassen (Port/Browser-Konflikt)
 - Test-DB-Name: `feuerwehrsport-statistik-test<TEST_ENV_NUMBER>` → parallele Läufe mit eigener DB möglich
 - RuboCop (`.rubocop.yml`): 609 Dateien, keine Offenses
-- CI: GitHub Actions `.github/workflows/ci.yml` (mise-action, Postgres-Service, rubocop + rspec); alte `.gitlab-ci.yml` entfernt
+- CI: GitHub Actions `.github/workflows/ci.yml` (mise-action, Postgres-Service, rubocop + bundler-audit + rspec) und täglich
+  `.github/workflows/security.yml` (bundler-audit + ruby_audit); beide laufen grün
 
 ## Sonstiges
 - `.byebug_history` liegt im Repo-Verzeichnis, Gem `byebug` wird aber nicht mehr genutzt (`debug` statt dessen)
