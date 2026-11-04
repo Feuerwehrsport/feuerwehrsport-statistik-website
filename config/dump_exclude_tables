@@ -8,7 +8,7 @@ import_request_files
 import_request_files_id_seq
 import_requests
 import_requests_id_seq
-m3_assets
+assets
 logins
 solid_queue_blocked_executions
 solid_queue_blocked_executions_id_seq

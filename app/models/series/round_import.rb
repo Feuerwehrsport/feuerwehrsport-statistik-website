@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Series::RoundImport
-  include M3::FormObject
+  include FormObject
   include ActiveModel::Attributes
 
   belongs_to :round, class_name: 'Series::Round'

@@ -134,7 +134,7 @@ de:
 
   activerecord: &activerecord
     models:
-      m3/asset:
+      asset:
         one: Datei
         other: Dateien
       api_user: Benuter
@@ -175,7 +175,7 @@ de:
         one: Jahr
         other: Jahre
     attributes:
-      m3/asset:
+      asset:
         file: Datei
         file_name: Dateiname
         image_preview: Bildvorschau

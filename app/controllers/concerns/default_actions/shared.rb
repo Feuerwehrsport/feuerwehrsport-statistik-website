@@ -15,8 +15,8 @@ module DefaultActions::Shared
     if collection.respond_to?(:accessible_by)
       self.collection = collection.accessible_by(current_ability, action_name.to_sym)
     end
-    self.collection = m3_filter_structure.filter_collection(collection, resource_class:)
-    self.collection = m3_index_structure.order_collection(collection, resource_class:)
+    self.collection = filter_structure.filter_collection(collection, resource_class:)
+    self.collection = index_structure.order_collection(collection, resource_class:)
     self.collection = collection.paginate(page: paginate_page, per_page: page_size) if paginate?
   end
 
@@ -47,7 +47,7 @@ module DefaultActions::Shared
   end
 
   def paginate?
-    !request.format.to_sym.in?(m3_index_export_formats) &&
+    !request.format.to_sym.in?(index_export_formats) &&
       request.format != :json &&
       collection.respond_to?(:paginate)
   end
@@ -64,7 +64,7 @@ module DefaultActions::Shared
     return unless record.respond_to?(:errors) && record.errors.is_a?(ActiveModel::Errors)
 
     logger.debug do
-      "[M3] Update failed due to errors for resource class #{record.class.name}:\n" +
+      "Update failed due to errors for resource class #{record.class.name}:\n" +
         record.errors.messages.map { |key, value| "     #{key}: #{value.join(';')}" }.join("\n")
     end
   end

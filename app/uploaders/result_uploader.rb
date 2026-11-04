@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ResultUploader < M3::ApplicationUploader
+class ResultUploader < ApplicationUploader
   def extension_allowlist
     %w[pdf]
   end

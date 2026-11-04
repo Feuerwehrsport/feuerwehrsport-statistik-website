@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class TeamLogoUploader < M3::ApplicationUploader
+class TeamLogoUploader < ApplicationUploader
   def store_dir
     "uploads/teams/#{model.id}"
   end

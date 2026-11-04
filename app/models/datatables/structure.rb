@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Datatables::Structure < M3::Index::Structure
+class Datatables::Structure < Ui::Index::Structure
   def klass
     options[:klass]
   end

@@ -13,5 +13,5 @@
               - assoc[:fields].each do |name|
                 %td= record.send(name)
 
-    = m3_form(url: url_for(action: :destroy, confirm: 1), method: :delete) do |f|
+    = resource_form(url: url_for(action: :destroy, confirm: 1), method: :delete) do |f|
       = f.actions(submit_label: t3(:confirm_destroy, scope: :form_actions))

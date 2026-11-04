@@ -1,6 +1,6 @@
 = @preview_string.html_safe
 
-= m3_form(m3_form_options.slice(:as, :url, :html)) do |f|
+= resource_form(form_options.slice(:as, :url, :html)) do |f|
   = f.input :competition_id, as: :hidden
   = f.input :import_request_id, as: :hidden
 
@@ -43,4 +43,4 @@
   .container
     .alert.alert-danger
       = f.input :import_now, as: :boolean
-    = f.actions(**m3_form_options.slice(:abort_url))
+    = f.actions(**form_options.slice(:abort_url))

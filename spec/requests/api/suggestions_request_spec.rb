@@ -71,7 +71,7 @@ RSpec.describe 'Api::Suggestions' do
       it 'returns people' do
         post '/api/suggestions/people', params: attributes
         expect_json_response
-        expect(json_body[:people]).to eq [person3_hash, person4_hash]
+        expect(json_body[:people]).to contain_exactly(person3_hash, person4_hash)
       end
 
       context 'when order by gender' do

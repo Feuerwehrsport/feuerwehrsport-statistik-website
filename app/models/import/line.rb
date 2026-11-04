@@ -158,6 +158,7 @@ class Import::Line
     person_ids = Person.gender(check.gender).search_exactly(out[:last_name], out[:first_name]).pluck(:id)
     person_ids += PersonSpelling.gender(check.gender).search_exactly(out[:last_name],
                                                                      out[:first_name]).pluck(:person_id)
-    Person.where(id: person_ids).pluck(:id, :last_name, :first_name)
+    # direct matches first, then matches by spelling
+    Person.where(id: person_ids).in_order_of(:id, person_ids.uniq).pluck(:id, :last_name, :first_name)
   end
 end
