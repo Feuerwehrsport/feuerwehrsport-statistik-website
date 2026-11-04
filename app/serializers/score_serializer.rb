@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ScoreSerializer < ActiveModel::Serializer
+class ScoreSerializer < ApplicationSerializer
   attributes :id, :team_id, :team_number, :time, :single_discipline_id, :second_time, :translated_discipline_name,
              :similar_scores, :person, :discipline_key
 

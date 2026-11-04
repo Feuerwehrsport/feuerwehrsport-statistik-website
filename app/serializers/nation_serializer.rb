@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class NationSerializer < ActiveModel::Serializer
+class NationSerializer < ApplicationSerializer
   attributes :id, :name, :iso
 end

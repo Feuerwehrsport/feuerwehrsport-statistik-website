@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class TeamSerializer < ActiveModel::Serializer
+class TeamSerializer < ApplicationSerializer
   attributes :id, :name, :shortcut, :status, :latitude, :longitude, :state, :tile_path, :best_scores
 
   def tile_path

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class Series::PersonAssessmentSerializer < ActiveModel::Serializer
+class Series::PersonAssessmentSerializer < ApplicationSerializer
   attributes :id, :key, :discipline, :round_id
 end

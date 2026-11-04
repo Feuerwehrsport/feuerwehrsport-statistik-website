@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class ScoreTypeSerializer < ActiveModel::Serializer
+class ScoreTypeSerializer < ApplicationSerializer
   attributes :id, :people, :run, :score
 end

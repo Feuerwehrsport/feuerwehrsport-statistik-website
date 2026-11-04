@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Series::TeamAssessmentSerializer < ActiveModel::Serializer
+class Series::TeamAssessmentSerializer < ApplicationSerializer
   attributes :id, :key, :discipline, :round_id, :name
 
   def name

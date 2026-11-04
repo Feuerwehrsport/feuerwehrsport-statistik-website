@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class TeamMemberSerializer < ActiveModel::Serializer
+class TeamMemberSerializer < ApplicationSerializer
   attributes :person_id, :team_id
 end
