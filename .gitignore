@@ -23,3 +23,6 @@
 /coverage
 /.rake_tasks~
 /.byebug_history
+
+# Lokale Agenten-Notizen
+/agent_notes/
