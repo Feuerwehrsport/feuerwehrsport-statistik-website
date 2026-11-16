@@ -69,6 +69,29 @@ describe 'teams features' do
       expect(change_request.files_data[:files][0][:binary]).to starting_with('JVBERi0xL')
     end
 
+    it 'can add and report a link' do
+      api_sign_in
+
+      visit team_path(team)
+      click_on 'Link hinzufügen'
+      within_dialog do
+        fill_in 'Name', with: 'Webseite'
+        fill_in 'Link', with: 'www.ff-warin.de'
+        click_on 'Hinzufügen'
+      end
+      expect(page).to have_no_css('dialog[open]')
+      expect(page).to have_link('Webseite', href: 'https://www.ff-warin.de')
+      expect(Link.last).to have_attributes(linkable: team, label: 'Webseite')
+
+      find('.report-link').click
+      within_dialog do
+        expect(page).to have_text('Soll der Link Webseite')
+        click_on 'Melden'
+      end
+      expect_change_request_saved
+      expect(ChangeRequest.last.content).to eq(key: 'report-link', data: { link_id: Link.last.id.to_s })
+    end
+
     it 'can edit the state' do
       api_sign_in
 

@@ -134,6 +134,12 @@ Rails.application.routes.draw do
       resource :change_request, only: %i[new create], controller: :competition_change_requests
       resources :files, only: %i[new create], controller: :competition_files
     end
+    resources :links, only: %i[new create] do
+      resource :report, only: %i[new create], controller: :link_reports
+    end
+    resources :scores, only: [] do
+      resource :team, only: %i[edit update], controller: :score_teams
+    end
   end
 
   # following controllers will write html cache

@@ -1,0 +1,7 @@
+= render layout: 'contributions/shared/dialog', locals: { title: 'Link melden' } do
+  = form_with url: contributions_link_report_path(@link) do
+    %p
+      Soll der Link
+      %strong= @link.label
+      (#{@link.url}) als defekt gemeldet werden?
+    = render 'contributions/shared/actions', submit: 'Melden'

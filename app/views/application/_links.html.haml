@@ -5,7 +5,9 @@
       = link.label
     &nbsp;
     %small
-      .report-link.btn.btn-default.btn-xs{ title: "Link »#{link.label}« melden" }
+      = link_to new_contributions_link_report_path(link), class: 'report-link btn btn-default btn-xs',
+                title: "Link »#{link.label}« melden", data: { turbo_frame: 'contribution', turbo: true } do
         %span.glyphicon.glyphicon-flag
 
-.add-link.btn.btn-default{ data: { linkable_type: linkable_type, linkable_id: linkable_id } } Link hinzufügen
+= link_to 'Link hinzufügen', new_contributions_link_path(linkable_type:, linkable_id:), class: 'add-link btn btn-default',
+                                                                                   data: { turbo_frame: 'contribution', turbo: true }

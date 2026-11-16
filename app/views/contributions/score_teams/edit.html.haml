@@ -1,0 +1,50 @@
+= render layout: 'contributions/shared/dialog', locals: { title: "Mannschaft zuordnen: #{@person}" } do
+  - if @error.present?
+    .alert.alert-danger= @error
+  %p
+    Du ordnest
+    %strong= @person
+    bei
+    %strong= @competition
+    einer Mannschaft zu.
+
+  - if @team.nil?
+    = form_with url: edit_contributions_score_team_path(@scores.first), method: :get do
+      = label_tag :q, 'Mannschaft suchen', class: 'sr-only'
+      .input-group
+        = search_field_tag :q, params[:q], class: 'form-control', placeholder: 'Andere Mannschaft suchen'
+        %span.input-group-btn
+          %button.btn.btn-default{ type: 'submit' } Suchen
+    = form_with url: edit_contributions_score_team_path(@scores.first), method: :get do
+      .contribution-dialog-choices
+        .radio
+          %label
+            = radio_button_tag :team_id, Contributions::ScoreTeamsController::NO_TEAM, @current_team.nil?
+            ohne Mannschaft
+        - @teams.each do |team|
+          .radio
+            %label
+              = radio_button_tag :team_id, team.id, team == @current_team
+              #{team.name} (#{team.shortcut})
+        - if @teams.empty?
+          %p.text-muted Keine passende Mannschaft gefunden.
+      = render 'contributions/shared/actions', submit: 'Weiter'
+
+  - else
+    = form_with url: contributions_score_team_path(@scores.first), method: :patch, class: 'form-horizontal' do
+      = hidden_field_tag :team_id, @team == :none ? Contributions::ScoreTeamsController::NO_TEAM : @team.id
+      %p
+        Mannschaft:
+        %strong= @team == :none ? 'ohne Mannschaft' : @team.name
+        = link_to 'ändern', edit_contributions_score_team_path(@scores.first)
+      - @scores.each do |score|
+        - score = score.decorate
+        .form-group
+          = label_tag "team_numbers_#{score.id}", "#{score.translated_discipline_name}: #{score.second_time}",
+                      class: 'control-label col-sm-5'
+          .col-sm-7
+            = select_tag "team_numbers[#{score.id}]",
+                         options_for_select(Contributions::ScoreTeamsController::TEAM_NUMBERS.invert.to_a,
+                                            params.dig(:team_numbers, score.id.to_s) || score.team_number),
+                         class: 'form-control', id: "team_numbers_#{score.id}"
+      = render 'contributions/shared/actions', submit: 'Speichern'

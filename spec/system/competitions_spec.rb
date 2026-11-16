@@ -72,6 +72,30 @@ describe 'competitions features' do
     end
   end
 
+  context 'when editing teams of scores' do
+    it 'assigns a team and team numbers' do
+      score = create(:score, :hb, team: nil, team_number: 0)
+      team = create(:team, name: 'FF Neustadt', shortcut: 'Neustadt')
+
+      api_sign_in
+      visit competition_path(score.competition)
+      find('.btn', text: 'Mannschaften bearbeiten').click
+      find('.change-team a.glyphicon-pencil', match: :first).click
+
+      within('dialog.contribution-dialog') do
+        fill_in 'Mannschaft suchen', with: 'Neustadt'
+        click_on 'Suchen'
+        choose 'FF Neustadt (Neustadt)'
+        click_on 'Weiter'
+        select 'Mannschaft 2', from: "#{score.decorate.translated_discipline_name}: #{score.decorate.second_time}"
+        click_on 'Speichern'
+      end
+      expect(page).to have_no_css('dialog[open]')
+      expect(score.reload).to have_attributes(team_id: team.id, team_number: 2)
+      expect(ChangeLog.last).to have_attributes(action: 'update-score:team')
+    end
+  end
+
   context 'when file upload' do
     it 'uploads files and reports a file error' do
       api_sign_in
