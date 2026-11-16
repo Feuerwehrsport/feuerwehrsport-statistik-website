@@ -34,28 +34,19 @@ class Backend::BackendController < ApplicationController
 
     associations = {}
     resource_class.reflect_on_all_associations.select { |a| a.macro == :has_many }.map do |association|
-      collection = resource.send(association.name)
-      collection = collection.object if collection.is_a?(ApplicationCollectionDecorator)
       next if association.nested?
 
-      instance = collection.new
-      next if begin
-      # instance.is_a?(ActiveRecord::View)
-      # TODO
-      rescue StandardError
-        true
-      end
-
-      model_name = instance.class.model_name.human(count: :many)
+      model_name = association.klass.model_name.human(count: :many)
       q = if association.options[:as].present?
             { "#{association.options[:as]}_type_scope": resource_class,
               "#{association.options[:as]}_id_scope": resource.id }
           else
             { "#{resource_name}_scope": resource.id }
           end
+      # associations without a backend controller (e.g. SQL views like TeamMember) have no route and are skipped
       url = (begin
         url_for(controller: "backend/#{association.name}", action: :index, q:)
-      rescue StandardError
+      rescue ActionController::UrlGenerationError
         nil
       end)
       associations[model_name] = url if url.present?
