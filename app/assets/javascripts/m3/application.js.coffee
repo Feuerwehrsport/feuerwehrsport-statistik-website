@@ -1,4 +1,4 @@
-#= require jquery2
+#= require jquery3
 #= require jquery_ujs
 #= require bootstrap-sprockets
 #= require m3/initialize

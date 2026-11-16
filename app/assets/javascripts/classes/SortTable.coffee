@@ -27,7 +27,7 @@ class @SortTable
         new SortTable($.extend(options, { selector: this, noSorting: $(this).find('th').length - 1 }))
       return
     if options.noSorting?
-      options.noSorting = [options.noSorting] unless $.isArray(options.noSorting)
+      options.noSorting = [options.noSorting] unless Array.isArray(options.noSorting)
 
       dataTableOptions.aoColumnDefs = [{
         bSortable: false

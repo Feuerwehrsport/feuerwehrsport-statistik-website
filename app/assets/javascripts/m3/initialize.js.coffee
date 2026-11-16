@@ -6,7 +6,7 @@ M3.ready = (cb) ->
   $(document).on('m3:page:ready', (ev, context) -> cb(ev, context || document))
 
 M3.load = (cb) ->
-  $(window).load(cb)
+  $(window).on("load", cb)
   $(document).on 'page:load', ->
     $(document).find('img').one('load', cb)
     cb()

@@ -58,8 +58,8 @@ RSpec.configure do |config|
   # system specs run in headless Chrome (Cuprite)
   config.before(type: :system) do
     browser_options = ENV['CI_SERVER'].present? ? { 'no-sandbox': nil } : {}
-    # process_timeout: Chrome sometimes starts slowly on CI runners
-    driven_by :cuprite, screen_size: [1280, 1024], options: { process_timeout: 30, browser_options: }
+    # process_timeout: Chrome sometimes starts slowly on CI runners; js_errors: JavaScript errors fail the spec
+    driven_by :cuprite, screen_size: [1280, 1024], options: { process_timeout: 30, browser_options:, js_errors: true }
   end
 
   # every example runs in a transaction; the in-process server of system specs shares the connection
