@@ -92,6 +92,7 @@ end
 Capybara.register_driver(:cuprite) do |app|
   options = {
     window_size: [1280, 1024],
+    process_timeout: 30, # Chrome startet auf CI-Runnern manchmal langsam
     extensions: ["#{support_path}/phantomjs_disable_animations.js"],
   }
   options[:browser_options] = { 'no-sandbox': nil } if ENV['CI_SERVER'].present?
