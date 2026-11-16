@@ -36,6 +36,8 @@ module FeuerwehrsportStatistik
     config.active_record.belongs_to_required_by_default = false
 
     config.x.email_validation = { mx: true }
+    # tokens for Feusport to transfer import requests (comma separated to allow rotation)
+    config.x.feusport_import_tokens = ENV.fetch('FEUSPORT_IMPORT_TOKENS', '').split(',').map(&:strip).compact_blank
     config.caching = true
 
     # dynamic error handling

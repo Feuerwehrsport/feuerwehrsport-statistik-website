@@ -8,7 +8,8 @@ class Ability
   def initialize(user, _login)
     @user = user
     all_users
-    send(:"#{user.role}_abilities") if user.try(:role).in?(%i[admin sub_admin_with_series sub_admin user api_user])
+    send(:"#{user.role}_abilities") if user.try(:role).in?(%i[admin sub_admin_with_series sub_admin user api_user
+                                                              import_token])
 
     # checking teams is only allowed for sub admins and above
     cannot :manage, UncheckedTeam unless user.try(:role).in?(%i[admin sub_admin_with_series sub_admin])
@@ -78,6 +79,10 @@ class Ability
     can :update, Score
     can %i[create update], Team
     can :person_participation, GroupScore
+    can :create, ImportRequest
+  end
+
+  def import_token_abilities
     can :create, ImportRequest
   end
 
