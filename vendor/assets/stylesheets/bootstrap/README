@@ -1,0 +1,2 @@
+Bootstrap 3.4.1 Sass-Port, unverändert übernommen aus dem Gem bootstrap-sass 3.4.1 (MIT, siehe LICENSE).
+Das Gem zog libsass (sassc) mit; wird durch Bootstrap 5 ersetzt.

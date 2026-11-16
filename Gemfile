@@ -32,8 +32,7 @@ gem 'terser' # asset compressor
 gem 'coffee-rails' # coffee script
 gem 'image_optim' # image optimazing
 gem 'image_optim_pack' # image optimazing binaries
-gem 'bootstrap-sass' # bootstrap with sass support
-gem 'sassc-rails' # sass for rails
+gem 'dartsass-sprockets' # sass for sprockets via dart sass (bootstrap 3 is vendored in vendor/assets)
 gem 'will_paginate' # pagination
 
 # exports

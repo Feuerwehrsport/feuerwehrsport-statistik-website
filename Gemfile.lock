@@ -86,8 +86,6 @@ GEM
     airbrussh (1.6.2)
       sshkit (>= 1.6.1, != 1.7.0)
     ast (2.4.3)
-    autoprefixer-rails (10.6.1.0)
-      execjs (~> 2)
     base64 (0.3.0)
     bcrypt (3.1.22)
     bcrypt_pbkdf (1.1.2)
@@ -95,9 +93,6 @@ GEM
     bindex (0.8.1)
     bootsnap (1.26.1)
       msgpack (~> 1.5)
-    bootstrap-sass (3.4.1)
-      autoprefixer-rails (>= 5.2.1)
-      sassc (>= 2.0.0)
     brakeman (8.1.0)
       racc
     builder (3.3.0)
@@ -160,6 +155,12 @@ GEM
     cuprite (0.20.1)
       capybara (~> 3.0)
       ferrum (~> 0.20.1)
+    dartsass-sprockets (3.2.1)
+      railties (>= 4.0.0)
+      sassc-embedded (~> 1.80.1)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
     date (3.6.0)
     debug (1.11.1)
       irb (~> 1.10)
@@ -191,7 +192,6 @@ GEM
       base64 (~> 0.2)
       concurrent-ruby (~> 1.1)
       websocket-driver (~> 0.7)
-    ffi (1.17.4-x86_64-linux-gnu)
     fspath (3.1.2)
     fugit (1.14.0)
       et-orbi (~> 1.4)
@@ -201,6 +201,9 @@ GEM
       railties (>= 7.2, < 9)
     globalid (1.4.0)
       activesupport (>= 6.1)
+    google-protobuf (4.36.2-x86_64-linux-gnu)
+      bigdecimal
+      rake (~> 13.3)
     haml (7.5.2)
       prism (>= 1.1.0)
       temple (>= 0.8.2)
@@ -433,14 +436,10 @@ GEM
     ruby_audit (3.1.0)
       bundler-audit (~> 0.9.0)
     rubyzip (3.7.0)
-    sassc (2.4.0)
-      ffi (~> 1.9)
-    sassc-rails (2.1.2)
-      railties (>= 4.0.0)
-      sassc (>= 2.0)
-      sprockets (> 3.0)
-      sprockets-rails
-      tilt
+    sass-embedded (1.107.1-x86_64-linux-gnu)
+      google-protobuf (~> 4.31)
+    sassc-embedded (1.80.10)
+      sass-embedded (~> 1.80)
     securerandom (0.4.1)
     simple_form (5.4.1)
       actionpack (>= 7.0)
@@ -517,7 +516,6 @@ DEPENDENCIES
   activerecord_views
   bcrypt
   bootsnap
-  bootstrap-sass
   brakeman
   bundler-audit
   cancancan
@@ -527,6 +525,7 @@ DEPENDENCIES
   caxlsx_rails
   coffee-rails
   cuprite
+  dartsass-sprockets
   debug
   draper
   factory_bot_rails
@@ -552,7 +551,6 @@ DEPENDENCIES
   rubocop-rspec
   rubocop-rspec_rails
   ruby_audit
-  sassc-rails
   simple_form
   simplecov
   solid_queue

@@ -10,3 +10,7 @@
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
+
+# Dart Sass (dartsass-sprockets): the vendored Bootstrap 3 and our @import-based stylesheets trigger these
+# deprecations on every compile. They go away with Bootstrap 5 and the migration to @use.
+Rails.application.config.sass.silence_deprecations = %w[import global-builtin color-functions slash-div if-function]
