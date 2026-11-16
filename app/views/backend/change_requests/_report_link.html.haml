@@ -1,0 +1,4 @@
+= render 'entity', headline: 'Link', record: Link.find_by(id: data[:link_id]), id: data[:link_id]
+.col-md-3
+  = link_to 'Link bearbeiten', edit_backend_link_path(data[:link_id])
+.col-md-3= render 'apply', change_request:, label: 'Link löschen', class: 'btn-danger', hint: 'Der Link wird gelöscht.'

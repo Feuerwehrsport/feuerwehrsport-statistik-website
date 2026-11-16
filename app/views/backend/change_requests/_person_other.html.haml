@@ -1,0 +1,3 @@
+= render 'entity', headline: 'Person', record: Person.find_by(id: data[:person_id]), id: data[:person_id]
+.col-md-6
+  %pre= data[:description]

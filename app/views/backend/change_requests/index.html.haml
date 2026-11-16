@@ -2,4 +2,24 @@
   .container.page-header
     %h1 Fehler
   .container
-    %table#change-requests.table
+    - if @change_requests.empty?
+      %p.text-muted Keine offenen Meldungen.
+    - @change_requests.each do |change_request|
+      %details.change-request.panel.panel-default{ id: "change-request-#{change_request.id}" }
+        %summary.panel-heading
+          %strong= change_request.headline
+          %span.text-muted= change_request.created_at
+          %small
+            = change_request.user&.to_s
+            - if change_request.user.try(:named_email_address).present?
+              (#{mail_to(change_request.user.named_email_address)})
+        .panel-body
+          .row
+            - partial = change_request.key.underscore
+            - if lookup_context.exists?(partial, ['backend/change_requests'], true)
+              = render partial, change_request:, data: change_request.data
+          %hr
+          .change-request-actions
+            = button_to 'Erledigt (ohne Änderung)', done_backend_change_request_path(change_request), method: :patch,
+                        class: 'btn btn-default', data: { confirm: 'Wirklich als erledigt markieren?' }
+          %pre.small= JSON.pretty_generate(change_request.content)

@@ -1,0 +1,12 @@
+- competition = Competition.find_by(id: data[:competition_id])
+= render 'entity', headline: 'Wettkampf', record: competition, id: data[:competition_id]
+.col-md-6
+  %h4 Fehler in der Datei
+  - file = competition&.competition_files&.find_by(id: data[:fileId])
+  - if file
+    %p
+      = link_to file.file_identifier, file.file.url
+      = link_to 'bearbeiten', edit_backend_competition_file_path(file), class: 'btn btn-default btn-xs'
+  - else
+    %p.text-danger Datei nicht mehr vorhanden (ID #{data[:fileId]})
+  %pre= data[:description]

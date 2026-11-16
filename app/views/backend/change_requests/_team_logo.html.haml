@@ -1,0 +1,13 @@
+= render 'entity', headline: 'Mannschaft', record: Team.find_by(id: data[:team_id]), id: data[:team_id]
+- change_request.files.each_with_index do |file, index|
+  .col-md-3
+    %p
+      = file.filename
+      %br
+      %small.text-muted= file.content_type
+    - url = file_backend_change_request_path(change_request, index)
+    - if file.content_type.to_s.start_with?('image/') && file.content_type != 'image/svg+xml'
+      = image_tag url, width: 200, alt: file.filename, loading: 'lazy'
+    - else
+      = link_to 'Herunterladen', url
+    = render 'apply', change_request:, label: 'Als Logo übernehmen', params: { file_index: index }

@@ -1,0 +1,8 @@
+= render 'entity', headline: 'Mannschaft', record: Team.find_by(id: data[:team_id]), id: data[:team_id]
+= render 'entity', headline: 'Richtige Mannschaft', record: Team.find_by(id: data[:correct_team_id]),
+                   id: data[:correct_team_id]
+.col-md-3
+  = render 'apply', change_request:
+  %br
+  = render 'apply', change_request:, label: 'Immer beheben', class: 'btn-info', params: { always: 1 },
+                    hint: 'Beim Import wird in Zukunft immer automatisch der Name ersetzt.'

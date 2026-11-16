@@ -1,0 +1,9 @@
+= render 'entity', headline: 'Mannschaft', record: Team.find_by(id: data[:team_id]), id: data[:team_id]
+.col-md-4
+  %h4 Korrektur
+  Name: #{data.dig(:team, :name)}
+  %br
+  Kurz: #{data.dig(:team, :shortcut)}
+  %br
+  Typ: #{data.dig(:team, :status)}
+.col-md-3= render 'apply', change_request:

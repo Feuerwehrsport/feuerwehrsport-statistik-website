@@ -9,14 +9,8 @@ module MergeAction
 
   def merge
     resource_class.transaction do
-      resource.merge_to(@correct_resource)
-      "#{resource_class}Spelling".constantize.create_from(@correct_resource, resource) if params[:always].present?
       merge_change_log
-      create_entity_merge
-      unless resource.reload.destroy
-        raise ActiveRecord::ActiveRecordError, "Could not destroy #{resource_modulized_name} with id ##{resource.id}"
-      end
-
+      EntityMerge.merge!(resource, @correct_resource, always: params[:always].present?)
       clean_cache_and_build_new
       success(resource_modulized_name.to_sym => @correct_resource.reload.decorate,
               resource_name: resource_modulized_name)
@@ -43,9 +37,5 @@ module MergeAction
 
   def correct_variable_name
     :"correct_#{resource_modulized_name}_id"
-  end
-
-  def create_entity_merge
-    EntityMerge.create!(source: resource, target: @correct_resource)
   end
 end

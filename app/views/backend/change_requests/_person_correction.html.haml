@@ -1,0 +1,7 @@
+= render 'entity', headline: 'Person', record: Person.find_by(id: data[:person_id]), id: data[:person_id]
+.col-md-4
+  %h4 Korrektur
+  Vorname: #{data.dig(:person, :first_name)}
+  %br
+  Nachname: #{data.dig(:person, :last_name)}
+.col-md-3= render 'apply', change_request:

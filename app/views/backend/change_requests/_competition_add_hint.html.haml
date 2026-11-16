@@ -1,0 +1,5 @@
+= render 'entity', headline: 'Wettkampf', record: Competition.find_by(id: data[:competition_id]), id: data[:competition_id]
+.col-md-6
+  %h4 Neuer Hinweis
+  %pre= data[:hint]
+  = link_to 'Wettkampf bearbeiten', edit_backend_competition_path(data[:competition_id])

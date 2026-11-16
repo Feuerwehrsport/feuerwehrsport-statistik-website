@@ -1,0 +1,3 @@
+= render 'entity', headline: 'Mannschaft', record: Team.find_by(id: data[:team_id]), id: data[:team_id]
+.col-md-6
+  %pre= data[:description]

@@ -1,0 +1,5 @@
+= render 'entity', headline: 'Person', record: Person.find_by(id: data[:person_id]), id: data[:person_id]
+.col-md-4
+  %h4 Neue Nation
+  = Nation.find_by(id: data[:nation_id])&.name || "unbekannt (ID #{data[:nation_id]})"
+.col-md-3= render 'apply', change_request:

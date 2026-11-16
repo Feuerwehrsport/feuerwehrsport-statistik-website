@@ -1,0 +1,36 @@
+-# box with a competition, person, team or link (record may be deleted meanwhile)
+.col-md-3
+  %h4= headline
+  - if record.nil?
+    %p.text-danger Nicht mehr vorhanden (ID #{id})
+  - else
+    - record = record.decorate
+    - case record.object
+    - when Competition
+      = link_to "#{record.date} (#{record.name})", competition_path(record)
+      %br
+      ID: #{record.id}
+      %br
+      Ort: #{record.place}
+      %br
+      Typ: #{record.event}
+    - when Person
+      = link_to "#{record.full_name} (#{record.gender_translated})", person_path(record)
+      %br
+      ID: #{record.id}
+      %br
+      Nation: #{record.object.nation&.name}
+    - when Team
+      = link_to "#{record.name} (#{record.state})", team_path(record), title: "#{record.shortcut} (#{record.status})"
+      %br
+      ID: #{record.id}
+      - if record.image.present?
+        %br
+        = image_tag(record.image.tile.url)
+    - when Link
+      = link_to record.label, record.url
+      %br
+      Ziel: #{record.url}
+      %br
+      Gehört zu:
+      = link_to "#{record.linkable_type} #{record.linkable_id}", record.linkable if record.linkable

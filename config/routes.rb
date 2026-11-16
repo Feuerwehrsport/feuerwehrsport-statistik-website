@@ -19,7 +19,13 @@ Rails.application.routes.draw do
       end
     end
     resources :admin_users, only: %i[show edit update index destroy]
-    resources :change_requests, only: [:index]
+    resources :change_requests, only: [:index] do
+      member do
+        patch :done
+        post :apply
+        get 'files/:index', action: :file, as: :file
+      end
+    end
     namespace :caching do
       resource :cleaner, only: %i[new create]
     end

@@ -6,8 +6,8 @@ def sign_in(role = :admin)
   fill_in 'E-Mail-Adresse', with: user.email_address
 
   fill_in 'Passwort', with: 'Secret123'
-  click_link_or_button 'Anmelden'
-  expect(page).to have_text 'Sie sind angemeldet'
+  click_button 'Anmelden' # the footer has a link with the same text
+  expect(page).to have_text 'Abmelden'
 end
 
 # answers the arithmetic question of the anonymous login like a person
