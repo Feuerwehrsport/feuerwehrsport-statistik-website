@@ -27,6 +27,18 @@ describe Caching::Builder do
     create(:person_participation, person:, group_score: la_score)
   end
 
+  # the builders only run with caching (production)
+  before { allow(Rails.configuration).to receive(:caching).and_return(true) }
+
+  it 'does nothing without caching (development)' do
+    allow(Rails.configuration).to receive(:caching).and_return(false)
+    allow(Person).to receive(:update_best_scores)
+    allow(Person).to receive(:update_score_count)
+    expect { described_class.perform_now }.not_to have_enqueued_job
+    expect(Person).not_to have_received(:update_best_scores)
+    expect(Person).not_to have_received(:update_score_count)
+  end
+
   it 'updates cached counts and starts html preloader' do
     expect { described_class.perform_now }.to have_enqueued_job(Caching::HtmlPreLoader)
 

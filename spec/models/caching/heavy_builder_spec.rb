@@ -33,6 +33,18 @@ describe Caching::HeavyBuilder do
     GroupScoreType.instance_variable_set(:@tgl_wko, nil)
   end
 
+  # the builders only run with caching (production)
+  before { allow(Rails.configuration).to receive(:caching).and_return(true) }
+
+  it 'does nothing without caching (development)' do
+    allow(Rails.configuration).to receive(:caching).and_return(false)
+    allow(Person).to receive(:update_best_scores)
+    allow(Person).to receive(:update_score_count)
+    expect { described_class.perform_now }.not_to have_enqueued_job
+    expect(Person).not_to have_received(:update_best_scores)
+    expect(Person).not_to have_received(:update_score_count)
+  end
+
   it 'updates long names and best scores' do
     described_class.perform_now
 
