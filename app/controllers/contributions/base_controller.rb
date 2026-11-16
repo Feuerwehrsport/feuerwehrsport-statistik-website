@@ -17,14 +17,16 @@ class Contributions::BaseController < ApplicationController
   end
 
   # same entries as the api did before (ChangeLogSupport)
-  def log_change(record, serializer:, action: "#{action_name}-#{record.class.name.parameterize}")
-    ChangeLog.create!(model_class: record.class, user: current_user, action:,
-                      after_hash: serializer.new(record.decorate).as_json)
+  def log_change(record, serializer:, action: "#{action_name}-#{record.class.name.parameterize}", before_hash: nil)
+    attributes = { model_class: record.class, user: current_user, action:,
+                   after_hash: serializer.new(record.decorate).as_json }
+    attributes[:before_hash] = before_hash if before_hash
+    ChangeLog.create!(attributes)
   end
 
   # change request for the administrators (same content format as before via the api: key + data)
-  def create_change_request(key, data)
-    change_request = ChangeRequest.new(content: { key:, data: }, user: current_user)
+  def create_change_request(key, data, files = [])
+    change_request = ChangeRequest.new(content: { key:, data: }, user: current_user, files:)
     ChangeRequest.transaction do
       change_request.save!
       log_change(change_request, serializer: ChangeRequestSerializer)

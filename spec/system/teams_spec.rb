@@ -8,24 +8,32 @@ describe 'teams features' do
 
   before { page.driver.browser.url_blacklist = [/openstreetmap/] }
 
+  def within_dialog(&)
+    within('dialog.contribution-dialog', &)
+  end
+
+  def expect_change_request_saved
+    expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
+    within_dialog { click_on 'Schließen' }
+    expect(page).to have_no_css('dialog[open]')
+  end
+
   context 'when index' do
     it 'can add team' do
       api_sign_in
 
-      # add one
       visit teams_path
       expect(page).to have_text('Verteilung der Bundesländer')
-      find_by_id('add-team').click
-      expect(page).to have_text('maximal 10 Zeichen')
-      within('.fss-window') do
+      click_on 'Anlegen'
+      within_dialog do
         expect(page).to have_text('Mannschaft anlegen')
+        expect(page).to have_text('maximal 10 Zeichen')
         fill_in 'Name', with: '00Mannschaft_xyz'
         fill_in 'Abkürzung', with: 'Abk789'
         select('Einzelne Feuerwehr', from: 'Typ der Mannschaft')
-        click_on('OK')
+        click_on('Anlegen')
       end
-      expect(page).to have_text('00Mannschaft_xyz')
-      expect(page).to have_text('Abk789')
+      expect(page).to have_no_css('dialog[open]')
 
       team = Team.where(name: '00Mannschaft_xyz')
       expect(team.count).to eq 1
@@ -34,6 +42,7 @@ describe 'teams features' do
         shortcut: 'Abk789',
         status: 'fire_station',
       )
+      expect(ChangeLog.last).to have_attributes(action: 'create-team')
     end
   end
 
@@ -44,11 +53,12 @@ describe 'teams features' do
       visit team_path(team)
       find('.upload-logo').click
 
-      within('.fss-window') do
-        attach_file('logo_files', File.expand_path(file_fixture('testfile.pdf')))
-        click_on('OK')
+      within_dialog do
+        expect(page).to have_text('Neues Logo')
+        attach_file('Neues Logo', File.expand_path(file_fixture('testfile.pdf')))
+        click_on('Logo hochladen')
       end
-      expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
+      expect_change_request_saved
 
       change_request = ChangeRequest.last
       expect(change_request.content).to eq(key: 'team-logo', data: { team_id: team.id.to_s })
@@ -57,6 +67,20 @@ describe 'teams features' do
         { filename: 'testfile.pdf', content_type: 'application/pdf' },
       )
       expect(change_request.files_data[:files][0][:binary]).to starting_with('JVBERi0xL')
+    end
+
+    it 'can edit the state' do
+      api_sign_in
+
+      visit team_path(team)
+      find_by_id('edit-state').click
+      within_dialog do
+        select('Brandenburg', from: 'Land')
+        click_on('Speichern')
+      end
+      expect(page).to have_no_css('dialog[open]')
+      expect(team.reload.state).to eq 'BB'
+      expect(ChangeLog.last).to have_attributes(action: 'update-team:state')
     end
 
     it 'can add geo position' do
@@ -75,6 +99,16 @@ describe 'teams features' do
       expect(team.longitude).to eq 13
     end
 
+    it 'can start map editing from the change request dialog' do
+      api_sign_in
+
+      visit team_path(team)
+      click_on 'Fehler mit diesem Team melden'
+      within_dialog { click_on 'Kartenposition ändern' }
+      expect(page).to have_no_css('dialog[open]')
+      within('.team-map-actions') { expect(page).to have_css('.btn.btn-primary', text: 'Speichern') }
+    end
+
     it 'can add change request with team-merge' do
       team
       team_without_geo_location
@@ -82,17 +116,16 @@ describe 'teams features' do
       api_sign_in
 
       visit team_path(team)
-      find_by_id('add-change-request').click
+      click_on 'Fehler mit diesem Team melden'
 
-      within('.fss-window') do
-        choose('Team ist doppelt vorhanden')
-        click_on('OK')
-
-        select('FF Warin', from: 'Richtiges Team:')
-        expect(page).to have_text('Mannschaft zusammenführen')
-        click_on('OK')
+      within_dialog do
+        click_on 'Mannschaft ist doppelt vorhanden'
+        fill_in 'Mannschaft suchen', with: 'Warin'
+        click_on 'Suchen'
+        choose('FF Warin (Warin)')
+        click_on('Fehler melden')
       end
-      expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
+      expect_change_request_saved
 
       change_request_content = ChangeRequest.last.content
       expect(change_request_content).to include key: 'team-merge'
@@ -105,16 +138,14 @@ describe 'teams features' do
     it 'can add change request with team-correction' do
       api_sign_in
       visit team_path(team)
-      find_by_id('add-change-request').click
+      click_on 'Fehler mit diesem Team melden'
 
-      within('.fss-window') do
-        choose('Team ist falsch geschrieben')
-        click_on('OK')
-
-        expect(page).to have_text('Mannschaft korrigieren')
-        click_on('OK')
+      within_dialog do
+        click_on 'Mannschaft ist falsch geschrieben'
+        expect(page).to have_field('Name', with: 'FF Warin')
+        click_on('Fehler melden')
       end
-      expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
+      expect_change_request_saved
 
       change_request_content = ChangeRequest.last.content
       expect(change_request_content).to include key: 'team-correction'

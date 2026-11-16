@@ -1,0 +1,4 @@
+= render layout: 'contributions/shared/dialog', locals: { title: 'Mannschaft anlegen' } do
+  = simple_form_for @team, url: contributions_teams_path do |f|
+    = render 'team_fields', f:
+    = render 'contributions/shared/actions', submit: 'Anlegen'

@@ -1,0 +1,48 @@
+= render layout: 'contributions/shared/dialog', locals: { title: "Melden: #{@competition}" } do
+  - if @error.present?
+    .alert.alert-danger= @error
+  - path = ->(kind) { new_contributions_competition_change_request_path(@competition, kind:) }
+
+  - case @kind
+  - when nil
+    %p Was möchtest du melden?
+    .list-group
+      = link_to 'Name des Wettkampfs vorschlagen', path.('change-name'), class: 'list-group-item'
+      = link_to 'Hinweis geben', path.('add-hint'), class: 'list-group-item'
+    = render 'contributions/shared/actions'
+
+  - when 'change-name'
+    = form_with url: contributions_competition_change_request_path(@competition), class: 'form-horizontal' do
+      = hidden_field_tag :kind, @kind
+      %p Welchen Namen schlägst du vor?
+      = render 'contributions/shared/text_field', name: :name, label: 'Name',
+                                                 value: params[:name] || @competition.object.name
+      = render 'contributions/shared/actions', submit: 'Vorschlagen'
+
+  - when 'add-hint'
+    = form_with url: contributions_competition_change_request_path(@competition) do
+      = hidden_field_tag :kind, @kind
+      .form-group
+        = label_tag :hint, 'Beschreibe deinen Hinweis bitte ausführlich:'
+        = text_area_tag :hint, params[:hint], class: 'form-control', rows: 5
+      = render 'contributions/shared/actions', submit: 'Hinweis senden'
+
+  - when 'file-error'
+    = form_with url: contributions_competition_change_request_path(@competition) do
+      = hidden_field_tag :kind, @kind
+      = hidden_field_tag :file_id, @file.id
+      %p
+        Datei:
+        %strong= @file.file_identifier
+      .form-group
+        = label_tag :description, 'Was ist an der Datei falsch?'
+        = text_area_tag :description, params[:description], class: 'form-control', rows: 5
+      - if current_admin_user
+        %p.text-muted
+          Als Administrator kannst du die Datei auch direkt
+          = link_to 'bearbeiten oder verschieben', edit_backend_competition_file_path(@file),
+                    data: { turbo_frame: '_top' }
+          oder
+          = link_to 'löschen', backend_competition_file_path(@file), data: { turbo_frame: '_top' }
+          \.
+      = render 'contributions/shared/actions', submit: 'Fehler melden'

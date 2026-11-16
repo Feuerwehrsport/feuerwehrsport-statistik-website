@@ -1,22 +1,2 @@
-#add-file.btn.btn-default Datei hinzufügen
-
-#add-file-form.hide
-  %form{ action: api_competition_competition_files_path(resource), method: :post, enctype: 'multipart/form-data' }
-    %h3 Es dürfen nur PDFs hochgeladen werden.
-    %table.table
-      %tr
-        %th{ rowspan: "2" } Datei
-        %th{ colspan: "11" } Folgende Ergebnisse sind in dieser Datei enthalten
-      %tr
-        - CompetitionFile.possible_keys.each do |discipline, gender, key|
-          %th{ title: "#{discipline_name(discipline)} #{g(gender)}" }= "#{discipline_name_short(discipline)} #{g_symbol(gender)}"
-      %tr.input-file-row
-        %td
-          %input{ type: "file", name: "competition_file[0][file]" }
-        - CompetitionFile.possible_keys.each do |discipline, gender, key|
-          %td{ title: "#{discipline_name(discipline)} #{g(gender)}" }
-            %input{ type: "checkbox", name: "competition_file[0][#{key}]", value: "1" }
-    %p
-      = tag(:input, type: "hidden", name: request_forgery_protection_token.to_s, value: form_authenticity_token)
-      %a#more-files Noch eine Datei auswählen
-      %button.btn.btn-default Hochladen
+= link_to 'Datei hinzufügen', new_contributions_competition_file_path(resource), id: 'add-file', class: 'btn btn-default',
+                                                                            data: { turbo_frame: 'contribution', turbo: true }

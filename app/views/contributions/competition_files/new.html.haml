@@ -1,0 +1,22 @@
+= render layout: 'contributions/shared/dialog', locals: { title: "Dateien hinzufügen: #{@competition}" } do
+  - if @error.present?
+    .alert.alert-danger= @error
+  %p Es dürfen nur PDF-Dateien hochgeladen werden. Markiere bei jeder Datei, welche Ergebnisse sie enthält.
+  = form_with url: contributions_competition_files_path(@competition), multipart: true,
+              data: { controller: 'file-rows' } do
+    .table-responsive
+      %table.table.table-condensed.competition-file-table
+        %thead
+          %tr
+            %th Datei
+            - CompetitionFile.possible_keys.each do |discipline, gender, _key|
+              %th{ title: "#{discipline_name(discipline)} #{g(gender)}" }
+                = "#{discipline_name_short(discipline)} #{g_symbol(gender)}"
+        %tbody{ data: { file_rows_target: 'rows' } }
+          = render 'file_row', index: 0
+        -# copied by the stimulus controller file-rows, INDEX is replaced
+        %template{ data: { file_rows_target: 'template' } }
+          = render 'file_row', index: 'INDEX'
+    %p
+      %button.btn.btn-link{ type: 'button', data: { action: 'file-rows#add' } } Noch eine Datei auswählen
+    = render 'contributions/shared/actions', submit: 'Hochladen'

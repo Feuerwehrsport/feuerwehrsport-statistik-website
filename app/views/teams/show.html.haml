@@ -6,7 +6,9 @@
         - if resource.image.present?
           = image_tag(resource.image.tile.url)
         - else
-          = design_image(:upload_logo, class: 'upload-logo', data: { team_id: resource.id })
+          = link_to new_contributions_team_change_request_path(resource, kind: 'logo'), class: 'upload-logo',
+                    title: 'Logo hochladen', data: { turbo_frame: 'contribution', turbo: true } do
+            = design_image(:upload_logo)
         %hr
         = chart.gender_pie
       .col-md-7
@@ -20,7 +22,9 @@
             %th Land/Bundesland
             %td
               = resource.full_state
-              #edit-state.btn.btn-xs.btn-default.glyphicon.glyphicon-pencil{ data: { team_id: resource.id, state: resource.state }, title: "Bundesland bearbeiten" }
+              = link_to '', edit_contributions_team_state_path(resource), id: 'edit-state', title: 'Bundesland bearbeiten',
+                            class: 'btn btn-xs btn-default glyphicon glyphicon-pencil',
+                            data: { turbo_frame: 'contribution', turbo: true }
           %tr
             %th Webseite
             %td= render('links', links: resource.links, linkable_type: 'Team', linkable_id: resource.id)
@@ -48,4 +52,5 @@
 
       %p Ihr könnt jetzt beim Korrigieren der Daten helfen. Dafür klickt ihr auf folgenden Link und generiert eine Meldung für den Administrator. Dieser überprüft dann die Eingaben und leitet weitere Schritte ein.
 
-      .btn.btn-default#add-change-request{ data: { team_id: resource.id } } Fehler mit diesem Team melden
+      = link_to 'Fehler mit diesem Team melden', new_contributions_team_change_request_path(resource),
+                id: 'add-change-request', class: 'btn btn-default', data: { turbo_frame: 'contribution', turbo: true }

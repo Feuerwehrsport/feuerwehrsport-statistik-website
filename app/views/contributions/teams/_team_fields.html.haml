@@ -1,0 +1,4 @@
+= f.input :name, label: 'Name'
+= f.input :shortcut, label: 'Abkürzung', hint: 'Kurzer Name (maximal 10 Zeichen)'
+= f.input :status, label: 'Typ der Mannschaft', include_blank: false,
+                   collection: [['Einzelne Feuerwehr', 'fire_station'], ['Zusammenschluss (Team)', 'team']]

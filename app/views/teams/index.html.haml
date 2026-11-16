@@ -24,7 +24,8 @@
   .container
     .col-md-4
       %p Ist deine Mannschaft oder Feuerwehr noch nicht eingetragen? Dann lege sie doch einfach schnell an. Mit nur ein paar Klicks und ohne Anmeldung ist es in einer Minute geschafft.
-      .btn.btn-default#add-team Anlegen
+      = link_to 'Anlegen', new_contributions_team_path, id: 'add-team', class: 'btn btn-default',
+                                                        data: { turbo_frame: 'contribution', turbo: true }
 
     .col-md-4
       = image_tag 'actions/user-group-new.png'

@@ -1,0 +1,68 @@
+= render layout: 'contributions/shared/dialog', locals: { title: "Fehler melden: #{@team.name}" } do
+  - if @error.present?
+    .alert.alert-danger= @error
+  - path = ->(kind) { new_contributions_team_change_request_path(@team, kind:) }
+
+  - case @kind
+  - when nil
+    %p Was ist falsch?
+    .list-group
+      = link_to 'Mannschaft ist doppelt vorhanden', path.('merge'), class: 'list-group-item'
+      = link_to 'Mannschaft ist falsch geschrieben', path.('correction'), class: 'list-group-item'
+      = link_to 'Neues Logo hochladen', path.('logo'), class: 'list-group-item'
+      -# the map is still edited with the old JavaScript (FssMap), see frontend/teams.js.coffee
+      = link_to 'Kartenposition ändern', '#toc-karte', class: 'list-group-item start-team-map-edit',
+                                                       data: { action: 'contribution-dialog#close' }
+      = link_to 'Etwas anderes', path.('other'), class: 'list-group-item'
+    = render 'contributions/shared/actions'
+
+  - when 'merge'
+    %p Suche die richtige Mannschaft:
+    = form_with url: new_contributions_team_change_request_path(@team), method: :get do
+      = hidden_field_tag :kind, @kind
+      = label_tag :q, 'Mannschaft suchen', class: 'sr-only'
+      .input-group
+        = search_field_tag :q, params[:q], class: 'form-control', placeholder: 'Name', autofocus: true
+        %span.input-group-btn
+          %button.btn.btn-default{ type: 'submit' } Suchen
+    - if params[:q].present?
+      = form_with url: contributions_team_change_request_path(@team) do
+        = hidden_field_tag :kind, @kind
+        = hidden_field_tag :q, params[:q]
+        - if @teams.any?
+          .contribution-dialog-choices
+            - @teams.each do |team|
+              .radio
+                %label
+                  = radio_button_tag :correct_team_id, team.id, params[:correct_team_id].to_s == team.id.to_s
+                  #{team.name} (#{team.shortcut})
+          = render 'contributions/shared/actions', submit: 'Fehler melden'
+        - else
+          %p.text-muted Keine passende Mannschaft gefunden.
+          = render 'contributions/shared/actions'
+    - else
+      = render 'contributions/shared/actions'
+
+  - when 'correction'
+    = simple_form_for @team_form, as: :team, url: contributions_team_change_request_path(@team), method: :post do |f|
+      = hidden_field_tag :kind, @kind
+      %p Bitte korrigiere die Angaben:
+      = render 'contributions/teams/team_fields', f:
+      = render 'contributions/shared/actions', submit: 'Fehler melden'
+
+  - when 'logo'
+    = form_with url: contributions_team_change_request_path(@team), multipart: true do
+      = hidden_field_tag :kind, @kind
+      .form-group
+        = label_tag :logo, 'Neues Logo'
+        = file_field_tag :logo, accept: 'image/*,application/pdf'
+        %p.help-block Ein Bild oder eine PDF-Datei mit dem Logo der Mannschaft (maximal 10 MB).
+      = render 'contributions/shared/actions', submit: 'Logo hochladen'
+
+  - when 'other'
+    = form_with url: contributions_team_change_request_path(@team) do
+      = hidden_field_tag :kind, @kind
+      .form-group
+        = label_tag :description, 'Beschreibe bitte das Problem:'
+        = text_area_tag :description, params[:description], class: 'form-control', rows: 5
+      = render 'contributions/shared/actions', submit: 'Fehler melden'

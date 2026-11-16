@@ -39,45 +39,32 @@ describe 'competitions features' do
       )
     end
 
-    it 'adds change requests', retry: 3 do
+    it 'adds change requests' do
       api_sign_in
 
       visit competition_path(competition)
       find_by_id('add-change-request').click
 
-      within('.fss-window') do
-        expect(page).to have_text('Auswahl des Fehlers')
-        choose('Name des Wettkampfs vorschlagen')
-        click_on('OK')
-      end
-
-      within('.fss-window') do
-        expect(page).to have_text('Namen vorschlagen')
+      within('dialog.contribution-dialog') do
+        click_on 'Name des Wettkampfs vorschlagen'
         fill_in 'Name', with: 'Superduperwettkampf'
-        click_on('OK')
+        click_on 'Vorschlagen'
+        expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
+        click_on 'Schließen'
       end
-      expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
-      click_on('OK')
+      expect(page).to have_no_css('dialog[open]')
 
       change_request_content = ChangeRequest.last.content
       expect(change_request_content).to include key: 'competition-change-name'
       expect(change_request_content[:data]).to eq(competition_id: competition.id.to_s, name: 'Superduperwettkampf')
 
       find_by_id('add-change-request').click
-
-      within('.fss-window') do
-        expect(page).to have_text('Auswahl des Fehlers')
-        choose('Hinweis geben')
-        click_on('OK')
+      within('dialog.contribution-dialog') do
+        click_on 'Hinweis geben'
+        fill_in 'Beschreibe deinen Hinweis bitte ausführlich:', with: 'Wetterbericht'
+        click_on 'Hinweis senden'
+        expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
       end
-
-      within('.fss-window') do
-        expect(page).to have_text('Hinweis beschreiben')
-        fill_in 'Beschreibung', with: 'Wetterbericht'
-        click_on('OK')
-      end
-      expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
-      click_on('OK')
 
       change_request_content = ChangeRequest.last.content
       expect(change_request_content).to include key: 'competition-add-hint'
@@ -86,17 +73,37 @@ describe 'competitions features' do
   end
 
   context 'when file upload' do
-    it 'adds change requests', retry: 3 do
+    it 'uploads files and reports a file error' do
       api_sign_in
 
       visit competition_path(competition)
-      find_by_id('add-file').click
+      click_on 'Datei hinzufügen'
 
-      expect(page).to have_text('Es dürfen nur PDFs hochgeladen werden.')
-      attach_file('competition_file[0][file]', File.expand_path(file_fixture('testfile.pdf')))
-      check('competition_file[0][fs_female]')
-      click_on('Hochladen')
+      within('dialog.contribution-dialog') do
+        expect(page).to have_text('Es dürfen nur PDF-Dateien hochgeladen werden.')
+        attach_file('competition_file_0_file', File.expand_path(file_fixture('testfile.pdf')))
+        check('competition_file_0_fs_female')
+        click_on 'Noch eine Datei auswählen'
+        attach_file('competition_file_1_file', File.expand_path(file_fixture('testfile.pdf')))
+        check('competition_file_1_hb_male')
+        click_on 'Hochladen'
+      end
+      expect(page).to have_no_css('dialog[open]')
       expect(page).to have_text('testfile.pdf')
+      expect(CompetitionFile.order(:id).map(&:keys)).to eq [%w[fs_female], %w[hb_male]]
+
+      first(:link, 'Fehler melden').click
+      within('dialog.contribution-dialog') do
+        expect(page).to have_text('testfile.pdf')
+        fill_in 'Was ist an der Datei falsch?', with: 'Seite 2 fehlt'
+        click_on 'Fehler melden'
+        expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
+      end
+      expect(ChangeRequest.last.content).to eq(
+        key: 'competition-file-error',
+        data: { competition_id: competition.id.to_s, fileId: CompetitionFile.order(:id).first.id.to_s,
+                description: 'Seite 2 fehlt' },
+      )
     end
   end
 end

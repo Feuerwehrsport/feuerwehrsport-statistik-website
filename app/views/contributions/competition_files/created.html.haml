@@ -1,0 +1,4 @@
+= render layout: 'contributions/shared/dialog', locals: { title: "Dateien hinzufügen: #{@competition}" } do
+  .alert.alert-success{ data: { controller: 'page-reload' } }
+    = @competition_files.size == 1 ? 'Die Datei wurde gespeichert.' : "#{@competition_files.size} Dateien wurden gespeichert."
+    Die Seite wird neu geladen …

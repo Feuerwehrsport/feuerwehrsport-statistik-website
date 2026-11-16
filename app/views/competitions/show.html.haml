@@ -76,6 +76,7 @@
           %li Wetter
           %li Aufteilung auf mehrere Orte oder Tage
         %p
-          #add-change-request.btn.btn-default{ data: { competition_name: resource.name, competition_id: resource.id } } Fehler oder Hinweis melden
+          = link_to 'Fehler oder Hinweis melden', new_contributions_competition_change_request_path(resource),
+                    id: 'add-change-request', class: 'btn btn-default', data: { turbo_frame: 'contribution', turbo: true }
 
       = render('missed_information', missed: resource.missed_information)
