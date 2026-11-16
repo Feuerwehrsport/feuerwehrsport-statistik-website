@@ -1,0 +1,37 @@
+- discipline = @group_score.discipline
+- gender = @group_score.gender
+= render layout: 'contributions/shared/dialog', locals: { title: "Positionen: #{@group_score.team&.name}" } do
+  %p
+    Klicke auf eine Position, um die Person zu ändern. Jede Änderung wird sofort gespeichert.
+    Mit ↧ übernimmst du die Person aus dem Lauf darüber.
+  .table-responsive
+    %table.table.table-condensed.group-score-positions
+      %thead
+        %tr
+          %th Zeit
+          - @positions.each do |position|
+            %th{ title: competitor_position(discipline, position, gender) }= "WK#{position}"
+      %tbody
+        - previous = nil
+        - @scores.each do |score|
+          - people = score.person_participations.to_h { |p| [p.position, p.person] }
+          %tr
+            %th= score.second_time
+            - @positions.each do |position|
+              - person = people[position]
+              %td
+                = link_to person ? person.decorate.short_name : '+',
+                          edit_contributions_group_score_position_path(score, position),
+                          class: "btn btn-xs #{person ? 'btn-default' : 'btn-link'}",
+                          title: "#{competitor_position(discipline, position, gender)} im Lauf #{score.second_time}"
+                - previous_person = previous&.dig(position)
+                - if previous_person && previous_person != person
+                  = button_to '↧', contributions_group_score_position_path(score, position), method: :patch,
+                                   params: { person_id: previous_person.id }, form_class: 'copy-position',
+                                   class: 'btn btn-xs btn-link', title: "#{previous_person.decorate.short_name} übernehmen"
+          - previous = people
+  .contribution-dialog-actions
+    - if @changed
+      %button.btn.btn-primary.btn-sm{ type: 'button', data: { action: 'contribution-dialog#reload' } } Fertig
+    - else
+      %button.btn.btn-default.btn-sm{ type: 'button', data: { action: 'contribution-dialog#close' } } Schließen

@@ -38,13 +38,18 @@
     .container= render 'group_series', toc: toc
 
     .container= toc.anker('Karte', :h2)
-    .container
+    .container{ data: { controller: 'geo-position', geo_position_url_value: edit_contributions_team_geo_position_path(resource),
+                        action: 'geo-position:edit@window->geo-position#edit' } }
       .col-md-9
-        = map(id: 'team-map', red: resource, data: { team_id: resource.id })
+        = map(id: 'team-map', red: resource, data: { team_id: resource.id, geo_position_target: 'map' })
       .col-md-3.team-map-actions
         - unless resource.positioned?
           %p Bisher wurden keine Geoposition für dieses Team hinterlegt.
-          .btn.btn-default#add-geo-position Geoposition hinzufügen
+          %button#add-geo-position.btn.btn-default{ type: 'button', data: { action: 'geo-position#edit', geo_position_target: 'start' } }
+            Geoposition hinzufügen
+        %div{ hidden: true, data: { geo_position_target: 'save' } }
+          %p Verschiebe den roten Marker an die richtige Stelle.
+          %button.btn.btn-primary{ type: 'button', data: { action: 'geo-position#save' } } Speichern
 
     .container
       = toc.anker('Fehler melden', :h2)

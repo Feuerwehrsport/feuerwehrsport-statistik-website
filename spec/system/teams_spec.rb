@@ -111,11 +111,13 @@ describe 'teams features' do
 
       visit team_path(team_without_geo_location)
       within('.team-map-actions') do
-        find_by_id('add-geo-position').click
-        find('.btn.btn-primary').click
+        click_on 'Geoposition hinzufügen'
+        click_on 'Speichern'
       end
-      expect(page).to have_no_text('Bitte warten')
+      within_dialog { click_on 'Position speichern' }
+      expect(page).to have_no_css('dialog[open]')
       expect(page).to have_no_text('Geoposition hinzufügen')
+      expect(ChangeLog.last).to have_attributes(action: 'update-team:geo-position')
 
       team = Team.find(team_without_geo_location.id)
       expect(team.latitude).to eq 51

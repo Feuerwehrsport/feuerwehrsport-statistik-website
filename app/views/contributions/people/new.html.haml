@@ -1,8 +1,12 @@
 = render layout: 'contributions/shared/dialog', locals: { title: 'Person hinzufügen' } do
   = simple_form_for @person, url: contributions_people_path do |f|
+    - if @target_group_score
+      = hidden_field_tag :group_score_id, @target_group_score.id
+      = hidden_field_tag :position, @target_position
     = f.input :first_name, label: 'Vorname'
     = f.input :last_name, label: 'Nachname'
     = f.input :gender, label: 'Geschlecht', collection: [%w[männlich male], %w[weiblich female]], include_blank: false
     = f.input :nation_id, label: 'Nation', collection: Nation.order(:name).pluck(:name, :id), include_blank: false,
                           selected: @person.nation_id || 1 # Deutschland, see Person.german
-    = render 'contributions/shared/actions', submit: 'Speichern'
+    - back = (edit_contributions_group_score_position_path(@target_group_score, @target_position) if @target_group_score)
+    = render 'contributions/shared/actions', submit: 'Speichern', back:

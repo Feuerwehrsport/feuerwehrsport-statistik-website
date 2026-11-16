@@ -1,4 +1,6 @@
 .contribution-dialog-actions
+  - if local_assigns[:back]
+    = link_to 'Zurück', back, class: 'btn btn-default btn-sm'
   - if local_assigns[:submit]
     %button.btn.btn-primary.btn-sm{ type: 'submit' }= submit
   %button.btn.btn-default.btn-sm{ type: 'button', data: { action: 'contribution-dialog#close' } }= local_assigns[:cancel] || 'Abbrechen'

@@ -9,8 +9,8 @@
 
 Highcharts.setOptions({ plotOptions: { series: { animation: false } } })
 
-# callback: called on click (old FssWindow dialogs); urlFor: returns the url of a Hotwire dialog
-dataTableWrapper = (className, label, callback, urlFor = null) ->
+# edit mode of a table: the time cells become links to a Hotwire dialog (urlFor: score id -> url)
+dataTableWrapper = (className, label, urlFor) ->
   $("table.#{className}").each ->
     table = $(this)
     wrapper = table.closest('.dataTables_wrapper')
@@ -21,11 +21,8 @@ dataTableWrapper = (className, label, callback, urlFor = null) ->
         tr = $(this)
         text = tr.find('.time-col').text()
         scoreId = tr.data('score-id')
-        url = if urlFor? then urlFor(scoreId) else null
-        if url
-          editButton = $('<a/>').attr('href', url).attr('data-turbo-frame', 'contribution').attr('data-turbo', 'true')
-        else
-          editButton = $('<div/>').click -> callback(scoreId)
+        editButton = $('<a/>').attr('href', urlFor(scoreId))
+          .attr('data-turbo-frame', 'contribution').attr('data-turbo', 'true')
         editButton.addClass('glyphicon glyphicon-pencil btn btn-default btn-xs').text(" #{text}").attr('title', label)
         tr.find('.time-col').text('').append(editButton)
     button.fadeIn()
@@ -34,9 +31,9 @@ dataTableWrapper = (className, label, callback, urlFor = null) ->
 M3.ready ->
   setTimeout( ->
     dataTableWrapper 'change-position', 'Positionen bearbeiten', (scoreId) ->
-      Fss.teamMates(scoreId)
+      "/contributions/group_scores/#{scoreId}/participations/edit"
     # the pencil links open the dialog Contributions::ScoreTeamsController
-    dataTableWrapper 'change-team', 'Mannschaften bearbeiten', null, (scoreId) ->
+    dataTableWrapper 'change-team', 'Mannschaften bearbeiten', (scoreId) ->
       "/contributions/scores/#{scoreId}/team/edit"
   , 1500)
 

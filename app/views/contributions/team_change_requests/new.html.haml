@@ -10,9 +10,10 @@
       = link_to 'Mannschaft ist doppelt vorhanden', path.('merge'), class: 'list-group-item'
       = link_to 'Mannschaft ist falsch geschrieben', path.('correction'), class: 'list-group-item'
       = link_to 'Neues Logo hochladen', path.('logo'), class: 'list-group-item'
-      -# the map is still edited with the old JavaScript (FssMap), see frontend/teams.js.coffee
-      = link_to 'Kartenposition ändern', '#toc-karte', class: 'list-group-item start-team-map-edit',
-                                                       data: { action: 'contribution-dialog#close' }
+      -# starts editing on the map of the page (stimulus geo-position)
+      = link_to 'Kartenposition ändern', '#toc-karte', class: 'list-group-item',
+                data: { action: 'contribution-dialog#close contribution-dialog#dispatch',
+                        contribution_dialog_event_param: 'geo-position:edit' }
       = link_to 'Etwas anderes', path.('other'), class: 'list-group-item'
     = render 'contributions/shared/actions'
 

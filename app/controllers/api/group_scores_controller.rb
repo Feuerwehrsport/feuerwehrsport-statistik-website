@@ -25,16 +25,8 @@ class Api::GroupScoresController < Api::BaseController
       (1..7).each do |position|
         next if resource_params["person_#{position}"].blank?
 
-        participation = resource.person_participations.where(position:).first_or_initialize
-        participation.person = Person.find_by(id: resource_params["person_#{position}"])
-        next unless participation.changed?
-
-        if participation.person.nil?
-          resource.person_participations.where(position:).destroy_all
-        else
-          participation.save!
-        end
-        changed = true
+        person = Person.find_by(id: resource_params["person_#{position}"])
+        changed = true if resource.assign_person!(position, person)
       end
       if changed
         resource.reload

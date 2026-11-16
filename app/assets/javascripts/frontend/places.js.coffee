@@ -13,8 +13,3 @@ Fss.ready 'place', ->
     setTimeout( ->
       map.fitBounds([[49.4, 5.9], [54.5, 16.8]])
     , 300)
-
-  FssMap.load('place')
-
-  $('#change-geo-position').click ->
-    FssMap.load("place", true)

@@ -1,0 +1,13 @@
+= render layout: 'contributions/shared/dialog', locals: { title: "Kartenposition: #{@record.decorate}" } do
+  - if @error.present?
+    .alert.alert-danger= @error
+    = render 'contributions/shared/actions'
+  - else
+    = form_with url: url_for(action: :update), method: :patch do
+      = hidden_field_tag :latitude, @latitude
+      = hidden_field_tag :longitude, @longitude
+      %p
+        Soll die neue Position gespeichert werden?
+        %br
+        %small.text-muted= "Breite #{@latitude}, Länge #{@longitude}"
+      = render 'contributions/shared/actions', submit: 'Position speichern'

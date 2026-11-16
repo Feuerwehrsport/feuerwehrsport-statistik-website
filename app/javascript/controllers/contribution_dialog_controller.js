@@ -13,6 +13,16 @@ export default class extends Controller {
     this.element.close()
   }
 
+  // tells controllers of the page about a choice in the dialog (e.g. "geo-position:edit")
+  dispatch({ params: { event } }) {
+    window.dispatchEvent(new CustomEvent(event))
+  }
+
+  // after direct changes (e.g. "Positionen bearbeiten"): show the new data
+  reload() {
+    window.location.reload()
+  }
+
   reset() {
     this.frameTarget.removeAttribute("src")
     this.frameTarget.innerHTML = ""

@@ -129,6 +129,10 @@ Rails.application.routes.draw do
     resources :teams, only: %i[new create] do
       resource :change_request, only: %i[new create], controller: :team_change_requests
       resource :state, only: %i[edit update], controller: :team_states
+      resource :geo_position, only: %i[edit update]
+    end
+    resources :places, only: [] do
+      resource :geo_position, only: %i[edit update]
     end
     resources :competitions, only: [] do
       resource :change_request, only: %i[new create], controller: :competition_change_requests
@@ -139,6 +143,10 @@ Rails.application.routes.draw do
     end
     resources :scores, only: [] do
       resource :team, only: %i[edit update], controller: :score_teams
+    end
+    resources :group_scores, only: [] do
+      resource :participations, only: :edit, controller: :group_score_participations
+      resources :positions, only: %i[edit update], param: :position, controller: :group_score_positions
     end
   end
 

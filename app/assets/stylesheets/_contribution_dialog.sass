@@ -1,6 +1,7 @@
 // dialog for contributions of visitors (app/views/layouts/application.html.haml)
 .contribution-dialog
-  width: 600px
+  width: fit-content
+  min-width: min(600px, calc(100vw - 20px))
   max-width: calc(100vw - 20px)
   padding: 0
   border: 1px solid #ccc
@@ -27,8 +28,15 @@
     text-align: right
     margin-top: 10px
 
+    form
+      display: inline
+
     .btn
       margin-left: 5px
+
+  .group-score-positions
+    form.copy-position
+      display: inline
 
   .contribution-honeypot
     position: absolute

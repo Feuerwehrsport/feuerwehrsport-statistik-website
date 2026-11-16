@@ -37,15 +37,19 @@ describe 'places features' do
 
       visit place_path(place)
       within('.place-map-actions') do
-        find_by_id('change-geo-position').click
-        find('.btn.btn-primary').click
+        click_on 'Geoposition hinzufügen'
+        expect(page).to have_text('Verschiebe den roten Marker')
+        click_on 'Speichern'
       end
-      expect(page).to have_no_text('Bitte warten')
-      expect(page).to have_no_text('Geoposition hinzufügen')
+      within('dialog.contribution-dialog') do
+        expect(page).to have_text('Breite 51.0, Länge 13.0')
+        click_on 'Position speichern'
+      end
+      expect(page).to have_no_css('dialog[open]')
+      expect(page).to have_button('Geoposition bearbeiten')
 
-      place = Place.last
-      expect(place.latitude).to eq 51
-      expect(place.longitude).to eq 13
+      expect(place.reload).to have_attributes(latitude: 51, longitude: 13)
+      expect(ChangeLog.last).to have_attributes(action: 'update-place:geo-position')
     end
   end
 end

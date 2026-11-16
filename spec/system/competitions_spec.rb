@@ -96,6 +96,50 @@ describe 'competitions features' do
     end
   end
 
+  context 'when editing positions of group scores' do
+    it 'assigns, copies and creates people for positions' do
+      first_run = create(:group_score, :double)
+      second_run = GroupScore.where.not(id: first_run.id).first
+      known = create(:person, first_name: 'Karl', last_name: 'Bekannt')
+      # earlier start at position 2 for the same team at another competition -> suggestion
+      other_category = create(:group_score_category, competition: create(:competition, name: 'Früher'))
+      earlier_run = create(:group_score, team: first_run.team, group_score_category: other_category)
+      create(:person_participation, person: known, group_score: earlier_run, position: 2)
+
+      api_sign_in
+      visit competition_path(first_run.competition)
+      find('.btn', text: 'Positionen bearbeiten', match: :first).click
+      find('.change-position a.glyphicon-pencil', match: :first).click
+
+      within('dialog.contribution-dialog') do
+        expect(page).to have_text('Klicke auf eine Position')
+        # WK2 of the first run (rows are ordered by id)
+        first('tbody tr').all('td')[1].click_on('+')
+        expect(page).to have_text('Aktuell: niemand')
+        within('tr', text: 'Bekannt') { click_on 'Auswählen' }
+
+        expect(page).to have_text('Klicke auf eine Position')
+        expect(page).to have_link('K. Bekannt')
+        click_on '↧'
+        expect(page).to have_link('K. Bekannt', count: 2)
+
+        first('tbody tr').first('td').click_on('+')
+        click_on 'Neue Person anlegen'
+        fill_in 'Vorname', with: 'Neu'
+        fill_in 'Nachname', with: 'Läufer'
+        click_on 'Speichern'
+        expect(page).to have_link('N. Läufer')
+        click_on 'Fertig'
+      end
+
+      expect(page).to have_no_css('dialog[open]')
+      expect(first_run.person_participations.order(:position).map { [it.position, it.person.last_name] })
+        .to eq [[1, 'Läufer'], [2, 'Bekannt']]
+      expect(second_run.person_participations.map { [it.position, it.person_id] }).to eq [[2, known.id]]
+      expect(ChangeLog.where(action: 'update-groupscore:participation').count).to eq 3
+    end
+  end
+
   context 'when file upload' do
     it 'uploads files and reports a file error' do
       api_sign_in

@@ -116,6 +116,19 @@ class GroupScore < ApplicationRecord
     team
   end
 
+  # sets or removes (person nil) the person at a position, returns whether something changed
+  def assign_person!(position, person)
+    participation = person_participations.find_by(position:)
+    return false if participation&.person_id == person&.id
+
+    if person.nil?
+      participation.destroy!
+    else
+      (participation || person_participations.build(position:)).update!(person:)
+    end
+    true
+  end
+
   def similar_scores
     GroupScore.where(team_id:, team_number:, group_score_category_id:)
               .gender(gender).order(:id)

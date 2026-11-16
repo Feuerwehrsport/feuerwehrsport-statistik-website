@@ -35,6 +35,19 @@ class Contributions::BaseController < ApplicationController
     change_request
   end
 
+  # person at a position of a group score ("Positionen bearbeiten"), same change log as the former api
+  def assign_group_score_person(group_score, position, person)
+    before_hash = GroupScoreSerializer.new(group_score.decorate).as_json
+    changed = GroupScore.transaction do
+      next false unless group_score.assign_person!(position, person)
+
+      log_change(group_score.reload, serializer: GroupScoreSerializer, action: 'update-groupscore:participation',
+                                     before_hash:)
+      true
+    end
+    clean_cache if changed
+  end
+
   def clean_cache
     Caching::Cleaner.new.save
   end
