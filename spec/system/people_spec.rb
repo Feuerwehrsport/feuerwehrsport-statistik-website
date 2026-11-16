@@ -51,112 +51,93 @@ describe 'people' do
     let!(:alfredo) { create(:person, first_name: 'Alfredo') }
     let!(:ungarn) { create(:nation, :ungarn) }
 
-    it 'can put people merge' do
+    def open_change_request_dialog
       api_sign_in
-
-      # add one
       visit person_path(person)
-      find_by_id('add-change-request').click
-      within('.fss-window') do
-        expect(page).to have_text('Auswahl des Fehlers')
-        choose('Person ist falsch geschrieben')
-        click_on('OK')
+      click_on 'Fehler mit dieser Person melden'
+      expect(page).to have_css('dialog[open]', text: 'Was ist falsch?')
+      # the dialog itself is focused, not the first choice (would look selected)
+      expect(page.evaluate_script('document.activeElement.tagName')).to eq 'DIALOG'
+    end
 
-        expect(page).to have_text('Korrektur des Fehlers')
-        choose('Richtige Schreibweise auswählen (für Administrator VIEL einfacher)')
-        click_on('OK')
-
-        expect(page).to have_text('Namen korrigieren')
-        select('Meier, Alfredo (männlich)', from: 'Richtige Person')
-        click_on('OK')
-      end
+    def expect_change_request(content)
       expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
+      expect(ChangeRequest.last.content).to eq(content)
+      within('dialog.contribution-dialog') { click_on 'Schließen' }
+      expect(page).to have_no_css('dialog[open]')
+    end
 
-      change_request_content = ChangeRequest.last.content
-      expect(change_request_content).to eq(
-        key: 'person-merge',
-        data: { person_id: person.id.to_s, correct_person_id: alfredo.id.to_s },
-      )
+    it 'can put people merge' do
+      open_change_request_dialog
+      within('dialog.contribution-dialog') do
+        click_on 'Person ist falsch geschrieben'
+        click_on 'Richtige Schreibweise auswählen'
+
+        expect(page).to have_field('Name suchen')
+        expect(page.evaluate_script('document.activeElement.id')).to eq 'q'
+        fill_in 'Name suchen', with: 'Alfredo'
+        click_on 'Suchen'
+        expect(page).to have_no_text("#{person.last_name}, #{person.first_name} (")
+        choose 'Meier, Alfredo (männlich)'
+        click_on 'Fehler melden'
+      end
+
+      expect_change_request(key: 'person-merge',
+                            data: { person_id: person.id.to_s, correct_person_id: alfredo.id.to_s })
+    end
+
+    it 'requires a selected person for merge' do
+      open_change_request_dialog
+      within('dialog.contribution-dialog') do
+        click_on 'Person ist falsch geschrieben'
+        click_on 'Richtige Schreibweise auswählen'
+        fill_in 'Name suchen', with: 'Alfredo'
+        click_on 'Suchen'
+        click_on 'Fehler melden'
+        expect(page).to have_text('Bitte die richtige Person auswählen.')
+      end
+      expect(ChangeRequest.count).to eq 0
     end
 
     it 'can correct person' do
-      api_sign_in
+      open_change_request_dialog
+      within('dialog.contribution-dialog') do
+        click_on 'Person ist falsch geschrieben'
+        click_on 'Selbst korrekte Schreibweise angeben'
 
-      # add one
-      visit person_path(person)
-      find_by_id('add-change-request').click
-      within('.fss-window') do
-        expect(page).to have_text('Auswahl des Fehlers')
-        choose('Person ist falsch geschrieben')
-        click_on('OK')
-
-        expect(page).to have_text('Korrektur des Fehlers')
-        choose('Selbst korrekte Schreibweise hinzufügen')
-        click_on('OK')
-
-        expect(page).to have_text('Namen korrigieren')
+        expect(page).to have_field('Vorname', with: person.first_name)
         fill_in 'Vorname', with: 'Vorname'
         fill_in 'Nachname', with: '00AABBCC'
-        click_on('OK')
+        click_on 'Fehler melden'
       end
-      expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
 
-      change_request_content = ChangeRequest.last.content
-      expect(change_request_content).to eq(
-        key: 'person-correction',
-        data: {
-          person_id: person.id.to_s,
-          person: { first_name: 'Vorname', last_name: '00AABBCC' },
-        },
-      )
+      expect_change_request(key: 'person-correction',
+                            data: { person_id: person.id.to_s,
+                                    person: { first_name: 'Vorname', last_name: '00AABBCC' } })
     end
 
     it 'can correct nation' do
-      api_sign_in
-
-      # add one
-      visit person_path(person)
-      find_by_id('add-change-request').click
-      within('.fss-window') do
-        expect(page).to have_text('Auswahl des Fehlers')
-        choose('Person ist falscher Nation zugeordnet')
-        click_on('OK')
-
-        expect(page).to have_text('Andere Nation')
-        select('Ungarn', from: 'Nation')
-        click_on('OK')
+      open_change_request_dialog
+      within('dialog.contribution-dialog') do
+        click_on 'Person ist falscher Nation zugeordnet'
+        select 'Ungarn', from: 'Nation'
+        click_on 'Fehler melden'
       end
-      expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
 
-      change_request_content = ChangeRequest.last.content
-      expect(change_request_content).to eq(
-        key: 'person-change-nation',
-        data: { person_id: person.id.to_s, nation_id: ungarn.id.to_s },
-      )
+      expect_change_request(key: 'person-change-nation',
+                            data: { person_id: person.id.to_s, nation_id: ungarn.id.to_s })
     end
 
     it 'can add description' do
-      api_sign_in
-
-      # add one
-      visit person_path(person)
-      find_by_id('add-change-request').click
-      within('.fss-window') do
-        expect(page).to have_text('Auswahl des Fehlers')
-        choose('Etwas anderes')
-        click_on('OK')
-
-        expect(page).to have_text('Fehler beschreiben')
-        fill_in('Beschreibung', with: "Beschreibung\n123")
-        click_on('OK')
+      open_change_request_dialog
+      within('dialog.contribution-dialog') do
+        click_on 'Etwas anderes'
+        fill_in 'Bitte beschreiben Sie das Problem:', with: "Beschreibung\n123"
+        click_on 'Fehler melden'
       end
-      expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
 
-      change_request_content = ChangeRequest.last.content
-      expect(change_request_content).to eq(
-        key: 'person-other',
-        data: { person_id: person.id.to_s, description: "Beschreibung\r\n123" },
-      )
+      expect_change_request(key: 'person-other',
+                            data: { person_id: person.id.to_s, description: "Beschreibung\n123" })
     end
   end
 end

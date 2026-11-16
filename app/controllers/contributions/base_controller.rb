@@ -22,6 +22,17 @@ class Contributions::BaseController < ApplicationController
                       after_hash: serializer.new(record.decorate).as_json)
   end
 
+  # change request for the administrators (same content format as before via the api: key + data)
+  def create_change_request(key, data)
+    change_request = ChangeRequest.new(content: { key:, data: }, user: current_user)
+    ChangeRequest.transaction do
+      change_request.save!
+      log_change(change_request, serializer: ChangeRequestSerializer)
+    end
+    ChangeRequestMailer.with(change_request:).new_notification.deliver_later
+    change_request
+  end
+
   def clean_cache
     Caching::Cleaner.new.save
   end

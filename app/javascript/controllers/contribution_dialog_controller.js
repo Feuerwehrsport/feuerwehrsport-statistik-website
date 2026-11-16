@@ -6,6 +6,7 @@ export default class extends Controller {
 
   open() {
     if (!this.element.open) this.element.showModal()
+    this.focus()
   }
 
   close() {
@@ -15,5 +16,16 @@ export default class extends Controller {
   reset() {
     this.frameTarget.removeAttribute("src")
     this.frameTarget.innerHTML = ""
+  }
+
+  // showModal() focuses the first focusable element (e.g. the first choice, shown as selected).
+  // Focus an element with autofocus instead, otherwise the dialog itself.
+  focus() {
+    const autofocus = this.frameTarget.querySelector("[autofocus]")
+    if (autofocus) {
+      autofocus.focus()
+    } else {
+      this.element.focus()
+    }
   }
 }

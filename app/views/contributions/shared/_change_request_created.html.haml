@@ -1,0 +1,5 @@
+= render layout: 'contributions/shared/dialog', locals: { title: 'Gespeichert' } do
+  .alert.alert-success
+    Der Fehlerbericht wurde gespeichert und ein Administrator informiert.
+    In ein paar Tagen wird das Problem behoben sein.
+  = render 'contributions/shared/actions', cancel: 'Schließen'
