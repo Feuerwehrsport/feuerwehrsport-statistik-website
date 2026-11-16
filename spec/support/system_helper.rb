@@ -10,11 +10,17 @@ def sign_in(role = :admin)
   expect(page).to have_text 'Sie sind angemeldet'
 end
 
+# fills the anonymous login window like a person: reads the arithmetic question and answers it
 def api_sign_in
   visit root_path
-  page.execute_script(
-    "Fss.post('api_users', { api_user: { name: 'test' } }, function () { $('h1').text('logged_in') });",
-  )
+  page.execute_script("Fss.login(function () { $('h1').text('logged_in') });")
+  within('.fss-window') do
+    question = find('label', text: /\A\d+ (plus|minus|mal) \d+\z/).text
+    a, operation, b = question.split
+    fill_in question, with: a.to_i.public_send(ApiLoginChallenge::OPERATIONS.fetch(operation), b.to_i)
+    fill_in 'Name', with: 'test'
+    click_on 'OK'
+  end
   expect(page).to have_text('logged_in')
 end
 

@@ -27,6 +27,8 @@ Rails.application.configure do
   config.consider_all_requests_local = true
   config.action_controller.perform_caching = false
   config.cache_store = :null_store
+  config.x.api_login_store = ActiveSupport::Cache::MemoryStore.new
+  config.x.api_login_min_seconds = 0
   # counters for rate_limit (login, password reset), cleared before each example
   config.action_controller.cache_store = :memory_store
 

@@ -66,6 +66,7 @@ Rails.application.routes.draw do
       collection do
         post :status
         post :logout
+        post :challenge
       end
     end
     resources :change_requests, only: %i[create index update] do

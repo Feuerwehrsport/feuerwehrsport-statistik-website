@@ -4,7 +4,7 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 
-# generated from version 20261104160000
+# generated from version 20261116120000
 
 module SchemaValidations
   extend ActiveSupport::Concern
@@ -80,7 +80,6 @@ module SchemaValidations
       validates_with_filter :ip_address_hash, {length: {allow_nil: true, maximum: 200}}
       validates_with_filter :ip_address_hash, {presence: {}}
       validates_with_filter :name, {length: {allow_nil: true, maximum: 200}}
-      validates_with_filter :name, {presence: {}}
       validates_with_filter :updated_at, {date_time_in_db_range: {}}
       validates_with_filter :updated_at, {presence: {}}
       validates_with_filter :user_agent_hash, {length: {allow_nil: true, maximum: 200}}

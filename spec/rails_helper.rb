@@ -73,6 +73,8 @@ RSpec.configure do |config|
   end
   config.include ActiveSupport::Testing::TimeHelpers
   config.before { ActionController::Base.cache_store.clear }
+  # challenges and rate limits of the anonymous login
+  config.before { Rails.configuration.x.api_login_store.clear }
   # also for specs without rails type (e.g. spec/renderers)
   config.after { travel_back } # rubocop:disable Rails/RedundantTravelBack
 

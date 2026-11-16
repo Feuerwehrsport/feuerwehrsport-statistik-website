@@ -7,7 +7,8 @@ class ApiUser < ApplicationRecord
   scope :old_entries, -> { where(arel_table[:created_at].lt(1.month.ago)) }
 
   validates :email_address, 'valid_email_2/email': true, allow_blank: true
-  validates :name, presence: true
+  validate :name_or_email_address_present
+  before_validation { self.name = name.to_s.strip.presence }
   after_create :remove_old_entries
   schema_validations
 
@@ -41,5 +42,11 @@ class ApiUser < ApplicationRecord
 
   def remove_old_entries
     self.class.old_entries.destroy_all
+  end
+
+  def name_or_email_address_present
+    return if name.present? || email_address.present?
+
+    errors.add(:base, 'Bitte geben Sie einen Namen oder eine E-Mail-Adresse an.')
   end
 end

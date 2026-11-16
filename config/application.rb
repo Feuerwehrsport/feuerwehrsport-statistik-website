@@ -36,6 +36,9 @@ module FeuerwehrsportStatistik
     config.active_record.belongs_to_required_by_default = false
 
     config.x.email_validation = { mx: true }
+    # anonymous login (ApiUser): store for challenges and rate limits, minimum seconds to answer the question
+    config.x.api_login_store = ActiveSupport::Cache::FileStore.new(Rails.root.join('tmp/cache/api_login'))
+    config.x.api_login_min_seconds = 3
     # tokens for Feusport to transfer import requests (comma separated to allow rotation)
     config.x.feusport_import_tokens = ENV.fetch('FEUSPORT_IMPORT_TOKENS', '').split(',').map(&:strip).compact_blank
     config.caching = true

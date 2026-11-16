@@ -2,6 +2,6 @@
 
 class ApiUserDecorator < AppDecorator
   def to_s
-    name
+    name.presence || email_address
   end
 end

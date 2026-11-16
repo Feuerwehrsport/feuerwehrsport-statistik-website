@@ -65,26 +65,7 @@ class @Fss
         new WaitFssWindow()
         location.reload()
   
-  @captchaQuestion: ->
-    questions = [
-      ['plus', (a, b) -> a + b ],
-      ['minus', (a, b) -> a - b ],
-      ['mal', (a, b) -> a * b ]
-    ]
-
-    i = Math.round(Math.random() * 2)
-    a = Math.round(Math.random() * 10)
-    b = Math.round(Math.random() * 9)
-
-    question = "#{a} #{questions[i][0]} #{b}"
-    answer = questions[i][1](a, b)
-    if answer < 0 or answer > 50
-      [question, answer] = Fss.captchaQuestion()
-    [question, answer]
-
   @login: (callback, values = {}) ->
-    [question, answer] = Fss.captchaQuestion()
-
     defaultValues = {
       name: ''
       email_address: ''
@@ -92,39 +73,42 @@ class @Fss
     }
     values = $.extend(defaultValues, values)
 
-    w = FssWindow.build('Anmelden')
+    # the question is created on the server, the answer is checked there
+    Fss.post 'api_users/challenge', {}, (challenge) ->
+      w = FssWindow.build('Anmelden')
 
-    w.add((new FssFormRowDescription(values.message)).addClass('text-warning')) if values.message?
+      w.add((new FssFormRowDescription(values.message)).addClass('text-warning')) if values.message?
 
-    w
-      .add(new FssFormRowText('test', question))
-      .add(new FssFormRowDescription('Bitte lösen Sie die Gleichung.'))
-      .add(new FssFormRowText('name', 'Name', values.name))
-      .add(new FssFormRowDescription('Dieser Name ist nur für Rückfragen bei Problemen gedacht.'))
-      .add(new FssFormRowText('email_address', 'E-Mail-Adresse', values.email_address))
-      .add(new FssFormRowDescription('Diese Angabe ist freiwillig.'))
-      .add(new FssFormRowCheckbox('save', 'Angaben in Cookie speichern', values.save))
-      .on('submit', (data) ->
-        if parseInt(data.test, 10) isnt answer
-          data.message = 'Die Antwort ist nicht korrekt.'
-          return Fss.login(callback, data)
-
-        handler = (retData) ->
-          if retData.login
-            if data.save
-              Cookies.set('name', data.name, { expires: 365, path: '' })
-              Cookies.set('email_address', data.email_address, { expires: 365, path: '' })
+      w
+        .add(new FssFormRowText('captcha_answer', challenge.question))
+        .add(new FssFormRowDescription('Bitte lösen Sie die Rechenaufgabe.'))
+        .add(new FssFormRowText('name', 'Name', values.name))
+        .add(new FssFormRowText('email_address', 'E-Mail-Adresse', values.email_address))
+        .add(new FssFormRowDescription('Bitte geben Sie einen Namen und/oder eine E-Mail-Adresse an. ' +
+          'Die Angaben sind nur für Rückfragen bei Problemen gedacht.'))
+        .add((new FssFormRowText('website', 'Bitte leer lassen')).addClass('fss-form-row-hp'))
+        .add(new FssFormRowCheckbox('save', 'Angaben in Cookie speichern', values.save))
+        .on('submit', (data) ->
+          handler = (retData) ->
+            if retData.login
+              if data.save
+                Cookies.set('name', data.name, { expires: 365, path: '' })
+                Cookies.set('email_address', data.email_address, { expires: 365, path: '' })
+              else
+                Cookies.remove('name', { path: '' })
+                Cookies.remove('email_address', { path: '' })
+              callback()
             else
-              Cookies.remove('name', { path: '' })
-              Cookies.remove('email_address', { path: '' })
-            callback()
-          else
-            data.message = retData.message
-            Fss.login(callback, data)
-        Fss.post('api_users/', { api_user: data }, handler, handler)
-
-      )
-      .open()
+              data.message = retData.message
+              Fss.login(callback, data)
+          params = {
+            api_user: { name: data.name, email_address: data.email_address }
+            captcha_answer: data.captcha_answer
+            website: data.website
+          }
+          Fss.post('api_users/', params, handler, handler)
+        )
+        .open()
 
   @checkLogin: (callback) ->
     Fss.post 'api_users/status', {}, (data) ->
@@ -155,16 +139,16 @@ class @Fss
       callbackSuccess(data[type.replace(/\//, '_')])
 
   @get: (url, data, callbackSuccess, callbackFailed = false) ->
-    Fss.ajaxRequest('GET', url, data, {}, callbackSuccess, callbackFailed = false)
+    Fss.ajaxRequest('GET', url, data, {}, callbackSuccess, callbackFailed)
   
   @post: (url, data, callbackSuccess, callbackFailed = false) ->
-    Fss.ajaxRequest('POST', url, data, {}, callbackSuccess, callbackFailed = false)
+    Fss.ajaxRequest('POST', url, data, {}, callbackSuccess, callbackFailed)
 
   @put: (url, data, callbackSuccess, callbackFailed = false) ->
-    Fss.ajaxRequest('PUT', url, data, {}, callbackSuccess, callbackFailed = false)
+    Fss.ajaxRequest('PUT', url, data, {}, callbackSuccess, callbackFailed)
 
   @delete: (url, callbackSuccess, callbackFailed = false) ->
-    Fss.ajaxRequest('DELETE', url, {}, {}, callbackSuccess, callbackFailed = false)
+    Fss.ajaxRequest('DELETE', url, {}, {}, callbackSuccess, callbackFailed)
 
   @ajaxRequest: (type, url, data, options, callbackSuccess, callbackFailed = false) ->
     url = "/api/#{url}"
@@ -194,7 +178,10 @@ class @Fss
           new WarningFssWindow(message)
       error: (xhr, status) ->
         wait.close()
-        new WarningFssWindow("Die Hintergrundanfrage zur URL #{url} schlug fehl: #{status}")
+        if xhr.responseJSON?.message?
+          new WarningFssWindow(xhr.responseJSON.message)
+        else
+          new WarningFssWindow("Die Hintergrundanfrage zur URL #{url} schlug fehl: #{status}")
     }
     if data instanceof FormData
       params.processData = false
