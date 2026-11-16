@@ -533,6 +533,7 @@ DEPENDENCIES
   haml-rails
   image_optim
   image_optim_pack
+  importmap-rails
   jquery-rails
   mini_magick
   mission_control-jobs
@@ -555,7 +556,9 @@ DEPENDENCIES
   simplecov
   solid_queue
   sprockets-rails
+  stimulus-rails
   terser
+  turbo-rails
   valid_email2
   web-console
   webmock

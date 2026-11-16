@@ -40,11 +40,7 @@ class Api::ApiUsersController < Api::BaseController
 
   # honeypot field "website" must stay empty, the arithmetic question must be answered correctly and not too fast
   def verify_login_protection
-    message = if params[:website].present?
-                'Die Anmeldung ist fehlgeschlagen.'
-              else
-                ApiLoginChallenge.verify(session, params[:captcha_answer])
-              end
+    message = ApiLoginChallenge.verify_request(session, params)
     failed(message:) if message
   end
 

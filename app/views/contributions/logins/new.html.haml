@@ -1,0 +1,23 @@
+= render layout: 'contributions/shared/dialog', locals: { title: 'Anmelden' } do
+  %p.text-muted
+    Für Änderungen benötigen wir einen Namen und/oder eine E-Mail-Adresse.
+    Die Angaben sind nur für Rückfragen bei Problemen gedacht.
+  - if @message.present?
+    .alert.alert-danger= @message
+  - @api_user.errors.full_messages.each do |error|
+    .alert.alert-danger= error
+  = simple_form_for @api_user, url: contributions_login_path, method: :post do |f|
+    = hidden_field_tag :return_to, params[:return_to]
+    .form-group
+      = label_tag :captcha_answer, @question, class: 'control-label col-sm-3'
+      .col-sm-9
+        = text_field_tag :captcha_answer, nil, class: 'form-control', autocomplete: 'off', inputmode: 'numeric',
+                                                 required: true
+        %p.help-block Bitte lösen Sie die Rechenaufgabe.
+    = f.input :name, label: 'Name', required: false
+    = f.input :email_address, label: 'E-Mail-Adresse', required: false
+    -# honeypot: invisible for people, bots fill it
+    .contribution-honeypot{ 'aria-hidden': 'true' }
+      = label_tag ApiLoginChallenge::HONEYPOT_PARAM, 'Bitte leer lassen'
+      = text_field_tag ApiLoginChallenge::HONEYPOT_PARAM, nil, tabindex: -1, autocomplete: 'off'
+    = render 'contributions/shared/actions', submit: 'Anmelden'

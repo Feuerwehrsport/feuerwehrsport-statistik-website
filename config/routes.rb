@@ -120,6 +120,12 @@ Rails.application.routes.draw do
     end
   end
 
+  # dialogs for anonymous contributions (Hotwire, loaded into the turbo frame "contribution")
+  namespace :contributions do
+    resource :login, only: %i[new create]
+    resources :people, only: %i[new create]
+  end
+
   # following controllers will write html cache
   resources :change_logs, only: %i[index show]
   resources :competitions, only: %i[index show]

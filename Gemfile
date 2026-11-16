@@ -28,6 +28,9 @@ gem 'haml-rails' # haml templating
 
 # assets
 gem 'jquery-rails' # jquery js
+gem 'importmap-rails' # es modules without bundler (app/javascript)
+gem 'turbo-rails' # hotwire: turbo frames for dialogs
+gem 'stimulus-rails' # hotwire: small js controllers
 gem 'terser' # asset compressor
 gem 'coffee-rails' # coffee script
 gem 'image_optim' # image optimazing

@@ -33,5 +33,6 @@
       .col-md-5
         %p Ist eine Person die du kennst noch nicht eingetragen? Dann trage sie doch schnell ins System ein!
       .col-md-4
-        #add-person.btn.btn-default Person hinzufügen
+        = link_to 'Person hinzufügen', new_contributions_person_path, id: 'add-person', class: 'btn btn-default',
+                                                                     data: { turbo_frame: 'contribution', turbo: true }
       .col-md-3= design_image('system-users')

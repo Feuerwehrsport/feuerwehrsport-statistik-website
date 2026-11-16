@@ -7,3 +7,7 @@
       = render 'flash_messages'
     = yield
     = render 'footer'
+    -# dialog for contributions of visitors (Hotwire, see Contributions::BaseController)
+    %dialog.contribution-dialog{ data: { controller: 'contribution-dialog',
+                                         action: 'turbo:frame-load->contribution-dialog#open close->contribution-dialog#reset' } }
+      = turbo_frame_tag 'contribution', data: { turbo: true, contribution_dialog_target: 'frame' }

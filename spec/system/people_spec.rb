@@ -7,39 +7,43 @@ describe 'people' do
   let(:person) { create(:person) }
 
   context 'when index' do
-    it 'can add person' do
+    it 'can add person after anonymous login in the dialog' do
       nation
-
-      api_sign_in
-
-      # add one
       visit people_path
-      sleep 0.1
-      find_by_id('add-person').click
-      within('.fss-window') do
+      click_on 'Person hinzufügen'
+
+      within('dialog.contribution-dialog') do
+        expect(page).to have_text('Anmelden')
+        answer_login_question
+        fill_in 'Name', with: 'Tester'
+        click_on 'Anmelden'
+
         expect(page).to have_text('Person hinzufügen')
+        click_on 'Speichern'
+        expect(page).to have_text('muss ausgefüllt werden')
+
         fill_in 'Vorname', with: 'Vorname'
         fill_in 'Nachname', with: '00AABBCC'
         select('weiblich', from: 'Geschlecht')
-        select('Deutschland', from: 'Nation')
-        click_on('OK')
+        select(nation.name, from: 'Nation')
+        click_on 'Speichern'
       end
 
-      Timeout.timeout(5) do
-        loop do
-          person = Person.where(last_name: '00AABBCC')
-          break if person.present?
-        end
-      end
-      person = Person.where(last_name: '00AABBCC')
+      expect(page).to have_no_css('dialog[open]')
+      person = Person.find_by!(last_name: '00AABBCC')
+      expect(person.attributes.symbolize_keys).to include(first_name: 'Vorname', gender: 'female',
+                                                          nation_id: nation.id)
+      expect(ChangeLog.last).to have_attributes(action: 'create-person', api_user: ApiUser.find_by!(name: 'Tester'))
+    end
 
-      expect(person.count).to eq 1
-      expect(person.first.attributes.symbolize_keys).to include(
-        last_name: '00AABBCC',
-        first_name: 'Vorname',
-        gender: 'female',
-        nation_id: nation.id,
-      )
+    it 'can cancel the dialog' do
+      visit people_path
+      click_on 'Person hinzufügen'
+      within('dialog.contribution-dialog') { click_on 'Abbrechen' }
+      expect(page).to have_no_css('dialog[open]')
+
+      click_on 'Person hinzufügen'
+      expect(page).to have_css('dialog[open]', text: 'Anmelden')
     end
   end
 

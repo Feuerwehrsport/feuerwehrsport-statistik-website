@@ -24,6 +24,15 @@ class ApiLoginChallenge
     question
   end
 
+  HONEYPOT_PARAM = :website
+
+  # checks honeypot and answer of a login request, returns nil or an error message
+  def self.verify_request(session, params)
+    return 'Die Anmeldung ist fehlgeschlagen.' if params[HONEYPOT_PARAM].present?
+
+    verify(session, params[:captcha_answer])
+  end
+
   # returns nil when the answer is correct, otherwise an error message; the challenge can only be used once
   def self.verify(session, given_answer)
     id = session.delete(SESSION_KEY)

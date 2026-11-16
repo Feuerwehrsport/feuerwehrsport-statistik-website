@@ -5,3 +5,5 @@
 
 //= link frontend.css
 //= link backend.css
+
+//= link_tree ../../javascript .js

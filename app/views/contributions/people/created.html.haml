@@ -1,0 +1,3 @@
+= render layout: 'contributions/shared/dialog', locals: { title: 'Person hinzufügen' } do
+  .alert.alert-success{ data: { controller: 'page-reload' } }
+    #{@person.first_name} #{@person.last_name} wurde gespeichert. Die Seite wird neu geladen …

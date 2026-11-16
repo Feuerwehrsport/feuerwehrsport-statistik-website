@@ -1,0 +1,8 @@
+= render layout: 'contributions/shared/dialog', locals: { title: 'Person hinzufügen' } do
+  = simple_form_for @person, url: contributions_people_path do |f|
+    = f.input :first_name, label: 'Vorname'
+    = f.input :last_name, label: 'Nachname'
+    = f.input :gender, label: 'Geschlecht', collection: [%w[männlich male], %w[weiblich female]], include_blank: false
+    = f.input :nation_id, label: 'Nation', collection: Nation.order(:name).pluck(:name, :id), include_blank: false,
+                          selected: @person.nation_id || 1 # Deutschland, see Person.german
+    = render 'contributions/shared/actions', submit: 'Speichern'
