@@ -39,12 +39,11 @@ RSpec.describe DumpDatabaseJob do
                           '--exclude-table-data=solid_queue_semaphores ' \
                           '--exclude-table-data=solid_queue_semaphores_id_seq'
 
-      script_path = Rails.root.join('etc/store_dump.sh')
-      expected_command = %(#{script_path} "#{expected_excludes}" "feuerwehrsport-statistik")
+      script_path = Rails.root.join('etc/store_dump.sh').to_s
 
       expect_any_instance_of(described_class)
         .to receive(:system)
-        .with(expected_command)
+        .with(script_path, expected_excludes, 'feuerwehrsport-statistik')
 
       described_class.perform_now
     end
@@ -59,11 +58,11 @@ RSpec.describe DumpDatabaseJob do
       allow(job).to receive(:system).and_return(true)
       job.perform_now
 
-      script_path = Rails.root.join('etc/store_dump.sh')
+      script_path = Rails.root.join('etc/store_dump.sh').to_s
       excludes = '--exclude-table-data=foo --exclude-table-data=bar'
-      expected_command = %(#{script_path} "#{excludes}" "feuerwehrsport-statistik")
-      expect(job).to have_received(:system).with(expected_command)
-      expect(Rails.logger).to have_received(:info).with("Executing dump command: #{expected_command}")
+      expect(job).to have_received(:system).with(script_path, excludes, 'feuerwehrsport-statistik')
+      expect(Rails.logger).to have_received(:info)
+        .with("Executing dump command: #{script_path} #{excludes} feuerwehrsport-statistik")
     end
   end
 end

@@ -95,22 +95,17 @@ class Chart::PersonShow < Chart::Base
 
   class YearOverviewData
     def initialize(person_id)
-      @result = ActiveRecord::Base.connection.execute(<<~SQL.squish).to_a
-        SELECT#{' '}
-          c.year AS year,
-          s.single_discipline_id,
-          AVG(s.time) AS average_time
-        FROM#{' '}
-          scores s
-        JOIN#{' '}
-          competitions c ON s.competition_id = c.id
-        WHERE#{' '}
-          s.person_id = #{person_id} and s.time != #{Firesport::INVALID_TIME}
-        GROUP BY#{' '}
-          c.year, s.single_discipline_id
-        ORDER BY#{' '}
-          c.year;
+      sql = <<~SQL.squish
+        SELECT c.year AS year, s.single_discipline_id, AVG(s.time) AS average_time
+        FROM scores s
+        JOIN competitions c ON s.competition_id = c.id
+        WHERE s.person_id = ? AND s.time != ?
+        GROUP BY c.year, s.single_discipline_id
+        ORDER BY c.year
       SQL
+      @result = ActiveRecord::Base.connection.select_all(
+        ActiveRecord::Base.sanitize_sql_array([sql, person_id, Firesport::INVALID_TIME]),
+      ).to_a
     end
 
     def years

@@ -17,6 +17,8 @@ jobs:
         run: bundle exec rubocop
       - name: Bundler Audit
         run: bin/bundler-audit check --update
+      - name: Brakeman
+        run: bin/brakeman --no-pager --no-progress --exit-on-warn
 
   rspec:
     runs-on: ubuntu-latest

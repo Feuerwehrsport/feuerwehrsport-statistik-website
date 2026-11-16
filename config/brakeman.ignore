@@ -1,0 +1,258 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "0c947e73ab42dc67c7aebe74a7044d0907e9c32ca73cb11979761bcbe2518e41",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/decorators/ui/filter/structure/presence_filter_decorator.rb",
+      "line": 5,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "collection.where(\"#{name} IS NOT NULL AND #{name} != ''\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Ui::Filter::Structure::PresenceFilterDecorator",
+        "method": "filter_collection"
+      },
+      "user_input": "name",
+      "confidence": "Weak",
+      "cwe_id": [
+        89
+      ],
+      "note": "Column name comes from the filter definition in code, never from params"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "19e0ca2faf4499aca1d0fd577e6813d0f3e2b115c66d8e45a0f303f868d2997b",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/group_score.rb",
+      "line": 35,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "from(\"(#{GroupScore.unscoped.select(\"COUNT(person_participations.id) AS members_count, group_scores.*\").discipline(d).joins(\"LEFT JOIN person_participations ON person_participations.group_score_id = group_scores.id\").group(:id).to_sql}) group_scores\").where(\"members_count < #{Discipline.participation_count(d)}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "GroupScore",
+        "method": "without_members"
+      },
+      "user_input": "Discipline.participation_count(d)",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
+      "note": "Interpolated value is a constant from Discipline::PARTICIPATION_COUNT, the subquery comes from to_sql"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "27b0a522a34abaf8f152ac1e0ac53ae4e3171cf820725c2557c88995c0102352",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/concerns/competitions/cache_builder.rb",
+      "line": 21,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "update_all(\"la_#{gender} = (#{GroupScore.select(\"COUNT(*)\").where(\"group_score_categories.competition_id = competitions.id\").discipline(:la).gender(gender).to_sql})\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Competitions::CacheBuilder",
+        "method": "update_discipline_score_count"
+      },
+      "user_input": "gender",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
+      "note": "Gender comes from Genderable::GENDER_KEYS, subqueries are built with to_sql; no user input"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "37bee991ab520ca251877039454c2c5ca1a2fbfcd35f9daf75dbf0fb1eb0e148",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/datatables/structure.rb",
+      "line": 30,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "collection.joins(\"LEFT OUTER JOIN \\\"#{klass.reflections[Hash.keys.first.to_s].table_name}\\\" t#{index} ON \\\"#{klass.table_name}\\\".#{klass.reflections[Hash.keys.first.to_s].foreign_key} = t#{index}.id\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Datatables::Structure",
+        "method": "search"
+      },
+      "user_input": "index",
+      "confidence": "Weak",
+      "cwe_id": [
+        89
+      ],
+      "note": "Table and column names come from model reflections and datatable definitions in code; the search term is sanitized"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "80d71fe72ccbfd6fce96dac7cef3a45c759f4e0a920978c8fc6bee3311ed9539",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/group_score.rb",
+      "line": 88,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "[Format Error]",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "GroupScore",
+        "method": "yearly_best"
+      },
+      "user_input": "yearly_best_times_subquery(competitions)",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
+      "note": "Interpolated subqueries are built with to_sql from relations, no user input"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "892e7409cfdcb5bef7a8f6578cc8d92ec162e733d3ff7d005f978d09ecfa9bb6",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/concerns/competitions/cache_builder.rb",
+      "line": 18,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "update_all(\"hb_#{gender} = (#{Score.gender(gender).select(\"COUNT(*)\").where(\"competition_id = competitions.id\").hb.to_sql})\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Competitions::CacheBuilder",
+        "method": "update_discipline_score_count"
+      },
+      "user_input": "gender",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
+      "note": "Gender comes from Genderable::GENDER_KEYS, subqueries are built with to_sql; no user input"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "8d6f10412cdca0bd5140654ad66dba5aee27c06ef575d19430f59c6c115a2695",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/concerns/competitions/cache_builder.rb",
+      "line": 20,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "update_all(\"fs_#{gender} = (#{GroupScore.select(\"COUNT(*)\").where(\"group_score_categories.competition_id = competitions.id\").discipline(:fs).gender(gender).to_sql})\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Competitions::CacheBuilder",
+        "method": "update_discipline_score_count"
+      },
+      "user_input": "gender",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
+      "note": "Gender comes from Genderable::GENDER_KEYS, subqueries are built with to_sql; no user input"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "959de578088d8a1e02eec1bbeb894b9893e05dbb522f0f634342461c9b8c5a34",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/decorators/ui/filter/structure/date_filter_decorator.rb",
+      "line": 5,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "collection.where(\"#{name} #{sql_operator} ?\", argument)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Ui::Filter::Structure::DateFilterDecorator",
+        "method": "filter_collection"
+      },
+      "user_input": "name",
+      "confidence": "Weak",
+      "cwe_id": [
+        89
+      ],
+      "note": "Column name comes from the filter definition in code, operator is mapped via a fixed hash; the value is a bound parameter"
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 70,
+      "fingerprint": "aceb9590a18e4e07a187865bd6b4ae92dc163aaf12521cd6d51553d16fd51878",
+      "check_name": "MassAssignment",
+      "message": "Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys",
+      "file": "app/controllers/api/change_requests_controller.rb",
+      "line": 28,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params[resource_params_name][:content].permit!",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Api::ChangeRequestsController",
+        "method": "resource_params"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [
+        915
+      ],
+      "note": "content is a free-form JSON blob of a change request; permit! is only used to derive the permitted scalar keys (permit_scalar_attributes), nothing is assigned to model attributes directly"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "cbcbc649e8d69d0ea1eb39810834e3b251e3b14472a1e5be8820af14a4ea63f1",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/concerns/competitions/cache_builder.rb",
+      "line": 17,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "update_all(\"hl_#{gender} = (#{Score.gender(gender).select(\"COUNT(*)\").where(\"competition_id = competitions.id\").hl.to_sql})\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Competitions::CacheBuilder",
+        "method": "update_discipline_score_count"
+      },
+      "user_input": "gender",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
+      "note": "Gender comes from Genderable::GENDER_KEYS, subqueries are built with to_sql; no user input"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "e68ccd925d5121dcdf5ba36a8d069ac5ff5543e1477aca59c7b2a67532290bfd",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/score.rb",
+      "line": 99,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "[Format Error]",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Score",
+        "method": "yearly_best"
+      },
+      "user_input": "yearly_best_times_subquery(competitions)",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
+      "note": "Interpolated subqueries are built with to_sql from relations, no user input"
+    }
+  ],
+  "brakeman_version": "8.1.0"
+}

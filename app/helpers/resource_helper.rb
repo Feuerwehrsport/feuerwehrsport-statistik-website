@@ -127,12 +127,19 @@ module ResourceHelper
     class_name = 'fa-sort-down' if asc
     class_name = 'fa-sort-up' if desc
     icon = tag.i('', class: "fa sort-icon #{class_name}")
-    url = url_for(params.permit!.merge(param_name => "#{field_name}_asc"))
-    url = url_for(params.permit!.merge(param_name => "#{field_name}_desc")) if asc
-    url = url_for(params.permit!.merge(param_name => nil)) if desc
+    url = current_path_with_query(param_name => "#{field_name}_asc")
+    url = current_path_with_query(param_name => "#{field_name}_desc") if asc
+    url = current_path_with_query(param_name => nil) if desc
     link_to(url, class: "is-sortable #{asc || desc ? 'is-sorted' : 'is-unsorted'}") do
       icon << ' ' << label.to_s
     end
+  end
+
+  # current path with changed query params (nil removes a param); always a local path, so params like host
+  # cannot turn it into a link to another site
+  def current_path_with_query(changes)
+    query = request.query_parameters.merge(changes.stringify_keys).compact
+    query.empty? ? request.path : "#{request.path}?#{query.to_query}"
   end
 
   def index_label(label)

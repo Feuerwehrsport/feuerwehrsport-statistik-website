@@ -11,7 +11,7 @@ class Backend::Series::RoundImportsController < Backend::BackendController
   end
 
   def create
-    form_resource.assign_attributes(params[resource_params_name].permit!)
+    form_resource.assign_attributes(round_import_params)
     authorize!(:create, form_resource)
     return after_create_failed unless form_resource.valid?
 
@@ -36,6 +36,11 @@ class Backend::Series::RoundImportsController < Backend::BackendController
   end
 
   protected
+
+  def round_import_params
+    params.require(resource_params_name).permit(:competition_id, :import_request_id, :import_now,
+                                                person_assignments: {}, team_assignments: {})
+  end
 
   def collection_redirect_url
     url_for([:backend, parent_resource])

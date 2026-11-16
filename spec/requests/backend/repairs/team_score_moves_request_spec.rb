@@ -18,6 +18,9 @@ RSpec.describe 'Backend::Repairs::TeamScoreMoves', login: :sub_admin do
       post '/backend/repairs/team_score_move',
            params: { repairs_team_score_move: { source_team_id: team1.id, destination_team_id: team2.id } }
       expect(response).to be_successful
+      query = { repairs_team_score_move: { destination_team_id: team2.id, source_team_id: team1.id } }.to_query
+      back_url = "/backend/repairs/team_score_move/new?#{query}"
+      expect(response.body).to include(ERB::Util.html_escape(back_url))
     end
   end
 end

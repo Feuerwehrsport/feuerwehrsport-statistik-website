@@ -84,8 +84,8 @@
 #   f.association :companies, as: :association_select, filter: { continent: 'europe' }
 class AssociationSelectController < ApplicationController
   def show
-    if valid?
-      render json: { association: params[:association], payload: }
+    if association
+      render json: { association:, payload: }
     else
       head :not_found
     end
@@ -94,16 +94,9 @@ class AssociationSelectController < ApplicationController
   private
 
   def payload
-    payload = {}
-    payload[:results] = select.send(
-      params[:association],
-      params[:q].presence,
-      nil,
-      **params.to_unsafe_h.slice(:limit).symbolize_keys,
-    )
-    if params[:q].blank? && select.respond_to?(:"#{params[:association]}_groups")
-      payload[:groups] = select.send(:"#{params[:association]}_groups")
-    end
+    payload = { results: select.public_send(association, params[:q].presence, nil) }
+    groups_method = :"#{association}_groups"
+    payload[:groups] = select.public_send(groups_method) if params[:q].blank? && select.respond_to?(groups_method)
     payload
   end
 
@@ -111,7 +104,8 @@ class AssociationSelectController < ApplicationController
     @select ||= AssociationSelect.new(current_ability)
   end
 
-  def valid?
-    params[:association].present? && select.public_methods(false).include?(params[:association].to_sym)
+  # only public methods of AssociationSelect are allowed; never send the raw param
+  def association
+    @association ||= select.public_methods(false).find { |method| method.to_s == params[:association] }
   end
 end

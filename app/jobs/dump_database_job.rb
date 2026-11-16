@@ -11,10 +11,11 @@ class DumpDatabaseJob < ApplicationJob
                          .map { |table| "--exclude-table-data=#{table}" }
                          .join(' ')
 
-    command = %(#{script_path} "#{exclude_tables}" "feuerwehrsport-statistik")
+    command = [script_path.to_s, exclude_tables, 'feuerwehrsport-statistik']
 
-    Rails.logger.info "Executing dump command: #{command}"
+    Rails.logger.info "Executing dump command: #{command.join(' ')}"
 
-    system(command)
+    # argument list instead of a single string: no shell is involved
+    system(*command)
   end
 end
