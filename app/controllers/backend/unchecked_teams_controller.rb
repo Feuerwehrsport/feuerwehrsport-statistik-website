@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Backend::UncheckedTeamsController < Backend::BackendController
+  include ChangeLogging
+
   backend_actions
   map_support_at :show
 
@@ -17,6 +19,24 @@ class Backend::UncheckedTeamsController < Backend::BackendController
 
   def show_associations?
     false
+  end
+
+  # merges the unchecked team into a similar team; always: future imports replace the name automatically
+  def merge
+    team = Team.find(params[:id])
+    correct_team = Team.find(params[:correct_team_id])
+    authorize!(:merge, team)
+    authorize!(:merge, correct_team)
+
+    Team.transaction do
+      log_change(correct_team, serializer: TeamSerializer, action: 'merge',
+                               before_hash: serialize_for_log(team, TeamSerializer))
+      EntityMerge.merge!(team, correct_team, always: params[:always].present?)
+    end
+    clean_cache
+    redirect_to backend_unchecked_teams_path, notice: "#{team.name} wurde mit #{correct_team.name} zusammengeführt."
+  rescue ActiveRecord::ActiveRecordError => e
+    redirect_to backend_unchecked_team_path(team), alert: "Konnte nicht zusammengeführt werden: #{e.message}"
   end
 
   protected

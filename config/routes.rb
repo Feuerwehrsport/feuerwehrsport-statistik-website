@@ -49,13 +49,20 @@ Rails.application.routes.draw do
     resources :person_spellings
     resources :places
     namespace :repairs do
-      resource :team_score_move, only: %i[new create]
+      resource :team_score_move, only: %i[new create] do
+        post :execute
+      end
     end
     resource :registration
     resources :scores
     resources :score_types
     namespace :series do
       resources :kinds
+      %i[person_participations team_participations].each do |participations|
+        resources participations, only: %i[new create edit update destroy] do
+          member { patch :move }
+        end
+      end
       resources :rounds do
         resource :import, only: %i[new create], controller: :round_imports
       end
@@ -63,7 +70,9 @@ Rails.application.routes.draw do
     end
     resources :teams
     resources :team_spellings
-    resources :unchecked_teams
+    resources :unchecked_teams do
+      member { post :merge }
+    end
   end
 
   # api for interacting with ajax requests

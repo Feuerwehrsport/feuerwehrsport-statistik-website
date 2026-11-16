@@ -35,6 +35,13 @@ export default class extends Controller {
     this.mapTarget.scrollIntoView({ block: "center" })
   }
 
+  // position chosen elsewhere (e.g. place search in the backend): edit from there
+  move({ detail: { latlon } }) {
+    this.edit()
+    this.marker.setLatLng(latlon)
+    this.map.panTo(latlon)
+  }
+
   save() {
     const { lat, lng } = this.marker.getLatLng()
     const url = new URL(this.urlValue, window.location.origin)

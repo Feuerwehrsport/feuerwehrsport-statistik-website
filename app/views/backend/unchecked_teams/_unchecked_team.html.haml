@@ -9,26 +9,42 @@
           %tr
             %td= team_link(team, target: :_blank)
             %td
-              .merge-team.btn.btn-default.btn-sm{ data: { id: resource.id, correct_id: team.id } } Zusammenführen
-              .always-merge-team.btn.btn-default.btn-sm{ data: { id: resource.id, correct_id: team.id } } Immer zusammenführen
-  .container.wiki-search{ data: { name: resource.shortcut } }
+              - path = merge_backend_unchecked_team_path(resource)
+              - confirm = "#{resource.name} wirklich mit #{team.name} zusammenführen? Diese Aktion verändert die Daten!"
+              = button_to 'Zusammenführen', path, params: { correct_team_id: team.id },
+                          class: 'btn btn-default btn-sm', form_class: 'inline-form', data: { confirm: }
+              = button_to 'Immer zusammenführen', path, params: { correct_team_id: team.id, always: 1 },
+                          class: 'btn btn-default btn-sm', form_class: 'inline-form',
+                          data: { confirm: "#{confirm} Beim Import wird in Zukunft immer automatisch der Name ersetzt." }
+  -# results are loaded in the browser (stimulus lookup), wikipedia and nominatim allow cross-origin requests
+  .container{ data: { controller: 'lookup', lookup_service_value: 'wikipedia', lookup_query_value: resource.shortcut } }
     %h3 Infos auf Wikipedia
     %table.table
-      %tr
-        %th Nichts gefunden
+      %tbody{ data: { lookup_target: 'results' } }
+        %tr
+          %td Suche läuft …
   .container
     %h3 Land/Bundesland
     = resource.full_state
-    #edit-state.btn.btn-xs.btn-default.glyphicon.glyphicon-pencil{ data: { team_id: resource.id, state: resource.state }, title: "Bundesland bearbeiten" }
+    = link_to '', edit_contributions_team_state_path(resource), id: 'edit-state', title: 'Bundesland bearbeiten',
+                  class: 'btn btn-xs btn-default glyphicon glyphicon-pencil',
+                  data: { turbo_frame: 'contribution', turbo: true }
 
   - unless resource.positioned?
-    .container.geo-position{ data: { name: resource.shortcut, id: resource.id } }
+    .container{ data: { controller: 'geo-position', geo_position_url_value: edit_contributions_team_geo_position_path(resource),
+                        action: 'geo-position:move@window->geo-position#move' } }
       %h3 Geo-Position suchen
-      %table.table
-        %tr
-          %th Nichts gefunden
-      = map(id: 'team-map', red: resource, data: { team_id: resource.id })
+      %div{ data: { controller: 'lookup', lookup_service_value: 'nominatim', lookup_query_value: resource.shortcut } }
+        %table.table
+          %tbody{ data: { lookup_target: 'results' } }
+            %tr
+              %td Suche läuft …
+      = map(id: 'team-map', red: resource, data: { team_id: resource.id, geo_position_target: 'map' })
       .team-map-actions
+        %div{ hidden: true, data: { geo_position_target: 'save' } }
+          %p Verschiebe den roten Marker an die richtige Stelle.
+          %button.btn.btn-primary{ type: 'button', data: { action: 'geo-position#save' } } Speichern
   .container
     %h3 Abgearbeitet
-    = button_to('Fertigstellen',{}, params: { 'unchecked_team[checked_at]' => Time.current }, method: :put, confirm: 'hallp?', class: 'btn btn-info')
+    = button_to('Fertigstellen', {}, params: { 'unchecked_team[checked_at]' => Time.current }, method: :put,
+                class: 'btn btn-info', data: { confirm: 'Mannschaft als geprüft markieren?' })

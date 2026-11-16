@@ -21,12 +21,32 @@ RSpec.describe 'Backend::UncheckedTeams', login: :sub_admin do
       get "/backend/unchecked_teams/#{unchecked_team.id}"
       expect(response).to be_successful
       expect(response.body).to include('Ähnlich geschriebene Mannschaften')
-      expect(response.body).to include(%(data-correct-id="#{similar_team.id}"))
+      expect(response.body).to include(%(name="correct_team_id" value="#{similar_team.id}"))
+      expect(response.body).to include('data-controller="lookup"',
+                                       "/contributions/teams/#{unchecked_team.id}/state/edit")
     end
 
     it 'does not find checked teams' do
       get "/backend/unchecked_teams/#{checked_team.id}"
       expect(response).to have_http_status(:not_found)
+    end
+  end
+
+  describe 'POST merge' do
+    let!(:correct_team) { create(:team, name: 'FF Richtig', shortcut: 'Richtig', checked_at: Time.current) }
+
+    it 'merges the team with change log' do
+      post "/backend/unchecked_teams/#{unchecked_team.id}/merge", params: { correct_team_id: correct_team.id }
+      expect(response).to redirect_to('/backend/unchecked_teams')
+      expect(Team.exists?(unchecked_team.id)).to be false
+      expect(TeamSpelling.count).to eq 0
+      expect(ChangeLog.last).to have_attributes(action: 'merge', admin_user: login_user)
+    end
+
+    it 'merges always with spelling' do
+      post "/backend/unchecked_teams/#{unchecked_team.id}/merge",
+           params: { correct_team_id: correct_team.id, always: 1 }
+      expect(TeamSpelling.count).to eq 1
     end
   end
 

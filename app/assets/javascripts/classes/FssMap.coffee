@@ -1,10 +1,4 @@
-marker = null
-map = null
-
-Fss.ready ->
-  marker = null
-  map = null
-
+# overview maps with many markers (teams, places, competitions); editing a position: stimulus geo-position
 class @FssMap
   @lat: 51
   @lon: 13
@@ -35,41 +29,3 @@ class @FssMap
         shadowUrl: 'marker-shadow.png'
       )
     new FssMap.RedIcon()
-
-
-  @load: (type, draggableMarker = false, position = null) ->
-    return if $("##{type}-map").length is 0
-
-    if marker?
-      marker.remove()
-      marker = null
-
-    elem = $("##{type}-map").hide()
-    red = elem.data('map').red
-    if red or draggableMarker
-      elem.show()
-
-      latlon = [FssMap.lat, FssMap.lon]
-      latlon = red.latlon if red
-      latlon = position if position
-
-      if map?
-        map.panTo(latlon)
-      else
-        map = FssMap.getMap("#{type}-map", latlon)
-
-      marker = L.marker(latlon, { icon: FssMap.redIcon() }).addTo(map) if marker is null
-      marker.bindPopup(red.popup) if red
-      marker.dragging.enable() if draggableMarker
-
-    if draggableMarker
-      actions = $(".#{type}-map-actions")
-      actions.children().remove()
-      $('<div/>').addClass('btn btn-primary').text('Speichern').appendTo(actions).click ->
-        Fss.checkLogin ->
-          options = { log_action: "update-#{type}:geo-position" }
-          options[type] = {
-            latitude: marker.getLatLng().lat
-            longitude: marker.getLatLng().lng
-          }
-          Fss.ajaxReload 'PUT', "#{type}s/#{elem.data("#{type}-id")}", options

@@ -1,0 +1,38 @@
+- participation = @participation
+- round = participation.cup.round
+- person = participation.is_a?(Series::PersonParticipation)
+.section
+  .container.page-header
+    %h1
+      = participation.new_record? ? 'Eintrag hinzufügen' : 'Eintrag bearbeiten'
+      %small= "#{round.decorate} – #{participation.cup.decorate}"
+  .container
+    = simple_form_for participation, url: participation.new_record? ? url_for(action: :create) : url_for(action: :update) do |f|
+      = f.input :cup_id, as: :hidden if participation.new_record?
+      - if person
+        = f.association :person, as: :association_select, label: 'Person'
+        = f.input :person_assessment_id, label: 'Wertung', include_blank: false,
+                                         collection: round.person_assessments.decorate.map { [it.to_s, it.id] }
+      - else
+        = f.association :team, as: :association_select, label: 'Mannschaft'
+        = f.input :team_assessment_id, label: 'Wertung', include_blank: false,
+                                       collection: round.team_assessments.decorate.map { [it.to_s, it.id] }
+        = f.input :team_number, label: 'Nummer'
+        = f.input :team_gender, label: 'Geschlecht', include_blank: false, collection: [['weiblich', 0], ['männlich', 1]]
+      = f.input :rank, label: 'Platz'
+      = f.input :points, label: 'Punkte'
+      = f.input :time, label: 'Zeit', hint: 'in Hundertstelsekunden, z. B. 2345 für 23,45 s'
+      = f.button :submit, 'Speichern', class: 'btn-primary'
+      = link_to 'Abbrechen', backend_series_round_path(round), class: 'btn btn-default'
+
+  - unless participation.new_record?
+    .container
+      %hr
+      %p
+        Aktuell Platz #{participation.rank} mit #{participation.points} Punkten:
+        = button_to '↑ Platz höher (1 Punkt mehr)', url_for(action: :move), method: :patch, params: { direction: 'up' },
+                    class: 'btn btn-default btn-sm', form_class: 'inline-form'
+        = button_to '↓ Platz tiefer (1 Punkt weniger)', url_for(action: :move), method: :patch, params: { direction: 'down' },
+                    class: 'btn btn-default btn-sm', form_class: 'inline-form'
+      = button_to 'Eintrag löschen', url_for(action: :destroy), method: :delete, class: 'btn btn-danger btn-sm',
+                  data: { confirm: 'Diesen Eintrag wirklich löschen?' }

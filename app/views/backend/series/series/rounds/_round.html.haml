@@ -6,6 +6,10 @@
       %tr
         %th= competition_link(cup.competition)
         %td
-          .add-team-participation.btn.btn-info.btn-sm{ data: { cup_id: cup.id } } Mannschaftsteilnahme hinzufügen
+          = link_to 'Mannschaftsteilnahme hinzufügen', new_backend_series_team_participation_path(cup_id: cup.id),
+                    class: 'btn btn-info btn-sm'
         %td= button_to('Entfernen', backend_series_cup_path(cup.id), class: 'btn btn-danger btn-sm', data: { confirm: 'Diesen Wettkampf mit allen Zeiten aus der Serie entfernen?'}, method: :delete )
-  #edit-series-participations{ data: { round_id: resource.id } }= render('single_show', toc: toc, round: resource)
+  -# entries of the public tables become links to their backend forms (stimulus series-participations)
+  #edit-series-participations{ data: { controller: 'series-participations',
+                                        action: 'click->series-participations#edit' } }
+    = render('single_show', toc: toc, round: resource)
