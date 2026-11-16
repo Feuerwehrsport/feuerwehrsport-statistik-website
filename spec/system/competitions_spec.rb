@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'competitions features', :js do
+describe 'competitions features' do
   let(:competition) do
     create(:competition, :score_type)
     group_score = create(:group_score, :double)

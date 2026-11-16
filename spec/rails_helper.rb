@@ -55,10 +55,14 @@ RSpec.configure do |config|
   # factory bot
   config.include FactoryBot::Syntax::Methods
 
-  config.before(js: false) { Capybara.default_driver = :rack_test }
-  config.after(js: false)  { Capybara.default_driver = Capybara.javascript_driver }
+  # system specs run in headless Chrome (Cuprite)
+  config.before(type: :system) do
+    browser_options = ENV['CI_SERVER'].present? ? { 'no-sandbox': nil } : {}
+    # process_timeout: Chrome sometimes starts slowly on CI runners
+    driven_by :cuprite, screen_size: [1280, 1024], options: { process_timeout: 30, browser_options: }
+  end
 
-  # every example runs in a transaction; the in-process server of feature specs shares the connection
+  # every example runs in a transaction; the in-process server of system specs shares the connection
   config.use_transactional_fixtures = true
   # activerecord_views creates the SQL views when a model class is loaded. Load all models before the suite and
   # (re)create missing views: with eager loading (CI=1) the classes are loaded before maintain_test_schema! may
@@ -72,16 +76,15 @@ RSpec.configure do |config|
   # also for specs without rails type (e.g. spec/renderers)
   config.after { travel_back } # rubocop:disable Rails/RedundantTravelBack
 
-  config.before(:each, type: :feature) { travel_to(Time.zone.local(2016, 2, 29, 12, 20, 42)) }
+  config.before(:each, type: :system) { travel_to(Time.zone.local(2016, 2, 29, 12, 20, 42)) }
   config.before { SingleDiscipline.instance_variable_set(:@single_disciplines, nil) }
 
-  config.before(type: :feature) do
-    Capybara.current_session # start capybara and puma before feature spec
-    Capybara.disable_animation = true
+  config.before(type: :system) do
+    Capybara.current_session # start capybara and puma before system spec
     Rails.configuration.default_url_options[:host] = '127.0.0.1'
     Rails.configuration.default_url_options[:port] = 7787
   end
-  config.after(type: :feature) do
+  config.after(type: :system) do
     Rails.configuration.default_url_options[:host] = 'test.host'
     Rails.configuration.default_url_options[:port] = 80
   end
@@ -89,24 +92,11 @@ RSpec.configure do |config|
   ActiveJob::Base.queue_adapter = :test
 end
 
-Capybara.register_driver(:cuprite) do |app|
-  options = {
-    window_size: [1280, 1024],
-    process_timeout: 30, # Chrome startet auf CI-Runnern manchmal langsam
-    extensions: ["#{support_path}/phantomjs_disable_animations.js"],
-  }
-  options[:browser_options] = { 'no-sandbox': nil } if ENV['CI_SERVER'].present?
-
-  Capybara::Cuprite::Driver.new(app, options)
-end
-
 Capybara.configure do |config|
   config.app_host = 'http://127.0.0.1:7787'
   config.default_host = 'http://127.0.0.1'
   config.run_server = true
   config.server_port = 7787
-  config.javascript_driver = :cuprite
   config.disable_animation = true
-  config.default_driver = config.javascript_driver
 end
 Capybara.server = :puma, { Silent: true }

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'places features', :js do
+describe 'places features' do
   let(:place) { create(:place) }
 
   before { page.driver.browser.url_blacklist = [/openstreetmap/] }
