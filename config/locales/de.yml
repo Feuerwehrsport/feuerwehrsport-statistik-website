@@ -31,7 +31,6 @@ de:
         submit: "Speichern"
         update: "Speichern"
         abort: Abbrechen
-        confirm_destroy: Löschen bestätigen
       views:
         actions:
           index: Alle anzeigen
@@ -46,7 +45,7 @@ de:
           show_resource: "%{name} anzeigen"
           abort: Abbrechen
           destroy: Löschen
-          confirm_destroy: "Auswahl wirklich löschen?"
+          confirm_destroy: "Diesen Eintrag wirklich löschen?"
           move: Verschieben
           move_here: Hierhin verschieben
           logout: Abmelden
@@ -54,7 +53,6 @@ de:
           submit_filter: Suchen
           unfilter: Aktive Filter entfernen
           select: Auswählen
-        depending_associations_to_be_destroyed: Abhängige Daten, die mitgelöscht werden
         export_formats:
           xlsx: XLSX (Excel)
         empty_collection: Keine Einträge

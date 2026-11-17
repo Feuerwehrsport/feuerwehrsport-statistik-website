@@ -26,7 +26,7 @@ export default class extends Controller {
       const response = await fetch(url, { signal: this.request.signal, cache: "no-store",
                                            headers: { "X-Requested-With": "XMLHttpRequest" } })
       const html = new DOMParser().parseFromString(await response.text(), "text/html")
-      const content = html.querySelector("div.section > div.container")
+      const content = html.querySelector(".index-table-section")
       this.element.replaceChildren(...(content ? content.children : []))
       this.element.querySelectorAll(".is-sortable a, .pagination a").forEach((link) => {
         link.addEventListener("click", (event) => {

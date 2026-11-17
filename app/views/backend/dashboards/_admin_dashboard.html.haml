@@ -1,48 +1,28 @@
-.section
-  .container
-    %h1 Interner Bereich
-  .container  
-    .row
-      .col-md-4
-        %h4 Allgemeine Funktionen
-        %ul.nav.nav-pills.nav-stacked.backend-nav
-          - if current_admin_user
-            %li= link_to 'Mein Profil', edit_backend_admin_user_path(current_admin_user)
-            %li= link_to 'Abmelden', session_path, method: :delete, data: { confirm: 'Möchtest du dich abmelden?' }
-          - else
-            %li= link_to 'Anmelden', new_session_path
-            %li= link_to 'Registrieren', new_backend_registration_path
+.row
+  .col-lg-4
+    = content_card('Zu erledigen') do
+      %ul.nav-list
+        - if can?(:index, ChangeRequest)
+          %li= nav_list_link('Fehlermeldungen bearbeiten', backend_change_requests_path, ChangeRequest.open.count)
+        - if can?(:index, ImportRequest)
+          %li= nav_list_link('Import-Anfragen', backend_import_requests_path, ImportRequest.open.count)
+        %li= nav_list_link('Neue Mannschaften prüfen', backend_unchecked_teams_path, Team.unchecked.count)
 
-      .col-md-4
-        %h4 Besondere Funktionen
-        %ul.nav.nav-pills.nav-stacked.backend-nav
-          - if can?(:index, ChangeRequest)
-            %li
-              = link_to backend_change_requests_path do
-                Fehler bearbeiten
-                = badge_count(ChangeRequest.open)
-          - if can?(:index, ImportRequest)
-            %li
-              = link_to backend_import_requests_path do
-                Import-Anfragen
-                = badge_count(ImportRequest.open)
-          - if can?(:create, Import::Scores)
-            %li= link_to 'Import', backend_imports_path
-            %li= link_to 'Team auseinanderziehen', new_backend_repairs_team_score_move_path
-          - if can?(:create, Series::Round)
-            %li= link_to 'Serienwettkampf hinzufügen', new_backend_series_round_path
-            %li= link_to 'Serienübersicht', backend_series_rounds_path
-            %li= link_to 'Serienartenübersicht', backend_series_kinds_path
-          %li= link_to 'Cache löschen', new_backend_caching_cleaner_path
-          %li= link_to 'Ungenutzte Wettkämpfer löschen', backend_people_cleaner_path
-          %li
-            = link_to backend_unchecked_teams_path do
-              Neue Mannschaften
-              = badge_count(Team.unchecked)
+    = content_card('Werkzeuge') do
+      %ul.nav-list
+        - if can?(:create, Import::Scores)
+          %li= nav_list_link('Ergebnisse importieren', backend_imports_path)
+          %li= nav_list_link('Team auseinanderziehen', new_backend_repairs_team_score_move_path)
+        - if can?(:create, Series::Round)
+          %li= nav_list_link('Serienwettkampf hinzufügen', new_backend_series_round_path)
+          %li= nav_list_link('Serienübersicht', backend_series_rounds_path)
+          %li= nav_list_link('Serienartenübersicht', backend_series_kinds_path)
+        %li= nav_list_link('Cache löschen', new_backend_caching_cleaner_path)
+        %li= nav_list_link('Ungenutzte Wettkämpfer löschen', backend_people_cleaner_path)
 
-      .col-md-4
-        %h4 Direkte Bearbeitung
-        %ul.nav.nav-pills.nav-stacked.backend-nav
-          - @models.each do |model|
-            - if can?(:index, model)
-              %li= link_to(model.model_name.human(count: 0), [:backend, model])
+  .col-lg-8
+    = content_card('Daten bearbeiten') do
+      %ul.nav-list.nav-list-columns
+        - @models.each do |model|
+          - if can?(:index, model)
+            %li= nav_list_link(model.model_name.human(count: 0), [:backend, model])

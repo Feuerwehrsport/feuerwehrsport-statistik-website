@@ -1,4 +1,6 @@
 // design tokens of the site, then Bootstrap 5 (vendor/assets/stylesheets/bootstrap5)
+// Load it with `@use 'theme' as *;`: the Bootstrap CSS is emitted once, its variables, mixins and selectors (for
+// @extend) are available to all modules. Bootstrap 5.3 itself only works with @import (module support: Bootstrap 6).
 $ink: #14202B;
 $muted: #56626F;
 $ground: #F4F5F7;
@@ -43,6 +45,7 @@ $input-bg: #FFFFFF;
 $input-border-color: #C9CFD6;
 $form-select-bg: #FFFFFF;
 $form-select-border-color: #C9CFD6;
+$form-check-input-border: 1px solid #8A949F;
 $table-striped-bg: rgba($ink, 0.03);
 $table-hover-bg: rgba($ink, 0.045);
 $table-th-font-weight: 600;

@@ -1,15 +1,9 @@
 - if actions.present?
-  - if actions.size > hero_max_actions
-    .hero-actions
-      .btn-group
-        - actions.first(hero_max_actions).each do |action|
-          = action.link_to class: 'btn btn-outline-secondary'
-        %button.btn.btn-outline-secondary.dropdown-toggle.dropdown-toggle-split{ type: :button, data: { bs_toggle: :dropdown }, aria: { haspopup: true, expanded: false, label: 'Weitere Aktionen' } }
-        %ul.dropdown-menu
-          - actions.drop(hero_max_actions).each do |action|
-            %li= action.link_to
-  - else
-    .hero-actions
-      .btn-group
-        - actions.each do |action|
-          = action.link_to class: 'btn btn-outline-secondary'
+  .btn-group
+    - actions.first(hero_max_actions).each do |action|
+      = action.link_to class: 'btn btn-outline-secondary'
+    - if actions.size > hero_max_actions
+      %button.btn.btn-outline-secondary.dropdown-toggle.dropdown-toggle-split{ type: :button, data: { bs_toggle: :dropdown }, aria: { haspopup: true, expanded: false, label: 'Weitere Aktionen' } }
+      %ul.dropdown-menu.dropdown-menu-end
+        - actions.drop(hero_max_actions).each do |action|
+          %li= action.link_to

@@ -2,7 +2,7 @@
   .container
     - if breadcrumb.present?
       %nav.page-breadcrumb{ 'aria-label': 'Brotkrumen' }
-        = safe_join(breadcrumb, content_tag(:span, '›', class: 'sep', 'aria-hidden': 'true'))
+        = breadcrumb_join(breadcrumb)
     .page-head-main
       - if image.present?
         .page-head-image= image
@@ -14,6 +14,8 @@
           .chips
             - chips.each do |chip|
               %span.chip= chip
+      - if actions.present?
+        .page-head-actions= actions
     - if extra.present?
       .page-head-extra= extra
     - if tiles.present?

@@ -1,15 +1,20 @@
-= table_of_contents do |toc|
-  = toc.index
-  = toc.anker('Wettkämpfe', :h2)
-  %table.table
-    - resource.cups.each do |cup|
-      %tr
-        %th= competition_link(cup.competition)
-        %td
-          = link_to 'Mannschaftsteilnahme hinzufügen', new_backend_series_team_participation_path(cup_id: cup.id),
-                    class: 'btn btn-info btn-sm'
-        %td= button_to('Entfernen', backend_series_cup_path(cup.id), class: 'btn btn-danger btn-sm', data: { confirm: 'Diesen Wettkampf mit allen Zeiten aus der Serie entfernen?'}, method: :delete )
-  -# entries of the public tables become links to their backend forms (stimulus series-participations)
-  #edit-series-participations{ data: { controller: 'series-participations',
-                                        action: 'click->series-participations#edit' } }
-    = render('single_show', toc: toc, round: resource)
+.container
+  = table_of_contents do |toc|
+    = content_card('Wettkämpfe', toc:) do
+      .table-responsive
+        %table.table
+          - resource.cups.each do |cup|
+            %tr
+              %th= competition_link(cup.competition)
+              %td.text-end
+                .d-inline-flex.flex-wrap.gap-2.justify-content-end
+                  = link_to 'Mannschaftsteilnahme hinzufügen',
+                            new_backend_series_team_participation_path(cup_id: cup.id),
+                            class: 'btn btn-outline-secondary btn-sm'
+                  = button_to('Entfernen', backend_series_cup_path(cup.id), method: :delete,
+                              class: 'btn btn-outline-danger btn-sm',
+                              data: { confirm: 'Diesen Wettkampf mit allen Zeiten aus der Serie entfernen?' })
+    -# entries of the public tables become links to their backend forms (stimulus series-participations)
+    #edit-series-participations{ data: { controller: 'series-participations',
+                                          action: 'click->series-participations#edit' } }
+      = render('single_show', toc: toc, round: resource)

@@ -1,0 +1,8 @@
+// Font Awesome 5 (vendored, still written for @import), loaded once with `@use 'icons';`
+@import 'm3/fontawesome/fontawesome';
+@import 'm3/fontawesome/regular';
+@import 'm3/fontawesome/brands';
+
+.fa {
+  @extend .far;
+}

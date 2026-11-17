@@ -1,46 +1,44 @@
-= @preview_string.html_safe
+- @page_title = 'Serie importieren'
+= page_head('Serie importieren', breadcrumb: link_to('Interner Bereich', backend_root_path))
+.container
+  = @preview_string.html_safe
 
-= resource_form(form_options.slice(:as, :url, :html)) do |f|
-  = f.input :competition_id, as: :hidden
-  = f.input :import_request_id, as: :hidden
+  = resource_form(form_options.slice(:as, :url, :html)) do |f|
+    = f.input :competition_id, as: :hidden
+    = f.input :import_request_id, as: :hidden
 
-  - if form_resource.person_assignment_hints.present?
-    %hr
-    .container
-      %h4 Zuordnung von Wettkämpfern
-      .row
-        - form_resource.person_assignment_hints.each do |key, hint|
-          .col-md-6
-            = label_tag "series_round_import_person_assignments_#{key}", hint
-            = select_tag "series_round_import[person_assignments][#{key}]",    options_from_collection_for_select(Person.index_order.decorate, :id, :searchable_name, form_resource.person_assignments&.[](key))
+    - if form_resource.person_assignment_hints.present?
+      = content_card('Zuordnung von Wettkämpfern', heading: :h3) do
+        .row.g-3
+          - form_resource.person_assignment_hints.each do |key, hint|
+            .col-md-6
+              = label_tag "series_round_import_person_assignments_#{key}", hint, class: 'form-label'
+              = select_tag "series_round_import[person_assignments][#{key}]",
+                           options_from_collection_for_select(Person.index_order.decorate, :id, :searchable_name,
+                                                              form_resource.person_assignments&.[](key)),
+                           class: 'form-select'
 
-  - if form_resource.team_assignment_hints.present?
-    %hr
-    .container
-      %h4 Zuordnung von Mannschaften
-      .row
-        - form_resource.team_assignment_hints.each do |key, hint|
-          .col-md-6
-            = label_tag "series_round_import_team_assignments_#{key}", hint
-            = select_tag "series_round_import[team_assignments][#{key}]",    options_from_collection_for_select(Team.index_order, :id, :name, form_resource.team_assignments&.[](key))
+    - if form_resource.team_assignment_hints.present?
+      = content_card('Zuordnung von Mannschaften', heading: :h3) do
+        .row.g-3
+          - form_resource.team_assignment_hints.each do |key, hint|
+            .col-md-6
+              = label_tag "series_round_import_team_assignments_#{key}", hint, class: 'form-label'
+              = select_tag "series_round_import[team_assignments][#{key}]",
+                           options_from_collection_for_select(Team.index_order, :id, :name,
+                                                              form_resource.team_assignments&.[](key)),
+                           class: 'form-select'
 
-  %hr
-  .container
-    .row
-      .col-md-4
-        %table.table
-          %tr
-            %th Wettkampf
-            %td
-              - if resource.competition.present?
-                = competition_link(resource.competition.decorate)
-          %tr
-            %th Wettkampfserie
-            %td
-              - if resource.round.present?
-                = link_to(resource.round.decorate, resource.round)
-
-  .container
-    .alert.alert-danger
-      = f.input :import_now, as: :boolean
-    = f.actions(**form_options.slice(:abort_url))
+    = content_card('Import ausführen', heading: :h3) do
+      %dl.show-list.mb-3
+        %dt Wettkampf
+        %dd
+          - if resource.competition.present?
+            = competition_link(resource.competition.decorate)
+        %dt Wettkampfserie
+        %dd
+          - if resource.round.present?
+            = link_to(resource.round.decorate, resource.round)
+      .alert.alert-danger
+        = f.input :import_now, as: :boolean
+      = f.actions(**form_options.slice(:abort_url))

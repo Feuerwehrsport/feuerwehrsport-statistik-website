@@ -3,22 +3,22 @@
 - groups = { 'Löschangriff' => source.group_scores.discipline(:la), 'Feuerwehrstafette' => source.group_scores.discipline(:fs),
             'Gruppenstafette' => source.group_scores.discipline(:gs), 'Einzeldisziplin' => source.scores }
 = render 'hero', actions: false
-.section
-  .container
-    %p
-      Von: #{source} (ID #{source.id}, #{source.decorate.full_state})
-      %br
-      Nach: #{destination} (ID #{destination.id}, #{destination.decorate.full_state})
+.container
+  = content_card do
+    %dl.show-list.mb-3
+      %dt Von
+      %dd #{source} (ID #{source.id}, #{source.decorate.full_state})
+      %dt Nach
+      %dd #{destination} (ID #{destination.id}, #{destination.decorate.full_state})
     %p Markiere die Zeiten, die zu #{destination} gehören. Ein Klick auf die Zeile markiert sie.
-  .container
     = form_with url: execute_backend_repairs_team_score_move_path, id: 'team-score-move-form' do
       = hidden_field_tag :source_team_id, source.id
       = hidden_field_tag :destination_team_id, destination.id
-      %table#score-table.table.table-hover.table-sm.table-bordered
+      %table#score-table.table.table-hover.table-sm
         - groups.each do |title, scores|
           - next if scores.empty?
           %tr
-            %th.text-center{ colspan: 5 }= title
+            %th.table-group-head{ colspan: 5 }= title
           %tr
             %th Verschieben
             %th ID

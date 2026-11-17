@@ -51,6 +51,9 @@ module FeuerwehrsportStatistik
     config.debug_email_address = 'georf@georf.de'
 
     config.default_url_options = {}
+
+    # data-disable-with was evaluated by jquery_ujs only (Turbo forms disable their submitter themselves)
+    config.action_view.automatically_disable_submit_tag = false
     config.action_mailer.default_options = { from: 'Feuerwehrsport-Statistik <automailer@feuerwehrsport-statistik.de>' }
 
     config.after_initialize do

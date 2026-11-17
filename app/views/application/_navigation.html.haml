@@ -42,4 +42,6 @@
               %li= link_to('Letzte Änderungen', change_logs_path, class: 'dropdown-item')
               %li= link_to('Über', about_path, class: 'dropdown-item')
         %ul.navbar-nav
-          %li.nav-item= nav_link.('Anmelden', backend_root_path, section == 'backend')
+          -# backend pages are never cached, so they may show the login state
+          - label = section == 'backend' && current_login ? 'Interner Bereich' : 'Anmelden'
+          %li.nav-item= nav_link.(label, backend_root_path, section == 'backend')

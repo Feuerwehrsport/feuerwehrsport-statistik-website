@@ -1,10 +1,10 @@
 = render 'hero', actions: member_actions
 - begin
   = render resource
-- rescue ActionView::MissingTemplate => e
-  .section
-    .container
-      %dl
+- rescue ActionView::MissingTemplate
+  .container
+    = content_card do
+      %dl.show-list
         - show_structure.each do |field|
           %dt= resource_class.human_attribute_name(field.name)
           %dd
@@ -13,11 +13,11 @@
             - else
               = field.value(resource)
 
-- if current_admin_user.try(:role).in?([:sub_admin, :admin]) && show_associations?
-  .section
-    .container
+- if current_admin_user.try(:role).in?(%i[sub_admin admin]) && show_associations? && has_many_associations.present?
+  .container
+    = content_card('Verknüpfte Einträge') do
       = nav_tab do |nv|
         - has_many_associations.each do |name, url|
           - nv.tab(name) do
             = remote_index_table(url) do
-              .loading loading...
+              .loading Lädt …

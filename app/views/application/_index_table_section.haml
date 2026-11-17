@@ -1,9 +1,10 @@
-.section
-  .container
+.container
+  = content_card(class: "index-table-section") do
     = render 'filter_form', filters: filter_structure, collection: collection
     - if collection.blank?
-      %p.text-info= ca_t(:empty_collection)
+      %p.text-muted.mb-0= ca_t(:empty_collection)
     - else
       = yield
-      = render 'index_pagination'
-      = export_format_list
+      .index-table-footer
+        = render 'index_pagination'
+        = export_format_list

@@ -13,7 +13,7 @@
       .col-sm-9
         = text_field_tag :captcha_answer, nil, class: 'form-control', autocomplete: 'off', inputmode: 'numeric',
                                                  required: true
-        %p.form-text Bitte lösen Sie die Rechenaufgabe.
+        %p.form-text Bitte löse die Rechenaufgabe.
     = f.input :name, label: 'Name', required: false
     = f.input :email_address, label: 'E-Mail-Adresse', required: false
     -# honeypot: invisible for people, bots fill it

@@ -54,7 +54,7 @@ RSpec.describe 'Password resets' do
   describe 'expired login' do
     it 'explains why a new password is needed and sends reset mail' do
       get '/expired_login/new', params: { email_address: login.email_address }
-      expect(response.body).to include('Um die Sicherheit Ihres Nutzerkontos zu erhöhen')
+      expect(response.body).to include('Damit dein Konto sicher bleibt')
       expect(response.body).to include(login.email_address)
 
       expect do

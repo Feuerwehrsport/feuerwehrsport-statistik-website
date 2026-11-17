@@ -1,11 +1,9 @@
-.section
-  .container
-    %h1 Sie sind angemeldet
-  .container  
-    .row
-      .col-md-4
-        %h4 Allgemeine Funktionen
-        %ul.nav.nav-pills.nav-stacked.backend-nav
-          %li= link_to('Import-Anfragen', backend_import_requests_path)
-          %li= link_to 'Mein Profil', edit_backend_admin_user_path(current_admin_user)
-          %li= link_to 'Abmelden', session_path, method: :delete, data: { confirm: 'Möchtest du dich abmelden?' }
+.row
+  .col-lg-6
+    = content_card('Ergebnisse einreichen') do
+      %p
+        Du hast eine Ergebnisliste, die hier noch fehlt? Lade sie als Import-Anfrage hoch. Wir melden uns, sobald
+        die Ergebnisse eingetragen sind.
+      .d-flex.flex-wrap.gap-2
+        = link_to 'Neue Import-Anfrage', new_backend_import_request_path, class: 'btn btn-primary'
+        = link_to 'Meine Import-Anfragen', backend_import_requests_path, class: 'btn btn-outline-secondary'

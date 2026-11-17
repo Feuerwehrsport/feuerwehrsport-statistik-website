@@ -17,7 +17,7 @@ RSpec.describe 'Backend::Bla::BadgeGenerators', login: :admin do
       get '/backend/bla/badge_generator/new'
       expect(response).to be_successful
       expect(response.body).to include(%(<a href="/people/#{person.id}">Alfred Meier</a>))
-      expect(response.body).to match(/class="success">\s*OK/)
+      expect(response.body).to match(/class="table-success">\s*OK/)
       expect(response.body).to include('16,50', '18,00')
     end
   end

@@ -1,35 +1,33 @@
-- counts = {  0 => { hl: 0, hb: 0, both: 0 }, 1 => { hl: 0, hb: 0, both: 0 }, 2 => { hl: 0, hb: 0, both: 0 } }
+- counts = { 0 => { hl: 0, hb: 0, both: 0 }, 1 => { hl: 0, hb: 0, both: 0 }, 2 => { hl: 0, hb: 0, both: 0 } }
 
+.table-responsive
+  %table.table.table-sm.table-hover
+    - resource.people_with_badges.each do |person, badges|
+      %tr
+        %td= link_to(person.decorate, person)
+        %td= person.decorate.gender_translated
+        - 3.times do |i|
+          - if !badges[i]
+            %td.table-info Vorhanden
+            %td.table-info
+            %td.table-info
+          - else
+            %td{ class: badges[i].valid? ? 'table-success' : 'table-warning' }
+              = badges[i].valid? ? 'OK' : 'Nein'
+              - counts[i][:both] +=  badges[i].valid? ? 1 : 0
+            %td{ class: badges[i].valid? ? 'table-success' : 'table-warning' }
+              - if badges[i].hl_score
+                - counts[i][:hl] += 1
+                = link_to(badges[i].hl_score.competition) do
+                  = badges[i].hl_score.decorate.second_time
+                  %br
+                  = badges[i].hl_score.decorate.competition
+            %td{ class: badges[i].valid? ? 'table-success' : 'table-warning' }
+              - if badges[i].hb_score
+                - counts[i][:hb] += 1
+                = link_to(badges[i].hb_score.competition) do
+                  = badges[i].hb_score.decorate.second_time
+                  %br
+                  = badges[i].hb_score.decorate.competition
 
-.section
-  .container
-    %table.table.table-sm.table-hover.table-bordered
-      - resource.people_with_badges.each do |person, badges|
-        %tr
-          %td= link_to(person.decorate, person)
-          %td= person.decorate.gender_translated
-          - 3.times do |i|
-            - if !badges[i]
-              %td.info Vorhanden
-              %td.info
-              %td.info
-            - else
-              %td{ class: badges[i].valid? ? 'success' : 'warning' }
-                = badges[i].valid? ? 'OK' : 'Nein'
-                - counts[i][:both] +=  badges[i].valid? ? 1 : 0
-              %td{ class: badges[i].valid? ? 'success' : 'warning' }
-                - if badges[i].hl_score
-                  - counts[i][:hl] += 1
-                  = link_to(badges[i].hl_score.competition) do
-                    = badges[i].hl_score.decorate.second_time
-                    %br
-                    = badges[i].hl_score.decorate.competition
-              %td{ class: badges[i].valid? ? 'success' : 'warning' }
-                - if badges[i].hb_score
-                  - counts[i][:hb] += 1
-                  = link_to(badges[i].hb_score.competition) do
-                    = badges[i].hb_score.decorate.second_time
-                    %br
-                    = badges[i].hb_score.decorate.competition
-
-    = counts.inspect
+%p.small.text-muted.mb-0= counts.inspect

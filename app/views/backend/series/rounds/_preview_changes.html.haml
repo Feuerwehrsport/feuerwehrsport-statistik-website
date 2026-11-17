@@ -1,7 +1,4 @@
 = table_of_contents do |toc|
-  .row
-    .col-md-9
-      %h1 Vorschau der Änderungen
-    .col-md-3= toc.index
+  = content_card do
+    %h2.mb-0 Vorschau der Änderungen
   = render 'backend/series/rounds/single_show', toc: toc, round: round
-  = toc.anker('Fortfahren', :h3)

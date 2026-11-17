@@ -1,16 +1,14 @@
-.section
-  .container
-    .row
-      .col-md-6
-        .card
-          .card-header
-            Konto vorhanden
-          .card-body
-            = link_to('Anmelden', new_session_path, class: 'btn btn-outline-secondary')
-      .col-md-6
-        .card
-          .card-header
-            Kein Konto vorhanden
-          .card-body
-            = link_to('Konto erstellen', new_backend_registration_path, class: 'btn btn-outline-secondary')
+- @page_title = 'Ergebnisse hochladen'
+= page_head('Ergebnisse hochladen') do
+  %p.mb-0
+    Damit wir dich bei Rückfragen erreichen und über den Import informieren können, brauchst du für Import-Anfragen
+    ein Konto.
 
+.container
+  .row
+    .col-md-6
+      = content_card('Du hast ein Konto?', heading: :h3) do
+        = link_to('Anmelden', new_session_path, class: 'btn btn-primary')
+    .col-md-6
+      = content_card('Du hast noch kein Konto?', heading: :h3) do
+        = link_to('Konto erstellen', new_backend_registration_path, class: 'btn btn-outline-secondary')

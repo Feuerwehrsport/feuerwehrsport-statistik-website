@@ -45,7 +45,7 @@ class Backend::BackendController < ApplicationController
           end
       # associations without a backend controller (e.g. SQL views like TeamMember) have no route and are skipped
       url = (begin
-        url_for(controller: "backend/#{association.name}", action: :index, q:)
+        url_for(controller: "backend/#{association.name}", action: :index, q:, only_path: true)
       rescue ActionController::UrlGenerationError
         nil
       end)

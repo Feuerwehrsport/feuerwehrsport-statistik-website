@@ -1,29 +1,26 @@
 - @page_title = 'Anmelden'
-.hero
-  .container
-    %h1 Anmelden
-.section
-  .container
-    .row
-      .col-md-7
-        = simple_form_for :session, url: session_path do |f|
-          = f.input :email_address, label: 'E-Mail-Adresse', required: true, input_html: { value: @email_address, autocomplete: 'username' }
+= page_head('Anmelden', breadcrumb: link_to('Interner Bereich', backend_root_path))
+
+.container
+  .row
+    .col-lg-6
+      = content_card do
+        = simple_form_for :session, url: session_path, wrapper: :vertical_form do |f|
+          = f.input :email_address, label: 'E-Mail-Adresse', required: true,
+            input_html: { value: @email_address, autocomplete: 'username' }
           = f.input :password, label: 'Passwort', required: true, input_html: { autocomplete: 'current-password' }
-          .form-actions
+          .d-flex.flex-wrap.align-items-center.gap-2
             = f.button :submit, 'Anmelden', class: 'btn-primary'
             = link_to 'Passwort vergessen?', new_password_reset_path, class: 'btn btn-link'
-      .col-md-5
+    .col-lg-6
+      = content_card('Noch kein Konto?') do
+        %p
+          Mit einem Konto kannst du mehr Funktionen der Feuerwehrsport-Statistik nutzen:
         %ul
-          %li= link_to 'Konto erstellen', new_backend_registration_path
-          %li= link_to('Import-Anfragen', backend_import_requests_path)
-  .container
-    .row
-      .col-md-7
-        %h3 Was habe ich von einem Konto?
-        %p Wenn Sie sich ein #{link_to('Konto erstellen', new_backend_registration_path)}, können Sie im Anschluss weitere Funktionen der #{link_to('Feuerwehrsport-Statistik', root_url)} nutzen. Dazu gehören:
-        %h4 Wettkampfanmeldungen
-        %p Mit einfachen Vorlagen können Sie Ihren Wettkampf publik machen und potentielle Wettkämpfer oder Mannschaften können sich einfach anmelden. Gerade für Wettkämpfe mit Einzeldisziplinen spart eine solche Erfassung im Vorfeld viel Zeit.
-        %h4 Import-Anfragen
-        %p Sie haben Ergebnisse, die Sie gerne hier veröffentlichen möchten? Dann erstellen Sie eine #{link_to('Import-Anfrage', new_backend_import_request_path)} und werden über den erfolgreichen Import informiert.
-        %h4 Datenänderungen ohne Captcha
-        %p Die vielen direkten Mitarbeitsfunktionen der Webseite können nach dem Anmelden ohne Eingabe von Captchas erledigt werden. Außerdem werden erstellte Termine mit Ihrem Account verknüpft und können somit auch später wieder verändert werden.
+          %li
+            %strong Import-Anfragen:
+            Lade Ergebnislisten hoch, die hier noch fehlen. Du bekommst Bescheid, sobald sie eingetragen sind.
+          %li
+            %strong Änderungen ohne Rechenaufgabe:
+            Fehler melden und Daten ergänzen geht ohne erneute Angabe von Name und E-Mail-Adresse.
+        = link_to 'Konto erstellen', new_backend_registration_path, class: 'btn btn-outline-secondary'

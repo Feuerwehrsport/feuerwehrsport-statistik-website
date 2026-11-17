@@ -1,12 +1,12 @@
 - participation = @participation
 - round = participation.cup.round
 - person = participation.is_a?(Series::PersonParticipation)
-.section
-  .container.page-header
-    %h1
-      = participation.new_record? ? 'Eintrag hinzufügen' : 'Eintrag bearbeiten'
-      %small= "#{round.decorate} – #{participation.cup.decorate}"
-  .container
+- title = participation.new_record? ? 'Eintrag hinzufügen' : 'Eintrag bearbeiten'
+- @page_title = title
+= page_head(title, breadcrumb: [link_to('Interner Bereich', backend_root_path), link_to(round.decorate, backend_series_round_path(round))],
+            kicker: participation.cup.decorate.to_s)
+.container
+  = content_card do
     = simple_form_for participation, url: participation.new_record? ? url_for(action: :create) : url_for(action: :update) do |f|
       = f.input :cup_id, as: :hidden if participation.new_record?
       - if person
@@ -22,12 +22,13 @@
       = f.input :rank, label: 'Platz'
       = f.input :points, label: 'Punkte'
       = f.input :time, label: 'Zeit', hint: 'in Hundertstelsekunden, z. B. 2345 für 23,45 s'
-      = f.button :submit, 'Speichern', class: 'btn-primary'
-      = link_to 'Abbrechen', backend_series_round_path(round), class: 'btn btn-outline-secondary'
+      .row
+        .col-sm-9.offset-sm-3
+          = f.button :submit, 'Speichern', class: 'btn-primary'
+          = link_to 'Abbrechen', backend_series_round_path(round), class: 'btn btn-outline-secondary'
 
   - unless participation.new_record?
-    .container
-      %hr
+    = content_card('Platz ändern', heading: :h3) do
       %p
         Aktuell Platz #{participation.rank} mit #{participation.points} Punkten:
         = button_to '↑ Platz höher (1 Punkt mehr)', url_for(action: :move), method: :patch, params: { direction: 'up' },

@@ -1,5 +1,12 @@
 - @page_title = 'E-Mail versendet'
-.hero
-  .container
-    %h1 E-Mail versendet
-    %p Eine E-Mail mit Hinweisen zum Setzen eines neuen Passworts wurde versendet.
+= page_head('E-Mail versendet') do
+  %p.mb-0 Wir haben dir eine E-Mail mit einem Link zum Setzen eines neuen Passworts geschickt.
+
+.container
+  .row
+    .col-md-6
+      = content_card('Du hast ein Konto?', heading: :h3) do
+        = link_to('Anmelden', new_session_path, class: 'btn btn-outline-secondary')
+    .col-md-6
+      = content_card('Du hast noch kein Konto?', heading: :h3) do
+        = link_to('Konto erstellen', new_backend_registration_path, class: 'btn btn-outline-secondary')

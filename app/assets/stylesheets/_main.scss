@@ -1,17 +1,11 @@
 // shared by frontend and backend
-@import 'fonts';
-@import 'theme';
-@import 'datatables/dataTables.bootstrap5';
-@import 'layout';
-@import 'components';
-@import 'contribution_dialog';
-@import 'm3/fontawesome/fontawesome';
-@import 'm3/fontawesome/regular';
-@import 'm3/fontawesome/brands';
-
-.fa {
-  @extend .far;
-}
+@use 'fonts';
+@use 'theme' as *;
+@use 'datatables/dataTables.bootstrap5';
+@use 'layout';
+@use 'components';
+@use 'contribution_dialog';
+@use 'icons';
 
 .alert-error {
   @extend .alert-danger;

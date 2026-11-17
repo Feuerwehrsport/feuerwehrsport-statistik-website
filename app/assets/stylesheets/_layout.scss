@@ -1,3 +1,5 @@
+@use 'theme' as *;
+
 // page frame: header, footer, page head with key figures and section navigation
 body {
   min-height: 100vh;
@@ -93,6 +95,7 @@ body {
 .page-head-main {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 

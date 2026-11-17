@@ -67,10 +67,11 @@ SimpleForm.setup do |config|
   config.wrappers :horizontal_boolean, tag: 'div', class: 'row mb-3' do |b|
     b.use :html5
     b.optional :readonly
-    b.wrapper tag: 'div', class: 'col-sm-9 offset-sm-3' do |wr|
+    # label on the left like the other inputs, an optional inline label (t3 inline_labels) next to the box
+    b.use :label, class: 'col-sm-3 col-form-label pt-0'
+    b.wrapper tag: 'div', class: 'col-sm-9' do |wr|
       wr.wrapper tag: 'div', class: 'form-check' do |bb|
         bb.use :input, class: 'form-check-input'
-        bb.use :label, class: 'form-check-label'
       end
       feedback.(wr)
     end

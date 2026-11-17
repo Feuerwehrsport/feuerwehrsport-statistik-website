@@ -47,7 +47,7 @@ describe 'Turbo Drive' do
     mark_page
     page.execute_script("Turbo.visit('/backend')")
     expect(page).to have_current_path(backend_root_path)
-    expect(page).to have_text('Fehler bearbeiten')
+    expect(page).to have_text('Fehlermeldungen bearbeiten')
     expect(same_page_load?).to be false
   end
 end

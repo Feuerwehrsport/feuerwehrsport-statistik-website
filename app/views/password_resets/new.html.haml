@@ -1,13 +1,15 @@
 - @page_title = 'Neues Passwort anfordern'
-.hero
-  .container
-    %h1 Neues Passwort anfordern
+= page_head('Neues Passwort anfordern', breadcrumb: link_to('Anmelden', new_session_path)) do
+  - if content_for?(:header)
     = content_for(:header)
-.section
-  .container
-    .row
-      .col-md-7
-        = simple_form_for :password_reset, url: { action: :create } do |f|
-          = f.input :email_address, label: 'E-Mail-Adresse', required: true, input_html: { value: @email_address, autocomplete: 'username' }
-          .form-actions
-            = f.button :submit, 'Neues Passwort anfordern', class: 'btn-primary'
+  - else
+    %p.mb-0 Gib die E-Mail-Adresse deines Kontos ein. Du bekommst dann einen Link, mit dem du ein neues Passwort setzen kannst.
+
+.container
+  .row
+    .col-lg-6
+      = content_card do
+        = simple_form_for :password_reset, url: { action: :create }, wrapper: :vertical_form do |f|
+          = f.input :email_address, label: 'E-Mail-Adresse', required: true,
+            input_html: { value: @email_address, autocomplete: 'username' }
+          = f.button :submit, 'Neues Passwort anfordern', class: 'btn-primary'
