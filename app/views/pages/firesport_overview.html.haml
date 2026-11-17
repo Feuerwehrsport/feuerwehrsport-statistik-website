@@ -6,26 +6,17 @@
 
   .container
     %section.content-card.text-page
-      .container
-        = toc.anker("Einführungsvideos in die Disziplinen", :h2)
-      .container
-        .row
+      = toc.anker('Einführungsvideos in die Disziplinen', :h2)
+      %p
+        Zu jeder Disziplin gibt es ein Einführungsvideo. Es erklärt Abmessungen und Regeln und zeigt die Abläufe in
+        vereinfachter Form. Für gute Leistungen wende dich am besten an eine Feuerwehrsport-Mannschaft in deiner Nähe: Im
+        persönlichen Gespräch geht sie schneller auf Probleme ein und gibt dir wertvolle Tipps.
+      %p
+        = link_to('Alle auf YouTube wiedergeben', 'https://www.youtube.com/watch?v=BPsXhdzzkJ4&list=PLeV2Fd7RaQ4QzYOjYq0e7qEf4mQE0aVHk',
+                  class: 'btn btn-outline-secondary', target: '_blank', rel: 'noopener')
+      .row.g-4
+        - [%w[6bgLFx7TM6U Gruppenstafette], %w[BPsXhdzzkJ4 Hindernisbahn], ['lRv5uaX_R_M', 'Löschangriff nass'],
+           ['gOBOix6p2So', '4×100-Meter-Feuerwehrstafette'], %w[1k9u6sngP-c Hakenleitersteigen]].each do |id, title|
           .col-md-6
-            %p Nachfolgend sind zu den einzelnen Disziplinen Einführungsvideos aufgelistet. Diese erklären neben den Abmaßen und Regeln auch die vereinfachten Abläufe.
-            %p Um gute Leistungen zu erzielen sollte man sich aber an eine Feuerwehrsportmannschaft aus der Umgebung wenden. Diese kann im persönlichen Gespräch meistens schneller auf Probleme eingehen und euch wertvolle Tipps geben.
-            %p= link_to("Alle wiedergeben", "https://www.youtube.com/watch?v=BPsXhdzzkJ4&list=PLeV2Fd7RaQ4QzYOjYq0e7qEf4mQE0aVHk", class: "btn btn-outline-secondary")
-          .col-md-6
-            %h4 Gruppenstafette
-            = youtube_video("6bgLFx7TM6U")
-          .col-md-6
-            %h4 Hindernisbahn
-            = youtube_video("BPsXhdzzkJ4")
-          .col-md-6
-            %h4 Löschangriff nass
-            = youtube_video("lRv5uaX_R_M")
-          .col-md-6
-            %h4 4x100-Meter-Feuerwehrstafette
-            = youtube_video("gOBOix6p2So")
-          .col-md-6
-            %h4 Hakenleitersteigen
-            = youtube_video("1k9u6sngP-c")
+            %h3= title
+            = youtube_video(id, title: "Einführungsvideo #{title}")

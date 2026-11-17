@@ -1,46 +1,112 @@
 = table_of_contents do |toc|
   = page_head('Datenschutzerklärung', toc:) do
     %p.mb-0
-      Der Betreiber dieser privaten Website nimmt den Schutz deiner Daten sehr ernst und behandelt deine
-      personenbezogenen Daten vertraulich und entsprechend der gesetzlichen Vorschriften.
+      Hier erfährst du, welche personenbezogenen Daten beim Besuch dieser Website anfallen, wofür sie genutzt
+      werden und wie lange sie gespeichert bleiben. Es gibt keine Werbung, kein Tracking und keine
+      Analyse-Werkzeuge.
 
   .container
     %section.content-card.text-page
+      = toc.anker('Verantwortlicher', :h2)
       %p
-        Bitte bedenke, dass die Datenübertragung im Internet grundsätzlich Sicherheitslücken haben kann. Ein
-        vollumfänglicher Schutz vor dem Zugriff durch Fremde ist nicht realisierbar.
-      %h2 Verantwortlichkeit
-      %p
-        Herr Georg Limbach
+        Georg Limbach
         %br
         Adebarsweg 3
         %br
         18211 Bargeshagen
-      = toc.anker('Zugriffsdaten', :h3)
-      %p Der Websitebetreiber erhebt Daten über Zugriffe auf die Seite und speichert diese als „Server-Logfiles“ ab. Folgende Daten werden so protokolliert:
+        %br
+        E-Mail:
+        = mail_to('georf@georf.de')
+
+      = toc.anker('Hosting', :h2)
+      %p
+        Die Website läuft auf einem Server der Hetzner Online GmbH, Industriestr. 25, 91710 Gunzenhausen. Hetzner
+        verarbeitet die Daten nur in meinem Auftrag; dafür besteht ein Vertrag zur Auftragsverarbeitung nach
+        Art. 28 DSGVO. Die Verbindung zur Website ist per HTTPS verschlüsselt.
+
+      = toc.anker('Server-Logfiles', :h2)
+      %p Bei jedem Aufruf einer Seite speichert der Server automatisch:
       %ul
-        %li Besuchte Website
-        %li Uhrzeit zum Zeitpunkt des Zugriffes
-        %li Menge der gesendeten Daten in Byte
-        %li Quelle/Verweis, von welchem Sie auf die Seite gelangten
-        %li Verwendeter Browser
-        %li Verwendetes Betriebssystem
-        %li Verwendete IP-Adresse
-      %p Die erhobenen Daten dienen lediglich statistischen Auswertungen und zur Verbesserung der Website und werden üblicherweise nach 10 Tagen gelöscht. Der Websitebetreiber behält sich allerdings vor, die Server-Logfiles nachträglich zu überprüfen, sollten konkrete Anhaltspunkte auf eine rechtswidrige Nutzung hinweisen.
+        %li aufgerufene Adresse (URL) und Zeitpunkt des Aufrufs
+        %li übertragene Datenmenge und Antwortstatus
+        %li Seite, von der du gekommen bist (Referrer)
+        %li verwendeter Browser und Betriebssystem
+        %li IP-Adresse
+      %p
+        Diese Daten brauche ich, um die Website sicher und stabil zu betreiben, Fehler zu finden und Missbrauch
+        abzuwehren. Rechtsgrundlage ist mein berechtigtes Interesse nach Art. 6 Abs. 1 lit. f DSGVO. Die Logfiles
+        werden nach 7 Tagen gelöscht. Eine Auswertung zu Statistik- oder Werbezwecken findet nicht statt.
 
-      = toc.anker('Cookies', :h3)
-      %p Diese Website verwendet Cookies. Dabei handelt es sich um kleine Textdateien, welche auf Ihrem Endgerät gespeichert werden. Ihr Browser greift auf diese Dateien zu. Durch den Einsatz von Cookies erhöht sich die Benutzerfreundlichkeit und Sicherheit dieser Website.
-      %p Gängige Browser bieten die Einstellungsoption, Cookies nicht zuzulassen. Hinweis: Es ist nicht gewährleistet, dass Sie auf alle Funktionen dieser Website ohne Einschränkungen zugreifen können, wenn Sie entsprechende Einstellungen vornehmen.
+      = toc.anker('Cookies', :h2)
+      %p
+        Die Website setzt nur ein technisch notwendiges Cookie (<code>_fwss_session</code>). Es enthält die Sitzung, damit Anmeldung, Formulare und der Schutz vor gefälschten Anfragen funktionieren.
+        Das Cookie wird gelöscht, wenn du den Browser schließt. Für technisch notwendige Cookies ist keine
+        Einwilligung nötig (§ 25 Abs. 2 Nr. 2 TDDDG). Weitere Cookies, Tracking oder Analysedienste gibt es nicht.
 
-      = toc.anker('Umgang mit API-Nutzer', :h3)
-      %p Die Nutzer können direkt Daten verändern. Dafür geben sie neben einer kleinen mathematischen Aufgabe den Namen und eine E-Mail-Adresse an. Die Daten dienen für Rückfragen zu den Änderungen. Sie werden automatisch einen Monat nach dem Anlegen gelöscht.
-      = toc.anker('Umgang mit Nutzerkonten', :h3)
-      %p Für bestimmte Aktionen im System ist es notwendig sich im Vorfeld zu registrieren. Die Kontaktdaten werden für Rückfragen verwendet und nicht an Dritte weitergegeben. Es besteht zur Zeit keine Möglichkeit die Konton selbstständig zu löschen. Wenden Sie sich bitte dafür an den Administrator.
-      = toc.anker('Umgang mit Inselpokal-Anmeldungen', :h3)
-      %p Die Anmeldungen zum Inselpokal auf Poel werden vom System erfasst und dem Veranstalter zur Verfügung gestellt. Sobald die Anmeldephase vorüber ist, werden die Daten von diesem System gelöscht.
-      = toc.anker('Umgang mit Kontaktdaten', :h3)
-      %p Nehmen Sie mit dem Websitebetreiber durch die angebotenen Kontaktmöglichkeiten Verbindung auf, werden Ihre Angaben gespeichert, damit auf diese zur Bearbeitung und Beantwortung Ihrer Anfrage zurückgegriffen werden kann. Ohne Ihre Einwilligung werden diese Daten nicht an Dritte weitergegeben.
-      = toc.anker('Statistische Daten von Wettkämpfern', :h3)
-      %p Die statistichen Berechnungen, Tabellen und Diagramme, die zu jedem geführten Wettkämpfer aufgeführt werden, entstehen durch die Ergebnisse von öffentlich durchgeführten Wettkämpfen. Sollten sich Wettkämpfer mit dieser Auflistung nicht wohl fühlen, besteht die Möglichkeit, den Nachnamen zu <em>schwärzen</em> und somit eine anonyme Erfassung der Daten zu ermöglichen.
-      = toc.anker('Rechte des Nutzers: Auskunft, Berichtigung und Löschung', :h3)
-      %p Sie als Nutzer erhalten auf Antrag Ihrerseits kostenlose Auskunft darüber, welche personenbezogenen Daten über Sie gespeichert wurden. Sofern Ihr Wunsch nicht mit einer gesetzlichen Pflicht zur Aufbewahrung von Daten kollidiert, haben Sie ein Anrecht auf Berichtigung falscher Daten und auf die Sperrung oder Löschung Ihrer personenbezogenen Daten.
+      = toc.anker('Inhalte von anderen Anbietern', :h2)
+      %p
+        Schriften, Skripte und Diagramme liefert der eigene Server aus. Nur an zwei Stellen werden Inhalte von
+        anderen Servern geladen; dabei erhält der jeweilige Anbieter deine IP-Adresse.
+      %h3 Karten (OpenStreetMap)
+      %p
+        Auf den Seiten der Wettkampforte und Mannschaften zeigen Karten die Lage an. Die Kartenbilder kommen vom
+        Server tile.openstreetmap.de des FOSSGIS e.V., Römerweg 5, 79199 Kirchzarten. Rechtsgrundlage ist mein
+        berechtigtes Interesse an einer anschaulichen Darstellung (Art. 6 Abs. 1 lit. f DSGVO).
+      %h3 Videos (YouTube)
+      %p
+        Die Seite „Feuerwehrsport“ zeigt Einführungsvideos von YouTube. Beim Aufruf der Seite wird noch nichts von
+        YouTube geladen, du siehst nur einen Platzhalter. Erst wenn du auf „Video abspielen“ klickst, wird das Video
+        im erweiterten Datenschutzmodus (youtube-nocookie.com) eingebunden. Ab dann erhält die Google Ireland Limited,
+        Gordon House, Barrow Street, Dublin 4, Irland, deine IP-Adresse und weitere Daten, die auch in die USA
+        übertragen werden können. Beim Abspielen kann YouTube Cookies oder ähnliche Techniken einsetzen.
+        Rechtsgrundlage ist deine Einwilligung durch den Klick (Art. 6 Abs. 1 lit. a DSGVO, § 25 Abs. 1 TDDDG); sie
+        gilt nur für dieses eine Video und diesen Seitenaufruf.
+
+      = toc.anker('Veröffentlichte Ergebnisse', :h2)
+      %p
+        Die Website wertet Ergebnisse öffentlicher Feuerwehrsport-Wettkämpfe aus. Dazu gehören Name, Geschlecht,
+        Mannschaft, Nation und die erzielten Zeiten der Teilnehmenden. Die Daten stammen aus veröffentlichten oder
+        zugeschickten Ergebnislisten. Rechtsgrundlage ist mein berechtigtes Interesse an einer vollständigen
+        Dokumentation des Sports (Art. 6 Abs. 1 lit. f DSGVO).
+      %p
+        Wenn du als Wettkämpferin oder Wettkämpfer nicht namentlich erscheinen möchtest, schreib mir eine E-Mail.
+        Ich kürze dann deinen Nachnamen, sodass die Ergebnisse anonym in der Statistik bleiben.
+
+      = toc.anker('Mitmachen ohne Konto', :h2)
+      %p
+        Fehler melden, Links ergänzen oder Daten korrigieren geht auch ohne Konto. Dafür gibst du einen Namen
+        und/oder eine E-Mail-Adresse an und löst eine kleine Rechenaufgabe. Die Angaben dienen nur für Rückfragen zu
+        deinen Änderungen. Zum Schutz vor Missbrauch speichere ich außerdem einen nicht umkehrbaren Hashwert deiner
+        IP-Adresse und deines Browsers. Diese Angaben werden einen Monat nach dem Anlegen automatisch gelöscht.
+        Erledigte Fehlermeldungen werden nach drei Monaten gelöscht.
+
+      = toc.anker('Nutzerkonto', :h2)
+      %p
+        Für Import-Anfragen brauchst du ein Konto. Gespeichert werden Name, E-Mail-Adresse und das Passwort als
+        sicherer Hashwert. Per E-Mail bekommst du nur, was zum Konto gehört: die Bestätigung der E-Mail-Adresse,
+        Links zum Zurücksetzen des Passworts und Nachrichten zu deinen Import-Anfragen. Die Daten gebe ich nicht an
+        Dritte weiter. Rechtsgrundlage ist die Nutzung des Kontos (Art. 6 Abs. 1 lit. b DSGVO). Wenn du dein Konto
+        löschen möchtest, schreib mir eine E-Mail.
+      %p
+        Hochgeladene Dateien und Angaben einer Import-Anfrage werden drei Monate nach dem Abschluss der Anfrage
+        gelöscht. Ergebnislisten, die ich in einen Wettkampf übernehme, bleiben dort als Nachweis öffentlich
+        abrufbar.
+
+      = toc.anker('Kontakt per E-Mail', :h2)
+      %p
+        Wenn du mir schreibst, speichere ich deine Nachricht und deine Kontaktdaten, um sie zu beantworten. Die Daten
+        gebe ich ohne deine Einwilligung nicht weiter.
+
+      = toc.anker('Deine Rechte', :h2)
+      %p Du hast jederzeit das Recht auf
+      %ul
+        %li Auskunft über die zu dir gespeicherten Daten (Art. 15 DSGVO),
+        %li Berichtigung falscher Daten (Art. 16 DSGVO),
+        %li Löschung (Art. 17 DSGVO) und Einschränkung der Verarbeitung (Art. 18 DSGVO),
+        %li Datenübertragbarkeit (Art. 20 DSGVO),
+        %li Widerspruch gegen Verarbeitungen, die auf meinem berechtigten Interesse beruhen (Art. 21 DSGVO).
+      %p
+        Eine formlose E-Mail genügt. Außerdem kannst du dich bei einer Datenschutz-Aufsichtsbehörde beschweren,
+        zum Beispiel beim Landesbeauftragten für Datenschutz und Informationsfreiheit Mecklenburg-Vorpommern.
+
+      %p.text-muted.mb-0 Stand: November 2026

@@ -1,0 +1,13 @@
+.video-consent.ratio.ratio-16x9{ data: { controller: 'video-consent', video_consent_id_value: id,
+                                          video_consent_title_value: title } }
+  .video-consent-placeholder{ data: { video_consent_target: 'placeholder' } }
+    %p.video-consent-title= title
+    %p.video-consent-hint
+      Erst beim Abspielen wird das Video von YouTube (Google) geladen und deine IP-Adresse an Google übertragen.
+      #{link_to('Mehr dazu', datenschutz_path(anchor: 'toc-inhalte-von-anderen-anbietern'))}
+    .d-flex.flex-wrap.justify-content-center.gap-2
+      %button.btn.btn-light{ type: 'button', data: { action: 'video-consent#load' } }
+        %span.fa.fa-play{ 'aria-hidden': 'true' }
+        Video abspielen
+      = link_to('Auf YouTube ansehen', "https://www.youtube.com/watch?v=#{id}", class: 'btn btn-outline-light',
+                target: '_blank', rel: 'noopener')

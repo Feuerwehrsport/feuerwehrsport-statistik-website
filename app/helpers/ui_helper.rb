@@ -42,10 +42,9 @@ module UiHelper
     render 'ui/nav_tab', nt:
   end
 
-  def youtube_video(id, options = {})
-    options = { width: 400, height: 225, frameborder: 0, allowfullscreen: true }.merge(options)
-    options[:src] = "https://www.youtube-nocookie.com/embed/#{id}"
-    content_tag(:iframe, '', options)
+  # two-click solution: nothing is loaded from YouTube until the video is started (stimulus video-consent)
+  def youtube_video(id, title:)
+    render 'ui/youtube_video', id:, title:
   end
 
   # link of a .nav-list, optionally with a counter of open tasks
