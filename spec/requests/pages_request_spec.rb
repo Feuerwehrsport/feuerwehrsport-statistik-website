@@ -56,7 +56,7 @@ RSpec.describe 'Pages' do
     '/impressum' => 'Impressum',
     '/datenschutz' => 'Datenschutzerklärung',
     '/best_of' => 'Die 100 schnellsten Zeiten',
-    '/feuerwehrsport' => 'Feuerwehrsport - verschiedene Angebote',
+    '/feuerwehrsport' => 'Feuerwehrsport kennenlernen',
     '/about' => 'Statistiken über diese Seite',
   }.each do |path, title|
     describe "GET #{path}" do
@@ -71,7 +71,7 @@ RSpec.describe 'Pages' do
   describe 'GET dashboard with title' do
     it 'renders dashboard' do
       get '/'
-      expect(response.body).to include('<title>Feuerwehrsport - Die große Auswertung')
+      expect(response.body).to include('<title>Feuerwehrsport – die große Auswertung')
     end
   end
 

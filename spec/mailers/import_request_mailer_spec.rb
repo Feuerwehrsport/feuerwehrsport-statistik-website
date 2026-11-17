@@ -18,7 +18,7 @@ describe ImportRequestMailer do
       expect(mail.attachments.count).to eq 0
 
       expect_with_mailer_signature(
-        "Es wurde ein neuer Import gemeldet:\n" \
+        "Es gibt eine neue Import-Anfrage:\n" \
         "\n" \
         "Absender: admin user\n" \
         "Beschreibung:\n" \

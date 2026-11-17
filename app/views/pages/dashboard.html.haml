@@ -6,7 +6,7 @@
   = page_head('Feuerwehrsport – die große Auswertung', kicker: "Ergebnisse seit #{@years_count.last&.first}",
               tiles:, toc:) do
     %p.lead.mb-0
-      Hakenleitersteigen, 100-Meter-Hindernisbahn, Gruppenstafette, 4×100-Meter-Feuerwehrstafette und Löschangriff Nass:
+      Hakenleitersteigen, 100-Meter-Hindernisbahn, Gruppenstafette, 4×100-Meter-Feuerwehrstafette und Löschangriff nass:
       Zeiten, Bestenlisten und Statistiken aus Wettkämpfen in ganz Deutschland.
 
   .container
@@ -96,7 +96,7 @@
             die #{link_to('Wettkampforte', places_path)} gespeichert, damit auch Zeiten auf Tartanbahn mit denen auf
             Schotterbahnen verglichen werden können.
           %p
-            Personen werden über ihren Namen erkannt. Gibt es zwei Sportler mit gleichem Namen,
+            Personen werden über ihren Namen erkannt. Gibt es zwei Personen mit gleichem Namen,
             #{link_to('melde dich', impressum_path)} bitte.
           %p
             Die Daten stammen aus verschiedenen Quellen. Können die Quellen verlinkt werden oder liegen sie als PDF vor,
@@ -107,8 +107,8 @@
             #{link_to('auf GitHub', 'https://github.com/Feuerwehrsport/feuerwehrsport-statistik-website')} einsehbar.
             Die komplette Datenbank schicke ich dir auf #{link_to('E-Mail-Anfrage', impressum_path)} zu.
           %p.mb-0
-            Sollte sich jemand durch die Verwendung der Daten in seinem Urheberrecht verletzt fühlen, bitte nicht
-            sofort abmahnen. Über #{link_to('E-Mail', impressum_path)} bin ich schnell erreichbar.
+            Falls du der Meinung bist, dass hier deine Rechte verletzt werden, schreib mir bitte zuerst eine
+            #{link_to('E-Mail', impressum_path)}. Ich kümmere mich schnell darum.
       .col-lg-6
         = content_card('Fehler in den Daten', toc:) do
           %p

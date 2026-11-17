@@ -2,19 +2,24 @@
             breadcrumb: [link_to('Jahre', years_path), link_to(@year, year_path(@year)), 'Verbesserungen']) do
   = render('years/subnav', year: @year)
   %p.mt-3
-    Die nachfolgende Tabelle zeigt eine Übersicht der Wettkämpfer an,
+    Die Tabelle zeigt alle Wettkämpfer,
     - if @year.to_i == 2020
-      die im Jahr #{link_to(2020, year_path(2020))} mindestens zwei und im Jahr #{link_to(2019, year_path(2019))} mindenstens drei gültige Zeiten hatten.
+      die #{link_to(2020, year_path(2020))} mindestens zwei und #{link_to(2019, year_path(2019))} mindestens drei
+      gültige Zeiten hatten.
     - elsif @year.to_i == 2021
-      die im Jahr #{link_to(2020, year_path(2020))} mindestens zwei und im Jahr #{link_to(2021, year_path(2021))} mindenstens drei gültige Zeiten hatten.
+      die #{link_to(2020, year_path(2020))} mindestens zwei und #{link_to(2021, year_path(2021))} mindestens drei
+      gültige Zeiten hatten.
     - else
-      die im Jahr #{link_to(@year.to_i - 1, year_path(@year.to_i - 1))} und #{link_to(@year, year_path(@year))} jeweils mindenstens drei gültige Zeiten hatten.
+      die #{link_to(@year.to_i - 1, year_path(@year.to_i - 1))} und #{link_to(@year, year_path(@year))} jeweils
+      mindestens drei gültige Zeiten hatten.
     - if @year.to_i == 2020 || @year.to_i == 2021
-      Durch die Pandemie im Jahr #{link_to(2020, year_path(2020))} wurde hier eine Ausnahme mit nur zwei nötigen Zeiten gemacht.
-    Die <var>Durchschnitt</var>sspalten geben den Durchschnitt der besten drei Zeiten des Jahres an. In der <var>Unterschied</var>spalte wird der absolute Unterschied zwischen den Jahren angezeigt.
+      Wegen der Pandemie im Jahr #{link_to(2020, year_path(2020))} reichen hier ausnahmsweise zwei Zeiten.
+    Die Spalten <var>Durchschnitt</var> zeigen den Durchschnitt der besten drei Zeiten des Jahres, die Spalte
+    <var>Unterschied</var> den absoluten Unterschied zwischen den Jahren.
 
-  %p.mb-0 Die Tabelle zeigt die Sportler weiter oben, die sich im Vergleich von #{link_to(@year.to_i - 1, year_path(@year.to_i - 1))} zu #{link_to(@year, year_path(@year))} verbessert haben.
-
+  %p.mb-0
+    Oben stehen die Wettkämpfer, die sich von #{link_to(@year.to_i - 1, year_path(@year.to_i - 1))} zu
+    #{link_to(@year, year_path(@year))} am stärksten verbessert haben.
 .container
   = content_card do
     = nav_tab do |nv|

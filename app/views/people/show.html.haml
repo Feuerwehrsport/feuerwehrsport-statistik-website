@@ -5,7 +5,7 @@
     = resource.nation
   - spellings = capture do
     - if @person_spellings.any?
-      %span{ title: 'Das passiert zum Beispiel durch eine Hochzeit.' }
+      %span{ title: 'Zum Beispiel nach einer Hochzeit' }
         auch bekannt als #{@person_spellings.map(&:full_name).join(', ')}
   - title = capture do
     = resource.full_name

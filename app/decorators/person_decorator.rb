@@ -9,7 +9,7 @@ class PersonDecorator < AppDecorator
   delegate :nation_flag_with_iso, to: :nation
 
   def page_title
-    "#{full_name} - Wettkämpfer"
+    "#{full_name} – Wettkämpfer"
   end
 
   def full_name

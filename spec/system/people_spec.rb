@@ -61,7 +61,7 @@ describe 'people' do
     end
 
     def expect_change_request(content)
-      expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
+      expect(page).to have_text('Deine Meldung ist gespeichert')
       expect(ChangeRequest.last.content).to eq(content)
       within('dialog.contribution-dialog') { click_on 'Schließen' }
       expect(page).to have_no_css('dialog[open]')
@@ -94,7 +94,7 @@ describe 'people' do
         fill_in 'Name suchen', with: 'Alfredo'
         click_on 'Suchen'
         click_on 'Fehler melden'
-        expect(page).to have_text('Bitte die richtige Person auswählen.')
+        expect(page).to have_text('Bitte wähle die richtige Person aus.')
       end
       expect(ChangeRequest.count).to eq 0
     end
@@ -103,7 +103,7 @@ describe 'people' do
       open_change_request_dialog
       within('dialog.contribution-dialog') do
         click_on 'Person ist falsch geschrieben'
-        click_on 'Selbst korrekte Schreibweise angeben'
+        click_on 'Richtige Schreibweise selbst angeben'
 
         expect(page).to have_field('Vorname', with: person.first_name)
         fill_in 'Vorname', with: 'Vorname'
@@ -119,7 +119,7 @@ describe 'people' do
     it 'can correct nation' do
       open_change_request_dialog
       within('dialog.contribution-dialog') do
-        click_on 'Person ist falscher Nation zugeordnet'
+        click_on 'Person ist der falschen Nation zugeordnet'
         select 'Ungarn', from: 'Nation'
         click_on 'Fehler melden'
       end
@@ -132,7 +132,7 @@ describe 'people' do
       open_change_request_dialog
       within('dialog.contribution-dialog') do
         click_on 'Etwas anderes'
-        fill_in 'Bitte beschreiben Sie das Problem:', with: "Beschreibung\n123"
+        fill_in 'Bitte beschreibe das Problem:', with: "Beschreibung\n123"
         click_on 'Fehler melden'
       end
 

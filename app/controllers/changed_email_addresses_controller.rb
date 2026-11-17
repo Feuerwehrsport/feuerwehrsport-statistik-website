@@ -7,7 +7,7 @@ class ChangedEmailAddressesController < ApplicationController
 
   def update
     @login.confirm_email_change!
-    flash[:info] = 'E-Mail-Adresse wurde geändert'
+    flash[:info] = 'Deine E-Mail-Adresse wurde geändert.'
     redirect_to(current_login ? backend_root_path : new_session_path)
   end
 

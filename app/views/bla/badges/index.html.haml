@@ -1,11 +1,11 @@
 = page_head('Bundesleistungsabzeichen', image: image_tag('bla/dfv.png', alt: 'DFV')) do
   %p
-    Durch diesen Leistungswettbewerb sollen das Leistungsvermögens der Feuerwehrangehörigen, verbunden mit
-    sportlichem Ehrgeiz, körperlicher Fitness sowie die Pflege der kameradschaftlichen Kontakte unter den
-    Feuerwehren in Deutschland und den Mitgliedsnationen des Internationalen Technischen Komitees für vorbeugenden
-    Brandschutz und Feuerlöschwesen (CTIF) gefördert werden. Grundlage zur Durchführung des Wettbewerbes und damit
-    zum Erwerb des Bla des Deutschen Feuerwehrverbandes ist die #{current_wko_link('DFV-Wettkampfordnung')} für
-    Feuerwehrsportwettkämpfe in der jeweils gültigen Fassung.
+    Der Leistungswettbewerb fördert das Leistungsvermögen der Feuerwehrangehörigen – mit sportlichem Ehrgeiz und
+    körperlicher Fitness – sowie die kameradschaftlichen Kontakte zwischen den Feuerwehren in Deutschland und den
+    Mitgliedsnationen des Internationalen Technischen Komitees für vorbeugenden Brandschutz und Feuerlöschwesen
+    (CTIF). Grundlage für den Wettbewerb und damit für den Erwerb des Bundesleistungsabzeichens (BLA) des Deutschen
+    Feuerwehrverbandes ist die #{current_wko_link('DFV-Wettkampfordnung')} für Feuerwehrsportwettkämpfe in der
+    jeweils gültigen Fassung.
 
 .container
   = content_card('Anforderungen', heading: :h2) do
@@ -80,7 +80,7 @@
 
   = content_card('Träger', heading: :h2) do
     %p
-      Die nachfolgenden Einträge sind vom #{link_to('DFV', 'http://www.feuerwehrverband.de')} überprüft. Du kannst sie
+      Die folgenden Einträge hat der #{link_to('DFV', 'https://www.feuerwehrverband.de')} geprüft. Du kannst sie
       auch als #{link_to('Excel-Tabelle', format: :xlsx)} herunterladen.
     = count_table(collection, class: 'datatable-bla-badges', sort: { col: 1 }) do |t|
       - t.col('Wettkämpfer') { |row| person_link(row.person) }

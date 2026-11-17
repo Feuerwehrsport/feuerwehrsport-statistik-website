@@ -2,7 +2,7 @@
 
 class SessionsController < ApplicationController
   rate_limit to: 10, within: 3.minutes, only: :create, with: -> {
-    redirect_to new_session_path, alert: 'Zu viele Anmeldeversuche. Bitte in einigen Minuten erneut versuchen.'
+    redirect_to new_session_path, alert: 'Zu viele Anmeldeversuche. Bitte versuch es in ein paar Minuten noch einmal.'
   }
 
   def show
@@ -33,7 +33,7 @@ class SessionsController < ApplicationController
 
   def destroy
     terminate_session
-    redirect_to new_session_path, notice: 'Sie wurden abgemeldet.'
+    redirect_to new_session_path, notice: 'Du wurdest abgemeldet.'
   end
 
   private

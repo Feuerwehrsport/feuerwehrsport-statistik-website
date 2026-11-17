@@ -36,17 +36,17 @@ class ErrorsController < ApplicationController
   ].freeze
 
   def not_found
-    @page_title = '404 - Seite nicht gefunden'
+    @page_title = '404 – Seite nicht gefunden'
     render(status: :not_found)
   end
 
   def internal_server_error
-    @page_title = '500 - Interner Fehler'
+    @page_title = '500 – Fehler beim Seitenaufbau'
     render(status: :internal_server_error)
   end
 
   def unacceptable
-    @page_title = '422 - Nicht verarbeitbare Werte'
+    @page_title = '422 – Fehlerhafte Anfrage'
     render(status: :unprocessable_content)
   end
 

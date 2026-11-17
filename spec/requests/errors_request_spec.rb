@@ -7,7 +7,7 @@ RSpec.describe 'Errors' do
     it 'returns http success' do
       get '/404'
       expect(response).to have_http_status(:not_found)
-      expect(response.body).to include('404 - Seite nicht gefunden')
+      expect(response.body).to include('404 – Seite nicht gefunden')
     end
   end
 
@@ -40,7 +40,7 @@ RSpec.describe 'Errors' do
     it 'renders not found page via exceptions app' do
       get_not_found_for('/this/path/does/not/exist')
       expect(response).to have_http_status(:not_found)
-      expect(response.body).to include('404 - Seite nicht gefunden')
+      expect(response.body).to include('404 – Seite nicht gefunden')
     end
   end
 

@@ -8,7 +8,7 @@
     %p Was ist falsch?
     .list-group
       = link_to 'Person ist falsch geschrieben', path.('wrong'), class: 'list-group-item'
-      = link_to 'Person ist falscher Nation zugeordnet', path.('change-nation'), class: 'list-group-item'
+      = link_to 'Person ist der falschen Nation zugeordnet', path.('change-nation'), class: 'list-group-item'
       = link_to 'Etwas anderes', path.('other'), class: 'list-group-item'
     = render 'contributions/shared/actions'
 
@@ -18,13 +18,13 @@
       = link_to path.('merge'), class: 'list-group-item' do
         Richtige Schreibweise auswählen
         %small.text-muted (für die Administratoren viel einfacher)
-      = link_to 'Selbst korrekte Schreibweise angeben', path.('correction'), class: 'list-group-item'
+      = link_to 'Richtige Schreibweise selbst angeben', path.('correction'), class: 'list-group-item'
     = render 'contributions/shared/actions', cancel: 'Abbrechen'
 
   - when 'correction'
     = form_with url: contributions_person_change_request_path(@person) do
       = hidden_field_tag :kind, @kind
-      %p Bitte korrigieren Sie den Namen:
+      %p Bitte korrigiere den Namen:
       = render 'contributions/shared/text_field', name: :first_name, label: 'Vorname',
                                                  value: params[:first_name] || @person.first_name
       = render 'contributions/shared/text_field', name: :last_name, label: 'Nachname',
@@ -32,7 +32,7 @@
       = render 'contributions/shared/actions', submit: 'Fehler melden'
 
   - when 'merge'
-    %p Suchen Sie die Person mit der richtigen Schreibweise:
+    %p Such die Person mit der richtigen Schreibweise:
     = form_with url: new_contributions_person_change_request_path(@person), method: :get do
       = hidden_field_tag :kind, @kind
       = label_tag :q, 'Name suchen', class: 'visually-hidden'
@@ -71,6 +71,6 @@
     = form_with url: contributions_person_change_request_path(@person) do
       = hidden_field_tag :kind, @kind
       .mb-3
-        = label_tag :description, 'Bitte beschreiben Sie das Problem:'
+        = label_tag :description, 'Bitte beschreibe das Problem:'
         = text_area_tag :description, params[:description], class: 'form-control', rows: 5
       = render 'contributions/shared/actions', submit: 'Fehler melden'

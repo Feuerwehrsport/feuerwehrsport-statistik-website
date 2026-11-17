@@ -25,12 +25,12 @@ describe LoginMailer do
     it 'renders the body with a valid verification link' do
       login.update!(verified_at: nil)
       token = mail.body.to_s[%r{http://test.host/verify_login/(\S+)}, 1]
-      expect(mail.body.to_s).to start_with('Um Ihre E-Mail-Adresse zu bestätigen')
+      expect(mail.body.to_s).to include('um deine E-Mail-Adresse zu bestätigen')
       expect(Login.find_by_token_for(:verification, token)).to eq login
     end
 
     it 'uses the translated subject' do
-      expect(mail.subject).to eq 'Validierung der E-Mail-Adresse'
+      expect(mail.subject).to eq 'Bestätige deine E-Mail-Adresse'
     end
   end
 
@@ -41,12 +41,12 @@ describe LoginMailer do
 
     it 'renders the body with a valid reset link' do
       token = mail.body.to_s[%r{http://test.host/password_reset/(\S+)/edit}, 1]
-      expect(mail.body.to_s).to include('Diese URL ist 24 Stunden gültig.')
+      expect(mail.body.to_s).to include('Der Link ist 24 Stunden gültig.')
       expect(Login.find_by_password_reset_token(token)).to eq login
     end
 
     it 'uses the translated subject' do
-      expect(mail.subject).to eq 'Zurücksetzen des Passworts'
+      expect(mail.subject).to eq 'Neues Passwort festlegen'
     end
   end
 
@@ -57,12 +57,12 @@ describe LoginMailer do
 
     it 'renders the body with a valid confirmation link' do
       token = mail.body.to_s[%r{http://test.host/changed_email_addresses/(\S+)/edit}, 1]
-      expect(mail.body.to_s).to include('Diese URL ist 24 Stunden gültig.')
+      expect(mail.body.to_s).to include('Der Link ist 24 Stunden gültig.')
       expect(Login.find_by_token_for(:email_change, token)).to eq login
     end
 
     it 'uses the translated subject' do
-      expect(mail.subject).to eq 'Änderung der E-Mail-Adresse'
+      expect(mail.subject).to eq 'Bestätige deine neue E-Mail-Adresse'
     end
   end
 

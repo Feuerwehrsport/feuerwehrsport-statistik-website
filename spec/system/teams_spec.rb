@@ -13,7 +13,7 @@ describe 'teams features' do
   end
 
   def expect_change_request_saved
-    expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
+    expect(page).to have_text('Deine Meldung ist gespeichert')
     within_dialog { click_on 'Schließen' }
     expect(page).to have_no_css('dialog[open]')
   end
@@ -128,7 +128,7 @@ describe 'teams features' do
       api_sign_in
 
       visit team_path(team)
-      click_on 'Fehler mit diesem Team melden'
+      click_on 'Fehler mit dieser Mannschaft melden'
       within_dialog { click_on 'Kartenposition ändern' }
       expect(page).to have_no_css('dialog[open]')
       within('.team-map-actions') { expect(page).to have_css('.btn.btn-primary', text: 'Speichern') }
@@ -141,7 +141,7 @@ describe 'teams features' do
       api_sign_in
 
       visit team_path(team)
-      click_on 'Fehler mit diesem Team melden'
+      click_on 'Fehler mit dieser Mannschaft melden'
 
       within_dialog do
         click_on 'Mannschaft ist doppelt vorhanden'
@@ -163,7 +163,7 @@ describe 'teams features' do
     it 'can add change request with team-correction' do
       api_sign_in
       visit team_path(team)
-      click_on 'Fehler mit diesem Team melden'
+      click_on 'Fehler mit dieser Mannschaft melden'
 
       within_dialog do
         click_on 'Mannschaft ist falsch geschrieben'

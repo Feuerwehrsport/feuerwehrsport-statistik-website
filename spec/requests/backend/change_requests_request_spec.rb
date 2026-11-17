@@ -33,9 +33,9 @@ RSpec.describe 'Backend::ChangeRequests' do
 
       get '/backend/change_requests'
       expect(response).to be_successful
-      expect(response.body).to include('Person - Zusammenführen', 'Alfredo', 'Mannschaft - Korrektur', 'FF Neu',
+      expect(response.body).to include('Person – Zusammenführung', 'Alfredo', 'Mannschaft – Korrektur', 'FF Neu',
                                        'Regen', 'Nicht mehr vorhanden (ID 999)', 'unknown-key')
-      expect(response.body).not_to include('Person - Freitext')
+      expect(response.body).not_to include('Person – Freitext')
     end
 
     it 'marks as done' do

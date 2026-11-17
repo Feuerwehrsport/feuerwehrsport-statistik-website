@@ -40,9 +40,9 @@ class ApiLoginChallenge
     challenge = store.read(key) if id.present?
     store.delete(key) if challenge
 
-    return 'Die Rechenaufgabe ist abgelaufen. Bitte versuchen Sie es erneut.' if challenge.nil?
+    return 'Die Rechenaufgabe ist abgelaufen. Bitte versuch es noch einmal.' if challenge.nil?
     if Time.current.to_f - challenge[:issued_at] < min_seconds
-      return 'Das ging zu schnell. Bitte versuchen Sie es erneut.'
+      return 'Das ging zu schnell. Bitte versuch es noch einmal.'
     end
     return 'Die Antwort ist nicht korrekt.' unless given_answer.to_s.strip == challenge[:answer].to_s
 

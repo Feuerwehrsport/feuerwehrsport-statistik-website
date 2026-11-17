@@ -17,15 +17,14 @@ de:
         url_with_link: Link
     models:
       import_request:
-        one: Importanfrage
-        other: Importanfragen
+        one: Import-Anfrage
+        other: Import-Anfragen
   t3:
     backend/import_requests:
       hints:
         url: Link zu den Ergebnissen, Bildern oder Berichten
       views:
-        header_html: Mittels Importanfragen können Dateien oder Weblinks hinterlegt
-          werden. Die Administratoren der Seite werden diese dann schnellstmöglich
-          abarbeiten.
+        header_html: Mit einer Import-Anfrage kannst du Dateien oder Links zu Ergebnissen hinterlegen. Wir
+          tragen sie so schnell wie möglich ein.
       inline_labels:
         finished: Bearbeitung abgeschlossen

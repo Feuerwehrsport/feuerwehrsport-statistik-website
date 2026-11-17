@@ -11,4 +11,4 @@ de:
       text: 'erforderlich'
       mark: '*'
     error_notification:
-      default_message: "Bitte folgende Probleme prüfen:"
+      default_message: "Bitte prüfe die folgenden Angaben:"

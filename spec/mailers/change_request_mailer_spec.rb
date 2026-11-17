@@ -18,7 +18,7 @@ describe ChangeRequestMailer do
       expect(mail.attachments.count).to eq 0
 
       expect_with_mailer_signature(
-        "Es wurde ein neuer Hinweis gemeldet:\n" \
+        "Es gibt eine neue Fehlermeldung:\n" \
         "\n" \
         "Stichpunkt: \n" \
         "Inhalt: \n" \
@@ -35,7 +35,7 @@ describe ChangeRequestMailer do
 
       it 'renders content and sender' do
         expect_with_mailer_signature(
-          "Es wurde ein neuer Hinweis gemeldet:\n" \
+          "Es gibt eine neue Fehlermeldung:\n" \
           "\n" \
           "Stichpunkt: person-merge\n" \
           "Inhalt: {id: 3}\n" \

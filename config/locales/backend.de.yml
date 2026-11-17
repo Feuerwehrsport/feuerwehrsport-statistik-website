@@ -12,7 +12,7 @@ de:
         title: Cache löschen
     backend/change_requests:
       views:
-        page_title: Fehler bearbeiten
+        page_title: Fehlermeldungen
     backend/dashboards:
       views:
         page_title: Backend
@@ -21,10 +21,10 @@ de:
         page_title: Import
     backend/registrations:
       controllers:
-        registered: Sie haben sich erfolgreich registriert. Bitte bestätigen Sie Ihre
-          E-Mail-Adresse mit dem Aufrufen des Verifizierungslinks.
+        registered: Du hast dich erfolgreich registriert. Bitte bestätige deine E-Mail-Adresse über den Link
+          in der E-Mail, die wir dir geschickt haben.
       form_actions:
         create: Registrieren
       views:
-        page_title: Nutzer registrieren
-        title: Nutzer registrieren
+        page_title: Konto erstellen
+        title: Konto erstellen

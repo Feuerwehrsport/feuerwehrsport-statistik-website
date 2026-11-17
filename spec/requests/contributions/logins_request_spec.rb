@@ -48,7 +48,7 @@ RSpec.describe 'Contributions::Logins' do
   it 'requires a name or an email address' do
     get '/contributions/login/new'
     expect { login(answer: question_answer, name: '') }.not_to change(ApiUser, :count)
-    expect(response.body).to include('Bitte geben Sie einen Namen oder eine E-Mail-Adresse an.')
+    expect(response.body).to include('Bitte gib einen Namen oder eine E-Mail-Adresse an.')
   end
 
   it 'rejects a filled honeypot field' do

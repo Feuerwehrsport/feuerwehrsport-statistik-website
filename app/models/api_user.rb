@@ -47,6 +47,6 @@ class ApiUser < ApplicationRecord
   def name_or_email_address_present
     return if name.present? || email_address.present?
 
-    errors.add(:base, 'Bitte geben Sie einen Namen oder eine E-Mail-Adresse an.')
+    errors.add(:base, 'Bitte gib einen Namen oder eine E-Mail-Adresse an.')
   end
 end

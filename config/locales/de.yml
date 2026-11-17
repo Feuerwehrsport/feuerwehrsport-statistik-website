@@ -1,7 +1,7 @@
 de:
   application:
     form:
-      has_errors: "Bitte folgende Felder prüfen:"
+      has_errors: "Bitte prüfe die folgenden Felder:"
       wysiwyg:
         bold: Fett
         italic: Kursiv
@@ -23,9 +23,9 @@ de:
   t3:
     application:
       errors:
-        access_denied: Keine Rechte zum Anzeigen der Seite
-        login_required: Bitte anmelden, um Seite anzuzeigen
-        invalid_resource: Ein Problem ist aufgetreten
+        access_denied: Du hast keine Berechtigung für diese Seite.
+        login_required: Bitte melde dich an, um diese Seite zu sehen.
+        invalid_resource: Bitte prüfe deine Eingaben.
       form_actions:
         create: "Speichern"
         submit: "Speichern"
@@ -119,7 +119,7 @@ de:
 
   activerecord: &activerecord
     models:
-      api_user: Benuter
+      api_user: Benutzer
       event:
         one: Wettkampftyp
         other: Wettkampftypen
@@ -151,8 +151,8 @@ de:
         one: Einzelzeit
         other: Einzelzeiten
       score_type:
-        one: Mannschaftwertung
-        other: Mannschaftwertungen
+        one: Mannschaftswertung
+        other: Mannschaftswertungen
       year:
         one: Jahr
         other: Jahre

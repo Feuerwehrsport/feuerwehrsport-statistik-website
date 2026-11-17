@@ -4,7 +4,7 @@
 class Contributions::LoginsController < Contributions::BaseController
   skip_before_action :require_contributor
   rate_limit to: 10, within: 10.minutes, only: :create, store: Rails.configuration.x.api_login_store,
-             with: -> { render_form('Zu viele Anmeldeversuche. Bitte versuchen Sie es später erneut.') }
+             with: -> { render_form('Zu viele Anmeldeversuche. Bitte versuch es später noch einmal.') }
 
   def new
     @api_user = ApiUser.new

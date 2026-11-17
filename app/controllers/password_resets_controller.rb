@@ -2,7 +2,7 @@
 
 class PasswordResetsController < ApplicationController
   rate_limit to: 5, within: 10.minutes, only: :create, with: -> {
-    redirect_to({ action: :new }, alert: 'Zu viele Anfragen. Bitte in einigen Minuten erneut versuchen.')
+    redirect_to({ action: :new }, alert: 'Zu viele Anfragen. Bitte versuch es in ein paar Minuten noch einmal.')
   }
 
   # confirmation page after requesting an email
@@ -31,7 +31,7 @@ class PasswordResetsController < ApplicationController
   def update
     @login = find_login
     if @login.reset_password(**params.expect(password_reset: %i[password password_confirmation]).to_h.symbolize_keys)
-      flash[:info] = 'Passwort wurde geändert'
+      flash[:info] = 'Dein Passwort wurde geändert.'
       redirect_to new_session_path
     else
       render :edit, status: :unprocessable_content

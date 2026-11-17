@@ -49,7 +49,7 @@ describe 'competitions features' do
         click_on 'Name des Wettkampfs vorschlagen'
         fill_in 'Name', with: 'Superduperwettkampf'
         click_on 'Vorschlagen'
-        expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
+        expect(page).to have_text('Deine Meldung ist gespeichert')
         click_on 'Schließen'
       end
       expect(page).to have_no_css('dialog[open]')
@@ -63,7 +63,7 @@ describe 'competitions features' do
         click_on 'Hinweis geben'
         fill_in 'Beschreibe deinen Hinweis bitte ausführlich:', with: 'Wetterbericht'
         click_on 'Hinweis senden'
-        expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
+        expect(page).to have_text('Deine Meldung ist gespeichert')
       end
 
       change_request_content = ChangeRequest.last.content
@@ -165,7 +165,7 @@ describe 'competitions features' do
         expect(page).to have_text('testfile.pdf')
         fill_in 'Was ist an der Datei falsch?', with: 'Seite 2 fehlt'
         click_on 'Fehler melden'
-        expect(page).to have_text('Der Fehlerbericht wurde gespeichert')
+        expect(page).to have_text('Deine Meldung ist gespeichert')
       end
       expect(ChangeRequest.last.content).to eq(
         key: 'competition-file-error',

@@ -4,6 +4,6 @@
   = simple_form_for @link, url: contributions_links_path do |f|
     = hidden_field_tag :linkable_type, @linkable.class.name
     = hidden_field_tag :linkable_id, @linkable.id
-    = f.input :label, label: 'Name', hint: 'Zum Beispiel „Webseite der Feuerwehr“ oder „Ergebnisse“'
+    = f.input :label, label: 'Name', hint: 'Zum Beispiel „Website der Feuerwehr“ oder „Ergebnisse“'
     = f.input :url, label: 'Link', input_html: { placeholder: 'https://' }
     = render 'contributions/shared/actions', submit: 'Hinzufügen'

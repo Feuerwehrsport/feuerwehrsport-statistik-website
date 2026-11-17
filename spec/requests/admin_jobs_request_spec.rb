@@ -28,7 +28,7 @@ RSpec.describe 'Admin jobs (Mission Control)' do
       it 'does not show the jobs dashboard' do
         get '/admin-jobs'
         expect(response).to have_http_status(:redirect)
-        expect(flash[:alert]).to eq 'Keine Rechte zum Anzeigen der Seite'
+        expect(flash[:alert]).to eq 'Du hast keine Berechtigung für diese Seite.'
       end
 
       it 'redirects to main root page' do

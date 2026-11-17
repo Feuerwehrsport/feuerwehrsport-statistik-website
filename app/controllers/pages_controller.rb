@@ -5,7 +5,7 @@ class PagesController < ResourceController
                 :records, :best_of
 
   def firesport_overview
-    @page_title = 'Feuerwehrsport - verschiedene Angebote'
+    @page_title = 'Feuerwehrsport kennenlernen'
   end
 
   def legal_notice
@@ -17,7 +17,7 @@ class PagesController < ResourceController
   end
 
   def dashboard
-    @page_title = 'Feuerwehrsport - Die große Auswertung'
+    @page_title = 'Feuerwehrsport – die große Auswertung'
     @last_competitions = last_competitions(8)
     @years_count = Year.with_competitions.group(:year).count.to_a.map { |y| [y[0].to_i, y[1]] }.sort_by(&:first).reverse
     @best_of_year = Date.current.year

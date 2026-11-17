@@ -11,7 +11,7 @@ describe 'backend change requests' do
 
     sign_in(:sub_admin)
     visit backend_change_requests_path
-    find('summary', text: 'Person - Zusammenführen').click
+    find('summary', text: 'Person – Zusammenführung').click
     expect(page).to have_text('Richtige Person')
 
     accept_confirm(/Fehler wirklich beheben/) { click_on 'Beheben' }

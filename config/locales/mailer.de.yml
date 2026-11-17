@@ -1,8 +1,8 @@
 de:
   login_mailer:
     verify:
-      subject: Validierung der E-Mail-Adresse
+      subject: Bestätige deine E-Mail-Adresse
     password_reset:
-      subject: Zurücksetzen des Passworts
+      subject: Neues Passwort festlegen
     change_email_address:
-      subject: Änderung der E-Mail-Adresse
+      subject: Bestätige deine neue E-Mail-Adresse

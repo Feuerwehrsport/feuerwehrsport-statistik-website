@@ -37,26 +37,26 @@ class Contributions::PersonChangeRequestsController < Contributions::BaseControl
     case @kind
     when 'correction'
       first_name, last_name = params.values_at(:first_name, :last_name).map { |v| v.to_s.strip }
-      return 'Bitte Vorname und Nachname angeben.' if first_name.blank? || last_name.blank?
+      return 'Bitte gib Vor- und Nachnamen an.' if first_name.blank? || last_name.blank?
 
       [nil, { person_id:, person: { first_name:, last_name: } }]
     when 'merge'
       correct_person = Person.where.not(id: @person.id).find_by(id: params[:correct_person_id])
-      return 'Bitte die richtige Person auswählen.' if correct_person.nil?
+      return 'Bitte wähle die richtige Person aus.' if correct_person.nil?
 
       [nil, { person_id:, correct_person_id: correct_person.id.to_s }]
     when 'change-nation'
       nation = Nation.find_by(id: params[:nation_id])
-      return 'Bitte eine Nation auswählen.' if nation.nil?
+      return 'Bitte wähle eine Nation aus.' if nation.nil?
 
       [nil, { person_id:, nation_id: nation.id.to_s }]
     when 'other'
       description = params[:description].to_s.strip
-      return 'Bitte beschreiben Sie das Problem.' if description.blank?
+      return 'Bitte beschreibe das Problem.' if description.blank?
 
       [nil, { person_id:, description: }]
     else
-      'Bitte wählen Sie das Problem aus.'
+      'Bitte wähle das Problem aus.'
     end
   end
 

@@ -32,18 +32,18 @@ RSpec.describe 'Contributions::PersonChangeRequests' do
         api_user: login_user,
       )
       expect(ChangeLog.last).to have_attributes(action: 'create-changerequest', api_user: login_user)
-      expect(response.body).to include('Der Fehlerbericht wurde gespeichert')
+      expect(response.body).to include('Deine Meldung ist gespeichert')
     end
 
     it 'does not merge a person with itself' do
       expect { post path, params: { kind: 'merge', correct_person_id: person.id } }.not_to change(ChangeRequest, :count)
       expect(response).to have_http_status(:unprocessable_content)
-      expect(response.body).to include('Bitte die richtige Person auswählen.')
+      expect(response.body).to include('Bitte wähle die richtige Person aus.')
     end
 
     it 'rejects unknown kinds' do
       expect { post path, params: { kind: 'destroy' } }.not_to change(ChangeRequest, :count)
-      expect(response.body).to include('Bitte wählen Sie das Problem aus.')
+      expect(response.body).to include('Bitte wähle das Problem aus.')
     end
   end
 

@@ -38,7 +38,7 @@ describe 'backend actions' do
     visit edit_backend_place_path(place)
     fill_in 'Name', with: ''
     click_on 'Speichern'
-    expect(page).to have_text('Ein Problem ist aufgetreten')
+    expect(page).to have_text('Bitte prüfe deine Eingaben.')
     expect(page).to have_css('.is-invalid')
 
     fill_in 'Name', with: 'Cottbus'

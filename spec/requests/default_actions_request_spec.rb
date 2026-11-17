@@ -31,7 +31,7 @@ RSpec.describe 'DefaultActions' do
     it 'redirects to root with access denied' do
       get '/backend/admin_users'
       expect(response).to redirect_to('/')
-      expect(flash[:alert]).to eq 'Keine Rechte zum Anzeigen der Seite'
+      expect(flash[:alert]).to eq 'Du hast keine Berechtigung für diese Seite.'
     end
 
     it 'does not destroy resources' do

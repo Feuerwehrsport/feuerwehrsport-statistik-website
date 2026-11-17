@@ -14,4 +14,4 @@ de:
   t3:
     backend/person_spellings:
       inline_labels:
-        official: Offizielle Namensänderung die angezeigt wird
+        official: Offizielle Namensänderung, die angezeigt wird
