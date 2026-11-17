@@ -31,6 +31,6 @@ module DefaultActions::Create
 
   def after_create_failed
     flash.now[:alert] = default_error_message
-    render :new
+    render :new, status: :unprocessable_content
   end
 end

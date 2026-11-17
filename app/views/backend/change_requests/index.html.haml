@@ -21,5 +21,5 @@
         %hr
         .change-request-actions
           = button_to 'Erledigt (ohne Änderung)', done_backend_change_request_path(change_request), method: :patch,
-                      class: 'btn btn-outline-secondary', data: { confirm: 'Wirklich als erledigt markieren?' }
+                      class: 'btn btn-outline-secondary', data: { turbo_confirm: 'Wirklich als erledigt markieren?' }
         %pre.small= JSON.pretty_generate(change_request.content)

@@ -31,6 +31,6 @@ module DefaultActions::Update
 
   def after_update_failed
     flash.now[:alert] = default_error_message
-    render :edit
+    render :edit, status: :unprocessable_content
   end
 end

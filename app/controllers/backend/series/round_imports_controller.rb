@@ -4,7 +4,8 @@ class Backend::Series::RoundImportsController < Backend::BackendController
   backend_actions :new, :create
   belongs_to Series::Round, url: -> { collection_redirect_url }
 
-  default_form do |f|
+  # without import_now the create action renders a preview page, Turbo expects a redirect
+  default_form(html: { data: { turbo: false } }) do |f|
     f.value :round
     f.association :competition, as: :association_select
     f.association :import_request, as: :select

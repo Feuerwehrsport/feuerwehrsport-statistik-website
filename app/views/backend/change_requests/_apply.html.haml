@@ -2,4 +2,4 @@
 - confirm = "Diese Aktion verändert die Daten! #{local_assigns[:hint]} Fehler wirklich beheben?".squish
 = button_to local_assigns[:label] || 'Beheben', apply_backend_change_request_path(change_request),
             params: local_assigns[:params] || {}, class: "btn #{local_assigns[:class] || 'btn-success'}",
-            data: { confirm: }
+            data: { turbo_confirm: confirm }

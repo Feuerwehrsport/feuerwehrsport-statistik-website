@@ -3,7 +3,7 @@
 - actions = capture do
   .btn-group
     = link_to 'Mein Profil', edit_backend_admin_user_path(current_admin_user), class: 'btn btn-outline-secondary'
-    = link_to 'Abmelden', session_path, method: :delete, data: { confirm: 'Möchtest du dich abmelden?' },
+    = link_to 'Abmelden', session_path, data: { turbo_method: :delete, turbo_confirm: 'Möchtest du dich abmelden?' },
       class: 'btn btn-outline-secondary logout'
 = page_head('Interner Bereich', kicker: "Angemeldet als #{current_admin_user&.name}", actions:)
 

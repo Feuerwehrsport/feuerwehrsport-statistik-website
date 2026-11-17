@@ -61,7 +61,7 @@ RSpec.describe 'Backend::Registrations' do
       expect do
         register(login_attributes.merge(password_confirmation: 'other'))
       end.not_to change(AdminUser, :count)
-      expect(response).to have_http_status(:ok)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(session[:login_id]).to be_nil
     end
 

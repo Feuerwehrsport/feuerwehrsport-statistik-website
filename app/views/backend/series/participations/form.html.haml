@@ -36,4 +36,4 @@
         = button_to '↓ Platz tiefer (1 Punkt weniger)', url_for(action: :move), method: :patch, params: { direction: 'down' },
                     class: 'btn btn-outline-secondary btn-sm', form_class: 'inline-form'
       = button_to 'Eintrag löschen', url_for(action: :destroy), method: :delete, class: 'btn btn-danger btn-sm',
-                  data: { confirm: 'Diesen Eintrag wirklich löschen?' }
+                  data: { turbo_confirm: 'Diesen Eintrag wirklich löschen?' }

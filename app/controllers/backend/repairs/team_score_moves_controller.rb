@@ -6,7 +6,8 @@ class Backend::Repairs::TeamScoreMovesController < Backend::BackendController
 
   backend_actions :new, :create, clean_cache_disabled: true
 
-  default_form do |f|
+  # the create action renders a page (selection of the scores), Turbo expects a redirect
+  default_form(html: { data: { turbo: false } }) do |f|
     f.association :source_team, as: :association_select
     f.association :destination_team, as: :association_select
   end

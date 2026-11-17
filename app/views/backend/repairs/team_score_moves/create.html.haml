@@ -35,5 +35,5 @@
               %td= link_to score.competition.to_s, competition_path(score.competition)
               %td= label_tag id, score.second_time
       = submit_tag 'Ausgewählte Zeiten verschieben', class: 'btn btn-primary',
-                   data: { confirm: "Die markierten Zeiten wirklich von #{source} nach #{destination} verschieben?" }
+                   data: { turbo_confirm: "Die markierten Zeiten wirklich von #{source} nach #{destination} verschieben?" }
       = link_to('Zurück', url_for(action: :new, Repairs::TeamScoreMove.model_name.param_key => { source_team_id: source.id, destination_team_id: destination.id }), class: 'btn btn-outline-secondary')

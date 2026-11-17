@@ -13,10 +13,10 @@
               - path = merge_backend_unchecked_team_path(resource)
               - confirm = "#{resource.name} wirklich mit #{team.name} zusammenführen? Diese Aktion verändert die Daten!"
               = button_to 'Zusammenführen', path, params: { correct_team_id: team.id },
-                          class: 'btn btn-outline-secondary btn-sm', form_class: 'inline-form', data: { confirm: }
+                          class: 'btn btn-outline-secondary btn-sm', form_class: 'inline-form', data: { turbo_confirm: confirm }
               = button_to 'Immer zusammenführen', path, params: { correct_team_id: team.id, always: 1 },
                           class: 'btn btn-outline-secondary btn-sm', form_class: 'inline-form',
-                          data: { confirm: "#{confirm} Beim Import wird in Zukunft immer automatisch der Name ersetzt." }
+                          data: { turbo_confirm: "#{confirm} Beim Import wird in Zukunft immer automatisch der Name ersetzt." }
   -# results are loaded in the browser (stimulus lookup), wikipedia and nominatim allow cross-origin requests
   = content_card('Infos auf Wikipedia', heading: :h3,
                  data: { controller: 'lookup', lookup_service_value: 'wikipedia', lookup_query_value: resource.shortcut }) do
@@ -47,4 +47,4 @@
           %button.btn.btn-primary{ type: 'button', data: { action: 'geo-position#save' } } Speichern
   = content_card('Abgearbeitet', heading: :h3) do
     = button_to('Fertigstellen', {}, params: { 'unchecked_team[checked_at]' => Time.current }, method: :put,
-                class: 'btn btn-primary', data: { confirm: 'Mannschaft als geprüft markieren?' })
+                class: 'btn btn-primary', data: { turbo_confirm: 'Mannschaft als geprüft markieren?' })

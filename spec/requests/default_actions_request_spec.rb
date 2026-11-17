@@ -69,7 +69,7 @@ RSpec.describe 'DefaultActions' do
         expect do
           post '/backend/places', params: { place: { name: '' } }
         end.not_to change(Place, :count)
-        expect(response).to have_http_status(:ok)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(flash[:alert]).to be_present
         expect(response.body).to include('form')
       end
@@ -102,7 +102,7 @@ RSpec.describe 'DefaultActions' do
     describe 'update' do
       it 'renders form again with invalid params' do
         patch "/backend/places/#{place.id}", params: { place: { name: '' } }
-        expect(response).to have_http_status(:ok)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(flash[:alert]).to be_present
         expect(place.reload.name).to eq 'Charlottenthal'
       end

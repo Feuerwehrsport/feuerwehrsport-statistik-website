@@ -13,7 +13,7 @@
                             class: 'btn btn-outline-secondary btn-sm'
                   = button_to('Entfernen', backend_series_cup_path(cup.id), method: :delete,
                               class: 'btn btn-outline-danger btn-sm',
-                              data: { confirm: 'Diesen Wettkampf mit allen Zeiten aus der Serie entfernen?' })
+                              data: { turbo_confirm: 'Diesen Wettkampf mit allen Zeiten aus der Serie entfernen?' })
     -# entries of the public tables become links to their backend forms (stimulus series-participations)
     #edit-series-participations{ data: { controller: 'series-participations',
                                           action: 'click->series-participations#edit' } }

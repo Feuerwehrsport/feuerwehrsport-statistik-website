@@ -25,7 +25,7 @@ SimpleForm.setup do |config|
     b.optional :min_max
     b.optional :readonly
     b.use :label, class: 'form-label'
-    b.use :input, class: 'form-control'
+    b.use :input, class: 'form-control', error_class: 'is-invalid'
     feedback.(b)
   end
 
@@ -39,7 +39,7 @@ SimpleForm.setup do |config|
     b.optional :readonly
     b.use :label, class: 'col-sm-3 col-form-label'
     b.wrapper tag: 'div', class: 'col-sm-9' do |ba|
-      ba.use :input, class: 'form-control'
+      ba.use :input, class: 'form-control', error_class: 'is-invalid'
       feedback.(ba)
     end
   end
@@ -49,7 +49,7 @@ SimpleForm.setup do |config|
     b.optional :readonly
     b.use :label, class: 'col-sm-3 col-form-label'
     b.wrapper tag: 'div', class: 'col-sm-9' do |ba|
-      ba.use :input, class: 'form-select'
+      ba.use :input, class: 'form-select', error_class: 'is-invalid'
       feedback.(ba)
     end
   end
@@ -59,7 +59,7 @@ SimpleForm.setup do |config|
     b.optional :readonly
     b.use :label, class: 'col-sm-3 col-form-label'
     b.wrapper tag: 'div', class: 'col-sm-9' do |ba|
-      ba.use :input, class: 'form-control'
+      ba.use :input, class: 'form-control', error_class: 'is-invalid'
       feedback.(ba)
     end
   end
@@ -71,7 +71,7 @@ SimpleForm.setup do |config|
     b.use :label, class: 'col-sm-3 col-form-label pt-0'
     b.wrapper tag: 'div', class: 'col-sm-9' do |wr|
       wr.wrapper tag: 'div', class: 'form-check' do |bb|
-        bb.use :input, class: 'form-check-input'
+        bb.use :input, class: 'form-check-input', error_class: 'is-invalid'
       end
       feedback.(wr)
     end
@@ -83,7 +83,7 @@ SimpleForm.setup do |config|
     b.optional :readonly
     b.use :label, class: 'col-sm-3 col-form-label pt-0'
     b.wrapper tag: 'div', class: 'col-sm-9' do |ba|
-      ba.use :input, class: 'form-check-input'
+      ba.use :input, class: 'form-check-input', error_class: 'is-invalid'
       feedback.(ba)
     end
   end
@@ -93,7 +93,7 @@ SimpleForm.setup do |config|
     b.optional :readonly
     b.use :label, class: 'col-sm-3 col-form-label'
     b.wrapper tag: 'div', class: 'col-sm-9 d-flex flex-wrap gap-2' do |ba|
-      ba.use :input, class: 'form-select w-auto'
+      ba.use :input, class: 'form-select w-auto', error_class: 'is-invalid'
       feedback.(ba)
     end
   end
@@ -106,7 +106,7 @@ SimpleForm.setup do |config|
     b.optional :min_max
     b.optional :readonly
     b.use :label, class: 'visually-hidden'
-    b.use :input, class: 'form-control'
+    b.use :input, class: 'form-control', error_class: 'is-invalid'
     feedback.(b)
   end
 

@@ -15,9 +15,13 @@ export default class extends Controller {
     })
     await loading
     this.editor = window.CKEDITOR.replace(this.element)
+    // write the content back before Turbo reads the form data (Turbo handles the submit event when it bubbles up)
+    this.sync = () => this.editor?.updateElement()
+    this.element.form?.addEventListener("submit", this.sync, true)
   }
 
   disconnect() {
+    this.element.form?.removeEventListener("submit", this.sync, true)
     this.editor?.destroy()
     this.editor = null
   }

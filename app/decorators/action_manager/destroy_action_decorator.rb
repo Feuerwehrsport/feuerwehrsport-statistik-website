@@ -2,7 +2,7 @@
 
 class ActionManager::DestroyActionDecorator < ActionManager::MemberActionDecorator
   def link_to(options = {})
-    super(options.reverse_merge(method: :delete, data: { confirm: h.t3('actions.confirm_destroy') }))
+    super(options.reverse_merge(data: { turbo_method: :delete, turbo_confirm: h.t3('actions.confirm_destroy') }))
   end
 
   def link_to?

@@ -3,5 +3,5 @@
   %h4 Vorgeschlagener Name
   = form_with url: apply_backend_change_request_path(change_request), class: 'd-flex flex-wrap gap-2 align-items-center' do
     = text_field_tag :name, data[:name], class: 'form-control', 'aria-label': 'Name'
-    %button.btn.btn-success{ type: 'submit', data: { confirm: 'Diese Aktion verändert die Daten! Namen wirklich setzen?' } }
+    %button.btn.btn-success{ type: 'submit', data: { turbo_confirm: 'Diese Aktion verändert die Daten! Namen wirklich setzen?' } }
       Neuen Namen setzen
