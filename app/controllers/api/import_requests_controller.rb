@@ -6,8 +6,7 @@ class Api::ImportRequestsController < Api::BaseController
   api_actions :create,
               default_form: %i[compressed_data]
 
-  # Feusport sends "Authorization: Bearer <token>". Requests without this header still use the
-  # session login (api_users) until Feusport has switched.
+  # Feusport sends "Authorization: Bearer <token>". Without this header only logged in admins can create.
   prepend_before_action :authenticate_import_token, only: :create
 
   protected

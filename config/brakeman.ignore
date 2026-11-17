@@ -185,29 +185,6 @@
       "note": "Column name comes from the filter definition in code, operator is mapped via a fixed hash; the value is a bound parameter"
     },
     {
-      "warning_type": "Mass Assignment",
-      "warning_code": 70,
-      "fingerprint": "aceb9590a18e4e07a187865bd6b4ae92dc163aaf12521cd6d51553d16fd51878",
-      "check_name": "MassAssignment",
-      "message": "Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys",
-      "file": "app/controllers/api/change_requests_controller.rb",
-      "line": 28,
-      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
-      "code": "params[resource_params_name][:content].permit!",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "Api::ChangeRequestsController",
-        "method": "resource_params"
-      },
-      "user_input": null,
-      "confidence": "Medium",
-      "cwe_id": [
-        915
-      ],
-      "note": "content is a free-form JSON blob of a change request; permit! is only used to derive the permitted scalar keys (permit_scalar_attributes), nothing is assigned to model attributes directly"
-    },
-    {
       "warning_type": "SQL Injection",
       "warning_code": 0,
       "fingerprint": "cbcbc649e8d69d0ea1eb39810834e3b251e3b14472a1e5be8820af14a4ea63f1",

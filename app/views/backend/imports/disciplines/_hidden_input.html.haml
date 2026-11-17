@@ -1,0 +1,8 @@
+-# input of the import, passed on by all forms of the preview
+= hidden_field_tag :competition_id, @competition.id, id: nil
+= hidden_field_tag :discipline, @discipline, id: nil
+= hidden_field_tag :gender, @gender, id: nil
+= hidden_field_tag :separator, @separator, id: nil
+= hidden_field_tag :raw_lines, @raw_lines, id: nil
+- @columns.each do |column|
+  = hidden_field_tag 'columns[]', column, id: nil

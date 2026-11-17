@@ -38,10 +38,7 @@ describe Ability do
       expect(ability).to be_able_to(:best_scores, Year)
     end
 
-    it 'can use login and api user functions' do
-      expect(ability).to be_able_to(:create, ApiUser)
-      expect(ability).to be_able_to(:status, ApiUser)
-      expect(ability).to be_able_to(:logout, ApiUser)
+    it 'can register' do
       expect(ability).to be_able_to(:create, AdminUsers::Registration)
     end
   end

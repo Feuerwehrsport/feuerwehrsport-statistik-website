@@ -1,0 +1,21 @@
+= form_with url: check_backend_imports_disciplines_path, data: { controller: 'column-fields' } do
+  = hidden_field_tag :competition_id, @competition.id
+  = hidden_field_tag :discipline, @discipline
+  = hidden_field_tag :gender, @gender
+  - if @check&.errors&.any?
+    .alert.alert-danger= @check.errors.full_messages.to_sentence
+  .input-line
+    %span{ data: { column_fields_target: 'fields' } }
+      - @columns.each do |column|
+        = render 'column_field', column:
+    %button.btn.btn-default.btn-xs{ type: 'button', title: 'Spalte hinzufügen', data: { action: 'column-fields#add' } } +
+    %template{ data: { column_fields_target: 'template' } }
+      = render 'column_field', column: 'time'
+  .form-group
+    = label_tag :raw_lines, 'Ergebnisse (eine Zeile pro Ergebnis, Spalten wie oben)'
+    = text_area_tag :raw_lines, @raw_lines, class: 'form-control', rows: @check ? 4 : 12
+  .form-inline
+    = label_tag :separator, 'Trennzeichen'
+    = select_tag :separator, options_for_select(Backend::Imports::DisciplinesController::SEPARATORS.keys, @separator),
+                 class: 'form-control input-sm'
+    %button.btn.btn-primary.btn-sm{ type: 'submit' } Testen

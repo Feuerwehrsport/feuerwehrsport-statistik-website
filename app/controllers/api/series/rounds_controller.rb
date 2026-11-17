@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
+# read only, used by Feusport (ImportSuggestionsJob)
 class Api::Series::RoundsController < Api::BaseController
-  api_actions :show, :index
+  api_actions :index
 
   protected
 

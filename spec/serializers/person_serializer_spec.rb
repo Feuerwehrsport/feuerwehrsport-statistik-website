@@ -24,16 +24,6 @@ RSpec.describe PersonSerializer do
     end
   end
 
-  describe SuggestionPersonSerializer do
-    it 'adds team shortcuts' do
-      create(:score, person:)
-      expect(serializer_json(described_class, person)).to eq(
-        id: person.id, last_name: 'Meier', first_name: 'Alfred', gender: 'male', gender_translated: 'männlich',
-        teams: ['Warin']
-      )
-    end
-  end
-
   describe PersonSpellingSerializer do
     it 'serializes person spelling' do
       spelling = create(:person_spelling, person:)

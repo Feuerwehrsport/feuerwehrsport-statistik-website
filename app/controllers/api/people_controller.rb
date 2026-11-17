@@ -1,11 +1,8 @@
 # frozen_string_literal: true
 
+# read only, used by Feusport (ImportSuggestionsJob, with extended=1)
 class Api::PeopleController < Api::BaseController
-  api_actions :create, :show, :index, :update,
-              change_log: true,
-              create_form: %i[first_name last_name gender nation_id],
-              update_form: %i[first_name last_name nation_id]
-  include MergeAction
+  api_actions :index
 
   protected
 

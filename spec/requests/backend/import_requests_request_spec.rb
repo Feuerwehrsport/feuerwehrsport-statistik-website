@@ -55,6 +55,32 @@ RSpec.describe 'Backend::ImportRequests', login: :sub_admin do
       expect(response).to be_successful
       expect(controller.instance_variable_get(:@nearby_competitions).map(&:id)).to eq [nearby_competition.id]
     end
+
+    context 'when editing with a selected competition' do
+      before do
+        import_request.update!(edit_user_id: login_user.id)
+        result = { discipline: 'hb', gender: 'male', name: 'HB', rows: [%w[time], %w[1]] }
+        import_request.update_column(:import_data, { results: [result] })
+      end
+
+      it 'offers direct import and file transfer for the competition' do
+        get "/backend/import_requests/#{import_request.id}", params: { competition_id: nearby_competition.id }
+        expect(response.body).to include(
+          "import_request_id=#{import_request.id}&amp;result_index=0",
+          "/backend/import_request_files/#{import_request.import_request_files.first.id}/transfer",
+        )
+      end
+
+      it 'transfers a file to the competition' do
+        file = import_request.import_request_files.first
+        expect do
+          patch "/backend/import_request_files/#{file.id}/transfer",
+                params: { competition_id: nearby_competition.id, keys: %w[hb_male unknown] }
+        end.to change(CompetitionFile, :count).by(1)
+        expect(CompetitionFile.last).to have_attributes(competition_id: nearby_competition.id, keys_string: 'hb_male')
+        expect(file.reload.transfered).to be true
+      end
+    end
   end
 
   describe 'PATCH update edit user' do

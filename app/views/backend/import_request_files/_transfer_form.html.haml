@@ -1,0 +1,15 @@
+-# copies the file to the selected competition, the contained results are guessed from the file name
+- name = file.name.to_s
+- female = name.match?(/Frauen|weiblich|M.dchen/i)
+- male = name.match?(/M.nner|m.nnlich|Jungen/i)
+- disciplines = { zk: /zweikampf/i, hb: /hindernisbahn|hindernislauf/i, hl: /hakenleiter/i, gs: /gruppenstafette/i,
+                  fs: /staffel|feuerwehrstafette|4x100/i, la: /l.schangriff|LA/ }
+= form_with url: transfer_backend_import_request_file_path(file), method: :patch, class: 'form-inline transfer-file' do
+  = hidden_field_tag :competition_id, import_competition.id, id: nil
+  - CompetitionFile::POSSIBLE_KEYS.each do |key|
+    - discipline, gender = key.to_s.split('_')
+    - checked = (gender == 'female' ? female : male) && name.match?(disciplines[discipline.to_sym])
+    %label.checkbox-inline
+      = check_box_tag 'keys[]', key, checked, id: "transfer-#{file.id}-#{key}"
+      = "#{discipline.upcase} #{gender == 'female' ? 'w' : 'm'}"
+  %button.btn.btn-default.btn-xs{ type: 'submit' } Übertragen nach #{import_competition}

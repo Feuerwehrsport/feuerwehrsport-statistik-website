@@ -17,16 +17,13 @@ def answer_login_question
   fill_in question, with: a.to_i.public_send(ApiLoginChallenge::OPERATIONS.fetch(operation), b.to_i)
 end
 
-# anonymous login with the old CoffeeScript window (FssWindow)
+# anonymous login (Contributions::LoginsController), opened directly instead of in the dialog
 def api_sign_in
-  visit root_path
-  page.execute_script("Fss.login(function () { $('h1').text('logged_in') });")
-  within('.fss-window') do
-    answer_login_question
-    fill_in 'Name', with: 'test'
-    click_on 'OK'
-  end
-  expect(page).to have_text('logged_in')
+  visit new_contributions_login_path(return_to: new_contributions_person_path)
+  answer_login_question
+  fill_in 'Name', with: 'test'
+  click_on 'Anmelden'
+  expect(page).to have_text('Person hinzufügen')
 end
 
 def api_sign_out

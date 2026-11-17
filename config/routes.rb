@@ -35,7 +35,20 @@ Rails.application.routes.draw do
     resources :group_scores
     resources :group_score_categories
     resources :group_score_types
-    resources :imports, only: [:index]
+    resources :imports, only: [:index] do
+      collection { patch :score_type }
+    end
+    namespace :imports do
+      resources :disciplines, only: %i[new create] do
+        collection do
+          post :check
+          post :team
+        end
+      end
+    end
+    resources :import_request_files, only: [] do
+      member { patch :transfer }
+    end
     resources :import_requests do
       collection { get :decide_login }
     end
@@ -77,62 +90,22 @@ Rails.application.routes.draw do
 
   # api for interacting with ajax requests
   namespace :api do
-    resources :api_users, only: [:create] do
-      collection do
-        post :status
-        post :logout
-        post :challenge
-      end
-    end
-    resources :change_requests, only: %i[create index update] do
-      get 'files/:id', to: 'change_requests#files'
-    end
-    resources :competitions, only: %i[create show index update] do
-      resources :competition_files, only: %i[create update destroy]
-    end
-    resources :single_disciplines, only: %i[index]
-    resources :events, only: %i[create show index]
-    resources :group_score_types, only: %i[create index]
-    resources :group_score_categories, only: %i[create index]
-    resources :group_scores, only: %i[show update] do
-      member { put :person_participation }
-    end
-    resources :import_requests, only: [:create]
-    resources :import_request_files, only: [:update]
-    resources :imports, only: [] do
-      collection do
-        post :check_lines
-        post :scores
-      end
-    end
-    resources :links, only: %i[create show destroy]
-    resources :nations, only: %i[show index]
-    resources :people, only: %i[create show index update] do
-      member { post :merge }
-    end
-    resources :person_spellings, only: [:index]
-    resources :places, only: %i[create show index update]
-    resources :score_types, only: [:index]
-    resources :scores, only: %i[show index update]
+    # read only, used by Feusport (ImportSuggestionsJob)
+    resources :people, only: :index
+    resources :person_spellings, only: :index
+    resources :teams, only: :index
+    resources :team_members, only: :index
+    resources :team_spellings, only: :index
     namespace :series do
-      resources :cups, only: [:index]
-      resources :person_assessments, only: [:index]
-      resources :person_participations, only: %i[create show index update destroy]
-      resources :rounds, only: %i[show index]
-      resources :team_assessments, only: [:index]
-      resources :team_participations, only: %i[create show index update destroy]
+      resources :cups, only: :index
+      resources :person_assessments, only: :index
+      resources :person_participations, only: :index
+      resources :rounds, only: :index
+      resources :team_assessments, only: :index
+      resources :team_participations, only: :index
     end
-    resources :suggestions, only: [] do
-      collection do
-        post :people
-        post :teams
-      end
-    end
-    resources :team_members, only: [:index]
-    resources :team_spellings, only: [:index]
-    resources :teams, only: %i[create show index update] do
-      member { post :merge }
-    end
+    # results from Feusport (token, see Api::ImportRequestsController)
+    resources :import_requests, only: :create
   end
 
   # dialogs for anonymous contributions (Hotwire, loaded into the turbo frame "contribution")

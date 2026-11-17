@@ -3,10 +3,127 @@
 require 'rails_helper'
 
 RSpec.describe 'Backend::Imports', login: :admin do
+  let!(:competition) { create(:competition) }
+  let!(:team) { create(:team) }
+
   describe 'GET index' do
-    it 'successes' do
+    it 'asks for a competition first' do
       get '/backend/imports'
       expect(response).to be_successful
+      expect(response.body).to include('Wähle zuerst einen Wettkampf aus.')
+    end
+
+    it 'remembers the selected competition' do
+      get '/backend/imports', params: { competition_id: competition.id }
+      expect(response.body).to include('add-discipline discipline-la-male', 'Mannschaftswertung')
+
+      get '/backend/imports'
+      expect(response.body).to include("/backend/imports/disciplines/new?competition_id=#{competition.id}")
+    end
+  end
+
+  describe 'PATCH score_type' do
+    it 'sets the score type with change log' do
+      score_type = create(:score_type)
+      patch '/backend/imports/score_type', params: { competition_id: competition.id, score_type_id: score_type.id }
+      expect(competition.reload.score_type).to eq score_type
+      expect(ChangeLog.last).to have_attributes(action: 'update-competition:score-type')
+    end
+  end
+
+  describe 'disciplines' do
+    let(:input) { { competition_id: competition.id, separator: 'TAB' } }
+
+    it 'shows the input with default columns' do
+      get '/backend/imports/disciplines/new',
+          params: { competition_id: competition.id, discipline: 'hb', gender: 'male' }
+      expect(response.body).to include('id="import-discipline"', 'Testen')
+      expect(response.body.scan('<option selected="selected" value="time">').size).to eq 3 # 2 + template
+    end
+
+    it 'shows errors of the input' do
+      post '/backend/imports/disciplines/check', params: input.merge(discipline: 'hb', gender: 'male',
+                                                                     columns: %w[time], raw_lines: '19,22')
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(response.body).to include('has not all required columns')
+    end
+
+    context 'with single scores' do
+      let!(:single_discipline) { create(:single_discipline, :hb_male) }
+      let!(:person) { create(:person) }
+      let(:params) do
+        input.merge(discipline: 'hb', gender: 'male', columns: %w[last_name first_name team time time],
+                    raw_lines: "Meier\tAlfred\tFF Warin\t19,22\t18,99\nNeu\tPeter\tFF Unbekannt\t20,00\tD")
+      end
+
+      it 'previews the lines with missing teams' do
+        post('/backend/imports/disciplines/check', params:)
+        expect(response.body).to include('Fehlende Mannschaften', 'FF Unbekannt anlegen', 'person-not-found',
+                                         %(name="lines[0][person_id]" id="lines_0_person_id" value="#{person.id}"))
+      end
+
+      it 'creates a missing team and checks again' do
+        expect do
+          post '/backend/imports/disciplines/team',
+               params: params.merge(team: { name: 'FF Unbekannt', shortcut: 'Unbekannt', status: 'fire_station' })
+        end.to change(Team, :count).by(1)
+        expect(response.body).not_to include('Fehlende Mannschaften')
+      end
+
+      it 'imports the selected lines' do
+        post('/backend/imports/disciplines/check', params:)
+        lines = {
+          '0' => { valid: '1', person_id: person.id, team_id: team.id, team_number: 1, times: %w[1922 1899] },
+          '1' => { valid: '0', last_name: 'Neu', first_name: 'Peter', team_number: 1, times: %w[2000] },
+        }
+        expect do
+          post '/backend/imports/disciplines', params: params.merge(lines:, single_discipline_id: single_discipline.id)
+        end.to change(Score, :count).by(2)
+        expect(response.body).to include('2 Zeiten wurden eingetragen.')
+        expect(Score.pluck(:person_id, :team_id, :time)).to contain_exactly([person.id, team.id, 1922],
+                                                                            [person.id, team.id, 1899])
+        expect(ChangeLog.last).to have_attributes(action: 'scores-import-scores')
+      end
+
+      it 'needs selected lines' do
+        post '/backend/imports/disciplines', params: params.merge(lines: { '0' => { valid: '0', times: %w[1922] } })
+        expect(response.body).to include('Keine gültigen Zeilen ausgewählt.')
+      end
+    end
+
+    context 'with group scores' do
+      let!(:group_score_type) { create(:group_score_type) }
+      let(:params) do
+        input.merge(discipline: 'la', gender: 'female', columns: %w[team time time],
+                    raw_lines: "FF Warin\t22,87\t24,00")
+      end
+
+      it 'imports into a new category' do
+        expect do
+          post '/backend/imports/disciplines', params: params.merge(
+            group_score_category_id: 'new', category_name: 'Neu', group_score_type_id: group_score_type.id,
+            lines: { '0' => { valid: '1', team_id: team.id, team_number: 1, times: %w[2287 2400] } }
+          )
+        end.to change(GroupScore, :count).by(2).and change(GroupScoreCategory, :count).by(1)
+        expect(GroupScoreCategory.last).to have_attributes(name: 'Neu', competition_id: competition.id)
+      end
+    end
+
+    context 'with an import request' do
+      let(:import_request) do
+        create(:import_request).tap do |request|
+          request.update_column(:import_data, { results: [{ discipline: 'hl', gender: 'female', name: 'HL',
+                                                            rows: [%w[Nachname Vorname Mannschaft time foo],
+                                                                   %w[Meier Anna Warin 17,5 x]] }] })
+        end
+      end
+
+      it 'fills the input with the rows of the result' do
+        get '/backend/imports/disciplines/new', params: { competition_id: competition.id, discipline: 'hl',
+                                                          gender: 'female', import_request_id: import_request.id,
+                                                          result_index: 0 }
+        expect(response.body).to include("Meier\tAnna\tWarin\t17,5\tx", '<option selected="selected" value="col">')
+      end
     end
   end
 end

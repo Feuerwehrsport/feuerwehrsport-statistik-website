@@ -48,13 +48,16 @@
             .panel.panel-default
               .panel-heading Direkt-Import
               .panel-body
-                - resource.import_data_results.each do |result|
-                  - if result[:discipline] != 'zk'
-                    %button.add-discipline{ class: "discipline-#{result[:discipline]}-#{result[:gender]}", data: { rows: result[:rows].to_json }}
-                      = result[:discipline]
-                      = result[:gender]
-                      = result[:rows].count
-                      = result[:name]
+                - resource.import_data_results.each_with_index do |result, index|
+                  - if result[:discipline] != 'zk' && import_competition
+                    = link_to new_backend_imports_discipline_path(discipline: result[:discipline], gender: result[:gender],
+                                                                  competition_id: import_competition.id,
+                                                                  import_request_id: resource.id, result_index: index),
+                              class: "btn btn-default btn-sm add-discipline discipline-#{result[:discipline]}-#{result[:gender]}",
+                              data: { turbo_frame: 'import-discipline', turbo: true } do
+                      #{result[:discipline]} #{result[:gender]} #{result[:rows].count} #{result[:name]}
+                - unless import_competition
+                  %p.text-muted Wähle zuerst einen Wettkampf aus.
 
           - if resource.import_data_series_rounds.present?
             .col-md-6
@@ -62,7 +65,7 @@
                 .panel-heading Serien-Import
                 .panel-body#series-add-links
                   - resource.import_data_series_rounds.each do |round|
-                    = link_to(round.name, new_backend_series_round_import_path(round_id: round.id, series_round_import: { import_request_id: resource.id, competition_id: "TOCHANGE" } ), class: "btn btn-default btn-sm")
+                    = link_to(round.name, new_backend_series_round_import_path(round_id: round.id, series_round_import: { import_request_id: resource.id, competition_id: import_competition&.id } ), class: "btn btn-default btn-sm")
   .container
     .row
       .col-md-12
@@ -73,9 +76,11 @@
               - resource.import_request_files.each do |file|
                 %tr
                   %td= file.file_with_link
-                  %td{ data: { id: file.id, name: file.name }, class: file.pdf? && !file.transfered? ? "transfer-file" : nil }
+                  %td
                     - if file.transfered?
-                      .fa.fa-exchange-alt
+                      .fa.fa-exchange-alt{ title: 'übertragen' }
+                    - elsif file.pdf? && import_competition
+                      = render 'backend/import_request_files/transfer_form', file:
             %dl
               - %i[url_with_link date place event].each do |field|
                 - if resource.send(field).present?

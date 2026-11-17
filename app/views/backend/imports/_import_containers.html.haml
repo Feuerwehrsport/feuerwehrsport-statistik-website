@@ -1,56 +1,79 @@
+-# competition selection and import of results (backend imports and import requests)
 - competition_info ||= nil
+- competition = import_competition
 .container
+  .col-md-5
+    = form_with url: request.path, method: :get, data: { controller: 'auto-submit' } do
+      .radio-inline
+        %label
+          = radio_button_tag :order, 'latest', params[:order] != 'sorted', data: { action: 'auto-submit#submit' }
+          Zuletzt angelegt
+      .radio-inline
+        %label
+          = radio_button_tag :order, 'sorted', params[:order] == 'sorted', data: { action: 'auto-submit#submit' }
+          Nach Datum
+      = label_tag :competitions, 'Wettkampf', class: 'sr-only'
+      .input-group
+        = select_tag :competition_id,
+                     options_for_select([['Bitte wählen', '']] + import_competitions.map { ["#{it.date} - #{it.event} - #{it.place}", it.id] },
+                                        competition&.id),
+                     id: 'competitions', class: 'form-control',
+                     data: { action: 'auto-submit#submit' }
+        %span.input-group-btn
+          %button.btn.btn-default{ type: 'submit' } Auswählen
+    - if competition
+      %p
+        = link_to competition.to_s, competition_path(competition), id: 'competition-link'
+        %br
+        = link_to "#{competition} - Admin", backend_competition_path(competition), id: 'competition-link-admin'
+      = form_with url: score_type_backend_imports_path(competition_id: competition.id), method: :patch, class: 'form-inline' do
+        = label_tag :score_type_id, 'Mannschaftswertung'
+        = select_tag :score_type_id,
+                     options_for_select([['--', '']] + ScoreType.all.map { ["#{it.score}/#{it.run}/#{it.people}", it.id] },
+                                        competition.score_type_id),
+                     class: 'form-control input-sm'
+        %button.btn.btn-default.btn-sm{ type: 'submit' } Speichern
   .col-md-2
-    %input#competition-type-sorted{name: "competition-type", type: "radio", value: "sorted"}/
-    %label{for: "competition-type-sorted"} Sortiert
-    %br/
-    %input#competition-type-latest{checked: "checked", name: "competition-type", type: "radio", value: "latest"}/
-    %label{for: "competition-type-latest"} Letzter
-    %br/
-    %input#competition-type-new{name: "competition-type", type: "radio", value: "new"}/
-    %label{for: "competition-type-new"} Neu
-  #select-competitions.col-md-5
-    %select#competitions{style: ""}
-    %br/
-    %br/
-    %a#competition-link{href: ""}
-    %br/
-    %a#competition-link-admin{href: ""}
-    %br/
-    %a#change-competition-score-type{href: ""}
-      Mannschaftswertung
-      %span
-  #competition-scores.col-md-2
-  #competition-published.col-md-1
-  #create-competitions.col-md-3
-    %button.add-competition{ data: { competition: competition_info&.to_json } } Wettkampf
-    %button.add-event Typ
-    %button.add-place Ort
-    %button.add-group-score-type Gruppen-Typ
-  #show-group-score-types.col-md-3
-    %table.table
+    - if competition
+      %table#competition-scores.table.table-condensed
+        - ExtendedCompetitionSerializer.new(competition.object).score_count.each do |discipline, genders|
+          - genders.each do |gender, count|
+            - next unless count.positive?
+            %tr
+              %th= "#{discipline}-#{gender}"
+              %td= count
+  .col-md-5
+    %p
+      - names = (competition_info || {}).slice(:name, :date)
+      - names[:place_id] = Place.find_by(name: competition_info[:place])&.id if competition_info&.dig(:place)
+      - names[:event_id] = Event.find_by(name: competition_info[:event])&.id if competition_info&.dig(:event)
+      Anlegen:
+      = link_to 'Wettkampf', new_backend_competition_path(competition: names.compact), class: 'btn btn-default btn-xs', target: :_blank
+      = link_to 'Typ', new_backend_event_path, class: 'btn btn-default btn-xs', target: :_blank
+      = link_to 'Ort', new_backend_place_path, class: 'btn btn-default btn-xs', target: :_blank
+      = link_to 'Gruppen-Typ', new_backend_group_score_type_path, class: 'btn btn-default btn-xs', target: :_blank
+    %details
+      %summary Gruppen-Typen
+      %table.table.table-condensed
+        - GroupScoreType.reorder(:discipline, :name).each do |type|
+          %tr
+            %td= type.discipline
+            %td= type.name
 %hr
 - if block_given?
   = yield
-.container
-  .col-md-2
-    %h4 Löschangriff
-    %button.add-discipline.discipline-la-male male
-    %button.add-discipline.discipline-la-female female
-  .col-md-2
-    %h4 Hindernisbahn
-    %button.add-discipline.discipline-hb-male male
-    %button.add-discipline.discipline-hb-female female
-  .col-md-2
-    %h4 Feuerwehrstafette
-    %button.add-discipline.discipline-fs-male male
-    %button.add-discipline.discipline-fs-female female
-  .col-md-2
-    %h4 Hakenleitersteigen
-    %button.add-discipline.discipline-hl-male male
-    %button.add-discipline.discipline-hl-female female
-  .col-md-2
-    %h4 Gruppenstafette
-    %button.add-discipline.discipline-gs-female female
-.container
-  #disciplines
+- if competition
+  .container
+    - [%w[la Löschangriff], %w[hb Hindernisbahn], %w[fs Feuerwehrstafette], %w[hl Hakenleitersteigen],
+       %w[gs Gruppenstafette]].each do |discipline, name|
+      .col-md-2
+        %h4= name
+        - (discipline == 'gs' ? %w[female] : %w[male female]).each do |gender|
+          = link_to gender, new_backend_imports_discipline_path(discipline:, gender:, competition_id: competition.id),
+                    class: "btn btn-default btn-sm add-discipline discipline-#{discipline}-#{gender}",
+                    data: { turbo_frame: 'import-discipline', turbo: true }
+  .container
+    = turbo_frame_tag 'import-discipline', data: { turbo: true }
+- else
+  .container
+    %p.text-muted Wähle zuerst einen Wettkampf aus.

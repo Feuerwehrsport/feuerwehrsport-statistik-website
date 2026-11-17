@@ -101,7 +101,6 @@ class Ability
   end
 
   def basic_stuff
-    can %i[create status logout challenge], ApiUser
     can :read, Bla::Badge
     can :read, Competition
     can :read, ChangeLog

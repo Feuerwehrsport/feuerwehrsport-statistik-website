@@ -14,24 +14,15 @@ class Api::BaseController < ApplicationController
     change_log           = options.delete(:change_log)
     clean_cache_disabled = options.delete(:clean_cache_disabled)
     for_class            = options.delete(:for_class) || controller_path.classify.gsub(/^Api::/, '').constantize
-    create_form          = options.delete(:create_form)
-    update_form          = options.delete(:update_form)
     default_form         = options.delete(:default_form)
 
     options[:for_class] = for_class
     default_actions(*action_names, **options)
     include Api::Actions::Index            if action_names.include?(:index)
     include Api::Actions::Create           if action_names.include?(:create)
-    include Api::Actions::Show             if action_names.include?(:show)
-    include Api::Actions::Edit             if action_names.include?(:edit)
-    include Api::Actions::Update           if action_names.include?(:update)
-    include Api::Actions::Destroy          if action_names.include?(:destroy)
-    include Api::Actions::Move             if action_names.include?(:move)
     include ChangeLogSupport if change_log
     include CleanCacheSupport unless clean_cache_disabled
 
-    form_for(:create) { |f| create_form.each { |field| f.permit field } } if create_form.present?
-    form_for(:update) { |f| update_form.each { |field| f.permit field } } if update_form.present?
     default_form { |f| default_form.each { |field| f.permit field } } if default_form.present?
 
     define_method(:paginate?) { false }

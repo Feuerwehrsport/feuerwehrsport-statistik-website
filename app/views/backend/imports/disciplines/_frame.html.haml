@@ -1,0 +1,6 @@
+= turbo_frame_tag 'import-discipline', data: { turbo: true } do
+  %fieldset.discipline{ class: "discipline-#{@discipline} #{@gender}" }
+    %legend
+      = "#{discipline_name(@discipline)} - #{g(@gender)}"
+      %small= @competition
+    = yield

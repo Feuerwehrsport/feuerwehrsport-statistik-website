@@ -1,0 +1,4 @@
+%span.input-line-field
+  = select_tag 'columns[]', options_for_select(Backend::Imports::DisciplinesController::COLUMNS, column), id: nil,
+               'aria-label': 'Spalte'
+  %button.btn.btn-default.btn-xs{ type: 'button', title: 'Spalte entfernen', data: { action: 'column-fields#remove' } } x
