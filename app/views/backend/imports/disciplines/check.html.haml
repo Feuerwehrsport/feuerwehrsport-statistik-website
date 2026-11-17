@@ -14,23 +14,23 @@
     - @check.missing_teams.each do |team_name|
       - name = team_name.sub(/\sII?\z/, '')
       - shortcut = name.sub(/\AFF\s+/, '')
-      = form_with url: team_backend_imports_disciplines_path, class: 'form-inline missing-team' do
+      = form_with url: team_backend_imports_disciplines_path, class: 'd-flex flex-wrap gap-2 align-items-center mb-2 missing-team' do
         = render 'hidden_input'
-        = text_field_tag 'team[name]', name.start_with?('FF') ? name : "FF #{name}", class: 'form-control input-sm',
+        = text_field_tag 'team[name]', name.start_with?('FF') ? name : "FF #{name}", class: 'form-control form-control-sm',
                          'aria-label': "Name für #{team_name}"
-        = text_field_tag 'team[shortcut]', shortcut, class: 'form-control input-sm', 'aria-label': "Abkürzung für #{team_name}"
+        = text_field_tag 'team[shortcut]', shortcut, class: 'form-control form-control-sm', 'aria-label': "Abkürzung für #{team_name}"
         = select_tag 'team[status]', options_for_select([['Einzelne Feuerwehr', 'fire_station'], ['Zusammenschluss (Team)', 'team']]),
-                     class: 'form-control input-sm', 'aria-label': "Typ für #{team_name}"
-        %button.btn.btn-default.btn-sm{ type: 'submit' }= "#{team_name} anlegen"
+                     class: 'form-control form-control-sm', 'aria-label': "Typ für #{team_name}"
+        %button.btn.btn-outline-secondary.btn-sm{ type: 'submit' }= "#{team_name} anlegen"
 
   = form_with url: backend_imports_disciplines_path, class: 'import-scores' do
     = render 'hidden_input'
     %p.text-muted Nur markierte Zeilen werden eingetragen.
-    %table.table.table-bordered.table-condensed
+    %table.table.table-bordered.table-sm
       - lines.each_with_index do |line, index|
         - prefix = "lines[#{index}]"
         %tr{ class: line[:valid] ? 'valid-row' : 'invalid-row' }
-          %td= check_box_tag "#{prefix}[valid]", '1', line[:valid], 'aria-label': "Zeile #{index + 1} eintragen"
+          %td= check_box_tag "#{prefix}[valid]", '1', line[:valid], 'aria-label': "Zeile #{index + 1} eintragen", class: 'form-check-input'
           - unless group && line[:last_name].blank?
             - people = Array(line[:people])
             %td{ class: people.empty? ? 'person-not-found' : nil }
@@ -76,14 +76,14 @@
                 = hidden_field_tag "#{prefix}[times][]", time
           %td.raw-line= @check.lines[index]&.join(' | ')
 
-    .form-inline
+    .d-flex.flex-wrap.gap-2.align-items-center
       - if group
         = label_tag :group_score_category_id, 'Kategorie'
-        = select_tag :group_score_category_id, options_for_select(@category_options), class: 'form-control input-sm'
-        = text_field_tag :category_name, 'default', class: 'form-control input-sm', 'aria-label': 'Name der neuen Kategorie'
+        = select_tag :group_score_category_id, options_for_select(@category_options), class: 'form-select form-select-sm'
+        = text_field_tag :category_name, 'default', class: 'form-control form-control-sm', 'aria-label': 'Name der neuen Kategorie'
         = select_tag :group_score_type_id, options_for_select(@group_score_type_options),
-                     class: 'form-control input-sm', 'aria-label': 'Typ der neuen Kategorie'
+                     class: 'form-control form-control-sm', 'aria-label': 'Typ der neuen Kategorie'
       - else
         = label_tag :single_discipline_id, 'Disziplin'
-        = select_tag :single_discipline_id, options_for_select(@single_discipline_options), class: 'form-control input-sm'
+        = select_tag :single_discipline_id, options_for_select(@single_discipline_options), class: 'form-select form-select-sm'
       %button.btn.btn-success{ type: 'submit' } Eintragen

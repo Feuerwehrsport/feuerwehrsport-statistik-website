@@ -20,18 +20,10 @@ class Chart::PersonIndex < Chart::Base
                                .group(:'single_disciplines.key').count
     group_scores_count = GroupScoreParticipation.joins(:person).merge(Person.gender(gender))
                                                 .group(:discipline).count
-    scores = single_scores_count.merge(group_scores_count).map do |discipline, count|
-      {
-        name: discipline.upcase,
-        y: count,
-        color: discipline_color(discipline),
-      }
+    scores = single_scores_count.merge(group_scores_count).sort_by { |discipline, _count| discipline }
+                                .map do |discipline, count|
+      { name: discipline.upcase, y: count, color: discipline_color(discipline) }
     end
-
-    lazy_high_chart do |hc|
-      hc.series(name: 'Anzahl', data: scores)
-      hc.plotOptions(pie: { size: 70, dataLabels: { distance: 5, format: '{percentage:.1f} % {point.name}' } })
-      hc.chart(type: 'pie', height: 150)
-    end
+    pie_chart(scores, name: "Zeiten #{g(gender)}")
   end
 end

@@ -3,9 +3,10 @@
   = render 'layouts/head'
   %body
     = render 'navigation'
-    - unless save_html_cache?
-      = render 'flash_messages'
-    = yield
+    %main.site-main
+      - unless save_html_cache?
+        = render 'flash_messages'
+      = yield
     = render 'footer'
     -# dialog for contributions of visitors (Hotwire, see Contributions::BaseController)
     %dialog.contribution-dialog{ tabindex: -1, data: { controller: 'contribution-dialog',

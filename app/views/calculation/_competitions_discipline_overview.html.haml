@@ -1,28 +1,28 @@
-= toc.anker 'Auswertung', :h2
-- chart = Chart::CompetitionsScoreOverview.new(competitions:, request:)
-.calculation-area
+- chart = Chart::CompetitionsScoreOverview.new(competitions:)
+%section.content-card
+  = toc.anker 'Auswertung', :h2
   .row
     .col-md-4
-      %h4 Verteilung der Wettkämpfe über das Jahr
+      %h3.h6 Verteilung der Wettkämpfe über das Jahr
       = chart.year_overview
     .col-md-4
-      %h4 Verteilung der Wettkämpfe über die Woche
+      %h3.h6 Verteilung der Wettkämpfe über die Woche
       = chart.week_overview
     .col-md-4
-      %h4 Angebotene Disziplinen pro Wettkampf
+      %h3.h6 Angebotene Disziplinen pro Wettkampf
       = chart.disciplines_overview
     .col-md-4
-      %h4 Mannschaftswertungen der Einzeldisziplinen
+      %h3.h6 Mannschaftswertungen der Einzeldisziplinen
       = chart.team_scores_overview
     .col-md-4
-      %h4 Anzahl der Mannschaften pro Wettkampf
+      %h3.h6 Anzahl der Mannschaften pro Wettkampf
       = chart.teams_count_overview
     .col-md-4
-      %h4 Anzahl der Einzelstarter pro Wettkampf
+      %h3.h6 Anzahl der Einzelstarter pro Wettkampf
       = chart.people_count_overview
 
-= toc.anker 'Bestenliste', :h2
-.calculation-area
+%section.content-card
+  = toc.anker 'Bestenliste', :h2
   = nav_tab do |t|
     - Calc::CompetitionsScoreOverview.new(competitions:).disciplines.each do |key, genders|
       - genders.each do |gender, overview|
@@ -34,15 +34,15 @@
                   %h4= type.type
                 %table.table
                   %tr
-                    %th.col-md-1 Durchschnitt
-                    %td.col-md-1= "#{Firesport::Time.second_time(type.average)} s"
+                    %th Durchschnitt
+                    %td= "#{Firesport::Time.second_time(type.average)} s"
                   %tr
-                    %th.col-md-1 Anzahl
-                    %td.col-md-1= type.count
+                    %th Anzahl
+                    %td= type.count
                   - if type.best.present?
                     %tr
-                      %th.col-md-1 Bestzeit
-                      %td.col-md-1
+                      %th Bestzeit
+                      %td
                         = "#{type.best.second_time} s"
                         %br
                         = link_to(type.best.competition, type.best.competition)
@@ -51,9 +51,9 @@
                   - type.years.each do |year, bests|
                     - bests.each do |best|
                       %tr
-                        %th.col-md-1= year
-                        %td.col-md-1= "#{best.second_time} s"
-                        %td.col-md-4
+                        %th= year
+                        %td= "#{best.second_time} s"
+                        %td
                           = link_to(best.entity.full_name, best.entity)
                           %br
                           = link_to(best.competition, best.competition)

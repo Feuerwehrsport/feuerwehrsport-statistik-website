@@ -2,7 +2,7 @@
 
 - @person_assessments.each do |assessment|
   %hr
-  .pull-right
+  .float-end
     - round.cups.each do |cup|
       = link_to "Eintrag zu #{cup} hinzufügen",
                 new_backend_series_person_participation_path(cup_id: cup.id, person_assessment_id: assessment.id),

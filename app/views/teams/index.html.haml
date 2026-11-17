@@ -1,41 +1,42 @@
-.section
-  .container.page-header
-    %h1= page_title
-  .container
-    = datatable(:teams)
+= table_of_contents do |toc|
+  - chart = Chart::TeamOverview.new
+  = page_head(page_title, toc:, tiles: [[Team.count, 'Mannschaften']])
 
   .container
-    - chart = Chart::TeamOverview.new(request:)
-    .col-md-6
-      %h4 Verteilung der Bundesländer
-      = chart.federal_states_pie
-    .col-md-6
-      %h4 Verteilung der Staaten
-      = chart.international_states_pie
-    .col-md-6
-      %h4 Aktive Mannschaften pro Jahr
-      = chart.activities_for_years
+    = content_card('Alle Mannschaften', toc:, label: 'Mannschaften') do
+      = datatable(:teams)
 
-  .container
-    %h2 Karte der Mannschaften
-    = map(id: 'teams-map', markers: Team.positioned.decorate, class: 'big-map') { |m| { count: m.competitions_count } }
-  .container
-    %h2 Neue Mannschaft anlegen
-  .container
-    .col-md-4
-      %p Ist deine Mannschaft oder Feuerwehr noch nicht eingetragen? Dann lege sie doch einfach schnell an. Mit nur ein paar Klicks und ohne Anmeldung ist es in einer Minute geschafft.
-      = link_to 'Anlegen', new_contributions_team_path, id: 'add-team', class: 'btn btn-default',
-                                                        data: { turbo_frame: 'contribution', turbo: true }
+    = content_card('Auswertung', toc:) do
+      .row
+        .col-md-4
+          %h3.h6 Verteilung der Bundesländer
+          = chart.federal_states_pie
+        .col-md-4
+          %h3.h6 Verteilung der Staaten
+          = chart.international_states_pie
+        .col-md-4
+          %h3.h6 Aktive Mannschaften pro Jahr
+          = chart.activities_for_years
 
-    .col-md-4
-      = image_tag 'actions/user-group-new.png'
-    .col-md-4
-      %h4 Konventionen - Freiwillige Feuerwehren
-      %p Bei der Eingabe einer Feuerwehr einigen wir uns der Übersichts geschuldet auf folgende Abkürzung:
-      %table
-        %tr
-          %th Name: 
-          %td FF XXX
-        %tr
-          %th Abk.: 
-          %td XXX
+    = content_card('Karte der Mannschaften', toc:, label: 'Karte') do
+      = map(id: 'teams-map', markers: Team.positioned.decorate, class: 'big-map',
+            data: { controller: 'overview-map', overview_map_circle_value: 20,
+                    overview_map_bounds_value: [[50.4, 5.9], [54.5, 16.8]].to_json }) { |m| { count: m.competitions_count } }
+
+    = content_card('Neue Mannschaft anlegen', toc:) do
+      .row.g-4
+        .col-md-7
+          %p
+            Ist deine Mannschaft oder Feuerwehr noch nicht eingetragen? Dann leg sie einfach an – mit ein paar Klicks
+            und ohne Anmeldung ist das in einer Minute geschafft.
+          = link_to 'Anlegen', new_contributions_team_path, id: 'add-team', class: 'btn btn-outline-secondary',
+                                                            data: { turbo_frame: 'contribution', turbo: true }
+        .col-md-5
+          %h3.h6 Schreibweise für Freiwillige Feuerwehren
+          %table.table.table-sm.w-auto
+            %tr
+              %th Name
+              %td FF XXX
+            %tr
+              %th Abkürzung
+              %td XXX

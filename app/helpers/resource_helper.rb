@@ -110,7 +110,7 @@ module ResourceHelper
   end
 
   def remote_index_table(url, &)
-    tag.div('', data: { remote_index_table: url }, &)
+    tag.div('', data: { controller: 'remote-index-table', remote_index_table_url_value: url }, &)
   end
 
   def sortable_index_label(label, field_name: nil, param_name: :order, asc: false, desc: false)
@@ -152,15 +152,6 @@ module ResourceHelper
     label
   end
 
-  def tracking_code
-    code = []
-    code.push(facebook_pixel_code) if facebook_pixel_id.present?
-    code.push(google_analytics_code) if google_analytics_key.present?
-    code.push(google_tag_manager_code) if google_tag_manager_key.present?
-    code.push(@custom_tracking_code) if @custom_tracking_code.present?
-    code.join.html_safe
-  end
-
   def keep_filter_options(for_key:)
     inputs = ''
     if params[for_key].present? && params[for_key].is_a?(Hash)
@@ -172,47 +163,5 @@ module ResourceHelper
   def human_name(attr_name, model_or_class = resource_class)
     model_or_class = model_or_class.class unless model_or_class.is_a?(Class)
     model_or_class.human_attribute_name(attr_name)
-  end
-
-  private
-
-  def facebook_pixel_code
-    <<~HTML
-      <script>
-        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-          document,'script','https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '#{facebook_pixel_id}');
-        fbq('track', 'PageView');
-      </script>
-      <noscript><img height='1' width='1' style='display:none' src='https://www.facebook.com/tr?id=#{facebook_pixel_id}&ev=PageView&noscript=1' /></noscript>
-    HTML
-  end
-
-  def google_analytics_code
-    <<~HTML
-      <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-        ga('create', '#{google_analytics_key}', 'auto');
-        M3.ready(function() { ga('send', 'pageview'); });
-      </script>
-    HTML
-  end
-
-  def google_tag_manager_code
-    <<~HTML
-      <noscript><iframe src='//www.googletagmanager.com/ns.html?id=#{google_tag_manager_key}' height='0' width='0' style='display:none;visibility:hidden'></iframe></noscript>
-      <script>window.dataLayer=[];(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
-        var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
-        j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})
-        (window,document,'script','dataLayer','#{google_tag_manager_key}');
-        M3.ready(function(){window.dataLayer.push({'event':'pageview','virtualUrl':window.location.pathname});})
-      </script>
-    HTML
   end
 end

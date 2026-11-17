@@ -21,6 +21,23 @@ Ui::CountTable = Struct.new(:view, :rows, :options, :columns, :data_fields, :foo
     columns.push Ui::Column.new(self, column_head, column_key, options, block)
   end
 
+  # sortable table (stimulus sort-table): sort: { col:, direction:, no_sorting: [..] or :last, edit_label:, edit_url: }
+  def table_data
+    sort = options[:sort]
+    return {} if sort.blank?
+
+    sort = {} if sort == true
+    no_sorting = sort[:no_sorting] == :last ? [columns.count - 1] : sort[:no_sorting]
+    {
+      controller: 'sort-table',
+      sort_table_col_value: sort[:col],
+      sort_table_direction_value: sort[:direction],
+      sort_table_no_sorting_value: no_sorting&.to_json,
+      sort_table_edit_label_value: sort[:edit_label],
+      sort_table_edit_url_value: sort[:edit_url],
+    }.compact
+  end
+
   def data(data_name, &block)
     data_fields.push(Ui::DataField.new(data_name, block))
   end

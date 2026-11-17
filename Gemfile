@@ -32,7 +32,6 @@ gem 'importmap-rails' # es modules without bundler (app/javascript)
 gem 'turbo-rails' # hotwire: turbo frames for dialogs
 gem 'stimulus-rails' # hotwire: small js controllers
 gem 'terser' # asset compressor
-gem 'coffee-rails' # coffee script
 gem 'image_optim' # image optimazing
 gem 'image_optim_pack' # image optimazing binaries
 gem 'dartsass-sprockets' # sass for sprockets via dart sass (bootstrap 3 is vendored in vendor/assets)

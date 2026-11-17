@@ -1,0 +1,457 @@
+// page frame: header, footer, page head with key figures and section navigation
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.site-header {
+  background: $ink;
+
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: $font-family-headings;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+
+    .brand-light {
+      font-weight: 500;
+      color: #AEB8C2;
+    }
+  }
+
+  .nav-link.active {
+    box-shadow: inset 0 -2px 0 $fire-red;
+  }
+}
+
+.site-main {
+  flex: 1 0 auto;
+}
+
+.site-footer {
+  border-top: 1px solid $line;
+  background: #FFFFFF;
+  font-size: 0.8125rem;
+  color: $muted;
+
+  a {
+    color: $muted;
+  }
+}
+
+// head of a page (white band below the navigation)
+.page-head {
+  background: #FFFFFF;
+  border-bottom: 1px solid $line;
+  padding: 1.5rem 0;
+  margin-bottom: 1.5rem;
+
+  &.with-section-nav {
+    padding-bottom: 0;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: calc(1.9rem + 1.2vw);
+    line-height: 1.05;
+
+    @include media-breakpoint-up(xl) {
+      font-size: 2.75rem;
+    }
+
+    small {
+      font-size: 0.55em;
+      font-weight: 500;
+      color: $muted;
+    }
+  }
+
+  .page-head-extra {
+    margin-top: 1rem;
+    max-width: 52rem;
+
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.page-breadcrumb {
+  margin-bottom: 0.75rem;
+  font-size: 0.8125rem;
+  color: $muted;
+
+  .sep {
+    margin: 0 0.4rem;
+  }
+}
+
+.page-head-main {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.page-head-image {
+  flex: none;
+
+  img {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    border: 1px solid $line;
+    border-radius: $border-radius-lg;
+    background: #FFFFFF;
+  }
+}
+
+.page-head-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: $ground;
+  border: 1px solid $line;
+  border-radius: 999px;
+  padding: 0.1rem 0.6rem;
+  font-size: 0.8125rem;
+}
+
+.stat-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.stat-tile {
+  border: 1px solid $line;
+  border-radius: $border-radius-lg;
+  padding: 0.9rem 1.1rem;
+  background: #FFFFFF;
+
+  .stat-value {
+    font-family: $font-family-headings;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat-label {
+    font-size: 0.8125rem;
+    color: $muted;
+  }
+}
+
+// section navigation (replaces the former table of contents box)
+.section-nav {
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+  margin: 1rem -0.75rem 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  a {
+    padding: 0.75rem;
+    color: $muted;
+    white-space: nowrap;
+    text-decoration: none;
+
+    &:hover {
+      color: $ink;
+      box-shadow: inset 0 -2px 0 $line;
+    }
+  }
+}
+
+// content blocks
+.content-card {
+  background: #FFFFFF;
+  border: 1px solid $line;
+  border-radius: $border-radius-lg;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+
+  > h2:first-of-type,
+  > a[id^="toc-"] + h2 {
+    margin-top: 0;
+    font-size: 1.75rem;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  @include media-breakpoint-down(sm) {
+    padding: 1rem;
+  }
+}
+
+a[id^="toc-"] {
+  scroll-margin-top: 1rem;
+}
+
+.disc-chip {
+  display: inline-block;
+  background: $ink;
+  color: #FFFFFF;
+  border-radius: $border-radius-sm;
+  padding: 0.1rem 0.5rem;
+  font-family: $font-family-headings;
+  font-weight: 700;
+}
+
+.gender-male {
+  color: $male;
+}
+
+.gender-female {
+  color: $female;
+}
+
+// numbers in tables stay aligned
+.table {
+  font-variant-numeric: tabular-nums;
+}
+
+.map {
+  height: 300px;
+  border-radius: $border-radius;
+}
+
+.big-map {
+  height: 500px;
+}
+
+.content-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.75rem;
+
+  h2 {
+    margin: 0;
+    font-size: 1.75rem;
+  }
+
+  > a:last-child {
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+}
+
+// cards with discipline links on the start page
+.discipline-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: 0.75rem;
+
+  a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 1rem;
+    border: 1px solid $line;
+    border-radius: $border-radius-lg;
+    color: $ink;
+    text-decoration: none;
+
+    &:hover {
+      border-color: $fire-red;
+    }
+
+    .disc-chip {
+      align-self: flex-start;
+      margin-bottom: 0.4rem;
+    }
+
+    .name {
+      font-weight: 600;
+    }
+
+    .genders {
+      font-size: 0.8125rem;
+      color: $muted;
+    }
+  }
+}
+
+.content-card-dark {
+  background: $ink;
+  border-color: $ink;
+  color: #FFFFFF;
+
+  h2 {
+    color: #FFFFFF;
+  }
+
+  p {
+    color: #C9D1D9;
+  }
+}
+
+.years-overview-home {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(5.5rem, 1fr));
+  gap: 0.5rem;
+
+  a {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.35rem 0.6rem;
+    border: 1px solid $line;
+    border-radius: $border-radius;
+    color: $ink;
+    text-decoration: none;
+    font-variant-numeric: tabular-nums;
+
+    &:hover {
+      border-color: $fire-red;
+    }
+
+    span {
+      color: $muted;
+      font-size: 0.8125rem;
+    }
+  }
+}
+
+.content-card-head > a[id^="toc-"] {
+  position: absolute;
+}
+
+.link-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 1.25rem;
+  font-weight: 500;
+
+  .report-link {
+    color: $muted;
+    padding: 0 0.25rem;
+  }
+}
+
+.chip .btn {
+  padding: 0 0.2rem;
+  line-height: 1;
+  border: 0;
+  color: $muted;
+}
+
+.side-chart {
+  max-width: 320px;
+}
+
+// Chart.js needs a positioned container with a fixed height (see Chart::Base)
+.chart-box {
+  position: relative;
+  width: 100%;
+}
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 1rem 1.5rem;
+
+  h3 {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+  }
+}
+
+.nation-iso {
+  white-space: nowrap;
+  font-size: 0.8125rem;
+  color: $muted;
+}
+
+.person-team {
+  padding: 1rem 0;
+  border-top: 1px solid $line;
+
+  &:first-of-type {
+    border-top: 0;
+    padding-top: 0;
+  }
+}
+
+.page-head h1 [class^="gender-"] {
+  font-size: 0.6em;
+  vertical-align: 0.15em;
+}
+
+.missed-info {
+  border-radius: $border-radius-lg;
+  padding: 1rem 1.25rem;
+
+  ul {
+    margin-bottom: 0;
+  }
+}
+
+.kicker {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $fire-red;
+}
+
+.content-card .table {
+  --bs-table-bg: transparent;
+
+  > thead th {
+    border-bottom-color: $ink;
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+}
+
+.text-page {
+  h2,
+  h3 {
+    margin-top: 1.75rem;
+  }
+
+  > :first-child,
+  > a[id^="toc-"]:first-child + h2 {
+    margin-top: 0;
+  }
+}
+
+// wide tables scroll inside their card instead of overflowing on small screens
+.content-card .dt-layout-table > div,
+.content-card > .table-responsive {
+  overflow-x: auto;
+}
+
+.page-head-extra .table {
+  width: auto;
+  min-width: 20rem;
+}

@@ -12,7 +12,7 @@ class Chart::TeamOverview < Chart::Base
   end
 
   def activities_for_years
-    data = Year.where(Year.arel_table[:year].gt(1995)).pluck(:year).map do |year|
+    data = Year.where(Year.arel_table[:year].gt(1995)).pluck(:year).sort.map do |year|
       {
         name: year.to_i.to_s,
         y: TeamCompetition.joins(:competition)
@@ -20,14 +20,7 @@ class Chart::TeamOverview < Chart::Base
                           .group(:team_id).count.count,
       }
     end
-    lazy_high_chart do |hc|
-      hc.legend(enabled: false)
-      hc.chart(type: 'column', height: 120)
-      hc.plotOptions(series: { pointWidth: 6 })
-      hc.yAxis(endOnTick: false, title: nil)
-      hc.xAxis(categories: data.pluck(:name))
-      hc.series(name: 'Mannschaften', data:)
-    end
+    bar_chart(labels: data.pluck(:name), values: data.pluck(:y), name: 'Aktive Mannschaften', height: 160)
   end
 
   protected
@@ -35,13 +28,7 @@ class Chart::TeamOverview < Chart::Base
   def states_pie(data)
     data = data.map { |k, v| { short_name: k, name: State::ALL[k], y: v } }
     data = data.reject { |a| a[:y].blank? }.sort_by { |a| a[:y] }.reverse
-    lazy_high_chart do |hc|
-      hc.legend(enabled: false)
-      hc.chart(type: 'column', height: 120)
-      hc.plotOptions(series: { pointWidth: 6 })
-      hc.yAxis(endOnTick: false, title: nil)
-      hc.xAxis(categories: data.pluck(:short_name))
-      hc.series(name: 'Mannschaften', data:)
-    end
+    bar_chart(labels: data.pluck(:short_name), values: data.pluck(:y), name: 'Mannschaften', height: 160,
+              names: data.pluck(:name))
   end
 end

@@ -1,20 +1,19 @@
-.section
-  .container.page-header
-    .col-md-1.hidden-xs.hidden-sm= discipline_image(resource.discipline, width: "100%")
-    .col-md-7
-      %h1
-        = resource.round
-        %br
-        %small= resource
-      %ul
-        %li= link_to("Zurück zur Übersicht", resource.round)
-        - @person_assessments.each do |assessment|
-          %li= link_to(assessment, assessment)
-        %li= link_to('Als PDF', format: :pdf)
-    .col-md-4= render("series/cups_overview", cups: resource.cups)
-  .container
+- title = capture do
+  = discipline_image(resource.discipline)
+  = resource
+= page_head(title, kicker: resource.round.to_s,
+            breadcrumb: [link_to('Wettkampfserien', series_kinds_path), link_to(resource.round, resource.round), resource.to_s]) do
+  .d-flex.flex-wrap.gap-2.mb-3
+    - @person_assessments.each do |assessment|
+      = link_to(assessment, assessment, class: "btn btn-sm #{assessment == resource ? 'btn-primary' : 'btn-outline-secondary'}")
+    = link_to(url_for(format: :pdf), class: 'btn btn-sm btn-outline-secondary') do
+      %span.fa.fa-download{ 'aria-hidden': 'true' }
+      Als PDF
+  = render('series/cups_overview', cups: resource.cups)
+
+.container
+  = content_card do
     = render('show_assessment_table', rows: resource.rows, cups: resource.cups)
     = render('series/calculation_hint_btn', config: resource.config)
-  = render('series/calculation_hint', config: resource.config)
-  .container
-    = render('series/round_footer', official: resource.round.official?, pdf: true)
+    = render('series/calculation_hint', config: resource.config)
+  = render('series/round_footer', official: resource.round.official?, pdf: true)

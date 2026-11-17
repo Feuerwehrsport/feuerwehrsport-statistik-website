@@ -1,8 +1,5 @@
-= table_of_contents do |toc|
-  .section
-    .container
-      .col-md-9
-        %h1 Wettkampfserien
-      .col-md-3= toc.index
+= page_head(@kind.name, kicker: 'Wettkampfserie', breadcrumb: [link_to('Wettkampfserien', series_kinds_path), @kind.name])
 
-    = render('index_overview', toc: toc, round_link_prefix: [])
+.container
+  = table_of_contents do |toc|
+    = render('index_overview', toc:, round_link_prefix: [])

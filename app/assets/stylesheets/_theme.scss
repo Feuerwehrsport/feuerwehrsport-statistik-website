@@ -1,0 +1,55 @@
+// design tokens of the site, then Bootstrap 5 (vendor/assets/stylesheets/bootstrap5)
+$ink: #14202B;
+$muted: #56626F;
+$ground: #F4F5F7;
+$line: #E1E4E9;
+$fire-red: #B91C1C;
+$male: #1D4ED8;
+$female: #EA580C;
+
+$primary: $fire-red;
+$secondary: $muted;
+$dark: $ink;
+$light: $ground;
+$body-color: $ink;
+$body-bg: $ground;
+$body-secondary-color: $muted;
+$border-color: $line;
+$link-color: $fire-red;
+$link-hover-color: #7F1D1D;
+$link-decoration: none;
+$link-hover-decoration: underline;
+
+$font-family-sans-serif: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+$font-family-headings: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+$font-size-base: 0.9375rem;
+$headings-font-family: $font-family-headings;
+$headings-font-weight: 700;
+$headings-line-height: 1.1;
+$h1-font-size: 2.75rem;
+$h2-font-size: 1.875rem;
+$h3-font-size: 1.5rem;
+$h4-font-size: 1.25rem;
+
+$border-radius: 0.5rem;
+$border-radius-sm: 0.375rem;
+$border-radius-lg: 0.75rem;
+$card-border-color: $line;
+$card-cap-bg: #FFFFFF;
+$table-border-color: $line;
+$table-bg: #FFFFFF;
+$card-bg: #FFFFFF;
+$input-bg: #FFFFFF;
+$input-border-color: #C9CFD6;
+$form-select-bg: #FFFFFF;
+$form-select-border-color: #C9CFD6;
+$table-striped-bg: rgba($ink, 0.03);
+$table-hover-bg: rgba($ink, 0.045);
+$table-th-font-weight: 600;
+$navbar-dark-color: rgba(#FFFFFF, 0.85);
+$navbar-dark-hover-color: #FFFFFF;
+$nav-link-font-weight: 500;
+$input-btn-focus-color: rgba($fire-red, 0.25);
+$enable-negative-margins: true;
+
+@import 'bootstrap5/bootstrap';

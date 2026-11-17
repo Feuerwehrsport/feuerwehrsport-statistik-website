@@ -1,38 +1,25 @@
 = table_of_contents do |toc|
-  .section
-    .container
-      .col-md-9
-        %h1 Wettkämpfer
-      .col-md-3= toc.index
+  - chart = Chart::PersonIndex.new
+  = page_head('Wettkämpfer', toc:, tiles: [[Person.female.count, 'Frauen'], [Person.male.count, 'Männer']])
 
+  .container
     - [:female, :male].each do |gender|
-      .container
-        = toc.anker(g(gender), :h2)
+      = content_card(gender == :female ? 'Frauen' : 'Männer', toc:) do
         = datatable(:"people_#{gender}")
 
-    .container
-      = toc.anker('Auswertung')
-    .container
-      - chart = Chart::PersonIndex.new(request:)
-      .col-md-4
-        %h4 Geschlechter
-        = chart.gender_pie
+    = content_card('Auswertung', toc:) do
+      .row
+        .col-md-4
+          %h3.h6 Geschlechter
+          = chart.gender_pie
+        .col-md-4
+          %h3.h6 Disziplinen bei Frauen
+          = chart.disciplines_pie(:female)
+        .col-md-4
+          %h3.h6 Disziplinen bei Männern
+          = chart.disciplines_pie(:male)
 
-      .col-md-4
-        %h4 Disziplinen bei Frauen
-        = chart.disciplines_pie(:female)
-
-      .col-md-4
-        %h4 Disziplinen bei Männern
-        = chart.disciplines_pie(:male)
-
-
-    .container
-      = toc.anker('Neue Person hinzufügen', :h2)
-    .container
-      .col-md-5
-        %p Ist eine Person die du kennst noch nicht eingetragen? Dann trage sie doch schnell ins System ein!
-      .col-md-4
-        = link_to 'Person hinzufügen', new_contributions_person_path, id: 'add-person', class: 'btn btn-default',
-                                                                     data: { turbo_frame: 'contribution', turbo: true }
-      .col-md-3= design_image('system-users')
+    = content_card('Neue Person hinzufügen', toc:) do
+      %p Ist eine Person, die du kennst, noch nicht eingetragen? Dann trag sie schnell ein!
+      = link_to 'Person hinzufügen', new_contributions_person_path, id: 'add-person', class: 'btn btn-outline-secondary',
+                                                                   data: { turbo_frame: 'contribution', turbo: true }

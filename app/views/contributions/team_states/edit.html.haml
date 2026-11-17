@@ -1,10 +1,10 @@
 = render layout: 'contributions/shared/dialog', locals: { title: "Bundesland: #{@team.name}" } do
   - if @error.present?
     .alert.alert-danger= @error
-  = form_with url: contributions_team_state_path(@team), method: :patch, class: 'form-horizontal' do
-    .form-group
-      = label_tag :state, 'Land', class: 'control-label col-sm-3'
+  = form_with url: contributions_team_state_path(@team), method: :patch do
+    .row.mb-3
+      = label_tag :state, 'Land', class: 'col-form-label col-sm-3'
       .col-sm-9
         = select_tag :state, options_for_select([['unbekannt', '']] + State::ALL.invert.to_a,
-                                                params[:state] || @team.state), class: 'form-control'
+                                                params[:state] || @team.state), class: 'form-select'
     = render 'contributions/shared/actions', submit: 'Speichern'

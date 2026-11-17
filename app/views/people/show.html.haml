@@ -1,53 +1,45 @@
 = table_of_contents do |toc|
-  - chart = Chart::PersonShow.new(person: resource, team_structs: @team_structs, request:)
-  .section
-    .container.page-header
-      %span.pull-right
-        = resource.nation
-        = resource.nation.nation_flag(width: 24)
-      %h1
-        = resource.full_name
-        %small= g_symbol(resource.gender)
+  - chart = Chart::PersonShow.new(person: resource, team_structs: @team_structs)
+  - nation = capture do
+    = resource.nation.nation_flag
+    = resource.nation
+  - spellings = capture do
+    - if @person_spellings.any?
+      %span{ title: 'Das passiert zum Beispiel durch eine Hochzeit.' }
+        auch bekannt als #{@person_spellings.map(&:full_name).join(', ')}
+  - title = capture do
+    = resource.full_name
+    %span{ class: "gender-#{resource.gender}" }= g_symbol(resource.gender)
+  = page_head(title, breadcrumb: [link_to('Personen', people_path), resource.full_name], toc:,
+              chips: [nation, *@teams.first(4).map { |team| link_to(team.shortcut.presence || team.name, team) },
+                (link_to("+ #{@teams.count - 4} weitere", '#toc-mannschaften') if @teams.count > 4), spellings],
+              tiles: [[@score_count, 'Zeiten'], [@competition_count, 'Wettkämpfe'], [@teams.count, 'Mannschaften']])
 
-      - if @person_spellings.count > 0
-        .small{ title: 'Dies passiert zum Beispiel durch eine Hochzeit.' }
-          = resource.first_name
-          ist auch unter
-          = @person_spellings.map(&:full_name).join(", ")
-          bekannt
-
-    .container
-      .col-md-3= chart.year_overview
-      .col-md-6
-        - @teams.each do |team|
-          - if team.image.present?
-            = image_tag(team.image.tile.url, width: 100, title: team)
-          - else
-            .team-logo-replacement= team
-      .col-md-3= toc.index
-    .container
-      %hr
-    - if resource.bla_badge
-      = render('bla_badge', badge: resource.bla_badge)
-    .container
-      - People::SingleDisciplineOverview.for(resource).each do |discipline_struct|
-        = render('person_single_discipline_overview', toc:, chart:, ds: discipline_struct)
-      - People::DoubleEventDisciplineOverview.for(resource).each do |discipline_struct|
-        = render('person_double_event_discipline_overview', toc:, chart:, ds: discipline_struct)
-      - People::GroupDisciplineOverview.for(resource).each do |discipline_struct|
-        = render('person_group_discipline_overview', toc:, chart:, ds: discipline_struct)
+  .container
+    - year_chart = chart.year_overview
+    - if year_chart.present? || resource.bla_badge
+      .row
+        - if year_chart.present?
+          .col-lg-5
+            = content_card('Ø Zeiten pro Jahr', heading: :h3) do
+              = year_chart
+        - if resource.bla_badge
+          .col-lg-7= render('bla_badge', badge: resource.bla_badge)
+    - People::SingleDisciplineOverview.for(resource).each do |discipline_struct|
+      = render('person_single_discipline_overview', toc:, chart:, ds: discipline_struct)
+    - People::DoubleEventDisciplineOverview.for(resource).each do |discipline_struct|
+      = render('person_double_event_discipline_overview', toc:, chart:, ds: discipline_struct)
+    - People::GroupDisciplineOverview.for(resource).each do |discipline_struct|
+      = render('person_group_discipline_overview', toc:, chart:, ds: discipline_struct)
 
 
-      - if @teams.present?
-        = toc.anker("Mannschaft", :h2)
-        .person-teams-area
-          - @team_structs.each do |team_struct|
-            = render('person_team_overview', team_struct:, chart:)
+    - if @teams.present?
+      = content_card('Mannschaften', toc:) do
+        - @team_structs.each do |team_struct|
+          = render('person_team_overview', team_struct:, chart:)
 
-      = render('series', toc: toc)
+    - if @series_structs.present?
+      = render('series', toc:)
 
-      = toc.anker('Fehler melden', :h2)
-      %p Beim Importieren der Ergebnisse kann es immer wieder mal zu Fehlern kommen. Geraden wenn die Namen in den Ergebnislisten verkehrt geschrieben wurden, kann keine eindeutige Zuordnung stattfinden. Außerdem treten auch Probleme mit Umlauten oder anderen besonderen Buchstaben im Namen auf.
-      %p Ihr könnt jetzt beim Korrigieren der Daten helfen. Dafür klickt ihr auf folgenden Link und generiert eine Meldung für den Administrator. Dieser überprüft dann die Eingaben und leitet weitere Schritte ein.
-      = link_to 'Fehler mit dieser Person melden', new_contributions_person_change_request_path(resource),
-                id: 'add-change-request', class: 'btn btn-default', data: { turbo_frame: 'contribution', turbo: true }
+    = render 'ui/report_error', toc:, label: 'Fehler mit dieser Person melden',
+                                url: new_contributions_person_change_request_path(resource)

@@ -1,8 +1,6 @@
-.section
-  .container
-    %h1 Wettkampftermine
+= page_head('Wettkampftermine')
 
-    .alert.alert-info
-      %p Ab sofort werden auf dieser Seite keine Termine mehr gepflegt. Bitte benutzt dafür das neue Portal
-
-      %p= link_to("feusport.de - Termine und Live-Ergebnisse", "https://feusport.de", class: "btn btn-primary btn-lg")
+.container
+  = content_card do
+    %p Auf dieser Seite werden keine Termine mehr gepflegt. Bitte nutze dafür das Portal feusport.de.
+    = link_to('feusport.de – Termine und Live-Ergebnisse', 'https://feusport.de', class: 'btn btn-primary')

@@ -7,55 +7,42 @@ class Chart::CompetitionDisciplineCategoryOverview < Chart::Base
   attr_accessor :discipline
 
   def discipline_scores
-    discipline.scores.reject(&:time_invalid?)
+    discipline.scores.reject(&:time_invalid?).sort_by(&:time)
   end
 
   def group_scores_overview
-    scores = discipline_scores.map { |s| { y: s.time.to_f / 100, name: numbered_team_name(s) } }
-    scores_overview(scores)
+    scores = discipline_scores
+    scores_overview(scores.map { |s| numbered_team_name(s) }, scores.map { |s| s.time.to_f / 100 })
   end
 
   def single_scores_overview
-    scores = discipline_scores.map { |s| { y: s.time.to_f / 100, name: s.person.to_s } }
-    scores_overview(scores)
+    scores = discipline_scores
+    scores_overview(scores.map { |s| s.person.to_s }, scores.map { |s| s.time.to_f / 100 })
   end
 
   def double_event_scores_overview
-    all_scores = discipline_scores.sort_by(&:time)
-    scores = all_scores.map { |s| { y: s.time.to_f / 100, name: s.person.short_name } }
-    hb = all_scores.map { |s| { y: s.hb.to_f / 100, name: s.person.short_name } }
-    hl = all_scores.map { |s| { y: s.hl.to_f / 100, name: s.person.short_name } }
-    scores_overview(scores, hb:, hl:)
+    scores = discipline_scores
+    scores_overview(scores.map { |s| s.person.short_name }, scores.map { |s| s.time.to_f / 100 },
+                    hb: scores.map { |s| s.hb.to_f / 100 }, hl: scores.map { |s| s.hl.to_f / 100 })
   end
 
-  def scores_overview(scores, options = {})
-    scores.sort_by! { |a| a[:y] }
-    lazy_high_chart do |hc|
-      hc.xAxis(categories: scores.each_with_index.map { |_s, i| "#{i + 1}." }, labels: { style: { fontSize: '8px' } })
-      hc.yAxis(allowDecimals: false, title: { text: 'Zeit (s)' })
-      hc.chart(type: 'line', height: 120)
-      hc.series(name: discipline_name(discipline.discipline), data: scores, lineWidth: 1)
-      if options[:hb].present?
-        hc.series(name: discipline_name(:hb), data: options[:hb], lineWidth: 1, marker: { enabled: false })
-      end
-      if options[:hb].present?
-        hc.series(name: discipline_name(:hl), data: options[:hl], lineWidth: 1, marker: { enabled: false })
-      end
-      hc.tooltip(shared: true)
-      hc.legend(enabled: false)
+  def scores_overview(names, times, hb: nil, hl: nil)
+    datasets = [{ label: discipline_name(discipline.discipline), data: times,
+                  color: discipline_color(discipline_key) }]
+    if hb.present?
+      datasets.push({ label: discipline_name(:hb), data: hb, color: discipline_color(:hb), dashed: true },
+                    { label: discipline_name(:hl), data: hl, color: discipline_color(:hl), dashed: true })
     end
+    line_chart(labels: names.each_index.map { |i| "#{i + 1}." }, names:, datasets:, height: 160,
+               legend: hb.present?)
+  end
+
+  def discipline_key
+    discipline.discipline.respond_to?(:key) ? discipline.discipline.key : discipline.discipline
   end
 
   def invalid_pie
     valid = discipline.all_scores.valid.count
-    invalid = discipline.all_scores.count - valid
-
-    lazy_high_chart do |hc|
-      hc.series(name: discipline_name(discipline.discipline), data: [
-                  { name: 'Ungültig', y: invalid, color: 'red' }, { name: 'Gültig', y: valid, color: 'green' }
-                ])
-      hc.plotOptions(pie: { size: 60, dataLabels: { distance: 0, format: '{percentage:.1f} %' } })
-      hc.chart(type: 'pie', height: 90)
-    end
+    valid_pie_chart(discipline_name(discipline.discipline), valid:, invalid: discipline.all_scores.count - valid)
   end
 end

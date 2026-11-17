@@ -9,61 +9,36 @@ class Chart::PersonShow < Chart::Base
   def year_overview
     return '' if person.scores.valid.blank?
 
-    lazy_high_chart do |hc|
-      hc.xAxis(categories: year_overview_data.years, labels: { rotation: 270, style: { fontSize: '8px' } })
-      SingleDiscipline.gall.each do |sd|
-        hc.series(name: sd.short_name, yAxis: 0,
-                  data: year_overview_data.for(sd.id), lineWidth: 1, color: discipline_color(sd.key))
-      end
-
-      hc.yAxis [{ title: { text: 'Sekunden', margin: 20 }, endOnTick: false }]
-      hc.legend(enabled: false)
-      hc.tooltip(shared: true)
-      hc.chart(type: 'line', height: 200)
+    datasets = SingleDiscipline.gall.map do |sd|
+      { label: sd.short_name, data: year_overview_data.for(sd.id), color: discipline_color(sd.key) }
     end
+    line_chart(labels: year_overview_data.years, datasets:, height: 220, legend: true)
   end
 
   def discipline_invalid(name, scores)
     invalid = scores.count(&:time_invalid?)
-    valid = scores.size - invalid
-    data = [{ name: 'Ungültig', y: invalid, color: 'red' }, { name: 'Gültig', y: valid, color: 'green' }]
-
-    lazy_high_chart do |hc|
-      hc.series(name: name, data:)
-      hc.plotOptions(pie: { size: 70, dataLabels: { distance: 0, format: '{percentage:.1f} % {point.name}' } })
-      hc.chart(type: 'pie', height: 90)
-    end
+    valid_pie_chart(name, valid: scores.size - invalid, invalid:)
   end
 
   def discipline_scores(discipline, chart_scores)
-    lazy_high_chart do |hc|
-      hc.xAxis(categories: chart_scores.map { |s| s.competition.date },
-               labels: { enabled: false, rotation: 270, style: { fontSize: '8px' } })
-      hc.series(name: 'Sekunden', yAxis: 0, data: chart_scores.map { |s| s.time.to_f / 100 }, lineWidth: 1)
-      if discipline == :zk
-        hc.series(name: 'HB', yAxis: 0, data: chart_scores.map { |s| s.hb.to_f / 100 },
-                  lineWidth: 1, marker: { enabled: false })
-        hc.series(name: 'HL', yAxis: 0, data: chart_scores.map { |s| s.hl.to_f / 100 },
-                  lineWidth: 1, marker: { enabled: false })
-      end
-      hc.yAxis [{ title: { text: 'Sekunden', margin: 20 }, endOnTick: false }]
-      hc.legend(enabled: false)
-      hc.tooltip(shared: true)
-      hc.chart(type: 'line', height: 220, marginRight: 50)
+    times = chart_scores.map { |s| s.time.to_f / 100 }
+    datasets = [{ label: 'Zeit', data: times, color: discipline_color(discipline) }]
+    if discipline.to_s == 'zk'
+      datasets.push({ label: 'HB', data: chart_scores.map { |s| s.hb.to_f / 100 }, color: discipline_color(:hb),
+                      dashed: true },
+                    { label: 'HL', data: chart_scores.map { |s| s.hl.to_f / 100 }, color: discipline_color(:hl),
+                      dashed: true })
     end
+    line_chart(labels: chart_scores.map { |s| s.competition.date }, names: chart_scores.map { |s| s.competition.to_s },
+               datasets:, height: 220, legend: datasets.size > 1)
   end
 
   def discipline_positions(discipline)
     position_counts = @person.group_score_participations.where(discipline:)
-                             .group(:position).count.map do |position, count|
+                             .group(:position).order(:position).count.map do |position, count|
       { name: competitor_position(discipline, position, @person.gender), y: count }
     end
-
-    lazy_high_chart do |hc|
-      hc.series(name: 'Läufe', data: position_counts)
-      hc.plotOptions(pie: { size: 70, dataLabels: { distance: 5, format: '{percentage:.1f} % {point.name}' } })
-      hc.chart(type: 'pie', height: 140)
-    end
+    pie_chart(position_counts, name: 'Läufe')
   end
 
   def team_scores_count(team_struct)
@@ -71,20 +46,10 @@ class Chart::PersonShow < Chart::Base
       team_structs.pluck(discipline).max
     end.max
 
-    lazy_high_chart do |hc|
-      data = []
-      %i[hb hl gs fs la].each do |discipline|
-        if team_struct[discipline] > 0
-          data.push(name: discipline_name(discipline), y: team_struct[discipline], color: discipline_color(discipline))
-        end
-      end
-      hc.plotOptions(series: { pointWidth: 6 })
-      hc.xAxis(categories: data.pluck(:name))
-      hc.yAxis(max: @max_team_scores, title: { text: 'Zeiten' })
-      hc.legend(enabled: false)
-      hc.series(name: 'Läufe', data:)
-      hc.chart(type: 'bar', height: 140)
-    end
+    disciplines = %i[hb hl gs fs la].select { |discipline| team_struct[discipline] > 0 }
+    bar_chart(labels: disciplines.map { |d| discipline_name(d) }, values: disciplines.map { |d| team_struct[d] },
+              colors: disciplines.map { |d| discipline_color(d) }, name: 'Zeiten', horizontal: true,
+              max: @max_team_scores, height: (disciplines.size * 22) + 40)
   end
 
   private

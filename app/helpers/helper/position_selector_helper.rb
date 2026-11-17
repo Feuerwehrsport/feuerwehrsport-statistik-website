@@ -35,11 +35,16 @@ module Helper::PositionSelectorHelper
 
   def position_count_table(discipline, gender, rows, options = {})
     options[:class] = [options[:class], 'change-position'].flatten.compact
+    if options[:sort]
+      options[:sort] = (options[:sort] == true ? {} : options[:sort]).merge(
+        edit_label: 'Positionen bearbeiten', edit_url: '/contributions/group_scores/:id/participations/edit',
+      )
+    end
     count_table(rows, options) do |ct|
       yield(ct)
 
       ct.data(:score_id, &:id)
-      ct.col('Zeit', :second_time, class: 'small col-5 time-col')
+      ct.col('Zeit', :second_time, class: 'small col-w-5 time-col')
 
       participation_count = Discipline.participation_count(discipline)
       (1..participation_count).each do |position|

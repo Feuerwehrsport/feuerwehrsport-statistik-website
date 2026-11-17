@@ -2,15 +2,15 @@
   .container
     .row
       .col-md-6
-        .panel.panel-default
-          .panel-heading
+        .card
+          .card-header
             Konto vorhanden
-          .panel-body
-            = link_to('Anmelden', new_session_path, class: 'btn btn-default')
+          .card-body
+            = link_to('Anmelden', new_session_path, class: 'btn btn-outline-secondary')
       .col-md-6
-        .panel.panel-default
-          .panel-heading
+        .card
+          .card-header
             Kein Konto vorhanden
-          .panel-body
-            = link_to('Konto erstellen', new_backend_registration_path, class: 'btn btn-default')
+          .card-body
+            = link_to('Konto erstellen', new_backend_registration_path, class: 'btn btn-outline-secondary')
 

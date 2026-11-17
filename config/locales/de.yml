@@ -79,24 +79,23 @@ de:
 
   gender:
     male: männlich
-    male_color: blue
     male_symbol: ♂
     female: weiblich
     female_symbol: ♀
 
   discipline:
     hb: Hindernisbahn
-    hb_color: '#7cb5ec'
+    hb_color: '#1D4ED8'
     hl: Hakenleitersteigen
-    hl_color: '#e4d354'
+    hl_color: '#B91C1C'
     zk: Zweikampf
-    zk_color: '#90ed7d'
+    zk_color: '#56626F'
     gs: Gruppenstafette
-    gs_color: '#f7a35c'
+    gs_color: '#0D9488'
     fs: Feuerwehrstafette
-    fs_color: '#8085e9'
+    fs_color: '#7C3AED'
     la: Löschangriff nass
-    la_color: '#f15c80'
+    la_color: '#EA580C'
 
   will_paginate:
     next_label: ">"

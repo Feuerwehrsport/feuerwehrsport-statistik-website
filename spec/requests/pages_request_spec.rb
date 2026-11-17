@@ -53,7 +53,6 @@ RSpec.describe 'Pages' do
   end
 
   {
-    '/rss' => 'RSS-Feeds',
     '/impressum' => 'Impressum',
     '/datenschutz' => 'Datenschutzerklärung',
     '/best_of' => 'Die 100 schnellsten Zeiten',

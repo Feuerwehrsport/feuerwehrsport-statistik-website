@@ -1,32 +1,33 @@
 # frozen_string_literal: true
 
 class Chart::About < Chart::Base
-  def competition_creations
-    lazy_high_chart do |hc|
-      hc.xAxis(type: 'datetime')
-      hc.chart(type: 'line', height: 800)
+  MODELS = [Competition, Score, GroupScore, Team, Person, Place, PersonParticipation, Link].freeze
+  START_DATE = Date.new(2016, 5, 1)
 
-      [Competition, Score, GroupScore, Team, Person, Place, PersonParticipation, Link].each do |klass|
-        hc.series(
-          name: klass.model_name.human(count: :many),
-          data: data(klass),
-          step: 'left',
-        )
-      end
+  # one small chart per table, the counts are too different for a shared axis
+  def competition_creations
+    tag.div(class: 'chart-grid') do
+      safe_join(MODELS.map do |klass|
+        name = klass.model_name.human(count: :many)
+        points = data(klass)
+        tag.div(class: 'chart-grid-item') do
+          tag.h3(name) + render_chart(type: 'line', height: 140, format: 'date', data: {
+                                        datasets: [{ label: name, data: points, borderColor: PALETTE.first,
+                                                     backgroundColor: PALETTE.first, stepped: 'before',
+                                                     pointRadius: 0 }],
+                                      }, options: { plugins: { legend: { display: false } } })
+        end
+      end)
     end
   end
 
   def data(klass)
     dates = {}
     absolute = 0
-    min_date = Date.new(2016, 5, 1)
     klass.reorder(:created_at).pluck('created_at::DATE as date').each do |date|
-      date = [date, min_date].max
-      dates[date.to_s] = absolute += 1
+      dates[[date, START_DATE].max] = absolute += 1
     end
-    dates[Date.current.to_s] = absolute
-    dates.map do |date_string, count|
-      [DateTime.parse(date_string).to_i * 1000, count]
-    end
+    dates[Date.current] = absolute
+    dates.map { |date, count| { x: date.to_time.to_i * 1000, y: count } }
   end
 end

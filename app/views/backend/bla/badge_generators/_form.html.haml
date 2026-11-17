@@ -3,7 +3,7 @@
 
 .section
   .container
-    %table.table.table-condensed.table-hover.table-bordered
+    %table.table.table-sm.table-hover.table-bordered
       - resource.people_with_badges.each do |person, badges|
         %tr
           %td= link_to(person.decorate, person)

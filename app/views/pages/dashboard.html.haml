@@ -1,68 +1,59 @@
 = table_of_contents do |toc|
-  - charts = Chart::Dashboard.new(request:)
+  - charts = Chart::Dashboard.new
+  - tiles = [[Competition.count, 'Wettkämpfe'], [Score.valid.count + GroupScore.valid.count, 'Zeiten'],
+    [Person.count, 'Wettkämpfer'], [Team.count, 'Mannschaften'], [Place.count, 'Wettkampforte']]
 
-  .section
-    .container
-      .col-md-3= design_image('statistiken-logo', alt: 'Logo')
-      .col-md-9.page-header
-        %h1 Feuerwehrsport - die große Auswertung
-    .container
-      .col-md-9
-        %p.lead
-          Diese Website dient der Auswertung des Feuerwehrsports in Deutschland über den Zeitraum der letzten Jahre. Dabei werden die Disziplinen #{link_to('Hakenleitersteigen', 'http://de.wikipedia.org/wiki/Hakenleitersteigen')} (Frauen und Männer), #{link_to('100-Meter-Hindernislauf', 'http://de.wikipedia.org/wiki/100-Meter-Hindernislauf')} (Frauen und Männer), #{link_to('Gruppenstafette', 'http://de.wikipedia.org/wiki/Gruppenstafette')} (Frauen), #{link_to('4x100-Meter-Feuerwehrstafette', 'http://de.wikipedia.org/wiki/Feuerwehrstafette')} (Frauen und Männer) und #{link_to('Löschangriff Nass', 'http://de.wikipedia.org/wiki/Löschangriff_Nass')} (Frauen und Männer) ausgewertet.
-      .col-md-3= toc.index
-    .container
-      .col-md-6
-        = toc.anker('feusport.de', :h3)
-        %p Ab sofort werden Termine, Online-Anmeldungen und Live-Ergebnisse auf dem neuen Portal <b>#{link_to("feusport.de", "https://feusport.de")}</b> verwaltet.
-      .col-md-6
-        %h3 Neu eingetragene Wettkämpfe
-        %ul
-          - @last_competitions.each do |competition|
-            %li= competition_link(competition, type: :overview_name)
-          %p.pull-right= link_to('Alle anzeigen', last_competitions_path)
-        %h3 Eigene Ergebnis hochladen
-        %p Haben Sie Ergebnisse, die Sie gerne hier veröffentlicht haben möchten?
-        %p= link_to('Ergebnisse zur Verfügung stellen', decide_login_backend_import_requests_path, class: 'btn btn-default btn-sm')
-    .container
-      = toc.anker('Überblick', :h2)
-    .container
-      .col-md-6
-        %p Die Datenbank besteht derzeit aus vielen Tabellen die mit Hilfe von verschiedenen Algorithmen verbunden und ausgewertet werden. In der rechts angeordneten Tabelle ist die Größenordnung der derzeitigen Erfassung aufgelistet.
-        %h4 Personen
-        %p Als Identifikator wird der Name genommen. Sollten sich zwei Sportler mit gleichen Namen im System befinden, #{link_to('meldet', impressum_path)} euch bitte.
-        %h4 Typen und Wettkämpfe
-        %p Im System wird zwischen #{link_to('Wettkampfarten', events_path, title: 'Wettkampfarten anzeigen')} (D-Cup, DM, WM) und #{link_to('Wettkämpfen', competitions_path, title: 'Wettkämpfe anzeigen')} (DM 2012 in Cottbus oder D-Cup 2012 in Tüttleben) unterschieden. Dazu werden die #{link_to('Wettkampforte', places_path, title: 'Wettkampforte anzeigen')} gespeichert, damit auch die Zeiten auf Tartanbahn mit denen auf Schotterbahnen verglichen werden können.
-      .col-md-3
-        %table.table
-          %tr
-            %th Personen:
-            %td= Person.count
-          %tr
-            %th Zeiten:
-            %td= Score.valid.count + GroupScore.valid.count
-          %tr
-            %th Fehlversuche:
-            %td= Score.invalid.count + GroupScore.invalid.count
-          %tr
-            %th Orte:
-            %td= Place.count
-          %tr
-            %th Typen:
-            %td= Event.count
-          %tr
-            %th Wettkämpfe:
-            %td= Competition.count
-          %tr
-            %th Mannschaften:
-            %td= Team.count
-      .col-md-3
-        %h4 Ø Beste 5 pro Wettkampf
-        = charts.year_overview
-    .container
+  = page_head('Feuerwehrsport – die große Auswertung', kicker: "Ergebnisse seit #{@years_count.last&.first}",
+              tiles:, toc:) do
+    %p.lead.mb-0
+      Hakenleitersteigen, 100-Meter-Hindernisbahn, Gruppenstafette, 4×100-Meter-Feuerwehrstafette und Löschangriff Nass:
+      Zeiten, Bestenlisten und Statistiken aus Wettkämpfen in ganz Deutschland.
 
-      = toc.anker("Super Leistungen vom Jahr #{@best_of_year}", :h2, label_value: "Leistungen Jahr #{@best_of_year}")
-    
+  .container
+    = content_card('Disziplinen', toc:) do
+      .discipline-cards
+        - [[:hl, 'Frauen und Männer'], [:hb, 'Frauen und Männer'], [:gs, 'Frauen'], [:fs, 'Frauen und Männer'],
+          [:la, 'Frauen und Männer']].each do |discipline, genders|
+          = link_to best_of_path, title: "Die schnellsten Zeiten – #{discipline_name(discipline)}" do
+            %span.disc-chip= discipline_name_short(discipline)
+            %span.name= discipline_name(discipline)
+            %span.genders= genders
+
+    .row
+      .col-lg-8
+        = content_card('Neu eingetragene Wettkämpfe', toc:, label: 'Neue Wettkämpfe',
+                       action: link_to('Alle anzeigen →', last_competitions_path)) do
+          .table-responsive
+            %table.table.table-hover.mb-0
+              %thead
+                %tr
+                  %th Datum
+                  %th Ort
+                  %th.d-none.d-md-table-cell Typ
+                  %th Name
+              %tbody
+                - @last_competitions.each do |competition|
+                  %tr
+                    %td.text-nowrap= competition.object.date.strftime('%d.%m.%Y')
+                    %td= place_link(competition.place)
+                    %td.d-none.d-md-table-cell= event_link(competition.event)
+                    %td= competition_link(competition, type: :name).presence || competition_link(competition, type: :to_s)
+      .col-lg-4
+        %section.content-card.content-card-dark
+          = toc.anker('feusport.de', :h2)
+          %p
+            Termine, Online-Anmeldungen und Live-Ergebnisse findest du auf feusport.de.
+            Die Ergebnisse landen danach hier in der Statistik.
+          = link_to('Zu feusport.de', 'https://feusport.de', class: 'btn btn-light')
+        = content_card('Mitmachen', toc:) do
+          %p
+            Du hast Ergebnisse, die hier noch fehlen, oder einen Fehler entdeckt? Hilf mit, die Daten vollständig zu
+            machen.
+          .d-flex.flex-wrap.gap-2
+            = link_to('Ergebnisse hochladen', decide_login_backend_import_requests_path, class: 'btn btn-primary')
+            = link_to('Fehler melden', impressum_path, class: 'btn btn-outline-secondary')
+
+    = content_card("Super Leistungen vom Jahr #{@best_of_year}", toc:, label: "Leistungen #{@best_of_year}") do
       - performance_overview_disciplines = Calc::PerformanceOfYear.get(@best_of_year)
       = nav_tab do |nv|
         - performance_overview_disciplines.each do |discipline|
@@ -70,58 +61,66 @@
             %table.table
               - discipline.entries.first(5).each do |entry|
                 %tr
-                  %td.col-5= entry.rank
-                  %td.col-25= person_link(entry.entity.decorate, type: :full_name)
-                  %td.col-70= score_links(entry.scores)
+                  %td.col-w-5= entry.rank
+                  %td.col-w-25= person_link(entry.entity.decorate, type: :full_name)
+                  %td.col-w-70= score_links(entry.scores)
                 %tr.hint-line
                   %td{ colspan: 2 }
                     %em= "#{entry.rounded_points} Punkte"
                   %td
                     Durchschnitt:
                     %strong= entry.second_valid_time_average
-    .container
-      .col-md-5
-        %p
-          Zu
-          = link_to('jedem Jahr', years_path)
-          können sich die Statistiken auch separat angesehen werden. Diese Statistiken wird auch in Zukunft ausgeweitet.
-      .col-md-7
-        %table.years-overview-home
-          - while @years_count.count > 0
-            %tr
-              - (1..4).each do
-                - year, count = @years_count.shift
-                %td
-                  - if year.present?
-                    = link_to(year, year_path(year), title: "Überblick über das Jahr #{year}")
-                    = " (#{count})"
 
-    .container
-      = toc.anker('Mitmachen', :h2)
-    .container
-      .col-md-9
-        %p Jeder kann bei der Vervollständigung der Daten mitmachen. Dafür gibt es mehrere Möglichkeiten:
-        %ul
-          %li Zeiten einer Mannschaft zuordnen
-          %li Link zu Wettkampf melden
-          %li Person einer Mannschaft zuordnen
-          %li Fehler melden
-      .col-md-3= design_image('system-users')
+    .row
+      .col-lg-8
+        = content_card('Jahre', toc:) do
+          %p
+            Für #{link_to('jedes Jahr', years_path)} gibt es eigene Statistiken. In Klammern steht die Anzahl der
+            Wettkämpfe.
+          .years-overview-home
+            - @years_count.each do |year, count|
+              = link_to(year_path(year), title: "Überblick über das Jahr #{year}") do
+                %strong= year
+                %span= count
+      .col-lg-4
+        = content_card('Ø Beste 5 pro Wettkampf', heading: :h3) do
+          = charts.year_overview
 
-    .container
-      = toc.anker('Datenbank', :h2)
-    .container
-      .col-md-9
-        %p Die Daten für diese statistische Auswertung stammen von verschiedenen Quellen. Können die Quellen verlinkt werden oder liegen sie im PDF-Format vor, sind diese auf den Seiten des Wettkampfes zu finden. Ein großer Dank geht auch an #{link_to("Florian Müller", person_path(302))}, der sehr viele Daten eingepflegt hat.
-        %p Sollte sich jemand durch die Verwendung der Daten in seinem Urheberrecht verletzt fühlen, bitte nicht sofort abmahnen. Über #{link_to('E-Mail', impressum_path)} bin ich immer relativ schnell erreichbar. Das gleiche gilt auch für Fehler in den Daten.
-        %p Der Webseitenquelltext und die Algorithmen dahinter sind #{link_to('auf Github', 'https://github.com/Feuerwehrsport/feuerwehrsport-statistik-website')} einsehbar. Die komplette Datenbank sende ich auf #{link_to('E-Mail-Anfrage', impressum_path)} zu.
-      .col-md-3= design_image('gnumeric')
-
-    .container
-      = toc.anker('Fehler in den Daten', :h2)
-    .container
-      .col-md-9
-        %p Die Daten stammen von unterschiedlichen Quellen, die alle separat importiert wurden. Dabei kommt es immer wieder zu Fehlern, weil Namen verkehrt zugeordnet werden oder Zeiten verschoben sind. Solltet ihr einen solchen Fehler gefunden haben, schickt mir einfach eine #{link_to('E-Mail', impressum_path)} oder meldet es über die integrierten Funktionen.
-        %p Außerdem gibt es die Möglichkeit, Fehler direkt zu beheben. Viele Namen wurden in den Ergebnislisten falsch geschrieben. Deshalb sind diese Namen in der Datenbank doppelt vorhanden. Um dies zu beheben, geht man auf die Seite der vekehrt geschriebenen Person. Am unteren Ende der Seite ist dann eine Schaltfläche für das Beheben dieses Fehlers.
-        %p Viel interessanter sind zusätzliche Daten. Falls ihr also noch eine Ergebnisliste eines Wettkampfes habt, dann #{link_to('schickt', impressum_path) } sie mir doch bitte. Ich pflege die Daten dann in die Datenbank ein und die Statistiken werden erweitert. Am besten sind dafür natürlich digitale Daten geeignet. Eingescannte Ergebnislisten lassen sich nicht importieren und müssten abgeschrieben werden. Diese Arbeit werde ich mir nicht machen, aber falls ihr unbedingt einen Wettkampf mit drin haben wollt, den es nur noch mit eingescannter Liste gibt, dann schreibt ihn ab und schickt ihn mir. Außerdem würde ich dann gerne noch einen Link als Beweis für die Echtheit haben.
-      .col-md-3= design_image('education')
+    .row
+      .col-lg-6
+        = content_card('Über die Daten', toc:) do
+          %p
+            Die Datenbank besteht aus vielen Tabellen, die mit verschiedenen Algorithmen verbunden und ausgewertet
+            werden. Unterschieden wird zwischen #{link_to('Wettkampftypen', events_path)} (D-Cup, DM, WM) und
+            #{link_to('Wettkämpfen', competitions_path)} (DM 2012 in Cottbus oder D-Cup 2012 in Tüttleben). Dazu werden
+            die #{link_to('Wettkampforte', places_path)} gespeichert, damit auch Zeiten auf Tartanbahn mit denen auf
+            Schotterbahnen verglichen werden können.
+          %p
+            Personen werden über ihren Namen erkannt. Gibt es zwei Sportler mit gleichem Namen,
+            #{link_to('melde dich', impressum_path)} bitte.
+          %p
+            Die Daten stammen aus verschiedenen Quellen. Können die Quellen verlinkt werden oder liegen sie als PDF vor,
+            findest du sie auf der Seite des Wettkampfes. Ein großer Dank geht an
+            #{link_to('Florian Müller', person_path(302))}, der sehr viele Daten eingepflegt hat.
+          %p
+            Der Quelltext der Website ist
+            #{link_to('auf GitHub', 'https://github.com/Feuerwehrsport/feuerwehrsport-statistik-website')} einsehbar.
+            Die komplette Datenbank schicke ich dir auf #{link_to('E-Mail-Anfrage', impressum_path)} zu.
+          %p.mb-0
+            Sollte sich jemand durch die Verwendung der Daten in seinem Urheberrecht verletzt fühlen, bitte nicht
+            sofort abmahnen. Über #{link_to('E-Mail', impressum_path)} bin ich schnell erreichbar.
+      .col-lg-6
+        = content_card('Fehler in den Daten', toc:) do
+          %p
+            Die Daten stammen aus unterschiedlichen Quellen, die alle einzeln importiert wurden. Dabei kommt es immer
+            wieder zu Fehlern, weil Namen falsch zugeordnet oder Zeiten verschoben sind. Hast du so einen Fehler
+            gefunden, schick mir eine #{link_to('E-Mail', impressum_path)} oder melde ihn über die Funktionen auf der
+            jeweiligen Seite.
+          %p
+            Viele Namen wurden in den Ergebnislisten falsch geschrieben und sind deshalb doppelt in der Datenbank.
+            Auf der Seite der falsch geschriebenen Person kannst du das über „Fehler mit dieser Person melden“
+            korrigieren lassen.
+          %p.mb-0
+            Noch interessanter sind zusätzliche Daten. Hast du eine Ergebnisliste, die hier fehlt, dann
+            #{link_to('lade sie hoch', decide_login_backend_import_requests_path)}. Am besten eignen sich digitale
+            Listen; eingescannte Listen lassen sich nicht importieren. Bitte gib dazu einen Link als Nachweis an.

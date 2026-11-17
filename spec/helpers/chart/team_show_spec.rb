@@ -8,14 +8,22 @@ describe Chart::TeamShow do
   let(:rendered_charts) { [] }
 
   before do
-    allow(chart).to receive(:high_chart).and_wrap_original do |method, id, high_chart|
-      rendered_charts.push(high_chart)
-      method.call(id, high_chart)
+    allow(chart).to receive(:render_chart).and_wrap_original do |method, **config|
+      rendered_charts.push(config)
+      method.call(**config)
     end
   end
 
-  def series
-    rendered_charts.last.series_data
+  def config
+    rendered_charts.last
+  end
+
+  def datasets
+    config[:data][:datasets]
+  end
+
+  def slices
+    config[:data][:labels].zip(datasets.first[:data], datasets.first[:backgroundColor])
   end
 
   describe '#gender_pie' do
@@ -27,20 +35,20 @@ describe Chart::TeamShow do
 
     it 'counts members per gender' do
       output = chart.gender_pie
-      expect(output).to include('Highcharts.Chart')
-      expect(rendered_charts.last.options[:chart]).to include(type: 'pie', height: 150)
-      expect(series.first[:name]).to eq 'Geschlecht'
-      expect(series.first[:data].map { |d| d.slice(:name, :y) }).to contain_exactly(
-        { name: I18n.t('gender.male'), y: 2 },
-        { name: I18n.t('gender.female'), y: 1 },
+      expect(output).to include('data-controller="chart"')
+      expect(config).to include(type: 'doughnut', height: 150)
+      expect(datasets.first[:label]).to eq 'Geschlecht'
+      expect(slices.map { |name, y, _color| [name, y] }).to contain_exactly(
+        [I18n.t('gender.male'), 2],
+        [I18n.t('gender.female'), 1],
       )
     end
 
     it 'colors the gender slices' do
       chart.gender_pie
-      expect(series.first[:data]).to contain_exactly(
-        { name: I18n.t('gender.male'), y: 2, color: '#97E6FE' },
-        { name: I18n.t('gender.female'), y: 1, color: '#FEAE97' },
+      expect(slices).to contain_exactly(
+        [I18n.t('gender.male'), 2, '#1D4ED8'],
+        [I18n.t('gender.female'), 1, '#EA580C'],
       )
     end
   end
@@ -54,10 +62,9 @@ describe Chart::TeamShow do
         create(:group_score, team:, group_score_category: earlier, time: 2210),
       ].map(&:decorate)
 
-      chart.group_discipline_scores(scores)
-      expect(series.map { |s| [s[:name], s[:data]] }).to eq [['Sekunden', [22.1, 25.0]]]
-      expect(rendered_charts.last.options[:xAxis][:categories])
-        .to eq ['01.05.2016', '01.05.2018']
+      chart.group_discipline_scores(:la, scores)
+      expect(datasets.map { |s| [s[:label], s[:data]] }).to eq [['Zeit', [22.1, 25.0]]]
+      expect(config[:data][:labels]).to eq ['01.05.2016', '01.05.2018']
     end
   end
 
@@ -65,28 +72,24 @@ describe Chart::TeamShow do
     it 'counts valid and invalid scores' do
       scores = [2200, Firesport::INVALID_TIME, Firesport::INVALID_TIME].map { |time| build(:group_score, time:) }
       chart.discipline_invalid(:la, scores)
-      expect(series.first[:name]).to eq 'Löschangriff nass'
-      expect(series.first[:data]).to eq [
-        { name: 'Ungültig', y: 2, color: 'red' },
-        { name: 'Gültig', y: 1, color: 'green' },
-      ]
+      expect(datasets.first[:label]).to eq 'Löschangriff nass'
+      expect(slices).to eq [['Gültig', 1, Chart::Base::VALID_COLOR], ['Ungültig', 2, Chart::Base::INVALID_COLOR]]
     end
   end
 
   describe 'rendering' do
-    it 'wraps the chart in M3.ready for regular requests' do
-      output = chart.discipline_invalid(:la, [])
-      expect(output).to include('M3.ready(function(){')
-      div_id = output[/high-chart-\h{12}/]
-      expect(output).to include("$('##{div_id}').length === 0")
-      expect(output).to include("<div id=\"#{div_id}\"></div>")
+    it 'renders a canvas with the configuration for the chart controller' do
+      output = chart.discipline_invalid(:la, [build(:group_score, time: 2200)])
+      html = Nokogiri::HTML.fragment(output)
+      expect(html.at_css('.chart-box')['style']).to eq 'height: 110px'
+      canvas = html.at_css('canvas[data-controller="chart"]')
+      expect(canvas['aria-label']).to eq 'Löschangriff nass'
+      expect(JSON.parse(canvas['data-chart-config-value'])).to include('type' => 'doughnut')
     end
 
-    it 'renders the chart directly for xhr requests' do
-      chart.request = instance_double(ActionDispatch::Request, xhr?: true)
-      output = chart.discipline_invalid(:la, [])
-      expect(output).not_to include('M3.ready')
-      expect(output).to include('new Highcharts.Chart(options)')
+    it 'skips empty slices' do
+      chart.discipline_invalid(:la, [build(:group_score, time: 2200)])
+      expect(slices).to eq [['Gültig', 1, Chart::Base::VALID_COLOR]]
     end
   end
 end

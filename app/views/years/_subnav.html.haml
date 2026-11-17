@@ -1,0 +1,7 @@
+- year ||= resource
+- links = [['Überblick', year_path(year)], ['Bestzeiten', best_scores_year_path(year)],
+  ['Bestleistungen', best_performance_year_path(year)], ['Verbesserungen', year_inprovements_path(year)]]
+%nav.d-flex.flex-wrap.gap-2{ 'aria-label': "Auswertungen für #{year}" }
+  - links.each do |label, url|
+    = link_to(label, url, class: "btn btn-sm #{current_page?(url) ? 'btn-primary' : 'btn-outline-secondary'}",
+                          'aria-current': (current_page?(url) ? 'page' : nil))

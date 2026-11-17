@@ -2,10 +2,9 @@
   - buttons.each do |button|
     = button
   - unless links.empty?
-    %a.btn.dropdown-toggle.btn-default{ href: '#', data: { toggle: 'dropdown' } }
+    %a.btn.dropdown-toggle.btn-outline-secondary{ href: '#', data: { bs_toggle: 'dropdown' } }
       - if buttons.empty?
         = name
-      %span.caret
     %ul.dropdown-menu
       - links.each do |item|
         %li= item

@@ -11,14 +11,18 @@ describe Chart::PersonShow do
   let(:hb_male) { create(:single_discipline, :hb_male) }
 
   before do
-    allow(chart).to receive(:high_chart).and_wrap_original do |method, id, high_chart|
-      rendered_charts.push(high_chart)
-      method.call(id, high_chart)
+    allow(chart).to receive(:render_chart).and_wrap_original do |method, **config|
+      rendered_charts.push(config)
+      method.call(**config)
     end
   end
 
-  def series
-    rendered_charts.last.series_data
+  def config
+    rendered_charts.last
+  end
+
+  def datasets
+    config[:data][:datasets]
   end
 
   def score_in(year, time, single_discipline)
@@ -40,11 +44,12 @@ describe Chart::PersonShow do
       score_in(2017, 1555, hl_male)
 
       output = chart.year_overview
-      expect(output).to include('Highcharts.Chart')
-      expect(rendered_charts.last.options[:xAxis][:categories]).to eq [2015, 2016, 2017]
-      expect(series.map { |s| [s[:name], s[:data], s[:color]] }).to eq [
-        ['Hakenleitersteigen', [nil, nil, 15.55], '#e4d354'],
-        ['100m-Hindernisbahn', [19.5, nil, nil], '#7cb5ec'],
+      expect(output).to include('data-controller="chart"')
+      expect(config[:data][:labels]).to eq [2015, 2016, 2017]
+      expect(config[:format]).to eq 'seconds'
+      expect(datasets.map { |s| [s[:label], s[:data], s[:borderColor]] }).to eq [
+        ['Hakenleitersteigen', [nil, nil, 15.55], '#B91C1C'],
+        ['100m-Hindernisbahn', [19.5, nil, nil], '#1D4ED8'],
       ]
     end
   end
@@ -53,11 +58,10 @@ describe Chart::PersonShow do
     it 'counts valid and invalid scores' do
       scores = [1900, 2000, Firesport::INVALID_TIME].map { |time| build(:score, time:) }
       chart.discipline_invalid('Hindernisbahn', scores)
-      expect(series.first[:name]).to eq 'Hindernisbahn'
-      expect(series.first[:data]).to eq [
-        { name: 'Ungültig', y: 1, color: 'red' },
-        { name: 'Gültig', y: 2, color: 'green' },
-      ]
+      expect(datasets.first[:label]).to eq 'Hindernisbahn'
+      expect(config[:data][:labels]).to eq %w[Gültig Ungültig]
+      expect(datasets.first[:data]).to eq [2, 1]
+      expect(datasets.first[:backgroundColor]).to eq [Chart::Base::VALID_COLOR, Chart::Base::INVALID_COLOR]
     end
   end
 
@@ -65,8 +69,8 @@ describe Chart::PersonShow do
     it 'shows times of single discipline' do
       scores = [score_in(2015, 1900, hb_male), score_in(2016, 2050, hb_male)].map(&:decorate)
       chart.discipline_scores(:hb, scores)
-      expect(series.map { |s| [s[:name], s[:data]] }).to eq [['Sekunden', [19.0, 20.5]]]
-      expect(rendered_charts.last.options[:xAxis][:categories]).to eq ['01.05.2015', '01.05.2016']
+      expect(datasets.map { |s| [s[:label], s[:data]] }).to eq [['Zeit', [19.0, 20.5]]]
+      expect(config[:data][:labels]).to eq ['01.05.2015', '01.05.2016']
     end
 
     it 'shows hb and hl times for double event' do
@@ -75,8 +79,8 @@ describe Chart::PersonShow do
       create(:score, person:, competition:, time: 1600, single_discipline: hl_male)
       scores = ScoreDoubleEvent.where(person:).decorate
       chart.discipline_scores(:zk, scores)
-      expect(series.map { |s| [s[:name], s[:data]] }).to eq [
-        ['Sekunden', [35.0]],
+      expect(datasets.map { |s| [s[:label], s[:data]] }).to eq [
+        ['Zeit', [35.0]],
         ['HB', [19.0]],
         ['HL', [16.0]],
       ]
@@ -93,8 +97,8 @@ describe Chart::PersonShow do
       end
 
       chart.discipline_positions(:la)
-      expect(series.first[:name]).to eq 'Läufe'
-      expect(series.first[:data]).to contain_exactly({ name: 'Maschinist', y: 2 }, { name: 'Saugkorb', y: 1 })
+      expect(datasets.first[:label]).to eq 'Läufe'
+      expect(config[:data][:labels].zip(datasets.first[:data])).to contain_exactly(['Maschinist', 2], ['Saugkorb', 1])
     end
 
     context 'with female person in fs' do
@@ -108,7 +112,8 @@ describe Chart::PersonShow do
         create(:person_participation, person:, group_score:, position: 2)
 
         chart.discipline_positions(:fs)
-        expect(series.first[:data]).to eq [{ name: 'Hürde', y: 1 }]
+        expect(config[:data][:labels]).to eq ['Hürde']
+        expect(datasets.first[:data]).to eq [1]
       end
     end
   end
@@ -123,12 +128,10 @@ describe Chart::PersonShow do
 
     it 'shows counts per discipline scaled to max of all teams' do
       chart.team_scores_count(team_structs.first)
-      expect(series.first[:data]).to eq [
-        { name: 'Hindernisbahn', y: 4, color: '#7cb5ec' },
-        { name: 'Löschangriff nass', y: 2, color: '#f15c80' },
-      ]
-      expect(rendered_charts.last.options[:yAxis][:max]).to eq 7
-      expect(rendered_charts.last.options[:xAxis][:categories]).to eq ['Hindernisbahn', 'Löschangriff nass']
+      expect(datasets.first[:data]).to eq [4, 2]
+      expect(datasets.first[:backgroundColor]).to eq ['#1D4ED8', '#EA580C']
+      expect(config[:options][:scales][:x][:max]).to eq 7
+      expect(config[:data][:labels]).to eq ['Hindernisbahn', 'Löschangriff nass']
     end
   end
 end

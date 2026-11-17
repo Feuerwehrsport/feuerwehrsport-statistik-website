@@ -53,7 +53,7 @@ RSpec.describe AppDecorator do
     it 'returns discipline information' do
       expect(decorated.discipline_name(:hb)).to eq 'Hindernisbahn'
       expect(decorated.discipline_name_short(:la)).to eq 'LA'
-      expect(decorated.discipline_color(:hl)).to eq '#e4d354'
+      expect(decorated.discipline_color(:hl)).to eq '#B91C1C'
       expect(decorated.group_discipline?(:la)).to be true
       expect(decorated.group_discipline?('hb')).to be false
       expect(decorated.discipline_image(:hb))
@@ -66,9 +66,8 @@ RSpec.describe AppDecorator do
       expect(decorated.g(1)).to eq 'männlich'
       expect(decorated.g(0)).to eq 'weiblich'
       expect(decorated.g_symbol(:female)).to eq '♀'
-      expect(decorated.g_color(:male)).to eq 'blue'
-      expect(decorated.gender_color(:female)).to eq '#FEAE97'
-      expect(decorated.gender_color(1)).to eq '#97E6FE'
+      expect(decorated.gender_color(:female)).to eq '#EA580C'
+      expect(decorated.gender_color(1)).to eq '#1D4ED8'
     end
   end
 end

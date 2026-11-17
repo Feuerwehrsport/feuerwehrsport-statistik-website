@@ -5,24 +5,13 @@ class Chart::Dashboard < Chart::Base
   include GenderNames
 
   def year_overview
-    lazy_high_chart do |hc|
-      hc.xAxis(categories: years, labels: { style: { fontSize: '8px' } })
-      hc.yAxis(allowDecimals: false, title: false, endOnTick: false)
-      hc.chart(type: 'line', height: 250)
-
-      %i[hb hl].each do |discipline|
-        Genderable::GENDERS.each_key do |gender|
-          hc.series(
-            name: "#{discipline_name_short(discipline)} #{g_symbol(gender)}",
-            data: averages(discipline, gender),
-            lineWidth: 1,
-            marker: { enabled: false },
-          )
-        end
+    datasets = %i[hb hl].flat_map do |discipline|
+      Genderable::GENDERS.each_key.map do |gender|
+        { label: "#{discipline_name_short(discipline)} #{g_symbol(gender)}", data: averages(discipline, gender),
+          color: discipline_color(discipline), dashed: gender.to_sym == :female }
       end
-      hc.tooltip(shared: true)
-      hc.legend(enabled: false)
     end
+    line_chart(labels: years, datasets:, height: 250, legend: true, points: false)
   end
 
   protected

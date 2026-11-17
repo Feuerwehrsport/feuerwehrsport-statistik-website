@@ -13,7 +13,7 @@ class FilePreviewInput < SimpleForm::Inputs::FileInput
     out << @builder.hidden_field("#{attribute_name}_cache")
     out << template.tag.div(@builder.file_field(attribute_name, input_html_options),
                             class: 'imagepreview-input-wrapper')
-    template.tag.div(out, class: 'imagepreview')
+    template.tag.div(out, class: 'imagepreview', data: { controller: 'image-preview' })
   end
 
   protected

@@ -1,12 +1,8 @@
-.section
-  .container
-    .pull-right
-      %a{ href: change_logs_path(format: :atom), title: 'RSS-Feed der Änderungen' }
-        = design_image('application-rss', width: '20')
-        RSS-Feed
-    %h1 Veränderungen
-  .container
+= page_head('Veränderungen')
+
+.container
+  = content_card do
     = count_table(collection, class: 'datatable-change-logs') do |t|
-      - t.col('Zeitpunkt', :created_at, class: 'col-15')
-      - t.col('Beschreibung', :translated_action, class: 'col-15')
-      - t.col('Inhalt', :readable_content, class: 'col-70')
+      - t.col('Zeitpunkt', :created_at, class: 'col-w-15')
+      - t.col('Beschreibung', :translated_action, class: 'col-w-15')
+      - t.col('Inhalt', :readable_content, class: 'col-w-70')

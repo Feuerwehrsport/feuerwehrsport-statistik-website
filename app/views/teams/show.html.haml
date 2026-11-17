@@ -1,61 +1,43 @@
 = table_of_contents do |toc|
-  - chart = Chart::TeamShow.new(team: resource, request:)
-  .section
-    .container
-      .col-md-2
-        - if resource.image.present?
-          = image_tag(resource.image.tile.url)
-        - else
-          = link_to new_contributions_team_change_request_path(resource, kind: 'logo'), class: 'upload-logo',
-                    title: 'Logo hochladen', data: { turbo_frame: 'contribution', turbo: true } do
-            = design_image(:upload_logo)
-        %hr
-        = chart.gender_pie
-      .col-md-7
-        .page-header
-          %h1= resource.name
-        %table.table
-          %tr
-            %th Wettkämpfer
-            %td= @team_members.count
-          %tr
-            %th Land/Bundesland
-            %td
-              = resource.full_state
-              = link_to '', edit_contributions_team_state_path(resource), id: 'edit-state', title: 'Bundesland bearbeiten',
-                            class: 'btn btn-xs btn-default glyphicon glyphicon-pencil',
-                            data: { turbo_frame: 'contribution', turbo: true }
-          %tr
-            %th Webseite
-            %td= render('links', links: resource.links, linkable_type: 'Team', linkable_id: resource.id)
+  - chart = Chart::TeamShow.new(team: resource)
+  - logo = capture do
+    - if resource.image.present?
+      = image_tag(resource.image.tile.url, alt: "Logo #{resource.name}")
+    - else
+      = link_to new_contributions_team_change_request_path(resource, kind: 'logo'), class: 'upload-logo',
+                title: 'Logo hochladen', data: { turbo_frame: 'contribution', turbo: true } do
+        = design_image(:upload_logo)
+  - state = capture do
+    = resource.full_state.presence || 'Bundesland unbekannt'
+    = link_to edit_contributions_team_state_path(resource), id: 'edit-state', title: 'Bundesland bearbeiten',
+              'aria-label': 'Bundesland bearbeiten', class: 'btn btn-sm', data: { turbo_frame: 'contribution', turbo: true } do
+      %span.fa.fa-pen{ 'aria-hidden': 'true' }
+  = page_head(resource.name, breadcrumb: [link_to('Mannschaften', teams_path), resource.name], image: logo,
+              chips: [state, resource.human_status], toc:,
+              tiles: [[@team_members.count, 'Wettkämpfer'], [@team_competitions.count, 'Wettkämpfe']]) do
+    = render('links', links: resource.links, linkable_type: 'Team', linkable_id: resource.id)
 
-      .col-md-3= toc.index
+  .container
+    = render 'team_members', toc:, chart:
+    = render 'team_competitions', toc:
+    = render 'group_assessments', toc:
+    = render 'group_disciplines', toc:, chart:
+    = render 'group_series', toc:
 
-    .container= render 'team_members', toc: toc
-    .container= render 'team_competitions', toc: toc
-    .container= render 'group_assessments', toc: toc
-    .container= render 'group_disciplines', toc:, chart:
-    .container= render 'group_series', toc: toc
+    = content_card('Karte', toc:, data: { controller: 'geo-position',
+                                          geo_position_url_value: edit_contributions_team_geo_position_path(resource),
+                                          action: 'geo-position:edit@window->geo-position#edit' }) do
+      .row.g-3
+        .col-md-9
+          = map(id: 'team-map', red: resource, data: { team_id: resource.id, geo_position_target: 'map' })
+        .col-md-3.team-map-actions
+          - unless resource.positioned?
+            %p Für diese Mannschaft ist noch keine Geoposition hinterlegt.
+            %button#add-geo-position.btn.btn-outline-secondary{ type: 'button', data: { action: 'geo-position#edit', geo_position_target: 'start' } }
+              Geoposition hinzufügen
+          %div{ hidden: true, data: { geo_position_target: 'save' } }
+            %p Verschiebe den roten Marker an die richtige Stelle.
+            %button.btn.btn-primary{ type: 'button', data: { action: 'geo-position#save' } } Speichern
 
-    .container= toc.anker('Karte', :h2)
-    .container{ data: { controller: 'geo-position', geo_position_url_value: edit_contributions_team_geo_position_path(resource),
-                        action: 'geo-position:edit@window->geo-position#edit' } }
-      .col-md-9
-        = map(id: 'team-map', red: resource, data: { team_id: resource.id, geo_position_target: 'map' })
-      .col-md-3.team-map-actions
-        - unless resource.positioned?
-          %p Bisher wurden keine Geoposition für dieses Team hinterlegt.
-          %button#add-geo-position.btn.btn-default{ type: 'button', data: { action: 'geo-position#edit', geo_position_target: 'start' } }
-            Geoposition hinzufügen
-        %div{ hidden: true, data: { geo_position_target: 'save' } }
-          %p Verschiebe den roten Marker an die richtige Stelle.
-          %button.btn.btn-primary{ type: 'button', data: { action: 'geo-position#save' } } Speichern
-
-    .container
-      = toc.anker('Fehler melden', :h2)
-      %p Beim Importieren der Ergebnisse kann es immer wieder mal zu Fehlern kommen. Geraden wenn die Namen in den Ergebnislisten verkehrt geschrieben wurden, kann keine eindeutige Zuordnung stattfinden. Außerdem treten auch Probleme mit Umlauten oder anderen besonderen Buchstaben im Namen auf.
-
-      %p Ihr könnt jetzt beim Korrigieren der Daten helfen. Dafür klickt ihr auf folgenden Link und generiert eine Meldung für den Administrator. Dieser überprüft dann die Eingaben und leitet weitere Schritte ein.
-
-      = link_to 'Fehler mit diesem Team melden', new_contributions_team_change_request_path(resource),
-                id: 'add-change-request', class: 'btn btn-default', data: { turbo_frame: 'contribution', turbo: true }
+    = render 'ui/report_error', toc:, label: 'Fehler mit diesem Team melden',
+                                url: new_contributions_team_change_request_path(resource)

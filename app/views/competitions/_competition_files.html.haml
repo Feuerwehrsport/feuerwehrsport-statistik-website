@@ -9,4 +9,4 @@
       %td= file.human_keys.join(", ").html_safe
       %td
         = link_to 'Fehler melden', new_contributions_competition_change_request_path(file.competition_id, kind: 'file-error', file_id: file.id),
-                  class: 'file-error btn btn-default btn-xs', data: { turbo_frame: 'contribution', turbo: true }
+                  class: 'file-error btn btn-outline-secondary btn-sm', data: { turbo_frame: 'contribution', turbo: true }

@@ -5,7 +5,7 @@
   = form_with url: contributions_competition_files_path(@competition), multipart: true,
               data: { controller: 'file-rows' } do
     .table-responsive
-      %table.table.table-condensed.competition-file-table
+      %table.table.table-sm.competition-file-table
         %thead
           %tr
             %th Datei

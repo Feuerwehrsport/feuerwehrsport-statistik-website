@@ -1,32 +1,32 @@
-.section
-  .container.page-header
-    %h1 Verbesserungen von #{@year.to_i - 1} zu #{@year}
+= page_head("Verbesserungen #{@year.to_i - 1} → #{@year}",
+            breadcrumb: [link_to('Jahre', years_path), link_to(@year, year_path(@year)), 'Verbesserungen']) do
+  = render('years/subnav', year: @year)
+  %p.mt-3
+    Die nachfolgende Tabelle zeigt eine Übersicht der Wettkämpfer an,
+    - if @year.to_i == 2020
+      die im Jahr #{link_to(2020, year_path(2020))} mindestens zwei und im Jahr #{link_to(2019, year_path(2019))} mindenstens drei gültige Zeiten hatten.
+    - elsif @year.to_i == 2021
+      die im Jahr #{link_to(2020, year_path(2020))} mindestens zwei und im Jahr #{link_to(2021, year_path(2021))} mindenstens drei gültige Zeiten hatten.
+    - else
+      die im Jahr #{link_to(@year.to_i - 1, year_path(@year.to_i - 1))} und #{link_to(@year, year_path(@year))} jeweils mindenstens drei gültige Zeiten hatten.
+    - if @year.to_i == 2020 || @year.to_i == 2021
+      Durch die Pandemie im Jahr #{link_to(2020, year_path(2020))} wurde hier eine Ausnahme mit nur zwei nötigen Zeiten gemacht.
+    Die <var>Durchschnitt</var>sspalten geben den Durchschnitt der besten drei Zeiten des Jahres an. In der <var>Unterschied</var>spalte wird der absolute Unterschied zwischen den Jahren angezeigt.
 
-    %p
-      Die nachfolgende Tabelle zeigt eine Übersicht der Wettkämpfer an,
-      - if @year.to_i == 2020
-        die im Jahr #{link_to(2020, year_path(2020))} mindestens zwei und im Jahr #{link_to(2019, year_path(2019))} mindenstens drei gültige Zeiten hatten.
-      - elsif @year.to_i == 2021
-        die im Jahr #{link_to(2020, year_path(2020))} mindestens zwei und im Jahr #{link_to(2021, year_path(2021))} mindenstens drei gültige Zeiten hatten.
-      - else
-        die im Jahr #{link_to(@year.to_i - 1, year_path(@year.to_i - 1))} und #{link_to(@year, year_path(@year))} jeweils mindenstens drei gültige Zeiten hatten.
-      - if @year.to_i == 2020 || @year.to_i == 2021
-        Durch die Pandemie im Jahr #{link_to(2020, year_path(2020))} wurde hier eine Ausnahme mit nur zwei nötigen Zeiten gemacht.
-      Die <var>Durchschnitt</var>sspalten geben den Durchschnitt der besten drei Zeiten des Jahres an. In der <var>Unterschied</var>spalte wird der absolute Unterschied zwischen den Jahren angezeigt.
+  %p.mb-0 Die Tabelle zeigt die Sportler weiter oben, die sich im Vergleich von #{link_to(@year.to_i - 1, year_path(@year.to_i - 1))} zu #{link_to(@year, year_path(@year))} verbessert haben.
 
-    %p Die Tabelle zeigt die Sportler weiter oben, die sich im Vergleich von #{link_to(@year.to_i - 1, year_path(@year.to_i - 1))} zu #{link_to(@year, year_path(@year))} verbessert haben.
-
-  .container
+.container
+  = content_card do
     = nav_tab do |nv|
       - @disciplines.each do |discipline|
         - nv.tab(discipline_image_name_short(discipline.single_discipline.key, discipline.gender)) do
-          %h4= discipline.single_discipline.name
+          %h3.h5.mt-3= discipline.single_discipline.name
           %p= discipline.single_discipline.description
-          = count_table(discipline.all.map(&:decorate), class: 'datatable-years-inprovements') do |t|
-            - t.col('Wettkämpfer', class: 'col-10') { |row| person_link(row.person, type: :full_name) }
-            - t.col('Unterschied', class: 'col-5') { |row| row.second_difference }
-            - t.col("Ø #{@year}", class: 'col-5') { |row| row.second_current_average }
-            - t.col("Ø #{@year.to_i - 1}", class: 'col-5') { |row| row.second_last_average }
-            - t.col("Zeiten #{@year}", class: 'col-10 small') { |row| score_links(row.current_scores) }
-            - t.col("Zeiten #{@year.to_i - 1}", class: 'col-10 small') { |row| score_links(row.last_scores) }
+          = count_table(discipline.all.map(&:decorate), class: 'datatable-years-inprovements', sort: { col: 1 }) do |t|
+            - t.col('Wettkämpfer', class: 'col-w-10') { |row| person_link(row.person, type: :full_name) }
+            - t.col('Unterschied', class: 'col-w-5') { |row| row.second_difference }
+            - t.col("Ø #{@year}", class: 'col-w-5') { |row| row.second_current_average }
+            - t.col("Ø #{@year.to_i - 1}", class: 'col-w-5') { |row| row.second_last_average }
+            - t.col("Zeiten #{@year}", class: 'col-w-10 small') { |row| score_links(row.current_scores) }
+            - t.col("Zeiten #{@year.to_i - 1}", class: 'col-w-10 small') { |row| score_links(row.last_scores) }
 

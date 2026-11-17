@@ -8,34 +8,33 @@
     %strong= @current_person ? "#{@current_person.full_name} (#{@current_person.gender_translated})" : 'niemand'
 
   = form_with url: edit_contributions_group_score_position_path(@group_score, @position), method: :get do
-    = label_tag :q, 'Person suchen', class: 'sr-only'
+    = label_tag :q, 'Person suchen', class: 'visually-hidden'
     .input-group
       = search_field_tag :q, params[:q], class: 'form-control', placeholder: 'Name suchen', autofocus: true
-      %span.input-group-btn
-        %button.btn.btn-default{ type: 'submit' } Suchen
+      %button.btn.btn-outline-secondary{ type: 'submit' } Suchen
     - if @group_score.gender.to_s == 'male'
-      .checkbox
-        %label
-          = check_box_tag :include_women, '1', @include_women
+      .form-check
+        %label.form-check-label
+          = check_box_tag :include_women, '1', @include_women, class: 'form-check-input'
           Auch Frauen anzeigen
 
-  %table.table.table-condensed.table-hover.select-person
+  %table.table.table-sm.table-hover.select-person
     - @people.each do |person|
       %tr
         %td= person.last_name
         %td= person.first_name
         %td.small= person.object.teams.pluck(:name).join(', ')
-        %td.text-right
+        %td.text-end
           = button_to 'Auswählen', path, method: :patch, params: { person_id: person.id },
-                                         class: 'btn btn-xs btn-primary', disabled: person.id == @current_person&.id
+                                         class: 'btn btn-sm btn-primary', disabled: person.id == @current_person&.id
     - if @people.empty?
       %tr
         %td.text-muted Keine passende Person gefunden.
 
   .contribution-dialog-actions
     = link_to 'Neue Person anlegen', new_contributions_person_path(group_score_id: @group_score.id, position: @position),
-              class: 'btn btn-default btn-sm'
+              class: 'btn btn-outline-secondary btn-sm'
     - if @current_person
       = button_to 'Person entfernen', path, method: :patch, params: { person_id: '' }, form_class: 'inline-form',
-                                           class: 'btn btn-default btn-sm'
-    = link_to 'Zurück', overview, class: 'btn btn-default btn-sm'
+                                           class: 'btn btn-outline-secondary btn-sm'
+    = link_to 'Zurück', overview, class: 'btn btn-outline-secondary btn-sm'

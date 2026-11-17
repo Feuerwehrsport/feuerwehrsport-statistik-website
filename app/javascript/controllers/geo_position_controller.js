@@ -21,9 +21,12 @@ export default class extends Controller {
     }
   }
 
+  // stop running animations first, otherwise Leaflet fails after removing the map ("_leaflet_pos")
   disconnect() {
+    this.map?.stop()
     this.map?.remove()
     this.map = null
+    this.marker = null
   }
 
   edit(event) {
@@ -39,7 +42,7 @@ export default class extends Controller {
   move({ detail: { latlon } }) {
     this.edit()
     this.marker.setLatLng(latlon)
-    this.map.panTo(latlon)
+    this.map.panTo(latlon, { animate: false })
   }
 
   save() {
@@ -56,7 +59,7 @@ export default class extends Controller {
       this.map = L.map(this.mapTarget, { center: latlon, zoom: 8, scrollWheelZoom: false,
                                          layers: [L.tileLayer(TILES, { attribution: ATTRIBUTION })] })
     } else {
-      this.map.panTo(latlon)
+      this.map.panTo(latlon, { animate: false })
     }
     if (!this.marker) this.marker = L.marker(latlon, { icon: this.redIcon() }).addTo(this.map)
   }

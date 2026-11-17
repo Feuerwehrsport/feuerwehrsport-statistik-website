@@ -12,7 +12,7 @@
     = render 'contributions/shared/actions'
 
   - when 'change-name'
-    = form_with url: contributions_competition_change_request_path(@competition), class: 'form-horizontal' do
+    = form_with url: contributions_competition_change_request_path(@competition) do
       = hidden_field_tag :kind, @kind
       %p Welchen Namen schlägst du vor?
       = render 'contributions/shared/text_field', name: :name, label: 'Name',
@@ -22,7 +22,7 @@
   - when 'add-hint'
     = form_with url: contributions_competition_change_request_path(@competition) do
       = hidden_field_tag :kind, @kind
-      .form-group
+      .mb-3
         = label_tag :hint, 'Beschreibe deinen Hinweis bitte ausführlich:'
         = text_area_tag :hint, params[:hint], class: 'form-control', rows: 5
       = render 'contributions/shared/actions', submit: 'Hinweis senden'
@@ -34,7 +34,7 @@
       %p
         Datei:
         %strong= @file.file_identifier
-      .form-group
+      .mb-3
         = label_tag :description, 'Was ist an der Datei falsch?'
         = text_area_tag :description, params[:description], class: 'form-control', rows: 5
       - if current_admin_user

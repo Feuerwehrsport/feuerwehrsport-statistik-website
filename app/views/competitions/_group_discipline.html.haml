@@ -1,14 +1,15 @@
-= toc.anker("#{discipline_name_short(discipline.discipline)} #{g(discipline.gender)} #{discipline.category.shortcut(prefix: " - ")}")
-%h2
-  = discipline_image(discipline.discipline)
-  = discipline_name(discipline.discipline)
-  = g(discipline.gender)
-%h3
-  = discipline.category
-  %small= discipline.category.group_score_type
+%section.content-card
+  = toc.anker("#{discipline_name_short(discipline.discipline)} #{g(discipline.gender)} #{discipline.category.shortcut(prefix: " - ")}")
+  %h2
+    = discipline_image(discipline.discipline)
+    = discipline_name(discipline.discipline)
+    = g(discipline.gender)
+  %h3
+    = discipline.category
+    %small= discipline.category.group_score_type
 
-.row
-  .col-md-3= discipline.chart.invalid_pie
-  .col-md-9= discipline.chart.group_scores_overview
-= position_count_table(discipline.discipline, discipline.gender, discipline.scores, class: "datatable scores-group") do |t|
-  - t.col("Mannschaft", helper_method: :numbered_team_link, class: "small col-10")
+  .row
+    .col-md-3= discipline.chart.invalid_pie
+    .col-md-9= discipline.chart.group_scores_overview
+  = position_count_table(discipline.discipline, discipline.gender, discipline.scores, class: "datatable scores-group", sort: { col: 1, direction: 'asc' }) do |t|
+    - t.col("Mannschaft", helper_method: :numbered_team_link, class: "small col-w-10")

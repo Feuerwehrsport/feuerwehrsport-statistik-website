@@ -1,11 +1,8 @@
 = table_of_contents do |toc|
-  .section
-    .container
-      .col-md-9
-        %h1= @page_title
-      .col-md-3
-        = toc.index
-    .container
+  = page_head(@page_title, toc:)
+
+  .container
+    %section.content-card.overflow-x-auto
       %table.table.records-table
         %tr
           %td{colspan: "7"}

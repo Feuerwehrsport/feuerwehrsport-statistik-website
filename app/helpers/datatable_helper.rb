@@ -15,11 +15,11 @@ module DatatableHelper
       defs = { targets: index }
       defs[:className] = field.options[:class] if field.options[:class].present?
       if field.sortable?
-        data[:aaSorting] ||= [[index, 'asc']]
+        data[:order] ||= [[index, 'asc']]
       else
         defs[:orderable] = false
       end
-      data[:aaSorting] = [[index, field.default_order]] if field.default_order.present?
+      data[:order] = [[index, field.default_order]] if field.default_order.present?
       data[:columnDefs].push(defs)
     end
 

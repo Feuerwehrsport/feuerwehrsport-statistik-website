@@ -5,7 +5,7 @@
     Klicke auf eine Position, um die Person zu ändern. Jede Änderung wird sofort gespeichert.
     Mit ↧ übernimmst du die Person aus dem Lauf darüber.
   .table-responsive
-    %table.table.table-condensed.group-score-positions
+    %table.table.table-sm.group-score-positions
       %thead
         %tr
           %th Zeit
@@ -22,16 +22,16 @@
               %td
                 = link_to person ? person.decorate.short_name : '+',
                           edit_contributions_group_score_position_path(score, position),
-                          class: "btn btn-xs #{person ? 'btn-default' : 'btn-link'}",
+                          class: "btn btn-sm #{person ? 'btn-outline-secondary' : 'btn-link'}",
                           title: "#{competitor_position(discipline, position, gender)} im Lauf #{score.second_time}"
                 - previous_person = previous&.dig(position)
                 - if previous_person && previous_person != person
                   = button_to '↧', contributions_group_score_position_path(score, position), method: :patch,
                                    params: { person_id: previous_person.id }, form_class: 'copy-position',
-                                   class: 'btn btn-xs btn-link', title: "#{previous_person.decorate.short_name} übernehmen"
+                                   class: 'btn btn-sm btn-link', title: "#{previous_person.decorate.short_name} übernehmen"
           - previous = people
   .contribution-dialog-actions
     - if @changed
       %button.btn.btn-primary.btn-sm{ type: 'button', data: { action: 'contribution-dialog#reload' } } Fertig
     - else
-      %button.btn.btn-default.btn-sm{ type: 'button', data: { action: 'contribution-dialog#close' } } Schließen
+      %button.btn.btn-outline-secondary.btn-sm{ type: 'button', data: { action: 'contribution-dialog#close' } } Schließen

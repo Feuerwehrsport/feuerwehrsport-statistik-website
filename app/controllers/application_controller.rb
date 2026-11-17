@@ -34,7 +34,6 @@ class ApplicationController < ActionController::Base
 
   include Caching::CacheSupport
   include PageTitleHelper
-  include MapSupport
 
   helper_method :current_admin_user, :current_user
 

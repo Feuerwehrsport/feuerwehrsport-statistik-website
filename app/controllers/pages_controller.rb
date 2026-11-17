@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PagesController < ResourceController
-  cache_actions :firesport_overview, :legal_notice, :rss, :dashboard, :last_competitions_overview,
+  cache_actions :firesport_overview, :legal_notice, :dashboard, :last_competitions_overview,
                 :records, :best_of
 
   def firesport_overview
@@ -10,10 +10,6 @@ class PagesController < ResourceController
 
   def legal_notice
     @page_title = 'Impressum'
-  end
-
-  def rss
-    @page_title = 'RSS-Feeds'
   end
 
   def datenschutz

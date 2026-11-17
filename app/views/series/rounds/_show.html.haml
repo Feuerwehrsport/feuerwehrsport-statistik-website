@@ -1,24 +1,24 @@
 - if @person_assessments.present?
-  .container
-    = toc.anker('Einzelwertungen', :h3)
+  %section.content-card
+    = toc.anker('Einzelwertungen', :h2)
     = count_table(@person_assessments) do |ct|
       - ct.col('Disziplin') { |row| link_to("#{discipline_image(row.discipline)} #{discipline_name(row.discipline)}".html_safe, row) }
       - ct.col('Name', :name)
       - ct.col('Wettkämpfer') { |row| row.object.person_participations.distinct.count(:person_id) }
 
 - round.team_assessments_configs.each do |config|
-  .container
+  %section.content-card
     - if config.rows.present?
       = toc.anker("Mannschaft #{config.name}")
-      %h3 Mannschaftswertung #{config.name}
+      %h2 Mannschaftswertung #{config.name}
 
       = count_table(config.rows.map(&:decorate)) do |ct|
-        - ct.col("Platz", :rank, class: 'col-5')
-        - ct.col("Team", class: 'col-15') { |row| numbered_team_link(row, competition_id: round.cups.map(&:competition_id), gender: row.team_gender) }
+        - ct.col("Platz", :rank, class: 'col-w-5')
+        - ct.col("Team", class: 'col-w-15') { |row| numbered_team_link(row, competition_id: round.cups.map(&:competition_id), gender: row.team_gender) }
         - round.cups.each do |cup|
-          - ct.col(cup.competition.place, class: 'col-10', th_options: { link_to: cup.competition }) { |row| render("series/rounds/participations_table", participations: row.participations_for_cup(cup)) }
+          - ct.col(cup.competition.place, class: 'col-w-10', th_options: { link_to: cup.competition }) { |row| render("series/rounds/participations_table", participations: row.participations_for_cup(cup)) }
         - config.show_columns_config.each do |col|
-          - ct.col(col[:name], col[:method], class: 'col-5')
+          - ct.col(col[:name], col[:method], class: 'col-w-5')
     
     = render('series/calculation_hint_btn', config:)
-  = render('series/calculation_hint', config:)
+    = render('series/calculation_hint', config:)

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Exports (xlsx, atom, datatable json)' do
+RSpec.describe 'Exports (xlsx, datatable json)' do
   let(:xlsx_content_type) { 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }
 
   # returns sheet names and all cell strings (inline or shared)
@@ -49,23 +49,6 @@ RSpec.describe 'Exports (xlsx, atom, datatable json)' do
       expect(response.media_type).to eq xlsx_content_type
       _sheets, strings = xlsx_strings(response.body)
       expect(strings).to include('Alfred Meier', 'Silber', '19,76')
-    end
-  end
-
-  describe 'GET /change_logs.atom' do
-    let!(:change_log) { create(:change_log) }
-
-    it 'returns atom feed' do
-      get '/change_logs.atom'
-      expect(response).to have_http_status(:ok)
-      expect(response.media_type).to eq 'application/atom+xml'
-      feed = Nokogiri::XML(response.body)
-      feed.remove_namespaces!
-      expect(feed.at('feed > title').text).to eq 'Feuerwehrsport-Statistik-Veränderungen'
-      expect(feed.css('entry').size).to eq 1
-      expect(feed.at('entry > title').text).to eq 'Wettkämpfer hinzufügen'
-      expect(feed.at('entry > author > name').text).to eq 'admin user'
-      expect(feed.at('entry > content').text).to include('Roland Sommer')
     end
   end
 

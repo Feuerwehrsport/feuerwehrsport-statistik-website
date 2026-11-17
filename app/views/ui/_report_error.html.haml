@@ -1,0 +1,7 @@
+= content_card('Fehler melden', toc:, class: 'report-error') do
+  %p
+    Beim Importieren der Ergebnisse passieren immer wieder Fehler – zum Beispiel, wenn Namen in den Ergebnislisten
+    falsch geschrieben wurden oder Umlaute fehlen. Du kannst beim Korrigieren helfen: Schick eine Meldung, sie wird
+    geprüft und dann eingearbeitet.
+  = link_to label, url, id: 'add-change-request', class: 'btn btn-outline-secondary',
+                        data: { turbo_frame: 'contribution', turbo: true }

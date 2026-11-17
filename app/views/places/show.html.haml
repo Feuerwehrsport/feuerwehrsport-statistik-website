@@ -1,41 +1,36 @@
 = table_of_contents do |toc|
-  .section
-    .container.page-header
-      .col-md-9
-        %h1
-          = resource.decorate
-          %small Wettkampfort
+  = page_head(resource.decorate.to_s, kicker: 'Wettkampfort', toc:, breadcrumb: [link_to('Wettkampforte', places_path), resource.decorate.to_s],
+              tiles: [[@competitions.count, 'Wettkämpfe']])
 
-      .col-md-3= toc.index
-    .container
-      = toc.anker 'Wettkämpfe'
-      = count_table(@competitions, class: 'datatable-place-competitons') do |t|
-        - t.col('Datum', class: 'col-10 info-link') { |row| competition_link(row, type: :date_iso) }
-        - t.col('Typ', class: 'col-10 small') { |row| link_to(row.event, row.event) }
-        - t.col('Name', class: 'col-20 info-link') { |row| competition_link(row, type: :name) }
-        - t.col('HBw', class: 'col-5') { |row| count_or_zero(row.hb_female) }
-        - t.col('HBm', class: 'col-5') { |row| count_or_zero(row.hb_male) }
-        - t.col('HLw', class: 'col-5') { |row| count_or_zero(row.hl_female) }
-        - t.col('HLm', class: 'col-5') { |row| count_or_zero(row.hl_male) }
-        - t.col('GS', class: 'col-5') { |row| count_or_zero(row.gs) }
-        - t.col('FSw', class: 'col-5') { |row| count_or_zero(row.fs_female) }
-        - t.col('FSm', class: 'col-5') { |row| count_or_zero(row.fs_male) }
-        - t.col('LAw', class: 'col-5') { |row| count_or_zero(row.la_female) }
-        - t.col('LAm', class: 'col-5') { |row| count_or_zero(row.la_male) }
+  .container
+    = content_card('Wettkämpfe', toc:) do
+      = count_table(@competitions, class: 'datatable-place-competitons', sort: true) do |t|
+        - t.col('Datum', class: 'col-w-10 info-link') { |row| competition_link(row, type: :date_iso) }
+        - t.col('Typ', class: 'col-w-10 small') { |row| link_to(row.event, row.event) }
+        - t.col('Name', class: 'col-w-20 info-link') { |row| competition_link(row, type: :name) }
+        - t.col('HBw', class: 'col-w-5') { |row| count_or_zero(row.hb_female) }
+        - t.col('HBm', class: 'col-w-5') { |row| count_or_zero(row.hb_male) }
+        - t.col('HLw', class: 'col-w-5') { |row| count_or_zero(row.hl_female) }
+        - t.col('HLm', class: 'col-w-5') { |row| count_or_zero(row.hl_male) }
+        - t.col('GS', class: 'col-w-5') { |row| count_or_zero(row.gs) }
+        - t.col('FSw', class: 'col-w-5') { |row| count_or_zero(row.fs_female) }
+        - t.col('FSm', class: 'col-w-5') { |row| count_or_zero(row.fs_male) }
+        - t.col('LAw', class: 'col-w-5') { |row| count_or_zero(row.la_female) }
+        - t.col('LAm', class: 'col-w-5') { |row| count_or_zero(row.la_male) }
 
-    .container= render 'calculation/competitions_discipline_overview', toc: toc, competitions: @competitions
+    = render 'calculation/competitions_discipline_overview', toc:, competitions: @competitions
 
-    .container
-      = toc.anker 'Karte', :h2
-    .container{ data: { controller: 'geo-position', geo_position_url_value: edit_contributions_place_geo_position_path(resource) } }
-      .col-md-9
-        = map(id: 'place-map', red: resource, data: { place_id: resource.id, geo_position_target: 'map' })
-      .col-md-3.place-map-actions
-        %div{ data: { geo_position_target: 'start' } }
-          - unless resource.positioned?
-            %p Bisher wurden keine Geoposition für diesen Ort hinterlegt.
-          %button#change-geo-position.btn.btn-default{ type: 'button', data: { action: 'geo-position#edit' } }
-            = resource.positioned? ? 'Geoposition bearbeiten' : 'Geoposition hinzufügen'
-        %div{ hidden: true, data: { geo_position_target: 'save' } }
-          %p Verschiebe den roten Marker an die richtige Stelle.
-          %button.btn.btn-primary{ type: 'button', data: { action: 'geo-position#save' } } Speichern
+    = content_card('Karte', toc:, data: { controller: 'geo-position',
+                                          geo_position_url_value: edit_contributions_place_geo_position_path(resource) }) do
+      .row.g-3
+        .col-md-9
+          = map(id: 'place-map', red: resource, data: { place_id: resource.id, geo_position_target: 'map' })
+        .col-md-3.place-map-actions
+          %div{ data: { geo_position_target: 'start' } }
+            - unless resource.positioned?
+              %p Für diesen Ort ist noch keine Geoposition hinterlegt.
+            %button#change-geo-position.btn.btn-outline-secondary{ type: 'button', data: { action: 'geo-position#edit' } }
+              = resource.positioned? ? 'Geoposition bearbeiten' : 'Geoposition hinzufügen'
+          %div{ hidden: true, data: { geo_position_target: 'save' } }
+            %p Verschiebe den roten Marker an die richtige Stelle.
+            %button.btn.btn-primary{ type: 'button', data: { action: 'geo-position#save' } } Speichern

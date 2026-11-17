@@ -1,10 +1,12 @@
-.section
-  .container
-    %h1 Wettkampftypen
+= page_head('Wettkampftypen', tiles: [[collection.to_a.size, 'Typen']])
 
-    = count_table(collection, class: 'datatable-events') do |t|
-      - t.col('Typ', class: 'col-md-4') { |row| event_link(row) }
-      - t.col('Wettkämpfe', :count, class: 'col-md-1')
-
-
-    = Chart::EventIndex.new(events: collection, request:).events_count
+.container
+  .row
+    .col-lg-5
+      = content_card do
+        = count_table(collection, class: 'datatable-events', sort: { direction: 'asc' }) do |t|
+          - t.col('Typ') { |row| event_link(row) }
+          - t.col('Wettkämpfe', :count)
+    .col-lg-7
+      = content_card('Wettkämpfe pro Typ', heading: :h3) do
+        = Chart::EventIndex.new(events: collection).events_count

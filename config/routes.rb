@@ -164,7 +164,6 @@ Rails.application.routes.draw do
     get 'person_la_positions/:person_id', controller: :images, action: :la_positions, as: :images_person_la_positions
   end
 
-  get :rss, to: 'pages#rss'
   get :impressum, to: 'pages#legal_notice'
   get :datenschutz, to: 'pages#datenschutz'
   get :feuerwehrsport, to: 'pages#firesport_overview'

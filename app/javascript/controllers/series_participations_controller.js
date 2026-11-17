@@ -4,7 +4,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   connect() {
     this.element.querySelectorAll(".series-participation").forEach((element) => {
-      element.classList.add("btn", "btn-default", "btn-xs")
+      element.classList.add("btn", "btn-outline-secondary", "btn-sm")
       element.setAttribute("role", "link")
       element.title = "Eintrag bearbeiten"
     })

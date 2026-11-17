@@ -1,10 +1,12 @@
-.section
-  .container
-    %h1 Jahre
+= page_head('Jahre', tiles: [[collection.to_a.size, 'Jahre']])
 
-    = count_table(collection, class: 'datatable-years') do |t|
-      - t.col('Jahr', class: 'col-md-4') { |row| year_link(row) }
-      - t.col('Wettkämpfe', :count, class: 'col-md-1')
-
-    %h4 Anzahl der Wettkämpfe pro Jahr
-    = Chart::YearIndex.new(years: collection, request:).competitions_count
+.container
+  .row
+    .col-lg-5
+      = content_card do
+        = count_table(collection, class: 'datatable-years', sort: true) do |t|
+          - t.col('Jahr') { |row| year_link(row) }
+          - t.col('Wettkämpfe', :count)
+    .col-lg-7
+      = content_card('Anzahl der Wettkämpfe pro Jahr', heading: :h3) do
+        = Chart::YearIndex.new(years: collection).competitions_count

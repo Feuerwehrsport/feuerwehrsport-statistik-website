@@ -1,32 +1,35 @@
-= toc.anker("#{discipline_name_short(single_discipline.key)} #{g(discipline.gender)} #{final_name(discipline.category)}")
-%h2
-  = discipline_image(single_discipline.key)
-  = single_discipline.name
-  = g(discipline.gender)
-  - if discipline.category
-    %small= final_name(discipline.category)
-.row
-  .col-md-3= discipline.chart.invalid_pie
-  .col-md-9= discipline.chart.single_scores_overview
-= count_table(discipline.scores, class: 'datatable scores-single change-team') do |t|
-  - t.data('score-id') { |row| row.id }
-  - t.col('Nachname', [:person, :last_name], class: 'col-20', link_to: :person)
-  - t.col('Vorname', [:person, :first_name], class: 'col-20', link_to: :person)
-  - t.col('Mannschaft', helper_method: :numbered_team_link, class: 'small col-20')
-  - t.col('Zeit', :second_time, class: 'col-10 time-col')
+%section.content-card
+  = toc.anker("#{discipline_name_short(single_discipline.key)} #{g(discipline.gender)} #{final_name(discipline.category)}")
+  %h2
+    = discipline_image(single_discipline.key)
+    = single_discipline.name
+    = g(discipline.gender)
+    - if discipline.category
+      %small= final_name(discipline.category)
+  .row
+    .col-md-3= discipline.chart.invalid_pie
+    .col-md-9= discipline.chart.single_scores_overview
+  = count_table(discipline.scores, class: 'datatable scores-single change-team',
+                       sort: { col: 3, direction: 'asc', edit_label: 'Mannschaften bearbeiten',
+                               edit_url: '/contributions/scores/:id/team/edit' }) do |t|
+    - t.data('score-id') { |row| row.id }
+    - t.col('Nachname', [:person, :last_name], class: 'col-w-20', link_to: :person)
+    - t.col('Vorname', [:person, :first_name], class: 'col-w-20', link_to: :person)
+    - t.col('Mannschaft', helper_method: :numbered_team_link, class: 'small col-w-20')
+    - t.col('Zeit', :second_time, class: 'col-w-10 time-col')
 
-- if !discipline.category && @competition.score_type.present?
-  - group_scores = resource.group_assessment(discipline.discipline, discipline.gender)
-  - if group_scores.present?
-    %h2
-      = discipline_image(single_discipline.key)
-      = single_discipline.name
-      = g(discipline.gender)
-      %small Mannschaftswertung
+  - if !discipline.category && @competition.score_type.present?
+    - group_scores = resource.group_assessment(discipline.discipline, discipline.gender)
+    - if group_scores.present?
+      %h2
+        = discipline_image(single_discipline.key)
+        = single_discipline.name
+        = g(discipline.gender)
+        %small Mannschaftswertung
 
-    = count_table(group_scores) do |ct|
-      - ct.col('Team', helper_method: :numbered_team_link)
-      - ct.col('Summe', :second_time)
-      - ct.col('Wertung', class: 'small') { |row| row.score_in_assessment.map {|s| link_to(s.person.short_name, s.person) }.join(', ').html_safe }
-      - ct.col('Außerhalb', class: 'small') { |row| row.score_out_assessment.map {|s| link_to(s.person.short_name, s.person) }.join(', ').html_safe }
-    
+      = count_table(group_scores) do |ct|
+        - ct.col('Team', helper_method: :numbered_team_link)
+        - ct.col('Summe', :second_time)
+        - ct.col('Wertung', class: 'small') { |row| row.score_in_assessment.map {|s| link_to(s.person.short_name, s.person) }.join(', ').html_safe }
+        - ct.col('Außerhalb', class: 'small') { |row| row.score_out_assessment.map {|s| link_to(s.person.short_name, s.person) }.join(', ').html_safe }
+

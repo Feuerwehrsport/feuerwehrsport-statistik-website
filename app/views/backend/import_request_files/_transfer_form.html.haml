@@ -9,7 +9,7 @@
   - CompetitionFile::POSSIBLE_KEYS.each do |key|
     - discipline, gender = key.to_s.split('_')
     - checked = (gender == 'female' ? female : male) && name.match?(disciplines[discipline.to_sym])
-    %label.checkbox-inline
-      = check_box_tag 'keys[]', key, checked, id: "transfer-#{file.id}-#{key}"
+    %label.form-check.form-check-inline
+      = check_box_tag 'keys[]', key, checked, id: "transfer-#{file.id}-#{key}", class: 'form-check-input'
       = "#{discipline.upcase} #{gender == 'female' ? 'w' : 'm'}"
-  %button.btn.btn-default.btn-xs{ type: 'submit' } Übertragen nach #{import_competition}
+  %button.btn.btn-outline-secondary.btn-sm{ type: 'submit' } Übertragen nach #{import_competition}

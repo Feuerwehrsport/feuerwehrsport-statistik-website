@@ -4,7 +4,6 @@ class Backend::UncheckedTeamsController < Backend::BackendController
   include ChangeLogging
 
   backend_actions
-  map_support_at :show
 
   default_form do |f|
     f.input :name

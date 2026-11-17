@@ -22,7 +22,7 @@
     = render 'contributions/shared/actions', cancel: 'Abbrechen'
 
   - when 'correction'
-    = form_with url: contributions_person_change_request_path(@person), class: 'form-horizontal' do
+    = form_with url: contributions_person_change_request_path(@person) do
       = hidden_field_tag :kind, @kind
       %p Bitte korrigieren Sie den Namen:
       = render 'contributions/shared/text_field', name: :first_name, label: 'Vorname',
@@ -35,11 +35,10 @@
     %p Suchen Sie die Person mit der richtigen Schreibweise:
     = form_with url: new_contributions_person_change_request_path(@person), method: :get do
       = hidden_field_tag :kind, @kind
-      = label_tag :q, 'Name suchen', class: 'sr-only'
+      = label_tag :q, 'Name suchen', class: 'visually-hidden'
       .input-group
         = search_field_tag :q, params[:q], class: 'form-control', placeholder: 'Name', autofocus: true
-        %span.input-group-btn
-          %button.btn.btn-default{ type: 'submit' } Suchen
+        %button.btn.btn-outline-secondary{ type: 'submit' } Suchen
     - if params[:q].present?
       = form_with url: contributions_person_change_request_path(@person) do
         = hidden_field_tag :kind, @kind
@@ -47,9 +46,9 @@
         - if @people.any?
           .contribution-dialog-choices
             - @people.each do |person|
-              .radio
-                %label
-                  = radio_button_tag :correct_person_id, person.id, params[:correct_person_id].to_s == person.id.to_s
+              .form-check
+                %label.form-check-label
+                  = radio_button_tag :correct_person_id, person.id, params[:correct_person_id].to_s == person.id.to_s, class: 'form-check-input'
                   #{person.last_name}, #{person.first_name} (#{person.gender_translated})
           = render 'contributions/shared/actions', submit: 'Fehler melden'
         - else
@@ -59,19 +58,19 @@
       = render 'contributions/shared/actions'
 
   - when 'change-nation'
-    = form_with url: contributions_person_change_request_path(@person), class: 'form-horizontal' do
+    = form_with url: contributions_person_change_request_path(@person) do
       = hidden_field_tag :kind, @kind
-      .form-group
-        = label_tag :nation_id, 'Nation', class: 'control-label col-sm-3'
+      .row.mb-3
+        = label_tag :nation_id, 'Nation', class: 'col-form-label col-sm-3'
         .col-sm-9
           = select_tag :nation_id, options_for_select(Nation.order(:name).pluck(:name, :id),
-                                                      params[:nation_id] || @person.nation_id), class: 'form-control'
+                                                      params[:nation_id] || @person.nation_id), class: 'form-select'
       = render 'contributions/shared/actions', submit: 'Fehler melden'
 
   - when 'other'
     = form_with url: contributions_person_change_request_path(@person) do
       = hidden_field_tag :kind, @kind
-      .form-group
+      .mb-3
         = label_tag :description, 'Bitte beschreiben Sie das Problem:'
         = text_area_tag :description, params[:description], class: 'form-control', rows: 5
       = render 'contributions/shared/actions', submit: 'Fehler melden'

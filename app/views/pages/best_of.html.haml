@@ -1,21 +1,19 @@
-.section
-  .container.page-header
-    %h1 Die 100 schnellsten Zeiten
-  .container
-    .col-md-6
-      %p Die Tabellen zeigen die 100 besten Zeiten. Dies sind keine Rekorde, da auch unbestätigte Wettkämpfe zu finden sind.
-    .col-md-6
-      %ul
-        %li= link_to("Bestätigte Rekorde", records_path)
-        %li= link_to("Überblick über die Jahre", years_path)
-        %li= link_to("Alle Wettkämpfe", competitions_path)
-  .container
+= page_head('Die 100 schnellsten Zeiten') do
+  %p
+    Die Tabellen zeigen die 100 besten Zeiten. Das sind keine Rekorde, da auch unbestätigte Wettkämpfe dabei sind.
+  .d-flex.flex-wrap.gap-2
+    = link_to('Bestätigte Rekorde', records_path, class: 'btn btn-sm btn-outline-secondary')
+    = link_to('Überblick über die Jahre', years_path, class: 'btn btn-sm btn-outline-secondary')
+    = link_to('Alle Wettkämpfe', competitions_path, class: 'btn btn-sm btn-outline-secondary')
+
+.container
+  = content_card do
     = nav_tab do |nv|
       - Calc::BestOf.new.disciplines.each do |struct|
         - nv.tab(discipline_image_name_short(struct[:discipline], struct[:gender])) do
           - if struct[:year].present?
             %p Zeiten bis #{struct[:year]}
-          = count_table(struct[:scores], table_class: Ui::RankTable, class: "datatable-best-scores", rank_options: { class: "col-10" }) do |t|
-            - t.col("Name", class: "col-30") { |row| person_link(row.entity, type: :full_name) }
-            - t.col("Zeit", :second_time, class: "col-10")
-            - t.col("Wettkampf", class: "col-40") { |row| competition_link(row.competition) }
+          = count_table(struct[:scores], table_class: Ui::RankTable, class: "datatable-best-scores", rank_options: { class: "col-w-10" }) do |t|
+            - t.col("Name", class: "col-w-30") { |row| person_link(row.entity, type: :full_name) }
+            - t.col("Zeit", :second_time, class: "col-w-10")
+            - t.col("Wettkampf", class: "col-w-40") { |row| competition_link(row.competition) }

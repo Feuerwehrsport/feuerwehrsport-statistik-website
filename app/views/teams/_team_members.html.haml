@@ -1,8 +1,13 @@
 - if @team_members.present?
-  = toc.anker 'Wettkämpfer', :h2
-  = count_table(@team_members, class: 'datatable-team-members') do |ct|
-    - ct.col('Name', class: 'col-20', helper_method: :person_link, helper_method_options: { type: :last_name })
-    - ct.col('Vorname', class: 'col-20', helper_method: :person_link, helper_method_options: { type: :first_name })
-    - ct.col('Geschlecht', :gender_translated, class: 'col-20 small', th_options: { class: 'small' })
-    - [:hl, :hb, :gs, :fs, :la].each do |discipline|
-      - ct.col(discipline_name_short(discipline), discipline, class: 'col-5', th_options: { title: discipline_name(discipline) })
+  %section.content-card
+    = toc.anker 'Wettkämpfer', :h2
+    .row.g-4
+      .col-lg-9
+        = count_table(@team_members, class: 'datatable-team-members', sort: { direction: 'asc' }) do |ct|
+          - ct.col('Name', class: 'col-w-20', helper_method: :person_link, helper_method_options: { type: :last_name })
+          - ct.col('Vorname', class: 'col-w-20', helper_method: :person_link, helper_method_options: { type: :first_name })
+          - ct.col('Geschlecht', :gender_translated, class: 'col-w-20 small', th_options: { class: 'small' })
+          - [:hl, :hb, :gs, :fs, :la].each do |discipline|
+            - ct.col(discipline_name_short(discipline), discipline, class: 'col-w-5', th_options: { title: discipline_name(discipline) })
+      .col-lg-3
+        .side-chart= chart.gender_pie

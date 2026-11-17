@@ -1,9 +1,9 @@
 %tr
   %td
-    = label_tag "competition_file_#{index}_file", 'Datei', class: 'sr-only'
+    = label_tag "competition_file_#{index}_file", 'Datei', class: 'visually-hidden'
     = file_field_tag "competition_file[#{index}][file]", accept: 'application/pdf',
                                                          id: "competition_file_#{index}_file"
   - CompetitionFile.possible_keys.each do |discipline, gender, key|
     %td{ title: "#{discipline_name(discipline)} #{g(gender)}" }
-      = check_box_tag "competition_file[#{index}][#{key}]", '1', false, id: "competition_file_#{index}_#{key}",
+      = check_box_tag "competition_file[#{index}][#{key}]", '1', false, id: "competition_file_#{index}_#{key}", class: 'form-check-input',
                       'aria-label': "#{discipline_name(discipline)} #{g(gender)}"

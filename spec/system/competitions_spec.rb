@@ -80,7 +80,7 @@ describe 'competitions features' do
       api_sign_in
       visit competition_path(score.competition)
       find('.btn', text: 'Mannschaften bearbeiten').click
-      find('.change-team a.glyphicon-pencil', match: :first).click
+      find('.change-team .time-col a', match: :first).click
 
       within('dialog.contribution-dialog') do
         fill_in 'Mannschaft suchen', with: 'Neustadt'
@@ -109,7 +109,7 @@ describe 'competitions features' do
       api_sign_in
       visit competition_path(first_run.competition)
       find('.btn', text: 'Positionen bearbeiten', match: :first).click
-      find('.change-position a.glyphicon-pencil', match: :first).click
+      find('.change-position .time-col a', match: :first).click
 
       within('dialog.contribution-dialog') do
         expect(page).to have_text('Klicke auf eine Position')

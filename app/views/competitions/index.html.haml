@@ -1,12 +1,8 @@
 = table_of_contents do |toc|
-  .section
-    .container.page-header
-      .col-md-9
-        %h1 Wettkämpfe
-      .col-md-3= toc.index
+  = page_head('Wettkämpfe', toc:, tiles: [[collection.count, 'Wettkämpfe']])
 
-    .container
-      = toc.anker('Wettkämpfe')
+  .container
+    = content_card('Alle Wettkämpfe', toc:, label: 'Wettkämpfe') do
       = datatable(:competitions)
 
-    .container= render 'calculation/competitions_discipline_overview', toc: toc, competitions: collection
+    = render 'calculation/competitions_discipline_overview', toc:, competitions: collection

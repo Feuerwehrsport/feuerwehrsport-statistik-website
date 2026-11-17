@@ -8,6 +8,6 @@ class NationDecorator < AppDecorator
   end
 
   def nation_flag_with_iso
-    h.content_tag(:code, h.safe_join([nation.iso.upcase, nation_flag], ' '), class: 'small', title: name)
+    h.content_tag(:span, h.safe_join([nation_flag, nation.iso.upcase], ' '), class: 'nation-iso', title: name)
   end
 end

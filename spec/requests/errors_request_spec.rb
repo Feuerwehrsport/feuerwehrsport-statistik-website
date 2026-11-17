@@ -52,7 +52,7 @@ RSpec.describe 'Errors' do
       '/page/competitions.html' => 'http://test.host/competitions',
       '/page/date-12.html' => 'https://feusport.de',
       '/page/event-3.html' => 'http://test.host/events/3',
-      '/page/feeds.html' => 'http://test.host/rss',
+      '/page/feeds.html' => 'http://test.host/change_logs',
       '/page/home.html' => 'http://test.host/',
       '/page/logs.html' => 'http://test.host/change_logs',
       '/page/person-77.html' => 'http://test.host/people/77',

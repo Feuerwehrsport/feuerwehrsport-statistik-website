@@ -1,7 +1,7 @@
 .section
   .container
-    = link_to("Liveansicht: #{resource}", team_path(resource), class: 'btn btn-default btn-xs', target: :_blank)
-    = link_to("Backend: #{resource}", backend_team_path(resource), class: 'btn btn-default btn-xs', target: :_blank)
+    = link_to("Liveansicht: #{resource}", team_path(resource), class: 'btn btn-outline-secondary btn-sm', target: :_blank)
+    = link_to("Backend: #{resource}", backend_team_path(resource), class: 'btn btn-outline-secondary btn-sm', target: :_blank)
     - if resource.similar_teams.present?
       %h3 Ähnlich geschriebene Mannschaften
       %table.table
@@ -12,9 +12,9 @@
               - path = merge_backend_unchecked_team_path(resource)
               - confirm = "#{resource.name} wirklich mit #{team.name} zusammenführen? Diese Aktion verändert die Daten!"
               = button_to 'Zusammenführen', path, params: { correct_team_id: team.id },
-                          class: 'btn btn-default btn-sm', form_class: 'inline-form', data: { confirm: }
+                          class: 'btn btn-outline-secondary btn-sm', form_class: 'inline-form', data: { confirm: }
               = button_to 'Immer zusammenführen', path, params: { correct_team_id: team.id, always: 1 },
-                          class: 'btn btn-default btn-sm', form_class: 'inline-form',
+                          class: 'btn btn-outline-secondary btn-sm', form_class: 'inline-form',
                           data: { confirm: "#{confirm} Beim Import wird in Zukunft immer automatisch der Name ersetzt." }
   -# results are loaded in the browser (stimulus lookup), wikipedia and nominatim allow cross-origin requests
   .container{ data: { controller: 'lookup', lookup_service_value: 'wikipedia', lookup_query_value: resource.shortcut } }
@@ -26,9 +26,10 @@
   .container
     %h3 Land/Bundesland
     = resource.full_state
-    = link_to '', edit_contributions_team_state_path(resource), id: 'edit-state', title: 'Bundesland bearbeiten',
-                  class: 'btn btn-xs btn-default glyphicon glyphicon-pencil',
-                  data: { turbo_frame: 'contribution', turbo: true }
+    = link_to edit_contributions_team_state_path(resource), id: 'edit-state', title: 'Bundesland bearbeiten',
+              'aria-label': 'Bundesland bearbeiten', class: 'btn btn-sm btn-outline-secondary',
+              data: { turbo_frame: 'contribution', turbo: true } do
+      %span.fa.fa-pen{ 'aria-hidden': 'true' }
 
   - unless resource.positioned?
     .container{ data: { controller: 'geo-position', geo_position_url_value: edit_contributions_team_geo_position_path(resource),

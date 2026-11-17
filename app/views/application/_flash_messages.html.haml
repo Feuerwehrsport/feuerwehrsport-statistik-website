@@ -1,6 +1,7 @@
 - mappings = { 'alert' => 'danger', 'notice' => 'info' }
 - flash.each do |name, msg|
   - type = mappings[name] || name
-  .alert{ class: "alert-#{type}" }
-    %a.close{ href: "#", "data-dismiss" => "alert" } &times;
-    .container!= msg
+  .container.mt-3
+    .alert.alert-dismissible{ class: "alert-#{type}", role: 'alert' }
+      != msg
+      %button.btn-close{ type: 'button', data: { bs_dismiss: 'alert' }, 'aria-label': 'Schließen' }

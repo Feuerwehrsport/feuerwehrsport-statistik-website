@@ -1,8 +1,4 @@
-.panel.panel-default
-  .panel-heading Inhaltsverzeichnis
-  .panel-body
-    - if ankers
-      %ol
-        - ankers.each do |anker|
-          %li
-            %a{href: "#toc-#{anker.id}"}= anker.name
+- if ankers.present?
+  %nav.section-nav{ 'aria-label': 'Abschnitte' }
+    - ankers.each do |anker|
+      %a{ href: "#toc-#{anker.id}" }= anker.name

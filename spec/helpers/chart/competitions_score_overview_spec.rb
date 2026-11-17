@@ -8,14 +8,23 @@ describe Chart::CompetitionsScoreOverview do
   let(:competitions) { [] }
 
   before do
-    allow(chart).to receive(:high_chart).and_wrap_original do |method, id, high_chart|
-      rendered_charts.push(high_chart)
-      method.call(id, high_chart)
+    allow(chart).to receive(:render_chart).and_wrap_original do |method, **config|
+      rendered_charts.push(config)
+      method.call(**config)
     end
   end
 
-  def series_data
-    rendered_charts.last.series_data.first[:data]
+  def dataset
+    rendered_charts.last[:data][:datasets].first
+  end
+
+  def labels
+    rendered_charts.last[:data][:labels]
+  end
+
+  # name/value pairs of a doughnut chart
+  def slices
+    labels.zip(dataset[:data]).map { |name, y| { name:, y: } }
   end
 
   def competition_with(attributes)
@@ -33,20 +42,15 @@ describe Chart::CompetitionsScoreOverview do
 
     it 'renders a column chart' do
       output = chart.year_overview
-      expect(output).to include('Highcharts.Chart')
-      expect(output).to match(/<div id="high-chart-\h{12}"/)
-      expect(rendered_charts.last.options[:chart][:type]).to eq 'column'
-      expect(rendered_charts.last.options[:xAxis][:categories]).to eq I18n.t('date.month_names_short')
+      expect(output).to include('data-controller="chart"')
+      expect(output).to include('class="chart-box"')
+      expect(rendered_charts.last[:type]).to eq 'bar'
+      expect(labels).to eq I18n.t('date.month_names_short')
     end
 
     it 'counts competitions per month' do
       chart.year_overview
-      expect(series_data.pluck(:y)).to eq [1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0]
-    end
-
-    it 'names the months' do
-      chart.year_overview
-      expect(series_data.pluck(:name).first(5)).to eq %w[Januar Februar März April Mai]
+      expect(dataset[:data]).to eq [1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0]
     end
   end
 
@@ -61,13 +65,8 @@ describe Chart::CompetitionsScoreOverview do
 
     it 'counts competitions per weekday starting with monday' do
       chart.week_overview
-      expect(series_data.pluck(:y)).to eq [1, 0, 0, 0, 0, 0, 2]
-      expect(rendered_charts.last.options[:xAxis][:categories]).to eq I18n.t('date.day_names_short')
-    end
-
-    it 'names the weekdays' do
-      chart.week_overview
-      expect(series_data.pluck(:name)).to eq %w[Montag Dienstag Mittwoch Donnerstag Freitag Samstag Sonntag]
+      expect(dataset[:data]).to eq [1, 0, 0, 0, 0, 0, 2]
+      expect(labels).to eq I18n.t('date.day_names_short')
     end
   end
 
@@ -86,7 +85,7 @@ describe Chart::CompetitionsScoreOverview do
 
     it 'groups competitions by offered disciplines' do
       chart.disciplines_overview
-      expect(series_data).to eq [
+      expect(slices).to eq [
         { name: 'Alle', y: 1 },
         { name: 'Nur HL', y: 1 },
         { name: 'Nur HB', y: 2 },
@@ -94,6 +93,7 @@ describe Chart::CompetitionsScoreOverview do
         { name: 'HB und HL', y: 1 },
         { name: 'Andere', y: 1 },
       ]
+      expect(dataset[:backgroundColor].last).to eq Chart::Base::OTHER_COLOR
     end
 
     context 'with only one kind' do
@@ -101,7 +101,7 @@ describe Chart::CompetitionsScoreOverview do
 
       it 'skips empty groups' do
         chart.disciplines_overview
-        expect(series_data).to eq [{ name: 'Nur LA', y: 1 }]
+        expect(slices).to eq [{ name: 'Nur LA', y: 1 }]
       end
     end
   end
@@ -118,7 +118,7 @@ describe Chart::CompetitionsScoreOverview do
 
     it 'counts competitions per score type' do
       chart.team_scores_overview
-      expect(series_data).to eq [{ name: '10/8/6', y: 2 }]
+      expect(slices).to eq [{ name: '10/8/6', y: 2 }]
     end
   end
 
@@ -129,7 +129,7 @@ describe Chart::CompetitionsScoreOverview do
 
     it 'groups competitions by teams count' do
       chart.teams_count_overview
-      expect(series_data).to eq [
+      expect(slices).to eq [
         { name: 'Keine', y: 1 },
         { name: '1 bis 10', y: 2 },
         { name: '11 bis 20', y: 2 },
@@ -146,9 +146,9 @@ describe Chart::CompetitionsScoreOverview do
 
     it 'groups competitions by people count' do
       chart.people_count_overview
-      expect(series_data.pluck(:y)).to eq [1, 1, 2, 2, 2, 1]
-      expect(series_data.first[:name]).to eq 'Keine'
-      expect(series_data.last[:name]).to eq '> 100'
+      expect(dataset[:data]).to eq [1, 1, 2, 2, 2, 1]
+      expect(labels.first).to eq 'Keine'
+      expect(labels.last).to eq '> 100'
     end
 
     context 'with only small competitions' do
@@ -156,7 +156,7 @@ describe Chart::CompetitionsScoreOverview do
 
       it 'skips empty groups' do
         chart.people_count_overview
-        expect(series_data).to eq [{ name: '1 bis 25', y: 1 }]
+        expect(slices).to eq [{ name: '1 bis 25', y: 1 }]
       end
     end
   end

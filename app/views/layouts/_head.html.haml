@@ -1,17 +1,16 @@
 %head
   %title= page_title
   %meta{:content => "text/html;charset=utf-8", "http-equiv" => "content-type"}/
+  -# Turbo Drive: no snapshots of pages (DataTables, maps and dialogs are initialised by stimulus on each visit)
+  %meta{ name: 'turbo-cache-control', content: 'no-cache' }
   = favicon_link_tag
-  - if backend?
-    = javascript_include_tag 'backend'
-    = stylesheet_link_tag 'backend'
-  - else
-    = javascript_include_tag 'frontend'
-    = stylesheet_link_tag    'frontend'
-  - if map_support?
-    = javascript_include_tag '/leaflet/leaflet', skip_pipeline: true
-    = stylesheet_link_tag    '/leaflet/leaflet', skip_pipeline: true
+  -# frontend and backend use different bundles: switching between them reloads the page
+  - bundle = backend? ? 'backend' : 'frontend'
+  = javascript_include_tag bundle, data: { turbo_track: 'reload' }
+  = stylesheet_link_tag bundle, data: { turbo_track: 'reload' }
+  -# always loaded, so maps also work after a Turbo visit
+  = javascript_include_tag '/leaflet/leaflet', skip_pipeline: true
+  = stylesheet_link_tag    '/leaflet/leaflet', skip_pipeline: true
 
-  = auto_discovery_link_tag(:rss, change_logs_path(format: :atom))
   = csrf_meta_tags
   = javascript_importmap_tags

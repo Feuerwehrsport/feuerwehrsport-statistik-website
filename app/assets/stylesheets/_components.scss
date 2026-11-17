@@ -1,0 +1,177 @@
+// building blocks of the backend (formerly the m3 engine), on Bootstrap 5
+
+// head of backend pages
+.hero {
+  background: #FFFFFF;
+  border-bottom: 1px solid $line;
+  padding: 1.5rem 0;
+  margin-bottom: 2rem;
+
+  .kicker {
+    margin: 0 0 0.25rem;
+
+    a {
+      color: inherit;
+    }
+  }
+
+  h1 {
+    margin: 0;
+  }
+}
+
+.hero-actions {
+  float: right;
+  margin: 0 0 0 1rem;
+  padding: 0;
+
+  .btn-group > a[data-method=delete],
+  .btn-group > a.destroy {
+    @extend .btn-outline-danger;
+  }
+}
+
+// filters of index pages (dropdown with a form)
+.filters-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.filters-trigger {
+  @extend .btn, .btn-outline-secondary, .btn-sm, .dropdown-toggle;
+}
+
+.filters-unfilter {
+  @extend .btn, .btn-outline-warning, .btn-sm;
+}
+
+.filters-form {
+  @extend .dropdown-menu;
+  padding: 0.75rem;
+  min-width: min(400px, calc(100vw - 2rem));
+}
+
+.filters-filter {
+  margin-bottom: 0.75rem;
+}
+
+.filters-input {
+  @extend .form-control;
+}
+
+.filters-with-check-boxes label {
+  font-weight: normal;
+}
+
+.filters-submit {
+  @extend .btn, .btn-primary, .btn-sm;
+}
+
+// forms
+.form-label.required::after,
+.col-form-label.required::after {
+  content: "\00a0*";
+}
+
+.form-label abbr,
+.col-form-label abbr {
+  display: none;
+}
+
+.form-control[type=number] {
+  max-width: 150px;
+}
+
+// file input with preview (FilePreviewInput)
+.imagepreview {
+  .imagepreview-image {
+    float: left;
+    margin-right: 10px;
+    max-width: 200px;
+    max-height: 200px;
+  }
+
+  .imagepreview-actions {
+    margin-bottom: 5px;
+
+    button {
+      @extend .btn, .btn-outline-secondary, .btn-sm;
+      margin-right: 5px;
+    }
+  }
+
+  &.is-removed .imagepreview-image,
+  &.is-edited .imagepreview-image {
+    opacity: 0.25;
+  }
+}
+
+// index tables of the backend
+.index-table {
+  @extend .table;
+
+  .index-table-actions {
+    text-align: right;
+  }
+
+  .is-sortable {
+    color: $ink;
+    text-decoration: none;
+    white-space: nowrap;
+
+    .sort-icon {
+      margin-right: 0.25em;
+      font-size: 0.9em;
+      opacity: 0.25;
+    }
+  }
+
+  .is-sorted .sort-icon {
+    opacity: 1;
+  }
+
+  .image-preview {
+    height: 50px;
+    max-width: 150px;
+  }
+
+  @include media-breakpoint-down(sm) {
+    .priority-2, .priority-3, .priority-4, .priority-5 {
+      display: none;
+    }
+  }
+
+  @include media-breakpoint-only(md) {
+    .priority-4, .priority-5 {
+      display: none;
+    }
+  }
+
+  @include media-breakpoint-only(lg) {
+    .priority-5 {
+      display: none;
+    }
+  }
+}
+
+// admin buttons in the frontend
+.btn-admin {
+  @include button-variant(rgba(#08F, 0.15), #068, $color: #068, $hover-background: rgba(#08F, 0.3), $hover-border: #068, $hover-color: #068);
+  border-style: dashed;
+}
+
+.section {
+  padding: 1rem 0;
+}
+
+// links in dropdown lists that are rendered without the Bootstrap 5 class
+.dropdown-menu > li > a:not(.dropdown-item) {
+  @extend .dropdown-item;
+}
+
+.page-header {
+  margin: 1.5rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid $line;
+}

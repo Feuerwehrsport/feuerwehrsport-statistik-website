@@ -1,0 +1,25 @@
+%header.page-head{ class: ('with-section-nav' if toc) }
+  .container
+    - if breadcrumb.present?
+      %nav.page-breadcrumb{ 'aria-label': 'Brotkrumen' }
+        = safe_join(breadcrumb, content_tag(:span, '›', class: 'sep', 'aria-hidden': 'true'))
+    .page-head-main
+      - if image.present?
+        .page-head-image= image
+      .page-head-title
+        - if kicker.present?
+          .kicker= kicker
+        %h1= title
+        - if chips.present?
+          .chips
+            - chips.each do |chip|
+              %span.chip= chip
+    - if extra.present?
+      .page-head-extra= extra
+    - if tiles.present?
+      .stat-tiles
+        - tiles.each do |value, label|
+          .stat-tile
+            .stat-value= value.is_a?(Numeric) ? number_with_delimiter(value) : value
+            .stat-label= label
+    = toc.index if toc

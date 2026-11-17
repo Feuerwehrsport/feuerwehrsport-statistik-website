@@ -3,9 +3,9 @@
     .row
       - if resource.admin_user.present?
         .col-md-6
-          .panel.panel-default
-            .panel-heading Antragsteller
-            .panel-body
+          .card
+            .card-header Antragsteller
+            .card-body
               %dl
                 %dt Name
                 %dd= resource.admin_user
@@ -18,9 +18,9 @@
 
 
       .col-md-6
-        .panel.panel-default
-          .panel-heading Bearbeitung
-          .panel-body
+        .card
+          .card-header Bearbeitung
+          .card-body
             - if resource.edited_at.present?
               %dl
                 %dt Name
@@ -28,51 +28,51 @@
 
                 %dt Bearbeitung seit
                 %dd= resource.edited_at
-              = button_to 'Bearbeitung abgeben', { action: :update }, method: :patch, params: { 'import_request[edit_user_id]' => '' }, class: 'btn btn-default'
+              = button_to 'Bearbeitung abgeben', { action: :update }, method: :patch, params: { 'import_request[edit_user_id]' => '' }, class: 'btn btn-outline-secondary'
 
               - if resource.finished_at.present?
                 %dl
                   %dt Abgearbeited seit
                   %dd= resource.finished_at
               - else
-                = button_to 'Bearbeitung abschließen', { action: :update }, method: :patch, params: { 'import_request[finished]' => '1' }, class: 'btn btn-default'
+                = button_to 'Bearbeitung abschließen', { action: :update }, method: :patch, params: { 'import_request[finished]' => '1' }, class: 'btn btn-outline-secondary'
             - else
-              = button_to 'Bearbeitung übernehmen', { action: :update }, method: :patch, params: { 'import_request[edit_user_id]' => current_admin_user.id }, class: 'btn btn-default'
+              = button_to 'Bearbeitung übernehmen', { action: :update }, method: :patch, params: { 'import_request[edit_user_id]' => current_admin_user.id }, class: 'btn btn-outline-secondary'
 
   - if resource.edited_at.present? && resource.edit_user == current_admin_user && can?(:create, Import::Scores)
     = render('backend/imports/import_containers', competition_info: resource.competition_info) do
       - if resource.import_data.present? && resource.edited_at.present? && can?(:create, Import::Scores)
-        .container  
+        .container
           .row
-          .col-md-6
-            .panel.panel-default
-              .panel-heading Direkt-Import
-              .panel-body
-                - resource.import_data_results.each_with_index do |result, index|
-                  - if result[:discipline] != 'zk' && import_competition
-                    = link_to new_backend_imports_discipline_path(discipline: result[:discipline], gender: result[:gender],
-                                                                  competition_id: import_competition.id,
-                                                                  import_request_id: resource.id, result_index: index),
-                              class: "btn btn-default btn-sm add-discipline discipline-#{result[:discipline]}-#{result[:gender]}",
-                              data: { turbo_frame: 'import-discipline', turbo: true } do
-                      #{result[:discipline]} #{result[:gender]} #{result[:rows].count} #{result[:name]}
-                - unless import_competition
-                  %p.text-muted Wähle zuerst einen Wettkampf aus.
-
-          - if resource.import_data_series_rounds.present?
             .col-md-6
-              .panel.panel-default
-                .panel-heading Serien-Import
-                .panel-body#series-add-links
-                  - resource.import_data_series_rounds.each do |round|
-                    = link_to(round.name, new_backend_series_round_import_path(round_id: round.id, series_round_import: { import_request_id: resource.id, competition_id: import_competition&.id } ), class: "btn btn-default btn-sm")
+              .card
+                .card-header Direkt-Import
+                .card-body
+                  - resource.import_data_results.each_with_index do |result, index|
+                    - if result[:discipline] != 'zk' && import_competition
+                      = link_to new_backend_imports_discipline_path(discipline: result[:discipline], gender: result[:gender],
+                                                                    competition_id: import_competition.id,
+                                                                    import_request_id: resource.id, result_index: index),
+                                class: "btn btn-outline-secondary btn-sm add-discipline discipline-#{result[:discipline]}-#{result[:gender]}",
+                                data: { turbo_frame: 'import-discipline', turbo: true } do
+                        #{result[:discipline]} #{result[:gender]} #{result[:rows].count} #{result[:name]}
+                  - unless import_competition
+                    %p.text-muted Wähle zuerst einen Wettkampf aus.
+
+            - if resource.import_data_series_rounds.present?
+              .col-md-6
+                .card
+                  .card-header Serien-Import
+                  .card-body#series-add-links
+                    - resource.import_data_series_rounds.each do |round|
+                      = link_to(round.name, new_backend_series_round_import_path(round_id: round.id, series_round_import: { import_request_id: resource.id, competition_id: import_competition&.id } ), class: "btn btn-outline-secondary btn-sm")
   .container
     .row
       .col-md-12
-        .panel.panel-default
-          .panel-heading Wettkampf
-          .panel-body
-            %table.table.table-condensed
+        .card
+          .card-header Wettkampf
+          .card-body
+            %table.table.table-sm
               - resource.import_request_files.each do |file|
                 %tr
                   %td= file.file_with_link
@@ -93,19 +93,19 @@
 
 
       .col-md-12
-        .panel.panel-default
-          .panel-heading Wettkämpfe mit ähnlichem Datum
+        .card
+          .card-header Wettkämpfe mit ähnlichem Datum
           = count_table(@nearby_competitions) do |t|
-            - t.col('Datum', class: 'col-10 info-link') { |row| competition_link(row, type: :date_iso) }
-            - t.col('Ort', class: 'col-10 small') { |row| place_link(row.place) }
-            - t.col('Typ', class: 'col-10 small') { |row| event_link(row.event) }
-            - t.col('Name', class: 'col-20 info-link') { |row| competition_link(row, type: :name) }
-            - t.col('HBw', th_options: { class: 'small' }, class: 'col-5') { |row| count_or_zero(row.hb_female) }
-            - t.col('HBm', th_options: { class: 'small' }, class: 'col-5') { |row| count_or_zero(row.hb_male) }
-            - t.col('HLw', th_options: { class: 'small' }, class: 'col-5') { |row| count_or_zero(row.hl_female) }
-            - t.col('HLm', th_options: { class: 'small' }, class: 'col-5') { |row| count_or_zero(row.hl_male) }
-            - t.col('GS', th_options: { class: 'small' }, class: 'col-5') { |row| count_or_zero(row.gs) }
-            - t.col('FSw', th_options: { class: 'small' }, class: 'col-5') { |row| count_or_zero(row.fs_female) }
-            - t.col('FSm', th_options: { class: 'small' }, class: 'col-5') { |row| count_or_zero(row.fs_male) }
-            - t.col('LAw', th_options: { class: 'small' }, class: 'col-5') { |row| count_or_zero(row.la_female) }
-            - t.col('LAm', th_options: { class: 'small' }, class: 'col-5') { |row| count_or_zero(row.la_male) }
+            - t.col('Datum', class: 'col-w-10 info-link') { |row| competition_link(row, type: :date_iso) }
+            - t.col('Ort', class: 'col-w-10 small') { |row| place_link(row.place) }
+            - t.col('Typ', class: 'col-w-10 small') { |row| event_link(row.event) }
+            - t.col('Name', class: 'col-w-20 info-link') { |row| competition_link(row, type: :name) }
+            - t.col('HBw', th_options: { class: 'small' }, class: 'col-w-5') { |row| count_or_zero(row.hb_female) }
+            - t.col('HBm', th_options: { class: 'small' }, class: 'col-w-5') { |row| count_or_zero(row.hb_male) }
+            - t.col('HLw', th_options: { class: 'small' }, class: 'col-w-5') { |row| count_or_zero(row.hl_female) }
+            - t.col('HLm', th_options: { class: 'small' }, class: 'col-w-5') { |row| count_or_zero(row.hl_male) }
+            - t.col('GS', th_options: { class: 'small' }, class: 'col-w-5') { |row| count_or_zero(row.gs) }
+            - t.col('FSw', th_options: { class: 'small' }, class: 'col-w-5') { |row| count_or_zero(row.fs_female) }
+            - t.col('FSm', th_options: { class: 'small' }, class: 'col-w-5') { |row| count_or_zero(row.fs_male) }
+            - t.col('LAw', th_options: { class: 'small' }, class: 'col-w-5') { |row| count_or_zero(row.la_female) }
+            - t.col('LAm', th_options: { class: 'small' }, class: 'col-w-5') { |row| count_or_zero(row.la_male) }

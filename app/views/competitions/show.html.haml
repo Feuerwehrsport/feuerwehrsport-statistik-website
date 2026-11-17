@@ -1,82 +1,47 @@
 = table_of_contents do |toc|
-  .section
-    .container.page-header
-      %h1= resource
-    .container
-      .col-md-3= toc.index
-      .col-md-3
-        %table.table.table-condensed
-          - if resource.name.present?
-            %tr
-              %th{ colspan: 2 } Name:
-              %td= resource.name
-          %tr
-            %th{ colspan: 2 } Typ:
-            %td= event_link(resource.event)
-          %tr
-            %th{ colspan: 2 } Ort:
-            %td= place_link(resource.place)
-          - if @calc.single_score_count > 0
-            %tr
-              %th{ colspan: 2 } Mannschaftswertung:
-              %td
-                - if resource.score_type.present?
-                  = resource.score_type
-                - else
-                  Keine
-          %tr
-            %th{ colspan: 2 } Datum:
-            %td= resource.date
+  - score_type = "Mannschaftswertung: #{resource.score_type.presence || 'keine'}" if @calc.single_score_count > 0
+  = page_head(resource.name.presence || resource.to_s, kicker: resource.object.date.strftime('%d.%m.%Y'), toc:,
+              breadcrumb: [link_to('Wettkämpfe', competitions_path), resource.to_s],
+              chips: [event_link(resource.event), place_link(resource.place), score_type]) do
+    = link_to(url_for(format: :xlsx), class: 'btn btn-outline-secondary btn-sm') do
+      %span.fa.fa-download{ 'aria-hidden': 'true' }
+      Excel-Export
 
-      .col-md-6
-        .pull-right
-          = link_to(url_for(format: :xlsx), class: "btn btn-default") do
-            = design_image(:export, width: '22px', title: "Excel-Export")
-            Excel-Export
+  .container
     - if resource.hint_content.present?
-      .container
-        = toc.anker("Hinweise", :h2)
+      = content_card('Hinweise', toc:) do
         = resource.hint_content.html_safe
     - @calc.disciplines.each do |discipline|
-      .container
-        - if Discipline.group?(discipline.discipline)
-          = render "group_discipline", toc: toc, discipline: discipline
-        - elsif discipline.discipline == :zk
-          = render "double_event_discipline", toc: toc, discipline: discipline
-        - else
-          = render "single_discipline", toc: toc, discipline: discipline, single_discipline: discipline.discipline
-        
+      - if Discipline.group?(discipline.discipline)
+        = render "group_discipline", toc: toc, discipline: discipline
+      - elsif discipline.discipline == :zk
+        = render "double_event_discipline", toc: toc, discipline: discipline
+      - else
+        = render "single_discipline", toc: toc, discipline: discipline, single_discipline: discipline.discipline
+      
     - if resource.place.positioned?
-      .container
-        = toc.anker("Karte", :h2)
-        = map(id: 'competition-map', red: resource.place, markers: resource.teams.select(&:positioned?))
+      = content_card('Karte', toc:) do
+        = map(id: 'competition-map', red: resource.place, markers: resource.teams.select(&:positioned?),
+              data: { controller: 'overview-map' })
 
-    .container
-      = toc.anker("Weblinks", :h2)
-      = render('links', links: resource.links, linkable_type: resource_class, linkable_id: resource.id)
+    .row
+      .col-lg-6
+        = content_card('Weblinks', toc:) do
+          = render('links', links: resource.links, linkable_type: resource_class, linkable_id: resource.id)
+      .col-lg-6
+        = content_card('Dateien', toc:) do
+          - if resource.competition_files.present?
+            = render('competition_files', files: resource.competition_files)
+          = render('competition_file_form')
 
-    .container
-      = toc.anker("Dateien", :h2)
-      - if resource.competition_files.present?
-        = render('competition_files', files: resource.competition_files)
-      = render('competition_file_form')
-
-    .container
-      = toc.anker("Fehler oder Hinweis melden", :h2)
-
-      %p Beim Importieren der Ergebnisse kann es immer wieder mal zu Fehlern kommen. Geraden wenn die Namen in den Ergebnislisten verkehrt geschrieben wurden, kann keine eindeutige Zuordnung stattfinden. Außerdem treten auch Probleme mit Umlauten oder anderen besonderen Buchstaben im Namen auf.
-      %p Ihr könnt jetzt beim Korrigieren der Daten helfen. Dafür klickt ihr auf folgenden Link und generiert eine Meldung für den Administrator. Dieser überprüft dann die Eingaben und leitet weitere Schritte ein.
-
-    .container
-      .col-md-8
-        %p Auch Hinweise können zu einem Wettkampf gegeben werden. Dazu zählen zum Beispiel:
-        %ul
-          %li Name des Wettkampfs
-          %li Besondere Bedindungen
-          %li Wetter
-          %li Aufteilung auf mehrere Orte oder Tage
-        %p
+    = content_card('Fehler oder Hinweis melden', toc:) do
+      .row.g-4
+        .col-md-8
+          %p
+            Beim Importieren der Ergebnisse passieren immer wieder Fehler – zum Beispiel, wenn Namen in den
+            Ergebnislisten falsch geschrieben wurden. Du kannst auch Hinweise zum Wettkampf geben, etwa zum Namen,
+            zu besonderen Bedingungen, zum Wetter oder zur Aufteilung auf mehrere Orte oder Tage.
           = link_to 'Fehler oder Hinweis melden', new_contributions_competition_change_request_path(resource),
-                    id: 'add-change-request', class: 'btn btn-default', data: { turbo_frame: 'contribution', turbo: true }
-
-      = render('missed_information', missed: resource.missed_information)
+                    id: 'add-change-request', class: 'btn btn-outline-secondary',
+                    data: { turbo_frame: 'contribution', turbo: true }
+        = render('missed_information', missed: resource.missed_information)

@@ -15,7 +15,7 @@ class ErrorsController < ApplicationController
     [%r{^/page/dates\.html$}, 'https://feusport.de'],
     [%r{^/page/event-(\d+)\.html$}, '/events/%1%'],
     [%r{^/page/events\.html$}, '/events'],
-    [%r{^/page/feeds\.html$}, '/rss'],
+    [%r{^/page/feeds\.html$}, '/change_logs'],
     [%r{^/page/feuerwehrsport\.html$}, '/feuerwehrsport'],
     [%r{^/page/home\.html$}, '/'],
     [%r{^/page/last-competitions\.html$}, '/last_competitions'],

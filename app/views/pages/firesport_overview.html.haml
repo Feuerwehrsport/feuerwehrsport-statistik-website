@@ -1,31 +1,31 @@
 = table_of_contents do |toc|
-  .section
-    .container.page-header
-      .col-md-8
-        %h1 Feuerwehrsport - verschiedene Angebote
-        %p.lead
-          Die Webseite Feuerwehrsport-Statistik.de stellt einige digitale Werke zum Thema Feuerwehrsport zur Verfügung, die auf dieser Seite aufgelistet sind.
-      .col-md-4
-        = toc.index
-    .container
-      = toc.anker("Einführungsvideos in die Disziplinen", :h2)
-    .container
-      .col-md-6
-        %p Nachfolgend sind zu den einzelnen Disziplinen Einführungsvideos aufgelistet. Diese erklären neben den Abmaßen und Regeln auch die vereinfachten Abläufe.
-        %p Um gute Leistungen zu erzielen sollte man sich aber an eine Feuerwehrsportmannschaft aus der Umgebung wenden. Diese kann im persönlichen Gespräch meistens schneller auf Probleme eingehen und euch wertvolle Tipps geben.
-        %p= link_to("Alle wiedergeben", "https://www.youtube.com/watch?v=BPsXhdzzkJ4&list=PLeV2Fd7RaQ4QzYOjYq0e7qEf4mQE0aVHk", class: "btn btn-default")
-      .col-md-6
-        %h4 Gruppenstafette
-        = youtube_video("6bgLFx7TM6U")
-      .col-md-6
-        %h4 Hindernisbahn
-        = youtube_video("BPsXhdzzkJ4")
-      .col-md-6
-        %h4 Löschangriff nass
-        = youtube_video("lRv5uaX_R_M")
-      .col-md-6
-        %h4 4x100-Meter-Feuerwehrstafette
-        = youtube_video("gOBOix6p2So")
-      .col-md-6
-        %h4 Hakenleitersteigen
-        = youtube_video("1k9u6sngP-c")
+  = page_head('Feuerwehrsport – verschiedene Angebote', toc:) do
+    %p.lead.mb-0
+      Feuerwehrsport-Statistik stellt einige digitale Werke rund um den Feuerwehrsport zur Verfügung. Hier findest du
+      eine Übersicht.
+
+  .container
+    %section.content-card.text-page
+      .container
+        = toc.anker("Einführungsvideos in die Disziplinen", :h2)
+      .container
+        .row
+          .col-md-6
+            %p Nachfolgend sind zu den einzelnen Disziplinen Einführungsvideos aufgelistet. Diese erklären neben den Abmaßen und Regeln auch die vereinfachten Abläufe.
+            %p Um gute Leistungen zu erzielen sollte man sich aber an eine Feuerwehrsportmannschaft aus der Umgebung wenden. Diese kann im persönlichen Gespräch meistens schneller auf Probleme eingehen und euch wertvolle Tipps geben.
+            %p= link_to("Alle wiedergeben", "https://www.youtube.com/watch?v=BPsXhdzzkJ4&list=PLeV2Fd7RaQ4QzYOjYq0e7qEf4mQE0aVHk", class: "btn btn-outline-secondary")
+          .col-md-6
+            %h4 Gruppenstafette
+            = youtube_video("6bgLFx7TM6U")
+          .col-md-6
+            %h4 Hindernisbahn
+            = youtube_video("BPsXhdzzkJ4")
+          .col-md-6
+            %h4 Löschangriff nass
+            = youtube_video("lRv5uaX_R_M")
+          .col-md-6
+            %h4 4x100-Meter-Feuerwehrstafette
+            = youtube_video("gOBOix6p2So")
+          .col-md-6
+            %h4 Hakenleitersteigen
+            = youtube_video("1k9u6sngP-c")

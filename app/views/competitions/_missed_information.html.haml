@@ -1,7 +1,8 @@
 - if missed.values.reject(&:blank?).count != 0
-  .col-md-4{ class: "missed-#{missed.values.reject(&:blank?).count}"}
-    %h4 Folgende Informationen fehlen:
-    %ul
-      - missed.each do |key, value|
-        - if value
-          %li= t(".#{key}")
+  .col-md-4
+    .missed-info{ class: "missed-#{missed.values.reject(&:blank?).count}" }
+      %h3.h6 Folgende Informationen fehlen:
+      %ul
+        - missed.each do |key, value|
+          - if value
+            %li= t(".#{key}")

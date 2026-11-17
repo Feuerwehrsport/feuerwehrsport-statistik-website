@@ -1,13 +1,15 @@
-- links.each do |link|
-  %h4{ data: { link_id: link.id } }
-    %a{ href: link.url }
-      %span.glyphicon.glyphicon-hand-right
-      = link.label
-    &nbsp;
-    %small
-      = link_to new_contributions_link_report_path(link), class: 'report-link btn btn-default btn-xs',
-                title: "Link »#{link.label}« melden", data: { turbo_frame: 'contribution', turbo: true } do
-        %span.glyphicon.glyphicon-flag
-
-= link_to 'Link hinzufügen', new_contributions_link_path(linkable_type:, linkable_id:), class: 'add-link btn btn-default',
-                                                                                   data: { turbo_frame: 'contribution', turbo: true }
+%ul.link-list
+  - links.each do |link|
+    %li{ data: { link_id: link.id } }
+      %a{ href: link.url }
+        %span.fa.fa-link{ 'aria-hidden': 'true' }
+        = link.label
+      = link_to new_contributions_link_report_path(link), class: 'report-link btn btn-link btn-sm',
+                title: "Link »#{link.label}« melden", 'aria-label': "Link »#{link.label}« melden",
+                data: { turbo_frame: 'contribution', turbo: true } do
+        %span.fa.fa-flag{ 'aria-hidden': 'true' }
+  %li
+    = link_to new_contributions_link_path(linkable_type:, linkable_id:), class: 'add-link btn btn-link btn-sm px-0',
+              data: { turbo_frame: 'contribution', turbo: true } do
+      %span.fa.fa-plus{ 'aria-hidden': 'true' }
+      Link hinzufügen

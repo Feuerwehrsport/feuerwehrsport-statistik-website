@@ -3,14 +3,13 @@
     .hero-actions
       .btn-group
         - actions.first(hero_max_actions).each do |action|
-          = action.link_to class: 'btn btn-default'
-        %button.btn.btn-default.dropdown-toggle{ type: :button, data: { toggle: :dropdown }, aria: { haspopup: true, expanded: false } }
-          %span.caret
+          = action.link_to class: 'btn btn-outline-secondary'
+        %button.btn.btn-outline-secondary.dropdown-toggle.dropdown-toggle-split{ type: :button, data: { bs_toggle: :dropdown }, aria: { haspopup: true, expanded: false, label: 'Weitere Aktionen' } }
         %ul.dropdown-menu
           - actions.drop(hero_max_actions).each do |action|
             %li= action.link_to
   - else
-    %ul.hero-actions
+    .hero-actions
       .btn-group
         - actions.each do |action|
-          = action.link_to class: 'btn btn-default'
+          = action.link_to class: 'btn btn-outline-secondary'

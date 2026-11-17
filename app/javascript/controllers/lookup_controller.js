@@ -42,7 +42,7 @@ export default class extends Controller {
     return json.map((item) => {
       const button = document.createElement("button")
       button.type = "button"
-      button.className = "btn btn-default btn-sm"
+      button.className = "btn btn-outline-secondary btn-sm"
       button.textContent = "Auswählen"
       button.dataset.action = "lookup#choose"
       button.dataset.lookupLatParam = item.lat

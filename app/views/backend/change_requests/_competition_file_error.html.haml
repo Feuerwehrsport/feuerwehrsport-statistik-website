@@ -6,7 +6,7 @@
   - if file
     %p
       = link_to file.file_identifier, file.file.url
-      = link_to 'bearbeiten', edit_backend_competition_file_path(file), class: 'btn btn-default btn-xs'
+      = link_to 'bearbeiten', edit_backend_competition_file_path(file), class: 'btn btn-outline-secondary btn-sm'
   - else
     %p.text-danger Datei nicht mehr vorhanden (ID #{data[:fileId]})
   %pre= data[:description]

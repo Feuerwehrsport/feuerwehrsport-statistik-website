@@ -1,6 +1,6 @@
 import { Turbo } from "@hotwired/turbo-rails"
 import "controllers"
 
-// Turbo Drive stays off until the old jQuery initialisation (M3.ready) is replaced.
-// Turbo Frames still work for elements with data-turbo="true" (e.g. the contribution dialog).
-Turbo.session.drive = false
+// Turbo Drive for links. Forms are only submitted by Turbo inside data-turbo="true" (e.g. the dialogs),
+// all other forms keep their normal behaviour (the backend renders errors with status 200).
+Turbo.config.forms.mode = "optin"

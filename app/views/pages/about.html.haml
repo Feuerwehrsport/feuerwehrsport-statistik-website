@@ -1,4 +1,5 @@
-.section
-  .container
-    = Chart::About.new(request:).competition_creations
+= page_head('Statistiken über diese Seite')
 
+.container
+  = content_card('Einträge in der Datenbank') do
+    = Chart::About.new.competition_creations

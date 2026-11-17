@@ -24,8 +24,8 @@ RSpec.describe 'Backend::Teams', login: :sub_admin do
     it 'links has_many associations with a backend controller, but not SQL views' do
       get "/backend/teams/#{team.id}"
       expect(response).to be_successful
-      tables = response.parsed_body.css('[data-remote-index-table]')
-      paths = tables.map { |table| URI.parse(table['data-remote-index-table']).path }
+      tables = response.parsed_body.css('[data-remote-index-table-url-value]')
+      paths = tables.map { |table| URI.parse(table['data-remote-index-table-url-value']).path }
       expect(paths).to include('/backend/scores', '/backend/group_scores', '/backend/links', '/backend/team_spellings')
       expect(paths).not_to include('/backend/team_members', '/backend/team_competitions')
     end

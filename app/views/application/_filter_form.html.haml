@@ -1,9 +1,9 @@
 - if filters.size > 0 && (collection.present? || filters.filtered?)
   .filters-wrapper
-    %button.filters-trigger{ type: :button, data: { toggle: :dropdown }, aria: { haspopup: 'true', expanded: 'false' } }
+    %button.filters-trigger{ type: :button, data: { bs_toggle: :dropdown }, aria: { haspopup: 'true', expanded: 'false' } }
       = t3('actions.filter')
-      %span.caret
-    = form_tag(url_for(), { class: 'filters-form', method: :get }) do
+    = form_tag(url_for(), { class: 'filters-form', method: :get,
+                            data: { controller: 'stop-propagation', action: 'click->stop-propagation#stop' } }) do
       - filters.reject(&:hidden?).each do |filter|
         = render "filter_#{filter.to_partial_path}", filter: filter
       = keep_filter_options for_key: :c

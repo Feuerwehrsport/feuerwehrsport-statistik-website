@@ -8,12 +8,12 @@
     .alert.alert-danger= error
   = simple_form_for @api_user, url: contributions_login_path, method: :post do |f|
     = hidden_field_tag :return_to, params[:return_to]
-    .form-group
-      = label_tag :captcha_answer, @question, class: 'control-label col-sm-3'
+    .row.mb-3
+      = label_tag :captcha_answer, @question, class: 'col-form-label col-sm-3'
       .col-sm-9
         = text_field_tag :captcha_answer, nil, class: 'form-control', autocomplete: 'off', inputmode: 'numeric',
                                                  required: true
-        %p.help-block Bitte lösen Sie die Rechenaufgabe.
+        %p.form-text Bitte lösen Sie die Rechenaufgabe.
     = f.input :name, label: 'Name', required: false
     = f.input :email_address, label: 'E-Mail-Adresse', required: false
     -# honeypot: invisible for people, bots fill it

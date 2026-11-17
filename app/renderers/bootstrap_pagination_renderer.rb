@@ -2,9 +2,7 @@
 
 require 'will_paginate/view_helpers/action_view'
 
-# rubocop:disable Rails/ContentTag -- tag is WillPaginate::ViewHelpers::LinkRenderer#tag
-
-# will_paginate renderer for bootstrap 3 markup (replacement for the will_paginate-bootstrap gem)
+# will_paginate renderer for bootstrap 5 markup (page-item / page-link)
 class BootstrapPaginationRenderer < WillPaginate::ActionView::LinkRenderer
   def to_html
     list_items = pagination.map do |item|
@@ -18,14 +16,14 @@ class BootstrapPaginationRenderer < WillPaginate::ActionView::LinkRenderer
 
   def page_number(page)
     if page == current_page
-      tag(:li, tag(:span, page), class: 'active')
+      tag(:li, tag(:span, page, class: 'page-link'), class: 'page-item active', 'aria-current': 'page')
     else
-      tag(:li, link(page, page, rel: rel_value(page)))
+      tag(:li, link(page, page, rel: rel_value(page), class: 'page-link'), class: 'page-item')
     end
   end
 
   def gap
-    tag(:li, tag(:span, '&hellip;'), class: 'disabled')
+    tag(:li, tag(:span, '&hellip;', class: 'page-link'), class: 'page-item disabled')
   end
 
   def previous_page
@@ -40,10 +38,9 @@ class BootstrapPaginationRenderer < WillPaginate::ActionView::LinkRenderer
 
   def previous_or_next_page(page, text, classname)
     if page
-      tag(:li, link(text, page), class: classname)
+      tag(:li, link(text, page, class: 'page-link'), class: "page-item #{classname}")
     else
-      tag(:li, tag(:span, text), class: "#{classname} disabled")
+      tag(:li, tag(:span, text, class: 'page-link'), class: "page-item #{classname} disabled")
     end
   end
 end
-# rubocop:enable Rails/ContentTag

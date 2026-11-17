@@ -1,9 +1,14 @@
-.section
-  .container
-    %h1 Wettkampforte
+= page_head('Wettkampforte', tiles: [[collection.to_a.size, 'Orte']])
 
-    = count_table(collection, class: 'datatable-places') do |t|
-      - t.col('Ort', class: 'col-md-4') { |row| place_link(row) }
-      - t.col('Wettkämpfe', :count, class: 'col-md-1')
-
-    = map(id: 'places-map', markers: collection) { |m| { count: m.count } }
+.container
+  .row
+    .col-lg-5
+      = content_card do
+        = count_table(collection, class: 'datatable-places', sort: { direction: 'asc' }) do |t|
+          - t.col('Ort') { |row| place_link(row) }
+          - t.col('Wettkämpfe', :count)
+    .col-lg-7
+      = content_card('Karte', heading: :h3) do
+        = map(id: 'places-map', markers: collection, class: 'big-map',
+              data: { controller: 'overview-map', overview_map_circle_value: 200,
+                      overview_map_bounds_value: [[49.4, 5.9], [54.5, 16.8]].to_json }) { |m| { count: m.count } }

@@ -4,16 +4,15 @@ class TeamsController < ResourceController
   include DatatableSupport
 
   resource_actions :show, cache: %i[show index]
-  map_support_at :show, :index
 
   datatable(:index, :teams, Team) do |t|
-    t.col :image_thumb, label: '', sortable: false, th_class: 'col-5'
-    t.col :link, sortable: :name, th_class: 'col-40', searchable: :name
-    t.col :shortcut, th_class: 'col-30', searchable: :shortcut
-    t.col :human_status, sortable: :status, th_class: 'col-10 small', class: 'small'
-    t.col :state, th_class: 'col-10 small'
-    t.col :members_count, th_class: 'col-15 small'
-    t.col :competitions_count, th_class: 'col-15 small'
+    t.col :image_thumb, label: '', sortable: false, th_class: 'col-w-5'
+    t.col :link, sortable: :name, th_class: 'col-w-40', searchable: :name
+    t.col :shortcut, th_class: 'col-w-30', searchable: :shortcut
+    t.col :human_status, sortable: :status, th_class: 'col-w-10 small', class: 'small'
+    t.col :state, th_class: 'col-w-10 small'
+    t.col :members_count, th_class: 'col-w-15 small'
+    t.col :competitions_count, th_class: 'col-w-15 small'
   end
 
   def show

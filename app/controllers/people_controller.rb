@@ -7,14 +7,14 @@ class PeopleController < ResourceController
 
   Genderable::GENDER_KEYS.each do |gender|
     datatable(:index, :"people_#{gender}", Person, collection: Person.gender(gender).includes(:nation)) do |t|
-      t.col(:last_name, class: 'col-20', searchable: :last_name) { |row| row.link_to(:last_name) }
-      t.col(:first_name, class: 'col-20', searchable: :first_name) { |row| row.link_to(:first_name) }
-      t.col(:nation_flag_with_iso, class: 'col-10', sortable: { nation: :name })
-      t.col(:hb_count, class: 'col-10')
-      t.col(:hl_count, class: 'col-10')
-      t.col(:la_count, class: 'col-10')
-      t.col(:fs_count, class: 'col-10')
-      t.col(:gs_count, class: 'col-10') if gender == :female
+      t.col(:last_name, class: 'col-w-20', searchable: :last_name) { |row| row.link_to(:last_name) }
+      t.col(:first_name, class: 'col-w-20', searchable: :first_name) { |row| row.link_to(:first_name) }
+      t.col(:nation_flag_with_iso, class: 'col-w-10', sortable: { nation: :name })
+      t.col(:hb_count, class: 'col-w-10')
+      t.col(:hl_count, class: 'col-w-10')
+      t.col(:la_count, class: 'col-w-10')
+      t.col(:fs_count, class: 'col-w-10')
+      t.col(:gs_count, class: 'col-w-10') if gender == :female
     end
   end
 
@@ -35,6 +35,9 @@ class PeopleController < ResourceController
     @series_structs = Series::PersonAssessment.for(resource.id)
     @max_series_cups = @series_structs.values.flatten.map(&:values).flatten.map { |series| series.cups.count }.max
     @person_spellings = resource.person_spellings.official.decorate.to_a
+    @score_count = resource.scores.count + resource.group_score_participations.count
+    @competition_count = (resource.scores.distinct.pluck(:competition_id) +
+                          resource.group_score_participations.distinct.pluck(:competition_id)).uniq.count
   end
 
   protected

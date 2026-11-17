@@ -1,3 +1,4 @@
-%ol.breadcrumb
-  - items.each do |item|
-    %li= item
+%nav{ 'aria-label': 'Brotkrumen' }
+  %ol.breadcrumb
+    - items.each do |item|
+      %li.breadcrumb-item= item
