@@ -3,7 +3,12 @@
   %meta{:content => "text/html;charset=utf-8", "http-equiv" => "content-type"}/
   -# Turbo Drive: no snapshots of pages (DataTables, maps and dialogs are initialised by stimulus on each visit)
   %meta{ name: 'turbo-cache-control', content: 'no-cache' }
-  = favicon_link_tag
+  -# logo as icon: SVG for current browsers, ICO (16/32/48 px) as fallback, touch icon and manifest for home screens
+  %link{ rel: 'icon', href: '/favicon.ico', sizes: '32x32' }
+  %link{ rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' }
+  %link{ rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }
+  %link{ rel: 'manifest', href: '/manifest.webmanifest' }
+  %meta{ name: 'theme-color', content: '#14202B' }
   -# frontend and backend use different bundles: switching between them reloads the page
   - bundle = backend? ? 'backend' : 'frontend'
   = javascript_include_tag bundle, data: { turbo_track: 'reload' }

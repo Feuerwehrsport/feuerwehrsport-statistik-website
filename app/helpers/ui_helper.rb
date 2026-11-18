@@ -47,6 +47,16 @@ module UiHelper
     render 'ui/youtube_video', id:, title:
   end
 
+  # logo of the site (same drawing as public/favicon.svg): three rising bars on a dark rounded square
+  LOGO_BARS = [[4, 16, 11, '#FFFFFF'], [13, 11, 16, '#E02424'], [22, 7, 20, '#FFFFFF']].freeze
+
+  def logo_mark(size)
+    bars = LOGO_BARS.map { |x, y, height, fill| tag.rect(x:, y:, width: 6, height:, rx: 1.5, fill:) }
+    tag.svg(width: size, height: size, viewBox: '0 0 32 32', class: 'logo-mark', 'aria-hidden': 'true') do
+      safe_join([tag.rect(width: 32, height: 32, rx: 7, fill: '#14202B'), *bars])
+    end
+  end
+
   # link of a .nav-list, optionally with a counter of open tasks
   def nav_list_link(label, path, count = nil)
     link_to(path) do
