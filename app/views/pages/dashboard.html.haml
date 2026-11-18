@@ -117,9 +117,12 @@
             Der Quelltext der Website ist
             #{link_to('auf GitHub', 'https://github.com/Feuerwehrsport/feuerwehrsport-statistik-website')} einsehbar.
             Die komplette Datenbank schicke ich dir auf #{link_to('E-Mail-Anfrage', impressum_path)} zu.
-          %p.mb-0
+          %p
             Falls du der Meinung bist, dass hier deine Rechte verletzt werden, schreib mir bitte zuerst eine
             #{link_to('E-Mail', impressum_path)}. Ich kümmere mich schnell darum.
+          %p.mb-0
+            Die Feuerwehrsport-Statistik ist kostenlos und werbefrei – und das bleibt auch so. Wer sich trotzdem
+            bedanken möchte, findet bei feusport.de #{link_to('ein paar Möglichkeiten', 'https://feusport.de/donations')}.
       .col-lg-6
         = content_card('Fehler in den Daten', toc:) do
           %p
