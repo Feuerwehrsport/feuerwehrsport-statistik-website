@@ -306,7 +306,11 @@ body {
 // content blocks
 .content-card img {
   max-width: 100%;
-  height: auto;
+
+  // keep the aspect ratio, but respect an explicit height (e.g. the badges on /bla/badges)
+  &:not([height]) {
+    height: auto;
+  }
 }
 
 .content-card {
