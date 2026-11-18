@@ -47,11 +47,13 @@ describe 'backend actions' do
     expect(place.reload.name).to eq 'Cottbus'
   end
 
-  it 'saves the content of the rich text editor with a Turbo form submission' do
-    competition = create(:competition)
+  it 'saves the content of the rich text editor (Trix) with a Turbo form submission' do
+    competition = create(:competition, hint_content: '<ul><li>Alter Hinweis</li></ul>')
     visit edit_backend_competition_path(competition)
-    expect(page).to have_css('.cke_editable, .cke_wysiwyg_frame')
-    page.execute_script("Object.values(CKEDITOR.instances)[0].setData('<p>Hinweis aus dem Editor</p>')")
+    editor = find('trix-editor')
+    expect(editor).to have_css('li', text: 'Alter Hinweis') # existing HTML is loaded into the editor
+    editor.click
+    editor.send_keys([:control, 'a'], :backspace, 'Hinweis aus dem Editor')
     click_on 'Speichern'
     expect(page).to have_current_path(backend_competition_path(competition))
     expect(competition.reload.hint_content).to include('Hinweis aus dem Editor')

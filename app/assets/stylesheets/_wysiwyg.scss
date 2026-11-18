@@ -1,0 +1,25 @@
+@use 'theme' as *;
+
+// Trix editor of WysiwygInput (backend): looks like the other form fields, toolbar reduced to what the
+// hints need (no attachments, headings or code: the HTML is shown on public pages)
+.wysiwyg-editor {
+  min-height: 12rem;
+  padding: $input-padding-y $input-padding-x;
+  border: $input-border-width solid $input-border-color;
+  border-radius: $input-border-radius;
+  background: $input-bg;
+
+  &:focus {
+    border-color: $input-focus-border-color;
+    box-shadow: $input-focus-box-shadow;
+    outline: 0;
+  }
+}
+
+trix-toolbar {
+  .trix-button-group--file-tools,
+  .trix-button--icon-heading-1,
+  .trix-button--icon-code {
+    display: none;
+  }
+}

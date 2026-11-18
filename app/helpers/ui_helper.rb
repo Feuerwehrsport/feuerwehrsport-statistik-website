@@ -47,6 +47,13 @@ module UiHelper
     render 'ui/youtube_video', id:, title:
   end
 
+  # HTML of WysiwygInput (Trix, older entries from CKEditor), only the tags the editor produces
+  RICH_TEXT_TAGS = %w[div p br strong b em i del a ul ol li blockquote].freeze
+
+  def rich_text(html)
+    sanitize(html, tags: RICH_TEXT_TAGS, attributes: %w[href])
+  end
+
   # logo of the site (same drawing as public/favicon.svg): three rising bars on a dark rounded square
   LOGO_BARS = [[4, 16, 11, '#FFFFFF'], [13, 11, 16, '#E02424'], [22, 7, 20, '#FFFFFF']].freeze
 

@@ -10,7 +10,7 @@
   .container
     - if resource.hint_content.present?
       = content_card('Hinweise', toc:) do
-        = resource.hint_content.html_safe
+        = rich_text(resource.hint_content)
     - @calc.disciplines.each do |discipline|
       - if Discipline.group?(discipline.discipline)
         = render "group_discipline", toc: toc, discipline: discipline
