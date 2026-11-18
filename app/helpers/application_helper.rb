@@ -61,10 +61,4 @@ module ApplicationHelper
       ''
     end
   end
-
-  def image_link_to(image, title, *args)
-    options = args.extract_options!
-    image_options = options.delete(:image)
-    link_to(safe_join([design_image(image, image_options), title], ' '), *args, options)
-  end
 end
