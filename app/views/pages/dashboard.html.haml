@@ -86,11 +86,11 @@
       .col-lg-8
         = content_card('Jahre', toc:) do
           %p
-            Für #{link_to('jedes Jahr', years_path)} gibt es eigene Statistiken. In Klammern steht die Anzahl der
+            Für #{link_to('jedes Jahr', years_path)} gibt es eigene Statistiken. Neben dem Jahr steht die Anzahl der
             Wettkämpfe.
           .years-overview-home
             - @years_count.each do |year, count|
-              = link_to(year_path(year), title: "Überblick über das Jahr #{year}") do
+              = link_to(year_path(year), title: "Überblick über das Jahr #{year} (#{count} Wettkämpfe)") do
                 %strong= year
                 %span= count
       .col-lg-4
