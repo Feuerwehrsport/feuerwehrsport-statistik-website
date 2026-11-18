@@ -34,7 +34,9 @@ class Series::AssessmentCalculation
   protected
 
   def completed?
-    @completed ||= full_cup_count == cups.count
+    return @completed if defined?(@completed) # may be false
+
+    @completed = full_cup_count == cups.size
   end
 
   def calculate_ranks!(rows, logic_array: ranking_logic)
@@ -66,7 +68,8 @@ class Series::AssessmentCalculation
     people = {}
 
     # Online-Einträge hinzufügen
-    Series::PersonParticipation.where(person_assessment: person_assessments.where(key:)).find_each do |participation|
+    Series::PersonParticipation.where(person_assessment: person_assessments.where(key:))
+                               .includes(:person, :person_assessment).find_each do |participation|
       people[participation.person_id] ||= Series::Person.new(
         config:, person: participation.person, round:,
       )
@@ -80,7 +83,8 @@ class Series::AssessmentCalculation
     teams = {}
 
     # Online-Einträge hinzufügen
-    Series::TeamParticipation.where(team_assessment: team_assessments.where(key:)).find_each do |participation|
+    Series::TeamParticipation.where(team_assessment: team_assessments.where(key:))
+                             .includes(:team, :team_assessment).find_each do |participation|
       teams[participation.entity_id] ||= Series::Team.new(
         config:, team: participation.team, team_number: participation.team_number,
         team_gender: participation.team_gender, round:

@@ -52,6 +52,7 @@ RSpec.describe Series::Round do
 
       create(:series_cup, round:, competition: create(:competition, date: Date.new(2016, 5, 1)))
       create(:series_cup, round:, competition: create(:competition, date: Date.new(2016, 6, 1)))
+      round.reload
       expect(round.cups_left).to eq 0
       expect(round).to be_complete
     end

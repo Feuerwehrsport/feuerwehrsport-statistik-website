@@ -24,7 +24,7 @@ class Series::Team
       if config.penalty_points.nil?
         sum
       else
-        fail_points = (config.round.cups.count - count) * config.penalty_points
+        fail_points = (config.round.cups.size - count) * config.penalty_points
         sum + fail_points
       end
     end

@@ -132,12 +132,26 @@ class Score < ApplicationRecord
     person
   end
 
+  # all runs of the person in this discipline and competition (array, so sorting by <=> causes no queries)
   def similar_scores
     @similar_scores ||= Score.where(
       competition_id:,
       person_id:,
       single_discipline_id:,
       team_number:,
-    ).order(:time, :id)
+    ).order(:time, :id).to_a
+  end
+
+  attr_writer :similar_scores
+
+  # loads the similar scores of many scores with one query
+  def self.preload_similar_scores(scores)
+    return scores if scores.empty?
+
+    key = ->(s) { [s.competition_id, s.person_id, s.single_discipline_id, s.team_number] }
+    all = Score.where(competition_id: scores.map(&:competition_id).uniq, person_id: scores.map(&:person_id).uniq,
+                      single_discipline_id: scores.map(&:single_discipline_id).uniq)
+               .order(:time, :id).group_by(&key)
+    scores.each { |score| score.similar_scores = all.fetch(key.call(score), []) }
   end
 end

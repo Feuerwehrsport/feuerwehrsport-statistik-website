@@ -36,7 +36,7 @@
                     - if struct.round.year != @year_before
                       = competition_link(cup.competition, type: :short_date_with_place)
                     = render('series/rounds/participations_table', participations: struct.row.participations_for_cup(cup), free: '-')
-                - (@max_cup_count[gender] - struct.cups.count).times.each do
+                - (@max_cup_count[gender] - struct.cups.size).times.each do
                   %td
                 - @year_before = struct.round.year
       

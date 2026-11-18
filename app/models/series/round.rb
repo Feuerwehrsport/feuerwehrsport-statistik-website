@@ -86,7 +86,7 @@ class Series::Round < ApplicationRecord
       gender = 1
     end
     round_structs = {}
-    Series::Round.with_team(team_id, gender).decorate.each do |round|
+    Series::Round.with_team(team_id, gender).includes(:kind, cups: { competition: :place }).decorate.each do |round|
       round.team_assessments_configs.each do |config|
         config.rows.select { |r| r.team.id == team_id && r.team_gender == gender }.each do |row|
           next if row.rank.nil?
@@ -109,7 +109,7 @@ class Series::Round < ApplicationRecord
   end
 
   def cup_count
-    attributes['cup_count'] || cups.count
+    attributes['cup_count'] || cups.size
   end
 
   def complete?

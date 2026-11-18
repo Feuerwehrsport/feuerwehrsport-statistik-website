@@ -82,6 +82,8 @@ class Team < ApplicationRecord
 
   def competitions_with_discipline_count
     all_competitions = competitions.to_h { |comp| [comp.id, comp.becomes(Calculation::TeamCompetition)] }
+    # becomes drops preloaded associations, so preload on the converted records
+    ActiveRecord::Associations::Preloader.new(records: all_competitions.values, associations: %i[place event]).call
     scores.group(:competition_id, :single_discipline_id).count.each do |keys, count|
       all_competitions[keys.first].increment(SingleDiscipline.g(keys.last).key, count)
     end
@@ -100,14 +102,15 @@ class Team < ApplicationRecord
     %i[hl hb].map do |discipline|
       genders.map do |gender|
         team_scores = {}
-        scores
-          .where(competition_id: competitions.with_group_assessment)
-          .no_finals
-          .best_of_competition
-          .gender(gender)
-          .where(single_discipline_id: SingleDiscipline.group_assessment_ids(discipline, gender))
-          .includes(:competition)
-          .each do |score|
+        best_scores = scores
+                      .where(competition_id: competitions.with_group_assessment)
+                      .no_finals
+                      .best_of_competition
+                      .gender(gender)
+                      .where(single_discipline_id: SingleDiscipline.group_assessment_ids(discipline, gender))
+                      .includes(:person, competition: %i[place event score_type])
+                      .to_a
+        Score.preload_similar_scores(best_scores).each do |score|
           team_scores[score.uniq_team_id] ||= Calculation::CompetitionGroupAssessment.new(
             self,
             score.team_number,
@@ -130,12 +133,17 @@ class Team < ApplicationRecord
   def group_disciplines
     genders = Genderable::GENDER_KEYS.freeze
 
+    # all group scores of the team with one query, grouped by type and gender
+    all_scores = group_scores.includes(person_participations: :person,
+                                       group_score_category: { competition: %i[place event] })
+                             .group_by { |score| [score.group_score_category.group_score_type_id, score.gender.to_s] }
+
     group_disciplines = []
     %i[gs fs la].each do |discipline|
       genders.each do |gender|
         current_discipline = GroupDiscipline.new(discipline, gender, [])
         group_score_types(discipline).each do |group_type|
-          scores = group_scores.gender(gender).group_score_type(group_type).includes(:person_participations).to_a
+          scores = all_scores.fetch([group_type.id, gender.to_s], [])
           current_discipline.types.push(GroupDisciplineType.new(scores.map(&:decorate), group_type)) if scores.any?
         end
         group_disciplines.push(current_discipline) if current_discipline.types.any?
