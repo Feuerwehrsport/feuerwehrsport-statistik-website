@@ -73,6 +73,7 @@ RSpec.configure do |config|
   end
   config.include ActiveSupport::Testing::TimeHelpers
   config.before { ActionController::Base.cache_store.clear }
+  config.before { Current.reset } # per request values, like a new request
   # challenges and rate limits of the anonymous login
   config.before { Rails.configuration.x.api_login_store.clear }
   # also for specs without rails type (e.g. spec/renderers)

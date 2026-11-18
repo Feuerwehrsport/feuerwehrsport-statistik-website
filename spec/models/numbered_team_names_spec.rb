@@ -8,7 +8,9 @@ describe NumberedTeamNames do
   let!(:person) { create(:person) }
   let!(:competition) { create(:competition) }
 
+  # every call like a new request: the team numbers are memoized per request (Current)
   def name_for(score, options = {})
+    Current.reset
     helper.numbered_team_name(score, options)
   end
 
