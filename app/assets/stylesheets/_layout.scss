@@ -35,14 +35,73 @@ body {
 }
 
 .site-footer {
-  border-top: 1px solid $line;
-  background: #FFFFFF;
-  font-size: 0.8125rem;
-  color: $muted;
+  margin-top: 1rem;
+  padding: 2.5rem 0 2rem;
+  background: $ink;
+  color: #C9D1D9;
+  font-size: 0.875rem;
 
   a {
-    color: $muted;
+    color: #FFFFFF;
+    text-decoration: none;
+
+    &:hover {
+      color: #FFFFFF;
+      text-decoration: underline;
+    }
   }
+
+  h2 {
+    margin-bottom: 0.75rem;
+    font-family: $font-family-sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #8B98A5;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li + li {
+      margin-top: 0.4rem;
+    }
+  }
+}
+
+.site-footer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem 1.5rem;
+
+  @include media-breakpoint-up(lg) {
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+  }
+}
+
+.site-footer-brand {
+  grid-column: 1 / -1;
+
+  @include media-breakpoint-up(lg) {
+    grid-column: auto;
+    max-width: 22rem;
+  }
+
+  p {
+    margin: 0.75rem 0 0;
+  }
+}
+
+.site-footer-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: $font-family-headings;
+  font-size: 1.25rem;
+  font-weight: 700;
 }
 
 // head of a page (white band below the navigation)

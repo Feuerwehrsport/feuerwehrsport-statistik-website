@@ -1,7 +1,36 @@
+-# static content (the page may come from the HTML cache)
 %footer#footer.site-footer
-  .container.d-flex.flex-wrap.gap-3.py-3
-    %span Feuerwehrsport-Statistik
-    = link_to('Kontakt/Impressum', impressum_path)
-    = link_to('Datenschutz', datenschutz_path)
-    = link_to('Veränderungen', change_logs_path)
-    = link_to('Feuerwehrsport Team-MV', 'https://feuerwehrsport-teammv.de')
+  .container
+    .site-footer-grid
+      .site-footer-brand
+        = link_to root_path, class: 'site-footer-logo' do
+          %svg{ width: 26, height: 26, viewBox: '0 0 32 32', 'aria-hidden': 'true' }
+            %rect{ x: 3, y: 15, width: 6, height: 14, rx: 1.5, fill: '#FFFFFF' }
+            %rect{ x: 13, y: 8, width: 6, height: 21, rx: 1.5, fill: '#B91C1C' }
+            %rect{ x: 23, y: 3, width: 6, height: 26, rx: 1.5, fill: '#FFFFFF' }
+          %span Feuerwehrsport-Statistik
+        %p
+          Ergebnisse, Bestenlisten und Statistiken aus dem Feuerwehrsport – privat und ehrenamtlich betrieben, ohne
+          Werbung und ohne Tracking.
+      %nav{ 'aria-label': 'Entdecken' }
+        %h2 Entdecken
+        %ul
+          %li= link_to('Wettkämpfe', competitions_path)
+          %li= link_to('Mannschaften', teams_path)
+          %li= link_to('Wettkämpfer', people_path)
+          %li= link_to('Rekorde', records_path)
+          %li= link_to('Die 100 schnellsten Zeiten', best_of_path)
+      %nav{ 'aria-label': 'Mitmachen' }
+        %h2 Mitmachen
+        %ul
+          %li= link_to('Ergebnisse hochladen', decide_login_backend_import_requests_path)
+          %li= link_to('Letzte Änderungen', change_logs_path)
+          %li= link_to('Quelltext auf GitHub', 'https://github.com/Feuerwehrsport/feuerwehrsport-statistik-website')
+          %li= link_to('feusport.de', 'https://feusport.de')
+          %li= link_to('Feuerwehrsport Team-MV', 'https://feuerwehrsport-teammv.de')
+      %nav{ 'aria-label': 'Rechtliches' }
+        %h2 Rechtliches
+        %ul
+          %li= link_to('Impressum und Kontakt', impressum_path)
+          %li= link_to('Datenschutz', datenschutz_path)
+          %li= link_to('Statistiken zur Seite', about_path)
