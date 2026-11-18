@@ -6,13 +6,13 @@
         = discipline_image(group_assessment.discipline)
         = discipline_name(group_assessment.discipline)
         = g(group_assessment.gender)
-        = '- Mannschaftswertung'
+        = '– Mannschaftswertung'
       = count_table(group_assessment.scores, class: 'datatable-group-assessments', sort: { no_sorting: [5, 6] }) do |ct|
-        - ct.col('Datum', class: 'small col-8 info-link') { |row| competition_link(row.competition, type: :date_iso) }
+        - ct.col('Datum', class: 'small col-w-10 info-link') { |row| competition_link(row.competition, type: :date_iso) }
         - ct.col('Typ', class: 'small col-w-10') { |row| event_link(row.competition.event) }
         - ct.col('Ort', class: 'small col-w-10') { |row| place_link(row.competition.place) }
-        - ct.col('Zeit', :second_time, class: 'small col-8')
-        - ct.col('bei 6', :second_time_by_6, class: 'small col-8')
+        - ct.col('Zeit', :second_time, class: 'small text-nowrap')
+        - ct.col('bei 6', :second_time_by_6, class: 'small text-nowrap', th_options: { class: 'text-nowrap' })
         - ct.col('r', class: 'small col-w-5') { |row| row.competition.score_type.score }
         - ct.col('Wertung', class: 'small') { |row| row.score_in_assessment.map {|s| link_to(s.person.short_name, s.person) }.join(', ').html_safe }
         - ct.col('Außerhalb', class: 'small') { |row| row.score_out_assessment.map {|s| link_to(s.person.short_name, s.person) }.join(', ').html_safe }

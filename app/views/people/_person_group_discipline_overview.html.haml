@@ -35,9 +35,9 @@
     - if ds.discipline.in?([:gs, :fs, :la])
       %h3 #{discipline_name(ds.discipline)} - Mannschaftsmitglieder
       = count_table(ds.team_mates, class: 'datatable-team-mates', sort: { col: 1, no_sorting: :last }) do |t|
-        - t.col('Person', class: 'col-md-2') { |row| person_link(row.person, type: :full_name) }
-        - t.col('Läufe', class: 'col-md-1') { |row| row.scores.count }
-        - t.col('Wettkämpfe', class: 'col-md-9 small') { |row| row.scores.map(&:group_score_category).map(&:competition).uniq.sort_by(&:date).map { |c| link_to(c.short_name, c) }.join(", ").html_safe }
+        - t.col('Person', class: 'col-w-20') { |row| person_link(row.person, type: :full_name) }
+        - t.col('Läufe', class: 'col-w-5') { |row| row.scores.count }
+        - t.col('Wettkämpfe', class: 'small') { |row| row.scores.map(&:group_score_category).map(&:competition).uniq.sort_by(&:date).map { |c| link_to(c.short_name, c) }.join(", ").html_safe }
       %h3 #{discipline_name(ds.discipline)} - Gelaufene Positionen
       .row
         .col-md-4= chart.discipline_positions(ds.discipline)

@@ -21,7 +21,7 @@
         .col-md-9
           = chart.group_discipline_scores(group_discipline.discipline, group_type.valid_scores)
       = position_count_table(group_discipline.discipline, group_discipline.gender, group_type.scores, class: 'datatable-group-disciplines', sort: true) do |ct|
-        - ct.col('Datum', class: 'small col-8 info-link') { |row| competition_link(row.competition, type: :date_iso) }
+        - ct.col('Datum', class: 'small col-w-10 info-link') { |row| competition_link(row.competition, type: :date_iso) }
         - ct.col('Typ', class: 'small col-w-10') { |row| event_link(row.competition.event) }
         - ct.col('Ort', class: 'small col-w-10') { |row| place_link(row.competition.place) }
         - ct.col('N', class: 'small col-w-5') { |row| [row.team_number, row.run].reject(&:blank?).join(' ') }

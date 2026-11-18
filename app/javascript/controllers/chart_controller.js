@@ -65,7 +65,8 @@ function styleScales(config) {
   options.scales[categoryAxis] = {
     grid: { display: false },
     border: { color: LINE },
-    ticks: { autoSkip: (config.data.labels?.length ?? 0) > 24, autoSkipPadding: 8, maxRotation: 0 },
+    // bar charts show every category (e.g. all federal states), line charts skip labels that do not fit
+    ticks: { autoSkip: config.type === "line" || (config.data.labels?.length ?? 0) > 24, autoSkipPadding: 8, maxRotation: 0 },
     ...options.scales[categoryAxis],
   }
 }
