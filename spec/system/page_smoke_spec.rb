@@ -4,7 +4,6 @@ require 'rails_helper'
 
 # Opens the most important pages in headless Chrome. Cuprite raises JavaScript errors (js_errors: true), so this
 # catches broken frontend code, e.g. after updating jQuery, Bootstrap or other assets.
-# /records is left out: it loads fixed team IDs from the production database.
 describe 'page smoke test' do
   before { page.driver.browser.url_blacklist = [/openstreetmap/] }
 
@@ -19,7 +18,7 @@ describe 'page smoke test' do
       '/competitions', "/competitions/#{competition.id}",
       '/places', "/places/#{competition.place_id}", '/events', "/events/#{competition.event_id}",
       '/years', "/years/#{year}", "/years/#{year}/best_performance", "/years/#{year}/best_scores",
-      '/best_of', '/last_competitions', '/feuerwehrsport', '/about', '/change_logs'
+      '/best_of', '/records', '/last_competitions', '/feuerwehrsport', '/about', '/change_logs'
     ]
   end
   let(:backend_paths) do

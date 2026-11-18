@@ -1,0 +1,168 @@
+# World and German records (pages/records and the discipline cards of the start page).
+# German records reference people, team and competition of the database by id; world records name the holders.
+# historic: record under old rules (still listed on the records page, not shown on the start page)
+updated_on: 2026-01-29
+
+groups:
+  - key: world_male
+    title: Weltrekorde – Männer
+    gender: male
+    scope: world
+    records:
+      - discipline: hl
+        time: "12,47"
+        holders:
+          - { name: Nikita Ukolov, nation: by }
+          - { name: Artem Khabibullin, nation: ru }
+        event: 19. WM 2024 – Harbin (China)
+      - discipline: hb
+        time: "14,70"
+        holders:
+          - { name: Daniel Klvaňa, nation: cz }
+        competition: 2004
+      - discipline: zk
+        time: "27,61"
+        holders:
+          - { name: Vladimir Sidorenko, nation: ru }
+        competition: 1674
+      - discipline: fs
+        time: "52,92"
+        holders:
+          - { nation: ru }
+        competition: 1674
+      - discipline: la
+        note: ISFFR – 20 m C
+        time: "25,14"
+        holders:
+          - { nation: cz }
+        competition: 54
+
+  - key: german_male
+    title: Deutsche Rekorde – Männer
+    gender: male
+    scope: german
+    records:
+      - discipline: hl
+        time: "13,34"
+        people: [184]
+        team: 3
+        competition: 2340
+      - discipline: hb
+        time: "16,44"
+        people: [184]
+        team: 3
+        competition: 2084
+      - discipline: zk
+        time: "30,23"
+        split: 13,68 s/16,55 s
+        people: [184]
+        team: 3
+        competition: 2084
+      - discipline: fs
+        time: "59,21"
+        people: [268, 248, 42, 79]
+        team: 3
+        competition: 1097
+      - discipline: la
+        note: ISFFR – 20 m C
+        time: "24,95"
+        people: [248, 237, 184, 42, 3692, 3622, 79]
+        team: 61
+        competition: 2348
+
+  - key: world_female
+    title: Weltrekorde – Frauen
+    gender: female
+    scope: world
+    records:
+      - discipline: hl
+        time: "6,70"
+        holders:
+          - { name: Karina Bochkareva, nation: ru }
+          - { name: Elena Balakireva, nation: by }
+          - { name: Ekaterina Chendakova, nation: ru }
+        event: 19. WM 2024 – Harbin (China)
+      - discipline: hb
+        time: "14,65"
+        holders:
+          - { name: Gayane Akopova, nation: ru }
+        event: 19. WM 2024 – Harbin (China)
+      - discipline: zk
+        time: "21,53"
+        holders:
+          - { name: Gayane Akopova, nation: ru }
+        event: 19. WM 2024 – Harbin (China)
+      - discipline: fs
+        time: "58,40"
+        holders:
+          - { nation: ru }
+        competition: 2004
+      - discipline: la
+        note: ISFFR – 2 × B, 20 m C
+        time: "24,51"
+        holders:
+          - { nation: ru }
+        competition: 869
+
+  - key: german_female
+    title: Deutsche Rekorde – Frauen
+    gender: female
+    scope: german
+    records:
+      - discipline: hb
+        note: 120-cm-Balken
+        historic: true
+        time: "18,20"
+        people: [8]
+        team: 2
+        competition: 12
+      - discipline: hb
+        note: 80-cm-Balken
+        time: "17,47"
+        people: [394]
+        team: 61
+        competition: 2348
+      - discipline: hl
+        time: "7,87"
+        people: [394]
+        team: 61
+        competition: 2348
+      - discipline: zk
+        note: 120-cm-Balken
+        historic: true
+        time: "27,16"
+        split: 8,13 s/19,03 s
+        people: [17]
+        team: 2
+        competition: 1097
+      - discipline: zk
+        note: 80-cm-Balken
+        time: "25,34"
+        split: 7,87 s/17,47 s
+        people: [394]
+        team: 61
+        competition: 2348
+      - discipline: fs
+        note: Leiterwand/120-cm-Balken
+        historic: true
+        time: "66,89"
+        people: [8, 251, 282, 116]
+        team: 2
+        competition: 53
+      - discipline: fs
+        note: Haus/80-cm-Balken
+        time: "66,41"
+        people: [1598, 394, 17, 435]
+        team: 61
+        competition: 2348
+      - discipline: gs
+        time: "82,42"
+        people: [116, 284, 282, 8, 35, 251]
+        team: 2
+        competition: 53
+      - discipline: la
+        note: ISFFR – 2 × B, 20 m C
+        time: "25,98"
+        people: [2563, 3327, 1598, 288, 394, 435, 3370]
+        team: 61
+        competition: 2239

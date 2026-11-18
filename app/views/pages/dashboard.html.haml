@@ -10,25 +10,30 @@
       Zeiten, Bestenlisten und Statistiken aus Wettkämpfen in ganz Deutschland.
 
   .container
-    = content_card('Disziplinen', toc:, action: link_to('Die 100 schnellsten Zeiten →', best_of_path)) do
-      %p.text-muted Die schnellsten Zeiten, die bisher in der Datenbank stehen.
+    = content_card('Deutsche Rekorde', toc:, label: 'Rekorde', action: link_to('Alle Rekorde →', records_path)) do
+      - records = Records.load
       .discipline-cards
-        - Calc::DisciplineBests.new.disciplines.each do |entry|
+        - %i[hl hb gs fs la].each do |discipline|
           .discipline-card
             .discipline-card-head
-              %span.disc-chip= discipline_name_short(entry[:discipline])
-              %span.name= discipline_name(entry[:discipline])
+              %span.disc-chip= discipline_name_short(discipline)
+              %span.name= discipline_name(discipline)
             %dl.discipline-bests
-              - entry[:bests].each do |gender, score|
+              - %i[female male].each do |gender|
+                - record = records.german(discipline, gender)
+                - next if record.nil?
                 %dt{ class: "gender-#{gender}", title: g(gender) }= g_symbol(gender)
                 %dd
-                  = link_to("#{score.second_time} s", competition_path(score.object.competition), class: 'time',
-                            title: score.competition.to_s)
+                  - title = [record.competition&.to_s, record.note].compact.join(' – ')
+                  - if record.competition
+                    = link_to("#{record.time} s", competition_path(record.competition), class: 'time', title:)
+                  - else
+                    %span.time{ title: }= "#{record.time} s"
                   %span.holder
-                    - if score.object.is_a?(Score)
-                      = person_link(score.person, type: :full_name)
-                    - else
-                      = team_link(score.team)
+                    - if record.people.one?
+                      = person_link(record.people.first, type: :full_name)
+                    - elsif record.team
+                      = team_link(record.team)
 
     .row
       .col-lg-8

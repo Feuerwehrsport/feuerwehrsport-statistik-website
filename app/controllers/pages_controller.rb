@@ -31,17 +31,7 @@ class PagesController < ResourceController
 
   def records
     @page_title = 'Deutsche Rekorde im Feuerwehrsport'
-
-    @team2  = Team.find(2).decorate
-    @team3  = Team.find(3).decorate
-    @team15 = Team.find(15).decorate
-    @team10 = Team.find(10).decorate
-    @team61 = Team.find(61).decorate
-    @team167 = Team.find(167).decorate
-    @team1869 = Team.find(1869).decorate
-    @nation_by = Nation.find_by(iso: :by).decorate
-    @nation_ru = Nation.find_by(iso: :ru).decorate
-    @nation_cz = Nation.find_by(iso: :cz).decorate
+    @records = Records.load
   end
 
   def best_of

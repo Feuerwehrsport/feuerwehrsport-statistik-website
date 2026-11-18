@@ -36,19 +36,10 @@ RSpec.describe 'Pages' do
   end
 
   describe 'GET records' do
-    let(:team) { build_stubbed(:team) }
-    let(:nation) { build_stubbed(:nation) }
-    let(:competition) { build_stubbed(:competition) }
-    let(:person) { build_stubbed(:person) }
-
-    it 'assigns nothing' do
-      allow(Team).to receive(:find).and_return(team)
-      allow(Nation).to receive(:find_by).and_return(nation)
-      allow(Competition).to receive(:find).and_return(competition)
-      allow(Person).to receive(:find).and_return(person)
-
+    it 'renders the records of config/records.yml (unknown people and teams are skipped)' do
       get '/records'
       expect(response).to be_successful
+      expect(response.body).to include('Deutsche Rekorde – Männer', '13,34 s', 'Nikita Ukolov', 'Stand: 29.01.2026')
     end
   end
 
@@ -71,7 +62,7 @@ RSpec.describe 'Pages' do
   describe 'GET dashboard with title' do
     it 'renders dashboard' do
       get '/'
-      expect(response.body).to include('<title>Feuerwehrsport – die große Auswertung')
+      expect(response.body).to include('<title>Feuerwehrsport – die große Auswertung', 'Deutsche Rekorde', '16,44 s')
     end
   end
 
