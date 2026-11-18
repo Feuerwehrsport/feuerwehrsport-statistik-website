@@ -52,10 +52,6 @@ body {
   padding: 1.5rem 0;
   margin-bottom: 1.5rem;
 
-  &.with-section-nav {
-    padding-bottom: 0;
-  }
-
   h1 {
     margin: 0;
     font-size: calc(1.9rem + 1.2vw);
@@ -163,26 +159,70 @@ body {
   }
 }
 
-// section navigation (replaces the former table of contents box)
+// jump links to the sections of a page (table of contents in the page head)
 .section-nav {
   display: flex;
-  gap: 0.25rem;
-  overflow-x: auto;
-  margin: 1rem -0.75rem 0;
-  font-size: 0.875rem;
-  font-weight: 500;
+  align-items: baseline;
+  gap: 0.5rem 0.75rem;
+  margin-top: 1.25rem;
+  font-size: 0.8125rem;
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
 
   a {
-    padding: 0.75rem;
-    color: $muted;
+    display: inline-block;
+    padding: 0.2rem 0.65rem;
+    border: 1px solid $line;
+    border-radius: 999px;
+    background: $ground;
+    color: $ink;
     white-space: nowrap;
     text-decoration: none;
 
+    &::before {
+      content: "↓ ";
+      color: $muted;
+    }
+
     &:hover {
-      color: $ink;
-      box-shadow: inset 0 -2px 0 $line;
+      border-color: $fire-red;
+      color: $fire-red;
     }
   }
+
+  // small screens: one line that scrolls sideways instead of many lines of links
+  @include media-breakpoint-down(md) {
+    display: block;
+    margin-right: -1rem; // the line may scroll up to the edge of the screen
+
+    .section-nav-label {
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    ul {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-right: 1rem;
+      scrollbar-width: none;
+    }
+  }
+}
+
+.section-nav-label {
+  flex: none;
+  font-weight: 600;
+  color: $muted;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.75rem;
 }
 
 // content blocks

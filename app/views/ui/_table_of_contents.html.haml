@@ -1,4 +1,8 @@
 - if ankers.present?
-  %nav.section-nav{ 'aria-label': 'Abschnitte' }
-    - ankers.each do |anker|
-      %a{ href: "#toc-#{anker.id}" }= anker.name
+  -# jump links to the sections of the page; without Turbo, so the browser scrolls to the anchor itself
+  %nav.section-nav{ 'aria-label': 'Auf dieser Seite', data: { turbo: 'false' } }
+    %span.section-nav-label Auf dieser Seite
+    %ul
+      - ankers.each do |anker|
+        %li
+          %a{ href: "#toc-#{anker.id}" }= anker.name
