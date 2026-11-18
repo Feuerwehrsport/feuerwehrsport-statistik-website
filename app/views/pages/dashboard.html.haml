@@ -10,14 +10,25 @@
       Zeiten, Bestenlisten und Statistiken aus Wettkämpfen in ganz Deutschland.
 
   .container
-    = content_card('Disziplinen', toc:) do
+    = content_card('Disziplinen', toc:, action: link_to('Die 100 schnellsten Zeiten →', best_of_path)) do
+      %p.text-muted Die schnellsten Zeiten, die bisher in der Datenbank stehen.
       .discipline-cards
-        - [[:hl, 'Frauen und Männer'], [:hb, 'Frauen und Männer'], [:gs, 'Frauen'], [:fs, 'Frauen und Männer'],
-          [:la, 'Frauen und Männer']].each do |discipline, genders|
-          = link_to best_of_path, title: "Die schnellsten Zeiten – #{discipline_name(discipline)}" do
-            %span.disc-chip= discipline_name_short(discipline)
-            %span.name= discipline_name(discipline)
-            %span.genders= genders
+        - Calc::DisciplineBests.new.disciplines.each do |entry|
+          .discipline-card
+            .discipline-card-head
+              %span.disc-chip= discipline_name_short(entry[:discipline])
+              %span.name= discipline_name(entry[:discipline])
+            %dl.discipline-bests
+              - entry[:bests].each do |gender, score|
+                %dt{ class: "gender-#{gender}", title: g(gender) }= g_symbol(gender)
+                %dd
+                  = link_to("#{score.second_time} s", competition_path(score.object.competition), class: 'time',
+                            title: score.competition.to_s)
+                  %span.holder
+                    - if score.object.is_a?(Score)
+                      = person_link(score.person, type: :full_name)
+                    - else
+                      = team_link(score.team)
 
     .row
       .col-lg-8

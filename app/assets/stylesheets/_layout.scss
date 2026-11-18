@@ -266,36 +266,57 @@ a[id^="toc-"] {
 // cards with discipline links on the start page
 .discipline-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
   gap: 0.75rem;
+}
 
-  a {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-    padding: 1rem;
-    border: 1px solid $line;
-    border-radius: $border-radius-lg;
+.discipline-card {
+  padding: 1rem;
+  border: 1px solid $line;
+  border-radius: $border-radius-lg;
+}
+
+.discipline-card-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+
+  .name {
+    font-weight: 600;
+    line-height: 1.2;
+  }
+}
+
+.discipline-bests {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.35rem 0.6rem;
+  margin: 0;
+
+  dt {
+    font-weight: 700;
+  }
+
+  dd {
+    min-width: 0;
+    margin: 0;
+  }
+
+  .time {
+    font-family: $font-family-headings;
+    font-size: 1.25rem;
+    font-weight: 700;
     color: $ink;
-    text-decoration: none;
+    font-variant-numeric: tabular-nums;
+  }
 
-    &:hover {
-      border-color: $fire-red;
-    }
-
-    .disc-chip {
-      align-self: flex-start;
-      margin-bottom: 0.4rem;
-    }
-
-    .name {
-      font-weight: 600;
-    }
-
-    .genders {
-      font-size: 0.8125rem;
-      color: $muted;
-    }
+  .holder {
+    display: block;
+    overflow: hidden;
+    font-size: 0.8125rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }
 

@@ -12,6 +12,8 @@ class Calc::BestOf < Calc::Base
         [:hl, :female, single_klas, nil],
         [:hl, :male, single_klas, nil],
         [:gs, :female, group_klass, nil],
+        [:fs, :female, group_klass, nil],
+        [:fs, :male, group_klass, nil],
         [:la, :female, group_klass, nil],
         [:la, :male, group_klass, nil],
         [:hb, :female, single_klas, 2016],
