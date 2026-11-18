@@ -39,5 +39,5 @@
                 = competition_link(cup.competition, type: :short_date_with_place)
                 %br
                 = row.participation_for_cup(cup).try(:second_time_with_points) || "-"
-            - (@max_series_cups - cups.count ).times.each do
+            - (@max_series_cups - cups.size).times.each do
               %td

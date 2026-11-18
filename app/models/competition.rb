@@ -57,7 +57,8 @@ class Competition < ApplicationRecord
 
   def group_assessment(single_discipline, gender)
     team_scores = {}
-    scores.no_finals.best_of_competition.gender(gender).where(single_discipline:).each do |score|
+    best = scores.no_finals.best_of_competition.gender(gender).where(single_discipline:).includes(:team, :person).to_a
+    Score.preload_similar_scores(best).each do |score|
       next if score.team_number < 1 || score.team.nil?
 
       team_scores[score.uniq_team_id] ||=

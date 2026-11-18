@@ -61,4 +61,13 @@ class Person < ApplicationRecord
     entity_merges.update_all(target_id: correct_person.id)
     bla_badge.try(:update_attribute, :person_id, correct_person.id)
   end
+
+  # number of runs per team and discipline: { team_id => { hb: 3, la: 1, ... } } (two queries)
+  def team_discipline_counts
+    single = scores.joins(:single_discipline).group(:team_id, 'single_disciplines.key').count
+    group = group_score_participations.group(:team_id, :discipline).count
+    single.merge(group).each_with_object(Hash.new { |h, k| h[k] = {} }) do |((team_id, key), count), result|
+      result[team_id][key.to_sym] = count
+    end
+  end
 end

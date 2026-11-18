@@ -30,7 +30,8 @@ class Calculation::Competition
       scores = calculation.competition.scores.where(single_discipline: discipline).gender(gender)
       scores = category == false ? scores.no_finals : scores.finals(category)
       @all_scores = scores
-      @scores = @all_scores.best_of_competition.decorate
+      best = Score.preload_similar_scores(@all_scores.best_of_competition.includes(:person, :team).to_a)
+      @scores = best.map(&:decorate)
       @count = @scores.size
       calculation.single_score_count += count
     end
@@ -38,7 +39,7 @@ class Calculation::Competition
 
   class Calculation::CompetitionDoubleEventDiscipline < Calculation::CompetitionDiscipline
     def calculate_scores
-      @scores = calculation.competition.score_double_events.gender(gender).decorate
+      @scores = calculation.competition.score_double_events.gender(gender).includes(:person).decorate
       @count = @scores.size
     end
   end
@@ -46,7 +47,8 @@ class Calculation::Competition
   class Calculation::CompetitionGroupDiscipline < Calculation::CompetitionDiscipline
     def calculate_scores
       @all_scores = calculation.competition.group_scores.where(group_score_category: category).gender(gender)
-      @scores = @all_scores.best_of_competition.decorate
+      @scores = @all_scores.best_of_competition
+                           .includes(:team, :group_score_category, person_participations: :person).decorate
       @count = @scores.size
     end
   end

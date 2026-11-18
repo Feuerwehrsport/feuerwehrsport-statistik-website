@@ -12,11 +12,11 @@ People::SingleDisciplineOverview = Struct.new(:person, :single_discipline) do
   end
 
   def scores_decorated
-    @scores_decorated ||= scores.includes(competition: %i[place event]).decorate
+    @scores_decorated ||= scores.includes(:team, competition: %i[place event]).decorate
   end
 
   def chart_scores
-    @chart_scores ||= scores.valid.best_of_competition.includes(:competition).decorate.sort_by do |s|
+    @chart_scores ||= scores.valid.best_of_competition.includes(competition: %i[place event]).decorate.sort_by do |s|
       s.object.competition.date
     end
   end

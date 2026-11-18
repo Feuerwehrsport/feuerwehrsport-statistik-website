@@ -19,7 +19,7 @@ class Series::PersonAssessment < ApplicationRecord
   def self.for(person_id)
     assessment_structs = {}
     with_person(person_id)
-      .includes(round: :kind)
+      .includes(round: [:kind, { cups: { competition: :place } }])
       .order(Arel.sql('series_kinds.name, series_rounds.year DESC, series_person_assessments.discipline'))
       .decorate.each do |assessment|
       row = assessment.rows.find { |r| r.person_id == person_id }

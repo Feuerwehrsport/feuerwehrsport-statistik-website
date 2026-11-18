@@ -23,6 +23,19 @@ module NumberedTeamNames
     score.team.shortcut + number_name + run
   end
 
+  # loads the team numbers of many competitions with one query (e.g. all competitions of a person)
+  def self.preload_team_numbers(competition_ids)
+    counts = (Current.team_number_counts ||= {})
+    competition_ids = competition_ids.uniq - counts.keys
+    return if competition_ids.empty?
+
+    competition_ids.each { |id| counts[id] = {} }
+    CompetitionTeamNumber.where(competition_id: competition_ids).group(:competition_id, :team_id, :gender)
+                         .distinct.count(:team_number).each do |(competition_id, team_id, gender), count|
+      counts[competition_id][[team_id, gender]] = count
+    end
+  end
+
   private
 
   # number of different team numbers of a team in a competition; loaded once per competition and request

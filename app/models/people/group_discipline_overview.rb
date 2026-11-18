@@ -13,11 +13,11 @@ People::GroupDisciplineOverview = Struct.new(:person, :discipline) do
   end
 
   def scores_decorated
-    @scores_decorated ||= scores.includes(competition: %i[place event]).includes(:group_score_type).decorate
+    @scores_decorated ||= scores.includes(:team, :group_score_type, competition: %i[place event]).decorate
   end
 
   def chart_scores
-    @chart_scores ||= scores.valid.best_of_competition.includes(:competition).decorate.sort_by do |s|
+    @chart_scores ||= scores.valid.best_of_competition.includes(competition: %i[place event]).decorate.sort_by do |s|
       s.object.competition.date
     end
   end
@@ -36,7 +36,7 @@ People::GroupDisciplineOverview = Struct.new(:person, :discipline) do
       .group_scores
       .discipline(discipline)
       .includes(:person_participations)
-      .includes(group_score_category: :competition)
+      .includes(group_score_category: { competition: %i[place event] })
       .decorate
       .each do |score|
       score.person_participations.each do |person_participation|
@@ -46,8 +46,9 @@ People::GroupDisciplineOverview = Struct.new(:person, :discipline) do
         team_mates[person_participation.person_id].push(score)
       end
     end
+    people = Person.where(id: team_mates.keys).index_by(&:id)
     team_mates.map do |person_id, scores|
-      TeamMate.new(Person.find(person_id).decorate, scores)
+      TeamMate.new(people.fetch(person_id).decorate, scores)
     end
   end
 

@@ -74,10 +74,9 @@ RSpec.describe Team do
       create(:group_score, team:, group_score_category: gs_category, gender: :female)
     end
 
-    it 'counts scores of a person' do
-      expect(team.person_scores_count(alfred)).to eq 4
-      expect(team.person_scores_count(johanna)).to eq 1
-      expect(other_team.person_scores_count(alfred)).to eq 1
+    it 'counts scores of a person per team and discipline' do
+      expect(alfred.team_discipline_counts).to eq(team.id => { hb: 2, hl: 1, la: 1 }, other_team.id => { hl: 1 })
+      expect(johanna.team_discipline_counts).to eq(team.id => { la: 1 })
     end
 
     it 'counts disciplines per member' do

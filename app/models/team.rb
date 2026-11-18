@@ -64,10 +64,6 @@ class Team < ApplicationRecord
     team_name
   end
 
-  def person_scores_count(person)
-    scores.where(person:).count + person_participations.where(person:).count
-  end
-
   def members_with_discipline_count
     all_members = members.to_h { |member| [member.id, member.becomes(Calculation::TeamPerson)] }
     scores.group(:person_id, :single_discipline_id).count.each do |keys, count|

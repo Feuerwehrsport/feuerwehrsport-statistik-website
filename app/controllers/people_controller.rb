@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PeopleController < ResourceController
+  DISCIPLINE_KEYS = %i[hb hl gs fs la].freeze
+
   include DatatableSupport
 
   resource_actions :show, cache: %i[show index]
@@ -21,23 +23,19 @@ class PeopleController < ResourceController
   def show
     super
     @teams = resource.teams.decorate
+    team_counts = resource.team_discipline_counts
     @team_structs = @teams.map do |team|
-      {
-        team:,
-        score_count: team.person_scores_count(resource),
-        hb: team.scores.hb.where(person: resource).count,
-        hl: team.scores.hl.where(person: resource).count,
-        gs: team.group_score_participations.gs.where(person: resource).count,
-        fs: team.group_score_participations.fs.where(person: resource).count,
-        la: team.group_score_participations.la.where(person: resource).count,
-      }
+      counts = team_counts.fetch(team.id, {})
+      { team:, score_count: counts.values.sum, **DISCIPLINE_KEYS.index_with { |key| counts.fetch(key, 0) } }
     end
     @series_structs = Series::PersonAssessment.for(resource.id)
-    @max_series_cups = @series_structs.values.flatten.map(&:values).flatten.map { |series| series.cups.count }.max
+    @max_series_cups = @series_structs.values.flatten.map(&:values).flatten.map { |series| series.cups.size }.max
     @person_spellings = resource.person_spellings.official.decorate.to_a
     @score_count = resource.scores.count + resource.group_score_participations.count
-    @competition_count = (resource.scores.distinct.pluck(:competition_id) +
-                          resource.group_score_participations.distinct.pluck(:competition_id)).uniq.count
+    competition_ids = (resource.scores.distinct.pluck(:competition_id) +
+                       resource.group_score_participations.distinct.pluck(:competition_id)).uniq
+    @competition_count = competition_ids.count
+    NumberedTeamNames.preload_team_numbers(competition_ids)
   end
 
   protected
