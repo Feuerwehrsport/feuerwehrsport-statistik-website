@@ -186,6 +186,11 @@ body {
 }
 
 // content blocks
+.content-card img {
+  max-width: 100%;
+  height: auto;
+}
+
 .content-card {
   background: #FFFFFF;
   border: 1px solid $line;

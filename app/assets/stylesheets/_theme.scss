@@ -54,5 +54,8 @@ $navbar-dark-hover-color: #FFFFFF;
 $nav-link-font-weight: 500;
 $input-btn-focus-color: rgba($fire-red, 0.25);
 $enable-negative-margins: true;
+// below lg the content uses the full width (Bootstrap would limit it to 540/720 px with large side margins)
+$container-max-widths: (lg: 960px, xl: 1140px, xxl: 1320px);
+$container-padding-x: 2rem; // split on both sides: 16 px
 
 @import 'bootstrap5/bootstrap';
