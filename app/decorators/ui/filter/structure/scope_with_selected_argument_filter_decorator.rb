@@ -6,17 +6,20 @@ class Ui::Filter::Structure::ScopeWithSelectedArgumentFilterDecorator <
     collection.send(name, argument)
   end
 
+  # memoized: the select compares every option with it (e.g. ~2.500 competitions)
   def argument
+    return @argument if defined?(@argument)
+
     id = super
-    if options[:argument_finder].respond_to?(:call)
-      options[:argument_finder].call(id)
-    elsif id.present? && collection.is_a?(ActiveRecord::Relation)
-      collection.find_by!(collection.klass.param_column_name => id)
-    elsif id.present? && collection.first.is_a?(Array)
-      collection.detect { |pair| pair.second == id }.try(:second)
-    else
-      id
-    end
+    @argument = if options[:argument_finder].respond_to?(:call)
+                  options[:argument_finder].call(id)
+                elsif id.present? && collection.is_a?(ActiveRecord::Relation)
+                  collection.find_by!(collection.klass.param_column_name => id)
+                elsif id.present? && collection.first.is_a?(Array)
+                  collection.detect { |pair| pair.second == id }.try(:second)
+                else
+                  id
+                end
   end
 
   def collection
