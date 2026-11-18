@@ -9,6 +9,9 @@
         %p
           Ergebnisse, Bestenlisten und Statistiken aus dem Feuerwehrsport – privat und ehrenamtlich betrieben, ohne
           Werbung und ohne Tracking.
+        = link_to 'https://feusport.de/donations', class: 'site-footer-support' do
+          %span.fa.fa-heart{ 'aria-hidden': 'true' }
+          Unterstützen
       %nav{ 'aria-label': 'Entdecken' }
         %h2 Entdecken
         %ul
@@ -25,7 +28,6 @@
           %li= link_to('Quelltext auf GitHub', 'https://github.com/Feuerwehrsport/feuerwehrsport-statistik-website')
           %li= link_to('feusport.de', 'https://feusport.de')
           %li= link_to('Feuerwehrsport Team-MV', 'https://feuerwehrsport-teammv.de')
-          %li= link_to('Unterstützen', 'https://feusport.de/donations')
       %nav{ 'aria-label': 'Rechtliches' }
         %h2 Rechtliches
         %ul

@@ -95,6 +95,25 @@ body {
   }
 }
 
+.site-footer-support {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1rem;
+  padding: 0.35rem 0.85rem;
+  border: 1px solid rgba(#FFFFFF, 0.3);
+  border-radius: 999px;
+
+  &:hover {
+    border-color: #FFFFFF;
+    text-decoration: none !important;
+  }
+
+  .fa {
+    color: #E02424;
+  }
+}
+
 .site-footer-logo {
   display: inline-flex;
   align-items: center;
