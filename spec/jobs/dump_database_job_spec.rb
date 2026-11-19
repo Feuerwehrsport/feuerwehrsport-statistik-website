@@ -16,6 +16,10 @@ RSpec.describe DumpDatabaseJob do
                           '--exclude-table-data=import_requests ' \
                           '--exclude-table-data=import_requests_id_seq ' \
                           '--exclude-table-data=logins ' \
+                          '--exclude-table-data=solid_queue_batch_executions ' \
+                          '--exclude-table-data=solid_queue_batch_executions_id_seq ' \
+                          '--exclude-table-data=solid_queue_batches ' \
+                          '--exclude-table-data=solid_queue_batches_id_seq ' \
                           '--exclude-table-data=solid_queue_blocked_executions ' \
                           '--exclude-table-data=solid_queue_blocked_executions_id_seq ' \
                           '--exclude-table-data=solid_queue_claimed_executions ' \

@@ -9,6 +9,10 @@ import_request_files_id_seq
 import_requests
 import_requests_id_seq
 logins
+solid_queue_batch_executions
+solid_queue_batch_executions_id_seq
+solid_queue_batches
+solid_queue_batches_id_seq
 solid_queue_blocked_executions
 solid_queue_blocked_executions_id_seq
 solid_queue_claimed_executions

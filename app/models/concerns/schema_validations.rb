@@ -4,7 +4,7 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 
-# generated from version 20261116120000
+# generated from version 20261119130206
 
 module SchemaValidations
   extend ActiveSupport::Concern
@@ -556,6 +556,37 @@ module SchemaValidations
       validates_with_filter :updated_at, {presence: {}}
     end
 
+    def dbv_solid_queue_batch_executions_validations(enums: [])
+      belongs_to_presence_validations_for([:batch_id, :job_id])
+      belongs_to_uniqueness_validations_for([["job_id"]])
+      uniqueness_validations_for([["job_id"]])
+      validates_with_filter :batch_id, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -9223372036854775808, less_than: 9223372036854775808}} unless enums.include?(:batch_id)
+      validates_with_filter :batch_id, {presence: {}}
+      validates_with_filter :created_at, {date_time_in_db_range: {}}
+      validates_with_filter :created_at, {presence: {}}
+      validates_with_filter :job_id, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -9223372036854775808, less_than: 9223372036854775808}} unless enums.include?(:job_id)
+      validates_with_filter :job_id, {presence: {}}
+    end
+
+    def dbv_solid_queue_batches_validations(enums: [])
+      belongs_to_presence_validations_for([:completed_jobs, :failed_jobs, :total_jobs])
+      belongs_to_uniqueness_validations_for([["active_job_batch_id"]])
+      uniqueness_validations_for([["active_job_batch_id"]])
+      validates_with_filter :completed_jobs, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:completed_jobs)
+      validates_with_filter :completed_jobs, {presence: {}}
+      validates_with_filter :created_at, {date_time_in_db_range: {}}
+      validates_with_filter :created_at, {presence: {}}
+      validates_with_filter :enqueued_at, {date_time_in_db_range: {}}
+      validates_with_filter :failed_at, {date_time_in_db_range: {}}
+      validates_with_filter :failed_jobs, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:failed_jobs)
+      validates_with_filter :failed_jobs, {presence: {}}
+      validates_with_filter :finished_at, {date_time_in_db_range: {}}
+      validates_with_filter :total_jobs, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:total_jobs)
+      validates_with_filter :total_jobs, {presence: {}}
+      validates_with_filter :updated_at, {date_time_in_db_range: {}}
+      validates_with_filter :updated_at, {presence: {}}
+    end
+
     def dbv_solid_queue_blocked_executions_validations(enums: [])
       belongs_to_presence_validations_for([:job_id, :priority])
       belongs_to_uniqueness_validations_for([["job_id"]])
@@ -595,6 +626,7 @@ module SchemaValidations
 
     def dbv_solid_queue_jobs_validations(enums: [])
       belongs_to_presence_validations_for([:priority])
+      validates_with_filter :batch_id, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -9223372036854775808, less_than: 9223372036854775808}} unless enums.include?(:batch_id)
       validates_with_filter :class_name, {presence: {}}
       validates_with_filter :created_at, {date_time_in_db_range: {}}
       validates_with_filter :created_at, {presence: {}}
