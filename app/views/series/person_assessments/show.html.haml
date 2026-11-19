@@ -7,7 +7,7 @@
     - @person_assessments.each do |assessment|
       = link_to(assessment, assessment, class: "btn btn-sm #{assessment == resource ? 'btn-primary' : 'btn-outline-secondary'}")
     = link_to(url_for(format: :pdf), class: 'btn btn-sm btn-outline-secondary') do
-      %span.fa.fa-download{ 'aria-hidden': 'true' }
+      = icon(:download)
       Als PDF
   = render('series/cups_overview', cups: resource.cups)
 

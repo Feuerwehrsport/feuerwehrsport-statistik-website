@@ -11,7 +11,7 @@
     = resource.full_state.presence || 'Bundesland unbekannt'
     = link_to edit_contributions_team_state_path(resource), id: 'edit-state', title: 'Bundesland bearbeiten',
               'aria-label': 'Bundesland bearbeiten', class: 'btn btn-sm', data: { turbo_frame: 'contribution', turbo: true } do
-      %span.fa.fa-pen{ 'aria-hidden': 'true' }
+      = icon(:pencil)
   = page_head(resource.name, breadcrumb: [link_to('Mannschaften', teams_path), resource.name], image: logo,
               chips: [state, resource.human_status], toc:,
               tiles: [[@team_members.count, 'Wettkämpfer'], [@team_competitions.count, 'Wettkämpfe']]) do

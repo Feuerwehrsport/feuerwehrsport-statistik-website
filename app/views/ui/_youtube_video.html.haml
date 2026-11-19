@@ -7,7 +7,7 @@
       #{link_to('Mehr dazu', datenschutz_path(anchor: 'toc-inhalte-von-anderen-anbietern'))}
     .d-flex.flex-wrap.justify-content-center.gap-2
       %button.btn.btn-light{ type: 'button', data: { action: 'video-consent#load' } }
-        %span.fa.fa-play{ 'aria-hidden': 'true' }
+        = icon(:'play-fill')
         Video abspielen
       = link_to('Auf YouTube ansehen', "https://www.youtube.com/watch?v=#{id}", class: 'btn btn-outline-light',
                 target: '_blank', rel: 'noopener')

@@ -136,6 +136,15 @@
   }
 }
 
+// Bootstrap Icons, inline SVG from the icon helper (ui_helper.rb): as large as the text, on the baseline
+.bi {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  flex: none;
+  vertical-align: -0.125em;
+}
+
 // pagination and export below index tables
 .index-table-footer {
   display: flex;

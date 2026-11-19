@@ -6,7 +6,7 @@ require 'rails_helper'
 # so this spec makes sure our own stylesheets stay on the module system.
 describe 'stylesheets' do # rubocop:disable RSpec/DescribeClass
   # only these files may load the vendored libraries, which do not support @use yet
-  let(:import_allowed) { %w[_theme.scss _icons.scss] }
+  let(:import_allowed) { %w[_theme.scss] }
   let(:own_stylesheets) do
     Rails.root.glob('app/assets/stylesheets/*.{scss,sass}').reject { |path| path.basename.to_s.in?(import_allowed) }
   end

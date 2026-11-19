@@ -67,7 +67,7 @@
           %td= file.file_with_link
           %td
             - if file.transfered?
-              .fa.fa-exchange-alt{ title: 'übertragen' }
+              = icon(:'arrow-left-right', title: 'übertragen')
             - elsif file.pdf? && import_competition
               = render 'backend/import_request_files/transfer_form', file:
     %dl.show-list

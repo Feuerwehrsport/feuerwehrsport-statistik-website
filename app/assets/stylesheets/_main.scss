@@ -5,7 +5,6 @@
 @use 'layout';
 @use 'components';
 @use 'contribution_dialog';
-@use 'icons';
 
 .alert-error {
   @extend .alert-danger;

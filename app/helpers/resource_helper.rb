@@ -123,15 +123,15 @@ module ResourceHelper
       asc = current_direction.to_s == "#{field_name}_asc"
       desc = current_direction.to_s == "#{field_name}_desc"
     end
-    class_name = 'fa-sort'
-    class_name = 'fa-sort-down' if asc
-    class_name = 'fa-sort-up' if desc
-    icon = tag.i('', class: "fa sort-icon #{class_name}")
+    icon_name = :'chevron-expand'
+    icon_name = :'caret-down-fill' if asc
+    icon_name = :'caret-up-fill' if desc
+    sort_icon = icon(icon_name, css: 'sort-icon')
     url = current_path_with_query(param_name => "#{field_name}_asc")
     url = current_path_with_query(param_name => "#{field_name}_desc") if asc
     url = current_path_with_query(param_name => nil) if desc
     link_to(url, class: "is-sortable #{asc || desc ? 'is-sorted' : 'is-unsorted'}") do
-      icon << ' ' << label.to_s
+      safe_join([sort_icon, label.to_s], ' ')
     end
   end
 

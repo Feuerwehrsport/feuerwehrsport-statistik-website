@@ -1,7 +1,0 @@
-// Font Awesome 5 Pro (vendored, still written for @import), only the regular set; loaded once with `@use 'icons';`
-@import 'm3/fontawesome/fontawesome';
-@import 'm3/fontawesome/regular';
-
-.fa {
-  @extend .far;
-}

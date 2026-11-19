@@ -12,7 +12,7 @@
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 
 # Dart Sass (dartsass-sprockets): our own stylesheets use @use (see _theme.scss), these deprecations come from the
-# vendored Bootstrap 5.3 and Font Awesome 5, which only work with @import (module support: Bootstrap 6). quiet_deps
+# vendored Bootstrap 5.3, which only works with @import (module support: Bootstrap 6). quiet_deps
 # does not help here, the sprockets importer marks all files as dependencies, so it would hide our own warnings too.
 # spec/lint/stylesheets_spec.rb keeps @import out of our own files.
 Rails.application.config.sass.silence_deprecations = %w[import global-builtin color-functions slash-div if-function]

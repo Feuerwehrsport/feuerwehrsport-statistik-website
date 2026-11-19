@@ -4,7 +4,7 @@
               breadcrumb: [link_to('Wettkämpfe', competitions_path), resource.to_s],
               chips: [event_link(resource.event), place_link(resource.place), score_type]) do
     = link_to(url_for(format: :xlsx), class: 'btn btn-outline-secondary btn-sm') do
-      %span.fa.fa-download{ 'aria-hidden': 'true' }
+      = icon(:download)
       Excel-Export
 
   .container

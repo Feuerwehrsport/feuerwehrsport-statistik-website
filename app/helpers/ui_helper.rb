@@ -54,6 +54,20 @@ module UiHelper
     sanitize(html, tags: RICH_TEXT_TAGS, attributes: %w[href])
   end
 
+  # Bootstrap Icons (vendor/assets/icons/bootstrap-icons, MIT) inline as SVG; decorative unless a title is given
+  ICON_PATH = Rails.root.join('vendor/assets/icons/bootstrap-icons')
+  ICON_PATHS = Concurrent::Map.new # file contents, read once per process
+
+  def icon(name, title: nil, css: nil)
+    paths = ICON_PATHS.compute_if_absent(name.to_s) do
+      ICON_PATH.join("#{name}.svg").read[%r{<svg[^>]*>(.*)</svg>}m, 1].strip.html_safe
+    end
+    attributes = { xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 16 16', fill: 'currentColor',
+                   class: ['bi', "bi-#{name}", css].compact.join(' ') }
+    attributes.merge!(title ? { role: 'img', 'aria-label': title } : { 'aria-hidden': 'true' })
+    tag.svg(title ? tag.title(title) + paths : paths, **attributes)
+  end
+
   # logo of the site (same drawing as public/favicon.svg): three rising bars on a dark rounded square
   LOGO_BARS = [[4, 16, 11, '#FFFFFF'], [13, 11, 16, '#E02424'], [22, 7, 20, '#FFFFFF']].freeze
 
