@@ -54,4 +54,13 @@ class State
     BY
     HU
   ].freeze
+
+  # state key of a place found by nominatim (address.country_code, address.state); nil when unknown
+  def self.from_place(country_code, state_name)
+    country = country_code.to_s.upcase
+    return country if INTERNATIONAL.include?(country) && country != 'DE'
+    return if country != 'DE'
+
+    FEDERAL.find { |key| ALL[key] == state_name } || 'DE'
+  end
 end

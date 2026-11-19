@@ -39,7 +39,8 @@ export default class extends Controller {
   }
 
   // position chosen elsewhere (e.g. place search in the backend): edit from there
-  move({ detail: { latlon } }) {
+  move({ detail: { latlon, country, state } }) {
+    this.place = { country, state }
     this.edit()
     this.marker.setLatLng(latlon)
     this.map.panTo(latlon, { animate: false })
@@ -50,6 +51,8 @@ export default class extends Controller {
     const url = new URL(this.urlValue, window.location.origin)
     url.searchParams.set("latitude", lat)
     url.searchParams.set("longitude", lng)
+    if (this.place?.country) url.searchParams.set("place_country", this.place.country)
+    if (this.place?.state) url.searchParams.set("place_state", this.place.state)
     document.getElementById("contribution").src = url.toString()
   }
 

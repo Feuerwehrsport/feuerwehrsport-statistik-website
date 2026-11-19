@@ -3,13 +3,20 @@
     .d-flex.flex-wrap.gap-2
       = link_to("Live-Ansicht: #{resource}", team_path(resource), class: 'btn btn-outline-secondary btn-sm', target: :_blank)
       = link_to("Backend: #{resource}", backend_team_path(resource), class: 'btn btn-outline-secondary btn-sm', target: :_blank)
-  - if resource.similar_teams.present?
-    = content_card('Ähnlich geschriebene Mannschaften', heading: :h3) do
+  = content_card('Mögliche Duplikate', heading: :h3) do
+    - if resource.duplicate_candidates.empty?
+      %p.mb-0 Keine ähnlichen Mannschaften gefunden.
+    - else
       %table.table
-        - resource.similar_teams.decorate.each do |team|
+        - resource.duplicate_candidates.each do |candidate|
+          - team = candidate.team.decorate
           %tr
-            %td= team_link(team, target: :_blank)
             %td
+              = team_link(team, target: :_blank)
+              %br
+              %small.text-muted= [team.full_state, "#{team.competitions_count} Wettkämpfe"].compact.join(', ')
+            %td= candidate.reasons.join(', ')
+            %td.text-nowrap
               - path = merge_backend_unchecked_team_path(resource)
               - confirm = "#{resource.name} wirklich mit #{team.name} zusammenführen? Diese Aktion verändert die Daten!"
               = button_to 'Zusammenführen', path, params: { correct_team_id: team.id },

@@ -18,6 +18,28 @@ RSpec.describe 'Contributions::GeoPositions', login: :api do
     expect(ChangeLog.last.content[:before_hash]).to be_present
   end
 
+  it 'offers the state of the chosen place' do
+    get "/contributions/teams/#{team.id}/geo_position/edit",
+        params: { latitude: '51', longitude: '13', place_country: 'de', place_state: 'Sachsen' }
+    expect(response.body).to include('name="state"', 'value="SN"', '„Sachsen“ setzen')
+  end
+
+  it 'does not offer the current state' do
+    get "/contributions/teams/#{team.id}/geo_position/edit",
+        params: { latitude: '51', longitude: '13', place_country: 'de', place_state: 'Mecklenburg-Vorpommern' }
+    expect(response.body).not_to include('name="state"')
+  end
+
+  it 'updates position and state of a team' do
+    patch "/contributions/teams/#{team.id}/geo_position", params: { latitude: '51', longitude: '13', state: 'SN' }
+    expect(team.reload).to have_attributes(latitude: 51, longitude: 13, state: 'SN')
+  end
+
+  it 'ignores an unknown state' do
+    patch "/contributions/teams/#{team.id}/geo_position", params: { latitude: '51', longitude: '13', state: 'XX' }
+    expect(team.reload).to have_attributes(latitude: 51, state: 'MV')
+  end
+
   it 'updates a place' do
     patch "/contributions/places/#{place.id}/geo_position", params: { latitude: '50', longitude: '10' }
     expect(place.reload).to have_attributes(latitude: 50, longitude: 10)

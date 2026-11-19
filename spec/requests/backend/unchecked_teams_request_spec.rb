@@ -20,7 +20,7 @@ RSpec.describe 'Backend::UncheckedTeams', login: :sub_admin do
     it 'shows team with similar teams' do
       get "/backend/unchecked_teams/#{unchecked_team.id}"
       expect(response).to be_successful
-      expect(response.body).to include('Ähnlich geschriebene Mannschaften')
+      expect(response.body).to include('Mögliche Duplikate', 'ähnlicher Name')
       expect(response.body).to include(%(name="correct_team_id" value="#{similar_team.id}"))
       expect(response.body).to include('data-controller="lookup"',
                                        "/contributions/teams/#{unchecked_team.id}/state/edit")

@@ -3,7 +3,7 @@
 class UncheckedTeam < Team
   default_scope { unchecked.reorder(id: :desc) }
 
-  def similar_teams
-    @similar_teams ||= Team.where('LEVENSHTEIN(teams.shortcut, ?) < 3', shortcut).where.not(id:)
+  def duplicate_candidates
+    @duplicate_candidates ||= TeamDuplicates.new(self).candidates
   end
 end

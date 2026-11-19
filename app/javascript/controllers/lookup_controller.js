@@ -3,11 +3,11 @@ import { Controller } from "@hotwired/stimulus"
 const SERVICES = {
   wikipedia: (query) => "https://de.wikipedia.org/w/api.php?action=query&format=json&list=search&utf8=1&origin=*" +
                         `&srsearch=${encodeURIComponent(query)}`,
-  nominatim: (query) => `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`,
+  nominatim: (query) => `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&q=${encodeURIComponent(query)}`,
 }
 
 // backend: searches a team name on wikipedia or nominatim (places) and shows the results as table rows.
-// Nominatim results can be chosen for the map (event geo-position:move).
+// Nominatim results can be chosen for the map (event geo-position:move), including their country/state.
 export default class extends Controller {
   static targets = ["results"]
   static values = { service: String, query: String }
@@ -22,8 +22,9 @@ export default class extends Controller {
     }
   }
 
-  choose({ params: { lat, lon } }) {
-    window.dispatchEvent(new CustomEvent("geo-position:move", { detail: { latlon: [lat, lon] } }))
+  // the state of the place is passed along, the save dialog offers it for the team
+  choose({ params: { lat, lon, country, state } }) {
+    window.dispatchEvent(new CustomEvent("geo-position:move", { detail: { latlon: [lat, lon], country, state } }))
   }
 
   wikipediaRows(json) {
@@ -47,6 +48,8 @@ export default class extends Controller {
       button.dataset.action = "lookup#choose"
       button.dataset.lookupLatParam = item.lat
       button.dataset.lookupLonParam = item.lon
+      button.dataset.lookupCountryParam = item.address?.country_code || ""
+      button.dataset.lookupStateParam = item.address?.state || ""
       return [this.cell(item.display_name), this.cell(button)]
     })
   }

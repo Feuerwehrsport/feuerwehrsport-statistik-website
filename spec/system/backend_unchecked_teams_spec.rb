@@ -9,7 +9,8 @@ describe 'backend unchecked teams' do
     browser.network.intercept
     browser.on(:request) do |request|
       if request.url.include?('nominatim.openstreetmap.org')
-        request.respond(body: [{ display_name: 'Warin, Deutschland', lat: '53.8', lon: '11.7' }].to_json,
+        request.respond(body: [{ display_name: 'Warin, Deutschland', lat: '53.8', lon: '11.7',
+                                 address: { country_code: 'de', state: 'Sachsen' } }].to_json,
                         responseHeaders: { 'Access-Control-Allow-Origin' => '*', 'Content-Type' => 'application/json' })
       elsif request.url.include?('wikipedia.org')
         body = { query: { search: [{ pageid: 1, title: 'Warin',
@@ -24,7 +25,7 @@ describe 'backend unchecked teams' do
     end
   end
 
-  it 'chooses a place found by name for the map' do
+  it 'chooses a place found by name for the map and its state' do
     team = create(:team, :without_geo_location, checked_at: nil)
     sign_in(:sub_admin)
     stub_lookups
@@ -38,9 +39,10 @@ describe 'backend unchecked teams' do
     within('.team-map-actions') { click_on 'Speichern' }
     within('dialog.contribution-dialog') do
       expect(page).to have_text('Breite 53.8, Länge 11.7')
+      expect(page).to have_checked_field('Land/Bundesland auf „Sachsen“ setzen')
       click_on 'Position speichern'
     end
     expect(page).to have_no_css('dialog[open]')
-    expect(team.reload).to have_attributes(latitude: 53.8, longitude: 11.7)
+    expect(team.reload).to have_attributes(latitude: 53.8, longitude: 11.7, state: 'SN')
   end
 end

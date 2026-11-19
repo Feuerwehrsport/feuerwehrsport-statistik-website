@@ -8,6 +8,10 @@ class Contributions::GeoPositionsController < Contributions::BaseController
   def edit
     @latitude, @longitude = coordinates
     @error = 'Die Position ist ungültig.' if @latitude.nil?
+    return unless @type == 'team'
+
+    @state = State.from_place(params[:place_country], params[:place_state])
+    @state = nil if @state == @record.state
   end
 
   def update
@@ -19,7 +23,7 @@ class Contributions::GeoPositionsController < Contributions::BaseController
 
     before_hash = @serializer.new(@record.decorate).as_json
     @record.class.transaction do
-      @record.update!(latitude: @latitude, longitude: @longitude)
+      @record.update!(latitude: @latitude, longitude: @longitude, **new_state)
       log_change(@record, serializer: @serializer, action: "update-#{@type}:geo-position", before_hash:)
     end
     clean_cache
@@ -39,6 +43,12 @@ class Contributions::GeoPositionsController < Contributions::BaseController
       @serializer = PlaceSerializer
     end
     authorize!(:update, @record)
+  end
+
+  # state of the chosen place (teams only), when confirmed in the dialog
+  def new_state
+    state = params[:state].presence
+    @type == 'team' && state && State::ALL.key?(state) ? { state: } : {}
   end
 
   # [latitude, longitude] or nil when missing or out of range
