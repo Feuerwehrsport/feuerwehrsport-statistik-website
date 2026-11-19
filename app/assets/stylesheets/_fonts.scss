@@ -8,7 +8,7 @@ $latin-ext: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0
     font-style: normal;
     font-display: swap;
     font-weight: $weight;
-    src: font-url('#{$folder}/#{$folder}-latin-ext-#{$weight}-normal.woff2') format('woff2');
+    src: url('#{$folder}/#{$folder}-latin-ext-#{$weight}-normal.woff2') format('woff2');
     unicode-range: $latin-ext;
   }
   @font-face {
@@ -16,7 +16,7 @@ $latin-ext: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0
     font-style: normal;
     font-display: swap;
     font-weight: $weight;
-    src: font-url('#{$folder}/#{$folder}-latin-#{$weight}-normal.woff2') format('woff2');
+    src: url('#{$folder}/#{$folder}-latin-#{$weight}-normal.woff2') format('woff2');
     unicode-range: $latin;
   }
 }

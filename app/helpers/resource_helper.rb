@@ -87,14 +87,6 @@ module ResourceHelper
     t3(:head_title, action_scope: true, default: '').presence || 'Feuerwehrsport-Statistik'
   end
 
-  def asset_exist?(path)
-    if Rails.configuration.assets.compile
-      Rails.application.precompiled_assets.include? path
-    else
-      Rails.application.assets_manifest.assets[path].present?
-    end
-  end
-
   def export_format_list
     formats = index_export_formats
     render('index_export_list', formats:) if formats.present?

@@ -56,10 +56,6 @@ module FeuerwehrsportStatistik
     config.action_view.automatically_disable_submit_tag = false
     config.action_mailer.default_options = { from: 'Feuerwehrsport-Statistik <automailer@feuerwehrsport-statistik.de>' }
 
-    config.after_initialize do
-      Rails.application.precompiled_assets if config.assets.compile
-    end
-
     config.action_mailer.delivery_method = :file
 
     config.generators do |g|

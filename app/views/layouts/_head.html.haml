@@ -9,10 +9,12 @@
   %link{ rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }
   %link{ rel: 'manifest', href: '/manifest.webmanifest' }
   %meta{ name: 'theme-color', content: '#14202B' }
-  -# frontend and backend use different bundles: switching between them reloads the page
-  - bundle = backend? ? 'backend' : 'frontend'
-  = javascript_include_tag bundle, data: { turbo_track: 'reload' }
-  = stylesheet_link_tag bundle, data: { turbo_track: 'reload' }
+  -# libraries as classic scripts (globals $, DataTable and bootstrap for the stimulus controllers), in this order
+  = javascript_include_tag 'jquery.min', 'bootstrap.bundle.min', 'datatables/dataTables.min',
+    'datatables/dataTables.bootstrap5.min', 'dataTables/jquery.dataTables.german',
+    'dataTables/jquery.dataTables.timeSorting', data: { turbo_track: 'reload' }
+  -# frontend and backend use different stylesheets: switching between them reloads the page
+  = stylesheet_link_tag backend? ? 'backend' : 'frontend', data: { turbo_track: 'reload' }
   -# always loaded, so maps also work after a Turbo visit
   = javascript_include_tag '/leaflet/leaflet', skip_pipeline: true
   = stylesheet_link_tag    '/leaflet/leaflet', skip_pipeline: true

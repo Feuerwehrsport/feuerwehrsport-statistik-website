@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 
-// sortable, paginated table (DataTables 2, loaded by sprockets with the Bootstrap 5 styling).
+// sortable, paginated table (DataTables 2, classic script from layouts/_head, Bootstrap 5 styling).
 // Optional edit mode: a button below the table turns the time cells into links to a dialog (editUrl with ":id").
 export default class extends Controller {
   static values = {

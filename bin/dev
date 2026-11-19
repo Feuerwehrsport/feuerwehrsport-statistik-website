@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Development server plus CSS watcher (dartsass-rails rebuilds app/assets/builds on changes).
+# Arguments go to the rails server, e.g. bin/dev -p 5060
+set -e
+cd "$(dirname "$0")/.."
+
+bin/rails dartsass:build
+bin/rails dartsass:watch &
+# on exit stop the watcher (and its sass process) together with this script's process group
+trap 'trap - EXIT; kill 0' EXIT INT TERM
+bin/rails server "$@"

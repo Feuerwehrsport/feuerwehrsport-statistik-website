@@ -8,7 +8,7 @@ gem 'pg' # postgres adapter
 gem 'puma' # webserver
 gem 'bcrypt' # password hashs
 
-gem 'sprockets-rails' # asset pipeline
+gem 'propshaft' # asset pipeline (digests, no bundling)
 gem 'cancancan' # abilities
 gem 'carrierwave', '> 3.0.0' # uploads
 gem 'mini_magick' # image processing
@@ -27,14 +27,12 @@ gem 'haml-rails' # haml templating
 # gem 'firesport-series', path: 'firesport-series'
 
 # assets
-gem 'jquery-rails' # jquery js
 gem 'importmap-rails' # es modules without bundler (app/javascript)
 gem 'turbo-rails' # hotwire: turbo frames for dialogs
 gem 'stimulus-rails' # hotwire: small js controllers
-gem 'terser' # asset compressor
 gem 'image_optim' # image optimazing
 gem 'image_optim_pack' # image optimazing binaries
-gem 'dartsass-sprockets' # sass for sprockets via dart sass (bootstrap 3 is vendored in vendor/assets)
+gem 'dartsass-rails' # sass builds via dart sass (app/assets/builds, bootstrap 5 is vendored in vendor/assets)
 gem 'will_paginate' # pagination
 
 # exports

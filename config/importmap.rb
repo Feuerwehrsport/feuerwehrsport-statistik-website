@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# ES modules (app/javascript). jQuery, Bootstrap and DataTables are still bundled by Sprockets (_main.js).
+# ES modules (app/javascript). jQuery, Bootstrap and DataTables are classic scripts (layouts/_head).
 pin 'application'
 pin '@hotwired/turbo-rails', to: 'turbo.min.js'
 pin '@hotwired/stimulus', to: 'stimulus.min.js'

@@ -19,6 +19,11 @@
 /public/generated/
 /public/cache/
 /public/uploads/
+/public/assets/
+
+# CSS of dartsass-rails (bin/rails dartsass:build or bin/dev)
+/app/assets/builds/*
+!/app/assets/builds/.keep
 /mails/
 /coverage
 /.rake_tasks~
