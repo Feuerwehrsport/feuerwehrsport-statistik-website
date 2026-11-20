@@ -64,13 +64,20 @@ RSpec.describe Bla::BadgeGenerator do
     end
 
     it 'returns no new badge if existing badge is equal or better' do
+      score(:hl, 1500)
+      score(:hb, 1900)
+      create(:bla_badge, person:, status: :silver)
+      gold, silver, bronze = generator.people_with_badges[person]
+      expect(gold).to have_attributes(hl_score: be_present, hb_score: nil)
+      expect(silver).to be_nil
+      expect(bronze).to be_nil
+    end
+
+    it 'skips people without any reached time' do
       score(:hl, 1650)
       score(:hb, 1800)
       create(:bla_badge, person:, status: :silver)
-      gold, silver, bronze = generator.people_with_badges[person]
-      expect(gold).to be_present
-      expect(silver).to be_nil
-      expect(bronze).to be_nil
+      expect(generator.people_with_badges).to be_empty
     end
 
     it 'returns badges for women' do

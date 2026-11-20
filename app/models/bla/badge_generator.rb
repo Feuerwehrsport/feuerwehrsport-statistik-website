@@ -19,7 +19,7 @@ class Bla::BadgeGenerator
         badge_for(person, :bronze, 950, 2150),
       ]
     end
-    output
+    output.select { |_person, badges| badges.compact.any? { |badge| badge.hl_score || badge.hb_score } }
   end
 
   def badge_for(person, status, hl_max_time, hb_max_time)
