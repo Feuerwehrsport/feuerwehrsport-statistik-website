@@ -35,7 +35,7 @@ describe 'competitions features' do
     it 'shows the competition als xlsx' do
       visit competition_path(id: competition.id, format: :xlsx)
       expect(page.response_headers['content-type']).to eq(
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       )
     end
 

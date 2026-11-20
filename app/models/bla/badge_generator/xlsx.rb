@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-require 'caxlsx'
-
 # Excel export of the badge generator: one row per person with the highest badge to award
 Bla::BadgeGenerator::Xlsx = Struct.new(:generator, :base_url) do
+  include XlsxSupport
   include Rails.application.routes.url_helpers
 
   def self.headline
@@ -15,10 +14,8 @@ Bla::BadgeGenerator::Xlsx = Struct.new(:generator, :base_url) do
     "bla-vorschlaege-#{Date.current.year}.xlsx"
   end
 
-  def to_stream
-    package = Axlsx::Package.new
-    package.workbook.add_worksheet(name: 'BLA-Vorschläge') { |sheet| build_sheet(sheet) }
-    package.to_stream.read
+  def build(workbook)
+    workbook.add_worksheet(name: 'BLA-Vorschläge') { |sheet| build_sheet(sheet) }
   end
 
   def rows

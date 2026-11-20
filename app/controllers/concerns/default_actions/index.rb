@@ -7,7 +7,9 @@ module DefaultActions::Index
     before_action :assign_collection_for_index, only: :index
   end
 
-  def index; end
+  def index
+    send_index_xlsx if request.format.xlsx?
+  end
 
   protected
 

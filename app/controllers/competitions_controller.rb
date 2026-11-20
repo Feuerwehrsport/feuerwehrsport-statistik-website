@@ -30,5 +30,6 @@ class CompetitionsController < ResourceController
 
   def show
     @calc = Calculation::Competition.new(resource, view_context)
+    send_xlsx(Competition::Xlsx.new(resource, @calc)) if request.format.xlsx?
   end
 end

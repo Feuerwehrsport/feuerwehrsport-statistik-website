@@ -59,6 +59,10 @@ class ApplicationController < ActionController::Base
     send_data(pdf.bytestream, filename: pdf.filename, type: 'application/pdf', disposition: 'inline')
   end
 
+  def send_xlsx(xlsx)
+    send_data(xlsx.bytestream, filename: xlsx.filename, type: Mime[:xlsx])
+  end
+
   def current_admin_user
     @current_admin_user ||= AdminUser.for_login(current_login)
   end

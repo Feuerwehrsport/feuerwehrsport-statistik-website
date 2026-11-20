@@ -20,19 +20,12 @@ module IndexStructures
       end
     end
 
-    def export_index(*formats, basename: nil, &)
+    def export_index(*formats, &)
       self.index_export_formats += formats
 
       define_method(:index_export_structure) do
         unless index_export_formats.map(&:to_sym).include?(request.format.to_sym)
           return Ui::Index::Structure.new.decorate
-        end
-
-        if basename.present? && request.format == Mime[:xlsx]
-          current_basename = basename.respond_to?(:call) ? instance_exec(&basename) : basename.dup
-          if request.format.xlsx?
-            response.headers['Content-Disposition'] = "attachment; filename=\"#{current_basename}.xlsx\""
-          end
         end
 
         Ui::Index::Structure.build(self, &).decorate
@@ -41,6 +34,13 @@ module IndexStructures
   end
 
   protected
+
+  def send_index_xlsx
+    raise ActiveRecord::RecordNotFound unless index_export_formats.map(&:to_sym).include?(:xlsx)
+
+    send_xlsx(Ui::ExcelWorkbook.new(view_context.ca_title, index_export_structure, view_context.collection,
+                                    controller_name))
+  end
 
   def index_export_structure
     raise ActiveRecord::RecordNotFound

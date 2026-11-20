@@ -1,3 +1,0 @@
-# frozen_string_literal: true
-
-Ui::ExcelWorkbook.new(xlsx_package.workbook, ca_title&.truncate(31), index_export_structure).add_sheet(collection)
