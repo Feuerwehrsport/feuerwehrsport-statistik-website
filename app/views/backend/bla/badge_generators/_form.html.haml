@@ -1,5 +1,10 @@
 - counts = { 0 => { hl: 0, hb: 0, both: 0 }, 1 => { hl: 0, hb: 0, both: 0 }, 2 => { hl: 0, hb: 0, both: 0 } }
 
+%p
+  = link_to(url_for(format: :xlsx), class: 'btn btn-outline-secondary btn-sm') do
+    = icon(:download)
+    Excel-Export (nur zu vergebende Abzeichen)
+
 .table-responsive
   %table.table.table-sm.table-hover
     - resource.people_with_badges.each do |person, badges|
