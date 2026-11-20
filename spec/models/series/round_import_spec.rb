@@ -262,6 +262,24 @@ RSpec.describe Series::RoundImport do
         end
       end
 
+      context 'with competition_result_valid column' do
+        let(:team_result) do
+          super().merge(group_rows: [
+                          %w[Platz Name statistik_team_id statistik_team_number gender Summe competition_result_valid],
+                          ['1.', 'FF Warin', team.id.to_s, '1', 'male', 'o.W.', false],
+                          ['2.', 'FF Warin II', team.id.to_s, '2', 'male', '130,00', true],
+                        ])
+        end
+
+        it 'gives no points to invalid teams but keeps rank' do
+          import.save
+          expect(Series::TeamParticipation.order(:rank).pluck(:team_number, :rank, :points)).to eq [
+            [1, 1, 0],
+            [2, 2, 18],
+          ]
+        end
+      end
+
       context 'with points corrections' do
         let(:import_data) do
           {

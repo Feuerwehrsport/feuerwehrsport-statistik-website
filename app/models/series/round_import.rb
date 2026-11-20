@@ -142,6 +142,9 @@ class Series::RoundImport
       # Platz als Integer
       rank = row[index['Platz']].to_s.delete('.').to_i
       points = rank.positive? ? config.points_for_rank[rank - 1] || 0 : 0
+      # Ungültige Mannschaften (feusport: zu viele oder zu wenige Starter) bekommen keine Punkte.
+      # Ältere Importe haben diese Spalte nicht.
+      points = 0 if index.key?('competition_result_valid') && invalid_value?(row[index['competition_result_valid']])
 
       # team_id als Integer
       team_id = row[index['statistik_team_id']].to_i
@@ -173,5 +176,9 @@ class Series::RoundImport
         points_correction_hint: correction&.dig(:points_correction_hint),
       )
     end
+  end
+
+  def invalid_value?(value)
+    value == false || value.to_s.strip.casecmp?('false')
   end
 end
