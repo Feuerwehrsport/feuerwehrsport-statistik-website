@@ -160,7 +160,13 @@ describe Import::Line do
       out = line_for(%w[Meier Alfred]).out
       expect(out[:valid]).to be false
       expect(out[:people]).to be_nil
-      expect(check.missing_teams).to eq ['']
+      expect(check.missing_teams).to eq []
+    end
+
+    it 'deselects lines with an unknown team' do
+      out = line_for(['Meier', 'Alfred', 'FF Nirgendwo', '19,22', '', '', '', '']).out
+      expect(out[:valid]).to be false
+      expect(check.missing_teams).to eq ['FF Nirgendwo']
     end
 
     it 'reads run and given ids' do

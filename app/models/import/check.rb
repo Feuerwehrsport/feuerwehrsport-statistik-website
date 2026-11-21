@@ -5,7 +5,7 @@ class Import::Check
   include ActiveModel::Validations::Callbacks
 
   attr_accessor :gender, :raw_lines, :separator, :raw_headline_columns, :lines, :headline_columns, :import_lines,
-                :missing_teams
+                :missing_teams, :competition_id
   attr_reader :discipline
 
   validates :discipline, :gender, :lines, :headline_columns, presence: true
@@ -44,9 +44,31 @@ class Import::Check
 
     self.missing_teams = []
     self.import_lines = lines.map { |line| Import::Line.new(self, line).out }
+    mark_duplicates if competition_id
+    import_lines
+  end
+
+  def duplicates?
+    import_lines.any? { it[:duplicate_times].present? }
   end
 
   private
+
+  # times already present in the competition (person and team as preselected in the preview)
+  def mark_duplicates
+    duplicates = Import::Duplicates.new(competition_id:, discipline:, gender:)
+    import_lines.each do |line|
+      score = { person_id: preselected_id(line[:people]&.map(&:first), line[:given_person_id]),
+                team_id: preselected_id(line[:team_ids], line[:given_team_id]),
+                team_number: line[:team_number], times: line[:times] }
+      line[:duplicate_times] = duplicates.times(score)
+    end
+  end
+
+  def preselected_id(ids, given_id)
+    ids = Array(ids)
+    ids.include?(given_id) ? given_id : ids.first
+  end
 
   def required_columns_present_validation
     columns = ['time']

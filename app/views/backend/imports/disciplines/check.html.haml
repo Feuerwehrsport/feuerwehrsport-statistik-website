@@ -44,7 +44,8 @@
         %tbody
           - lines.each_with_index do |line, index|
             - prefix = "lines[#{index}]"
-            %tr{ class: line[:valid] ? 'valid-row' : 'invalid-row' }
+            - duplicate_times = Array(line[:duplicate_times])
+            %tr{ class: [line[:valid] ? 'valid-row' : 'invalid-row', ('duplicate-row' if duplicate_times.any?)] }
               %td= check_box_tag "#{prefix}[valid]", '1', line[:valid], 'aria-label': "Zeile #{index + 1} eintragen", class: 'form-check-input'
               - if show_people
                 - people = Array(line[:people])
@@ -89,16 +90,25 @@
                   = hidden_field_tag "#{prefix}[run]", line[:run]
               - times_count.times do |time_index|
                 - time = line[:times][time_index]
-                %td.text-end{ class: time == Firesport::INVALID_TIME ? 'null' : nil }
+                %td.text-end{ class: [('null' if time == Firesport::INVALID_TIME), ('duplicate-time' if time && duplicate_times.include?(time))],
+                              title: time && duplicate_times.include?(time) ? 'Schon im Wettkampf vorhanden' : nil }
                   - if time
                     = time == Firesport::INVALID_TIME ? 'D' : format('%.2f', time / 100.0).tr('.', ',')
                     = hidden_field_tag "#{prefix}[times][]", time
               %td.raw-line= @check.lines[index]&.join(' | ')
-    %p.small.text-muted Nur markierte Zeilen werden eingetragen. Rot hinterlegte IDs weichen von den Angaben aus feusport ab.
+    %p.small.text-muted
+      Nur markierte Zeilen werden eingetragen. Rot hinterlegte IDs weichen von den Angaben aus feusport ab.
+      - if @check.duplicates?
+        %strong.text-warning-emphasis Gelb umrandete Zeiten sind in diesem Wettkampf schon vorhanden.
 
     .import-footer
       = render 'target'
-      %button.btn.btn-primary{ type: 'submit' } Eintragen
+      .d-flex.flex-column.align-items-end.gap-2
+        - if @check.duplicates? || @confirm_duplicates
+          .form-check.import-confirm-duplicates
+            = check_box_tag :confirm_duplicates, '1', false, class: 'form-check-input'
+            = label_tag :confirm_duplicates, 'Doppelte Zeiten trotzdem eintragen', class: 'form-check-label'
+        %button.btn.btn-primary{ type: 'submit' } Eintragen
 
   %details.mt-3
     %summary.small Eingabe anpassen (Spalten, Rohdaten)

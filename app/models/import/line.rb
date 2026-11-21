@@ -70,9 +70,11 @@ class Import::Line
       elsif out[:given_team_id].present? && (team = Team.find_by(id: out[:given_team_id]))
         out[:team_ids] = [team.id]
         out[:team_names] = [team.shortcut]
-      else
+      elsif team_name.present?
+        # unknown team: not imported until the team is created (or chosen by hand)
         check.add_missing_team(team_name)
         out[:correct] = false
+        out[:valid] = false
       end
     end
   end

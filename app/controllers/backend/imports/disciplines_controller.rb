@@ -29,6 +29,7 @@ class Backend::Imports::DisciplinesController < Backend::BackendController
   def check
     separator = SEPARATORS.fetch(@separator)
     @check = Import::Check.new(discipline: @discipline, gender: @gender, raw_lines: @raw_lines, separator:,
+                               competition_id: @competition.id,
                                raw_headline_columns: @columns.join(separator))
     return render(:new, status: :unprocessable_content) unless @check.valid?
 
@@ -51,6 +52,7 @@ class Backend::Imports::DisciplinesController < Backend::BackendController
     scores = selected_scores
     return render_create_error('Keine gültigen Zeilen ausgewählt.') if scores.empty?
     return render_create_error("Bitte eine #{target_name} wählen.") if missing_target?
+    return render_duplicates_error if unconfirmed_duplicates?(scores)
 
     import = Import::Scores.new(discipline: @discipline, gender: @gender, competition_id: @competition.id,
                                 scores:, single_discipline_id: params[:single_discipline_id])
@@ -133,6 +135,18 @@ class Backend::Imports::DisciplinesController < Backend::BackendController
                                           group_score_type_id: params[:group_score_type_id])
     log_change(category, serializer: GroupScoreCategorySerializer)
     category.id
+  end
+
+  # times that are already in the competition are only imported again with an extra confirmation
+  def unconfirmed_duplicates?(scores)
+    params[:confirm_duplicates] != '1' &&
+      Import::Duplicates.new(competition_id: @competition.id, discipline: @discipline, gender: @gender).any?(scores)
+  end
+
+  def render_duplicates_error
+    @confirm_duplicates = true
+    render_create_error('Einige Zeiten sind in diesem Wettkampf schon vorhanden. Bitte prüfen und das ' \
+                        'erneute Eintragen bestätigen.')
   end
 
   def target_name

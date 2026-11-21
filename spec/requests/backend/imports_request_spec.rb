@@ -143,6 +143,26 @@ RSpec.describe 'Backend::Imports', login: :admin do
         expect(ChangeLog.last).to have_attributes(action: 'scores-import-scores')
       end
 
+      it 'deselects lines with unknown teams and marks existing times' do
+        create(:score, competition:, person:, single_discipline:, time: 1922)
+        post('/backend/imports/disciplines/check', params:)
+        expect(response.body).to match(/<input[^>]*name="lines\[0\]\[valid\]"[^>]*checked="checked"/)
+        expect(response.body).not_to match(/<input[^>]*name="lines\[1\]\[valid\]"[^>]*checked="checked"/)
+        expect(response.body).to include('duplicate-time', 'Doppelte Zeiten trotzdem eintragen')
+      end
+
+      it 'imports existing times only with confirmation' do
+        create(:score, competition:, person:, single_discipline:, time: 1922)
+        lines = { '0' => { valid: '1', person_id: person.id, team_id: team.id, team_number: 1, times: %w[1922] } }
+        input = params.merge(lines:, single_discipline_id: single_discipline.id)
+        expect { post '/backend/imports/disciplines', params: input }.not_to change(Score, :count)
+        expect(response.body).to include('Einige Zeiten sind in diesem Wettkampf schon vorhanden.')
+
+        expect do
+          post '/backend/imports/disciplines', params: input.merge(confirm_duplicates: '1')
+        end.to change(Score, :count).by(1)
+      end
+
       it 'needs selected lines' do
         post '/backend/imports/disciplines', params: params.merge(lines: { '0' => { valid: '0', times: %w[1922] } })
         expect(response.body).to include('Keine gültigen Zeilen ausgewählt.')
