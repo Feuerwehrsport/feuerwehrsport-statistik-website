@@ -35,70 +35,105 @@
   width: 80px
 
 
-fieldset.discipline textarea 
-  width: 80%
-  height: 200px
+// dialog of the import of one discipline (backend/imports/disciplines), colored by the gender
+.import-dialog
+  width: min(1400px, calc(100vw - 20px))
+  max-width: calc(100vw - 20px)
+  max-height: calc(100vh - 20px)
+  padding: 0
+  border: 0
+  border-radius: 8px
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .35)
 
+  &:focus
+    outline: none
 
-.valid-row
-  background: #66FFB1
+  &::backdrop
+    background: rgba(0, 0, 0, .5)
 
-.invalid-row
-  background: #FC5E5E
+.import-dialog-content
+  --import-accent: #56626F
+  --import-tint: #F4F5F7
+  background: var(--import-tint)
+  border-top: 6px solid var(--import-accent)
+
+  &.import-gender-female
+    --import-accent: #EA580C
+    --import-tint: #FFF4ED
+
+  &.import-gender-male
+    --import-accent: #1D4ED8
+    --import-tint: #EFF4FF
+
+.import-dialog-head
+  display: flex
+  justify-content: space-between
+  align-items: flex-start
+  gap: 1rem
+  padding: 12px 20px
+  border-bottom: 1px solid rgba(0, 0, 0, .08)
+
+  h2
+    color: var(--import-accent)
+
+.import-dialog-body
+  padding: 16px 20px
+
+  textarea
+    font-family: monospace
+    font-size: .85em
+
+.import-check
+  background: #fff
+  border-radius: 6px
+  max-height: 55vh
+
+  thead th
+    position: sticky
+    top: 0
+    background: #fff
+    font-size: .8em
+    white-space: nowrap
+
+.import-footer
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-between
+  align-items: flex-end
+  gap: 1rem
+  padding: 12px 16px
+  background: #fff
+  border-radius: 6px
+
+// form fields of a new category only when it is chosen
+.import-target-new
+  display: none
+
+.import-target:has(input[value="new"]:checked) .import-target-new
+  display: flex
+
+tr.valid-row > td
+  background: #EEF9F1
+
+tr.invalid-row > td
+  background: #FDECEC
+  color: #888
+
+td.id-mismatch
+  background: #FCD5D5 !important
+  font-weight: bold
 
 .raw-line
   font-size: 0.7em
   font-family: monospace
+  color: #888
 
 .person-not-found
   font-style: italic
   font-weight: bold
 
-.missing-teams
-  border-radius: 5px
-  border: #FF2727
-  background: #FC5E5E
-  padding-left: 40px
-
-.missing-teams li
-  cursor: pointer
-
-.null
-  background: #FFC159
-
-
-.discipline-hl
-  background: url('disciplines/hl.png') no-repeat right bottom
-  background-size: 80px
-
-.discipline-hb
-  background: url('disciplines/hb.png') no-repeat right bottom
-  background-size: 80px
-
-.discipline-la
-  background: url('disciplines/la.png') no-repeat right bottom
-  background-size: 80px
-
-.discipline-gs
-  background: url('disciplines/gs.png') no-repeat right bottom
-  background-size: 80px
-
-.discipline-fs
-  background: url('disciplines/fs.png') no-repeat right bottom
-  background-size: 80px
-
-.discipline.female
-  background-color: #FFC5F1
-
-.discipline.male
-  background-color: #C5F3FF
-
-tr.discipline
-  background-position: left
-  background-size: 20px
-
-tr.discipline td, tr.discipline th
-  padding-left: 22px
+td.null
+  background: #FFF1D6 !important
 
 // button_to forms next to each other
 form.inline-form

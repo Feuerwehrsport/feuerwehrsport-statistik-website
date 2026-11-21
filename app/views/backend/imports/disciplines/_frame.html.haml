@@ -1,6 +1,9 @@
+-# content of the import dialog, colored by the gender
 = turbo_frame_tag 'import-discipline', data: { turbo: true } do
-  %fieldset.discipline{ class: "discipline-#{@discipline} #{@gender}" }
-    %legend
-      = "#{discipline_name(@discipline)} - #{g(@gender)}"
-      %small= @competition
-    = yield
+  .import-dialog-content{ class: "import-gender-#{@gender}" }
+    .import-dialog-head
+      %div
+        %h2.fs-5.mb-0= "#{discipline_name(@discipline)} – #{g(@gender)}"
+        .small= [@competition, @result_name.presence].compact.join(' · ')
+      %button.btn-close{ type: 'button', 'aria-label': 'Schließen', data: { action: 'contribution-dialog#close' } }
+    .import-dialog-body= yield

@@ -1,89 +1,105 @@
 - lines = @check.import_lines
 - times_count = lines.map { |line| line[:times].size }.max.to_i
 - group = Discipline.group?(@discipline)
+- show_people = !group || lines.any? { it[:last_name].present? }
 = render layout: 'frame' do
-  = render 'input'
-  %hr
   - if @error.present?
     .alert.alert-danger= @error
   - if @team_error.present?
     .alert.alert-danger= @team_error
 
   - if @check.missing_teams.any?
-    %h4 Fehlende Mannschaften
-    - @check.missing_teams.each do |team_name|
-      - name = team_name.sub(/\sII?\z/, '')
-      - shortcut = name.sub(/\AFF\s+/, '')
-      = form_with url: team_backend_imports_disciplines_path, class: 'd-flex flex-wrap gap-2 align-items-center mb-2 missing-team' do
-        = render 'hidden_input'
-        = text_field_tag 'team[name]', name.start_with?('FF') ? name : "FF #{name}", class: 'form-control form-control-sm',
-                         'aria-label': "Name für #{team_name}"
-        = text_field_tag 'team[shortcut]', shortcut, class: 'form-control form-control-sm', 'aria-label': "Abkürzung für #{team_name}"
-        = select_tag 'team[status]', options_for_select([['Einzelne Feuerwehr', 'fire_station'], ['Zusammenschluss (Team)', 'team']]),
-                     class: 'form-control form-control-sm', 'aria-label': "Typ für #{team_name}"
-        %button.btn.btn-outline-secondary.btn-sm{ type: 'submit' }= "#{team_name} anlegen"
+    .alert.alert-warning
+      %h3.fs-6.fw-semibold Fehlende Mannschaften
+      - @check.missing_teams.each do |team_name|
+        - name = team_name.sub(/\sII?\z/, '')
+        - shortcut = name.sub(/\AFF\s+/, '')
+        = form_with url: team_backend_imports_disciplines_path, class: 'd-flex flex-wrap gap-2 align-items-center mt-2 missing-team' do
+          = render 'hidden_input'
+          = text_field_tag 'team[name]', name.start_with?('FF') ? name : "FF #{name}", class: 'form-control form-control-sm w-auto',
+                           'aria-label': "Name für #{team_name}"
+          = text_field_tag 'team[shortcut]', shortcut, class: 'form-control form-control-sm w-auto', 'aria-label': "Abkürzung für #{team_name}"
+          = select_tag 'team[status]', options_for_select([['Einzelne Feuerwehr', 'fire_station'], ['Zusammenschluss (Team)', 'team']]),
+                       class: 'form-select form-select-sm w-auto', 'aria-label': "Typ für #{team_name}"
+          %button.btn.btn-outline-secondary.btn-sm{ type: 'submit' }= "#{team_name} anlegen"
 
   = form_with url: backend_imports_disciplines_path, class: 'import-scores' do
     = render 'hidden_input'
-    %p.text-muted Nur markierte Zeilen werden eingetragen.
-    %table.table.table-bordered.table-sm
-      - lines.each_with_index do |line, index|
-        - prefix = "lines[#{index}]"
-        %tr{ class: line[:valid] ? 'valid-row' : 'invalid-row' }
-          %td= check_box_tag "#{prefix}[valid]", '1', line[:valid], 'aria-label': "Zeile #{index + 1} eintragen", class: 'form-check-input'
-          - unless group && line[:last_name].blank?
-            - people = Array(line[:people])
-            %td{ class: people.empty? ? 'person-not-found' : nil }
-              - if people.size > 1
-                = select_tag "#{prefix}[person_id]",
-                             options_for_select(people.map { |id, last, first| ["#{last} #{first} #{id}", id] }, line[:given_person_id]),
-                             'aria-label': "Person in Zeile #{index + 1}"
-              - else
-                = "#{line[:last_name]} #{line[:first_name]}"
-                = hidden_field_tag "#{prefix}[person_id]", people.first&.first
-              = hidden_field_tag "#{prefix}[last_name]", line[:last_name]
-              = hidden_field_tag "#{prefix}[first_name]", line[:first_name]
-            %td{ class: line[:given_person_id] && people.none? { it.first == line[:given_person_id] } ? 'danger' : nil,
-                 title: line[:given_person_id] ? "given: #{line[:given_person_id]}" : nil }
-              - people.each do |id, _last, _first|
-                = link_to id, person_path(id), target: :_blank
-          - team_ids = Array(line[:team_ids])
-          %td
-            - if team_ids.size > 1
-              = select_tag "#{prefix}[team_id]",
-                           options_for_select(team_ids.zip(line[:team_names]).map { |id, name| ["#{name} #{id}", id] },
-                                              line[:given_team_id]),
-                           'aria-label': "Mannschaft in Zeile #{index + 1}"
-            - else
-              = Array(line[:team_names]).first
-              = hidden_field_tag "#{prefix}[team_id]", team_ids.first
-          %td{ class: line[:given_team_id] && !team_ids.include?(line[:given_team_id]) ? 'danger' : nil,
-               title: line[:given_team_id] ? "given: #{line[:given_team_id]}" : nil }
-            - team_ids.each do |id|
-              = link_to id, team_path(id), target: :_blank
-          %td{ class: line[:given_team_number] && line[:given_team_number] != line[:team_number] ? 'danger' : nil }
-            = line[:team_number]
-            = hidden_field_tag "#{prefix}[team_number]", line[:team_number]
-          - if @discipline == 'fs'
-            %td
-              = line[:run]
-              = hidden_field_tag "#{prefix}[run]", line[:run]
-          - times_count.times do |time_index|
-            - time = line[:times][time_index]
-            %td{ class: time == Firesport::INVALID_TIME ? 'null' : nil }
-              - if time
-                = time
-                = hidden_field_tag "#{prefix}[times][]", time
-          %td.raw-line= @check.lines[index]&.join(' | ')
+    .table-responsive.import-check
+      %table.table.table-sm.align-middle.mb-1
+        %thead
+          %tr
+            %th{ title: 'Nur markierte Zeilen werden eingetragen.' } ✓
+            - if show_people
+              %th Person
+              %th ID
+            %th Mannschaft
+            %th ID
+            %th Nr.
+            - if @discipline == 'fs'
+              %th Lauf
+            - times_count.times do |time_index|
+              %th= "Zeit #{time_index + 1}"
+            %th Rohdaten
+        %tbody
+          - lines.each_with_index do |line, index|
+            - prefix = "lines[#{index}]"
+            %tr{ class: line[:valid] ? 'valid-row' : 'invalid-row' }
+              %td= check_box_tag "#{prefix}[valid]", '1', line[:valid], 'aria-label': "Zeile #{index + 1} eintragen", class: 'form-check-input'
+              - if show_people
+                - people = Array(line[:people])
+                - if line[:last_name].blank?
+                  %td
+                  %td
+                - else
+                  %td{ class: people.empty? ? 'person-not-found' : nil }
+                    - if people.size > 1
+                      = select_tag "#{prefix}[person_id]",
+                                   options_for_select(people.map { |id, last, first| ["#{last} #{first} #{id}", id] }, line[:given_person_id]),
+                                   class: 'form-select form-select-sm', 'aria-label': "Person in Zeile #{index + 1}"
+                    - else
+                      = "#{line[:last_name]} #{line[:first_name]}"
+                      = hidden_field_tag "#{prefix}[person_id]", people.first&.first
+                    = hidden_field_tag "#{prefix}[last_name]", line[:last_name]
+                    = hidden_field_tag "#{prefix}[first_name]", line[:first_name]
+                  %td{ class: line[:given_person_id] && people.none? { it.first == line[:given_person_id] } ? 'id-mismatch' : nil,
+                       title: line[:given_person_id] ? "feusport: #{line[:given_person_id]}" : nil }
+                    - people.each do |id, _last, _first|
+                      = link_to id, person_path(id), target: :_blank
+              - team_ids = Array(line[:team_ids])
+              %td
+                - if team_ids.size > 1
+                  = select_tag "#{prefix}[team_id]",
+                               options_for_select(team_ids.zip(line[:team_names]).map { |id, name| ["#{name} #{id}", id] },
+                                                  line[:given_team_id]),
+                               class: 'form-select form-select-sm', 'aria-label': "Mannschaft in Zeile #{index + 1}"
+                - else
+                  = Array(line[:team_names]).first
+                  = hidden_field_tag "#{prefix}[team_id]", team_ids.first
+              %td{ class: line[:given_team_id] && !team_ids.include?(line[:given_team_id]) ? 'id-mismatch' : nil,
+                   title: line[:given_team_id] ? "feusport: #{line[:given_team_id]}" : nil }
+                - team_ids.each do |id|
+                  = link_to id, team_path(id), target: :_blank
+              %td{ class: line[:given_team_number] && line[:given_team_number] != line[:team_number] ? 'id-mismatch' : nil }
+                = line[:team_number]
+                = hidden_field_tag "#{prefix}[team_number]", line[:team_number]
+              - if @discipline == 'fs'
+                %td
+                  = line[:run]
+                  = hidden_field_tag "#{prefix}[run]", line[:run]
+              - times_count.times do |time_index|
+                - time = line[:times][time_index]
+                %td.text-end{ class: time == Firesport::INVALID_TIME ? 'null' : nil }
+                  - if time
+                    = time == Firesport::INVALID_TIME ? 'D' : format('%.2f', time / 100.0).tr('.', ',')
+                    = hidden_field_tag "#{prefix}[times][]", time
+              %td.raw-line= @check.lines[index]&.join(' | ')
+    %p.small.text-muted Nur markierte Zeilen werden eingetragen. Rot hinterlegte IDs weichen von den Angaben aus feusport ab.
 
-    .d-flex.flex-wrap.gap-2.align-items-center
-      - if group
-        = label_tag :group_score_category_id, 'Kategorie'
-        = select_tag :group_score_category_id, options_for_select(@category_options), class: 'form-select form-select-sm'
-        = text_field_tag :category_name, 'default', class: 'form-control form-control-sm', 'aria-label': 'Name der neuen Kategorie'
-        = select_tag :group_score_type_id, options_for_select(@group_score_type_options),
-                     class: 'form-control form-control-sm', 'aria-label': 'Typ der neuen Kategorie'
-      - else
-        = label_tag :single_discipline_id, 'Disziplin'
-        = select_tag :single_discipline_id, options_for_select(@single_discipline_options), class: 'form-select form-select-sm'
-      %button.btn.btn-success{ type: 'submit' } Eintragen
+    .import-footer
+      = render 'target'
+      %button.btn.btn-primary{ type: 'submit' } Eintragen
+
+  %details.mt-3
+    %summary.small Eingabe anpassen (Spalten, Rohdaten)
+    .mt-2= render 'input'

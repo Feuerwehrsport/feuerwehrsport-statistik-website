@@ -1,0 +1,33 @@
+-# where the scores go: category (group disciplines) or single discipline
+- if Discipline.group?(@discipline)
+  %fieldset.import-target
+    %legend.fs-6.fw-semibold Kategorie
+    - @categories.each do |category|
+      .form-check
+        = radio_button_tag :group_score_category_id, category.id, @category_id.to_s == category.id.to_s, class: 'form-check-input'
+        = label_tag "group_score_category_id_#{category.id}", class: 'form-check-label' do
+          #{category.name}
+          %span.text-muted= "· #{category.group_score_type} · #{category.object.group_scores.count} Zeiten"
+    .form-check
+      = radio_button_tag :group_score_category_id, 'new', @category_id == 'new', class: 'form-check-input'
+      = label_tag :group_score_category_id_new, 'Neue Kategorie anlegen', class: 'form-check-label'
+    .import-target-new.row.g-2.mt-1.ms-3
+      .col-md-5
+        = label_tag :category_name, 'Name', class: 'form-label small mb-0'
+        = text_field_tag :category_name, @category_name, class: 'form-control form-control-sm'
+      .col-md-7
+        = label_tag :group_score_type_id, 'Typ', class: 'form-label small mb-0'
+        = select_tag :group_score_type_id,
+                     grouped_options_for_select({ 'Üblich' => @group_score_types.select(&:regular).map { [it.name, it.id] },
+                                                  'Weitere' => @group_score_types.reject(&:regular).map { [it.name, it.id] } }.compact_blank,
+                                                @group_score_type_id),
+                     class: 'form-select form-select-sm'
+- else
+  %fieldset.import-target
+    %legend.fs-6.fw-semibold Disziplin
+    - @single_disciplines.each do |single_discipline|
+      .form-check
+        = radio_button_tag :single_discipline_id, single_discipline.id, @single_discipline_id == single_discipline.id, class: 'form-check-input'
+        = label_tag "single_discipline_id_#{single_discipline.id}", class: 'form-check-label' do
+          = single_discipline.name
+          .small.text-muted= single_discipline.description

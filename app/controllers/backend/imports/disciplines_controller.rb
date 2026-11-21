@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-# import of the results of one discipline into a competition, rendered in the turbo frame "import-discipline":
-# input (columns, separator, lines) -> check (preview with corrections) -> create (scores)
+# import of the results of one discipline into a competition, rendered in the turbo frame "import-discipline"
+# (inside a dialog): input (columns, separator, lines) -> check (preview with corrections) -> create (scores).
+# Results of an import request (Feusport) start with the check directly.
 class Backend::Imports::DisciplinesController < Backend::BackendController
   include ChangeLogging
 
@@ -19,8 +20,10 @@ class Backend::Imports::DisciplinesController < Backend::BackendController
   before_action :assign_input
 
   def new
-    import_rows_from_request if params[:import_request_id].present?
-    render :new
+    return render(:new) if params[:import_request_id].blank?
+
+    import_rows_from_request
+    check
   end
 
   def check
@@ -47,6 +50,7 @@ class Backend::Imports::DisciplinesController < Backend::BackendController
   def create
     scores = selected_scores
     return render_create_error('Keine gültigen Zeilen ausgewählt.') if scores.empty?
+    return render_create_error("Bitte eine #{target_name} wählen.") if missing_target?
 
     import = Import::Scores.new(discipline: @discipline, gender: @gender, competition_id: @competition.id,
                                 scores:, single_discipline_id: params[:single_discipline_id])
@@ -83,6 +87,7 @@ class Backend::Imports::DisciplinesController < Backend::BackendController
     @separator = params[:separator].presence_in(SEPARATORS.keys) || 'TAB'
     @columns = Array(params[:columns]).select { |column| column.in?(COLUMNS) }.presence || default_columns
     @raw_lines = params[:raw_lines].to_s
+    @result_name = params[:result_name].to_s
   end
 
   def default_columns
@@ -98,7 +103,9 @@ class Backend::Imports::DisciplinesController < Backend::BackendController
   def import_rows_from_request
     import_request = ImportRequest.find(params[:import_request_id])
     authorize!(:update, import_request)
-    rows = import_request.import_data_results[params[:result_index].to_i]&.dig(:rows) || []
+    result = import_request.import_data_results[params[:result_index].to_i] || {}
+    @result_name = result[:name].to_s
+    rows = result[:rows] || []
     headline, *lines = rows
     @columns = Array(headline).map { |column| HEADLINE_COLUMNS.fetch(column.to_s, 'col') }.presence || @columns
     @raw_lines = lines.map { |line| line.join("\t") }.join("\n")
@@ -128,15 +135,60 @@ class Backend::Imports::DisciplinesController < Backend::BackendController
     category.id
   end
 
-  # categories (group disciplines) or single disciplines to import into
+  def target_name
+    Discipline.group?(@discipline) ? 'Kategorie' : 'Disziplin'
+  end
+
+  def missing_target?
+    if Discipline.group?(@discipline)
+      params[:group_score_category_id].blank?
+    else
+      params[:single_discipline_id].blank?
+    end
+  end
+
+  # categories (group disciplines) or single disciplines to import into, with the preselected choice
   def assign_target_options
-    categories = GroupScoreCategory.joins(:group_score_type).where(competition_id: @competition.id)
-                                   .where(group_score_types: { discipline: @discipline })
-    @category_options = categories.decorate.map { ["#{it.name} - #{it.group_score_type}", it.id] } +
-                        [['Neue Kategorie anlegen', 'new']]
-    @group_score_type_options = GroupScoreType.where(discipline: @discipline).reorder(:name).pluck(:name, :id)
-    @single_discipline_options = SingleDiscipline.where(key: @discipline)
-                                                 .map { ["#{it.name} - #{it.description}", it.id] }
+    if Discipline.group?(@discipline)
+      assign_category_options
+    else
+      assign_single_discipline_options
+    end
+  end
+
+  # one existing category is preselected, without any a new one; with more the choice is up to the user
+  def assign_category_options
+    @categories = GroupScoreCategory.joins(:group_score_type).where(competition_id: @competition.id)
+                                    .where(group_score_types: { discipline: @discipline })
+                                    .includes(:group_score_type).reorder(:id).decorate
+    @category_id = params[:group_score_category_id].presence ||
+                   (@categories.one? ? @categories.first.id : nil) || ('new' if @categories.none?)
+    @category_name = params[:category_name].presence || (@categories.none? ? 'default' : @result_name.presence)
+    @group_score_types = GroupScoreType.where(discipline: @discipline).reorder(regular: :desc, name: :asc)
+    @group_score_type_id = params[:group_score_type_id].presence&.to_i || last_group_score_type_id
+  end
+
+  # type of the categories of this competition, otherwise the type used last
+  def last_group_score_type_id
+    @categories.last&.group_score_type_id ||
+      GroupScoreCategory.joins(:group_score_type).where(group_score_types: { discipline: @discipline })
+                        .reorder(id: :desc).pick(:group_score_type_id)
+  end
+
+  # preselected: used in this competition, otherwise the most used one for this gender of the last years
+  def assign_single_discipline_options
+    @single_disciplines = SingleDiscipline.where(key: @discipline).reorder(:name)
+    @single_discipline_id = params[:single_discipline_id].presence&.to_i ||
+                            most_used_single_discipline(Score.where(competition_id: @competition.id)) ||
+                            most_used_single_discipline(Score.joins(:competition, :person)
+                                                             .where(competitions: { date: 3.years.ago.. })
+                                                             .merge(Person.gender(@gender))) ||
+                            (@single_disciplines.first.id if @single_disciplines.one?)
+  end
+
+  def most_used_single_discipline(scores)
+    scores.where(single_discipline_id: @single_disciplines.select(:id)).group(:single_discipline_id)
+          .reorder(Arel.sql('COUNT(*) DESC')).limit(1).pick(:single_discipline_id)
   end
 
   def render_create_error(message)

@@ -156,6 +156,26 @@ RSpec.describe 'Backend::Imports', login: :admin do
                     raw_lines: "FF Warin\t22,87\t24,00")
       end
 
+      it 'preselects new category without categories, one existing category, none with more' do
+        post('/backend/imports/disciplines/check', params:)
+        expect(response.body).to include('value="new" class="form-check-input" checked="checked"', 'value="default"')
+
+        category = create(:group_score_category, competition:, group_score_type:)
+        post('/backend/imports/disciplines/check', params:)
+        expect(response.body).to include(%(value="#{category.id}" class="form-check-input" checked="checked"))
+
+        create(:group_score_category, competition:, group_score_type:, name: 'Zweite')
+        post('/backend/imports/disciplines/check', params:)
+        expect(response.body).not_to match(/name="group_score_category_id"[^>]*checked/)
+      end
+
+      it 'needs a category' do
+        post '/backend/imports/disciplines', params: params.merge(
+          lines: { '0' => { valid: '1', team_id: team.id, team_number: 1, times: %w[2287] } },
+        )
+        expect(response.body).to include('Bitte eine Kategorie wählen.')
+      end
+
       it 'imports into a new category' do
         expect do
           post '/backend/imports/disciplines', params: params.merge(

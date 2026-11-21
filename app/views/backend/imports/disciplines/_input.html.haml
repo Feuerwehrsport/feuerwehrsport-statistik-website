@@ -2,6 +2,7 @@
   = hidden_field_tag :competition_id, @competition.id
   = hidden_field_tag :discipline, @discipline
   = hidden_field_tag :gender, @gender
+  = hidden_field_tag :result_name, @result_name
   - if @check&.errors&.any?
     .alert.alert-danger= @check.errors.full_messages.to_sentence
   .input-line

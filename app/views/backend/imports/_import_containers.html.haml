@@ -111,4 +111,7 @@
                 = link_to gender, new_backend_imports_discipline_path(discipline:, gender:, competition_id: competition.id),
                           class: "btn btn-outline-secondary btn-sm add-discipline discipline-#{discipline}-#{gender}",
                           data: { turbo_frame: 'import-discipline', turbo: true }
-      = turbo_frame_tag 'import-discipline', data: { turbo: true }
+  -# dialog of the import of one discipline (same behavior as the contribution dialog), outside of the card
+  %dialog.import-dialog{ tabindex: -1, data: { controller: 'contribution-dialog',
+                                             action: 'turbo:frame-load->contribution-dialog#open close->contribution-dialog#reset' } }
+    = turbo_frame_tag 'import-discipline', data: { turbo: true, contribution_dialog_target: 'frame' }
