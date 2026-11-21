@@ -19,6 +19,21 @@ class ImportRequestFile < ApplicationRecord
     file.content_type == Mime[:pdf]
   end
 
+  GUESS_DISCIPLINES = {
+    zk: /zweikampf/i, hb: /hindernisbahn|hindernislauf/i, hl: /hakenleiter/i, gs: /gruppenstafette/i,
+    fs: /staffel|feuerwehrstafette|4x100/i, la: /l.schangriff|LA/
+  }.freeze
+
+  # results contained in the file, guessed from the file name (keys of CompetitionFile)
+  def guessed_keys
+    name = file_identifier.to_s
+    genders = { female: name.match?(/Frauen|weiblich|M.dchen/i), male: name.match?(/M.nner|m.nnlich|Jungen/i) }
+    CompetitionFile::POSSIBLE_KEYS.select do |key|
+      discipline, gender = key.to_s.split('_')
+      genders[gender.to_sym] && name.match?(GUESS_DISCIPLINES[discipline.to_sym])
+    end
+  end
+
   protected
 
   def transfer_competition_file

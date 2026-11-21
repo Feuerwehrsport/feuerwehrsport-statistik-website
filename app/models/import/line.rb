@@ -63,13 +63,12 @@ class Import::Line
       out[:team_ids] = [team.id]
       out[:team_names] = [team.shortcut]
     else
-      teams = find_teams(team_name).pluck(:id, :shortcut)
+      # team of the ID from Feusport first, then the matches by name
+      teams = (Team.where(id: out[:given_team_id]).pluck(:id, :shortcut) +
+               find_teams(team_name).pluck(:id, :shortcut)).uniq
       if teams.present?
         out[:team_ids] = teams.map(&:first)
         out[:team_names] = teams.map(&:second)
-      elsif out[:given_team_id].present? && (team = Team.find_by(id: out[:given_team_id]))
-        out[:team_ids] = [team.id]
-        out[:team_names] = [team.shortcut]
       elsif team_name.present?
         # unknown team: not imported until the team is created (or chosen by hand)
         check.add_missing_team(team_name)
@@ -156,11 +155,12 @@ class Import::Line
     false
   end
 
+  # person of the ID from Feusport first, then direct matches by name, then matches by spelling
   def find_people
-    person_ids = Person.gender(check.gender).search_exactly(out[:last_name], out[:first_name]).pluck(:id)
+    person_ids = Person.gender(check.gender).where(id: out[:given_person_id]).pluck(:id)
+    person_ids += Person.gender(check.gender).search_exactly(out[:last_name], out[:first_name]).pluck(:id)
     person_ids += PersonSpelling.gender(check.gender).search_exactly(out[:last_name],
                                                                      out[:first_name]).pluck(:person_id)
-    # direct matches first, then matches by spelling
     Person.where(id: person_ids).in_order_of(:id, person_ids.uniq).pluck(:id, :last_name, :first_name)
   end
 end

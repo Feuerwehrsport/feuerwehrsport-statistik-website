@@ -4,7 +4,7 @@ class Backend::ImportRequestsController < Backend::BackendController
   include Backend::ImportCompetitionSelection
 
   backend_actions clean_cache_disabled: true
-  skip_before_action :preauthorize_action, only: %i[decide_login assign_competition]
+  skip_before_action :preauthorize_action, only: %i[decide_login assign_competition transfer_files]
 
   default_form do |f|
     f.fields_for :import_request_files do
@@ -41,6 +41,22 @@ class Backend::ImportRequestsController < Backend::BackendController
     authorize!(:update, import_request)
     import_request.update!(competition: Competition.find_by(id: params[:competition_id]))
     redirect_to backend_import_request_path(import_request)
+  end
+
+  # all not yet transferred PDFs to the competition, with the disciplines guessed from the file names
+  def transfer_files
+    import_request = ImportRequest.find(params[:id])
+    authorize!(:update, import_request)
+    authorize!(:create, CompetitionFile)
+    competition = import_request.competition || raise(ActiveRecord::RecordNotFound)
+    files = import_request.import_request_files.select { it.pdf? && !it.transfered? }
+    ImportRequestFile.transaction do
+      files.each do |file|
+        file.update!(transfer_competition_id: competition.id, transfer_keys_string: file.guessed_keys.join(','))
+      end
+    end
+    Caching::Cleaner.new.save
+    redirect_to backend_import_request_path(import_request), notice: "#{files.size} PDFs übertragen."
   end
 
   def decide_login

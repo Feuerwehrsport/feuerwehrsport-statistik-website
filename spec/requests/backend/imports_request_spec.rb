@@ -216,6 +216,19 @@ RSpec.describe 'Backend::Imports', login: :admin do
         end
       end
 
+      it 'remembers the imported result' do
+        create(:single_discipline, :hl_female)
+        person = create(:person, :female)
+        post '/backend/imports/disciplines', params: {
+          competition_id: competition.id, discipline: 'hl', gender: 'female', separator: 'TAB', raw_lines: '',
+          import_request_id: import_request.id, result_index: 0, single_discipline_id: SingleDiscipline.last.id,
+          lines: { '0' => { valid: '1', person_id: person.id, team_number: 1, times: %w[1750] } }
+        }
+        expect(response.body).to include('1 Zeiten wurden eingetragen.')
+        expect(import_request.reload.result_imported?(0, 'female')).to be true
+        expect(import_request.result_imported?(0, 'male')).to be false
+      end
+
       it 'fills the input with the rows of the result' do
         get '/backend/imports/disciplines/new', params: { competition_id: competition.id, discipline: 'hl',
                                                           gender: 'female', import_request_id: import_request.id,

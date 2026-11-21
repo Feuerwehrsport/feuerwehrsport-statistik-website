@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_21_230000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_22_100000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
   enable_extension "pg_catalog.plpgsql"
@@ -202,6 +202,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_21_230000) do
     t.datetime "updated_at", precision: nil, null: false
     t.json "import_data"
     t.integer "competition_id"
+    t.string "imported_result_keys", default: [], null: false, array: true
     t.index ["admin_user_id"], name: "index_import_requests_on_admin_user_id"
     t.index ["competition_id"], name: "index_import_requests_on_competition_id"
     t.index ["edit_user_id"], name: "index_import_requests_on_edit_user_id"

@@ -52,7 +52,10 @@ Rails.application.routes.draw do
     end
     resources :import_requests do
       collection { get :decide_login }
-      member { patch :assign_competition }
+      member do
+        patch :assign_competition
+        patch :transfer_files
+      end
     end
     resources :links
     resources :nations

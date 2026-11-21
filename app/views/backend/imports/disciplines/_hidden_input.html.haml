@@ -5,5 +5,7 @@
 = hidden_field_tag :separator, @separator, id: nil
 = hidden_field_tag :raw_lines, @raw_lines, id: nil
 = hidden_field_tag :result_name, @result_name, id: nil
+= hidden_field_tag :import_request_id, params[:import_request_id], id: nil
+= hidden_field_tag :result_index, params[:result_index], id: nil
 - @columns.each do |column|
   = hidden_field_tag 'columns[]', column, id: nil

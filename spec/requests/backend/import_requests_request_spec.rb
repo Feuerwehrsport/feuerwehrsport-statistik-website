@@ -99,6 +99,27 @@ RSpec.describe 'Backend::ImportRequests', login: :sub_admin do
         expect(response.body).not_to include('gender=indifferent')
       end
 
+      it 'marks imported results' do
+        import_request.update!(competition: nearby_competition, imported_result_keys: ['0-male'])
+        get "/backend/import_requests/#{import_request.id}"
+        expect(response.body).to include('imported-result', 'bi-check-circle-fill')
+      end
+
+      it 'transfers all pdfs with the guessed disciplines' do
+        import_request.update!(competition: nearby_competition)
+        import_request.import_request_files.create!(
+          file: Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/testfile.pdf'), 'application/pdf'),
+        )
+        get "/backend/import_requests/#{import_request.id}"
+        expect(response.body).to include('Alle 2 PDFs übertragen')
+
+        expect do
+          patch "/backend/import_requests/#{import_request.id}/transfer_files"
+        end.to change(CompetitionFile, :count).by(2)
+        expect(CompetitionFile.distinct.pluck(:competition_id)).to eq [nearby_competition.id]
+        expect(import_request.import_request_files.reload.map(&:transfered)).to all(be true)
+      end
+
       it 'creates the competition for the import request' do
         post '/backend/imports/competitions', params: {
           import_request_id: import_request.id, return_to: "/backend/import_requests/#{import_request.id}",

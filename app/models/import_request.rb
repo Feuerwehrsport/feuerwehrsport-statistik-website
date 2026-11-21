@@ -49,6 +49,16 @@ class ImportRequest < ApplicationRecord
     end.flatten.uniq
   end
 
+  # results are identified by their index in import_data_results and the gender (results of Feusport without
+  # gender can be imported for both)
+  def result_imported?(index, gender)
+    imported_result_keys.include?("#{index}-#{gender}")
+  end
+
+  def mark_result_imported!(index, gender)
+    update!(imported_result_keys: (imported_result_keys + ["#{index}-#{gender}"]).uniq)
+  end
+
   def person_points_corrections(round_key, person_id)
     (import_data[:person_points_corrections] || []).find do |c|
       c[:round_key] == round_key && c[:person_id] == person_id

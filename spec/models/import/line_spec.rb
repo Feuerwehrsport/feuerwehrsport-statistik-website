@@ -163,6 +163,19 @@ describe Import::Line do
       expect(check.missing_teams).to eq []
     end
 
+    it 'finds people and teams by the IDs of Feusport first' do
+      other = create(:person, last_name: 'Anders', first_name: 'Name')
+      other_team = create(:team, name: 'FF Anders', shortcut: 'Anders')
+      out = line_for(['Meier', 'Alfred', 'FF Warin', '19,22', '', other.id.to_s, other_team.id.to_s, '1']).out
+      expect(out[:people].map(&:first)).to eq [other.id, person.id]
+      expect(out[:team_ids]).to eq [other_team.id, team.id]
+
+      out = line_for(['Unbekannt', 'Niemand', 'FF Nirgendwo', '19,22', '', other.id.to_s, other_team.id.to_s, '1']).out
+      expect(out[:people].map(&:first)).to eq [other.id]
+      expect(out[:team_ids]).to eq [other_team.id]
+      expect(out[:valid]).to be true
+    end
+
     it 'deselects lines with an unknown team' do
       out = line_for(['Meier', 'Alfred', 'FF Nirgendwo', '19,22', '', '', '', '']).out
       expect(out[:valid]).to be false

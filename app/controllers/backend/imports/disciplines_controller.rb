@@ -66,6 +66,7 @@ class Backend::Imports::DisciplinesController < Backend::BackendController
                                       group_score_category_id: import.group_score_category_id,
                                       single_discipline_id: import.single_discipline_id, scores: })
     end
+    mark_result_imported
     clean_cache
     @count = scores.sum { |score| score[:times].size }
     render :created
@@ -112,6 +113,15 @@ class Backend::Imports::DisciplinesController < Backend::BackendController
     @columns = Array(headline).map { |column| HEADLINE_COLUMNS.fetch(column.to_s, 'col') }.presence || @columns
     @raw_lines = lines.map { |line| line.join("\t") }.join("\n")
     @separator = 'TAB'
+  end
+
+  # direct import of an import request: remember the imported result
+  def mark_result_imported
+    return if params[:import_request_id].blank? || params[:result_index].blank?
+
+    import_request = ImportRequest.find(params[:import_request_id])
+    authorize!(:update, import_request)
+    import_request.mark_result_imported!(params[:result_index].to_i, @gender)
   end
 
   # lines of the preview form that are marked as valid

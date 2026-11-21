@@ -61,17 +61,22 @@
               - path = ->(gender) { new_backend_imports_discipline_path(discipline: result[:discipline], gender:, competition_id: import_competition.id,
                                                                        import_request_id: resource.id, result_index: index) }
               - label = "#{result[:discipline]} #{result[:rows].count - 1} #{result[:name]}"
+              - button = ->(gender) { resource.result_imported?(index, gender) ? 'btn-outline-success imported-result' : 'btn-outline-primary' }
+              - mark = ->(gender) { resource.result_imported?(index, gender) ? icon(:'check-circle-fill', title: 'bereits importiert') : nil }
               - if result[:gender].in?(%w[female male])
-                = link_to "#{result[:discipline]} #{result[:gender]} #{result[:rows].count - 1} #{result[:name]}", path.(result[:gender]),
-                          class: "btn btn-outline-primary btn-sm add-discipline discipline-#{result[:discipline]}-#{result[:gender]}",
-                          data: { turbo_frame: 'import-discipline', turbo: true }
+                = link_to path.(result[:gender]), class: "btn btn-sm add-discipline discipline-#{result[:discipline]}-#{result[:gender]} #{button.(result[:gender])}",
+                          data: { turbo_frame: 'import-discipline', turbo: true } do
+                  = mark.(result[:gender])
+                  #{result[:discipline]} #{result[:gender]} #{result[:rows].count - 1} #{result[:name]}
               - else
                 -# feusport sends "indifferent" for assessments without gender: choose it here
                 .btn-group.btn-group-sm{ role: 'group', 'aria-label': label }
                   %span.btn.btn-outline-secondary.disabled= label
                   - [%w[female weiblich], %w[male männlich]].each do |gender, name|
-                    = link_to name, path.(gender), class: "btn btn-outline-primary add-discipline discipline-#{result[:discipline]}-#{gender}",
-                              data: { turbo_frame: 'import-discipline', turbo: true }
+                    = link_to path.(gender), class: "btn add-discipline discipline-#{result[:discipline]}-#{gender} #{button.(gender)}",
+                              data: { turbo_frame: 'import-discipline', turbo: true } do
+                      = mark.(gender)
+                      = name
 
       - if resource.import_data_series_rounds.present?
         .col-lg-6#series-add-links
@@ -84,7 +89,13 @@
 
       - if resource.import_request_files.any?
         .col-12
-          %h3.fs-6 Dateien
+          .d-flex.flex-wrap.align-items-center.gap-3.mb-2
+            %h3.fs-6.mb-0 Dateien
+            - open_pdfs = resource.import_request_files.count { it.pdf? && !it.transfered? }
+            - if open_pdfs > 1
+              = button_to "Alle #{open_pdfs} PDFs übertragen", transfer_files_backend_import_request_path(resource), method: :patch,
+                          class: 'btn btn-outline-primary btn-sm', form_class: 'inline-form',
+                          data: { turbo_confirm: "#{open_pdfs} PDFs mit den erkannten Disziplinen nach #{import_competition} übertragen?" }
           %table.table.table-sm
             - resource.import_request_files.each do |file|
               %tr
