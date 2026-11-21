@@ -22,6 +22,53 @@ RSpec.describe 'Backend::Imports', login: :admin do
     end
   end
 
+  describe 'competitions' do
+    let!(:place) { create(:place, name: 'Waldheim') }
+    let!(:event) { create(:event, name: 'Pokal') }
+    let(:competition_params) { { name: 'Finale', date: '2026-09-12', place_id: '', event_id: event.id } }
+
+    it 'prefills the form with existing place and event' do
+      get '/backend/imports/competitions/new', params: { name: 'Finale', date: '2026-09-12', place: 'waldheim',
+                                                         event: 'Unbekannt', return_to: '/backend/import_requests/1' }
+      expect(response.body).to include('id="import-competition"', 'value="Finale"',
+                                       %(selected="selected" value="#{place.id}">Waldheim),
+                                       'name="new_event_name" id="new_event_name" value="Unbekannt"')
+      expect(response.body).not_to include('name="new_place_name" id="new_place_name" value="waldheim"')
+    end
+
+    it 'creates the competition with a new place and selects it' do
+      expect do
+        post '/backend/imports/competitions', params: { competition: competition_params, new_place_name: 'Neuort',
+                                                        return_to: 'https://example.com/backend/import_requests/1' }
+      end.to change(Competition, :count).by(1).and change(Place, :count).by(1).and not_change(Event, :count)
+      new_competition = Competition.reorder(:id).last
+      expect(new_competition).to have_attributes(name: 'Finale', place: Place.find_by(name: 'Neuort'), event:)
+      expect(ChangeLog.pluck(:action)).to contain_exactly('create-place', 'create-competition')
+      expect(response.body).to include('data-visit-url-value="/backend/import_requests/1"')
+
+      get '/backend/imports'
+      expect(response.body).to include("/backend/imports/disciplines/new?competition_id=#{new_competition.id}")
+    end
+
+    it 'uses an existing place with the new name' do
+      expect do
+        post '/backend/imports/competitions', params: { competition: competition_params,
+                                                        new_place_name: 'WALDHEIM' }
+      end.to change(Competition, :count).by(1).and not_change(Place, :count)
+      expect(Competition.reorder(:id).last.place).to eq place
+      expect(response.body).to include('data-visit-url-value="/backend/imports"')
+    end
+
+    it 'keeps nothing on errors' do
+      expect do
+        post '/backend/imports/competitions', params: { competition: competition_params.merge(date: ''),
+                                                        new_place_name: 'Neuort' }
+      end.not_to change(Place, :count)
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(response.body).to include('value="Neuort"')
+    end
+  end
+
   describe 'PATCH score_type' do
     it 'sets the score type with change log' do
       score_type = create(:score_type)

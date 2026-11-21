@@ -11,7 +11,7 @@ describe 'backend imports' do
     sign_in(:admin)
     visit backend_imports_path
     select "#{competition.decorate.date} - #{competition.event.name} - #{competition.place.name}", from: 'Wettkampf'
-    expect(page).to have_link('Wettkampf', href: /new/)
+    expect(page).to have_link('Wettkampf anlegen')
     find('a.discipline-hb-male').click
 
     within('#import-discipline') do
@@ -25,5 +25,22 @@ describe 'backend imports' do
     end
     expect(page).to have_css('#competition-scores', text: '2')
     expect(Score.where(person:).pluck(:time)).to contain_exactly(1922, 1899)
+  end
+
+  it 'creates and selects a competition with a new place' do
+    create(:event, name: 'D-Cup')
+
+    sign_in(:admin)
+    visit backend_imports_path
+    click_on 'Wettkampf anlegen'
+    within('#import-competition') do
+      fill_in 'Name', with: 'Finale'
+      fill_in 'Datum', with: '2026-09-12'
+      fill_in 'Neuer Ort', with: 'Neuort'
+      fill_in 'Neuer Typ', with: 'D-Cup'
+      click_on 'Anlegen und auswählen'
+    end
+    expect(page).to have_css('#competition-link', text: 'Neuort')
+    expect(page).to have_css('a.discipline-hb-male')
   end
 end

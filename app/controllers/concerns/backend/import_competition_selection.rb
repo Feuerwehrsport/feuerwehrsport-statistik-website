@@ -7,7 +7,7 @@ module Backend::ImportCompetitionSelection
   SESSION_KEY = :import_competition_id
 
   included do
-    helper_method :import_competition, :import_competitions
+    helper_method :import_competition, :import_competitions, :import_competition_suggestions
   end
 
   private
@@ -17,6 +17,14 @@ module Backend::ImportCompetitionSelection
 
     session[SESSION_KEY] = params[:competition_id].presence if params.key?(:competition_id)
     @import_competition = Competition.find_by(id: session[SESSION_KEY])&.decorate
+  end
+
+  # existing competitions on the date of an import request (or the day before/after)
+  def import_competition_suggestions(date)
+    date = Date.parse(date.to_s)
+    Competition.includes(:place, :event).where(date: (date - 1.day)..(date + 1.day)).reorder(:date).decorate
+  rescue Date::Error
+    []
   end
 
   # sorted by date or the latest created first ("Letzter")

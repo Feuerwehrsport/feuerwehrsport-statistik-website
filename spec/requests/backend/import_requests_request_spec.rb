@@ -63,6 +63,14 @@ RSpec.describe 'Backend::ImportRequests', login: :sub_admin do
         import_request.update_column(:import_data, { results: [result] })
       end
 
+      it 'suggests competitions on the same date' do
+        same_day = create(:competition, date: Date.parse('2017-05-03'), name: 'Gleicher Tag')
+        get "/backend/import_requests/#{import_request.id}"
+        expect(response.body).to include('Wettkämpfe am selben Datum',
+                                         "/backend/import_requests/#{import_request.id}?competition_id=#{same_day.id}")
+        expect(response.body).not_to include("?competition_id=#{nearby_competition.id}\"")
+      end
+
       it 'offers direct import and file transfer for the competition' do
         get "/backend/import_requests/#{import_request.id}", params: { competition_id: nearby_competition.id }
         expect(response.body).to include(

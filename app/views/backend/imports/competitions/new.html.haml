@@ -1,0 +1,24 @@
+= turbo_frame_tag 'import-competition' do
+  %fieldset.border.rounded.p-3.mt-3
+    %legend.fs-5 Neuen Wettkampf anlegen
+    = simple_form_for @competition, url: backend_imports_competitions_path do |f|
+      = hidden_field_tag :return_to, @return_to
+      = f.error :base, class: 'alert alert-danger d-block'
+      = f.input :name
+      = f.input :date, html5: true
+      = f.association :place, as: :association_select
+      .row.mb-3
+        = label_tag :new_place_name, 'Neuer Ort', class: 'col-sm-3 col-form-label'
+        .col-sm-9
+          = text_field_tag :new_place_name, @new_place_name, class: 'form-control'
+          .form-text Wird nur verwendet, wenn oben kein Ort gewählt ist. Gibt es den Ort schon, wird er übernommen.
+      = f.association :event, as: :association_select
+      .row.mb-3
+        = label_tag :new_event_name, 'Neuer Typ', class: 'col-sm-3 col-form-label'
+        .col-sm-9
+          = text_field_tag :new_event_name, @new_event_name, class: 'form-control'
+          .form-text Wird nur verwendet, wenn oben kein Typ gewählt ist.
+      .row
+        .col-sm-9.offset-sm-3.d-flex.gap-2
+          = f.button :submit, 'Anlegen und auswählen', class: 'btn-primary'
+          = link_to 'Abbrechen', @return_to, class: 'btn btn-outline-secondary', data: { turbo_frame: '_top' }

@@ -39,6 +39,7 @@ Rails.application.routes.draw do
       collection { patch :score_type }
     end
     namespace :imports do
+      resources :competitions, only: %i[new create]
       resources :disciplines, only: %i[new create] do
         collection do
           post :check

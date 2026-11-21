@@ -44,15 +44,18 @@
                   %th= "#{discipline}-#{gender}"
                   %td= count
       .col-md-5
+        - info = (competition_info || {}).slice(:name, :date, :place, :event)
+        - suggestions = import_competition_suggestions(info[:date]).reject { it.id == competition&.id }
+        - if suggestions.any?
+          %p.mb-1 Wettkämpfe am selben Datum:
+          #competition-suggestions.d-flex.flex-wrap.gap-2.mb-3
+            - suggestions.each do |suggestion|
+              = link_to "#{suggestion.date} - #{suggestion.event} - #{suggestion.place}",
+                        "#{request.path}?competition_id=#{suggestion.id}", class: 'btn btn-outline-primary btn-sm'
         %p
-          - names = (competition_info || {}).slice(:name, :date)
-          - names[:place_id] = Place.find_by(name: competition_info[:place])&.id if competition_info&.dig(:place)
-          - names[:event_id] = Event.find_by(name: competition_info[:event])&.id if competition_info&.dig(:event)
-          Anlegen:
-          = link_to 'Wettkampf', new_backend_competition_path(competition: names.compact), class: 'btn btn-outline-secondary btn-sm', target: :_blank
-          = link_to 'Typ', new_backend_event_path, class: 'btn btn-outline-secondary btn-sm', target: :_blank
-          = link_to 'Ort', new_backend_place_path, class: 'btn btn-outline-secondary btn-sm', target: :_blank
-          = link_to 'Gruppen-Typ', new_backend_group_score_type_path, class: 'btn btn-outline-secondary btn-sm', target: :_blank
+          = link_to 'Wettkampf anlegen', new_backend_imports_competition_path(info.merge(return_to: request.path)),
+                    class: 'btn btn-outline-secondary btn-sm', data: { turbo_frame: 'import-competition', turbo: true }
+          = link_to 'Gruppen-Typ anlegen', new_backend_group_score_type_path, class: 'btn btn-outline-secondary btn-sm', target: :_blank
         %details
           %summary Gruppen-Typen
           %table.table.table-sm
@@ -60,6 +63,7 @@
               %tr
                 %td= type.discipline
                 %td= type.name
+    = turbo_frame_tag 'import-competition', data: { turbo: true }
 - if block_given?
   = yield
 - if competition
