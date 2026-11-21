@@ -3,7 +3,9 @@
     %legend.fs-5 Neuen Wettkampf anlegen
     = simple_form_for @competition, url: backend_imports_competitions_path do |f|
       = hidden_field_tag :return_to, @return_to
-      = f.error :base, class: 'alert alert-danger d-block'
+      = hidden_field_tag :import_request_id, @import_request&.id
+      - if @competition.errors[:base].any?
+        .alert.alert-danger= @competition.errors[:base].to_sentence
       = f.input :name
       = f.input :date, html5: true
       = f.association :place, as: :association_select

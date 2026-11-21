@@ -19,10 +19,10 @@ module Backend::ImportCompetitionSelection
     @import_competition = Competition.find_by(id: session[SESSION_KEY])&.decorate
   end
 
-  # existing competitions on the date of an import request (or the day before/after)
+  # existing competitions around the date of an import request
   def import_competition_suggestions(date)
     date = Date.parse(date.to_s)
-    Competition.includes(:place, :event).where(date: (date - 1.day)..(date + 1.day)).reorder(:date).decorate
+    Competition.includes(:place, :event).where(date: (date - 5.days)..(date + 5.days)).reorder(:date).decorate
   rescue Date::Error
     []
   end

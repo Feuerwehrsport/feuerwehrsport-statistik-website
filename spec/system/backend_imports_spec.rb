@@ -11,7 +11,7 @@ describe 'backend imports' do
     sign_in(:admin)
     visit backend_imports_path
     select "#{competition.decorate.date} - #{competition.event.name} - #{competition.place.name}", from: 'Wettkampf'
-    expect(page).to have_link('Wettkampf anlegen')
+    expect(page).to have_button('Anderen Wettkampf wählen')
     find('a.discipline-hb-male').click
 
     within('#import-discipline') do
@@ -32,7 +32,7 @@ describe 'backend imports' do
 
     sign_in(:admin)
     visit backend_imports_path
-    click_on 'Wettkampf anlegen'
+    click_on 'Neuen Wettkampf anlegen'
     within('#import-competition') do
       fill_in 'Name', with: 'Finale'
       fill_in 'Datum', with: '2026-09-12'

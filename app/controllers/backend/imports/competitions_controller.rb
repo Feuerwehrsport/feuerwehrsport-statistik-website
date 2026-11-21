@@ -8,6 +8,7 @@ class Backend::Imports::CompetitionsController < Backend::BackendController
   layout false
   before_action { authorize!(:create, Competition) }
   before_action :assign_return_to
+  before_action :assign_import_request
 
   def new
     @competition = Competition.new(name: params[:name], date: params[:date])
@@ -25,7 +26,7 @@ class Backend::Imports::CompetitionsController < Backend::BackendController
     @new_event_name = params[:new_event_name].to_s.strip
 
     if save_competition
-      session[Backend::ImportCompetitionSelection::SESSION_KEY] = @competition.id
+      select_competition
       clean_cache
       render :created
     else
@@ -34,6 +35,15 @@ class Backend::Imports::CompetitionsController < Backend::BackendController
   end
 
   private
+
+  # import requests store their competition, the backend imports use the session
+  def select_competition
+    if @import_request
+      @import_request.update!(competition: @competition)
+    else
+      session[Backend::ImportCompetitionSelection::SESSION_KEY] = @competition.id
+    end
+  end
 
   # selected place/event wins, otherwise the new name is used (existing record with that name or a new one)
   def save_competition
@@ -69,6 +79,13 @@ class Backend::Imports::CompetitionsController < Backend::BackendController
   def reset_unsaved_associations
     @competition.place = nil if @competition.place && !Place.exists?(@competition.place.id)
     @competition.event = nil if @competition.event && !Event.exists?(@competition.event.id)
+  end
+
+  def assign_import_request
+    return if params[:import_request_id].blank?
+
+    @import_request = ImportRequest.find(params[:import_request_id])
+    authorize!(:update, @import_request)
   end
 
   # only paths inside the backend; the selection is stored in the session, so the competition_id is removed

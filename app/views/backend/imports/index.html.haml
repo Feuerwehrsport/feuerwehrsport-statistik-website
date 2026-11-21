@@ -1,3 +1,3 @@
 - @page_title = 'Ergebnisse importieren'
 = page_head('Ergebnisse importieren', breadcrumb: link_to('Interner Bereich', backend_root_path))
-= render('import_containers')
+= render('import_containers', selection_url: backend_imports_path, selection_method: :get)

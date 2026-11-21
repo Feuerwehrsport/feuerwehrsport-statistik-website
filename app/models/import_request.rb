@@ -5,6 +5,8 @@ class ImportRequest < ApplicationRecord
   belongs_to :event
   belongs_to :admin_user
   belongs_to :edit_user, class_name: 'AdminUser'
+  # step 1 of the import: competition the results are imported into
+  belongs_to :competition
   has_many :import_request_files, class_name: 'ImportRequestFile', dependent: :destroy, inverse_of: :import_request
   accepts_nested_attributes_for :import_request_files, reject_if: proc { |attributes| attributes['file'].blank? }
 

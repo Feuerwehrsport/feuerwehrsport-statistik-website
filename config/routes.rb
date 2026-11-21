@@ -52,6 +52,7 @@ Rails.application.routes.draw do
     end
     resources :import_requests do
       collection { get :decide_login }
+      member { patch :assign_competition }
     end
     resources :links
     resources :nations

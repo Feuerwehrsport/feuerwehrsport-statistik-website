@@ -4,7 +4,7 @@ class Backend::ImportRequestsController < Backend::BackendController
   include Backend::ImportCompetitionSelection
 
   backend_actions clean_cache_disabled: true
-  skip_before_action :preauthorize_action, only: :decide_login
+  skip_before_action :preauthorize_action, only: %i[decide_login assign_competition]
 
   default_form do |f|
     f.fields_for :import_request_files do
@@ -30,15 +30,17 @@ class Backend::ImportRequestsController < Backend::BackendController
     i.col :created_at
   end
 
-  def show
-    super
-    @nearby_competitions = Competition.where(date: ((resource.date - 5.days)..(resource.date + 5.days)))
-                                      .reorder(:date).decorate
-  end
-
   def new
     form_resource.import_request_files.build
     super
+  end
+
+  # step 1 of the import: store the competition (blank to choose another one)
+  def assign_competition
+    import_request = ImportRequest.find(params[:id])
+    authorize!(:update, import_request)
+    import_request.update!(competition: Competition.find_by(id: params[:competition_id]))
+    redirect_to backend_import_request_path(import_request)
   end
 
   def decide_login
@@ -59,5 +61,10 @@ class Backend::ImportRequestsController < Backend::BackendController
 
   def show_associations?
     false
+  end
+
+  # the competition is stored in the import request (not in the session like the backend imports)
+  def import_competition
+    @import_competition ||= resource&.competition&.decorate
   end
 end

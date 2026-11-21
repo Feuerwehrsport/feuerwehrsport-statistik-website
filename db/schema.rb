@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_19_130206) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_21_230000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
   enable_extension "pg_catalog.plpgsql"
@@ -201,7 +201,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_19_130206) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.json "import_data"
+    t.integer "competition_id"
     t.index ["admin_user_id"], name: "index_import_requests_on_admin_user_id"
+    t.index ["competition_id"], name: "index_import_requests_on_competition_id"
     t.index ["edit_user_id"], name: "index_import_requests_on_edit_user_id"
     t.index ["event_id"], name: "index_import_requests_on_event_id"
     t.index ["place_id"], name: "index_import_requests_on_place_id"
@@ -592,6 +594,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_19_130206) do
   add_foreign_key "group_scores", "group_score_categories"
   add_foreign_key "group_scores", "teams"
   add_foreign_key "import_request_files", "import_requests"
+  add_foreign_key "import_requests", "competitions", on_delete: :nullify
   add_foreign_key "people", "nations"
   add_foreign_key "person_participations", "group_scores"
   add_foreign_key "person_participations", "people"

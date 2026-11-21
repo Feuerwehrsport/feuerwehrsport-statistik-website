@@ -10,7 +10,8 @@ RSpec.describe 'Backend::Imports', login: :admin do
     it 'asks for a competition first' do
       get '/backend/imports'
       expect(response).to be_successful
-      expect(response.body).to include('Wähle zuerst einen Wettkampf aus.')
+      expect(response.body).to include('1. Wettkampf zuordnen')
+      expect(response.body).not_to include('import-step-results')
     end
 
     it 'remembers the selected competition' do

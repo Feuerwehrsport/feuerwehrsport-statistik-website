@@ -1,85 +1,114 @@
--# competition selection and import of results (backend imports and import requests)
+-# import of results in steps (backend imports and import requests):
+-# 1. assign the competition (select or create), 2. import the results (only with a competition)
+-# locals: selection_url/selection_method (where the chosen competition is stored), competition_info (prefill)
+-# block: additional parts of step 2 (e.g. direct import of an import request)
 - competition_info ||= nil
+- manual_collapsed ||= false
 - competition = import_competition
+- info = (competition_info || {}).slice(:name, :date, :place, :event)
 .container
-  = content_card('Wettkampf') do
-    .row
-      .col-md-5
-        = form_with url: request.path, method: :get, data: { controller: 'auto-submit' } do
-          .form-check.form-check-inline
-            %label.form-check-label
-              = radio_button_tag :order, 'latest', params[:order] != 'sorted', data: { action: 'auto-submit#submit' }, class: 'form-check-input'
-              Zuletzt angelegt
-          .form-check.form-check-inline
-            %label.form-check-label
-              = radio_button_tag :order, 'sorted', params[:order] == 'sorted', data: { action: 'auto-submit#submit' }, class: 'form-check-input'
-              Nach Datum
-          = label_tag :competitions, 'Wettkampf', class: 'visually-hidden'
-          .input-group
-            = select_tag :competition_id,
-                         options_for_select([['Bitte wählen', '']] + import_competitions.map { ["#{it.date} - #{it.event} - #{it.place}", it.id] },
-                                            competition&.id),
-                         id: 'competitions', class: 'form-select',
-                         data: { action: 'auto-submit#submit' }
-            %button.btn.btn-outline-secondary{ type: 'submit' } Auswählen
-        - if competition
-          %p
-            = link_to competition.to_s, competition_path(competition), id: 'competition-link'
-            %br
-            = link_to "#{competition} - Admin", backend_competition_path(competition), id: 'competition-link-admin'
-          = form_with url: score_type_backend_imports_path(competition_id: competition.id), method: :patch, class: 'd-flex flex-wrap gap-2 align-items-center' do
-            = label_tag :score_type_id, 'Mannschaftswertung'
-            = select_tag :score_type_id,
-                         options_for_select([['--', '']] + ScoreType.all.map { ["#{it.score}/#{it.run}/#{it.people}", it.id] },
-                                            competition.score_type_id),
-                         class: 'form-control form-control-sm'
-            %button.btn.btn-outline-secondary.btn-sm{ type: 'submit' } Speichern
-      .col-md-2
-        - if competition
-          %table#competition-scores.table.table-sm
-            - ExtendedCompetitionSerializer.new(competition.object).score_count.each do |discipline, genders|
-              - genders.each do |gender, count|
-                - next unless count.positive?
-                %tr
-                  %th= "#{discipline}-#{gender}"
-                  %td= count
-      .col-md-5
-        - info = (competition_info || {}).slice(:name, :date, :place, :event)
-        - suggestions = import_competition_suggestions(info[:date]).reject { it.id == competition&.id }
-        - if suggestions.any?
-          %p.mb-1 Wettkämpfe am selben Datum:
-          #competition-suggestions.d-flex.flex-wrap.gap-2.mb-3
-            - suggestions.each do |suggestion|
-              = link_to "#{suggestion.date} - #{suggestion.event} - #{suggestion.place}",
-                        "#{request.path}?competition_id=#{suggestion.id}", class: 'btn btn-outline-primary btn-sm'
-        %p
-          = link_to 'Wettkampf anlegen', new_backend_imports_competition_path(info.merge(return_to: request.path)),
-                    class: 'btn btn-outline-secondary btn-sm', data: { turbo_frame: 'import-competition', turbo: true }
-          = link_to 'Gruppen-Typ anlegen', new_backend_group_score_type_path, class: 'btn btn-outline-secondary btn-sm', target: :_blank
-        %details
-          %summary Gruppen-Typen
-          %table.table.table-sm
-            - GroupScoreType.reorder(:discipline, :name).each do |type|
-              %tr
-                %td= type.discipline
-                %td= type.name
-    = turbo_frame_tag 'import-competition', data: { turbo: true }
-- if block_given?
-  = yield
+  - if competition
+    - change = button_to 'Anderen Wettkampf wählen', selection_url, method: selection_method, params: { competition_id: '' },
+                         class: 'btn btn-outline-secondary btn-sm', form_class: 'inline-form'
+    = content_card('1. Wettkampf', action: change, id: 'import-step-competition') do
+      %p.mb-0
+        = link_to competition.to_s, competition_path(competition), id: 'competition-link', class: 'fw-semibold'
+        ·
+        = link_to 'Admin', backend_competition_path(competition), id: 'competition-link-admin'
+  - else
+    = content_card('1. Wettkampf zuordnen', id: 'import-step-competition') do
+      .row.g-4
+        .col-lg-6
+          %h3.fs-6 Vorhandenen Wettkampf auswählen
+          = form_with url: request.path, method: :get, data: { controller: 'auto-submit' }, class: 'mb-2' do
+            .form-check.form-check-inline
+              %label.form-check-label
+                = radio_button_tag :order, 'latest', params[:order] != 'sorted', data: { action: 'auto-submit#submit' }, class: 'form-check-input'
+                Zuletzt angelegt
+            .form-check.form-check-inline
+              %label.form-check-label
+                = radio_button_tag :order, 'sorted', params[:order] == 'sorted', data: { action: 'auto-submit#submit' }, class: 'form-check-input'
+                Nach Datum
+          = form_with url: selection_url, method: selection_method, data: { controller: 'auto-submit' } do
+            = label_tag :competitions, 'Wettkampf', class: 'visually-hidden'
+            .input-group
+              = select_tag :competition_id,
+                           options_for_select([['Bitte wählen', '']] + import_competitions.map { ["#{it.date} - #{it.event} - #{it.place}", it.id] }),
+                           id: 'competitions', class: 'form-select', data: { action: 'auto-submit#submit' }
+              %button.btn.btn-outline-secondary{ type: 'submit' } Auswählen
+        .col-lg-6
+          %h3.fs-6 Wettkampf gibt es noch nicht?
+          = link_to 'Neuen Wettkampf anlegen', new_backend_imports_competition_path(info.merge(return_to: request.path, import_request_id: local_assigns[:import_request]&.id)),
+                    class: 'btn btn-outline-primary', data: { turbo_frame: 'import-competition', turbo: true }
+      = turbo_frame_tag 'import-competition', data: { turbo: true }
+
+      - suggestions = import_competition_suggestions(info[:date])
+      - if suggestions.any?
+        %h3.fs-6.mt-4 Wettkämpfe mit ähnlichem Datum
+        #competition-suggestions
+          = count_table(suggestions) do |t|
+            - t.col('', class: 'col-w-5') { |row| button_to('Auswählen', selection_url, method: selection_method, params: { competition_id: row.id }, class: 'btn btn-outline-primary btn-sm') }
+            - t.col('Datum', class: 'col-w-10') { |row| row.date }
+            - t.col('Ort', class: 'col-w-10 small') { |row| row.place.to_s }
+            - t.col('Typ', class: 'col-w-10 small') { |row| row.event.to_s }
+            - t.col('Name', class: 'col-w-20') { |row| row.name }
+            - { 'HBw' => :hb_female, 'HBm' => :hb_male, 'HLw' => :hl_female, 'HLm' => :hl_male, 'GS' => :gs,
+                'FSw' => :fs_female, 'FSm' => :fs_male, 'LAw' => :la_female, 'LAm' => :la_male }.each do |head, key|
+              - t.col(head, th_options: { class: 'small' }, class: 'col-w-5') { |row| count_or_zero(row.send(key)) }
+
 - if competition
   .container
-    = content_card('Disziplin importieren') do
-      .row
-        - [%w[la Löschangriff], %w[hb Hindernisbahn], %w[fs Feuerwehrstafette], %w[hl Hakenleitersteigen],
-           %w[gs Gruppenstafette]].each do |discipline, name|
-          .col-md-2
-            %h4= name
-            - (discipline == 'gs' ? %w[female] : %w[male female]).each do |gender|
-              = link_to gender, new_backend_imports_discipline_path(discipline:, gender:, competition_id: competition.id),
-                        class: "btn btn-outline-secondary btn-sm add-discipline discipline-#{discipline}-#{gender}",
-                        data: { turbo_frame: 'import-discipline', turbo: true }
+    = content_card('2. Ergebnisse importieren', id: 'import-step-results') do
+      .row.g-4.mb-4
+        .col-lg-7
+          %h3.fs-6 Vorhandene Einträge im Wettkampf
+          - counts = ExtendedCompetitionSerializer.new(competition.object).score_count
+          - if counts.values.flat_map(&:values).sum.zero?
+            %p.text-muted Noch keine Ergebnisse eingetragen.
+          - else
+            %table#competition-scores.table.table-sm.w-auto
+              %thead
+                %tr
+                  %th Disziplin
+                  %th.text-end weiblich
+                  %th.text-end männlich
+              %tbody
+                - counts.each do |discipline, genders|
+                  - next if genders.values.sum.zero?
+                  %tr
+                    %td= discipline_name(discipline)
+                    - %i[female male].each do |gender|
+                      %td.text-end= genders[gender].positive? ? genders[gender] : '–'
+        .col-lg-5
+          = form_with url: score_type_backend_imports_path(competition_id: competition.id), method: :patch, class: 'mb-3' do
+            = label_tag :score_type_id, 'Mannschaftswertung', class: 'form-label'
+            .input-group.input-group-sm
+              = select_tag :score_type_id,
+                           options_for_select([['--', '']] + ScoreType.all.map { ["#{it.score}/#{it.run}/#{it.people}", it.id] },
+                                              competition.score_type_id),
+                           class: 'form-select'
+              %button.btn.btn-outline-secondary{ type: 'submit' } Speichern
+          %details
+            %summary Gruppen-Typen
+            %table.table.table-sm
+              - GroupScoreType.reorder(:discipline, :name).each do |type|
+                %tr
+                  %td= type.discipline
+                  %td= type.name
+            = link_to 'Gruppen-Typ anlegen', new_backend_group_score_type_path, class: 'btn btn-outline-secondary btn-sm', target: :_blank
+
+      - if block_given?
+        = yield
+
+      %details.mt-3{ open: !manual_collapsed }
+        %summary Disziplin manuell importieren (Text einfügen)
+        .row.mt-2
+          - [%w[la Löschangriff], %w[hb Hindernisbahn], %w[fs Feuerwehrstafette], %w[hl Hakenleitersteigen],
+             %w[gs Gruppenstafette]].each do |discipline, name|
+            .col-md-2
+              %h4.fs-6= name
+              - (discipline == 'gs' ? %w[female] : %w[male female]).each do |gender|
+                = link_to gender, new_backend_imports_discipline_path(discipline:, gender:, competition_id: competition.id),
+                          class: "btn btn-outline-secondary btn-sm add-discipline discipline-#{discipline}-#{gender}",
+                          data: { turbo_frame: 'import-discipline', turbo: true }
       = turbo_frame_tag 'import-discipline', data: { turbo: true }
-- else
-  .container
-    = content_card do
-      %p.text-muted.mb-0 Wähle zuerst einen Wettkampf aus.

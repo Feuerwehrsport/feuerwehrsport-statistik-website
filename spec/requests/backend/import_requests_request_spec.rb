@@ -50,33 +50,51 @@ RSpec.describe 'Backend::ImportRequests', login: :sub_admin do
     let!(:nearby_competition) { create(:competition, date: Date.parse('2017-05-01'), name: 'Nah dran') }
     let!(:far_competition) { create(:competition, date: Date.parse('2017-06-01'), name: 'Weit weg') }
 
-    it 'assigns nearby competitions' do
+    it 'shows the import information without the import steps' do
       get "/backend/import_requests/#{import_request.id}"
       expect(response).to be_successful
-      expect(controller.instance_variable_get(:@nearby_competitions).map(&:id)).to eq [nearby_competition.id]
+      expect(response.body).to include('import-request-info', 'Bearbeitung übernehmen')
+      expect(response.body).not_to include('import-step-competition')
     end
 
-    context 'when editing with a selected competition' do
+    context 'when editing' do
       before do
         import_request.update!(edit_user_id: login_user.id)
         result = { discipline: 'hb', gender: 'male', name: 'HB', rows: [%w[time], %w[1]] }
         import_request.update_column(:import_data, { results: [result] })
       end
 
-      it 'suggests competitions on the same date' do
-        same_day = create(:competition, date: Date.parse('2017-05-03'), name: 'Gleicher Tag')
+      it 'asks for the competition with suggestions around the date' do
         get "/backend/import_requests/#{import_request.id}"
-        expect(response.body).to include('Wettkämpfe am selben Datum',
-                                         "/backend/import_requests/#{import_request.id}?competition_id=#{same_day.id}")
-        expect(response.body).not_to include("?competition_id=#{nearby_competition.id}\"")
+        expect(response.body).to include('1. Wettkampf zuordnen', 'competition-suggestions', 'Nah dran',
+                                         'Neuen Wettkampf anlegen', "import_request_id=#{import_request.id}")
+        expect(response.body).not_to include('Weit weg', 'import-step-results', 'result_index=0')
       end
 
-      it 'offers direct import and file transfer for the competition' do
-        get "/backend/import_requests/#{import_request.id}", params: { competition_id: nearby_competition.id }
+      it 'stores the competition and shows the second step' do
+        patch "/backend/import_requests/#{import_request.id}/assign_competition",
+              params: { competition_id: nearby_competition.id }
+        expect(response).to redirect_to("/backend/import_requests/#{import_request.id}")
+        expect(import_request.reload.competition).to eq nearby_competition
+
+        get "/backend/import_requests/#{import_request.id}"
         expect(response.body).to include(
+          'import-step-results', 'Anderen Wettkampf wählen',
           "import_request_id=#{import_request.id}&amp;result_index=0",
-          "/backend/import_request_files/#{import_request.import_request_files.first.id}/transfer",
+          "/backend/import_request_files/#{import_request.import_request_files.first.id}/transfer"
         )
+        expect(response.body).not_to include('competition-suggestions')
+
+        patch "/backend/import_requests/#{import_request.id}/assign_competition", params: { competition_id: '' }
+        expect(import_request.reload.competition).to be_nil
+      end
+
+      it 'creates the competition for the import request' do
+        post '/backend/imports/competitions', params: {
+          import_request_id: import_request.id, return_to: "/backend/import_requests/#{import_request.id}",
+          competition: { name: 'Neu', date: '2017-05-03', place_id: place.id, event_id: event.id }
+        }
+        expect(import_request.reload.competition).to have_attributes(name: 'Neu')
       end
 
       it 'transfers a file to the competition' do
