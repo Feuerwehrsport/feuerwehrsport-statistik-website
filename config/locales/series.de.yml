@@ -19,6 +19,21 @@ de:
     attributes:
       series/round_import:
         round: Serie
+        competition: Wettkampf
+        import_request: Import-Anfrage
+        import_now: Jetzt importieren
+        person_assignment_ids: IDs der Wettkämpfer
+        team_assignment_ids: IDs der Mannschaften
+    errors:
+      models:
+        series/round_import:
+          attributes:
+            competition:
+              already_imported: ist in dieser Serie schon vorhanden
+            person_assignment_ids:
+              not_found: 'nicht gefunden: %{ids}'
+            team_assignment_ids:
+              not_found: 'nicht gefunden: %{ids}'
   t3:
     backend/series/rounds:
       inline_labels:

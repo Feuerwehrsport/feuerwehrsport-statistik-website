@@ -1,44 +1,58 @@
-- @page_title = 'Serie importieren'
-= page_head('Serie importieren', breadcrumb: link_to('Interner Bereich', backend_root_path))
+- round = resource.round.decorate
+- import_request = resource.import_request
+- @page_title = "Serienimport: #{round}"
+= page_head('Serienimport', kicker: round.to_s,
+            breadcrumb: [link_to('Interner Bereich', backend_root_path), link_to(round, backend_series_round_path(round)),
+                         (link_to('Import-Anfrage', backend_import_request_path(import_request)) if import_request)])
 .container
-  = @preview_string.html_safe
-
   = resource_form(form_options.slice(:as, :url, :html)) do |f|
-    = f.input :competition_id, as: :hidden
-    = f.input :import_request_id, as: :hidden
+    = f.hidden_field :competition_id
+    = f.hidden_field :import_request_id
 
-    - if form_resource.person_assignment_hints.present?
-      = content_card('Zuordnung von Wettkämpfern', heading: :h3) do
-        .row.g-3
-          - form_resource.person_assignment_hints.each do |key, hint|
-            .col-md-6
-              = label_tag "series_round_import_person_assignments_#{key}", hint, class: 'form-label'
-              = select_tag "series_round_import[person_assignments][#{key}]",
-                           options_from_collection_for_select(Person.index_order.decorate, :id, :searchable_name,
-                                                              form_resource.person_assignments&.[](key)),
-                           class: 'form-select'
-
-    - if form_resource.team_assignment_hints.present?
-      = content_card('Zuordnung von Mannschaften', heading: :h3) do
-        .row.g-3
-          - form_resource.team_assignment_hints.each do |key, hint|
-            .col-md-6
-              = label_tag "series_round_import_team_assignments_#{key}", hint, class: 'form-label'
-              = select_tag "series_round_import[team_assignments][#{key}]",
-                           options_from_collection_for_select(Team.index_order, :id, :name,
-                                                              form_resource.team_assignments&.[](key)),
-                           class: 'form-select'
-
-    = content_card('Import ausführen', heading: :h3) do
-      %dl.show-list.mb-3
-        %dt Wettkampf
-        %dd
-          - if resource.competition.present?
-            = competition_link(resource.competition.decorate)
+    = content_card('Import', heading: :h3) do
+      %dl.show-list.mb-0
         %dt Wettkampfserie
-        %dd
-          - if resource.round.present?
-            = link_to(resource.round.decorate, resource.round)
-      .alert.alert-danger
-        = f.input :import_now, as: :boolean
-      = f.actions(**form_options.slice(:abort_url))
+        %dd= link_to(round, round)
+        %dt Wettkampf
+        %dd= competition_link(resource.competition.decorate) if resource.competition.present?
+        - if import_request
+          %dt Import-Anfrage
+          %dd= link_to(import_request.decorate, backend_import_request_path(import_request))
+
+    - { person: 'Zuordnung von Wettkämpfern', team: 'Zuordnung von Mannschaften' }.each do |type, title|
+      - hints = resource.public_send(:"#{type}_assignment_hints")
+      - next if hints.blank?
+      = content_card(title, heading: :h3, id: "#{type}-assignments") do
+        %p.text-muted.small
+          Diese Einträge haben keine (gültige) ID aus feusport. Vorgeschlagen sind passende Einträge nach dem Namen.
+          Nach einer Änderung „Vorschau aktualisieren“ klicken.
+        %table.table.table-sm.align-middle.mb-0
+          %thead
+            %tr
+              %th Name aus feusport
+              %th Zuordnung
+              %th.col-w-10 oder ID
+          %tbody
+            - hints.each do |key, hint|
+              - id = "series_round_import_#{type}_assignments_#{key}"
+              - new_label = type == :person ? 'Neue Person anlegen' : 'Neue Mannschaft anlegen'
+              - options = hint[:candidates].map { |cid, label| [label, cid.to_s] } + [[new_label, 'new']]
+              %tr{ class: hint[:selected] == 'new' ? 'table-warning' : nil }
+                %td= label_tag id, hint[:name], class: 'mb-0'
+                %td
+                  = select_tag "series_round_import[#{type}_assignments][#{key}]",
+                               options_for_select(options, hint[:selected].to_s),
+                               id:, class: 'form-select form-select-sm'
+                %td
+                  = number_field_tag "series_round_import[#{type}_assignment_ids][#{key}]", hint[:id],
+                                     class: 'form-control form-control-sm', 'aria-label': "ID für #{hint[:name]}"
+
+    = content_card(nil) do
+      .d-flex.flex-wrap.gap-2.align-items-center
+        %button.btn.btn-primary{ type: 'submit', name: 'series_round_import[import_now]', value: '1' } Jetzt importieren
+        %button.btn.btn-outline-secondary{ type: 'submit', name: 'series_round_import[import_now]', value: '0' } Vorschau aktualisieren
+        = link_to 'Abbrechen', import_request ? backend_import_request_path(import_request) : backend_series_round_path(round),
+                  class: 'btn btn-link'
+        %span.text-muted.small Unten siehst du die Serie, wie sie nach dem Import aussieht.
+
+  = @preview_string.html_safe

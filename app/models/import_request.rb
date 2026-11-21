@@ -59,6 +59,14 @@ class ImportRequest < ApplicationRecord
     update!(imported_result_keys: (imported_result_keys + ["#{index}-#{gender}"]).uniq)
   end
 
+  def series_round_imported?(round)
+    imported_result_keys.include?("series-#{round.id}")
+  end
+
+  def mark_series_round_imported!(round)
+    update!(imported_result_keys: (imported_result_keys + ["series-#{round.id}"]).uniq)
+  end
+
   def person_points_corrections(round_key, person_id)
     (import_data[:person_points_corrections] || []).find do |c|
       c[:round_key] == round_key && c[:person_id] == person_id

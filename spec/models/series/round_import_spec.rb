@@ -87,24 +87,43 @@ RSpec.describe Series::RoundImport do
         assessment = Series::PersonAssessment.last
         expect(assessment).to have_attributes(round:, discipline: 'hb', key: 'female')
 
-        # unknown people are assigned to any person until the user chooses a correct assignment
-        fallback = Person.find(Person.pick(:id))
+        # unknown people are created (as long as no other assignment is chosen)
+        created = Person.find_by(first_name: 'Unknown', last_name: 'Person')
+        expect(created).to have_attributes(gender: 'female')
         participations = assessment.person_participations.order(:rank)
         expect(participations.map { |p| [p.person, p.rank, p.points, p.time, p.cup] }).to eq [
           [anna, 1, 10, 1750, cup],
           [berta, 2, 8, 1803, cup],
-          [fallback, 3, 6, Firesport::INVALID_TIME, cup],
+          [created, 3, 6, Firesport::INVALID_TIME, cup],
         ]
       end
 
       it 'stores assignment hints for people without id' do
         import.save
-        expect(import.person_assignment_hints).to eq(
-          'berta__bauer' => 'Berta Bauer',
-          'unknown__person' => 'Unknown Person',
+        expect(import.person_assignment_hints.transform_values { it.slice(:name, :selected) }).to eq(
+          'berta__bauer' => { name: 'Berta Bauer', selected: berta.id.to_s },
+          'unknown__person' => { name: 'Unknown Person', selected: 'new' },
         )
-        # unknown person gets any person as suggestion
-        expect(import.person_assignments).to eq('berta__bauer' => berta.id, 'unknown__person' => Person.pick(:id))
+        expect(import.person_assignment_hints['berta__bauer'][:candidates]).to eq [[berta.id,
+                                                                                    "Bauer, Berta (##{berta.id})"]]
+      end
+
+      it 'uses an ID entered by hand' do
+        import.person_assignment_ids = { 'unknown__person' => anna.id.to_s }
+        expect { import.save }.not_to change(Person, :count)
+        expect(Series::PersonParticipation.find_by(rank: 3).person).to eq anna
+      end
+
+      it 'validates IDs entered by hand' do
+        import.person_assignment_ids = { 'unknown__person' => '999999' }
+        expect(import).not_to be_valid
+        expect(import.errors.full_messages).to include('IDs der Wettkämpfer nicht gefunden: 999999')
+      end
+
+      it 'imports a competition only once into a round' do
+        Series::Cup.create!(round:, competition:)
+        expect(import).not_to be_valid
+        expect(import.errors.full_messages).to include('Wettkampf ist in dieser Serie schon vorhanden')
       end
 
       it 'uses given person assignments' do
@@ -117,7 +136,7 @@ RSpec.describe Series::RoundImport do
         create(:person_spelling, person: anna, first_name: 'Unknown', last_name: 'Person')
         import.save
         expect(Series::PersonParticipation.find_by(rank: 3).person).to eq anna
-        expect(import.person_assignments['unknown__person']).to eq anna.id
+        expect(import.person_assignment_hints['unknown__person'][:selected]).to eq anna.id.to_s
       end
 
       context 'with points corrections' do
@@ -230,15 +249,14 @@ RSpec.describe Series::RoundImport do
           end,
         ).to eq [
           [team, 1, 1, 1, 20, 2234],
-          [team, 1, 1, 2, 18, Firesport::INVALID_TIME],
+          [Team.find_by(name: 'FF Neu', shortcut: 'Neu'), 1, 1, 2, 18, Firesport::INVALID_TIME],
           [team, 2, 0, 3, 0, 2500],
         ]
       end
 
       it 'stores assignment hints for teams without id' do
         import.save
-        expect(import.team_assignment_hints).to eq('neu' => 'Feuerwehr Neu')
-        expect(import.team_assignments).to eq('neu' => team.id)
+        expect(import.team_assignment_hints['neu']).to include(name: 'Feuerwehr Neu', selected: 'new')
       end
 
       it 'finds teams by spelling' do

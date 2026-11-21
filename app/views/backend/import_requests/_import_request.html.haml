@@ -78,15 +78,6 @@
                       = mark.(gender)
                       = name
 
-      - if resource.import_data_series_rounds.present?
-        .col-lg-6#series-add-links
-          %h3.fs-6 Serien-Import
-          .d-flex.flex-wrap.gap-2
-            - resource.import_data_series_rounds.each do |round|
-              = link_to(round.name, new_backend_series_round_import_path(round_id: round.id,
-                                                                         series_round_import: { import_request_id: resource.id, competition_id: import_competition.id }),
-                        class: 'btn btn-outline-secondary btn-sm')
-
       - if resource.import_request_files.any?
         .col-12
           .d-flex.flex-wrap.align-items-center.gap-3.mb-2
@@ -105,3 +96,16 @@
                     = icon(:'arrow-left-right', title: 'übertragen')
                   - elsif file.pdf?
                     = render 'backend/import_request_files/transfer_form', file:
+
+  - if import_competition && resource.import_data_series_rounds.present?
+    .container
+      = content_card('3. Serien-Import', id: 'series-add-links') do
+        %p.text-muted.small Die Ergebnisse enthalten Wertungen für diese Serien. Der Import zeigt vorher eine Vorschau.
+        .d-flex.flex-wrap.gap-2
+          - resource.import_data_series_rounds.each do |round|
+            - imported = resource.series_round_imported?(round)
+            = link_to new_backend_series_round_import_path(round_id: round.id,
+                                                           series_round_import: { import_request_id: resource.id, competition_id: import_competition.id }),
+                      class: "btn btn-sm #{imported ? 'btn-outline-success imported-result' : 'btn-outline-primary'}" do
+              = icon(:'check-circle-fill', title: 'bereits importiert') if imported
+              = round.decorate

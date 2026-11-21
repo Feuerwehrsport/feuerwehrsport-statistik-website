@@ -10,11 +10,22 @@ class Series::RoundImport
   belongs_to :cup, class_name: 'Series::Cup'
   attribute :import_now, :boolean
   attribute :person_assignments
+  attribute :person_assignment_ids
   attribute :person_assignment_hints
   attribute :team_assignments
+  attribute :team_assignment_ids
   attribute :team_assignment_hints
 
   validates :competition, :import_request, presence: true
+  validate :competition_not_imported
+  validate :assignment_ids_exist
+
+  # a competition is only once in a round
+  def existing_cup
+    return if round.nil? || competition.nil?
+
+    Series::Cup.unscoped.find_by(round_id: round.id, competition_id: competition.id)
+  end
 
   def save
     return false unless valid?
@@ -34,43 +45,87 @@ class Series::RoundImport
 
   protected
 
+  def competition_not_imported
+    errors.add(:competition, :already_imported) if existing_cup
+  end
+
+  # IDs entered by hand
+  def assignment_ids_exist
+    { person: Person, team: Team }.each do |type, model|
+      ids = Array(public_send(:"#{type}_assignment_ids")&.values).compact_blank
+      missing = ids - model.where(id: ids).pluck(:id).map(&:to_s)
+      errors.add(:"#{type}_assignment_ids", :not_found, ids: missing.join(', ')) if missing.any?
+    end
+  end
+
   def create_cup
     @cup = Series::Cup.create!(round:, competition_id:)
   end
 
-  def find_person_assignment(person_id, first_name, last_name)
-    person = Person.find_by(id: person_id)
-    person || begin
-      person_id = Person.search_exactly(last_name, first_name).pick(:id)
-      person_id ||= PersonSpelling.search_exactly(last_name, first_name).pick(:person_id)
-      person_id ||= Person.pick(:id)
+  # people/teams without (valid) ID of Feusport are assigned in the preview: existing record (preselected by name),
+  # a new record ("new") or an ID entered by hand
+  def find_person_assignment(person_id, first_name, last_name, gender)
+    person = Person.find_by(id: person_id) if person_id.positive?
+    return person if person
 
-      key = "#{first_name}__#{last_name}".parameterize
-      self.person_assignments ||= {}
-      person_assignments[key] ||= person_id
-      self.person_assignment_hints ||= {}
-      person_assignment_hints[key] ||= "#{first_name} #{last_name}"
+    key = "#{first_name}__#{last_name}".parameterize
+    candidates = person_candidates(first_name, last_name, gender)
+    assignment_hint(:person, key, "#{first_name} #{last_name}", candidates)
+    choice = person_assignment_ids&.[](key).presence || person_assignments&.[](key).presence ||
+             candidates.first&.first || 'new'
+    return Person.find(choice) unless choice == 'new'
+    raise ArgumentError, "Unknown gender for #{first_name} #{last_name}" if gender.blank?
 
-      Person.find_by(id: person_assignments[key]) || Person.first
-    end
+    @created_people ||= {}
+    @created_people[key] ||= Person.create!(first_name:, last_name:, gender:, nation_id: 1)
   end
 
   def find_team_assignment(team_id, orig_team_name)
-    team = Team.find_by(id: team_id)
-    team || begin
-      team_name = Team.normalize_name(orig_team_name)
-      team_id = Team.search(team_name).pick(:id)
-      team_id ||= TeamSpelling.search(team_name).pick(:team_id)
-      team_id ||= Team.pick(:id)
+    team = Team.find_by(id: team_id) if team_id.positive?
+    return team if team
 
-      key = team_name.parameterize
-      self.team_assignments ||= {}
-      team_assignments[key] ||= team_id
-      self.team_assignment_hints ||= {}
-      team_assignment_hints[key] ||= orig_team_name
+    team_name = Team.normalize_name(orig_team_name.to_s)
+    key = team_name.parameterize
+    candidates = team_candidates(team_name)
+    assignment_hint(:team, key, orig_team_name, candidates)
+    choice = team_assignment_ids&.[](key).presence || team_assignments&.[](key).presence ||
+             candidates.first&.first || 'new'
+    return Team.find(choice) unless choice == 'new'
 
-      Team.find_by(id: team_assignments[key]) || Team.first
-    end
+    @created_teams ||= {}
+    @created_teams[key] ||= Team.create!(name: "FF #{team_name}", shortcut: team_name, status: :fire_station)
+  end
+
+  def assignment_hint(type, key, name, candidates)
+    hints = public_send(:"#{type}_assignment_hints") || public_send(:"#{type}_assignment_hints=", {})
+    hints[key] ||= { name:, candidates:,
+                     selected: public_send(:"#{type}_assignments")&.[](key).presence ||
+                               candidates.first&.first&.to_s || 'new',
+                     id: public_send(:"#{type}_assignment_ids")&.[](key) }
+  end
+
+  def person_candidates(first_name, last_name, gender)
+    scope = gender.present? ? Person.gender(gender) : Person.all
+    ids = scope.search_exactly(last_name, first_name).pluck(:id)
+    ids += PersonSpelling.search_exactly(last_name, first_name).pluck(:person_id)
+    ids += scope.where_name_like("#{first_name} #{last_name}").limit(10).pluck(:id)
+    ids += scope.where(last_name:).limit(10).pluck(:id)
+    Person.where(id: ids.uniq).in_order_of(:id, ids.uniq).decorate.map { [it.id, "#{it.searchable_name} (##{it.id})"] }
+  end
+
+  def team_candidates(team_name)
+    return [] if team_name.blank?
+
+    ids = Team.search(team_name).pluck(:id) + TeamSpelling.search(team_name).pluck(:team_id)
+    ids += Team.where_name_like(team_name).limit(10).pluck(:id)
+    Team.where(id: ids.uniq).in_order_of(:id, ids.uniq).map { [it.id, "#{it.name} (##{it.id})"] }
+  end
+
+  # gender of the result, otherwise of the row or the key of the assessment
+  def person_gender(result, row, index, config)
+    [result[:gender], index['gender'] && row[index['gender']], config.key].map(&:to_s).find do |value|
+      value.in?(%w[female male])
+    end || config.key.to_s[/\A(female|male)/, 1]
   end
 
   def create_person_participations(result, round_key)
@@ -98,7 +153,8 @@ class Series::RoundImport
 
       # person_id als Integer
       person_id = row[index['statistik_person_id']].to_i
-      person = find_person_assignment(person_id, row[index['Vorname']], row[index['Nachname']])
+      person = find_person_assignment(person_id, row[index['Vorname']], row[index['Nachname']],
+                                      person_gender(result, row, index, config))
 
       # Ergebnis als Hundertstel oder 999999
       raw_time = row[index['Bestzeit'] || index['Ergebnis'] || index['time']].to_s.strip

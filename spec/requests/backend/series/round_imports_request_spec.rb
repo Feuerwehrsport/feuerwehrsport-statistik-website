@@ -36,6 +36,14 @@ RSpec.describe 'Backend::Series::RoundImports', login: :admin do
     it 'shows form' do
       get "/backend/series/rounds/#{round.id}/import/new"
       expect(response).to be_successful
+      expect(response.body).to include('Import-Anfrage')
+    end
+
+    it 'shows the preview directly with competition and import request' do
+      get "/backend/series/rounds/#{round.id}/import/new",
+          params: { series_round_import: { competition_id: competition.id, import_request_id: import_request.id } }
+      expect(response.body).to include('Vorschau der Änderungen', 'Jetzt importieren', 'Neue Person anlegen')
+      expect(Series::Cup.count).to eq 0
     end
   end
 
@@ -66,7 +74,8 @@ RSpec.describe 'Backend::Series::RoundImports', login: :admin do
           post "/backend/series/rounds/#{round.id}/import", params:
         end.to change(Series::PersonParticipation, :count).by(2).and change(Series::Cup, :count).by(1)
 
-        expect(response).to redirect_to("/backend/series/rounds/#{round.id}")
+        expect(response).to redirect_to("/backend/import_requests/#{import_request.id}")
+        expect(import_request.reload.series_round_imported?(round)).to be true
         expect(Series::PersonParticipation.find_by(rank: 2).person).to eq other_person
         expect(Series::Cup.last.competition).to eq competition
       end
