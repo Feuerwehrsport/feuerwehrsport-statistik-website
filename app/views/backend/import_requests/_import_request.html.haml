@@ -58,12 +58,20 @@
           .d-flex.flex-wrap.gap-2
             - resource.import_data_results.each_with_index do |result, index|
               - next if result[:discipline] == 'zk'
-              = link_to new_backend_imports_discipline_path(discipline: result[:discipline], gender: result[:gender],
-                                                            competition_id: import_competition.id,
-                                                            import_request_id: resource.id, result_index: index),
-                        class: "btn btn-outline-primary btn-sm add-discipline discipline-#{result[:discipline]}-#{result[:gender]}",
-                        data: { turbo_frame: 'import-discipline', turbo: true } do
-                #{result[:discipline]} #{result[:gender]} #{result[:rows].count} #{result[:name]}
+              - path = ->(gender) { new_backend_imports_discipline_path(discipline: result[:discipline], gender:, competition_id: import_competition.id,
+                                                                       import_request_id: resource.id, result_index: index) }
+              - label = "#{result[:discipline]} #{result[:rows].count - 1} #{result[:name]}"
+              - if result[:gender].in?(%w[female male])
+                = link_to "#{result[:discipline]} #{result[:gender]} #{result[:rows].count - 1} #{result[:name]}", path.(result[:gender]),
+                          class: "btn btn-outline-primary btn-sm add-discipline discipline-#{result[:discipline]}-#{result[:gender]}",
+                          data: { turbo_frame: 'import-discipline', turbo: true }
+              - else
+                -# feusport sends "indifferent" for assessments without gender: choose it here
+                .btn-group.btn-group-sm{ role: 'group', 'aria-label': label }
+                  %span.btn.btn-outline-secondary.disabled= label
+                  - [%w[female weiblich], %w[male männlich]].each do |gender, name|
+                    = link_to name, path.(gender), class: "btn btn-outline-primary add-discipline discipline-#{result[:discipline]}-#{gender}",
+                              data: { turbo_frame: 'import-discipline', turbo: true }
 
       - if resource.import_data_series_rounds.present?
         .col-lg-6#series-add-links

@@ -89,6 +89,16 @@ RSpec.describe 'Backend::ImportRequests', login: :sub_admin do
         expect(import_request.reload.competition).to be_nil
       end
 
+      it 'offers both genders for results without gender' do
+        result = { discipline: 'la', gender: 'indifferent', name: 'Wanderpokal', rows: [%w[time], %w[1]] }
+        import_request.update!(competition: nearby_competition)
+        import_request.update_column(:import_data, { results: [result] })
+        get "/backend/import_requests/#{import_request.id}"
+        expect(response.body).to include('la 1 Wanderpokal', 'discipline=la&amp;gender=female',
+                                         'discipline=la&amp;gender=male')
+        expect(response.body).not_to include('gender=indifferent')
+      end
+
       it 'creates the competition for the import request' do
         post '/backend/imports/competitions', params: {
           import_request_id: import_request.id, return_to: "/backend/import_requests/#{import_request.id}",
