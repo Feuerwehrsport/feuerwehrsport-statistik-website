@@ -14,12 +14,7 @@
         .col-sm-9
           = text_field_tag :new_place_name, @new_place_name, class: 'form-control'
           .form-text Wird nur verwendet, wenn oben kein Ort gewählt ist. Gibt es den Ort schon, wird er übernommen.
-      = f.association :event, as: :association_select
-      .row.mb-3
-        = label_tag :new_event_name, 'Neuer Typ', class: 'col-sm-3 col-form-label'
-        .col-sm-9
-          = text_field_tag :new_event_name, @new_event_name, class: 'form-control'
-          .form-text Wird nur verwendet, wenn oben kein Typ gewählt ist.
+      = f.association :event, collection: Event.reorder(:name).pluck(:name, :id), include_blank: false
       .row
         .col-sm-9.offset-sm-3.d-flex.gap-2
           = f.button :submit, 'Anlegen und auswählen', class: 'btn-primary'

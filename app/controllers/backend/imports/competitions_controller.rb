@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # creates the competition of an import inside the import page (turbo frame "import-competition"),
-# with a new place and event if needed, and selects it for the import afterwards
+# with a new place if needed, and selects it for the import afterwards
 class Backend::Imports::CompetitionsController < Backend::BackendController
   include ChangeLogging
 
@@ -15,15 +15,12 @@ class Backend::Imports::CompetitionsController < Backend::BackendController
     @new_place_name = params[:place].to_s.strip
     @competition.place = find_by_name(Place, @new_place_name)
     @new_place_name = '' if @competition.place
-    @new_event_name = params[:event].to_s.strip
-    @competition.event = find_by_name(Event, @new_event_name)
-    @new_event_name = '' if @competition.event
+    @competition.event = default_event(@competition.name)
   end
 
   def create
     @competition = Competition.new(params.expect(competition: %i[name date place_id event_id]))
     @new_place_name = params[:new_place_name].to_s.strip
-    @new_event_name = params[:new_event_name].to_s.strip
 
     if save_competition
       select_competition
@@ -45,11 +42,20 @@ class Backend::Imports::CompetitionsController < Backend::BackendController
     end
   end
 
-  # selected place/event wins, otherwise the new name is used (existing record with that name or a new one)
+  # most imported competitions are "Pokallauf", the name hints to the others
+  def default_event(name)
+    event_name = case name.to_s
+                 when /\bamt/i then 'Amtsausscheid'
+                 when /kreis/i then 'Kreisausscheid'
+                 else 'Pokallauf'
+                 end
+    find_by_name(Event, event_name)
+  end
+
+  # selected place wins, otherwise the new name is used (existing record with that name or a new one)
   def save_competition
     Competition.transaction do
       @competition.place = find_or_create(Place, @new_place_name) if @competition.place_id.blank?
-      @competition.event = find_or_create(Event, @new_event_name) if @competition.event_id.blank?
       raise ActiveRecord::Rollback unless @competition.save
 
       log_change(@competition, serializer: CompetitionSerializer)
@@ -75,10 +81,9 @@ class Backend::Imports::CompetitionsController < Backend::BackendController
     end
   end
 
-  # records of a rolled back transaction must not be shown as selected
+  # a place of a rolled back transaction must not be shown as selected
   def reset_unsaved_associations
     @competition.place = nil if @competition.place && !Place.exists?(@competition.place.id)
-    @competition.event = nil if @competition.event && !Event.exists?(@competition.event.id)
   end
 
   def assign_import_request

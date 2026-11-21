@@ -29,6 +29,7 @@ describe 'backend imports' do
 
   it 'creates and selects a competition with a new place' do
     create(:event, name: 'D-Cup')
+    create(:event, name: 'Pokallauf')
 
     sign_in(:admin)
     visit backend_imports_path
@@ -37,7 +38,8 @@ describe 'backend imports' do
       fill_in 'Name', with: 'Finale'
       fill_in 'Datum', with: '2026-09-12'
       fill_in 'Neuer Ort', with: 'Neuort'
-      fill_in 'Neuer Typ', with: 'D-Cup'
+      expect(page).to have_select('Typ', selected: 'Pokallauf')
+      select 'D-Cup', from: 'Typ'
       click_on 'Anlegen und auswählen'
     end
     expect(page).to have_css('#competition-link', text: 'Neuort')

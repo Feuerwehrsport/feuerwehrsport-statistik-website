@@ -25,16 +25,26 @@ RSpec.describe 'Backend::Imports', login: :admin do
 
   describe 'competitions' do
     let!(:place) { create(:place, name: 'Waldheim') }
-    let!(:event) { create(:event, name: 'Pokal') }
+    let!(:event) { create(:event, name: 'Pokallauf') }
+    let!(:amt) { create(:event, name: 'Amtsausscheid') }
+    let!(:kreis) { create(:event, name: 'Kreisausscheid') }
     let(:competition_params) { { name: 'Finale', date: '2026-09-12', place_id: '', event_id: event.id } }
 
     it 'prefills the form with existing place and event' do
       get '/backend/imports/competitions/new', params: { name: 'Finale', date: '2026-09-12', place: 'waldheim',
-                                                         event: 'Unbekannt', return_to: '/backend/import_requests/1' }
+                                                         return_to: '/backend/import_requests/1' }
       expect(response.body).to include('id="import-competition"', 'value="Finale"',
                                        %(selected="selected" value="#{place.id}">Waldheim),
-                                       'name="new_event_name" id="new_event_name" value="Unbekannt"')
+                                       %(selected="selected" value="#{event.id}">Pokallauf))
       expect(response.body).not_to include('name="new_place_name" id="new_place_name" value="waldheim"')
+    end
+
+    it 'preselects the event by the name' do
+      { 'Amtsausscheid Amt Bützow Land' => amt, '5. Kreisausscheid' => kreis, 'Pokallauf Samtens' => event,
+        'Hallenpokal' => event }.each do |name, expected|
+        get '/backend/imports/competitions/new', params: { name: }
+        expect(response.body).to include(%(selected="selected" value="#{expected.id}">)), name
+      end
     end
 
     it 'creates the competition with a new place and selects it' do

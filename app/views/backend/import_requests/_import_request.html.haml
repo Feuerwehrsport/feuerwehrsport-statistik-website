@@ -42,12 +42,7 @@
                         subject: "Import-Anfrage vom #{resource.created_at_date}")
           - if resource.import_request_files.any?
             %dt Dateien
-            %dd
-              - resource.import_request_files.each do |file|
-                %div
-                  = file.file_with_link
-                  - if file.transfered?
-                    = icon(:'arrow-left-right', title: 'übertragen')
+            %dd= resource.import_request_files.size
         - if resource.description.present?
           %h4.fs-6.mt-3 Beschreibung
           .small.text-muted= simple_format resource.description, {}, wrapper_tag: 'div'
@@ -79,16 +74,15 @@
                                                                          series_round_import: { import_request_id: resource.id, competition_id: import_competition.id }),
                         class: 'btn btn-outline-secondary btn-sm')
 
-      - pdf_files = resource.import_request_files.select(&:pdf?)
-      - if pdf_files.any?
+      - if resource.import_request_files.any?
         .col-12
-          %h3.fs-6 PDF-Dateien übertragen
+          %h3.fs-6 Dateien
           %table.table.table-sm
-            - pdf_files.each do |file|
+            - resource.import_request_files.each do |file|
               %tr
                 %td= file.file_with_link
                 %td
                   - if file.transfered?
                     = icon(:'arrow-left-right', title: 'übertragen')
-                  - else
+                  - elsif file.pdf?
                     = render 'backend/import_request_files/transfer_form', file:
