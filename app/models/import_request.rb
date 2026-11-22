@@ -37,6 +37,15 @@ class ImportRequest < ApplicationRecord
     super.try(:with_indifferent_access)
   end
 
+  # link of the request (e.g. the results at feusport) is already at the competition
+  def link_transferred?
+    competition.present? && competition.links.exists?(url:)
+  end
+
+  def link_label
+    url.to_s.include?('feusport.de') ? 'Ergebnisse bei feusport' : 'Ergebnisse'
+  end
+
   def import_data_results
     @import_data_results ||= import_data[:results].select { |result| result[:rows].many? }
   end

@@ -105,6 +105,21 @@ RSpec.describe 'Backend::ImportRequests', login: :sub_admin do
         expect(response.body).to include('imported-result', 'bi-check-circle-fill')
       end
 
+      it 'transfers the link to the competition' do
+        import_request.update!(competition: nearby_competition, url: 'https://feusport.de/2026/pokal')
+        get "/backend/import_requests/#{import_request.id}"
+        expect(response.body).to include('Als „Ergebnisse bei feusport“ übernehmen')
+
+        expect do
+          patch "/backend/import_requests/#{import_request.id}/transfer_link"
+          patch "/backend/import_requests/#{import_request.id}/transfer_link"
+        end.to change(Link, :count).by(1).and change(ChangeLog, :count).by(1)
+        expect(nearby_competition.links.last).to have_attributes(label: 'Ergebnisse bei feusport',
+                                                                 url: 'https://feusport.de/2026/pokal')
+        get "/backend/import_requests/#{import_request.id}"
+        expect(response.body).to include('am Wettkampf vorhanden')
+      end
+
       it 'transfers all pdfs with the guessed disciplines' do
         import_request.update!(competition: nearby_competition)
         import_request.import_request_files.create!(

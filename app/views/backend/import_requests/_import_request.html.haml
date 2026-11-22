@@ -99,6 +99,19 @@
                     - else
                       %span.small.text-muted{ title: 'Vor dieser Funktion importiert' } nicht möglich
 
+      - if resource.url.present?
+        .col-12#import-request-link
+          .d-flex.flex-wrap.align-items-center.gap-3
+            %h3.fs-6.mb-0 Link
+            = resource.url_with_link
+            - if resource.link_transferred?
+              %span.text-success.small
+                = icon(:'check-circle-fill')
+                am Wettkampf vorhanden
+            - else
+              = button_to "Als „#{resource.link_label}“ übernehmen", transfer_link_backend_import_request_path(resource),
+                          method: :patch, class: 'btn btn-outline-primary btn-sm', form_class: 'inline-form'
+
       - if resource.import_request_files.any?
         .col-12
           .d-flex.flex-wrap.align-items-center.gap-3.mb-2

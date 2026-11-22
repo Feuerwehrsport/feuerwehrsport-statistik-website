@@ -2,9 +2,11 @@
 
 class Backend::ImportRequestsController < Backend::BackendController
   include Backend::ImportCompetitionSelection
+  include ChangeLogging
 
   backend_actions clean_cache_disabled: true
-  skip_before_action :preauthorize_action, only: %i[decide_login assign_competition transfer_files undo_result]
+  skip_before_action :preauthorize_action,
+                     only: %i[decide_login assign_competition transfer_files transfer_link undo_result]
 
   default_form do |f|
     f.fields_for :import_request_files do
@@ -57,6 +59,20 @@ class Backend::ImportRequestsController < Backend::BackendController
     end
     Caching::Cleaner.new.save
     redirect_to backend_import_request_path(import_request), notice: "#{files.size} PDFs übertragen."
+  end
+
+  # link of the request (e.g. the results at feusport) to the competition
+  def transfer_link
+    import_request = ImportRequest.find(params[:id])
+    authorize!(:update, import_request)
+    authorize!(:create, Link)
+    competition = import_request.competition || raise(ActiveRecord::RecordNotFound)
+    if import_request.url.present? && !import_request.link_transferred?
+      link = competition.links.create!(label: import_request.link_label, url: import_request.url)
+      log_change(link, serializer: LinkSerializer, action: 'create-link')
+      clean_cache
+    end
+    redirect_to backend_import_request_path(import_request), notice: 'Link übernommen.'
   end
 
   # removes the scores of an imported result again (e.g. imported into the wrong category)
