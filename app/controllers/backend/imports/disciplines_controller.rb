@@ -197,11 +197,20 @@ class Backend::Imports::DisciplinesController < Backend::BackendController
                                     .includes(:group_score_type).reorder(:id).decorate
     @category_id = params[:group_score_category_id].presence ||
                    (@categories.one? ? @categories.first.id : nil) || ('new' if @categories.none?)
-    # first category of the competition: "default", further ones: name of the result list
-    @category_default = params.key?(:category_default) ? params[:category_default] == '1' : @categories.none?
+    @category_default = params.key?(:category_default) ? params[:category_default] == '1' : true
     @category_name = params[:category_name].presence || @result_name.presence
-    @group_score_types = GroupScoreType.where(discipline: @discipline).reorder(regular: :desc, name: :asc)
+    assign_group_score_types
     @group_score_type_id = params[:group_score_type_id].presence&.to_i || last_group_score_type_id
+  end
+
+  # usual types: at least 5 % (and 2) of the categories of the discipline in the last years, the most used first
+  def assign_group_score_types
+    types = GroupScoreType.where(discipline: @discipline).reorder(:name).to_a
+    counts = GroupScoreCategory.joins(:competition).where(group_score_type_id: types.map(&:id))
+                               .where(competitions: { date: 3.years.ago.. }).group(:group_score_type_id).count
+    usual_ids = counts.select { |_id, count| count >= 2 && count >= counts.values.sum * 0.05 }.keys
+    @usual_group_score_types = types.select { it.id.in?(usual_ids) }.sort_by { -counts[it.id] }
+    @other_group_score_types = types - @usual_group_score_types
   end
 
   # type of the categories of this competition, otherwise the type used last

@@ -16,17 +16,15 @@
         .form-check.mb-1
           = hidden_field_tag :category_default, '0', id: nil
           = check_box_tag :category_default, '1', @category_default, class: 'form-check-input'
-          = label_tag :category_default, class: 'form-check-label small' do
-            Standard
-            %span.text-muted (Name „default“)
+          = label_tag :category_default, 'Standard', class: 'form-check-label small'
         .import-category-name
           = label_tag :category_name, 'Name', class: 'form-label small mb-0'
           = text_field_tag :category_name, @category_name, class: 'form-control form-control-sm'
       .col-md-7
         = label_tag :group_score_type_id, 'Typ', class: 'form-label small mb-0'
         = select_tag :group_score_type_id,
-                     grouped_options_for_select({ 'Üblich' => @group_score_types.select(&:regular).map { [it.name, it.id] },
-                                                  'Weitere' => @group_score_types.reject(&:regular).map { [it.name, it.id] } }.compact_blank,
+                     grouped_options_for_select({ 'Üblich' => @usual_group_score_types.map { [it.name, it.id] },
+                                                  'Weitere' => @other_group_score_types.map { [it.name, it.id] } }.compact_blank,
                                                 @group_score_type_id),
                      class: 'form-select form-select-sm'
 - else

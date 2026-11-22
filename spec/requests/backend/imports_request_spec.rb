@@ -190,6 +190,16 @@ RSpec.describe 'Backend::Imports', login: :admin do
         expect(response.body).not_to match(/name="group_score_category_id"[^>]*checked/)
       end
 
+      it 'groups the types used in the last years as usual' do
+        rare_type = create(:group_score_type, name: 'Selten')
+        recent = create(:competition, date: 1.year.ago, name: 'Neu')
+        create_list(:group_score_category, 2, competition: recent, group_score_type:)
+        create(:group_score_category, competition:, group_score_type: rare_type)
+        post('/backend/imports/disciplines/check', params:)
+        expect(response.body).to match(%r{label="Üblich"><option[^>]*>WKO</option></optgroup>})
+        expect(response.body).to match(%r{label="Weitere"><option[^>]*>Selten</option>})
+      end
+
       it 'needs a category' do
         post '/backend/imports/disciplines', params: params.merge(
           lines: { '0' => { valid: '1', team_id: team.id, team_number: 1, times: %w[2287] } },
