@@ -2,7 +2,7 @@
   .filters-wrapper
     %button.filters-trigger{ type: :button, data: { bs_toggle: :dropdown }, aria: { haspopup: 'true', expanded: 'false' } }
       = t3('actions.filter')
-    = form_tag(url_for(), { class: 'filters-form', method: :get,
+    = form_tag(url_for(), { class: 'filters-form dropdown-menu', method: :get,
                             data: { controller: 'stop-propagation', action: 'click->stop-propagation#stop' } }) do
       - filters.reject(&:hidden?).each do |filter|
         = render "filter_#{filter.to_partial_path}", filter: filter
