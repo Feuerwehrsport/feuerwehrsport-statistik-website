@@ -112,6 +112,9 @@
 .import-target:has(input[value="new"]:checked) .import-target-new
   display: flex
 
+.import-target-new:has(#category_default:checked) .import-category-name
+  display: none
+
 tr.valid-row > td
   background: #EEF9F1
 

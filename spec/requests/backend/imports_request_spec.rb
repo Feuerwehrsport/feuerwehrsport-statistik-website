@@ -178,7 +178,8 @@ RSpec.describe 'Backend::Imports', login: :admin do
 
       it 'preselects new category without categories, one existing category, none with more' do
         post('/backend/imports/disciplines/check', params:)
-        expect(response.body).to include('value="new" class="form-check-input" checked="checked"', 'value="default"')
+        expect(response.body).to include('value="new" class="form-check-input" checked="checked"')
+        expect(response.body).to match(/id="category_default"[^>]*checked/)
 
         category = create(:group_score_category, competition:, group_score_type:)
         post('/backend/imports/disciplines/check', params:)
@@ -204,6 +205,15 @@ RSpec.describe 'Backend::Imports', login: :admin do
           )
         end.to change(GroupScore, :count).by(2).and change(GroupScoreCategory, :count).by(1)
         expect(GroupScoreCategory.last).to have_attributes(name: 'Neu', competition_id: competition.id)
+      end
+
+      it 'stores "default" for a new standard category' do
+        post '/backend/imports/disciplines', params: params.merge(
+          group_score_category_id: 'new', category_default: '1', category_name: 'Neu',
+          group_score_type_id: group_score_type.id,
+          lines: { '0' => { valid: '1', team_id: team.id, team_number: 1, times: %w[2287] } }
+        )
+        expect(GroupScoreCategory.last.name).to eq 'default'
       end
     end
 

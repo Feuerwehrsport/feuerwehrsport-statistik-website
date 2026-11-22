@@ -144,10 +144,17 @@ class Backend::Imports::DisciplinesController < Backend::BackendController
     return params[:group_score_category_id] unless params[:group_score_category_id] == 'new'
 
     category = GroupScoreCategory.create!(competition_id: @competition.id,
-                                          name: params[:category_name].presence || 'default',
+                                          name: new_category_name,
                                           group_score_type_id: params[:group_score_type_id])
     log_change(category, serializer: GroupScoreCategorySerializer)
     category.id
+  end
+
+  # "Standard" stores "default", otherwise the given name (the name of the result list is suggested)
+  def new_category_name
+    return 'default' if params[:category_default] == '1'
+
+    params[:category_name].presence || @result_name.presence || 'default'
   end
 
   # times that are already in the competition are only imported again with an extra confirmation
@@ -190,7 +197,9 @@ class Backend::Imports::DisciplinesController < Backend::BackendController
                                     .includes(:group_score_type).reorder(:id).decorate
     @category_id = params[:group_score_category_id].presence ||
                    (@categories.one? ? @categories.first.id : nil) || ('new' if @categories.none?)
-    @category_name = params[:category_name].presence || (@categories.none? ? 'default' : @result_name.presence)
+    # first category of the competition: "default", further ones: name of the result list
+    @category_default = params.key?(:category_default) ? params[:category_default] == '1' : @categories.none?
+    @category_name = params[:category_name].presence || @result_name.presence
     @group_score_types = GroupScoreType.where(discipline: @discipline).reorder(regular: :desc, name: :asc)
     @group_score_type_id = params[:group_score_type_id].presence&.to_i || last_group_score_type_id
   end

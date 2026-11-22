@@ -13,8 +13,15 @@
       = label_tag :group_score_category_id_new, 'Neue Kategorie anlegen', class: 'form-check-label'
     .import-target-new.row.g-2.mt-1.ms-3
       .col-md-5
-        = label_tag :category_name, 'Name', class: 'form-label small mb-0'
-        = text_field_tag :category_name, @category_name, class: 'form-control form-control-sm'
+        .form-check.mb-1
+          = hidden_field_tag :category_default, '0', id: nil
+          = check_box_tag :category_default, '1', @category_default, class: 'form-check-input'
+          = label_tag :category_default, class: 'form-check-label small' do
+            Standard
+            %span.text-muted (Name „default“)
+        .import-category-name
+          = label_tag :category_name, 'Name', class: 'form-label small mb-0'
+          = text_field_tag :category_name, @category_name, class: 'form-control form-control-sm'
       .col-md-7
         = label_tag :group_score_type_id, 'Typ', class: 'form-label small mb-0'
         = select_tag :group_score_type_id,
