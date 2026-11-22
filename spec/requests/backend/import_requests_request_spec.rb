@@ -135,6 +135,15 @@ RSpec.describe 'Backend::ImportRequests', login: :sub_admin do
         expect(import_request.import_request_files.reload.map(&:transfered)).to all(be true)
       end
 
+      it 'warns before creating a competition for a request without results and files' do
+        get '/backend/imports/competitions/new', params: { import_request_id: import_request.id }
+        expect(response.body).not_to include('import-request-without-content')
+
+        empty_request = create(:import_request, import_request_files: [], edit_user: import_request.edit_user)
+        get '/backend/imports/competitions/new', params: { import_request_id: empty_request.id }
+        expect(response.body).to include('keine Ergebnisse und keine Dateien')
+      end
+
       it 'creates the competition for the import request' do
         post '/backend/imports/competitions', params: {
           import_request_id: import_request.id, return_to: "/backend/import_requests/#{import_request.id}",

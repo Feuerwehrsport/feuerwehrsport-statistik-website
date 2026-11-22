@@ -46,6 +46,11 @@ class ImportRequest < ApplicationRecord
     url.to_s.include?('feusport.de') ? 'Ergebnisse bei feusport' : 'Ergebnisse'
   end
 
+  # neither results nor files: maybe sent too early (a competition created for it would stay empty)
+  def without_content?
+    Array(import_data&.dig(:results)).none? { |result| Array(result[:rows]).many? } && import_request_files.none?
+  end
+
   def import_data_results
     @import_data_results ||= import_data[:results].select { |result| result[:rows].many? }
   end

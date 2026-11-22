@@ -4,6 +4,10 @@
     = simple_form_for @competition, url: backend_imports_competitions_path do |f|
       = hidden_field_tag :return_to, @return_to
       = hidden_field_tag :import_request_id, @import_request&.id
+      - if @import_request&.without_content?
+        .alert.alert-warning#import-request-without-content
+          Die Import-Anfrage enthält keine Ergebnisse und keine Dateien. Prüfe, ob der Wettkampf trotzdem angelegt
+          werden soll.
       - if @competition.errors[:base].any?
         .alert.alert-danger= @competition.errors[:base].to_sentence
       = f.input :name
