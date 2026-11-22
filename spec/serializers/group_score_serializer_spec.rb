@@ -49,7 +49,7 @@ RSpec.describe GroupScoreSerializer do
   describe GroupScoreTypeSerializer do
     it 'serializes type' do
       type = group_score.group_score_category.group_score_type
-      expect(api_json(type)).to eq(id: type.id, discipline: 'la', name: 'WKO', regular: true)
+      expect(api_json(type)).to eq(id: type.id, discipline: 'la', key: type.key, name: 'WKO', regular: true)
     end
   end
 end

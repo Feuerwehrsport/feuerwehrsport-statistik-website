@@ -7,8 +7,8 @@ describe Caching::HeavyBuilder do
   let!(:team) { create(:team) }
   let!(:competition) { create(:competition, date: Date.new(2017, 5, 1)) }
   let!(:current_competition) { create(:competition, name: 'Aktuell', date: Date.current) }
-  let(:din_wko) { create(:group_score_type, discipline: 'la', name: 'WKO DIN-Pumpe') }
-  let(:tgl_wko) { create(:group_score_type, discipline: 'la', name: 'WKO TGL-Pumpe') }
+  let(:din_wko) { create(:group_score_type, discipline: 'la', name: 'WKO DIN-Pumpe', key: 'din_zielgeraete') }
+  let(:tgl_wko) { create(:group_score_type, discipline: 'la', name: 'WKO TGL-Pumpe', key: 'tgl_zielgeraete') }
 
   before do
     GroupScoreType.instance_variable_set(:@din_wko, nil)

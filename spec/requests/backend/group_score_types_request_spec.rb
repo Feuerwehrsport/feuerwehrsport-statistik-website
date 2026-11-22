@@ -7,6 +7,7 @@ RSpec.describe 'Backend::GroupScoreTypes', login: :sub_admin do
     let(:resource_attributes) do
       {
         name: 'WKO',
+        key: 'wko_neu',
         regular: '1',
         discipline: 'la',
       }

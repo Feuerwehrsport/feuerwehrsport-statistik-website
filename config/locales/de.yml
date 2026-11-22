@@ -171,6 +171,7 @@ de:
         group_score_type: Wertungstyp 
         group_score_type_id: Wertungstyp 
       group_score_type:
+        key: Schlüssel
         regular: nach WKO
       person_participation:
         group_score: Mannschaftszeit

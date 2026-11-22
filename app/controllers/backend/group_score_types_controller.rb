@@ -6,6 +6,7 @@ class Backend::GroupScoreTypesController < Backend::BackendController
   default_form do |f|
     f.input :regular
     f.input :name
+    f.input :key, hint: 'Fester Schlüssel, z. B. din_dose (nur Kleinbuchstaben, Ziffern und _)'
     f.input :discipline, collection: %i[la gs fs]
   end
 
@@ -16,6 +17,7 @@ class Backend::GroupScoreTypesController < Backend::BackendController
   default_index do |t|
     t.col :regular
     t.col :name
+    t.col :key
     t.col :discipline
   end
 end

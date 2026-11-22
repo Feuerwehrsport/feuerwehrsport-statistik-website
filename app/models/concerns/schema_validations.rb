@@ -4,7 +4,7 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 
-# generated from version 20261122120000
+# generated from version 20261122150000
 
 module SchemaValidations
   extend ActiveSupport::Concern
@@ -238,9 +238,12 @@ module SchemaValidations
     end
 
     def dbv_group_score_types_validations(enums: [])
+      belongs_to_uniqueness_validations_for([["key"]])
+      uniqueness_validations_for([["key"]])
       validates_with_filter :created_at, {date_time_in_db_range: {}}
       validates_with_filter :created_at, {presence: {}}
       validates_with_filter :discipline, {presence: {}}
+      validates_with_filter :key, {presence: {}}
       validates_with_filter :name, {length: {allow_nil: true, maximum: 200}}
       validates_with_filter :name, {presence: {}}
       validates_with_filter :regular, {inclusion: {in: [true, false], message: :blank}}
