@@ -15,6 +15,11 @@ class Import::Scores
     @discipline = discipline.try(:to_sym)
   end
 
+  # records created by save! (to undo the import)
+  def created_ids
+    @created_ids ||= { score_ids: [], group_score_ids: [], person_ids: [] }
+  end
+
   def save!
     Score.transaction do
       scores.each do |score|
@@ -41,7 +46,7 @@ class Import::Scores
 
     score[:times].each do |time|
       insert_hash[:time] = time
-      GroupScore.create!(insert_hash)
+      created_ids[:group_score_ids].push(GroupScore.create!(insert_hash).id)
     end
   end
 
@@ -61,6 +66,7 @@ class Import::Scores
         first_name: score[:first_name],
         nation_id: 1,
       )
+      created_ids[:person_ids].push(person.id)
     end
 
     insert_hash[:person] = person
@@ -69,7 +75,7 @@ class Import::Scores
 
     score[:times].each do |time|
       insert_hash[:time] = time
-      Score.create!(insert_hash)
+      created_ids[:score_ids].push(Score.create!(insert_hash).id)
     end
   end
 end

@@ -230,4 +230,38 @@ describe ImportRequest do
       expect(import_request.import_request_files).to be_empty
     end
   end
+
+  describe '#undo_result_import!' do
+    let(:import_request) { create(:import_request, import_request_files: []) }
+    let(:competition) { create(:competition) }
+    let(:old_person) { create(:person) }
+    let(:new_person) { create(:person, last_name: 'Neu') }
+    let(:used_person) { create(:person, last_name: 'Benutzt') }
+    let!(:other_score) { create(:score, competition:, person: used_person, time: 2000) }
+    let(:scores) do
+      [create(:score, competition:, person: old_person), create(:score, competition:, person: new_person)]
+    end
+    let(:used_score) { create(:score, competition:, person: used_person, time: 2100) }
+    let(:category) { create(:group_score_category, competition:) }
+    let(:group_score) do
+      GroupScore.create!(group_score_category: category, team: create(:team), gender: :male, time: 2287)
+    end
+
+    it 'deletes the scores and the unused new people and categories' do
+      import_request.mark_result_imported!(0, 'male', score_ids: [*scores.map(&:id), used_score.id],
+                                                      person_ids: [new_person.id, used_person.id])
+      import_request.mark_result_imported!(1, 'male', group_score_ids: [group_score.id], category_ids: [category.id])
+      expect(import_request.imported_result(0, 'male')['score_ids'].size).to eq 3
+
+      import_request.undo_result_import!(0, 'male')
+      expect(Score.pluck(:id)).to eq [other_score.id]
+      expect(Person.pluck(:id)).to contain_exactly(old_person.id, used_person.id)
+      expect(import_request.reload.result_imported?(0, 'male')).to be false
+      expect(import_request.result_imported?(1, 'male')).to be true
+
+      import_request.undo_result_import!(1, 'male')
+      expect(GroupScore.count).to eq 0
+      expect(GroupScoreCategory.count).to eq 0
+    end
+  end
 end

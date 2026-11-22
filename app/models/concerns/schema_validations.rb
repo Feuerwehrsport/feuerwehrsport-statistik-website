@@ -4,7 +4,7 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 
-# generated from version 20261122100000
+# generated from version 20261122120000
 
 module SchemaValidations
   extend ActiveSupport::Concern
@@ -290,6 +290,7 @@ module SchemaValidations
       validates_with_filter :event_id, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:event_id)
       validates_with_filter :finished_at, {date_time_in_db_range: {}}
       validates_with_filter :imported_result_keys, {not_null: {}}
+      validates_with_filter :imported_results, {not_null: {}}
       validates_with_filter :place_id, {numericality: {allow_nil: true, only_integer: true, greater_than_or_equal_to: -2147483648, less_than: 2147483648}} unless enums.include?(:place_id)
       validates_with_filter :updated_at, {date_time_in_db_range: {}}
       validates_with_filter :updated_at, {presence: {}}

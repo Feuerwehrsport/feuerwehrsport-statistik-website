@@ -77,6 +77,27 @@
                               data: { turbo_frame: 'import-discipline', turbo: true } do
                       = mark.(gender)
                       = name
+          - imported = resource.imported_result_keys.filter_map { it.match(/\A(\d+)-(female|male)\z/) }
+          - if imported.any?
+            %h4.fs-6.mt-3 Bereits importiert
+            %table.table.table-sm.align-middle#imported-results
+              - imported.each do |match|
+                - index = match[1].to_i
+                - gender = match[2]
+                - result = resource.import_data_results[index] || {}
+                - entry = resource.imported_result(index, gender)
+                %tr
+                  %td #{result[:discipline]} #{g(gender)} – #{result[:name]}
+                  %td.small.text-muted
+                    - if entry
+                      #{Array(entry['score_ids']).size + Array(entry['group_score_ids']).size} Zeiten
+                  %td.text-end
+                    - if entry
+                      = button_to 'Zurücknehmen', undo_result_backend_import_request_path(resource), method: :patch,
+                                  params: { result_index: index, gender: }, class: 'btn btn-outline-danger btn-sm', form_class: 'inline-form',
+                                  data: { turbo_confirm: "Alle Zeiten dieses Imports löschen? Neu angelegte Personen und Kategorien werden mitgelöscht, wenn sie sonst nicht verwendet werden." }
+                    - else
+                      %span.small.text-muted{ title: 'Vor dieser Funktion importiert' } nicht möglich
 
       - if resource.import_request_files.any?
         .col-12

@@ -30,6 +30,7 @@ de:
       create_groupscoretype: Wertungstyp hinzufügen
     import/scores:
       scores_import_scores: Zeiten importieren
+      scores_undo_import: Import von Zeiten zurücknehmen
     import_request:
       create_importrequest: Import-Anfrage hinzufügen
       destroy_importrequest: Import-Anfrage löschen

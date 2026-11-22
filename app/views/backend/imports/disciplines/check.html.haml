@@ -54,10 +54,18 @@
                   %td
                 - else
                   %td{ class: people.empty? ? 'person-not-found' : nil }
+                    - similar = Array(line[:similar_people])
                     - if people.size > 1
                       = select_tag "#{prefix}[person_id]",
                                    options_for_select(people.map { |id, last, first| ["#{last} #{first} #{id}", id] }, line[:given_person_id]),
                                    class: 'form-select form-select-sm', 'aria-label': "Person in Zeile #{index + 1}"
+                    - elsif similar.any?
+                      -# no exact match: choose a similar person or create a new one
+                      .small= "#{line[:last_name]} #{line[:first_name]}"
+                      - options = [['– Person wählen –', '']] + similar.map { |id, last, first| ["#{last} #{first} (##{id})", id] }
+                      = select_tag "#{prefix}[person_id]", options_for_select(options + [['Neue Person anlegen', 'new']]),
+                                   class: 'form-select form-select-sm similar-people', required: line[:valid],
+                                   'aria-label': "Ähnliche Person für Zeile #{index + 1}"
                     - else
                       = "#{line[:last_name]} #{line[:first_name]}"
                       = hidden_field_tag "#{prefix}[person_id]", people.first&.first

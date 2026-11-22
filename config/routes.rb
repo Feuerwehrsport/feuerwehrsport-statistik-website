@@ -55,6 +55,7 @@ Rails.application.routes.draw do
       member do
         patch :assign_competition
         patch :transfer_files
+        patch :undo_result
       end
     end
     resources :links

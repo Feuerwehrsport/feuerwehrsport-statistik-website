@@ -13,6 +13,7 @@ class Import::Line
       check.headline_columns.each_with_index { |headline, index| check_col(headline, cols[index].strip) }
       # group disciplines only search people if names are given
       out[:people] = find_people unless Discipline.group?(check.discipline) && out[:last_name].blank?
+      out[:similar_people] = find_similar_people if out[:people] == [] && out[:last_name].present?
     end
     check_team
   end
@@ -162,5 +163,19 @@ class Import::Line
     person_ids += PersonSpelling.gender(check.gender).search_exactly(out[:last_name],
                                                                      out[:first_name]).pluck(:person_id)
     Person.where(id: person_ids).in_order_of(:id, person_ids.uniq).pluck(:id, :last_name, :first_name)
+  end
+
+  # people with similar names, when nobody matches exactly: chosen in the preview to avoid duplicate people
+  # (typing errors via levenshtein of fuzzystrmatch, other first names with the same last name, spellings)
+  def find_similar_people
+    scope = Person.gender(check.gender)
+    distance = ActiveRecord::Base.sanitize_sql_array(
+      ['levenshtein(LOWER(last_name), LOWER(?)) + levenshtein(LOWER(first_name), LOWER(?))',
+       out[:last_name], out[:first_name]],
+    )
+    ids = scope.where("#{distance} <= 3").reorder(Arel.sql(distance)).limit(10).pluck(:id)
+    ids += scope.where('last_name ILIKE ?', out[:last_name]).limit(10).pluck(:id)
+    ids += scope.where_name_like("#{out[:first_name]} #{out[:last_name]}").limit(10).pluck(:id)
+    Person.where(id: ids.uniq).in_order_of(:id, ids.uniq).pluck(:id, :last_name, :first_name)
   end
 end

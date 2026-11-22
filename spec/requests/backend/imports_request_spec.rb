@@ -227,6 +227,36 @@ RSpec.describe 'Backend::Imports', login: :admin do
         expect(response.body).to include('1 Zeiten wurden eingetragen.')
         expect(import_request.reload.result_imported?(0, 'female')).to be true
         expect(import_request.result_imported?(0, 'male')).to be false
+        expect(import_request.imported_result(0, 'female')['score_ids']).to eq Score.pluck(:id)
+
+        expect do
+          patch "/backend/import_requests/#{import_request.id}/undo_result",
+                params: { result_index: 0, gender: 'female' }
+        end.to change(Score, :count).by(-1)
+        expect(response).to redirect_to("/backend/import_requests/#{import_request.id}")
+        expect(import_request.reload.result_imported?(0, 'female')).to be false
+        expect(ChangeLog.last).to have_attributes(action: 'scores-undo-import')
+      end
+
+      it 'creates a new person if chosen instead of a similar one' do
+        create(:single_discipline, :hl_female)
+        create(:person, :female, last_name: 'Meier', first_name: 'Anna')
+        expect do
+          post '/backend/imports/disciplines', params: {
+            competition_id: competition.id, discipline: 'hl', gender: 'female', separator: 'TAB', raw_lines: '',
+            import_request_id: import_request.id, result_index: 0, single_discipline_id: SingleDiscipline.last.id,
+            lines: { '0' => { valid: '1', person_id: 'new', last_name: 'Meier', first_name: 'Anne', times: %w[1750] } }
+          }
+        end.to change(Person, :count).by(1)
+        expect(import_request.reload.imported_result(0, 'female')['person_ids']).to eq [Person.last.id]
+      end
+
+      it 'suggests similar people' do
+        similar = create(:person, :female, last_name: 'Meier', first_name: 'Anne')
+        get '/backend/imports/disciplines/new', params: { competition_id: competition.id, discipline: 'hl',
+                                                          gender: 'female', import_request_id: import_request.id,
+                                                          result_index: 0 }
+        expect(response.body).to include('similar-people', "Meier Anne (##{similar.id})", 'Neue Person anlegen')
       end
 
       it 'fills the input with the rows of the result' do

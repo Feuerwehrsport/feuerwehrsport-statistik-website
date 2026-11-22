@@ -4,7 +4,7 @@ class Backend::ImportRequestsController < Backend::BackendController
   include Backend::ImportCompetitionSelection
 
   backend_actions clean_cache_disabled: true
-  skip_before_action :preauthorize_action, only: %i[decide_login assign_competition transfer_files]
+  skip_before_action :preauthorize_action, only: %i[decide_login assign_competition transfer_files undo_result]
 
   default_form do |f|
     f.fields_for :import_request_files do
@@ -57,6 +57,22 @@ class Backend::ImportRequestsController < Backend::BackendController
     end
     Caching::Cleaner.new.save
     redirect_to backend_import_request_path(import_request), notice: "#{files.size} PDFs übertragen."
+  end
+
+  # removes the scores of an imported result again (e.g. imported into the wrong category)
+  def undo_result
+    import_request = ImportRequest.find(params[:id])
+    authorize!(:update, import_request)
+    authorize!(:destroy, Score)
+    authorize!(:destroy, GroupScore)
+    entry = import_request.undo_result_import!(params[:result_index].to_i, params[:gender].to_s)
+    log_hash = entry.merge(import_request_id: import_request.id, result_index: params[:result_index],
+                           gender: params[:gender])
+    ChangeLog.create!(model_class: Import::Scores, user: current_user, action: 'scores-undo-import',
+                      before_hash: log_hash)
+    Caching::Cleaner.new.save
+    count = Array(entry['score_ids']).size + Array(entry['group_score_ids']).size
+    redirect_to backend_import_request_path(import_request), notice: "Import zurückgenommen (#{count} Zeiten gelöscht)."
   end
 
   def decide_login

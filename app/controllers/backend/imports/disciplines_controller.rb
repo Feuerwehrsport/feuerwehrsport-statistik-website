@@ -56,6 +56,7 @@ class Backend::Imports::DisciplinesController < Backend::BackendController
 
     import = Import::Scores.new(discipline: @discipline, gender: @gender, competition_id: @competition.id,
                                 scores:, single_discipline_id: params[:single_discipline_id])
+    new_category = params[:group_score_category_id] == 'new'
     ActiveRecord::Base.transaction do
       import.group_score_category_id = group_score_category_id if Discipline.group?(@discipline)
       raise ActiveRecord::RecordInvalid, import unless import.valid?
@@ -66,7 +67,7 @@ class Backend::Imports::DisciplinesController < Backend::BackendController
                                       group_score_category_id: import.group_score_category_id,
                                       single_discipline_id: import.single_discipline_id, scores: })
     end
-    mark_result_imported
+    mark_result_imported(import, new_category)
     clean_cache
     @count = scores.sum { |score| score[:times].size }
     render :created
@@ -116,12 +117,13 @@ class Backend::Imports::DisciplinesController < Backend::BackendController
   end
 
   # direct import of an import request: remember the imported result
-  def mark_result_imported
+  def mark_result_imported(import, new_category)
     return if params[:import_request_id].blank? || params[:result_index].blank?
 
     import_request = ImportRequest.find(params[:import_request_id])
     authorize!(:update, import_request)
-    import_request.mark_result_imported!(params[:result_index].to_i, @gender)
+    created_ids = import.created_ids.merge(category_ids: new_category ? [import.group_score_category_id.to_i] : [])
+    import_request.mark_result_imported!(params[:result_index].to_i, @gender, created_ids)
   end
 
   # lines of the preview form that are marked as valid
@@ -131,6 +133,7 @@ class Backend::Imports::DisciplinesController < Backend::BackendController
 
       score = line.permit(:team_number, :team_id, :run, :person_id, :last_name, :first_name, times: []).to_h
                   .symbolize_keys.compact_blank
+      score.delete(:person_id) if score[:person_id] == 'new' # new person with the given name
       score[:times] = Array(score[:times]).map(&:to_i)
       score.presence if score[:times].any?
     end

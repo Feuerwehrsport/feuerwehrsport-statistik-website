@@ -55,8 +55,41 @@ class ImportRequest < ApplicationRecord
     imported_result_keys.include?("#{index}-#{gender}")
   end
 
-  def mark_result_imported!(index, gender)
-    update!(imported_result_keys: (imported_result_keys + ["#{index}-#{gender}"]).uniq)
+  # created_ids: records of the import (Import::Scores#created_ids, category_id of a new category), several
+  # imports of the same result are collected
+  def mark_result_imported!(index, gender, created_ids = {})
+    key = "#{index}-#{gender}"
+    entry = imported_results[key] || {}
+    created_ids.each { |name, ids| entry[name.to_s] = (Array(entry[name.to_s]) + Array(ids)).uniq }
+    entry['imported_at'] = Time.current.iso8601
+    update!(imported_result_keys: (imported_result_keys + [key]).uniq,
+            imported_results: imported_results.merge(key => entry))
+  end
+
+  def imported_result(index, gender)
+    imported_results["#{index}-#{gender}"]
+  end
+
+  # deletes the records of the import of a result (people and a category only if they are unused now)
+  def undo_result_import!(index, gender)
+    key = "#{index}-#{gender}"
+    entry = imported_results[key] || {}
+    transaction do
+      Score.where(id: entry['score_ids']).destroy_all
+      group_scores = GroupScore.where(id: entry['group_score_ids'])
+      PersonParticipation.where(group_score_id: group_scores.select(:id)).delete_all
+      group_scores.destroy_all
+      Person.where(id: entry['person_ids']).find_each do |person|
+        person.destroy
+      rescue ActiveRecord::DeleteRestrictionError
+        nil # used by other scores
+      end
+      GroupScoreCategory.where(id: entry['category_ids']).find_each do |category|
+        category.destroy if category.group_scores.none?
+      end
+      update!(imported_result_keys: imported_result_keys - [key], imported_results: imported_results.except(key))
+    end
+    entry
   end
 
   def series_round_imported?(round)
