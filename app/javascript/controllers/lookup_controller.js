@@ -8,9 +8,10 @@ const SERVICES = {
 
 // backend: searches a team name on wikipedia or nominatim (places) and shows the results as table rows.
 // Nominatim results can be chosen for the map (event geo-position:move), including their country/state.
+// With anchors (competition places of the team) they are sorted by the distance to the nearest one.
 export default class extends Controller {
   static targets = ["results"]
-  static values = { service: String, query: String }
+  static values = { service: String, query: String, anchors: Array }
 
   async connect() {
     try {
@@ -40,7 +41,9 @@ export default class extends Controller {
   }
 
   nominatimRows(json) {
-    return json.map((item) => {
+    const items = json.map((item) => ({ item, nearest: this.nearestAnchor(item) }))
+    if (this.anchorsValue.length > 0) items.sort((a, b) => a.nearest.distance - b.nearest.distance)
+    return items.map(({ item, nearest }) => {
       const button = document.createElement("button")
       button.type = "button"
       button.className = "btn btn-outline-secondary btn-sm"
@@ -50,8 +53,27 @@ export default class extends Controller {
       button.dataset.lookupLonParam = item.lon
       button.dataset.lookupCountryParam = item.address?.country_code || ""
       button.dataset.lookupStateParam = item.address?.state || ""
-      return [this.cell(item.display_name), this.cell(button)]
+      const cells = [this.cell(item.display_name)]
+      if (nearest) cells.push(this.cell(`ca. ${Math.round(nearest.distance)} km von ${nearest.name}`))
+      return [...cells, this.cell(button)]
     })
+  }
+
+  // nearest competition place of a result: { name, distance (km) }, null without anchors
+  nearestAnchor(item) {
+    const distances = this.anchorsValue.map((anchor) => ({
+      name: anchor.name,
+      distance: this.distanceKm(Number(item.lat), Number(item.lon), anchor.lat, anchor.lon),
+    }))
+    return distances.sort((a, b) => a.distance - b.distance)[0] || null
+  }
+
+  // great circle distance (haversine)
+  distanceKm(lat1, lon1, lat2, lon2) {
+    const rad = Math.PI / 180
+    const a = Math.sin((lat2 - lat1) * rad / 2) ** 2 +
+              Math.cos(lat1 * rad) * Math.cos(lat2 * rad) * Math.sin((lon2 - lon1) * rad / 2) ** 2
+    return 2 * 6371 * Math.asin(Math.sqrt(a))
   }
 
   cell(content) {

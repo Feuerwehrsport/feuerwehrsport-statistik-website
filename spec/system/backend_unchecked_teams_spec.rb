@@ -9,7 +9,9 @@ describe 'backend unchecked teams' do
     browser.network.intercept
     browser.on(:request) do |request|
       if request.url.include?('nominatim.openstreetmap.org')
-        request.respond(body: [{ display_name: 'Warin, Deutschland', lat: '53.8', lon: '11.7',
+        request.respond(body: [{ display_name: 'Warin, Sachsen', lat: '51.1', lon: '13.7',
+                                 address: { country_code: 'de', state: 'Sachsen' } },
+                               { display_name: 'Warin, Deutschland', lat: '53.8', lon: '11.7',
                                  address: { country_code: 'de', state: 'Sachsen' } }].to_json,
                         responseHeaders: { 'Access-Control-Allow-Origin' => '*', 'Content-Type' => 'application/json' })
       elsif request.url.include?('wikipedia.org')
@@ -44,5 +46,20 @@ describe 'backend unchecked teams' do
     end
     expect(page).to have_no_css('dialog[open]')
     expect(team.reload).to have_attributes(latitude: 53.8, longitude: 11.7, state: 'SN')
+  end
+
+  it 'sorts the places found by the distance to the competition places' do
+    team = create(:team, :without_geo_location, checked_at: nil)
+    place = create(:place, name: 'Kagsdorf', latitude: 54.1, longitude: 11.9)
+    create(:score, team:, competition: create(:competition, place:))
+    sign_in(:sub_admin)
+    stub_lookups
+
+    visit backend_unchecked_team_path(team)
+    expect(page).to have_text('Sortiert nach der Entfernung zum nächsten Wettkampfort: Kagsdorf')
+    expect(page).to have_css('tr', text: 'km von Kagsdorf', count: 2)
+    rows = all('tr', text: 'km von Kagsdorf').map { |row| row.text.squish }
+    expect(rows).to eq ['Warin, Deutschland ca. 36 km von Kagsdorf Auswählen',
+                        'Warin, Sachsen ca. 355 km von Kagsdorf Auswählen']
   end
 end

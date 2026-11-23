@@ -42,7 +42,14 @@
     = content_card('Geo-Position suchen', heading: :h3,
                    data: { controller: 'geo-position', geo_position_url_value: edit_contributions_team_geo_position_path(resource),
                            action: 'geo-position:move@window->geo-position#move' }) do
-      %div{ data: { controller: 'lookup', lookup_service_value: 'nominatim', lookup_query_value: resource.shortcut } }
+      - places = resource.competition_places
+      - if places.any?
+        %p.small.text-muted
+          Sortiert nach der Entfernung zum nächsten Wettkampfort:
+          = places.map(&:name).join(', ')
+      - anchors = places.map { { name: it.name, lat: it.latitude.to_f, lon: it.longitude.to_f } }
+      %div{ data: { controller: 'lookup', lookup_service_value: 'nominatim', lookup_query_value: resource.shortcut,
+                    lookup_anchors_value: anchors.to_json } }
         %table.table
           %tbody{ data: { lookup_target: 'results' } }
             %tr

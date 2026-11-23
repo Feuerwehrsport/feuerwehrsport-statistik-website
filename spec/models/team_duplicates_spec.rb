@@ -41,4 +41,26 @@ RSpec.describe TeamDuplicates do
       ]
     end
   end
+
+  describe 'distance to the competition places' do
+    let(:place) { create(:place, name: 'Warin', latitude: 53.8, longitude: 11.7) }
+    let(:competition) { create(:competition, place:) }
+    let!(:team) { create(:team, name: 'FF Neuendorf', shortcut: 'Neuendorf', state: nil, checked_at: nil) }
+    let!(:far) { create(:team, name: 'FF Neuendorf', shortcut: 'Neuendorf', latitude: 50.9, longitude: 13.3) }
+    let!(:near) { create(:team, name: 'FF Neuendorf', shortcut: 'Neuendorf', latitude: 53.7, longitude: 11.6) }
+    let!(:unknown) { create(:team, :without_geo_location, name: 'FF Neuendorf', shortcut: 'Neuendorf') }
+
+    before { create(:score, team:, competition:) }
+
+    it 'prefers teams near the competition places' do
+      candidates = described_class.new(team).candidates
+      expect(candidates.map(&:team)).to eq [near, unknown, far]
+      expect(candidates.map(&:reasons)).to eq [
+        ['gleicher Name', 'ca. 13 km von Warin'],
+        ['gleicher Name'],
+        ['gleicher Name', 'ca. 340 km von Warin'],
+      ]
+      expect(described_class.new(team).competition_places).to eq [place]
+    end
+  end
 end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# possible duplicates of a (new) team, ranked by evidence: shared people and similar names (also known spellings)
+# possible duplicates of a (new) team, ranked by evidence: shared people and similar names (also known spellings),
+# and the distance to the places of the competitions of the team (teams mostly start in their region)
 class TeamDuplicates
   Candidate = Struct.new(:team, :score, :reasons)
 
@@ -12,6 +13,8 @@ class TeamDuplicates
   MIN_CONTAINED_LENGTH = 4
   MIN_SIMILAR_LENGTH = 4
   LIMIT = 15
+  # [max km, score] for the distance of a candidate to the nearest competition place, beyond the last: -3
+  DISTANCE_SCORES = [[30, 3], [80, 1], [250, 0]].freeze
 
   # comparable key of a team name: lower case, without prefix/suffix, umlauts, abbreviations and separators
   def self.name_key(name)
@@ -36,8 +39,22 @@ class TeamDuplicates
       teams = Team.where(id: candidates.keys).index_by(&:id)
       candidates.each { |id, candidate| candidate.team = teams[id] }
       add_same_state(candidates.values)
+      add_distance(candidates.values)
       candidates.values.select(&:team).sort_by { |c| [-c.score, c.team.name] }.first(LIMIT)
     end
+  end
+
+  # places of the competitions of the team with a position (anchor for distances)
+  def competition_places
+    @competition_places ||= begin
+      competition_ids = TeamCompetition.where(team_id: @team.id).select(:competition_id)
+      Place.positioned.where(id: Competition.where(id: competition_ids).select(:place_id)).reorder(:name).to_a
+    end
+  end
+
+  # distance in km of a position to the nearest competition place and that place
+  def nearest_competition_place(latlon)
+    competition_places.map { |place| [GeoPosition.distance_km(latlon, place.latlon), place] }.min_by(&:first)
   end
 
   private
@@ -97,6 +114,18 @@ class TeamDuplicates
   def contained?(first, second)
     shorter, longer = [first, second].sort_by(&:length)
     shorter.length >= MIN_CONTAINED_LENGTH && longer.include?(shorter)
+  end
+
+  def add_distance(candidates)
+    return if competition_places.empty?
+
+    candidates.each do |candidate|
+      next unless candidate.team&.positioned?
+
+      distance, place = nearest_competition_place(candidate.team.latlon)
+      candidate.score += DISTANCE_SCORES.find { |max, _score| distance <= max }&.last || -3
+      candidate.reasons.push("ca. #{distance.round} km von #{place.name}")
+    end
   end
 
   def add_same_state(candidates)
