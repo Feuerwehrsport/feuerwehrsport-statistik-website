@@ -20,6 +20,8 @@
           %li= nav_list_link('Serienartenübersicht', backend_series_kinds_path)
         %li= nav_list_link('Cache löschen', new_backend_caching_cleaner_path)
         %li= nav_list_link('Ungenutzte Wettkämpfer löschen', backend_people_cleaner_path)
+        - if current_admin_user&.role == :admin
+          %li= nav_list_link('Hintergrund-Jobs', mission_control_jobs_path, SolidQueue::FailedExecution.count)
 
   .col-lg-8
     = content_card('Daten bearbeiten') do
