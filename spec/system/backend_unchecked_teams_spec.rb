@@ -42,10 +42,11 @@ describe 'backend unchecked teams' do
     within('dialog.contribution-dialog') do
       expect(page).to have_text('Breite 53.8, Länge 11.7')
       expect(page).to have_checked_field('Land/Bundesland auf „Sachsen“ setzen')
+      expect(page).to have_checked_field('Mannschaft geprüft (aus der Liste nehmen)')
       click_on 'Position speichern'
     end
-    expect(page).to have_no_css('dialog[open]')
-    expect(team.reload).to have_attributes(latitude: 53.8, longitude: 11.7, state: 'SN')
+    expect(page).to have_current_path(backend_unchecked_teams_path)
+    expect(team.reload).to have_attributes(latitude: 53.8, longitude: 11.7, state: 'SN', checked_at: be_present)
   end
 
   it 'sorts the places found by the distance to the competition places' do

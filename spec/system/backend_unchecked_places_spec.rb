@@ -34,8 +34,11 @@ describe 'backend unchecked places' do
 
     within('tr.table-success') { click_on 'Auswählen' }
     within('.team-map-actions') { click_on 'Speichern' }
-    within('dialog.contribution-dialog') { click_on 'Position speichern' }
+    within('dialog.contribution-dialog') do
+      uncheck 'Ort geprüft (aus der Liste nehmen)'
+      click_on 'Position speichern'
+    end
     expect(page).to have_no_css('dialog[open]')
-    expect(place.reload.latlon).to eq [53.8, 11.7]
+    expect(place.reload).to have_attributes(latlon: [53.8, 11.7], checked_at: nil)
   end
 end

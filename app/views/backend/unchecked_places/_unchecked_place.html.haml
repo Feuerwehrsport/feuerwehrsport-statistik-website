@@ -44,7 +44,7 @@
 
   - unless resource.positioned?
     = content_card('Geo-Position suchen', heading: :h3,
-                   data: { controller: 'geo-position', geo_position_url_value: edit_contributions_place_geo_position_path(resource),
+                   data: { controller: 'geo-position', geo_position_url_value: edit_contributions_place_geo_position_path(resource, offer_check: 1),
                            action: 'geo-position:move@window->geo-position#move' }) do
       - if latlon
         %p.small.text-muted

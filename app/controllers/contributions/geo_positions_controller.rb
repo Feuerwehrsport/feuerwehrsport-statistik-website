@@ -8,6 +8,7 @@ class Contributions::GeoPositionsController < Contributions::BaseController
   def edit
     @latitude, @longitude = coordinates
     @error = 'Die Position ist ungültig.' if @latitude.nil?
+    @offer_check = offer_check?
     return unless @type == 'team'
 
     @state = State.from_place(params[:place_country], params[:place_state])
@@ -22,8 +23,10 @@ class Contributions::GeoPositionsController < Contributions::BaseController
     end
 
     before_hash = @serializer.new(@record.decorate).as_json
+    @checked = offer_check? && params[:checked] == '1'
+    checked = @checked ? { checked_at: Time.current } : {}
     @record.class.transaction do
-      @record.update!(latitude: @latitude, longitude: @longitude, **new_state)
+      @record.update!(latitude: @latitude, longitude: @longitude, **new_state, **checked)
       log_change(@record, serializer: @serializer, action: "update-#{@type}:geo-position", before_hash:)
     end
     clean_cache
@@ -43,6 +46,12 @@ class Contributions::GeoPositionsController < Contributions::BaseController
       @serializer = PlaceSerializer
     end
     authorize!(:update, @record)
+  end
+
+  # from the backend list of new teams/places: offer to mark the record as checked together with the position
+  def offer_check?
+    list_class = @type == 'team' ? UncheckedTeam : UncheckedPlace
+    params[:offer_check] == '1' && @record.checked_at.nil? && can?(:update, list_class)
   end
 
   # state of the chosen place (teams only), when confirmed in the dialog

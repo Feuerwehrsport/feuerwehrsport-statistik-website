@@ -14,4 +14,9 @@
         .form-check.mb-3
           = check_box_tag :state, @state, true, class: 'form-check-input'
           = label_tag :state, "Land/Bundesland auf „#{State::ALL[@state]}“ setzen", class: 'form-check-label'
+      - if @offer_check
+        = hidden_field_tag :offer_check, '1', id: nil
+        .form-check.mb-3
+          = check_box_tag :checked, '1', true, class: 'form-check-input'
+          = label_tag :checked, "#{@type == 'team' ? 'Mannschaft' : 'Ort'} geprüft (aus der Liste nehmen)", class: 'form-check-label'
       = render 'contributions/shared/actions', submit: 'Position speichern'

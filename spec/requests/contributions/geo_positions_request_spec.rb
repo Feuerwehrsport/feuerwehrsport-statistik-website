@@ -52,4 +52,48 @@ RSpec.describe 'Contributions::GeoPositions', login: :api do
     expect(response.body).to include('Die Position ist ungültig.')
     expect(place.reload.latitude).to be_nil
   end
+
+  describe 'marking as checked' do
+    let!(:unchecked_team) { create(:team, checked_at: nil) }
+
+    it 'is not offered to simple api users' do
+      get "/contributions/teams/#{unchecked_team.id}/geo_position/edit",
+          params: { latitude: '51', longitude: '13', offer_check: '1' }
+      expect(response.body).not_to include('name="checked"')
+
+      patch "/contributions/teams/#{unchecked_team.id}/geo_position",
+            params: { latitude: '51', longitude: '13', offer_check: '1', checked: '1' }
+      expect(unchecked_team.reload.checked_at).to be_nil
+    end
+
+    context 'with sub admin', login: :sub_admin do
+      it 'offers the checkbox only for unchecked records from the list' do
+        get "/contributions/teams/#{unchecked_team.id}/geo_position/edit",
+            params: { latitude: '51', longitude: '13', offer_check: '1' }
+        expect(response.body).to include('name="checked"', 'checked="checked"', 'Mannschaft geprüft')
+
+        get "/contributions/teams/#{unchecked_team.id}/geo_position/edit", params: { latitude: '51', longitude: '13' }
+        expect(response.body).not_to include('name="checked"')
+
+        checked_team = create(:team, checked_at: Time.current)
+        get "/contributions/teams/#{checked_team.id}/geo_position/edit",
+            params: { latitude: '51', longitude: '13', offer_check: '1' }
+        expect(response.body).not_to include('name="checked"')
+      end
+
+      it 'marks the place as checked and goes back to the list' do
+        unchecked_place = create(:place, checked_at: nil)
+        patch "/contributions/places/#{unchecked_place.id}/geo_position",
+              params: { latitude: '50', longitude: '10', offer_check: '1', checked: '1' }
+        expect(unchecked_place.reload).to have_attributes(latitude: 50, checked_at: be_present)
+        expect(response.body).to include('/backend/unchecked_places', 'als geprüft markiert')
+      end
+
+      it 'keeps the team unchecked without the checkbox' do
+        patch "/contributions/teams/#{unchecked_team.id}/geo_position",
+              params: { latitude: '50', longitude: '10', offer_check: '1' }
+        expect(unchecked_team.reload).to have_attributes(latitude: 50, checked_at: nil)
+      end
+    end
+  end
 end

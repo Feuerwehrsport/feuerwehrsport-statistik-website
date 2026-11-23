@@ -1,3 +1,8 @@
 = render layout: 'contributions/shared/dialog', locals: { title: "Kartenposition: #{@record.decorate}" } do
-  .alert.alert-success{ data: { controller: 'page-reload' } }
-    Die Position wurde gespeichert. Die Seite wird neu geladen …
+  - if @checked
+    - list = @type == 'team' ? backend_unchecked_teams_path : backend_unchecked_places_path
+    .alert.alert-success{ data: { controller: 'page-reload', page_reload_url_value: list } }
+      Die Position wurde gespeichert und #{@record.decorate} als geprüft markiert. Die Liste wird geladen …
+  - else
+    .alert.alert-success{ data: { controller: 'page-reload' } }
+      Die Position wurde gespeichert. Die Seite wird neu geladen …
