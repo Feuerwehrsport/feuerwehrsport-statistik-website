@@ -93,6 +93,9 @@ Rails.application.routes.draw do
     resources :unchecked_teams do
       member { post :merge }
     end
+    resources :unchecked_places do
+      member { post :merge }
+    end
   end
 
   # api for interacting with ajax requests

@@ -4,7 +4,7 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 
-# generated from version 20261122150000
+# generated from version 20261123100000
 
 module SchemaValidations
   extend ActiveSupport::Concern
@@ -392,6 +392,7 @@ module SchemaValidations
     end
 
     def dbv_places_validations(enums: [])
+      validates_with_filter :checked_at, {date_time_in_db_range: {}}
       validates_with_filter :created_at, {date_time_in_db_range: {}}
       validates_with_filter :created_at, {presence: {}}
       validates_with_filter :latitude, {numericality: {allow_nil: true, greater_than: -100000, less_than: 100000}}

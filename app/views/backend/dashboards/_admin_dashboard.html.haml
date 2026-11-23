@@ -6,6 +6,7 @@
           %li= nav_list_link('Fehlermeldungen bearbeiten', backend_change_requests_path, ChangeRequest.open.count)
         - if can?(:index, ImportRequest)
           %li= nav_list_link('Import-Anfragen', backend_import_requests_path, ImportRequest.open.count)
+        %li= nav_list_link('Neue Wettkampforte prüfen', backend_unchecked_places_path, Place.unchecked.count)
         %li= nav_list_link('Neue Mannschaften prüfen', backend_unchecked_teams_path, Team.unchecked.count)
 
     = content_card('Werkzeuge') do

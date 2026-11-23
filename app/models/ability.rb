@@ -11,8 +11,10 @@ class Ability
     send(:"#{user.role}_abilities") if user.try(:role).in?(%i[admin sub_admin_with_series sub_admin user api_user
                                                               import_token])
 
-    # checking teams is only allowed for sub admins and above
-    cannot :manage, UncheckedTeam unless user.try(:role).in?(%i[admin sub_admin_with_series sub_admin])
+    # checking new teams and places is only allowed for sub admins and above
+    return if user.try(:role).in?(%i[admin sub_admin_with_series sub_admin])
+
+    cannot :manage, [UncheckedTeam, UncheckedPlace]
   end
 
   private

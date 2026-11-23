@@ -1,0 +1,68 @@
+- duplicates = PlaceDuplicates.new(resource.object)
+- latlon = duplicates.estimated_latlon
+.container
+  = content_card do
+    .d-flex.flex-wrap.gap-2
+      = link_to("Live-Ansicht: #{resource}", place_path(resource), class: 'btn btn-outline-secondary btn-sm', target: :_blank)
+      = link_to("Backend: #{resource}", backend_place_path(resource), class: 'btn btn-outline-secondary btn-sm', target: :_blank)
+
+  = content_card('Wettkämpfe', heading: :h3) do
+    - competitions = resource.object.competitions.reorder(date: :desc).decorate
+    - if competitions.empty?
+      %p.mb-0 An diesem Ort gibt es keine Wettkämpfe.
+    - else
+      %ul.mb-0
+        - competitions.each do |competition|
+          %li= competition_link(competition, target: :_blank)
+
+  = content_card('Mögliche Duplikate', heading: :h3, id: 'place-duplicates') do
+    - path = merge_backend_unchecked_place_path(resource)
+    - if duplicates.candidates.empty?
+      %p Keine ähnlichen Orte gefunden.
+    - else
+      %table.table
+        - duplicates.candidates.each do |candidate|
+          - place = candidate.place
+          %tr
+            %td
+              = link_to(place.name, place_path(place), target: :_blank)
+              %br
+              %small.text-muted #{place.competitions.count} Wettkämpfe#{', ohne Position' unless place.positioned?}
+            %td= candidate.reasons.join(', ')
+            %td.text-nowrap
+              = button_to 'Zusammenführen', path, params: { correct_place_id: place.id },
+                          class: 'btn btn-outline-secondary btn-sm', form_class: 'inline-form',
+                          data: { turbo_confirm: "#{resource.name} mit #{place.name} zusammenführen? Die Wettkämpfe werden nach #{place.name} verschoben, #{resource.name} wird gelöscht." }
+    = form_with url: path, method: :post, class: 'row g-2 align-items-end',
+                data: { turbo_confirm: "#{resource.name} mit dem gewählten Ort zusammenführen? #{resource.name} wird gelöscht." } do
+      .col-md-6
+        = label_tag :correct_place_id, 'Mit anderem Ort zusammenführen', class: 'form-label small mb-0'
+        = select_tag :correct_place_id, options_for_select(Place.where.not(id: resource.id).reorder(:name).pluck(:name, :id)),
+                     include_blank: true, required: true, class: 'form-select form-select-sm'
+      .col-md-auto
+        %button.btn.btn-outline-secondary.btn-sm{ type: 'submit' } Zusammenführen
+
+  - unless resource.positioned?
+    = content_card('Geo-Position suchen', heading: :h3,
+                   data: { controller: 'geo-position', geo_position_url_value: edit_contributions_place_geo_position_path(resource),
+                           action: 'geo-position:move@window->geo-position#move' }) do
+      - if latlon
+        %p.small.text-muted
+          Sortiert nach der Entfernung zu den Mannschaften, die hier gestartet sind (Mitte ihrer Positionen).
+          Der nächste Treffer ist hervorgehoben.
+      - anchors = latlon ? [{ name: 'den Mannschaften', lat: latlon.first, lon: latlon.second }] : []
+      %div{ data: { controller: 'lookup', lookup_service_value: 'nominatim', lookup_query_value: resource.name,
+                    lookup_anchors_value: anchors.to_json } }
+        %table.table
+          %tbody{ data: { lookup_target: 'results' } }
+            %tr
+              %td Suche läuft …
+      = map(id: 'place-map', red: resource, data: { place_id: resource.id, geo_position_target: 'map' })
+      .team-map-actions
+        %div{ hidden: true, data: { geo_position_target: 'save' } }
+          %p Verschiebe den roten Marker an die richtige Stelle.
+          %button.btn.btn-primary{ type: 'button', data: { action: 'geo-position#save' } } Speichern
+
+  = content_card('Abgearbeitet', heading: :h3) do
+    = button_to('Fertigstellen', {}, params: { 'unchecked_place[checked_at]' => Time.current }, method: :put,
+                class: 'btn btn-primary', data: { turbo_confirm: 'Ort als geprüft markieren?' })

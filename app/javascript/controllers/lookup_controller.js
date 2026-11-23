@@ -18,6 +18,10 @@ export default class extends Controller {
       const response = await fetch(SERVICES[this.serviceValue](this.queryValue))
       const json = await response.json()
       this.render(this.serviceValue === "wikipedia" ? this.wikipediaRows(json) : this.nominatimRows(json))
+      // sorted by distance: the nearest result is the most likely one
+      if (this.serviceValue === "nominatim" && this.anchorsValue.length > 0 && json.length > 0) {
+        this.resultsTarget.firstElementChild.classList.add("table-success")
+      }
     } catch {
       this.render([[this.cell("Suche fehlgeschlagen")]])
     }

@@ -55,6 +55,7 @@ de:
     place:
       create_place: Ort hinzufügen
       destroy_place: Ort löschen
+      merge: Orte zusammenführen
       update_place: Ort bearbeiten
       update_place:geo_position: Geo-Position des Ortes bearbeiten
     score:

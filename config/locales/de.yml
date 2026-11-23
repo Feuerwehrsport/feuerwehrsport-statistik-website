@@ -105,6 +105,7 @@ de:
     admin_user: Verwalter
     competition: Wettkampf
     competition_id: Wettkampf
+    checked_at: Geprüft am
     created_at: Erstellt am
     discipline: Disziplin
     updated_at: Geändert am
