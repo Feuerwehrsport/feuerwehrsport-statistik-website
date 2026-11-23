@@ -23,11 +23,11 @@ RSpec.describe DebugJob do
 
   after { FileUtils.rm_rf(tmp_root) }
 
-  def create_failed_execution(message)
+  def create_failed_execution(message, backtrace: (1..10).map { |i| "line #{i}" })
     solid_job = SolidQueue::Job.create!(queue_name: 'default', class_name: 'FooJob', arguments: {})
     SolidQueue::FailedExecution.create!(
       job: solid_job,
-      error: { exception_class: 'RuntimeError', message:, backtrace: (1..10).map { |i| "line #{i}" } },
+      error: { exception_class: 'RuntimeError', message:, backtrace: },
     )
   end
 
@@ -97,6 +97,16 @@ RSpec.describe DebugJob do
     it 'does not change stored errors' do
       job.perform_now
       expect(SolidQueue::FailedExecution.first.error['backtrace'].count).to eq 10
+    end
+  end
+
+  context 'with failed job without backtrace' do
+    before { create_failed_execution('no backtrace', backtrace: nil) }
+
+    it 'sends failed job with empty backtrace' do
+      job.perform_now
+      expect(sent_messages.count).to eq 1
+      expect(JSON.parse(sent_messages.first[:body].split("\n\nLink:").first)['backtrace']).to eq []
     end
   end
 end
